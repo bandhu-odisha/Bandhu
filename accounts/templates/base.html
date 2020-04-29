@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Genesis Portal</title>
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/genesiS_LOGO@2x.png' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Courier+Prime|Inria+Serif|Noto+Serif|Saira+Semi+Condensed|Slabo+27px&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/16afcaa490.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Montaga|Montserrat&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Montserrat+Alternates&display=swap" rel="stylesheet">
+    <link href="{% static 'css/cropper.min.css' %}" rel="stylesheet">
+    <script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/cropper.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'ajax-post.js' %}"></script>
+    <script type="text/javascript" src="{% static 'jquery.formset.js' %}"> </script>
+
+  </head>
+
+  <style media="screen">
+    .vertnav{
+      width:200px;
+      background: #FFFFFF 0% 0% no-repeat padding-box;
+      box-shadow: 0px 3px 6px #00000029;
+      opacity: 1;
+      left:0;
+      position:fixed;
+      height:100vh;
+      margin-right:7vw;
+    }
+
+    #navbartop{
+      margin-left:-2vw;
+      margin-top:7vh;
+      margin-bottom:4vh;
+    }
+
+    .navlistitem{
+      margin-bottom:5vh;
+      font: SemiBold 14px/16px Montserrat;
+      letter-spacing: 0.45px;
+      color: #777777;
+      opacity: 1;
+      cursor:pointer;
+    }
+
+    .navlistitem a{
+      font-size:14px !important;
+    }
+
+    .navlistitem svg{
+      margin-right:3px;
+    }
+
+    .navlistitem:hover{
+      color:black;
+      font-weight:600;
+    }
+
+    .navlistitem1 span:hover{
+      color:black;
+      font-weight:600;
+      cursor:pointer;
+    }
+
+    ul{
+      list-style-type:none !important;
+    }
+
+    .signupbtn{
+      box-shadow:3px 3px 12px #1492E6 !important;
+    }
+
+    .horizontalnav{
+      width:100vw;
+      top:0;
+      margin-top:0px;
+      background-color:white;
+      color:black;
+      font-weight:400;
+    }
+
+    .hnavel a{
+      padding:10px;
+      font-weight:600;
+    }
+
+    .hnavel{
+      background-color:white !important;
+    }
+
+    .horizontalnav{
+      display:none;
+    }
+
+    @media only screen and (max-width: 900px){
+      .horizontalnav{
+        display:grid;
+      }
+      .vertnav{
+        display:none;
+      }
+      .container1{
+        display:none !important;
+      }
+      #web_resp{
+        display:flex !important;
+        margin-top:50px;
+        margin-left:40px;
+      }
+    }
+
+</style>
+<body style="background-color:#f3f7f7;" >
+
+  <div class="horizontalnav">
+
+
+    <div class="pos-f-t">
+      <div class="collapse" id="navbarToggleExternalContent">
+        <div class="bg-light p-4 hnavel" style="background-color:white !important;color:black !important;text-decoration:none !important;">
+          {% if user.student == True  %}
+          <a href="{% url 'homepage' %}" style="text-decoration:none;color:inherit;margin-bottom:12px;" >Dashboard</a><br><hr>
+          <a href="{% url 'profilepage' %}">Profile</a><br><hr>
+          <a href="{% url 'ShowNotifications' %}" style="text-decoration:none;color:inherit;">Notifications </a><br><hr>
+          <a href="{% url 'user_settings' %}">Settings</a><br><hr>
+          <a href="{% url 'logoutpage' %}">Logout</a><br><hr>
+          {% else %}
+          <a href="{% url 'ManagerDashboard' %}" style="text-decoration:none;color:inherit;margin-bottom:12px;" ></a><br><hr>
+          <a href="{% url 'Managerprofilepage' %}" style="text-decoration:none;color:inherit;" >Profile</a><br><hr>
+          <a href="{% url 'MMessage' %}" style="text-decoration:none;color:inherit;">Notifications </a><br><hr>
+          <a href="{% url 'user_settings' %}">Settings</a><br><hr>
+          <a href="{% url 'logoutpage' %}">Logout</a><br><hr>
+          {% endif %}
+        </div>
+      </div>
+      <nav class="navbar navbar-light bg-light" style="background-color:white !important;">
+        <p style="margin-left:25px;" > <img width="35" height="35" src="{% static 'images/genesiS_LOGO@2x.png' %}" alt=""> <b>Student partner</b></p>
+        <button class="navbar-toggler" style="margin-right:25px;" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </nav>
+    </div>
+  </div>
+
+  {% if user.is_authenticated %}
+  <div class="vertnav">
+
+    <ul>
+
+      <p id="navbartop" > <img width="35" height="35" src="{% static 'images/genesiS_LOGO@2x.png' %}" alt=""> <b>Student partner</b></p>
+
+      {% if std_info.avatar %}
+        <img style="border-radius:50%;margin-left:22px;margin-bottom:2.8vh;" height="60" width="60" id="base_add_pro_pic" src="/media/{{std_info.avatar}}" alt="">
+      {% else %}
+        <img style="border-radius:50%;margin-left:22px;margin-bottom:2.8vh;" height="60" width="60" id="base_add_pro_pic" src="{% static 'images/dummy.png' %}" alt="">
+      {% endif %}
+
+      <li class="navlistitem dashboard" >
+        {% if user.student == True %}
+        <a href="{% url 'homepage' %}" style="text-decoration:none;color:inherit;" >
+        {% else %}
+        <a href="{% url 'ManagerDashboard' %}" style="text-decoration:none;color:inherit;" >
+        {% endif %}
+        <svg aria-hidden="true" width="23" height="23" focusable="false" data-prefix="fab" data-icon="accusoft" class="svg-inline--fa fa-accusoft fa-w-20" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="currentColor" d="M322.1 252v-1l-51.2-65.8s-12 1.6-25 15.1c-9 9.3-242.1 239.1-243.4 240.9-7 10 1.6 6.8 15.7 1.7.8 0 114.5-36.6 114.5-36.6.5-.6-.1-.1.6-.6-.4-5.1-.8-26.2-1-27.7-.6-5.2 2.2-6.9 7-8.9l92.6-33.8c.6-.8 88.5-81.7 90.2-83.3zm160.1 120.1c13.3 16.1 20.7 13.3 30.8 9.3 3.2-1.2 115.4-47.6 117.8-48.9 8-4.3-1.7-16.7-7.2-23.4-2.1-2.5-205.1-245.6-207.2-248.3-9.7-12.2-14.3-12.9-38.4-12.8-10.2 0-106.8.5-116.5.6-19.2.1-32.9-.3-19.2 16.9C250 75 476.5 365.2 482.2 372.1zm152.7 1.6c-2.3-.3-24.6-4.7-38-7.2 0 0-115 50.4-117.5 51.6-16 7.3-26.9-3.2-36.7-14.6l-57.1-74c-5.4-.9-60.4-9.6-65.3-9.3-3.1.2-9.6.8-14.4 2.9-4.9 2.1-145.2 52.8-150.2 54.7-5.1 2-11.4 3.6-11.1 7.6.2 2.5 2 2.6 4.6 3.5 2.7.8 300.9 67.6 308 69.1 15.6 3.3 38.5 10.5 53.6 1.7 2.1-1.2 123.8-76.4 125.8-77.8 5.4-4 4.3-6.8-1.7-8.2z"></path></svg>
+         Dashboard</li></a>
+      <li class="navlistitem training" >
+        {% if user.student == True %}
+        <a href="{% url 'trng' %}" style="text-decoration:none;color:inherit;">
+        <svg width="23" height="23" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chalkboard-teacher" class="svg-inline--fa fa-chalkboard-teacher fa-w-20" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="currentColor" d="M208 352c-2.39 0-4.78.35-7.06 1.09C187.98 357.3 174.35 360 160 360c-14.35 0-27.98-2.7-40.95-6.91-2.28-.74-4.66-1.09-7.05-1.09C49.94 352-.33 402.48 0 464.62.14 490.88 21.73 512 48 512h224c26.27 0 47.86-21.12 48-47.38.33-62.14-49.94-112.62-112-112.62zm-48-32c53.02 0 96-42.98 96-96s-42.98-96-96-96-96 42.98-96 96 42.98 96 96 96zM592 0H208c-26.47 0-48 22.25-48 49.59V96c23.42 0 45.1 6.78 64 17.8V64h352v288h-64v-64H384v64h-76.24c19.1 16.69 33.12 38.73 39.69 64H592c26.47 0 48-22.25 48-49.59V49.59C640 22.25 618.47 0 592 0z"></path></svg>
+        Training</li></a>
+        {% else %}
+        <a href="{% url 'ManagerSearch' %}" style="text-decoration:none;color:inherit;">
+        <svg width="23" height="23" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chalkboard-teacher" class="svg-inline--fa fa-chalkboard-teacher fa-w-20" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="currentColor" d="M208 352c-2.39 0-4.78.35-7.06 1.09C187.98 357.3 174.35 360 160 360c-14.35 0-27.98-2.7-40.95-6.91-2.28-.74-4.66-1.09-7.05-1.09C49.94 352-.33 402.48 0 464.62.14 490.88 21.73 512 48 512h224c26.27 0 47.86-21.12 48-47.38.33-62.14-49.94-112.62-112-112.62zm-48-32c53.02 0 96-42.98 96-96s-42.98-96-96-96-96 42.98-96 96 42.98 96 96 96zM592 0H208c-26.47 0-48 22.25-48 49.59V96c23.42 0 45.1 6.78 64 17.8V64h352v288h-64v-64H384v64h-76.24c19.1 16.69 33.12 38.73 39.69 64H592c26.47 0 48-22.25 48-49.59V49.59C640 22.25 618.47 0 592 0z"></path></svg>
+        Browse Students</li></a>
+        {% endif %}
+      <li class="navlistitem notifications">
+        {% if user.student == True %}
+        <svg width="23" height="23" viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+        <a href="{% url 'ShowNotifications' %}" style="text-decoration:none;color:inherit;">Notifications </a> </li>
+        {% else %}
+        <svg width="23" height="23" viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+        <a href="{% url 'MMessage' %}" style="text-decoration:none;color:inherit;">Notifications </a> </li>
+        {% endif %}
+
+      <li class="navlistitem profile" >
+        {% if user.student == True %}
+        <a href="{% url 'profilepage' %}" style="text-decoration:none;color:inherit;" >
+        <svg width="23" height="23" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="id-card" class="svg-inline--fa fa-id-card fa-w-18" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M528 32H48C21.5 32 0 53.5 0 80v16h576V80c0-26.5-21.5-48-48-48zM0 432c0 26.5 21.5 48 48 48h480c26.5 0 48-21.5 48-48V128H0v304zm352-232c0-4.4 3.6-8 8-8h144c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H360c-4.4 0-8-3.6-8-8v-16zm0 64c0-4.4 3.6-8 8-8h144c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H360c-4.4 0-8-3.6-8-8v-16zm0 64c0-4.4 3.6-8 8-8h144c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H360c-4.4 0-8-3.6-8-8v-16zM176 192c35.3 0 64 28.7 64 64s-28.7 64-64 64-64-28.7-64-64 28.7-64 64-64zM67.1 396.2C75.5 370.5 99.6 352 128 352h8.2c12.3 5.1 25.7 8 39.8 8s27.6-2.9 39.8-8h8.2c28.4 0 52.5 18.5 60.9 44.2 3.2 9.9-5.2 19.8-15.6 19.8H82.7c-10.4 0-18.8-10-15.6-19.8z"></path></svg>
+        Profile</li></a>
+        {% else %}
+        <a href="{% url 'Managerprofilepage' %}" style="text-decoration:none;color:inherit;" >
+        <svg width="23" height="23" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="id-card" class="svg-inline--fa fa-id-card fa-w-18" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M528 32H48C21.5 32 0 53.5 0 80v16h576V80c0-26.5-21.5-48-48-48zM0 432c0 26.5 21.5 48 48 48h480c26.5 0 48-21.5 48-48V128H0v304zm352-232c0-4.4 3.6-8 8-8h144c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H360c-4.4 0-8-3.6-8-8v-16zm0 64c0-4.4 3.6-8 8-8h144c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H360c-4.4 0-8-3.6-8-8v-16zm0 64c0-4.4 3.6-8 8-8h144c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H360c-4.4 0-8-3.6-8-8v-16zM176 192c35.3 0 64 28.7 64 64s-28.7 64-64 64-64-28.7-64-64 28.7-64 64-64zM67.1 396.2C75.5 370.5 99.6 352 128 352h8.2c12.3 5.1 25.7 8 39.8 8s27.6-2.9 39.8-8h8.2c28.4 0 52.5 18.5 60.9 44.2 3.2 9.9-5.2 19.8-15.6 19.8H82.7c-10.4 0-18.8-10-15.6-19.8z"></path></svg>
+        Profile</li></a>
+        {% endif %}
+      <li class="navlistitem settings" >
+        <a href="{% url 'Change_Username' %}" style="text-decoration:none;color:inherit;">
+        <svg width="23" height="23" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="cog" class="svg-inline--fa fa-cog fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M487.4 315.7l-42.6-24.6c4.3-23.2 4.3-47 0-70.2l42.6-24.6c4.9-2.8 7.1-8.6 5.5-14-11.1-35.6-30-67.8-54.7-94.6-3.8-4.1-10-5.1-14.8-2.3L380.8 110c-17.9-15.4-38.5-27.3-60.8-35.1V25.8c0-5.6-3.9-10.5-9.4-11.7-36.7-8.2-74.3-7.8-109.2 0-5.5 1.2-9.4 6.1-9.4 11.7V75c-22.2 7.9-42.8 19.8-60.8 35.1L88.7 85.5c-4.9-2.8-11-1.9-14.8 2.3-24.7 26.7-43.6 58.9-54.7 94.6-1.7 5.4.6 11.2 5.5 14L67.3 221c-4.3 23.2-4.3 47 0 70.2l-42.6 24.6c-4.9 2.8-7.1 8.6-5.5 14 11.1 35.6 30 67.8 54.7 94.6 3.8 4.1 10 5.1 14.8 2.3l42.6-24.6c17.9 15.4 38.5 27.3 60.8 35.1v49.2c0 5.6 3.9 10.5 9.4 11.7 36.7 8.2 74.3 7.8 109.2 0 5.5-1.2 9.4-6.1 9.4-11.7v-49.2c22.2-7.9 42.8-19.8 60.8-35.1l42.6 24.6c4.9 2.8 11 1.9 14.8-2.3 24.7-26.7 43.6-58.9 54.7-94.6 1.5-5.5-.7-11.3-5.6-14.1zM256 336c-44.1 0-80-35.9-80-80s35.9-80 80-80 80 35.9 80 80-35.9 80-80 80z"></path></svg>
+        Settings</li></a>
+      <li class="navlistitem logout" >
+        <a href="{% url 'logoutpage' %}" style="text-decoration:none;color:inherit;" >
+        <svg width="23" height="23" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="sign-out-alt" class="svg-inline--fa fa-sign-out-alt fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M497 273L329 441c-15 15-41 4.5-41-17v-96H152c-13.3 0-24-10.7-24-24v-96c0-13.3 10.7-24 24-24h136V88c0-21.4 25.9-32 41-17l168 168c9.3 9.4 9.3 24.6 0 34zM192 436v-40c0-6.6-5.4-12-12-12H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h84c6.6 0 12-5.4 12-12V76c0-6.6-5.4-12-12-12H96c-53 0-96 43-96 96v192c0 53 43 96 96 96h84c6.6 0 12-5.4 12-12z"></path></svg>
+        Logout</li></a>
+
+      <li class="navlistitem1" style="margin-top:11vh;font-size:0.7em;opacity:0.8;margin-left:-5px;color: #777777;" >
+        <span>*Beta version</span><br>
+       <span> <a href="{% url 'TMC' %}" target="_blank" style="text-decoration:none;color:inherit;">Terms and Conditions</a></span>   <br>
+       <span> <a href="{% url 'Privacy' %}" target="_blank" style="text-decoration:none;color:inherit;">Privacy Policy</a> </span><br>
+       <span> <a href="https://docs.google.com/forms/d/e/1FAIpQLSc9W7OY_t5MDSveyutQegQn9XxiuxsEBP9OrVp7Lj8HLFfHrQ/viewform?embedded=true" target="_blank" style="text-decoration:none;color:inherit;">Feedback</a></span><br>
+       <span>Team</span>
+      </li>
+
+      </ul>
+
+    </div>
+    {% else %}
+    <style media="screen">
+    .badgesec, .edusec, .trainingsec, .banksec, .skillsec, .personalprosec, .companyprosec{
+      width:60.27vw !important;
+      margin-top:1vh;
+      margin-left:7vw;
+      background: #F2F2F6 0% 0% no-repeat padding-box;
+      box-shadow: 0px 3px 6px #00000029;
+      border-radius: 12px;
+      opacity: 1;
+      padding-top:10px;
+    }
+
+    .centralsec{
+      position:absolute;
+      margin-left: 0vw !important;
+      margin-top:2vh;
+    }
+
+    </style>
+    {% endif %}
+
+    {% comment %} <nav class="navbar navbar-expand-sm navcolor" >
+
+
+      <div class="collapse navbar-collapse container1" id="navbarText">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            {% if user.student == True %}
+            <a class="nav-link" href="{% url 'homepage' %}"> <img src="{% static 'images/logo.png' %}" style="width:40px;height:40px;" alt=""> </a>
+            {% else %}
+            <a class="nav-link" href="{% url 'ManagerDashboard' %}"> <img src="{% static 'images/logo.png' %}" style="width:40px;height:40px;" alt=""> </a>
+            {% endif %}
+          </li>
+          <li class="nav-item active">
+            {% if user.student == True %}
+            <a class="nav-link" style="margin-top:7px;" href="{% url 'homepage' %}"> Home </a>
+            {% else %}
+            <a class="nav-link" style="margin-top:7px;" href="{% url 'ManagerDashboard' %}">Home</a>
+            {% endif %}
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" style="margin-top:7px;" href="{% url 'ShowMessage' %}">Messages</a>
+          </li>
+
+          <li class="nav-item dropdown" style="margin-top:7px;">
+              <a class="nav-link text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-bell"></i>
+              </a>
+                <ul class="dropdown-menu" style="height:30vh;overflow-y:auto;">
+                  <li class="head text-dark">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <span>Notifications</span>
+                        <ul class="list-group">
+                          {% for i in notif %}
+                            <li class="list-group-item"><p>{{i.notif}}</p> <p>{{i.send_on}}</p> </li>
+                          {% endfor %}
+                        </ul>
+
+                      </div>
+                    </div>
+                  </li>
+
+                  <li class="footer bg-dark text-center">
+                    <a href="{% url 'ShowNotifications' %}" class="text-light">View All</a>
+                  </li>
+                </ul>
+            </li>
+          </ul>
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item"></li>
+        </ul>
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item"></li>
+        </ul>
+
+
+
+        <ul class="navbar-nav " style="float:right;padding-right:30px;">
+          <li class="nav-item">
+            <img src="" style="width:28px; height:28px; margin-top:7px;" alt="">
+          </li>
+          <li class="nav-item dropdown" >
+              <a class="nav-link text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+              </a>
+              <div class="dropdown">
+                {# <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> #}
+                  <a class="nav-link dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="">{{user.username}}</a>
+                {# </button> #}
+                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                  {% if user.student == True  %}
+                  <a class="nav-link dropdown-item" href="{% url 'profilepage' %}">Profile</a>
+                  <a class="nav-link dropdown-item" href="{% url 'user_settings' %}">Settings</a>
+                  <a class="nav-link dropdown-item" href="{% url 'logoutpage' %}">Logout</a>
+                  {% else %}
+                  <a class="nav-link dropdown-item" href="{% url 'user_settings' %}">Profile</a>
+                  <a class="nav-link dropdown-item" href="{% url 'user_settings' %}">Settings</a>
+                  <a class="nav-link dropdown-item" href="{% url 'logoutpage' %}">Logout</a>
+                  {% endif %}
+                </div>
+              </div>
+            </li>
+
+
+          <li class="nav-item">
+
+          </li>
+
+        </ul>
+
+
+
+
+
+      </div>
+    </nav> {% endcomment %}
+    <h3 id="web_resp" style="display:none;color:black" >This site is only for web users</h3>
+    <div class="container1">
+
+      {% block content %}
+
+
+      {% endblock %}
+
+    </div>
+
+
+
+
+
+      {% block javascript %}
+
+
+      {% endblock %}
+
+
+
+
+
+  </body>
+</html>

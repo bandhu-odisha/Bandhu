@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+	<title>Bandhu | Signup</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- <link rel="icon" type="image/ico" href='{% static "images/icons/favicon.ico" %}'/> -->
+	<link rel="stylesheet" type="text/css" href='{% static "vendor/bootstrap/css/bootstrap.min.css" %}'>
+	<link rel="stylesheet" type="text/css" href='{% static "css1/font-awesome.min.css" %}'>
+	<link rel="stylesheet" type="text/css" href='{% static "css1/util.css" %}'>
+	<link rel="stylesheet" type="text/css" href='{% static "css1/main.css" %}'>
+</head>
+<body>
+
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100 p-l-50 p-r-50 p-t-62 p-b-33">
+				<form class="login100-form validate-form flex-sb flex-w" method="POST">
+					{% csrf_token %}
+				<div class="login100-form validate-form flex-sb flex-w">
+					{% csrf_token %}
+					<span class="login100-form-title p-b-53">
+						Create Account
+					</span>
+
+					<a href="{% url 'social:begin' 'facebook' %}" class="btn-face m-b-15">
+						<i class="fa fa-facebook-official"></i>
+						Facebook
+					</a>
+					<a href="{% url 'social:begin' 'google-oauth2' %}" class="btn-google m-b-20">
+						<img src= "{% static 'img/icon/icon-google.png' %}" alt="GOOGLE">
+						Google
+					</a>
+					<div class="w-full text-center p-t-3 p-b-10">
+						<p>---OR---</p>
+						<span class="txt2">
+							Sign Up Using Email
+						</span>
+					</div>
+
+					{% for field in form %}
+					<div class="wrap-input100 validate-input">
+						{{field}}
+					</div>
+					<div class="col-md-2" style="height: 10px;">
+					</div>
+					{% endfor %}
+
+					{% comment %}
+					<div class="wrap-input100 validate-input" data-validate = "Username is required">
+						<input class="input100" type="email" name="email" placeholder="Email">
+					</div>
+					<div class="col-md-2" style="height: 10px;">
+					</div>
+					<div class="wrap-input100 validate-input" data-validate = "Password is required">
+						<input class="input100" type="password" name="password" placeholder="Password">
+					</div>
+					<div class="col-md-2" style="height: 10px;">
+					</div>
+					<div class="wrap-input100 validate-input" data-validate = "Password is required">
+						<input class="input100" type="password" name="password2" placeholder="Confirm Password">
+					</div>
+					{% endcomment %}
+
+					<div class="container-login100-form-btn m-t-17">
+						<button class="login100-form-btn" type="submit">
+							Sign Up
+						</button>
+					</div>
+
+					<div class="w-full text-center p-t-15">
+						<span class="txt2">
+							Already a member?
+						</span>
+						<a href="{% url 'login' %}" class="txt2 bo1">
+							Sign In Using Email
+						</a>
+					</div>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div id="dropDownSelect1"></div>
+</body>
+</html>

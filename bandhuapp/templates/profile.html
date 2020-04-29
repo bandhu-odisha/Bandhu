@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <form method="POST">{% csrf_token %}
+      <label>Full Name</label><br>
+      <input type="text" name="full_name" placeholder="Full Name" required value="{{full_name}}"><br><br>
+
+      <label>Contact No.</label><br>
+      <input type="tel" name="contact" placeholder="Contact Number" required value="{{contact}}"><br><br>
+
+      <label>Address</label><br>
+      <input type="text" name="address" placeholder="Address" value="{{address}}"><br><br>
+
+      <label>City</label><br>
+      <input type="text" name="city" placeholder="City" value="{{city}}"><br><br>
+
+      <label>Profession</label><br>
+      <input type="text" name="profession" placeholder="Profession" value="{{prof}}"><br><br>
+
+      <label>Date of Birth</label><br>
+      <input type="date" name="date_of_birth" placeholder="DOB" value="{{date_of_birth|date:'Y-m-d'}}"><br><br>
+
+      <button type="submit" name="button">Submit</button>
+    </form>
+  </body>
+</html>
