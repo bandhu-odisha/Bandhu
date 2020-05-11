@@ -25,7 +25,7 @@ import random
 
 # Create your views here.
 
-def login(request):
+def login_view(request):
     logout(request)
     err_code = 0
 
@@ -60,7 +60,7 @@ def login(request):
     }
     return render(request, 'registration/login.html', context)
 
-def signup(request):
+def signup_view(request):
     if request.method == 'POST':
         print(request.POST)
         form = RegisterForm(request.POST)
@@ -99,7 +99,7 @@ def signup(request):
         form = RegisterForm()
     return render(request, 'signup.html', {'form': form,'done':0})
 
-def activate(request, uidb64, token):
+def account_activation(request, uidb64, token):
     try:
         uid = force_text(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
@@ -127,12 +127,11 @@ def activate(request, uidb64, token):
         )
         print(email)
         email.send()
-        return redirect('activated')
+        return redirect('account_activated')
     else:
-        # return redirect('not_activatedpage')
         return render(request, 'token_expired.html')
 
-def authenticate(request, uidb64, token):
+def account_authentication(request, uidb64, token):
     try:
         uid = force_text(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
@@ -143,22 +142,21 @@ def authenticate(request, uidb64, token):
         user.auth = True
         user.save()
         # return redirect('home')
-        return redirect('authenticated')
+        return redirect('account_authenticated')
     else:
-        # return redirect('not_activatedpage')
         return render(request, 'token_expired.html')   # Token expired
 
-def activated(request):
+def account_activated(request):
     return render(request,'account_activated.html')
 
-def authenticated(request):
+def account_authenticated(request):
     return render(request,'account_authenticated.html')
 
 def signup_success(request):
-    return render(request,'signup_successful.html')
+    return render(request,'signup_success.html')
 
 def signup_failure(request):
-    return render(request,'signup_failure_page.html')
+    return render(request,'signup_failure.html')
 
 
 # def change_password(request):

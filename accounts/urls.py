@@ -20,13 +20,13 @@ from . import views
 
 urlpatterns = [
 
-    path('login/', views.login, name="login"),
-    path('signup/', views.signup,name="signup"),
-    path('activate/<slug:uidb64>/<slug:token>/', views.activate, name='activate'),
-    path('authenticate/<slug:uidb64>/<slug:token>/', views.authenticate, name='authenticate'),
+    path('login/', views.login_view, name="login"),
+    path('signup/', views.signup_view,name="signup"),
+    path('activate/<slug:uidb64>/<slug:token>/', views.account_activation, name='account_activation'),
+    path('authenticate/<slug:uidb64>/<slug:token>/', views.account_authentication, name='account_authentication'),
 
-    path('activated/', views.activated,name="activated"),   # User Activation Complete
-    path('authenticated/', views.authenticated,name="authenticated"),   # User Authentication Complete
+    path('activated/', views.account_activated,name="account_activated"),   # User Activation Complete
+    path('authenticated/', views.account_authenticated,name="account_authenticated"),   # User Authentication Complete
 
     path('signup/success/', views.signup_success,name="signup_success_page"),
     path('signup/failure/', views.signup_failure,name="signup_failure_page"),
