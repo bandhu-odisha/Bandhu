@@ -37,23 +37,31 @@ def login_view(request):
 
         if user is not None:
             if user.auth is False:
-                err_code = 2
+                err_code = 2  # Not Authenticated
             else:
                 login(request, user)
 
-                pr_obj = Profile.objects.filter(email=email)
+                pr_obj = Profile.objects.filter(user=user)
                 if pr_obj.exists():
                     return HttpResponseRedirect('/')
                 else:
-                    return HttpResponseRedirect('/profile/')
+                    return HttpResponseRedirect('/complete_profile/')
         else:
-            user_obj = User.objects.get(email=email)
-
-            # If user is not authenticated because it is NOT ACTIVE
-            if user_obj.check_password(password) and user_obj.is_active is False:
-                err_code = 1
-            else:
+            # Either Email/Password is wrong or
+            # user not activated
+            user_obj = User.objects.filter(email=email)
+ 
+            if not user_obj.exists():
+                # Email incorrect
                 err_code = 3
+            else:
+                user_obj = user_obj[0]
+                if user_obj.check_password(password) and user_obj.is_active is False:
+                    # User not active
+                    err_code = 1
+                else:
+                    # Password not correct
+                    err_code = 3
 
     context = {
         'err_code' : err_code,
