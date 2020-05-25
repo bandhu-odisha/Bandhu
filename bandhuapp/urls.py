@@ -11,4 +11,5 @@ urlpatterns = [
     path('cause5/', views.cause5, name="cause5"),
     path('complete_profile/', views.complete_profile, name="complete_profile"),
     path('profile/', views.profile, name="profile"),
+    path('edit_profile/', views.edit_profile, name="edit_profile"),
 ]

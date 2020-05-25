@@ -72,28 +72,40 @@ def complete_profile(request):
     
 @login_required
 def profile(request):
-    user = request.user.email
-    obj = Profile.objects.filter(email=user).first()
-    full_name = ""
-    contact = ""
-    address = ""
-    city = ""
-    profession = ""
-    date_of_birth = ""
-    if obj:
-        full_name = obj.full_name
-        contact = obj.phone
-        address = obj.address
-        city = obj.city
-        profession = obj.profession
-        date_of_birth = obj.dob
+    profile = Profile.objects.get(user=request.user)
+    context = {
+        'profile': profile,
+    }
+    return render(request,'profile.html', context)
+
+
+@login_required
+def edit_profile(request):
+    profile = Profile.objects.filter(user=request.user)
+    if profile.exists():
+        profile = profile[0]
+    else:
+        return HttpResponseRedirect(reverse('complete_profile'))
+
     if request.method == 'POST':
-        full_name = request.POST.get('full_name')
-        contact = request.POST.get('contact')
-        address = request.POST.get('address')
-        city = request.POST.get('city')
-        profession = request.POST.get('profession')
-        date_of_birth = request.POST.get('date_of_birth')
-        Profile.objects.create(full_name=full_name,email=request.user.email,phone=contact,address=address,city=city,profession=profession,dob=date_of_birth)
-        return HttpResponseRedirect('/')
-    return render(request,'profile.html',{'full_name':full_name,'contact':contact,'address':address,'city':city,'prof':profession,'date_of_birth':date_of_birth})
+        profile.first_name = request.POST['first_name']
+        profile.last_name = request.POST['last_name']
+        profile.gender = request.POST['gender']
+        profile.dob = request.POST['dob']
+        profile.profession = request.POST['profession']
+        profile.contact_no = request.POST['contact_no']
+        profile.street_address1 = request.POST['street_address1']
+        profile.street_address2 = request.POST['street_address2']
+        profile.city = request.POST['city']
+        profile.state = request.POST['state']
+        profile.pincode = request.POST['pincode']
+
+        profile.save()
+
+        messages.success(request, 'Profile Saved Successfully!')
+        return HttpResponseRedirect(reverse('profile'))
+
+    context = {
+        'profile': profile,
+    }
+    return render(request,'edit_profile.html', context)
