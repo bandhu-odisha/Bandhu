@@ -42,10 +42,10 @@ def login_view(request):
                 login(request, user)
 
                 pr_obj = Profile.objects.filter(user=user)
-                if pr_obj.exists():
+                if pr_obj.first_name is not None:
                     return HttpResponseRedirect('/')
                 else:
-                    return HttpResponseRedirect('/complete_profile/')
+                    return HttpResponseRedirect('/profile/')
         else:
             # Either Email/Password is wrong or
             # user not activated
@@ -128,7 +128,7 @@ def account_activation(request, uidb64, token):
             'uid':urlsafe_base64_encode(force_bytes(user.pk)),
             'token':account_activation_token.make_token(user),
         })
-        to_email = "sraban@iiitdmj.ac.in"
+        to_email = "guptaheet53@gmail.com"
         print(to_email)
         email = EmailMessage(
                     mail_subject, message, to=[to_email]
@@ -149,6 +149,7 @@ def account_authentication(request, uidb64, token):
     if user is not None and account_activation_token.check_token(user, token):
         user.auth = True
         user.save()
+        Profile.objects.create(user=user)
         # return redirect('home')
         return redirect('account_authenticated')
     else:

@@ -21,7 +21,7 @@ class Profile(models.Model):
     state = models.CharField(max_length=25)
     pincode	= models.CharField(max_length=10)
     profession = models.CharField(max_length=500)
-    profile_pic = models.ImageField(upload_to='profile_photos', default='profile_photos/man.png')
+    profile_pic = models.ImageField(default='profile_photos/man.png')
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name
