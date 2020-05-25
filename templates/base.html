@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	{% load static %}
+
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="shortcut icon" href='{% static "img/bandhulogo.gif" %}'>
+	<title>{% block title %} Bandhu {% endblock %} </title>
+
+	<style>
+		.main{
+			min-height: 100vh;
+			/* height: 100%; */
+		}
+	</style>
+
+	<link rel="stylesheet" href="{% static 'vendor/css/bootstrap.min.css' %}">
+	<!-- Date Picker CSS -->
+    <link rel="stylesheet" href="{% static 'vendor/css/bootstrap-datepicker.min.css' %}">
+
+	{% block style %}
+	{% endblock %}
+
+</head>
+<body>
+
+	<div class="main">
+		{% include 'snippets/header.html' %}
+
+		{% block content %}
+		{% endblock %}
+	</div>
+
+	<!-- Toast -->]
+	{% comment %}
+	{% for message in messages %}
+	<!-- <div class="row justify-content-center"> -->
+		<div style="position: fixed; bottom: 64px; left: 10px;">
+			<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000">
+				<div class="toast-header">
+					<strong class="mr-auto">{{message}}</strong>
+					<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			</div>
+		</div>
+	<!-- </div> -->
+	{% endfor %}
+	{% endcomment %}
+
+	{% for message in messages %}
+	<div class="row justify-content-center">
+		<div style="position: fixed; bottom: 25px; left: 10px; z-index: 10;">
+			<div class="toast {{ message.tags }}" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1500">
+				<div class="toast-body p-2 px-3">
+					<strong class="mr-auto">{{message}}</strong>
+					<button type="button" class="ml-3 close" style="margin-top: -3px;" data-dismiss="toast" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+  {% endfor %}
+
+	{% include 'snippets/footer.html' %}
+
+
+    <script src="{% static 'vendor/js/jquery-3.4.1.min.js' %}"></script>
+	<script src="{% static 'vendor/js/popper.min.js' %}"></script>
+    <script src="{% static 'vendor/js/bootstrap.min.js' %}"></script>
+	
+	<!-- Date Picker JS -->
+    <script src="{% static 'vendor/js/bootstrap-datepicker.min.js' %}"></script>
+
+	<!-- Script for Toast -->
+	<script>
+		if("{% for message in messages %}{{message}}{% endfor %}"){
+			$('#alert_toast').toast('show');
+			if("{% for message in messages %}{{message.level}}{% endfor %}" == "40")
+				document.getElementById("alert_toast").classList.add("bg-danger");
+			else
+				document.getElementById("alert_toast").classList.add("bg-success");
+		}	
+	</script>
+
+	{% block scripts %}
+	{% endblock %}
+
+</body>
+</html>
