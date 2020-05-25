@@ -41,7 +41,7 @@ def login_view(request):
             else:
                 login(request, user)
 
-                pr_obj = Profile.objects.filter(user=user)
+                pr_obj = Profile.objects.filter(user=user).first()
                 if pr_obj.first_name is not None:
                     return HttpResponseRedirect('/')
                 else:
@@ -149,7 +149,17 @@ def account_authentication(request, uidb64, token):
     if user is not None and account_activation_token.check_token(user, token):
         user.auth = True
         user.save()
-        Profile.objects.create(user=user)
+        Profile.objects.create(user=user,
+                                first_name='', 
+                                last_name='',
+                                gender='M', 
+                                profession='', 
+                                contact_no='',
+                                street_address1='', 
+                                street_address2='',
+                                city='', 
+                                state='', 
+                                pincode='')
         # return redirect('home')
         return redirect('account_authenticated')
     else:

@@ -1,5 +1,7 @@
 from django.db import models
 from accounts.models import User
+from django.utils import timezone
+
 # Create your models here.
 
 class Profile(models.Model):
@@ -10,18 +12,18 @@ class Profile(models.Model):
     )
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=150)
-    last_name = models.CharField(max_length=150)
+    first_name = models.CharField(max_length=150,blank=True,null=True)
+    last_name = models.CharField(max_length=150,blank=True,null=True)
     gender = models.CharField(max_length=1, choices=GENDER, default='M')
-    dob = models.DateField(verbose_name="Date of Birth")
-    contact_no = models.CharField(verbose_name="Contact Number", max_length=13)
-    street_address1	= models.CharField(verbose_name="Address Line 1", max_length=255)
+    dob = models.DateField(verbose_name="Date of Birth",default=timezone.now)
+    contact_no = models.CharField(verbose_name="Contact Number", max_length=13,blank=True,null=True)
+    street_address1	= models.CharField(verbose_name="Address Line 1", max_length=255,blank=True,null=True)
     street_address2	= models.CharField(verbose_name="Address Line 2", max_length=255, blank=True)
-    city = models.CharField(max_length=20)
-    state = models.CharField(max_length=25)
-    pincode	= models.CharField(max_length=10)
-    profession = models.CharField(max_length=500)
-    profile_pic = models.ImageField(default='profile_photos/man.png')
+    city = models.CharField(max_length=20,blank=True,null=True)
+    state = models.CharField(max_length=25,blank=True,null=True)
+    pincode	= models.CharField(max_length=10,blank=True,null=True)
+    profession = models.CharField(max_length=500,blank=True,null=True)
+    profile_pic = models.ImageField()
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name
