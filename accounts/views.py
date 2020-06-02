@@ -89,7 +89,8 @@ def signup_view(request):
             user.save()
             user.refresh_from_db()
             current_site = get_current_site(request)
-            print(current_site)
+
+            from_email = settings.SENDER_EMAIL
             mail_subject = '[noreply] Activate your Account'
             msg = 'Thanks for signing up, welcome to bandhu. You have been successfully registered.'
             message = render_to_string('acc_email_active.html', {
@@ -99,13 +100,12 @@ def signup_view(request):
                 'uid':urlsafe_base64_encode(force_bytes(user.pk)),
                 'token':account_activation_token.make_token(user),
             })
-            to_email = form.cleaned_data.get('email')
-            print(to_email)
+            to_email = [form.cleaned_data.get('email')]
             email = EmailMessage(
-                        mail_subject, message, to=[to_email]
+                mail_subject, message, from_email, to_email,
             )
-            print(email)
             email.send()
+
             return redirect('signup_success_page')
         else:
             return render(request,'signup_failure_page.html',{'message':'You have not been registered. Your Passwords doesnt match!!'})
@@ -117,9 +117,9 @@ def account_activation(request, uidb64, token):
     try:
         uid = force_text(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
-        print(uid)
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
+
     if user is not None and account_activation_token.check_token(user, token):
         # Activate User Account
         user.is_active = True
@@ -141,19 +141,18 @@ def account_authentication(request, uidb64, token):
     if user is not None and account_activation_token.check_token(user, token):
         user.auth = True
         user.save()
-        
+
+        from_email = settings.SENDER_EMAIL
         mail_subject = '[noreply] Account Verified'
         msg = 'Your account has been verified by the admin, you can now Login to Bandhu.'
         message = render_to_string('acc_verified.html', {
             'email': user.email,
             'msg':msg,
         })
-        to_email = user.email
-        print(to_email)
+        to_email = [user.email]
         email = EmailMessage(
-                    mail_subject, message, to=[to_email]
+            mail_subject, message, from_email, to_email,
         )
-        print(email)
         email.send()
 
         return redirect('account_authenticated')

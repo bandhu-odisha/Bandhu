@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
@@ -21,7 +22,7 @@ from .models import Profile
 # Create your views here.
 
 def index(request):
-    if not Profile.objects.filter(user=request.user).exists():
+    if request.user.is_authenticated and not Profile.objects.filter(user=request.user).exists():
         return redirect('profile_page')
 
     # obj = UserSocialAuth.objects.all()
@@ -77,7 +78,10 @@ def profile_page(request):
         profile.save()
 
         if first_time:
+            # Notify Admin for New User Sign Up
             current_site = get_current_site(request)
+
+            from_email = settings.SENDER_EMAIL
             mail_subject = '[noreply] New User Signed Up'
             msg = 'A new User has signed up.'
             message = render_to_string('acc_active.html', {
@@ -88,9 +92,9 @@ def profile_page(request):
                 'uid':urlsafe_base64_encode(force_bytes(user.pk)),
                 'token':account_activation_token.make_token(user),
             })
-            to_email = "guptaheet53@gmail.com"
+            to_email = settings.ADMINS_EMAIL
             email = EmailMessage(
-                        mail_subject, message, to=[to_email]
+                mail_subject, message, from_email, to_email,
             )
             email.send()
         
