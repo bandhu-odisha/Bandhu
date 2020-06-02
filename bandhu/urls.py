@@ -20,9 +20,17 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('bandhuapp.urls')),
+    # Authentication
     path('accounts/', include('accounts.urls')),
     path('oauth/', include('social_django.urls', namespace='social')),
+    # Main Site
+    path('', include('bandhuapp.urls')),
+    path('anandakendra/', include('applications.anandakendra.urls')),
+    path('ankurayan/', include('applications.ankurayan.urls')),
+    path('ashram/', include('applications.ashram.urls')),
+    path('charitywork/', include('applications.charitywork.urls')),
+    path('sanskarbarga/', include('applications.sanskarbarga.urls')),
+
 ]
 
 if settings.DEBUG:

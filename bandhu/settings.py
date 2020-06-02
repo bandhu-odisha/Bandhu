@@ -40,6 +40,13 @@ INSTALLED_APPS = [
     'bandhuapp',
     'accounts',
     'social_django',
+
+    # sections
+    'applications.anandakendra',
+    'applications.ankurayan',
+    'applications.ashram',
+    'applications.charitywork',
+    'applications.sanskarbarga',
 ]
 
 MIDDLEWARE = [
