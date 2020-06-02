@@ -2,5 +2,5 @@ from django.shortcuts import render
 
 # Create your views here.
 
-def ankurayan(request):
+def index(request):
     return render(request, 'ankurayan/index.html')

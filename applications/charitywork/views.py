@@ -2,5 +2,5 @@ from django.shortcuts import render
 
 # Create your views here.
 
-def charity_work(request):
+def index(request):
     return render(request, 'charitywork/index.html')

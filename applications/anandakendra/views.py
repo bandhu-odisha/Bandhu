@@ -2,5 +2,5 @@ from django.shortcuts import render
 
 # Create your views here.
 
-def anandakendra(request):
+def index(request):
     return render(request, 'anandakendra/index.html')

@@ -28,7 +28,7 @@ import random
 
 def login_view(request):
     if request.user.is_authenticated:
-        return redirect('index')
+        return redirect('home')
 
     err_code = 0
 
@@ -74,7 +74,7 @@ def login_view(request):
 
 def signup_view(request):
     if request.user.is_authenticated:
-        return redirect('index')
+        return redirect('home')
 
     if request.method == 'POST':
         form = RegisterForm(request.POST)

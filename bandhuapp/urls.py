@@ -3,7 +3,7 @@ from django.conf import settings
 from . import views
 
 urlpatterns = [
-    path('', views.index, name="index"),
+    path('', views.index, name="home"),
     path('cause1/', views.cause1, name="cause1"),
     path('cause2/', views.cause2, name="cause2"),
     path('cause3/', views.cause3, name="cause3"),
