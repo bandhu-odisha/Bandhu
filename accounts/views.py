@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect,HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -13,6 +13,7 @@ from django.core.mail import EmailMessage
 from django.shortcuts import render,redirect
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib import messages
 
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse,Http404
 
@@ -26,26 +27,29 @@ import random
 # Create your views here.
 
 def login_view(request):
-    logout(request)
+    if request.user.is_authenticated:
+        return redirect('index')
+
     err_code = 0
 
     if request.POST:
         email = request.POST['email']
         password = request.POST['password']
-
-        user = authenticate(email=email, password=password)   # Returns the User object if credentials are correct AND USER IS ACTIVE
+        # Return the User object if credentials are correct AND USER IS ACTIVE
+        user = authenticate(email=email, password=password)
 
         if user is not None:
-            if user.auth is False:
+            profile = Profile.objects.filter(user=user)
+            # If user has filled profile and is not authenticated yet
+            if user.auth is False and profile.exists():
                 err_code = 2  # Not Authenticated
             else:
                 login(request, user)
-
-                pr_obj = Profile.objects.filter(user=user)
-                if pr_obj.first_name is not None:
-                    return HttpResponseRedirect('/')
-                else:
+                
+                if not profile.exists():
                     return HttpResponseRedirect('/profile/')
+                else:
+                    return HttpResponseRedirect('/')
         else:
             # Either Email/Password is wrong or
             # user not activated
@@ -69,8 +73,10 @@ def login_view(request):
     return render(request, 'registration/login.html', context)
 
 def signup_view(request):
+    if request.user.is_authenticated:
+        return redirect('index')
+
     if request.method == 'POST':
-        print(request.POST)
         form = RegisterForm(request.POST)
         email_check = request.POST.get('email')
         obj = User.objects.filter(email=email_check).first()
@@ -115,29 +121,15 @@ def account_activation(request, uidb64, token):
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
     if user is not None and account_activation_token.check_token(user, token):
+        # Activate User Account
         user.is_active = True
         user.save()
-        current_site = get_current_site(request)
-        mail_subject = '[noreply] New User Signed Up'
-        msg = 'A new User has signed up.'
-        message = render_to_string('acc_active.html', {
-            'user': user,
-            'pk':uid,
-            'domain': current_site.domain,
-            'msg':msg,
-            'uid':urlsafe_base64_encode(force_bytes(user.pk)),
-            'token':account_activation_token.make_token(user),
-        })
-        to_email = "guptaheet53@gmail.com"
-        print(to_email)
-        email = EmailMessage(
-                    mail_subject, message, to=[to_email]
-        )
-        print(email)
-        email.send()
-        return redirect('account_activated')
+
+        login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+        messages.success(request, "Account Activation Successful!")
+        return redirect('profile_page')
     else:
-        return render(request, 'token_expired.html')
+        return HttpResponse('Account Activation Token Expired.')
 
 def account_authentication(request, uidb64, token):
     try:
@@ -149,11 +141,24 @@ def account_authentication(request, uidb64, token):
     if user is not None and account_activation_token.check_token(user, token):
         user.auth = True
         user.save()
-        Profile.objects.create(user=user)
-        # return redirect('home')
+        
+        mail_subject = '[noreply] Account Verified'
+        msg = 'Your account has been verified by the admin, you can now Login to Bandhu.'
+        message = render_to_string('acc_verified.html', {
+            'email': user.email,
+            'msg':msg,
+        })
+        to_email = user.email
+        print(to_email)
+        email = EmailMessage(
+                    mail_subject, message, to=[to_email]
+        )
+        print(email)
+        email.send()
+
         return redirect('account_authenticated')
     else:
-        return render(request, 'token_expired.html')   # Token expired
+        return HttpResponse('Account Authentication Token Expired.')   # Token expired
 
 def account_activated(request):
     return render(request,'account_activated.html')
@@ -166,33 +171,3 @@ def signup_success(request):
 
 def signup_failure(request):
     return render(request,'signup_failure.html')
-
-
-# def change_password(request):
-#     val=3
-#     usb = User.objects.filter(email=request.user.email).first()
-#     stud_info = StudentInfo.objects.filter(student_id=usb).first()
-#     if request.method == 'POST':
-#         print(request.POST)
-#         form = PasswordChangeForm(request.user, request.POST)
-#         val=3
-#         print("erro")
-#         if form.is_valid():
-#             user = form.save()
-#             update_session_auth_hash(request, user)  # Important!
-#             messages.success(request, 'Your password was successfully updated!')
-#             val=0
-#             return render(request,'change_password.html',{'message':'Your password was successfully updated!','val':val,'stud_info':stud_info})
-#         else:
-#             messages.error(request, 'Please correct the error below.')
-#             val=1
-#             if request.POST.get('new_password1') != request.POST.get('new_password2'):
-#                 val=3
-#                 return render(request,'change_password.html',{'message':'Your new password and confirmation dont match.!!','val':val,'stud_info':stud_info})
-#             return render(request,'change_password.html',{'message':'Current Password is incorrect!!','val':val,'stud_info':stud_info})
-#     else:
-#         form = PasswordChangeForm(request.user)
-
-#     return render(request, 'change_password.html', {
-#         'form': form,'val':2,'stud_info':stud_info
-#     })
