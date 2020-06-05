@@ -1,21 +1,32 @@
-from django.shortcuts import render
-from accounts.models import User
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect,Http404
-from social_django.models import UserSocialAuth
-from django.contrib import messages
-from django.urls import reverse
-from .models import Profile
-from datetime import datetime 
-from django.core.files.storage import FileSystemStorage
+from datetime import datetime
 
+from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import EmailMessage
+from django.http import HttpResponseRedirect,Http404
+from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
+from django.urls import reverse
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+
+from social_django.models import UserSocialAuth
+from accounts.models import User
+from accounts.tokens import account_activation_token
+from .models import Profile
 
 # Create your views here.
 
 def index(request):
-    obj = UserSocialAuth.objects.all()
-    obj1 = User.objects.all()
-    print(obj,obj1)
+    if request.user.is_authenticated and not Profile.objects.filter(user=request.user).exists():
+        return redirect('profile_page')
+
+    # obj = UserSocialAuth.objects.all()
+    # obj1 = User.objects.all()
+    # print(obj,obj1)
     return render(request, 'landing_page.html')
 
 def cause1(request):
@@ -34,63 +45,65 @@ def cause5(request):
     return render(request, 'cause5.html')
 
 @login_required
-def profilePage(request):
-    pro_obj = Profile.objects.filter(user=request.user).first()
-    first_name = pro_obj.first_name 
-    last_name = pro_obj.last_name
-    gender = pro_obj.gender 
-    dob = pro_obj.dob 
-    profession = pro_obj.profession 
-    contact_no = pro_obj.contact_no 
-    street_address1 = pro_obj.street_address1 
-    street_address2 = pro_obj.street_address2 
-    city = pro_obj.city 
-    state = pro_obj.state 
-    pincode = pro_obj.pincode 
-    profile_pic = pro_obj.profile_pic
+def profile_page(request):
+    user = request.user
+    profile = Profile.objects.filter(user=user)
+
+    if profile.exists():
+        profile = profile[0]
+        first_time = False
+    else:
+        # Dummy object to pass into the template
+        profile = Profile(user=request.user)
+        # If profile is being filled for the first time
+        first_time = True
+
     if request.method == 'POST':
-        first_name = request.POST['first_name']
-        last_name = request.POST['last_name']
-        gender = request.POST['gender']
-        dob = request.POST['dob']
-        profession = request.POST['profession']
-        contact_no = request.POST['contact_no']
-        street_address1 = request.POST['street_address1']
-        street_address2 = request.POST['street_address2']
-        city = request.POST['city']
-        state = request.POST['state']
-        pincode = request.POST['pincode']
-        profile_pic = request.FILES.get('profile_pic')
-        Profile.objects.filter(user=request.user).update(first_name=first_name, 
-                                                        last_name=last_name,
-                                                        gender=gender, 
-                                                        dob=dob, 
-                                                        profession=profession, 
-                                                        contact_no=contact_no,
-                                                        street_address1=street_address1, 
-                                                        street_address2=street_address2,
-                                                        city=city, 
-                                                        state=state, 
-                                                        pincode=pincode)
-        if profile_pic is not None and profile_pic != '':
-            fs = FileSystemStorage()
-            filename = fs.save(profile_pic.name, profile_pic)
-            uploaded_file_url = fs.url(filename)
-            print(filename,uploaded_file_url)
-            Profile.objects.filter(user=request.user).update(profile_pic=profile_pic)
-            profile_pic = uploaded_file_url
+        profile.first_name = request.POST['first_name']
+        profile.last_name = request.POST['last_name']
+        profile.gender = request.POST['gender']
+        profile.dob = request.POST['dob']
+        profile.profession = request.POST['profession']
+        profile.contact_no = request.POST['contact_no']
+        profile.street_address1 = request.POST['street_address1']
+        profile.street_address2 = request.POST['street_address2']
+        profile.city = request.POST['city']
+        profile.state = request.POST['state']
+        profile.pincode = request.POST['pincode']
+
+        if 'profile_pic' in request.FILES:
+            profile.profile_pic = request.FILES['profile_pic']
+
+        profile.save()
+
+        if first_time:
+            # Notify Admin for New User Sign Up
+            current_site = get_current_site(request)
+
+            from_email = settings.SENDER_EMAIL
+            mail_subject = '[noreply] New User Signed Up'
+            msg = 'A new User has signed up.'
+            message = render_to_string('acc_active.html', {
+                'user': user,
+                'profile': profile,
+                'domain': current_site.domain,
+                'msg':msg,
+                'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+                'token':account_activation_token.make_token(user),
+            })
+            to_email = settings.ADMINS_EMAIL
+            email = EmailMessage(
+                mail_subject, message, from_email, to_email,
+            )
+            email.send()
+        
+            logout(request)
+            return redirect('account_activated')
+
         return HttpResponseRedirect('/profile/')
-    return render(request,'profile.html',{
-        'first_name' : first_name,
-        'last_name' :  last_name, 
-        'gender' :  gender,  
-        'dob' : dob ,  
-        'profession' :  profession,
-        'contact_no' :  contact_no,  
-        'street_address1' :  street_address1,  
-        'street_address2' :  street_address2,   
-        'city' : city   ,
-        'state' : state   ,
-        'pincode' : pincode ,
-        'profile_pic':profile_pic
-    })
+        
+    context = {
+        'profile': profile,
+        'first_time': first_time,
+    }
+    return render(request,'profile.html', context)

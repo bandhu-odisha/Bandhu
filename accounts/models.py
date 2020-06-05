@@ -69,24 +69,6 @@ class User(PermissionsMixin,AbstractBaseUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = [] # Email & Password are required by default.
 
-    def save(self, *args, **kwargs):
-        original = User.objects.filter(pk=self.pk)   # Will return empty set if user is created for the first time
-        if original.exists() and original[0].auth is False and self.auth is True:
-            mail_subject = '[noreply] Account Verified'
-            msg = 'Your account has been verified by the admin, you can now Login to Bandhu.'
-            message = render_to_string('acc_verified.html', {
-                'email':self.email,
-                'msg':msg,
-            })
-            to_email = self.email
-            print(to_email)
-            email = EmailMessage(
-                        mail_subject, message, to=[to_email]
-            )
-            print(email)
-            email.send()
-        super(User, self).save(*args, **kwargs)
-
 
     def get_full_name(self):
         # The user is identified by their email address

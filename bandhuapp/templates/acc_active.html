@@ -1,0 +1,20 @@
+{% autoescape off %}
+Hi,
+{{msg}}
+
+Email : {{user.email}}
+Name: {{ profile.first_name }} {{ profile.last_name }}
+Gender: {{ profile.get_gender_display }}
+Date of Birth: {{ profile.dob }}
+Profession: {{ profile.profession }}
+Contact No.: {{ profile.contact_no }}
+Address: {{ profile.street_address1 }}, {{ profile.street_address2 }}, {{ profile.city }}, {{ profile.state }} - {{ profile.pincode }}
+
+
+Click on the link below to activate user account.
+http://{{ domain }}{% url 'account_authentication' uidb64=uid token=token %}
+
+Regards
+Team Bandhu
+bandhu@gmail.com
+{% endautoescape %}

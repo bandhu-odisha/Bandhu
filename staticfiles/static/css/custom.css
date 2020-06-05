@@ -1,0 +1,192 @@
+@import url(http://fonts.googleapis.com/css?family=Raleway:300,400,600,700,800,900);
+
+@font-face {
+    font-family: oriya;
+    src: url(../vendor/fonts/OR51_Ananta.ttf);
+}
+
+html, body {
+    font-family: 'Raleway', sans-serif;
+    color: #737373;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 16px;
+}
+
+a, h1, h2, h3, h4, h5, h6, p {
+    font-family: 'Raleway', sans-serif;
+}
+
+
+/* NAVBAR STARTS */
+
+/* Navbar Brand */
+.navbar .navbar-brand .navbar-logo {
+    height: 70px;
+    width: 70px;
+}
+.navbar .navbar-brand .navbar-title {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 600;
+    display: inline-block;
+    margin: 0;
+    vertical-align: middle;
+}
+
+/* Navbar Links and Link-Buttons */
+.navbar .navbar-nav .nav-link {
+    font-size: 1em;
+    font-weight: 600;
+    line-height: 55px;
+    padding: 0 20px 0 20px;
+    color: #ffffff;
+}
+.navbar .navbar-nav .nav-link:hover, .navbar .navbar-nav .nav-link:focus {
+    color: #ffb307;
+}
+.navbar .navbar-nav>.active>a, .navbar .navbar-nav>.active>a:hover, .navbar .navbar-nav>.active>a:focus {
+    color: #ffb307;
+    /* background-color: transparent; */
+}
+/* Link-Buttons */
+.navbar .navbar-nav .nav-button {
+    border-radius: 3px;
+    text-transform: none;
+    font-weight: 600;
+}
+
+/* Navbar Toggle Button */
+.custom-toggler.navbar-toggler, .custom-toggler.navbar-toggler:hover, .custom-toggler.navbar-toggler:focus { 
+    font-size: 28px;
+    color: #ffb307;
+    border-color: transparent;
+    outline: transparent;
+} 
+.custom-toggler.navbar-toggler.collapsed { 
+    color: white;
+    border-color: transparent; 
+}
+.custom-toggler.navbar-toggler.collapsed:hover { 
+    color: #ffb307;
+}
+
+/* Navbar Scroll Behaviour */
+.navbar.navbar-dark.navbar-scrolled {
+    background-color: rgba(0,0,0,.5) !important;
+}
+.navbar.navbar-dark.navbar-scrolled-again {
+    background-color: rgba(0,0,0,.85) !important;
+}
+
+/* Navbar non-transparent on small screens */
+@media screen and (max-width: 767px){
+    .navbar.bg-transparent.navbar-dark {
+        background-color: rgba(0,0,0,.85) !important;
+    }
+}
+
+
+/* SHOWCASE STARTS */
+
+#top-section {
+    background: url(../img/our_mission.jpg) 50% 0 no-repeat fixed;
+    margin: 0 auto;
+    background-repeat: no-repeat;
+    background-size: 100vw 120vh;
+    padding: 0;
+}
+.top-section {
+    position: relative;
+}
+.parallax-style, .no-parallax-style {
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+.parallax-style {
+    position: relative;
+    z-index: 1;
+}
+.parallax-overlay {
+    background-color: rgba(0,0,0,.6);
+}
+.slider-txt-container {
+    color: #ffffff;
+    text-align: center;
+    text-transform: uppercase;
+    padding: 150px 0 185px 0;
+    width: 100%;
+    overflow: hidden;
+}
+.top-section .bold-txt {
+    font-size: 3.875em;
+    font-weight: 800;
+    line-height: 70px;
+}
+
+/* Angular Cut on Showcase */
+.angular {
+    position: relative;
+}
+.angular .top-angle, .angular .bottom-angle {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    height: 151px;
+    overflow: hidden;
+    z-index: 2;
+}
+.angular .top-angle {
+    top: -150px;
+}
+.angular .top-angle:before, .angular .bottom-angle:before {
+    content: "";
+    width: 100%;
+    height: 150px;
+    background: #ffffff;
+    position: absolute;
+    left: 0;
+    -webkit-transform: rotate(-3deg) skew(-3deg) scale(1.1,1);
+    -mox-transform: rotate(-3deg) skew(-3deg) scale(1.1,1);
+    -ms-transform: rotate(-3deg) skew(-3deg) scale(1.1,1);
+    -o-transform: rotate(-3deg) skew(-3deg) scale(1.1,1);
+    transform: rotate(-3deg) skew(-3deg) scale(1.1,1);
+}
+.angular .top-angle:before {
+    top: 75px;
+}
+
+
+
+/* FOOTER */
+
+#contact .nav .nav-link {
+    font-size: 1em;
+    font-weight: 600;
+    padding: 3px;
+    color: #ffffff;
+}
+#contact .nav .nav-link:hover, #contact .nav .nav-link:focus {
+    color: #ffb307;
+}
+#contact .nav>.active>a, #contact .nav>.active>a:hover, #contact .nav>.active>a:focus {
+    color: #ffb307;
+    /* background-color: transparent; */
+}
+
+#contact .social-icons a {
+    font-size: 32px;
+    margin-right: 12px;
+    text-decoration: none;
+}
+/* #contact .social-icons .fa-facebook-square:hover {
+    color: #1877f2 !important;
+}
+#contact .social-icons .fa-twitter:hover {
+    color: #00acee !important;
+} */
+
+#contact .footer a {
+    color: white;
+    font-weight: 600;
+}

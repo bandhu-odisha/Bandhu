@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
-{% load static %}
-{% block title %} Bandhu | Edit Profile {% endblock %}
+
+{% block title %} Bandhu | User Profile {% endblock %}
 
 {% block style %}
 	<style>
@@ -17,7 +17,8 @@
 		.imgCircle{
 			position:relative;
 			width:150px !important;
-			margin-left:38%;
+			/* margin-left:38%; */
+			margin: auto;
 		}
 
 		label {
@@ -28,37 +29,48 @@
 	</style>
 {% endblock %}
 
+{% block showcase-title-container %}
+<div class="slider-txt-container" style="padding: 150px 0 300px 0;">
+	<h2 class="bold-txt"> Profile </h2>
+</div>
+{% endblock %}
+
 {% block content %}
 
 <div class="container">
 
-	<div class="row justify-content-center mb-5 my-5">
-		<div class="col-lg-8 border rounded shadow px-5 py-4">
+	{% if first_time %}
+	<div class="my-3 text-center">
+		<h2>Complete Your Profile</h2>
+	</div>
+	{% endif %}
+
+	<div class="row justify-content-center my-5">
+		<div class="col-lg-8 border rounded shadow px-5 py-4 mb-5 bg-white"
+			style="margin-top: -280px; z-index: 3;">
 
 			<form method="POST" enctype="multipart/form-data" id="profileForm" class="needs-validation" novalidate>
 				{% csrf_token %}
+				{% if not first_time %}
 				<div class="row justify-content-center mb-4 imgCircle">
-				{% if profile_pic %}
-					<img src="/media/{{ profile_pic }}" alt="profile_pic" class="rounded-circle" style="height: 150px; width: 150px;">
-				{% else %}	
-					<img src="{% static 'img/dummy.jpg' %}" alt="profile_pic" class="rounded-circle" style="height: 150px; width: 150px;">
-				{% endif %}
+					<img src="{{ profile.profile_pic.url }}" alt="profile_pic" class="rounded-circle" style="height: 150px; width: 150px;">
 					<a onclick="uploadImage();" style="bottom:0px;right:10px;text-decoration:none;color:inherit;cursor:pointer;position:absolute;" data-toggle="modal" data-target="#ProfileModalCenter" >
 						<svg style="padding:5px 10px 5px 10px;border-radius:50%;background-color:white;box-sizing:border-box;height:32px;width:32px;" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="camera-retro" class="svg-inline--fa fa-camera-retro fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="black" d="M48 32C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48H48zm0 32h106c3.3 0 6 2.7 6 6v20c0 3.3-2.7 6-6 6H38c-3.3 0-6-2.7-6-6V80c0-8.8 7.2-16 16-16zm426 96H38c-3.3 0-6-2.7-6-6v-36c0-3.3 2.7-6 6-6h138l30.2-45.3c1.1-1.7 3-2.7 5-2.7H464c8.8 0 16 7.2 16 16v74c0 3.3-2.7 6-6 6zM256 424c-66.2 0-120-53.8-120-120s53.8-120 120-120 120 53.8 120 120-53.8 120-120 120zm0-208c-48.5 0-88 39.5-88 88s39.5 88 88 88 88-39.5 88-88-39.5-88-88-88zm-48 104c-8.8 0-16-7.2-16-16 0-35.3 28.7-64 64-64 8.8 0 16 7.2 16 16s-7.2 16-16 16c-17.6 0-32 14.4-32 32 0 8.8-7.2 16-16 16z"></path></svg>
 					</a>
-					<input type="file" name="profile_pic" onchange="changePropic();" class="form-control-file" id="upimage" hidden value="{{profile_pic}}" />
+					<input type="file" name="profile_pic" onchange="changePropic();" class="form-control-file" id="upimage" hidden value="{{ profile.profile_pic }}" />
 				</div>
+				{% endif %}
 				<div class="row justify-content-center">
 					<div class="col-md-6 mb-3">
 						<label for="firstName">First name</label>
-						<input name="first_name" type="text" class="form-control" id="firstName" value="{{ first_name }}" required>
+						<input name="first_name" type="text" class="form-control" id="firstName" value="{{ profile.first_name }}" required>
 						<div class="invalid-feedback">
 							Valid First Name is required.
 						</div>
 					</div>
 					<div class="col-md-6 mb-3">
 						<label for="lastName">Last name</label>
-						<input name="last_name" type="text" class="form-control" id="lastName" value="{{ last_name }}" required>
+						<input name="last_name" type="text" class="form-control" id="lastName" value="{{ profile.last_name }}" required>
 						<div class="invalid-feedback">
 							Valid Last Name is required.
 						</div>
@@ -78,23 +90,23 @@
 						<label for="dob">Date of Birth</label>
 						<!-- <input type="text" class="form-control" id="firstName" value="" required> -->
 						<!-- <input name="dob" type="date" class="form-control" id="dob" required> -->
-						<input name="dob" type="date" id="dob" max="2009-12-31" class="form-control" value="{{ dob|date:'Y-m-d' }}" required>
+						<input name="dob" type="date" id="dob" class="form-control" value="{{ profile.dob|date:'Y-m-d' }}" required>
 						<div class="invalid-feedback">
 							Please enter a valid date.
 						</div>
 					</div>
 					<div class="col-md-4 mb-3">
 						<label for="profession">Profession</label>
-						<input name="profession" type="text" class="form-control" id="profession" value="{{ profession }}" required>
+						<input name="profession" type="text" class="form-control" id="profession" value="{{ profile.profession }}" required>
 						<div class="invalid-feedback">
 							Valid Contact No. is required.
 						</div>
 					</div>
 				</div>
 
-				<div class="mb3">
+				<div class="mb-3">
 					<label for="contactNo">Contact No.</label>
-					<input name="contact_no" type="number" class="form-control" min="5555555555" max="9999999999" id="contactNo" value="{{ contact_no }}" required>
+					<input name="contact_no" type="number" class="form-control" id="contactNo" value="{{ profile.contact_no }}" required>
 					<div class="invalid-feedback">
 						Valid Contact No. is required.
 					</div>
@@ -102,7 +114,7 @@
 			
 				<div class="mb-3">
 					<label for="address">Address</label>
-					<input name="street_address1" type="text" class="form-control" id="address" value="{{ street_address1 }}" required>
+					<input name="street_address1" type="text" class="form-control" id="address" value="{{ profile.street_address1 }}" required>
 					<div class="invalid-feedback">
 						Please enter your shipping address.
 					</div>
@@ -110,32 +122,38 @@
 			
 				<div class="mb-3">
 					<label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
-					<input name="street_address2" type="text" class="form-control" id="address2" value="{{ street_address2 }}">
+					<input name="street_address2" type="text" class="form-control" id="address2" value="{{ profile.street_address2 }}">
 				</div>
 			
 				<div class="row">
 					<div class="col-md-5 mb-3">
 					<label for="city">City</label>
-					<input name="city" type="text" class="form-control" id="city" value="{{ city }}" required>
+					<input name="city" type="text" class="form-control" id="city" value="{{ profile.city }}" required>
 					<div class="invalid-feedback">
 						Please enter a valid city.
 					</div>
 					</div>
 					<div class="col-md-4 mb-3">
 					<label for="state">State</label>
-					<input name="state" type="text" class="form-control" id="state" value="{{ state }}" required>
+					<input name="state" type="text" class="form-control" id="state" value="{{ profile.state }}" required>
 					<div class="invalid-feedback">
 						Please provide a valid state.
 					</div>
 					</div>
 					<div class="col-md-3 mb-3">
 					<label for="pinCode">PIN Code</label>
-					<input name="pincode" type="number" class="form-control" id="pinCode" value="{{ pincode }}" required>
+					<input name="pincode" type="number" class="form-control" id="pinCode" value="{{ profile.pincode }}" required>
 					<div class="invalid-feedback">
 						PIN code required.
 					</div>
 					</div>
 				</div>
+				{% if first_time %}
+				<div class="mb-3">
+					<label for="profile_pic">Profile Picture</label>
+					<input name="profile_pic" type="file" class="form-control-file" id="profile_pic">
+				</div>
+				{% endif %}
 
 				<hr class="mb-4">
 				<div class="row justify-content-center mb-4">
@@ -186,8 +204,8 @@
 
 	<!-- Script for Gender Field -->
 	<script>
-		if("{{gender }}" == "M") $('#gender option:eq(0)').prop('selected', true)
-		else if("{{gender }}" == "F") $('#gender option:eq(1)').prop('selected', true)
+		if("{{ profile.gender }}" == "M") $('#gender option:eq(0)').prop('selected', true)
+		else if("{{ profile.gender }}" == "F") $('#gender option:eq(1)').prop('selected', true)
 		else $('#gender option:eq(2)').prop('selected', true)
 	</script>
 
@@ -200,4 +218,5 @@
 		});
 		// $('#dob').datepicker("setDate", new Date());
 	</script> {% endcomment %}
+	
 {% endblock %}
