@@ -29,6 +29,15 @@
 	</style>
 {% endblock %}
 
+{% block navbar-links %}
+<li class="nav-item">
+	<a class="nav-link px-3" href="{% url 'home' %}">Home</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link px-3" href="#contact">Contact</a>
+</li>
+{% endblock %}
+
 {% block showcase-title-container %}
 <div class="slider-txt-container" style="padding: 150px 0 300px 0;">
 	<h2 class="bold-txt"> Profile </h2>
@@ -38,20 +47,17 @@
 {% block content %}
 
 <div class="container">
-
-	{% if first_time %}
-	<div class="my-3 text-center">
-		<h2>Complete Your Profile</h2>
-	</div>
-	{% endif %}
-
 	<div class="row justify-content-center my-5">
 		<div class="col-lg-8 border rounded shadow px-5 py-4 mb-5 bg-white"
 			style="margin-top: -280px; z-index: 3;">
 
 			<form method="POST" enctype="multipart/form-data" id="profileForm" class="needs-validation" novalidate>
 				{% csrf_token %}
-				{% if not first_time %}
+				{% if first_time %}
+				<div class="mb-4 text-center ">
+					<h2 class="font-weight-bolder">Complete Your Profile</h2>
+				</div>
+				{% else %}
 				<div class="row justify-content-center mb-4 imgCircle">
 					<img src="{{ profile.profile_pic.url }}" alt="profile_pic" class="rounded-circle" style="height: 150px; width: 150px;">
 					<a onclick="uploadImage();" style="bottom:0px;right:10px;text-decoration:none;color:inherit;cursor:pointer;position:absolute;" data-toggle="modal" data-target="#ProfileModalCenter" >

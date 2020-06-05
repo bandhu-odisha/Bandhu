@@ -7,22 +7,22 @@
                 </h3>
                 <ul class="nav flex-column py-4">
                     <li class="nav-item">
-                        <a href="" class="nav-link">Ankurayan</a>
+                        <a href="{% url 'ankurayan' %}" class="nav-link">Ankurayan</a>
                     </li>
                     <li class="nav-item">
-                        <a href="" class="nav-link">Ananda Kendra</a>
+                        <a href="{% url 'anandakendra' %}" class="nav-link">Ananda Kendra</a>
                     </li>
                     <li class="nav-item">
-                        <a href="" class="nav-link">Ashram</a>
+                        <a href="#" class="nav-link">Arpan Bandhu</a>
                     </li>
                     <li class="nav-item">
-                        <a href="" class="nav-link">Sanskarbarga</a>
+                        <a href="{% url 'ashram' %}" class="nav-link">Ashram</a>
                     </li>
                     <li class="nav-item">
-                        <a href="" class="nav-link">Charity Work</a>
+                        <a href="{% url 'charity_work' %}" class="nav-link">Charity Work</a>
                     </li>
                     <li class="nav-item">
-                        <a href="" class="nav-link">Mad Mukti</a>
+                        <a href="#" class="nav-link">Madh Mukti</a>
                     </li>
                 </ul>
             </div>
@@ -53,7 +53,7 @@
                     <a href="https://www.facebook.com/npobandhu/" target="_blank">
                         <i class="fab fa-facebook-square text-white"></i>
                     </a>
-                    <a href="https://www.twitter.com/" target="_blank">
+                    <a href="#">
                         <i class="fab fa-twitter text-white"></i>
                     </a>
                 </div>
@@ -64,7 +64,10 @@
 
         <div class="footer text-white clearfix">
             <div class="float-left">
-                &copy; <a href="#">Bandhu</a> 2020, All Rights Reserved.
+                &copy; <a href="{% url 'home' %}">Bandhu</a> 2020, All Rights Reserved.
+            </div>
+            <div class="float-right">
+                Developed by <a href="#">Priyansh Garg</a>
             </div>
         </div>
     </div>
