@@ -29,7 +29,11 @@
 	</style>
 {% endblock %}
 
-{% block showcase-title %} Profile {% endblock %}
+{% block showcase-title-container %}
+<div class="slider-txt-container" style="padding: 150px 0 300px 0;">
+	<h2 class="bold-txt"> Profile </h2>
+</div>
+{% endblock %}
 
 {% block content %}
 
@@ -41,9 +45,9 @@
 	</div>
 	{% endif %}
 
-	<div class="row justify-content-center my-5" style="position: relative;">
+	<div class="row justify-content-center my-5">
 		<div class="col-lg-8 border rounded shadow px-5 py-4 mb-5 bg-white"
-			style="position: absolute; top: -280px; z-index: 3;">
+			style="margin-top: -280px; z-index: 3;">
 
 			<form method="POST" enctype="multipart/form-data" id="profileForm" class="needs-validation" novalidate>
 				{% csrf_token %}

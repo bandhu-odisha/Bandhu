@@ -157,3 +157,36 @@ a, h1, h2, h3, h4, h5, h6, p {
 }
 
 
+
+/* FOOTER */
+
+#contact .nav .nav-link {
+    font-size: 1em;
+    font-weight: 600;
+    padding: 3px;
+    color: #ffffff;
+}
+#contact .nav .nav-link:hover, #contact .nav .nav-link:focus {
+    color: #ffb307;
+}
+#contact .nav>.active>a, #contact .nav>.active>a:hover, #contact .nav>.active>a:focus {
+    color: #ffb307;
+    /* background-color: transparent; */
+}
+
+#contact .social-icons a {
+    font-size: 32px;
+    margin-right: 12px;
+    text-decoration: none;
+}
+/* #contact .social-icons .fa-facebook-square:hover {
+    color: #1877f2 !important;
+}
+#contact .social-icons .fa-twitter:hover {
+    color: #00acee !important;
+} */
+
+#contact .footer a {
+    color: white;
+    font-weight: 600;
+}

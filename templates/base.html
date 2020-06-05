@@ -50,10 +50,10 @@
 
 				<nav class="collapse navbar-collapse" id="collapsibleNavbar" style="justify-content: flex-end;">
 					<ul class="navbar-nav text-uppercase">
-						{% block navbar-links %}
 						<li class="nav-item">
 							<a class="nav-link" href="{% url 'home' %}">Home</a>
 						</li>
+						{% block navbar-links %}
 						{% endblock %}
 						<li class="nav-item align-self-center w-100">
 							{% if user.is_authenticated %}
@@ -72,9 +72,13 @@
 		<section id="top-section" style="background-size: cover;">
 			<div class="top-section parallax-style">
 				<div class="parallax-overlay">
-                    <div class="slider-txt-container" style="padding: 150px 0 300px 0;">
+					{% block showcase-title-container %}
+                    <div class="slider-txt-container" style="padding: 200px 0 300px 0;">
                         <h2 class="bold-txt">{% block showcase-title %}{% endblock %}</h2>
 					</div>
+                    <!-- <h2 class="bold-txt" style="position: fixed; top: 200px; text-transform: uppercase; width: 100%; text-align: center; color: white;">Ananda Kendra</h2> -->
+					
+					{% endblock %}
 				</div>
 			</div>
 		</section>
