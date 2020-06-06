@@ -72,6 +72,7 @@ def profile_page(request):
         profile.pincode = request.POST['pincode']
 
         if 'profile_pic' in request.FILES:
+            profile.profile_pic.delete(False)
             profile.profile_pic = request.FILES['profile_pic']
 
         profile.save()

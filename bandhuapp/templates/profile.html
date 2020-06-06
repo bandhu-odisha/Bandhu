@@ -90,9 +90,9 @@
 						<label for="dob">Date of Birth</label>
 						<!-- <input type="text" class="form-control" id="firstName" value="" required> -->
 						<!-- <input name="dob" type="date" class="form-control" id="dob" required> -->
-						<input name="dob" type="date" id="dob" class="form-control" value="{{ profile.dob|date:'Y-m-d' }}" required>
+						<input name="dob" type="date" max="2009-12-31" id="dob" class="form-control" value="{{ profile.dob|date:'Y-m-d' }}" required>
 						<div class="invalid-feedback">
-							Please enter a valid date.
+							Please enter a valid date of birth.
 						</div>
 					</div>
 					<div class="col-md-4 mb-3">
@@ -106,7 +106,7 @@
 
 				<div class="mb-3">
 					<label for="contactNo">Contact No.</label>
-					<input name="contact_no" type="number" class="form-control" id="contactNo" value="{{ profile.contact_no }}" required>
+					<input name="contact_no" type="tel" pattern="[0-9]{10}" class="form-control" id="contactNo" value="{{ profile.contact_no }}" required>
 					<div class="invalid-feedback">
 						Valid Contact No. is required.
 					</div>
