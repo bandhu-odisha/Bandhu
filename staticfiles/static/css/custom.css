@@ -7,7 +7,7 @@
 
 html, body {
     font-family: 'Raleway', sans-serif;
-    color: #737373;
+    /* color: #737373; */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-size: 16px;
@@ -37,16 +37,19 @@ a, h1, h2, h3, h4, h5, h6, p {
 .navbar .navbar-nav .nav-link {
     font-size: 1em;
     font-weight: 600;
-    line-height: 55px;
-    padding: 0 20px 0 20px;
+    line-height: 45px;
+    padding: 0 20px;
     color: #ffffff;
 }
-.navbar .navbar-nav .nav-link:hover, .navbar .navbar-nav .nav-link:focus {
+.navbar .navbar-nav .nav-link:hover, .navbar .navbar-nav .nav-link:focus, .navbar .navbar-nav .nav-link:active {
     color: #ffb307;
 }
 .navbar .navbar-nav>.active>a, .navbar .navbar-nav>.active>a:hover, .navbar .navbar-nav>.active>a:focus {
     color: #ffb307;
     /* background-color: transparent; */
+}
+.navbar .navbar-nav .nav-link.active {
+    color: #ffb307;
 }
 /* Link-Buttons */
 .navbar .navbar-nav .nav-button {
@@ -79,7 +82,7 @@ a, h1, h2, h3, h4, h5, h6, p {
 }
 
 /* Navbar non-transparent on small screens */
-@media screen and (max-width: 767px){
+@media screen and (max-width: 991px){
     .navbar.bg-transparent.navbar-dark {
         background-color: rgba(0,0,0,.85) !important;
     }
@@ -118,10 +121,19 @@ a, h1, h2, h3, h4, h5, h6, p {
     width: 100%;
     overflow: hidden;
 }
-.top-section .bold-txt {
+.slider-txt-container .bold-txt {
     font-size: 3.875em;
     font-weight: 800;
     line-height: 70px;
+}
+.slider-txt-container .parallax-description {
+    color: #ffffff;
+    text-align: center;
+    font-size: 1.7em;
+    font-weight: 300;
+    line-height: 40px;
+    width: 70%;
+    margin: auto;
 }
 
 /* Angular Cut on Showcase */

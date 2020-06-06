@@ -31,12 +31,12 @@
 	{% endblock %}
 
 </head>
-<body>
+<body data-spy="scroll" data-target="#collapsibleNavbar" data-offset="50">
 
 	<div class="main">
 
 		{% block header %}
-		<div id="main-menu" class="navbar navbar-expand-md bg-transparent fixed-top navbar-dark"
+		<div id="main-menu" class="navbar navbar-expand-lg bg-transparent fixed-top navbar-dark"
         		style="padding: 0;" role="navigation">
 			<div class="container">
 				<a class="navbar-brand" href="{% url 'home' %}" style="padding-bottom: 0;">
@@ -49,15 +49,15 @@
 				</button>
 
 				<nav class="collapse navbar-collapse" id="collapsibleNavbar" style="justify-content: flex-end;">
-					<ul class="navbar-nav text-uppercase">
+					<ul class="navbar-nav text-uppercase mb-3 mb-lg-0">
+						{% block navbar-links %}
 						<li class="nav-item">
 							<a class="nav-link" href="{% url 'home' %}">Home</a>
 						</li>
-						{% block navbar-links %}
 						{% endblock %}
-						<li class="nav-item align-self-center w-100">
+						<li class="nav-item align-self-center w-100 mt-2 mt-lg-0">
 							{% if user.is_authenticated %}
-							<a class="nav-button btn btn-danger px-3 ml-3 mb-3 mb-md-0" href="{% url 'logout' %}"> Logout</a>
+							<a class="nav-button btn btn-danger px-3 ml-3" href="{% url 'logout' %}"> Logout</a>
 							{% else %}
 							<a class="nav-button btn btn-danger px-3 ml-3" href="{% url 'login' %}"> Login</a>
 							{% endif %}
