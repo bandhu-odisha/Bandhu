@@ -26,8 +26,7 @@ $(window).scroll(navbarCollapse);
 // Close Navbar on clicking outside it
 $(window).on('click', function(event){
     var clickOver = $(event.target)
-    console.log(clickOver.closest('.navbar').length)
-    if ($('.navbar .navbar-toggler').attr('aria-expanded') == 'true' && !(clickOver.closest('.navbar').length === 1)) {
+    if ($('.navbar .navbar-toggler').attr('aria-expanded') == 'true' && clickOver.closest('.navbar').length === 0) {
         $('button[aria-expanded="true"]').click();
     }
 });
