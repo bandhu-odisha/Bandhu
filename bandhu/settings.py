@@ -152,7 +152,7 @@ EMAIL_PORT = os.getenv("EMAIL_PORT")
 
 # EMAIL ADDRESSES
 SENDER_EMAIL = os.getenv("SENDER_EMAIL")
-ADMINS_EMAIL = os.getenv("ADMINS_EMAIL")
+ADMINS_EMAIL = os.getenv("ADMINS_EMAIL").strip('][\'').split(', ')
 
 
 # Social AUTH Keys

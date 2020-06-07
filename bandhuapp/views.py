@@ -22,6 +22,7 @@ from .models import Profile
 
 def index(request):
     if request.user.is_authenticated and not Profile.objects.filter(user=request.user).exists():
+        messages.error(request, "Complete your Profile first.")
         return redirect('profile_page')
 
     # obj = UserSocialAuth.objects.all()
@@ -72,7 +73,8 @@ def profile_page(request):
         profile.pincode = request.POST['pincode']
 
         if 'profile_pic' in request.FILES:
-            profile.profile_pic.delete(False)
+            if profile.profile_pic.name != 'profile_photos/man.png':
+                profile.profile_pic.delete(False)
             profile.profile_pic = request.FILES['profile_pic']
 
         profile.save()
@@ -93,6 +95,7 @@ def profile_page(request):
                 'token':account_activation_token.make_token(user),
             })
             to_email = settings.ADMINS_EMAIL
+            print(to_email)
             email = EmailMessage(
                 mail_subject, message, from_email, to_email,
             )
