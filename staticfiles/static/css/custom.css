@@ -5,6 +5,8 @@
     src: url(../vendor/fonts/OR51_Ananta.ttf);
 }
 
+/* GLOBAL */
+
 html, body {
     font-family: 'Raleway', sans-serif;
     /* color: #737373; */
@@ -17,6 +19,9 @@ a, h1, h2, h3, h4, h5, h6, p {
     font-family: 'Raleway', sans-serif;
 }
 
+.bg-grey {
+    background-color: #ecf0f1;
+}
 
 /* NAVBAR STARTS */
 
@@ -261,7 +266,7 @@ a, h1, h2, h3, h4, h5, h6, p {
     cursor: pointer;
     display: none;
     opacity: .7;
-    z-index: 99999;
+    z-index: 99;
     -webkit-transition: all .25s ease;
     -moz-transition: all .25s ease;
     -ms-transition: all .25s ease;

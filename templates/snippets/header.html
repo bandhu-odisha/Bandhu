@@ -1,0 +1,67 @@
+{% load static %}
+
+<!-- <div class="main-menu-container navbar-fixed-top"> -->
+    <div id="main-menu" class="navbar navbar-expand-md bg-transparent fixed-top navbar-dark"
+        style="padding: 0;" role="navigation">
+        <div class="container">
+            <!-- <div class="navbar-header"> -->
+                <!-- Logo -->
+                <!-- <h1> -->
+                    <a class="navbar-brand" href="{% url 'home' %}" style="padding-bottom: 0;">
+                        <img class="logo" src='{% static "img/bandhulogo.png" %}' alt="Logo" rel="home" style="width:70px; height: 70px;">
+                        <h4 class="navbar-title">Bandhu <br> ବନ୍ଧୁ </h4>
+                    </a><!-- /.navbar-brand -->
+                <!-- </h1> -->
+            <!-- </div>  -->
+            <!-- /.navbar-header -->
+            <!-- responsive navigation -->
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <!-- <span class="sr-only">Toggle navigation</span> -->
+                <!-- <i class="fa fa-bars"></i> -->
+                <span class="navbar-toggler-icon"></span>
+            </button> <!-- /.navbar-toggle -->
+
+            <nav class="collapse navbar-collapse" id="collapsibleNavbar" style="justify-content: flex-end;">
+                <!-- Main navigation -->
+                <!-- <a href="#donate" class="donate pull-right">Donate <i class="fa fa-heart"></i></a> -->
+                <ul class="navbar-nav text-uppercase">
+                    {% block navbar-links %}
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="#work">Work</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#gallery">Gallery</a>
+                    </li> -->
+                    {% endblock %}
+                    
+                    <li class="nav-item align-self-center">
+                        <a class="nav-button btn btn-danger px-3 ml-3" href="{% url 'logout' %}"> Logout</a>
+                    </li>
+
+
+                    <!-- <li class="active"><a href="#top-section">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#work">Work</a></li> -->
+
+                    <!-- <li><a href="#service">Service</a></li> --> 
+
+                    <!-- <li><a href="#gallery">Gallery</a></li> -->
+
+                    <!-- <li><a href="#causes">Causes</a></li>
+                    <li><a href="#news">News</a></li>
+                    <li><a href="#upcoming-events">Events</a></li> -->
+
+                    <!-- <li><a href="#contact">Contact</a></li> -->
+
+                    <!-- <li><a href="#donate" class="donate">Donate <i class="fa fa-heart"></i></a></li> -->
+                </ul> <!-- /.nav .navbar-nav -->
+            </nav> <!-- /.navbar-collapse  -->
+        </div> <!-- /.container -->
+    </div><!-- /#main-menu -->
+<!-- </div> -->
