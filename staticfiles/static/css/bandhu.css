@@ -117,6 +117,14 @@
 
 /* MISSION AND VISION COROUSEL */
 
+#about::before {
+    display: block;
+    content: "";
+    margin-top: -30px;
+    height: 30px;
+    visibility: hidden;
+}
+
 #about .content-box {
     text-align: justify;
 }
@@ -150,6 +158,14 @@
 
 
 /* RECENT ACTIVITIES START */
+
+#recent-activities::before {
+    display: block;
+    content: "";
+    margin-top: -30px;
+    height: 30px;
+    visibility: hidden;
+}
 
 #recent-activities .card {
     border: none !important;
@@ -276,33 +292,51 @@
 
 #gallery .section-title {
     font-size: 3.4375em;
-    text-align: right;
-    width: 320px;
-    float: left;
-    margin: 0;
-    padding-right: 35px;
-}
-
-#gallery .section-title:after {
-    content: "";
-    position: absolute;
-    width: 20px;
-    height: 40px;
-    background-color: #ffb307;
-    top: 6px;
-    right: 0px;
-    left: unset;
-    margin-left: 0px;
 }
 
 #gallery .section-description {
-    /* color: #404040; */
     font-weight: 300;
     text-transform: uppercase;
     line-height: 25px;
-    margin-left: 340px;
     -webkit-font-smoothing: antialiased;
     -webkit-text-stroke: 0.1px;
+}
+
+@media screen and (min-width: 992px) {
+
+    #gallery .section-title {
+        text-align: right;
+        width: 320px;
+        float: left;
+        margin: 0;
+        padding-right: 35px;
+    }
+    
+    #gallery .section-title:after {
+        content: "";
+        position: absolute;
+        width: 20px;
+        height: 40px;
+        background-color: #ffb307;
+        top: 6px;
+        right: 0px;
+        left: unset;
+        margin-left: 0px;
+    }
+    
+    #gallery .section-description {
+        margin-left: 340px;
+    }
+}
+
+#gallery .section-head {
+    margin-bottom: 100px;
+}
+
+@media screen and (max-width: 991px) {
+    #gallery .section-head {
+        margin-bottom: 70px;
+    }
 }
 
 #gallery .galleryFilter {
@@ -354,6 +388,20 @@
     -ms-transform: scale(1.1);
     -o-transform: scale(1.1);
     transform: scale(1.1);
+}
+
+.gallery-item .item-w2 {
+    background: #ED9393;
+    width: 60%;
+}
+
+.gallery-item .item-h2 {
+    background: #7CB744;
+    height: 680px;
+}
+
+.gallery-item .item-h3 {
+    background: #38B5E5;
 }
 
 .isotope .isotope-item {

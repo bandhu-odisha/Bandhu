@@ -5,8 +5,13 @@
 {% block title %} Bandhu {% endblock %}
 
 {% block style %}
+<!-- Glide Carousel CSS -->
+<link rel="stylesheet" href="{% static 'vendor/css/glide.core.min.css' %}">
+<link rel="stylesheet" href="{% static 'vendor/css/glide.theme.min.css' %}">
+<!-- PhotoSwipe CSS -->
 <link rel="stylesheet" href="{% static 'vendor/photoswipe/photoswipe.css' %}">
 <link rel="stylesheet" href="{% static 'vendor/photoswipe/default-skin/default-skin.css' %}">
+<!-- Custom CSS -->
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
 {% endblock %}
 
@@ -122,7 +127,7 @@
 <!-- Initiatives Cards Section Ends -->
 <!-- About Section -->
 <section id="about">
-    <h3 class="section-title mt-5">About Us</h3>
+    <h3 class="section-title mt-5 pt-3 pt-sm-0">About Us</h3>
     <div class="container">
         <div class="section-content">
             <!-- MISSION -->
@@ -334,7 +339,7 @@
 <section id="gallery">
     <div class="bg-grey" style="padding: 80px 0 60px;">
         <div class="container">
-            <div class="section-head" style="margin-bottom: 100px;">
+            <div class="section-head">
                 <h2 class="section-title">
                     Gallery
                 </h2>
@@ -432,7 +437,16 @@
 
 
 {% block scripts %}
-<script src='{% static "js/plugins.js" %}'></script>
+<!-- Glide Carousel JS -->
+<script src="{% static 'vendor/js/glide.min.js' %}"></script>
+<script src="{% static 'js/glide-custom.js' %}"></script>
+<!-- Isotope JS -->
+<script src='{% static "vendor/js/isotope.pkgd.min.js" %}'></script>
+<!-- PhotoSwipe JS -->
 <script src="{% static 'vendor/photoswipe/photoswipe.min.js' %}"></script>
 <script src="{% static 'vendor/photoswipe/photoswipe-ui-default.min.js' %}"></script>
+<!-- Custom JS -->
+<script src="{% static 'js/bandhu.js' %}"></script>
+<!-- Contact Scrollspy Problem -->
+<script>contact_scrollspy()</script>
 {% endblock %}

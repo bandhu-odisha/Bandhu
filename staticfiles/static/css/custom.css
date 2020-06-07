@@ -64,19 +64,15 @@ a, h1, h2, h3, h4, h5, h6, p {
 }
 
 /* Navbar Toggle Button */
-.custom-toggler.navbar-toggler, .custom-toggler.navbar-toggler:hover, .custom-toggler.navbar-toggler:focus { 
+.custom-toggler.navbar-toggler {
     font-size: 28px;
-    color: #ffb307;
+    color: #fff;
     border-color: transparent;
     outline: transparent;
-} 
-.custom-toggler.navbar-toggler.collapsed { 
-    color: white;
-    border-color: transparent; 
 }
-.custom-toggler.navbar-toggler.collapsed:hover { 
+.custom-toggler.navbar-toggler[aria-expanded="true"], .custom-toggler.navbar-toggler:hover { 
     color: #ffb307;
-}
+} 
 
 /* Navbar Scroll Behaviour */
 .navbar.navbar-dark.navbar-scrolled {

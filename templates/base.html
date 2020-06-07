@@ -23,18 +23,15 @@
 	<link rel="stylesheet" href="{% static 'vendor/css/bootstrap-datepicker.min.css' %}">
 	<!-- Font Awesome CSS -->
 	<link rel="stylesheet" href="{% static 'vendor/css/fontawesome-all.min.css' %}">
-	<!-- Glide Carousel CSS -->
-	<link rel="stylesheet" href="{% static 'vendor/css/glide.core.min.css' %}">
-	<link rel="stylesheet" href="{% static 'vendor/css/glide.theme.min.css' %}">
 
-	<!-- Other CSS -->
+	<!-- Custom CSS -->
 	<link rel="stylesheet" href="{% static 'css/custom.css' %}">
 
 	{% block style %}
 	{% endblock %}
 
 </head>
-<body data-spy="scroll" data-target=".navbar" data-offset="100">
+<body data-spy="scroll" data-target=".navbar" data-offset="10">
 
 	<div class="main">
 
@@ -46,7 +43,8 @@
 					<img class="navbar-logo" src='{% static "img/bandhulogo.png" %}' alt="Logo">
 					<h4 class="navbar-title">Bandhu <br><span lang="or" style="font-family: oriya;">ବନ୍ଧୁ</span></h4>
 				</a>
-				<button type="button" class="navbar-toggler custom-toggler collapsed" data-toggle="collapse" data-target="#collapsibleNavbar">
+				<button type="button" class="navbar-toggler custom-toggler" data-toggle="collapse" data-target="#collapsibleNavbar"
+						aria-expanded="false">
 					<span class="sr-only">Toggle navigation</span>
 					<i class="fas fa-bars"></i>
 				</button>
@@ -118,9 +116,9 @@
     <script src="{% static 'vendor/js/bootstrap.min.js' %}"></script>
 	<!-- Date Picker JS -->
 	<script src="{% static 'vendor/js/bootstrap-datepicker.min.js' %}"></script>
-	<!-- Glide Carousel JS -->
-	<script src="{% static 'vendor/js/glide.min.js' %}"></script>
-	<script src="{% static 'js/glide-custom.js' %}"></script>
+
+	<!-- Custom Scripts -->
+	<script src='{% static "js/main.js" %}'></script>
 
 	<!-- Script for Toast -->
 	<script>
@@ -132,9 +130,6 @@
 				document.getElementById("alert_toast").classList.add("bg-success");
 		}	
 	</script>
-
-	<!-- Other Scripts -->
-	<script src='{% static "js/main.js" %}'></script>
 
 	{% block scripts %}
 	{% endblock %}

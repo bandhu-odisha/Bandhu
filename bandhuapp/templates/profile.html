@@ -224,5 +224,9 @@
 		});
 		// $('#dob').datepicker("setDate", new Date());
 	</script> {% endcomment %}
+
+	<script>
+		if ("{{ first_time }}" === "True") contact_scrollspy()
+	</script>
 	
 {% endblock %}
