@@ -23,6 +23,15 @@ navbarCollapse();
 $(window).scroll(navbarCollapse);
 
 
+// Close Navbar on clicking outside it
+$(window).on('click', function(event){
+    var clickOver = $(event.target)
+    if ($('.navbar .navbar-toggler').attr('aria-expanded') == 'true' && clickOver.closest('.navbar').length === 0) {
+        $('button[aria-expanded="true"]').click();
+    }
+});
+
+
 // ON PAGE NAVIGATION
 $(document).ready(function(){
     // Select all links with hashes
@@ -45,6 +54,9 @@ $(document).ready(function(){
             if (target.length) {
                 // Only prevent default if animation is actually gonna happen
                 event.preventDefault();
+                // Close Navbar
+                $('button[aria-expanded="true"]').click();
+                // Scroll to target
                 $('html, body').animate({
                     scrollTop: target.offset().top
                 }, 1000, function() {
