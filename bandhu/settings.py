@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'applications.ashram',
     'applications.charitywork',
     'applications.sanskarbarga',
+    'applications.madhmukti',
 ]
 
 MIDDLEWARE = [
