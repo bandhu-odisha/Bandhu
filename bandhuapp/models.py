@@ -12,12 +12,12 @@ class Profile(models.Model):
     )
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=150,blank=True,null=True)
-    last_name = models.CharField(max_length=150,blank=True,null=True)
+    first_name = models.CharField(max_length=150)
+    last_name = models.CharField(max_length=150)
     gender = models.CharField(max_length=1, choices=GENDER, default='M')
-    dob = models.DateField(verbose_name="Date of Birth",default=timezone.now)
-    contact_no = models.CharField(verbose_name="Contact Number", max_length=13,blank=True,null=True)
-    street_address1	= models.CharField(verbose_name="Address Line 1", max_length=255,blank=True,null=True)
+    dob = models.DateField(verbose_name="Date of Birth")
+    contact_no = models.CharField(verbose_name="Contact Number", max_length=13)
+    street_address1	= models.CharField(verbose_name="Address Line 1", max_length=255)
     street_address2	= models.CharField(verbose_name="Address Line 2", max_length=255, blank=True)
     city = models.CharField(max_length=20)
     state = models.CharField(max_length=25)
@@ -26,7 +26,7 @@ class Profile(models.Model):
     profile_pic = models.ImageField(upload_to='profile_photos', default='profile_photos/man.png')
 
     def __str__(self):
-        return self.first_name + ' ' + self.last_name
+        return f'{self.first_name} {self.last_name} - {self.user.email}'
 
 # class Charity(models.Model):
 # 	name = models.CharField(max_length=350)

@@ -13,9 +13,9 @@ urlpatterns = [
     path('anandakendra/', include('applications.anandakendra.urls')),
     path('ankurayan/', include('applications.ankurayan.urls')),
     path('ashram/', include('applications.ashram.urls')),
-    path('charitywork/', include('applications.charitywork.urls')),
+    path('charity_work/', include('applications.charitywork.urls')),
     path('sanskarbarga/', include('applications.sanskarbarga.urls')),
-
+    path('madh_mukti/', include('applications.madhmukti.urls')),
 ]
 
 if settings.DEBUG:

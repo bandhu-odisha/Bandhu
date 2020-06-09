@@ -1,13 +1,12 @@
 var glide = new Glide('.glide',{
-    type: 'carousel',
+    type: 'slider',
     focusAt: 'center',
     perView: 3,
     autoplay: 2000,
     gap: 30,
     breakpoints: {
-        760:{
+        767:{
             perView: 1,
-
         }
     }
 })
