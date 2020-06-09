@@ -1,4 +1,5 @@
 import os
+import ast
 import django_heroku
 
 from dotenv import load_dotenv
@@ -152,7 +153,7 @@ EMAIL_PORT = int(os.getenv("EMAIL_PORT"))
 
 # EMAIL ADDRESSES
 SENDER_EMAIL = os.getenv("SENDER_EMAIL")
-ADMINS_EMAIL = os.getenv("ADMINS_EMAIL").strip('][\'').split(', ')
+ADMINS_EMAIL = ast.literal_eval(os.getenv("ADMINS_EMAIL"))
 
 
 # Social AUTH Keys

@@ -295,6 +295,7 @@
 }
 
 #gallery .section-description {
+    text-align: center;
     font-weight: 300;
     text-transform: uppercase;
     line-height: 25px;
@@ -326,6 +327,7 @@
     
     #gallery .section-description {
         margin-left: 340px;
+        text-align: left;
     }
 }
 
