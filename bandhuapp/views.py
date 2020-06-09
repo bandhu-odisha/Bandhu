@@ -92,7 +92,7 @@ def profile_page(request):
                 'uid':urlsafe_base64_encode(force_bytes(user.pk)),
                 'token':account_activation_token.make_token(user),
             })
-            to_email = settings.ADMINS_EMAIL
+            to_email = [settings.ADMINS_EMAIL]
             email = EmailMessage(
                 mail_subject, message, from_email, to_email,
             )
