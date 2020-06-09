@@ -94,12 +94,7 @@ def profile_page(request):
                 'uid':urlsafe_base64_encode(force_bytes(user.pk)),
                 'token':account_activation_token.make_token(user),
             })
-<<<<<<< HEAD
             to_email = [settings.ADMINS_EMAIL]
-=======
-            to_email = settings.ADMINS_EMAIL
-            print(to_email)
->>>>>>> 72aef9960ea70e4da37af0b55626caaa43fc4ed2
             email = EmailMessage(
                 mail_subject, message, from_email, to_email,
             )
