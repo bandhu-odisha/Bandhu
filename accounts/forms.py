@@ -26,7 +26,6 @@ class RegisterForm(forms.ModelForm):
         # Check that the two password entries match
         password1 = self.cleaned_data.get("password")
         password2 = self.cleaned_data.get("password2")
-        print(password1,password2)
         if password1 and password2 and password1 != password2:
             raise forms.ValidationError("Passwords don't match")
         return password2

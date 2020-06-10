@@ -142,8 +142,8 @@ EMAIL_PORT = config("EMAIL_PORT")
 
 # EMAIL ADDRESSES
 SENDER_EMAIL = config("SENDER_EMAIL")
-ADMINS_EMAIL = ast.literal_eval(config("ADMINS_EMAIL"))
-
+# ADMINS_EMAIL = ast.literal_eval(config("ADMINS_EMAIL"))
+ADMINS_EMAIL = config("ADMINS_EMAIL")
 
 # Social AUTH Keys
 SOCIAL_AUTH_FACEBOOK_KEY = config("SOCIAL_AUTH_FACEBOOK_KEY")
