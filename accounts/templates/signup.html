@@ -1,63 +1,69 @@
-{% extends 'base.html' %}
-
-{% load static %}
-
-{% block title %} Bandhu | Signup {% endblock %}
+{% extends 'accounts_base.html' %}
+{% block title %}
+	Bandhu | Signup
+{% endblock %}
 
 {% block style %}
 	<style>
 		.btn-google {
+			padding: 5px;
+			margin: 5px;
 			border: 1px solid rgb(228, 224, 224);
 			border-radius: 5px;
+			min-width: 140px;
+			min-height: 30px;
 		}
 
 		.btn-facebook {
+			margin: 5px;
+			padding: 5px;
 			border: 1px solid rgb(228, 224, 224);
 			border-radius: 5px;
+			color: white;
+			min-width: 140px;
+			min-height: 30px;
+			background-color: #4267b2;
+		}
+
+		.main{
+			min-height: 100vh;
+			/* height: 100%; */
+		}
+
+		#main-menu {
+			background-color: rgb(27, 26, 26) !important;
+		}
+
+		.form-display {
+			/* margin-top: 250px !important; */
+			padding-top: 80px;
+		}
+
+		.form-control {
+			min-height: 45px;
 		}
 	</style>
 {% endblock %}
 
-{% block navbar-links %}
-<li class="nav-item">
-	<a class="nav-link px-3" href="{% url 'home' %}">Home</a>
-</li>
-<li class="nav-item">
-    <a class="nav-link px-3" href="#contact">Contact</a>
-</li>
-{% endblock %}
-
-{% block showcase-title-container %}
-<div class="slider-txt-container" style="padding: 150px 0 300px 0;">
-	<h2 class="bold-txt"> Create Account </h2>
-</div>
-{% endblock %}
-
 {% block content %}
-
-<div class="container">
-	<div class="row justify-content-center my-5">
-		<div class="col-lg-8 border rounded shadow px-5 py-4 mb-5 bg-white"
-			style="margin-top: -280px; z-index: 3;">
-				
+<div class="container form-display">
+	<div class="row justify-content-center my-5" style="margin-left: 10px; margin-right: 10px;">
+		<div class="col-lg-5 border rounded px-5 py-4" style="background-color: rgb(246, 247, 247); z-index: 3;">
 			<form class="login100-form validate-form flex-sb flex-w" method="POST">
 				{% csrf_token %}
-				<div class="mb-4 text-center ">
-					<h2 class="font-weight-bolder">Sign up using</h2>
-				</div>
+				<h3 class="text-center font-weight-bolder">Sign Up</h3>
 				<div class="mb-4 text-center">
 					<a href="{% url 'social:begin' 'facebook' %}" class="btn btn-facebook">
 						<i class="fa fa-facebook-official"></i>
 						Facebook
 					</a>
 					<a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-google">
-						<!-- <img src= "{% static 'img/icon/icon-google.png' %}" alt="GOOGLE"> -->
+						<i class="fa fa fa-google-plus"></i>
 						Google
 					</a>
 				</div>
 				<div class="w-full text-center p-t-3 p-b-10">
-					<hr></hr>
-					<h2 class="">OR</h2>
+					<h5 class="">OR</h5>
 				</div>
 				<div class="error_msg text-center w-full">
 					<p style="color: red">{{message}}</p>
@@ -65,27 +71,25 @@
 				<div class="row">
 					{% for field in form %}
 						{{field}}
-					<div class="col-md-2" style="height: 10px;">
-					</div>
+					<div class="col-md-2" style="height: 10px;"></div>
 					{% endfor %}
 				</div>
-				<div class="container-login100-form-btn m-t-17">
-					<button class="btn btn-primary btn-lg btn-block" type="submit">
+				<div class="row ">
+					<button class="btn btn-primary btn-lg" type="submit" style="width:100%">
 						Sign Up
 					</button>
 				</div>
+				<div class="col-md-2" style="height: 10px;"></div>
 				<div class="w-full text-center p-t-15">
 					<span class="txt2">
 						Already a member?
 					</span>
 					<a href="{% url 'login' %}" class="txt2 bo1">
-						Sign In Using Email
+						Sign In
 					</a>
 				</div>
-				</div>
-				</form>
-			</div>
+			</form>
 		</div>
 	</div>
-	<div id="dropDownSelect1"></div>
+</div>
 {% endblock %}
