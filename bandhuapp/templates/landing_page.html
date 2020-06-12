@@ -56,10 +56,13 @@
                 <div class="card-body p-3">
                     <h5 class="card-title content-title font-weight-bolder" style="text-align: center;">Ankurayan</h5>
                     <p class="content-description">
-                        We dream about a new world for the children with no harm. We are aiming to build a strong and a bouncing platform where anyone can work for children worldwide.
+                        ANKURAYAN is a small and sincere effort where we introduce to the young minds a nobler, 
+                        happier and more complete ways and points of view of life through informal sessions and 
+                        creative events along with conducting various competitions among school students.
                     </p>
                 </div>
-                <a href="{% url 'ankurayan' %}" class="stretched-link"></a>
+                {% now 'Y' as current_year %}
+                <a href="{% url 'ankurayan' current_year %}" class="stretched-link"></a>
             </div>
         </div>
         <div class="col-lg-3 col-md-4 col-sm-6 px-2">
