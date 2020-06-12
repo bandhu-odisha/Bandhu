@@ -3,20 +3,65 @@
 	Bandhu | Signin
 {% endblock %}
 
+{% block style %}
+<style>
+	.btn-google {
+		padding: 5px;
+		margin: 5px;
+		border: 1px solid rgb(228, 224, 224);
+		border-radius: 5px;
+		background-color: white;
+		min-width: 140px;
+		box-shadow: 0 3px 0 rgba(0, 0, 0, .16), 0 1px 2px rgba(0, 0, 0, .23);
+		min-height: 30px;
+	}
+
+	.btn-facebook {
+		margin: 5px;
+		padding: 5px;
+		border: 1px solid #4267b2;
+		border-radius: 5px;
+		box-shadow: 0 3px 0 rgba(0, 0, 0, .16), 0 1px 2px rgba(0, 0, 0, .23);
+		color: white;
+		min-width: 140px;
+		min-height: 30px;
+		background-color: #4267b2;
+	}
+
+	.main{
+		min-height: 100vh;
+		/* height: 100%; */
+	}
+
+	#main-menu {
+		background-color: rgb(27, 26, 26) !important;
+	}
+
+	.form-display {
+		margin-top: 20px !important;
+		padding-top: 80px;
+	}
+
+	.form-control {
+		min-height: 45px;
+	}
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="container form-display">
 	<div class="row justify-content-center my-5" style="margin-left: 10px; margin-right: 10px;">
 		<div class="col-lg-5 border rounded px-5 py-4" style="background-color: rgb(246, 247, 247); z-index: 3;">
 			<form class="login100-form validate-form flex-sb flex-w" method="POST">
 				{% csrf_token %}
-				<h3 class="text-center font-weight-bolder">Sign In</h3>
+				<h1 class="text-center font-weight-bolder">Sign In</h1>
 				<div class="mb-4 text-center">
 					<a href="{% url 'social:begin' 'facebook' %}" class="btn btn-facebook">
 						<i class="fa fa-facebook-official"></i>
 						Facebook
 					</a>
 					<a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-google">
-						<i class="fa fa fa-google-plus"></i>
+						<i class="fa fa fa-google-plus" style="color: red;"></i>
 						Google
 					</a>
 				</div>

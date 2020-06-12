@@ -131,6 +131,7 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 # EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
 
@@ -142,8 +143,8 @@ EMAIL_PORT = config("EMAIL_PORT")
 
 # EMAIL ADDRESSES
 SENDER_EMAIL = config("SENDER_EMAIL")
+# ADMINS_EMAIL = ast.literal_eval(config("ADMINS_EMAIL"))
 ADMINS_EMAIL = config("ADMINS_EMAIL")
-
 
 # Social AUTH Keys
 SOCIAL_AUTH_FACEBOOK_KEY = config("SOCIAL_AUTH_FACEBOOK_KEY")
