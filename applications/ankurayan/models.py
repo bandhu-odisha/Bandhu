@@ -90,7 +90,7 @@ class Winner(models.Model):
 
 class Photo(models.Model):
     ankurayan = models.ForeignKey(Ankurayan, on_delete=models.CASCADE)
-    picture = models.ImageField(upload_to='ankurayan')
+    picture = models.ImageField(upload_to='ankurayan/%Y')
     category = models.ForeignKey(ActivityCategory, on_delete=models.SET_NULL, null=True, blank=True)
     activity = models.ForeignKey(Activity, on_delete=models.SET_NULL, null=True, blank=True)
 
