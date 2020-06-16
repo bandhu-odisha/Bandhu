@@ -24,21 +24,6 @@
 						Create Account
 					</span>
 
-					<a href="{% url 'social:begin' 'facebook' %}" class="btn-face m-b-15">
-						<i class="fa fa-facebook-official"></i>
-						Facebook
-					</a>
-					<a href="{% url 'social:begin' 'google-oauth2' %}" class="btn-google m-b-20">
-						<img src= "{% static 'img/icon/icon-google.png' %}" alt="GOOGLE">
-						Google
-					</a>
-					<div class="w-full text-center p-t-3 p-b-10">
-						<p>---OR---</p>
-						<span class="txt2">
-							Sign Up Using Email
-						</span>
-					</div>
-
 					{% for field in form %}
 					<div class="wrap-input100 validate-input">
 						{{field}}

@@ -24,20 +24,6 @@ from bandhuapp.models import Profile
 
 import random
 
-# Create your views here.
-def tests(request):
-    from_email = settings.SENDER_EMAIL
-    mail_subject = '[noreply] Activate your Account'
-    msg = 'Thanks for signing up, welcome to bandhu. You have been successfully registered.'
-    current_site = get_current_site(request)
-    user = User.objects.all().first()
-
-    return render(request,'acc_email_active.html',{
-        'domain': current_site.domain,
-        'msg':msg,
-        'uid':urlsafe_base64_encode(force_bytes(user.pk)),
-        'token':account_activation_token.make_token(user),
-    })
 
 def login_view(request):
     if request.user.is_authenticated:

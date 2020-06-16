@@ -509,3 +509,43 @@
         /* margin: 0 32px; */
     }
 }
+
+.modal{
+    z-index:1040 !important;
+}
+
+.modal-backdrop{
+    display:none !important;
+}
+
+.recent-activities{
+    position:fixed;
+    z-index:250;
+    top:79px;
+    right:30px;
+    width:350px !important;
+}
+
+.recent-activities-btn {
+    width:350px !important;
+    outline:none;
+    background-color: rgb(116, 116, 116) !important;
+    color:white;
+    border-color: rgba(104, 101, 101,1) !important;
+    letter-spacing: 1.2px;
+    box-shadow: none !important;
+}
+
+.recent-activities-btn:hover {
+    width:350px !important;
+    outline:none;
+    background-color: rgba(104, 101, 101,1) !important;
+    color:white;
+    border-color: rgba(104, 101, 101,1);
+}
+
+.recent-activities-collapse{
+    width:350px !important;
+    max-height:60vh;
+    overflow-y: auto;
+}
