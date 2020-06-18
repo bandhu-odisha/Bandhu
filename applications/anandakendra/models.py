@@ -51,7 +51,7 @@ class ActivityCategory(models.Model):
     )
 
     name = models.CharField(max_length=50)
-    category = models.CharField(max_length=50)
+    category = models.CharField(max_length=50,choices=CATEGORY)
 
     class Meta:
         verbose_name_plural = 'Activity Categories'
@@ -65,10 +65,7 @@ class Activity(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField(max_length=1000)
     activity_date = models.DateField(default=timezone.now)
-    winner = models.ForeignKey(Student,on_delete=models.CASCADE,null=True,blank=True,related_name="Winner")
-    runner_up1 = models.ForeignKey(Student,on_delete=models.CASCADE,null=True,blank=True,related_name="FirstRunnerUp")
-    runner_up2 = models.ForeignKey(Student,on_delete=models.CASCADE,null=True,blank=True,related_name="SecondRunnerUp")
-
+    
     class Meta:
         verbose_name_plural = 'Activities'
 
@@ -76,12 +73,6 @@ class Activity(models.Model):
         return f'{self.kendra.name} - {self.name} ({self.category.name})'
 
 class Acharya(models.Model):
-    GENDER = (
-        ('M', 'Male'),
-        ('F', 'Female'),
-        ('O', 'Other')
-    )
-
     kendra = models.ForeignKey(AnandaKendra, on_delete=models.CASCADE)
     acharya_id = models.ForeignKey(Profile,on_delete=models.CASCADE)
 

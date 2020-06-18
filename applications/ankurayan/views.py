@@ -1,6 +1,151 @@
 from django.shortcuts import render
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
+from datetime import datetime
+from bandhuapp.models import Profile
+from .models import Ankurayan,Activity,Photo,Guest,Participant,ActivityCategory
 
 # Create your views here.
 
-def index(request, year):
-    return render(request, 'ankurayan/index.html')
+def index(request):
+    ankurayans = Ankurayan.objects.all()
+    photos = Photo.objects.all()
+    return render(request, 'ankurayan.html',{'ankurayans':ankurayans,'photos':photos})
+
+def create_ankurayan(request):
+    if request.method == 'POST':
+        theme = request.POST.get('theme')
+        start_date = request.POST.get('start_date')
+        end_date = request.POST.get('end_date')
+        logo = request.FILES.get('logo')
+        description = request.POST.get('description')
+        year = datetime.now().year
+
+        Ankurayan.objects.create(theme=theme,start_date=start_date,
+                                end_date=end_date,logo=logo,
+                                description=description,year=int(year))
+        
+        return HttpResponseRedirect('/ankurayan/')
+        
+def ankurayan_detail(request,slug):
+    ankurayan = get_object_or_404(Ankurayan,slug=slug)
+    activities = Activity.objects.filter(ankurayan=ankurayan)
+    photos = Photo.objects.filter(ankurayan=ankurayan)
+    categories = ActivityCategory.objects.all()
+    participants = Participant.objects.all()
+    return render(request,'ankurayan_detail.html',{'ankurayan':ankurayan,'activities':activities,
+                                                    'photos':photos,'categories':categories,
+                                                    'participants':participants})
+
+def add_participant(request):
+    if request.method == 'POST':
+        slug = request.POST.get('slug')
+        name = request.POST.get('name')
+        gender = request.POST.get('gender')
+        school_class = request.POST.get('school_class')
+        contact_no = request.POST.get('contact_no')
+        address = request.POST.get('address')
+
+        ankurayan = get_object_or_404(Ankurayan,slug=slug)
+        Participant.objects.create(ankurayan=ankurayan,name=name,
+                                gender=gender,school_class=school_class,
+                                contact_no=contact_no,address=address)
+        
+        url = '/ankurayan/detail/' + slug +'/'
+        return HttpResponseRedirect(url)
+    return HttpResponseRedirect('/')
+        
+def add_guest(request):
+    if request.method == 'POST':
+        slug = request.POST.get('slug')
+        ankurayan = get_object_or_404(Ankurayan,slug=slug)
+
+        name = request.POST.get('name')
+        about = request.POST.get('about')
+        profession = request.POST.get('profession')
+        contact_no = request.POST.get('contact_no')
+        email = request.POST.get('email')
+
+        Guest.objects.create(email=email,name=name,about=about,
+                                    profession=profession,contact_no=contact_no,
+                                    ankurayan=ankurayan)
+
+        url = '/ankurayan/detail/' + slug +'/'
+        return HttpResponseRedirect(url)
+    return HttpResponseRedirect('/')
+
+def add_activity(request):
+    if request.method == 'POST':
+        slug = request.POST.get('slug')
+        name = request.POST.get('name')
+        category = request.POST.get('category')
+
+        ActivityCategory.objects.create(name=name,category=category)
+
+        url = '/ankurayan/detail/' + slug +'/'
+        return HttpResponseRedirect(url)
+    return HttpResponseRedirect('/')
+
+def create_activity(request):
+    if request.method == 'POST':
+        slug = request.POST.get('slug')
+        name = request.POST.get('activity_name')
+        category = request.POST.get('category')
+        description = request.POST.get('description')
+        activity_date = request.POST.get('activity_date')
+        activity_images = request.FILES.getlist('activity_images')
+
+        ankurayan = get_object_or_404(Ankurayan,slug=slug)
+        activity_category = get_object_or_404(ActivityCategory,pk=int(category))
+
+        print(ankurayan,activity_category,category)
+        activity = Activity.objects.create(ankurayan=ankurayan,category=activity_category,
+                                name=name,description=description,activity_date=activity_date)
+
+        for i in activity_images:
+            Photo.objects.create(ankurayan=ankurayan,picture=i,activity=activity)
+
+        url = '/ankurayan/detail/' + slug +'/'
+        return HttpResponseRedirect(url)
+    return HttpResponseRedirect('/')
+
+def add_winners(request):
+    if request.method == 'POST':
+        slug = request.POST.get('slug')
+        name = request.POST.get('activity_name')
+        winner = request.POST.get('pk_winner')
+        runner_up1 = request.POST.get('pk_runner_up1')
+        runner_up2 = request.POST.get('pk_runner_up2')
+        activity_images = request.FILES.getlist('activity_images')
+
+        winner_profile = get_object_or_404(Participant,pk=int(winner))
+        runner_up1_profile = get_object_or_404(Participant,pk=int(runner_up1))
+        runner_up2_profile = get_object_or_404(Participant,pk=int(runner_up2))
+
+        ankurayan = get_object_or_404(Ankurayan,slug=slug)
+
+        activity = Activity.objects.filter(ankurayan=ankurayan).filter(name=name).first()
+        activity.winner = winner_profile
+        activity.runner_up1 = runner_up1_profile
+        activity.runner_up2 = runner_up2_profile
+        activity.save()
+
+        for i in activity_images:
+            Photo.objects.create(ankurayan=ankurayan,picture=i,activity=activity)
+
+        url = '/ankurayan/detail/' + slug +'/'
+        return HttpResponseRedirect(url)
+    return HttpResponseRedirect('/')
+
+def add_to_gallery(request):
+    if request.method == 'POST':
+        slug = request.POST.get('slug')
+        activity_images = request.FILES.getlist('gallery_images')
+        ankurayan = get_object_or_404(Ankurayan,slug=slug)
+        print("image =",activity_images)
+        for i in activity_images:
+            Photo.objects.create(ankurayan=ankurayan,picture=i)
+
+        url = '/ankurayan/detail/' + slug +'/'
+        return HttpResponseRedirect(url)
+    return HttpResponseRedirect('/')

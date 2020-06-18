@@ -58,48 +58,45 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div style="padding: 165px 25px 0;">
-                    <h3 class="content-title" style="font-size: 2rem; margin-bottom: 20px;">{{kendra.name}} -
-                        {{kendra.locality}}</h3>
+                    <h3 class="content-title" style="font-size: 2rem; margin-bottom: 20px;">{{ankurayan.theme}} -
+                        {{ankurayan.year}}</h3>
                     <p>
                         <strong>
-                            Address :- {{kendra.address}}
+                            {{ankurayan.start_date}} - {{ankurayan.end_date}}
                         </strong>
                     </p>
                     <p>
-                        {{kendra.description}}
+                        {{ankurayan.description}}
                     </p>
                     </h3>
                 </div>
-                <!-- Add Acharyas to this Kendra -->
+                <!-- Add Guest to this Ankurayan -->
                 <div class="select-acharyas">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#selectacharyamodal">
-                        Select Acharyas
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addGuest">
+                        Add Guest
                     </button>
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="selectacharyamodal" role="dialog"
+                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addGuest" role="dialog"
                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Select Acharyas</h5>
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Guest</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form method="POST" action="{% url 'AddAcharya' %}">{% csrf_token %}
-                                        <input type="text" hidden name="slug" value={{kendra.slug}}>
-                                        <div class="ui fluid multiple search selection dropdown">
-                                            <input type="hidden" name="acharyas">
-                                            <i class="dropdown icon"></i>
-                                            <div class="default text">Select Acharya</div>
-                                            <div class="menu">
-                                                {% for user in users %}
-                                                <div class="item" data-value={{user.user.email}}>{{user.first_name}}
-                                                    {{user.last_name}}</div>
-                                                {% endfor %}
-                                            </div>
-                                        </div>
-                                        <br>
+                                    <form method="POST" action="{% url 'AddGuest' %}">{% csrf_token %}
+                                        <input type="text" hidden name="slug" value={{ankurayan.slug}}>
+                                        <input type="text" class="form-control" name="name"
+                                            placeholder="Guest Name"><br>
+                                        <input type="text" class="form-control" name="contact_no"
+                                            placeholder="Contact number"><br>
+                                        <input type="text" class="form-control" name="profession"
+                                            placeholder="Profession"><br>
+                                        <input type="text" class="form-control" name="email"
+                                            placeholder="Email"><br>
+                                        <textarea name="about" cols="80" rows="8" class="form-control"></textarea><br>
                                         <button class="btn btn-primary">Submit</button>
                                     </form>
                                 </div>
@@ -108,28 +105,26 @@
                     </div>
                 </div>
 
-                <!-- Add Students to this kendra -->
-                <div class="add-students">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addStudentsModal">
-                        Add Students
+                <!-- Add Participants to this Ankurayan -->
+                <div class="add-participants">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addParticipantsModal">
+                        Add Participants
                     </button>
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addStudentsModal" role="dialog"
+                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addParticipantsModal" role="dialog"
                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Students</h5>
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Participants</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form method="POST" action="{% url 'EnrollStudent' %}">{% csrf_token %}
-                                        <input type="text" hidden name="slug" value={{kendra.slug}}>
+                                    <form method="POST" action="{% url 'AddParticipant' %}">{% csrf_token %}
+                                        <input type="text" hidden name="slug" value={{ankurayan.slug}}>
                                         <input type="text" class="form-control" name="name"
                                             placeholder="Student name"><br>
-                                        <input type="text" class="form-control" name="guardian_name"
-                                            placeholder="Guardian name"><br>
                                         <select class="form-control" name="gender">
                                             <option value="M">Male</option>
                                             <option value="F">Female</option>
@@ -179,7 +174,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <form method="POST" action="{% url 'AddActivityCategory' %}">{% csrf_token %}
-                                        <input type="text" hidden name="slug" value={{kendra.slug}}>
+                                        <input type="text" hidden name="slug" value={{ankurayan.slug}}>
                                         <input type="text" class="form-control" name="name"
                                             placeholder="Activity name"><br>
                                         <select class="form-control" name="category">
@@ -212,7 +207,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <form method="POST" enctype="multipart/form-data" action="{% url 'CreateActivity' %}">{% csrf_token %}
-                                        <input type="text" hidden name="slug" value={{kendra.slug}}>
+                                        <input type="text" hidden name="slug" value={{ankurayan.slug}}>
                                         <input type="text" class="form-control" name="activity_name"
                                             placeholder="Activity name"><br>
                                         <select class="form-control" name="category">
@@ -235,7 +230,7 @@
             </div>
             <div class="col-md-6">
                 <div class="card border text-center">
-                    <img class="card-img-top" src='{% static "img/gimg-3.png" %}' alt="Card image cap"
+                    <img class="card-img-top" src='/media/{{ankurayan.logo}}' alt="Card image cap"
                         style="height: 400px; width: 100%;">
                     <!-- <div class="card-body">
 					  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
@@ -272,8 +267,118 @@
                                                 <a href="javascript:pswpInit(0);" class="stretched-link"></a>
                                             </div>
                                         </div>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#selectWinners{{forloop.counter}}">Add Winners</button>
                                     </li>
+                                    <div class="modal fade bd-example-modal-lg" tabindex="-1"
+                                        id="selectWinners{{forloop.counter}}" role="dialog"
+                                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLongTitle">Select Winners
+                                                    </h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p style="color:red;display:none;" class="errorMessageWinners" >A student cannot come at two positions.</p>
+                                                    <form method="POST" enctype="multipart/form-data" action="{% url 'AddWinners' %}"
+                                                        id="chooseWinnersForm{{forloop.counter}}">{% csrf_token %}
+                                                        <input type="text" hidden name="slug" value={{kendra.slug}}>
+                                                        <input type="text" hidden name="activity_name"
+                                                            value={{activity.activity_name}}>
+                                                        <input type="text" hidden name="date"
+                                                            value={{activity.activity_date}}>
+                                                        <select required class="form-control" id="winner{{forloop.counter}}"
+                                                            name="pk_winner">
+                                                            <option value="">Select Winner</option>
+                                                            {% for participant in participants %}
+                                                            <option value="{{participant.pk}}">{{participant.name}} -
+                                                                {{participant.school_class}}</option>
+                                                            {% endfor %}
+                                                        </select><br>
+                                                        <select required class="form-control" id="runnerUp1{{forloop.counter}}"
+                                                            name="pk_runner_up1">
+                                                            <option value="">Select first runner up</option>
+                                                            {% for participant in participants %}
+                                                            <option value="{{participant.pk}}">{{participant.name}} -
+                                                                {{participant.school_class}}</option>
+                                                            {% endfor %}
+                                                        </select><br>
+                                                        <select required class="form-control" id="runnerUp2{{forloop.counter}}"
+                                                            name="pk_runner_up2">
+                                                            <option value="">Select second runner up</option>
+                                                            {% for participant in participants %}
+                                                            <option value="{{participant.pk}}">{{participant.name}} -
+                                                                {{participant.school_class}}</option>
+                                                            {% endfor %}
+                                                        </select><br>
+                                                        <input type="file" class="form-control" multiple name="activity_images">
+                                                        <button type="button" class="btn btn-primary"
+                                                            onclick="validateWinners(`{{forloop.counter}}`);">Submit</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     {% endfor %}
+                                    
+                                    <div class="modal fade bd-example-modal-lg" tabindex="-1"
+                                        id="selectWinners{{forloop.counter}}" role="dialog"
+                                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLongTitle">Select Winners
+                                                    </h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p style="color:red;display:none;" class="errorMessageWinners" >A student cannot come at two positions.</p>
+                                                    <form method="POST" enctype="multipart/form-data" action="{% url 'AddWinners' %}"
+                                                        id="chooseWinnersForm{{forloop.counter}}">{% csrf_token %}
+                                                        <input type="text" hidden name="slug" value={{kendra.slug}}>
+                                                        <input type="text" hidden name="activity_name"
+                                                            value={{activity.activity_name}}>
+                                                        <input type="text" hidden name="date"
+                                                            value={{activity.activity_date}}>
+                                                        <select required class="form-control" id="winner{{forloop.counter}}"
+                                                            name="pk_winner">
+                                                            <option value="">Select Winner</option>
+                                                            {% for student in students %}
+                                                            <option value="{{student.pk}}">{{student.name}} -
+                                                                {{student.school_class}}</option>
+                                                            {% endfor %}
+                                                        </select><br>
+                                                        <select required class="form-control" id="runnerUp1{{forloop.counter}}"
+                                                            name="pk_runner_up1">
+                                                            <option value="">Select first runner up</option>
+                                                            {% for student in students %}
+                                                            <option value="{{student.pk}}">{{student.name}} -
+                                                                {{student.school_class}}</option>
+                                                            {% endfor %}
+                                                        </select><br>
+                                                        <select required class="form-control" id="runnerUp2{{forloop.counter}}"
+                                                            name="pk_runner_up2">
+                                                            <option value="">Select second runner up</option>
+                                                            {% for student in students %}
+                                                            <option value="{{student.pk}}">{{student.name}} -
+                                                                {{student.school_class}}</option>
+                                                            {% endfor %}
+                                                        </select><br>
+                                                        <input type="file" class="form-control" multiple name="activity_images">
+                                                        <button type="button" class="btn btn-primary"
+                                                            onclick="validateWinners(`{{forloop.counter}}`);">Submit</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </ul>
                             </div>
                             <div class="glide__arrows disable_arrows d-none d-md-block" data-glide-el="controls">
@@ -339,7 +444,7 @@
             </div>
 
             <div id="gallery-container" class="gallery-container">
-                <div class="add-activity">
+                <div class="add-images">
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addToGallery">
                         Upload Images
                     </button>
@@ -355,7 +460,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <form method="POST" enctype="multipart/form-data" action="{% url 'AddToGallery' %}">{% csrf_token %}
-                                        <input type="text" hidden name="slug" value={{kendra.slug}}>
+                                        <input type="text" hidden name="slug" value={{ankurayan.slug}}>
                                         
                                         <input type="file" class="form-control" multiple name="gallery_images">
                                         <button class="btn btn-primary">Submit</button>
@@ -365,71 +470,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="galleryFilter">
-                    <a href="#" data-filter="" class="current">All</a>
-                    <a href="#" data-filter=".cat-1">Ankurayan</a>
-                    <a href="#" data-filter=".cat-2">Ananda Kendra</a>
-                    <a href="#" data-filter=".cat-3">Sanskarbarga</a>
-                    <a href="#" data-filter=".cat-4">Ashram</a>
-                    <a href="#" data-filter=".cat-5">Charity Work</a>
-                </div>
 
                 <div class="gallery-item element-from-bottom clearfix">
+
+                    {% for photo in photos %}
                     <figure class="item cat-3 cat-4">
-                        <img src='{% static "img/pimg1.jpg" %}' alt="Item 3" data-rel="photoSwipe">
+                        <img src='/media/{{photo.picture}}' alt="Item 3" data-rel="photoSwipe">
                         <a href="" class="stretched-link">
                             <i class="fab fa-instagram"></i>
                         </a>
                     </figure>
+                    {% endfor %}        
 
-                    <figure class="item cat-2 cat-5">
-                        <img src='{% static "img/pimg2.jpg" %}' alt="Item 4" data-rel="photoSwipe">
-                        <a href="" class="stretched-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </figure>
-
-                    <figure class="item cat-1 cat-2">
-                        <img src='{% static "img/pimg3.jpg" %}' alt="Item 1" data-rel="photoSwipe">
-                        <a href="" class="stretched-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </figure>
-
-                    <figure class="item cat-1 cat-5">
-                        <img src='{% static "img/pimg4.jpg" %}' alt="Item 2" data-rel="photoSwipe">
-                        <a href="" class="stretched-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </figure>
-
-                    <figure class="item cat-3 cat-1">
-                        <img src='{% static "img/pimg5.jpg" %}' alt="Item 5" data-rel="photoSwipe">
-                        <a href="" class="stretched-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </figure>
-
-                    <figure class="item cat-4 cat-1 cat-5">
-                        <img src='{% static "img/pimg6.jpg" %}' alt="Item 6" data-rel="photoSwipe">
-                        <a href="" class="stretched-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </figure>
-
-                    <figure class="item cat-3 cat-1 cat-4">
-                        <img src='{% static "img/pimg7.jpg" %}' alt="Item 7" data-rel="photoSwipe">
-                        <a href="" class="stretched-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </figure>
-
-                    <figure class="item cat-4 cat-2 cat-5">
-                        <img src='{% static "img/pimg8.jpg" %}' alt="Item 7" data-rel="photoSwipe">
-                        <a href="" class="stretched-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </figure>
                 </div><!-- /.gallery-item -->
             </div><!-- /gallery-container -->
         </div><!-- /.container -->
