@@ -14,7 +14,7 @@ class AnandaKendra(models.Model):
     address = models.CharField(max_length=250)
     image = models.ImageField(upload_to='anandkendra/kendras',null=True,blank=True)
     slug = models.SlugField(blank=True,null=True)
-    admin = models.ManyToManyField(Profile,blank=True)
+    admin = models.ForeignKey(Profile,blank=True,null=True,on_delete=models.PROTECT)
 
     def __str__(self):
         return f'{self.name} - {self.locality}'
@@ -86,6 +86,7 @@ class Photo(models.Model):
     kendra = models.ForeignKey(AnandaKendra, on_delete=models.CASCADE)
     picture = models.ImageField(upload_to='anandkendra/activities')
     activity = models.ForeignKey(Activity, on_delete=models.SET_NULL, null=True, blank=True)
+    approved = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.kendra.name} - {self.picture}'

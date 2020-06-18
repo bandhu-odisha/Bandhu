@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,JsonResponse
 from datetime import datetime
+from django.contrib.auth.decorators import login_required
+
 from bandhuapp.models import Profile
 from .models import Ankurayan,Activity,Photo,Guest,Participant,ActivityCategory
 
@@ -12,6 +14,7 @@ def index(request):
     photos = Photo.objects.all()
     return render(request, 'ankurayan.html',{'ankurayans':ankurayans,'photos':photos})
 
+@login_required
 def create_ankurayan(request):
     if request.method == 'POST':
         theme = request.POST.get('theme')
@@ -19,24 +22,36 @@ def create_ankurayan(request):
         end_date = request.POST.get('end_date')
         logo = request.FILES.get('logo')
         description = request.POST.get('description')
+        admin = request.POST.get('admin')
+
         year = datetime.now().year
+        admin_profile = get_object_or_404(Profile,pk=int(admin))
 
         Ankurayan.objects.create(theme=theme,start_date=start_date,
                                 end_date=end_date,logo=logo,
-                                description=description,year=int(year))
+                                description=description,year=int(year),
+                                admin=admin_profile)
         
         return HttpResponseRedirect('/ankurayan/')
         
 def ankurayan_detail(request,slug):
     ankurayan = get_object_or_404(Ankurayan,slug=slug)
     activities = Activity.objects.filter(ankurayan=ankurayan)
-    photos = Photo.objects.filter(ankurayan=ankurayan)
+    check_admin = False
+
+    if ankurayan.admin is not None and ankurayan.admin.user == request.user:
+        photos = Photo.objects.filter(ankurayan=ankurayan)
+        check_admin = True
+    else:
+        photos = Photo.objects.filter(ankurayan=ankurayan).filter(approved=True)
+
     categories = ActivityCategory.objects.all()
     participants = Participant.objects.all()
     return render(request,'ankurayan_detail.html',{'ankurayan':ankurayan,'activities':activities,
                                                     'photos':photos,'categories':categories,
-                                                    'participants':participants})
+                                                    'participants':participants,'check_admin':check_admin})
 
+@login_required
 def add_participant(request):
     if request.method == 'POST':
         slug = request.POST.get('slug')
@@ -54,7 +69,8 @@ def add_participant(request):
         url = '/ankurayan/detail/' + slug +'/'
         return HttpResponseRedirect(url)
     return HttpResponseRedirect('/')
-        
+  
+@login_required      
 def add_guest(request):
     if request.method == 'POST':
         slug = request.POST.get('slug')
@@ -74,6 +90,7 @@ def add_guest(request):
         return HttpResponseRedirect(url)
     return HttpResponseRedirect('/')
 
+@login_required
 def add_activity(request):
     if request.method == 'POST':
         slug = request.POST.get('slug')
@@ -86,6 +103,7 @@ def add_activity(request):
         return HttpResponseRedirect(url)
     return HttpResponseRedirect('/')
 
+@login_required
 def create_activity(request):
     if request.method == 'POST':
         slug = request.POST.get('slug')
@@ -109,6 +127,7 @@ def create_activity(request):
         return HttpResponseRedirect(url)
     return HttpResponseRedirect('/')
 
+@login_required
 def add_winners(request):
     if request.method == 'POST':
         slug = request.POST.get('slug')
@@ -137,6 +156,7 @@ def add_winners(request):
         return HttpResponseRedirect(url)
     return HttpResponseRedirect('/')
 
+@login_required
 def add_to_gallery(request):
     if request.method == 'POST':
         slug = request.POST.get('slug')
@@ -148,4 +168,28 @@ def add_to_gallery(request):
 
         url = '/ankurayan/detail/' + slug +'/'
         return HttpResponseRedirect(url)
+    return HttpResponseRedirect('/')
+
+@login_required
+def admin_approval(request):
+    if request.method == 'POST':
+        slug = request.POST.get('kendra')
+        image_pk = request.POST.get('image')
+        status = request.POST.get('status')
+
+        ankurayan = get_object_or_404(Ankurayan,slug=slug)
+        photo = get_object_or_404(Photo,pk=int(image_pk))
+        print(photo)
+        if status == "approve":
+            photo.approved = True
+            photo.save()
+        else:
+            photo.delete()
+        
+        print(photo.approved)
+        photos = Photo.objects.filter(ankurayan=ankurayan)
+
+        data = serializers.serialize('json', photos)
+        print(data)
+        return JsonResponse(data,safe=False)
     return HttpResponseRedirect('/')

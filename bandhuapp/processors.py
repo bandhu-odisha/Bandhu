@@ -12,4 +12,4 @@ def userList(request):
     for i in users:
         if ach_list.get(i) is None:
             rm_users.append(i)
-    return {'users': rm_users}
+    return {'users': rm_users,'all_users':users}

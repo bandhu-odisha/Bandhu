@@ -13,6 +13,7 @@ class Ankurayan(models.Model):
     description = models.TextField(max_length=1000)
     logo = models.ImageField(upload_to='ankurayan/logo')
     slug = models.SlugField()
+    admin = models.ForeignKey(Profile,blank=True,null=True,on_delete=models.PROTECT)
 
     class Meta:
         verbose_name_plural = 'Ankurayan'
@@ -91,6 +92,7 @@ class Photo(models.Model):
     ankurayan = models.ForeignKey(Ankurayan, on_delete=models.CASCADE)
     picture = models.ImageField(upload_to='ankurayan/%Y')
     activity = models.ForeignKey(Activity, on_delete=models.SET_NULL, null=True, blank=True)
+    approved = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.ankurayan.year}'

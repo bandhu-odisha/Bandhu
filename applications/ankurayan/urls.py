@@ -1,7 +1,8 @@
 from django.urls import path
 from .views import (index,ankurayan_detail,add_guest,
                     add_participant,add_activity,create_activity,
-                    add_to_gallery,add_winners,create_ankurayan)
+                    add_to_gallery,add_winners,create_ankurayan,
+                    admin_approval)
 
 urlpatterns = [
     path('', index, name="ankurayan"),
@@ -12,5 +13,6 @@ urlpatterns = [
     path('create/activity/',create_activity,name="CreateActivity"),
     path('add/gallery/',add_to_gallery,name="AddToGallery"),
     path('add/winners/',add_winners,name="AddWinners"),
-    path('create/ankurayan/',create_ankurayan,name="CreateAnkurayan")
+    path('create/ankurayan/',create_ankurayan,name="CreateAnkurayan"),
+    path('admin_approval/',admin_approval,name="ImageAdminApproval")
 ]

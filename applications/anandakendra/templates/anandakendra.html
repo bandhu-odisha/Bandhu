@@ -102,6 +102,11 @@
                                     <input type="text" class="form-control" name="address"><br>
                                     <textarea name="description" id="" cols="80" rows="8"></textarea><br>
                                     <input type="file" class="form-control" name="image"><br>
+                                    <select required name="admin" class="form-control">
+                                        {% for user in all_users %}
+                                            <option value={{user.pk}}>{{user.first_name}} {{user.last_name}}</option>
+                                        {% endfor %}
+                                    </select>
                                     <button class="btn btn-primary">Submit</button>
                                 </form>
                             </div>

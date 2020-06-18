@@ -70,6 +70,8 @@
                     </p>
                     </h3>
                 </div>
+
+                {% if check_admin and user.is_authenticated %}
                 <!-- Add Acharyas to this Kendra -->
                 <div class="select-acharyas">
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#selectacharyamodal">
@@ -178,7 +180,8 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form method="POST" action="{% url 'AnandakendraAddActivityCategory' %}">{% csrf_token %}
+                                    <form method="POST" action="{% url 'AnandakendraAddActivityCategory' %}">
+                                        {% csrf_token %}
                                         <input type="text" hidden name="slug" value={{kendra.slug}}>
                                         <input type="text" class="form-control" name="name"
                                             placeholder="Activity name"><br>
@@ -211,7 +214,8 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form method="POST" enctype="multipart/form-data" action="{% url 'AnandakendraCreateActivity' %}">{% csrf_token %}
+                                    <form method="POST" enctype="multipart/form-data"
+                                        action="{% url 'AnandakendraCreateActivity' %}">{% csrf_token %}
                                         <input type="text" hidden name="slug" value={{kendra.slug}}>
                                         <input type="text" class="form-control" name="activity_name"
                                             placeholder="Activity name"><br>
@@ -231,6 +235,7 @@
                         </div>
                     </div>
                 </div>
+                {% endif %}
 
             </div>
             <div class="col-md-6">
@@ -342,6 +347,7 @@
 
             <div id="gallery-container" class="gallery-container">
                 <div class="add-activity">
+                    {% if user.is_authenticated %}
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addToGallery">
                         Upload Images
                     </button>
@@ -356,9 +362,10 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form method="POST" enctype="multipart/form-data" action="{% url 'AnandakendraAddToGallery' %}">{% csrf_token %}
+                                    <form method="POST" enctype="multipart/form-data"
+                                        action="{% url 'AnandakendraAddToGallery' %}">{% csrf_token %}
                                         <input type="text" hidden name="slug" value={{kendra.slug}}>
-                                        
+
                                         <input type="file" class="form-control" multiple name="gallery_images">
                                         <button class="btn btn-primary">Submit</button>
                                     </form>
@@ -366,72 +373,22 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="galleryFilter">
-                    <a href="#" data-filter="" class="current">All</a>
-                    <a href="#" data-filter=".cat-1">Ankurayan</a>
-                    <a href="#" data-filter=".cat-2">Ananda Kendra</a>
-                    <a href="#" data-filter=".cat-3">Sanskarbarga</a>
-                    <a href="#" data-filter=".cat-4">Ashram</a>
-                    <a href="#" data-filter=".cat-5">Charity Work</a>
+                    {% endif %}
                 </div>
 
-                <div class="gallery-item element-from-bottom clearfix">
+                <div class="gallery-item element-from-bottom clearfix" id="galleryBox">
+                    {% for photo in photos %}
                     <figure class="item cat-3 cat-4">
-                        <img src='{% static "img/pimg1.jpg" %}' alt="Item 3" data-rel="photoSwipe">
+                        <img src='/media/{{photo.picture}}' alt="Item 3" data-rel="photoSwipe">
                         <a href="" class="stretched-link">
                             <i class="fab fa-instagram"></i>
                         </a>
                     </figure>
-
-                    <figure class="item cat-2 cat-5">
-                        <img src='{% static "img/pimg2.jpg" %}' alt="Item 4" data-rel="photoSwipe">
-                        <a href="" class="stretched-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </figure>
-
-                    <figure class="item cat-1 cat-2">
-                        <img src='{% static "img/pimg3.jpg" %}' alt="Item 1" data-rel="photoSwipe">
-                        <a href="" class="stretched-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </figure>
-
-                    <figure class="item cat-1 cat-5">
-                        <img src='{% static "img/pimg4.jpg" %}' alt="Item 2" data-rel="photoSwipe">
-                        <a href="" class="stretched-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </figure>
-
-                    <figure class="item cat-3 cat-1">
-                        <img src='{% static "img/pimg5.jpg" %}' alt="Item 5" data-rel="photoSwipe">
-                        <a href="" class="stretched-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </figure>
-
-                    <figure class="item cat-4 cat-1 cat-5">
-                        <img src='{% static "img/pimg6.jpg" %}' alt="Item 6" data-rel="photoSwipe">
-                        <a href="" class="stretched-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </figure>
-
-                    <figure class="item cat-3 cat-1 cat-4">
-                        <img src='{% static "img/pimg7.jpg" %}' alt="Item 7" data-rel="photoSwipe">
-                        <a href="" class="stretched-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </figure>
-
-                    <figure class="item cat-4 cat-2 cat-5">
-                        <img src='{% static "img/pimg8.jpg" %}' alt="Item 7" data-rel="photoSwipe">
-                        <a href="" class="stretched-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </figure>
+                    {% if not photo.approved %}
+                    <button type="button" onclick="imageApproval('approve','{{photo.pk}}');">Approve</button>
+                    <button type="button" onclick="imageApproval('discard','{{photo.pk}}');">Discard</button>
+                    {% endif %}
+                    {% endfor %}
                 </div><!-- /.gallery-item -->
             </div><!-- /gallery-container -->
         </div><!-- /.container -->
@@ -487,11 +444,43 @@
         var runner_up1 = document.getElementById(`runnerUp1${counter}`).value;
         var runner_up2 = document.getElementById(`runnerUp2${counter}`).value;
 
-        if(winner == runner_up1 || winner == runner_up2 || runner_up1 == runner_up2) {
+        if (winner == runner_up1 || winner == runner_up2 || runner_up1 == runner_up2) {
             document.getElementsByClassName('errorMessageWinners')[0].style.display = "grid";
             return;
         }
-        $('chooseWinnersForm'+counter).submit();
+        $('chooseWinnersForm' + counter).submit();
+    }
+
+    function imageApproval(status, image) {
+        var kendra = "{{kendra.slug}}";
+        $.ajax({
+            type: "POST",
+            url: "/anandakendra/admin_approval/",
+            data: {
+                status: status,
+                image: image,
+                kendra: kendra,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function (data1) {
+                var data = JSON.parse(data1);
+                $('#galleryBox').empty();
+                for(let photo=0;photo<data.length;photo++){
+                    var k = data[photo].fields.approved;
+                    var ele = `<figure class="item cat-3 cat-4">
+                        <img src='/media/${data[photo].fields.picture}' alt="Item 3" data-rel="photoSwipe">
+                        <a href="" class="stretched-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </figure>
+                    {% if not '${k}' %}
+                    <button type="button" onclick="imageApproval('approve','${data[photo].pk}');">Approve</button>
+                    <button type="button" onclick="imageApproval('discard','${data[photo].pk}');">Discard</button>
+                    {% endif %}`
+                    $('#galleryBox').append(ele);
+                }
+            }
+        });
     }
 
 </script>
