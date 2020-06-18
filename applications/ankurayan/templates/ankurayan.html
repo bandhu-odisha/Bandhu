@@ -207,32 +207,6 @@
             </div>
 
             <div id="gallery-container" class="gallery-container">
-                <div class="add-images">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addToGallery">
-                        Upload Images
-                    </button>
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addToGallery" role="dialog"
-                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Upload Images</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST" enctype="multipart/form-data" action="{% url 'AddToGallery' %}">{% csrf_token %}
-                                        <input type="text" hidden name="slug" value={{ankurayan.slug}}>
-                                        
-                                        <input type="file" class="form-control" multiple name="gallery_images">
-                                        <button class="btn btn-primary">Submit</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="gallery-item element-from-bottom clearfix">
                     {% for photo in photos %}
                     <figure class="item cat-3 cat-4">

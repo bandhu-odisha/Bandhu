@@ -19,11 +19,11 @@ def create_anandakendra(request):
         image = request.FILES.get('image')
         description = request.POST.get('description')
 
-        Ankurayan.objects.create(name=name,locality=locality,
+        AnandaKendra.objects.create(name=name,locality=locality,
                                 address=address,image=image,
                                 description=description)
         
-        return HttpResponseRedirect('/ankurayan/')
+        return HttpResponseRedirect('/anandakendra/')
 
 def anandkendra_detail(request,slug):
     kendra = get_object_or_404(AnandaKendra,slug=slug)
@@ -31,7 +31,13 @@ def anandkendra_detail(request,slug):
     photos = Photo.objects.filter(kendra=kendra)
     categories = ActivityCategory.objects.all()
     students = Student.objects.all()
-    return render(request,'anandkendra_detail.html',{'kendra':kendra,'activities':activities,
+    activities_list = []
+
+    for activity in activities:
+        photos = Photo.objects.filter(activity=activity)
+        activities_list.append([activity,photos])
+
+    return render(request,'anandkendra_detail.html',{'kendra':kendra,'activities':activities_list,
                                                     'photos':photos,'categories':categories,
                                                     'students':students})
 
@@ -103,35 +109,6 @@ def create_activity(request):
         url = '/anandakendra/detail/' + slug +'/'
         return HttpResponseRedirect(url)
     return HttpResponseRedirect('/')
-
-# def add_winners(request):
-#     if request.method == 'POST':
-#         slug = request.POST.get('slug')
-#         name = request.POST.get('activity_name')
-#         date = request.POST.get('date')
-#         winner = request.POST.get('pk_winner')
-#         runner_up1 = request.POST.get('pk_runner_up1')
-#         runner_up2 = request.POST.get('pk_runner_up2')
-#         activity_images = request.FILES.getlist('activity_images')
-
-#         winner_profile = get_object_or_404(Student,pk=int(winner))
-#         runner_up1_profile = get_object_or_404(Student,pk=int(runner_up1))
-#         runner_up2_profile = get_object_or_404(Student,pk=int(runner_up2))
-
-#         kendra = get_object_or_404(AnandaKendra,slug=slug)
-
-#         activity = Activity.objects.filter(kendra=kendra).filter(name=name).filter(activity_date=date).first()
-#         activity.winner = winner_profile
-#         activity.runner_up1 = runner_up1_profile
-#         activity.runner_up2 = runner_up2_profile
-#         activity.save()
-
-#         for i in activity_images:
-#             Photo.objects.create(kendra=kendra,picture=i,activity=activity)
-
-#         url = '/anandakendra/detail/' + slug +'/'
-#         return HttpResponseRedirect(url)
-#     return HttpResponseRedirect('/')
 
 def add_to_gallery(request):
     if request.method == 'POST':

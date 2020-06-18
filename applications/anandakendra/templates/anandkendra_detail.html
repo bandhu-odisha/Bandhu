@@ -178,7 +178,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form method="POST" action="{% url 'AddActivityCategory' %}">{% csrf_token %}
+                                    <form method="POST" action="{% url 'AnandakendraAddActivityCategory' %}">{% csrf_token %}
                                         <input type="text" hidden name="slug" value={{kendra.slug}}>
                                         <input type="text" class="form-control" name="name"
                                             placeholder="Activity name"><br>
@@ -211,7 +211,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form method="POST" enctype="multipart/form-data" action="{% url 'CreateActivity' %}">{% csrf_token %}
+                                    <form method="POST" enctype="multipart/form-data" action="{% url 'AnandakendraCreateActivity' %}">{% csrf_token %}
                                         <input type="text" hidden name="slug" value={{kendra.slug}}>
                                         <input type="text" class="form-control" name="activity_name"
                                             placeholder="Activity name"><br>
@@ -259,14 +259,15 @@
                                 <ul class="glide__slides">
                                     {% for activity in activities %}
                                     <li class="glide__slide">
+                                        <!-- To access Images use activity.1.picture -->
                                         <div
                                             class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
-                                            <img src="/media/{{activity.image}}" class="card-img-top home-card-img"
+                                            <img src="/media/{{activity.0.image}}" class="card-img-top home-card-img"
                                                 alt="" width="300px">
                                             <div class="card-body pb-0">
-                                                <h5 class="card-title font-weight-bold">{{activity.name}}</h5>
+                                                <h5 class="card-title font-weight-bold">{{activity.0.name}}</h5>
                                                 <p class="m-2 font-italic  font-open-sans mb-3">
-                                                    {{activity.description}}
+                                                    {{activity.0.description}}
                                                     <br>
                                                 </p>
                                                 <a href="javascript:pswpInit(0);" class="stretched-link"></a>
@@ -299,6 +300,7 @@
     </div>
 </section>
 <!-- Recent Activities Section Ends -->
+
 <!-- Volunteer Section -->
 <section id="volunteer">
     <div class="parallax-style text-white text-center">
@@ -354,7 +356,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form method="POST" enctype="multipart/form-data" action="{% url 'AddToGallery' %}">{% csrf_token %}
+                                    <form method="POST" enctype="multipart/form-data" action="{% url 'AnandakendraAddToGallery' %}">{% csrf_token %}
                                         <input type="text" hidden name="slug" value={{kendra.slug}}>
                                         
                                         <input type="file" class="form-control" multiple name="gallery_images">

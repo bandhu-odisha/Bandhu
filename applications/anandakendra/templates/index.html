@@ -80,15 +80,15 @@
         <div class="container">
             <div class="add-ankurayan">
                 <button type="button" class="btn btn-primary" data-toggle="modal"
-                    data-target="#addAnkurayan">
+                    data-target="#addAnandakendra">
                     Create Anandakendra
                 </button>
-                <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addAnkurayan" role="dialog"
+                <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addAnandakendra" role="dialog"
                     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">Create Ankurayan</h5>
+                                <h5 class="modal-title" id="exampleModalLongTitle">Create Anandakendra</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -96,8 +96,8 @@
                             <div class="modal-body">
                                 <form method="POST" enctype="multipart/form-data" action="{% url 'CreateAnandaKendra' %}">
                                     {% csrf_token %}
-                                    <input type="text" class="form-control" name="theme"
-                                        placeholder="Ankurayan Theme"><br>
+                                    <input type="text" class="form-control" name="name"
+                                        placeholder="Anandakendra name"><br>
                                     <input type="text" class="form-control" name="locality"><br>
                                     <input type="text" class="form-control" name="address"><br>
                                     <textarea name="description" id="" cols="80" rows="8"></textarea><br>
@@ -192,71 +192,17 @@
             </div>
 
             <div id="gallery-container" class="gallery-container">
-                <div class="galleryFilter">
-                    <a href="#" data-filter="" class="current">All</a>
-                    <a href="#" data-filter=".cat-1">Ankurayan</a>
-                    <a href="#" data-filter=".cat-2">Ananda Kendra</a>
-                    <a href="#" data-filter=".cat-3">Sanskarbarga</a>
-                    <a href="#" data-filter=".cat-4">Ashram</a>
-                    <a href="#" data-filter=".cat-5">Charity Work</a>
-                </div>
-
                 <div class="gallery-item element-from-bottom clearfix">
+
+                    {% for photo in photos %}
                     <figure class="item cat-3 cat-4">
-                        <img src='{% static "img/pimg1.jpg" %}' alt="Item 3" data-rel="photoSwipe">
+                        <img src='/media/{{photo.picture}}' alt="Item 3" data-rel="photoSwipe">
                         <a href="" class="stretched-link">
                             <i class="fab fa-instagram"></i>
                         </a>
                     </figure>
+                    {% endfor %}
 
-                    <figure class="item cat-2 cat-5">
-                        <img src='{% static "img/pimg2.jpg" %}' alt="Item 4" data-rel="photoSwipe">
-                        <a href="" class="stretched-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </figure>
-
-                    <figure class="item cat-1 cat-2">
-                        <img src='{% static "img/pimg3.jpg" %}' alt="Item 1" data-rel="photoSwipe">
-                        <a href="" class="stretched-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </figure>
-
-                    <figure class="item cat-1 cat-5">
-                        <img src='{% static "img/pimg4.jpg" %}' alt="Item 2" data-rel="photoSwipe">
-                        <a href="" class="stretched-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </figure>
-
-                    <figure class="item cat-3 cat-1">
-                        <img src='{% static "img/pimg5.jpg" %}' alt="Item 5" data-rel="photoSwipe">
-                        <a href="" class="stretched-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </figure>
-
-                    <figure class="item cat-4 cat-1 cat-5">
-                        <img src='{% static "img/pimg6.jpg" %}' alt="Item 6" data-rel="photoSwipe">
-                        <a href="" class="stretched-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </figure>
-
-                    <figure class="item cat-3 cat-1 cat-4">
-                        <img src='{% static "img/pimg7.jpg" %}' alt="Item 7" data-rel="photoSwipe">
-                        <a href="" class="stretched-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </figure>
-
-                    <figure class="item cat-4 cat-2 cat-5">
-                        <img src='{% static "img/pimg8.jpg" %}' alt="Item 7" data-rel="photoSwipe">
-                        <a href="" class="stretched-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </figure>
                 </div><!-- /.gallery-item -->
             </div><!-- /gallery-container -->
         </div><!-- /.container -->
