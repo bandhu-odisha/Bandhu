@@ -89,10 +89,12 @@
                     <div class="content-box from-bottom delay-200">
                         <h3 class="section-title">Ankurayans</h3>
                         <div class="add-ankurayan">
+                            {% if user.is_admin %}
                             <button type="button" class="btn btn-primary" data-toggle="modal"
                                 data-target="#addAnkurayan">
                                 Create Ankurayan
                             </button>
+                            {% endif %}
                             <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addAnkurayan" role="dialog"
                                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
