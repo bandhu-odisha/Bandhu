@@ -17,7 +17,7 @@ class AnandaKendra(models.Model):
     admin = models.ForeignKey(Profile,blank=True,null=True,on_delete=models.PROTECT)
 
     def __str__(self):
-        return f'{self.name} - {self.locality}'
+        return self.name
 
     def save(self,*args,**kwargs):
         str1 = self.name
@@ -36,12 +36,12 @@ class Student(models.Model):
     name = models.CharField(max_length=50)
     gender = models.CharField(max_length=1, choices=GENDER, default='M')
     guardian_name = models.CharField(max_length=50)
-    school_class = models.CharField(max_length=6)
+    school_class = models.CharField(max_length=15)
     contact_no = models.CharField(verbose_name="Contact Number", max_length=13)
     address = models.CharField(max_length=250)
 
     def __str__(self):
-        return f'{self.kendra.name} - {self.name} ({self.school_class})'
+        return self.name
 
 class ActivityCategory(models.Model):
     CATEGORY = (
@@ -57,7 +57,7 @@ class ActivityCategory(models.Model):
         verbose_name_plural = 'Activity Categories'
 
     def __str__(self):
-        return f'{self.category} - {self.name}'
+        return self.name
 
 class Activity(models.Model):
     kendra = models.ForeignKey(AnandaKendra, on_delete=models.CASCADE)
@@ -70,14 +70,14 @@ class Activity(models.Model):
         verbose_name_plural = 'Activities'
 
     def __str__(self):
-        return f'{self.kendra.name} - {self.name} ({self.category.name})'
+        return self.name
 
 class Acharya(models.Model):
     kendra = models.ForeignKey(AnandaKendra, on_delete=models.CASCADE)
     acharya_id = models.ForeignKey(Profile,on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.kendra.name} - {self.acharya_id.first_name} {self.acharya_id.last_name}'
+        return self.acharya_id.first_name
 
 def picture_upload_path(instance, filname):
     return f'anandakendra/{instance.kendra.name}/{filename}'
@@ -89,4 +89,4 @@ class Photo(models.Model):
     approved = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'{self.kendra.name} - {self.picture}'
+        return self.picture

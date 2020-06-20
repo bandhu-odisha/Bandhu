@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils import timezone
+from django.template.defaultfilters import slugify
 
 from bandhuapp.models import Profile
 
@@ -9,19 +11,33 @@ class Ashram(models.Model):
     locality = models.CharField(max_length=100)
     description = models.TextField(max_length=1000)
     address = models.CharField(max_length=250)
+    slug = models.SlugField(blank=True,null=True)
+    admin = models.ForeignKey(Profile,blank=True,null=True,on_delete=models.PROTECT)
 
     def __str__(self):
         return f'{self.name} - {self.locality}'
+    
+    def save(self,*args,**kwargs):
+        str1 = self.name
+        str2 = self.locality
+        self.slug = slugify(str1+'-'+str2)
+        super(Ashram,self).save(*args,**kwargs)
 
 class ActivityCategory(models.Model):
-    ashram = models.ForeignKey(Ashram, on_delete=models.CASCADE)
+    CATEGORY = (
+        ('Cultural','Cultural'),
+        ('Sports','Sports'),
+        ('Debate','Debate'),
+    )
+
     name = models.CharField(max_length=50)
+    category = models.CharField(max_length=50,choices=CATEGORY)
 
     class Meta:
         verbose_name_plural = 'Activity Categories'
 
     def __str__(self):
-        return f'{self.ashram.name} - {self.name}'
+        return f'{self.category} - {self.name}'
 
 class Activity(models.Model):
     ashram = models.ForeignKey(Ashram, on_delete=models.CASCADE)
@@ -68,7 +84,7 @@ def picture_upload_path(instance, filname):
 
 class Photo(models.Model):
     ashram = models.ForeignKey(Ashram, on_delete=models.CASCADE)
-    picture = models.ImageField(upload_to=picture_upload_path)
+    picture = models.ImageField(upload_to='ashram/')
     category = models.ForeignKey(ActivityCategory, on_delete=models.SET_NULL, null=True, blank=True)
     activity = models.ForeignKey(Activity, on_delete=models.SET_NULL, null=True, blank=True)
     meeting = models.ForeignKey(Meeting, on_delete=models.SET_NULL, null=True, blank=True)

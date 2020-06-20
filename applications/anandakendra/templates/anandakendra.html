@@ -79,10 +79,12 @@
     <div class="bg-grey" style="padding: 50px 0;">
         <div class="container">
             <div class="add-ankurayan">
+                {% if user.is_admin %}
                 <button type="button" class="btn btn-primary" data-toggle="modal"
                     data-target="#addAnandakendra">
                     Create Anandakendra
                 </button>
+                {% endif %}
                 <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addAnandakendra" role="dialog"
                     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">

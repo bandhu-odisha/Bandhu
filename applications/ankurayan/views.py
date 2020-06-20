@@ -190,6 +190,5 @@ def admin_approval(request):
         photos = Photo.objects.filter(ankurayan=ankurayan)
 
         data = serializers.serialize('json', photos)
-        print(data)
         return JsonResponse(data,safe=False)
     return HttpResponseRedirect('/')
