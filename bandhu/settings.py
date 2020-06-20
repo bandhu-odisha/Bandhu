@@ -61,6 +61,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'bandhuapp.processors.userList',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -143,8 +144,8 @@ EMAIL_PORT = config("EMAIL_PORT")
 
 # EMAIL ADDRESSES
 SENDER_EMAIL = config("SENDER_EMAIL")
-# ADMINS_EMAIL = ast.literal_eval(config("ADMINS_EMAIL"))
-ADMINS_EMAIL = config("ADMINS_EMAIL")
+ADMINS_EMAIL = ast.literal_eval(config("ADMINS_EMAIL"))
+# ADMINS_EMAIL = config("ADMINS_EMAIL")
 
 # Social AUTH Keys
 SOCIAL_AUTH_FACEBOOK_KEY = config("SOCIAL_AUTH_FACEBOOK_KEY")
@@ -162,7 +163,7 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'staticfiles/static'),
+    os.path.join(BASE_DIR, 'static'),
 )
 
 
