@@ -52,7 +52,7 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div style="padding: 165px 25px 0;">
-                    <h3 class="content-title" style="font-size: 2rem; margin-bottom: 20px;">Ashram</h3>
+                    <h3 class="content-title" style="font-size: 2rem; margin-bottom: 20px;">Charity</h3>
                     <p>
                         <strong>10 Years long run, we are working for the welfare of children. It was a little step, but
                             it's now a big organization and worldwide activity as a child welfare non-profit
@@ -87,12 +87,12 @@
             <div class="row">
                 <div class="section-content w-100">
                     <div class="content-box from-bottom delay-200">
-                        <h3 class="section-title">Ashrams</h3>
+                        <h3 class="section-title">Charity events</h3>
                         <div class="add-ankurayan">
                             {% if user.is_admin %}
                             <button type="button" class="btn btn-primary" data-toggle="modal"
                                 data-target="#addAnkurayan">
-                                Create Ashram
+                                Create Charity
                             </button>
                             {% endif %}
                             <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addAnkurayan" role="dialog"
@@ -100,25 +100,26 @@
                                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLongTitle">Create Ashram</h5>
+                                            <h5 class="modal-title" id="exampleModalLongTitle">Create Charity</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form method="POST" enctype="multipart/form-data" action="{% url 'CreateAshram' %}">
+                                            <form method="POST" enctype="multipart/form-data" action="{% url 'CreateCharity' %}">
                                                 {% csrf_token %}
-                                                <input type="text" class="form-control" name="name"
-                                                    placeholder="Ashram name"><br>
+                                                <input type="text" class="form-control" name="title"
+                                                    placeholder="Charity title"><br>
                                                 <select required name="admin" class="form-control">
                                                     {% for user in all_users %}
                                                         <option value={{user.pk}}>{{user.first_name}} {{user.last_name}}</option>
                                                     {% endfor %}
                                                 </select>
-                                                <input type="text" class="form-control" name="locality"><br>
-                                                <input type="text" class="form-control" name="address"><br>
+                                                <input type="text" class="form-control" name="location"><br>
+                                                <input type="text" class="form-control" name="disaster_type"><br>
                                                 <textarea name="description" id="" cols="80" rows="8"></textarea><br>
-                                                <input type="file" class="form-control" name="image"><br>
+                                                <input type="date" class="form-control" name="start_date"><br>
+                                                <input type="date" class="form-control" name="end_date"><br>
                                                 <button class="btn btn-primary">Submit</button>
                                             </form>
                                         </div>
@@ -129,19 +130,20 @@
                         <div class="glide">
                             <div class="glide__track" data-glide-el="track">
                                 <ul class="glide__slides">
-                                    {% for ashram in ashrams %}
+                                    {% for c in charity %}
                                     <li class="glide__slide">
                                         <div
                                             class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
-                                            <img src="/media/{{ashram.image}}" class="card-img-top home-card-img"
-                                                alt="" width="300px">
+                                            <!-- <img src="/media/{{ashram.image}}" class="card-img-top home-card-img"
+                                                alt="" width="300px"> -->
                                             <div class="card-body pb-0">
-                                                <h5 class="card-title font-weight-bold">{{ashram.name}}</h5>
+                                                <h5 class="card-title font-weight-bold">{{c.title}}</h5>
+                                                <p>{{c.disaster_type}}</p>
                                                 <p class="m-2 font-italic  font-open-sans mb-3">
-                                                    {{ashram.description}}
+                                                    {{c.description}}
                                                     <br>
                                                 </p>
-                                                <a href="{% url 'AshramDetail' slug=ashram.slug %}"
+                                                <a href="{% url 'CharityDetail' slug=c.slug %}"
                                                     class="stretched-link"></a>
                                             </div>
                                         </div>

@@ -78,7 +78,8 @@ def add_acharya(request):
     if request.method == 'POST':
         slug = request.POST.get('slug')
         kendra = get_object_or_404(AnandaKendra,slug=slug)
-        acharyas = request.POST.getlist('acharyas')
+        acharya = request.POST.get('acharyas')
+        acharyas = acharya.split(",")
 
         for i in acharyas:
             profile = Profile.objects.filter(user__email=i).first()
@@ -119,7 +120,7 @@ def create_activity(request):
                                 name=name,description=description,activity_date=activity_date)
 
         for i in activity_images:
-            Photo.objects.create(kendra=kendra,picture=i,activity=activity)
+            Photo.objects.create(kendra=kendra,picture=i,activity=activity,approved=True)
 
         url = '/anandakendra/detail/' + slug +'/'
         return HttpResponseRedirect(url)

@@ -58,26 +58,26 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div style="padding: 165px 25px 0;">
-                    <h3 class="content-title" style="font-size: 2rem; margin-bottom: 20px;">{{ankurayan.theme}} -
-                        {{ankurayan.year}}</h3>
+                    <h3 class="content-title" style="font-size: 2rem; margin-bottom: 20px;">{{ashram.name}} -
+                        {{ashram.locality}}</h3>
                     <p>
                         <strong>
-                            {{ankurayan.start_date}} - {{ankurayan.end_date}}
+                            {{ashram.address}}
                         </strong>
                     </p>
                     <p>
-                        {{ankurayan.description}}
+                        {{ashram.description}}
                     </p>
                     </h3>
                 </div>
 
                 {% if check_admin and user.is_authenticated %}
-                <!-- Add Guest to this Ankurayan -->
-                <div class="select-acharyas">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addGuest">
-                        Add Guest
+                <!-- Add Meeting to this ashram -->
+                <div class="add-meeting">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addMeeting">
+                        Create Meeting
                     </button>
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addGuest" role="dialog"
+                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addMeeting" role="dialog"
                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
@@ -88,17 +88,16 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form method="POST" action="{% url 'AddGuest' %}">{% csrf_token %}
-                                        <input type="text" hidden name="slug" value={{ankurayan.slug}}>
-                                        <input type="text" class="form-control" name="name"
-                                            placeholder="Guest Name"><br>
-                                        <input type="text" class="form-control" name="contact_no"
-                                            placeholder="Contact number"><br>
-                                        <input type="text" class="form-control" name="profession"
-                                            placeholder="Profession"><br>
-                                        <input type="text" class="form-control" name="email"
-                                            placeholder="Email"><br>
-                                        <textarea name="about" cols="80" rows="8" class="form-control"></textarea><br>
+                                    <form method="POST" action="{% url 'AddMeeting' %}">{% csrf_token %}
+                                        <input type="text" hidden name="slug" value={{ashram.slug}}>
+                                        <input type="text" class="form-control" name="topic"
+                                            placeholder="Meeting topic"><br>
+                                        <input type="date" class="form-control" name="schedule"><br>
+                                        <input type="text" class="form-control" name="location"
+                                            placeholder="Location"><br>
+                                        <input type="file" class="form-control" name="minutes"
+                                            placeholder="Minutes"><br>
+                                        <textarea name="agenda" cols="80" rows="8" class="form-control"></textarea><br>
                                         <button class="btn btn-primary">Submit</button>
                                     </form>
                                 </div>
@@ -107,56 +106,8 @@
                     </div>
                 </div>
 
-                <!-- Add Participants to this Ankurayan -->
-                <div class="add-participants">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addParticipantsModal">
-                        Add Participants
-                    </button>
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addParticipantsModal" role="dialog"
-                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Participants</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST" action="{% url 'AddParticipant' %}">{% csrf_token %}
-                                        <input type="text" hidden name="slug" value={{ankurayan.slug}}>
-                                        <input type="text" class="form-control" name="name"
-                                            placeholder="Student name"><br>
-                                        <select class="form-control" name="gender">
-                                            <option value="M">Male</option>
-                                            <option value="F">Female</option>
-                                            <option value="O">Other</option>
-                                        </select><br>
-                                        <select class="form-control" name="school_class">
-                                            <option value="I">Class I</option>
-                                            <option value="II">Class II</option>
-                                            <option value="III">Class III</option>
-                                            <option value="IV">Class IV</option>
-                                            <option value="V">Class V</option>
-                                            <option value="VI">Class VI</option>
-                                            <option value="VII">Class VII</option>
-                                            <option value="VIII">Class VIII</option>
-                                            <option value="IX">Class IX</option>
-                                            <option value="X">Class X</option>
-                                            <option value="XI">Class XI</option>
-                                            <option value="XII">Class XII</option>
-                                        </select><br>
-                                        <input type="text" class="form-control" name="address"
-                                            placeholder="Student Address"><br>
-                                        <input type="text" class="form-control" name="contact_no"
-                                            placeholder="Guardian Contact number"><br>
-                                        <button class="btn btn-primary">Submit</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Add Attendee to this Meeting -->
+                
 
                 <!-- Add Activity Category -->
                 <div class="add-activity-category">
@@ -176,7 +127,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <form method="POST" action="{% url 'AddActivityCategory' %}">{% csrf_token %}
-                                        <input type="text" hidden name="slug" value={{ankurayan.slug}}>
+                                        <input type="text" hidden name="slug" value={{ashram.slug}}>
                                         <input type="text" class="form-control" name="name"
                                             placeholder="Activity name"><br>
                                         <select class="form-control" name="category">
@@ -209,7 +160,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <form method="POST" enctype="multipart/form-data" action="{% url 'CreateActivity' %}">{% csrf_token %}
-                                        <input type="text" hidden name="slug" value={{ankurayan.slug}}>
+                                        <input type="text" hidden name="slug" value={{ashram.slug}}>
                                         <input type="text" class="form-control" name="activity_name"
                                             placeholder="Activity name"><br>
                                         <select class="form-control" name="category">
@@ -233,7 +184,7 @@
             </div>
             <div class="col-md-6">
                 <div class="card border text-center">
-                    <img class="card-img-top" src='/media/{{ankurayan.logo}}' alt="Card image cap"
+                    <img class="card-img-top" src='/media/{{ashram.image}}' alt="Card image cap"
                         style="height: 400px; width: 100%;">
                     <!-- <div class="card-body">
 					  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
@@ -243,6 +194,105 @@
         </div>
     </div>
 </div>
+
+<!-- Meetings Section -->
+<section id="recent-activities">
+    <div class="bg-grey" style="padding: 50px 0;">
+        <div class="container">
+            <div class="row">
+                <div class="section-content w-100">
+                    <div class="content-box from-bottom delay-200">
+                        <h3 class="section-title">Meetings</h3>
+                        <div class="glide">
+                            <div class="glide__track" data-glide-el="track">
+                                <ul class="glide__slides">
+                                    {% for meeting in meetings %}
+                                    <li class="glide__slide">
+                                        <div
+                                            class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
+                                            <div class="card-body pb-0">
+                                                <h5 class="card-title font-weight-bold">{{meeting.topic}}</h5>
+                                                <p class="m-2 font-italic  font-open-sans mb-3">
+                                                    {{meeting.agenda}}
+                                                    <br>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        {% if check_admin and user.is_authenticated %}
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addAttendee{{forloop.counter}}">Add attendees</button>
+                                        {% endif %}
+                                    </li>
+                                    {% if check_admin and user.is_authenticated %}
+                                    <div class="add-attendees">
+                                        <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addAttendee{{forloop.counter}}" role="dialog"
+                                            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLongTitle">Add Attendees</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form method="POST" action="{% url 'AddAttendee' %}">{% csrf_token %}
+                                                            <input type="text" hidden name="slug" value={{ashram.slug}}>
+                                                            <input type="date" hidden name="schedule" value="{{meeting.schedule|date:'Y-m-d'}}">
+                                                            <input type="text" hidden name="topic" value={{meeting.topic}}>
+                                                            <div class="ui fluid multiple search selection dropdown" id="attendee_dropdown" onclick="hideFields('formFieldsAttendees');">
+                                                                <input type="hidden" name="attendes" >
+                                                                <i class="dropdown icon"></i>
+                                                                <div class="default text">Select Acharya</div>
+                                                                <div class="menu">
+                                                                    {% for user in users %}
+                                                                    <div class="item" data-value='{{user.user.email}}'>{{user.first_name}}
+                                                                        {{user.last_name}}</div>
+                                                                    {% endfor %}
+                                                                </div>
+                                                            </div>
+                                                            <span id="orr" > ---------- OR ----------------- </span>
+                                                            <div id="formFieldsAttendees" >
+                                                                <input type="text" class="form-control" name="name"
+                                                                    placeholder="Attende name" id="at_name" onclick="hideFields('attendee_dropdown');"><br>
+                                                                <input type="text" class="form-control" name="email"
+                                                                    placeholder="Attendee email" id="at_email" onclick="hideFields('attendee_dropdown');"><br>
+                                                                <input type="text" class="form-control" name="contact_no"
+                                                                    placeholder="Contact number" id="at_contact_no" onclick="hideFields('attendee_dropdown');"><br>
+                                                            </div>
+                                                            
+                                                            <button class="btn btn-primary">Submit</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="glide__arrows disable_arrows d-none d-md-block" data-glide-el="controls">
+                                <button class="slider_arrow slider_arrow--prev glide__arrow glide__arrow--left"
+                                    data-glide-dir="<">
+                                    <i class="fas fa-arrow-circle-left"></i>
+                                </button>
+                                <button class="slider_arrow slider_arrow--next glide__arrow glide__arrow--right"
+                                    data-glide-dir=">">
+                                    <i class="fas fa-arrow-circle-right"></i>
+                                </button>
+                            </div>
+                            <div class="glide__bullets" data-glide-el="controls[nav]">
+                                {% for activity in activities %}
+                                <button class="glide__bullet" data-glide-dir="={{forloop.counter}}"></button>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <!-- Activities Section -->
 <section id="recent-activities">
@@ -412,7 +462,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <form method="POST" enctype="multipart/form-data" action="{% url 'AddToGallery' %}">{% csrf_token %}
-                                        <input type="text" hidden name="slug" value={{ankurayan.slug}}>
+                                        <input type="text" hidden name="slug" value={{ashram.slug}}>
                                         
                                         <input type="file" class="form-control" multiple name="gallery_images">
                                         <button class="btn btn-primary">Submit</button>
@@ -487,6 +537,11 @@
         $('.ui.dropdown').dropdown();
     });
 
+    function hideFields(id) {
+        document.getElementById(id).style.display = "none";
+        document.getElementById('orr').style.display = "none";
+    }
+
     function validateWinners(counter) {
         alert(counter)
         var winner = document.getElementById(`winner${counter}`).value;
@@ -501,18 +556,19 @@
     }
 
     function imageApproval(status, image) {
-        var ankurayan = "{{ankurayan.slug}}";
+        var ashram = "{{ashram.slug}}";
         $.ajax({
             type: "POST",
-            url: "/ankurayan/admin_approval/",
+            url: "/ashram/admin_approval/",
             data: {
                 status: status,
                 image: image,
-                ankurayan: ankurayan,
+                ashram: ashram,
                 csrfmiddlewaretoken: '{{ csrf_token }}'
             },
             success: function (data1) {
                 var data = JSON.parse(data1);
+                alert("D")
                 $('#galleryBox').empty();
                 for(let photo=0;photo<data.length;photo++){
                     var k = data[photo].fields.approved;

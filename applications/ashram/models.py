@@ -12,6 +12,7 @@ class Ashram(models.Model):
     description = models.TextField(max_length=1000)
     address = models.CharField(max_length=250)
     slug = models.SlugField(blank=True,null=True)
+    image = models.ImageField(upload_to='ashram/thumbnails/',blank=True,null=True)
     admin = models.ForeignKey(Profile,blank=True,null=True,on_delete=models.PROTECT)
 
     def __str__(self):
@@ -44,6 +45,7 @@ class Activity(models.Model):
     category = models.ForeignKey(ActivityCategory, on_delete=models.PROTECT)
     name = models.CharField(max_length=50)
     description = models.TextField(max_length=1000)
+    activity_date = models.DateField(default=timezone.now)
 
     class Meta:
         verbose_name_plural = 'Activities'
@@ -56,6 +58,7 @@ class Meeting(models.Model):
     schedule = models.DateTimeField()
     topic = models.CharField(max_length=250)
     location = models.CharField(max_length=100)
+    agenda = models.TextField()
     minutes = models.FileField(upload_to='ashram/meeting/%Y-%m-%d')
 
     def __str__(self):
@@ -74,10 +77,10 @@ class Attendee(models.Model):
 
     def save(self, *args, **kwargs):
         if self.profile is not None:
-            self.name = f'{self.profile.first_name} {self.profile.first_name}'
+            self.name = f'{self.profile.first_name} {self.profile.last_name}'
             self.email = self.profile.user.email
             self.contact_no = self.profile.contact_no
-        super(Guest, self).save(*args, **kwargs)
+        super(Attendee, self).save(*args, **kwargs)
 
 def picture_upload_path(instance, filname):
     return f'ashram/{instance.ashram.name}/{filename}'
@@ -85,9 +88,6 @@ def picture_upload_path(instance, filname):
 class Photo(models.Model):
     ashram = models.ForeignKey(Ashram, on_delete=models.CASCADE)
     picture = models.ImageField(upload_to='ashram/')
-    category = models.ForeignKey(ActivityCategory, on_delete=models.SET_NULL, null=True, blank=True)
+    approved = models.BooleanField(default=False)
     activity = models.ForeignKey(Activity, on_delete=models.SET_NULL, null=True, blank=True)
-    meeting = models.ForeignKey(Meeting, on_delete=models.SET_NULL, null=True, blank=True)
 
-    def __str__(self):
-        return f'{self.ashram.name} - {self.category.name} - {self.activity.name} - {self.meeting.schedule}'

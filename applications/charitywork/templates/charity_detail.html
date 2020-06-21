@@ -1,0 +1,419 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} Bandhu {% endblock %}
+
+{% block style %}
+<!-- Glide Carousel CSS -->
+<link rel="stylesheet" href="{% static 'vendor/css/glide.core.min.css' %}">
+<link rel="stylesheet" href="{% static 'vendor/css/glide.theme.min.css' %}">
+<!-- PhotoSwipe CSS -->
+<link rel="stylesheet" href="{% static 'vendor/photoswipe/photoswipe.css' %}">
+<link rel="stylesheet" href="{% static 'vendor/photoswipe/default-skin/default-skin.css' %}">
+<!-- Custom CSS -->
+<link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
+
+<!-- Semantic UI , Used only for Multiple Select in select Acharya Form -->
+<link rel="stylesheet" type="text/css" href="{% static 'css/icon.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/semantic.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/mediaquery.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/semantic-notify.css' %}">
+
+{% endblock %}
+
+{% block navbar-links %}
+<li class="nav-item">
+    <a class="nav-link px-3 px-lg-2" href="#about">About</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link px-3 px-lg-2" href="#recent-activities">Recents</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link px-3 px-lg-2" href="#gallery">Gallery</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link px-3 px-lg-2" href="#contact">Contact</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link px-3 px-lg-2" href="{% url 'profile_page' %}" style="text-transform: none;">{{ user.email }}</a>
+</li>
+{% endblock %}
+
+{% block showcase-title-container %}
+<div class="slider-txt-container" style="padding: 200px 0 300px 0;">
+
+</div>
+
+{% endblock %}
+
+{% block content %}
+<!-- Cause Section  -->
+<div class="" id="cause">
+    <div class="angular">
+        <div class="top-angle">
+        </div><!-- /.top-angle -->
+    </div>
+    <div class="container" style="position: relative; top: -150px; z-index: 1000;">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div style="padding: 165px 25px 0;">
+                    <h3 class="content-title" style="font-size: 2rem; margin-bottom: 20px;">{{charity.title}} -
+                        {{charity.location}}</h3>
+                    <p>
+                        <strong>
+                            {{charity.disaster_type}}
+                        </strong>
+                        <strong>
+                            {{charity.start_date}} - {{charity.end_date}}
+                        </strong>
+                    </p>
+                    <p>
+                        {{charity.description}}
+                    </p>
+                    </h3>
+                </div>
+
+                {% if check_admin and user.is_authenticated %}
+
+                <!-- Add Activity -->
+                <div class="add-activity">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addActivity">
+                        Add Activity
+                    </button>
+                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addActivity" role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Activity</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="POST" enctype="multipart/form-data"
+                                        action="{% url 'CreateActivity' %}">{% csrf_token %}
+                                        <input type="text" hidden name="slug" value={{charity.slug}}>
+                                        <input type="text" class="form-control" name="activity_name"
+                                            placeholder="Activity name"><br>
+                                        <input type="date" name="activity_date" class="form-control"><br>
+                                        <textarea name="description" cols="80" class="form-control"
+                                            rows="8"></textarea><br>
+                                        <input type="file" class="form-control" multiple name="activity_images">
+                                        <button class="btn btn-primary">Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="add-volunteers" >
+                    {% if check_admin and user.is_authenticated %}
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#selectVolunteers">Add Volunteers</button>
+                        
+                    <div class="modal fade bd-example-modal-lg" tabindex="-1"
+                        id="selectVolunteers" role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Select Volunteers
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal"
+                                        aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="POST" action="{% url 'AddVolunteers' %}">{% csrf_token %}
+                                        <input type="text" hidden name="slug" value={{charity.slug}}>
+                                        <div class="ui fluid multiple search selection dropdown" id="attendee_dropdown" onclick="hideFields('formFieldsAttendees');">
+                                            <input type="hidden" name="volunteers" >
+                                            <i class="dropdown icon"></i>
+                                            <div class="default text">Select Volunteers</div>
+                                            <div class="menu">
+                                                {% for user in users %}
+                                                <div class="item" data-value='{{user.user.email}}'>{{user.first_name}}
+                                                    {{user.last_name}}</div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        <span id="orr" > ---------- OR ----------------- </span>
+                                        <div id="formFieldsAttendees" >
+                                            <input type="text" class="form-control" name="name"
+                                                placeholder="Volunteer name" id="at_name" onclick="hideFields('attendee_dropdown');"><br>
+                                            <input type="text" class="form-control" name="email"
+                                                placeholder="Volunteer email" id="at_email" onclick="hideFields('attendee_dropdown');"><br>
+                                            <input type="text" class="form-control" name="contact_no"
+                                                placeholder="Contact number" id="at_contact_no" onclick="hideFields('attendee_dropdown');"><br>
+                                        </div>
+                                        
+                                        <button class="btn btn-primary">Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <div class="card border text-center">
+                    <!-- <img class="card-img-top" src='/media/{{ashram.image}}' alt="Card image cap"
+                        style="height: 400px; width: 100%;"> -->
+                    <!-- <div class="card-body">
+					  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+					</div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Activities Section -->
+<section id="recent-activities">
+    <div class="bg-grey" style="padding: 50px 0;">
+        <div class="container">
+            <div class="row">
+                <div class="section-content w-100">
+                    <div class="content-box from-bottom delay-200">
+                        <h3 class="section-title">Activities</h3>
+                        <div class="glide">
+                            <div class="glide__track" data-glide-el="track">
+                                <ul class="glide__slides">
+                                    {% for activity in activities %}
+                                    <li class="glide__slide">
+                                        <div
+                                            class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
+                                            <img src="/media/{{activity.image}}" class="card-img-top home-card-img"
+                                                alt="" width="300px">
+                                            <div class="card-body pb-0">
+                                                <h5 class="card-title font-weight-bold">{{activity.name}}</h5>
+                                                <p class="m-2 font-italic  font-open-sans mb-3">
+                                                    {{activity.description}}
+                                                    <br>
+                                                </p>
+                                                <a href="javascript:pswpInit(0);" class="stretched-link"></a>
+                                            </div>
+                                        </div>
+                                        
+                                    </li>
+                                    
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="glide__arrows disable_arrows d-none d-md-block" data-glide-el="controls">
+                                <button class="slider_arrow slider_arrow--prev glide__arrow glide__arrow--left"
+                                    data-glide-dir="<">
+                                    <i class="fas fa-arrow-circle-left"></i>
+                                </button>
+                                <button class="slider_arrow slider_arrow--next glide__arrow glide__arrow--right"
+                                    data-glide-dir=">">
+                                    <i class="fas fa-arrow-circle-right"></i>
+                                </button>
+                            </div>
+                            <div class="glide__bullets" data-glide-el="controls[nav]">
+                                {% for activity in activities %}
+                                <button class="glide__bullet" data-glide-dir="={{forloop.counter}}"></button>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Recent Activities Section Ends -->
+<!-- Volunteer Section -->
+<section id="volunteer">
+    <div class="parallax-style text-white text-center">
+        <div class="parallax-overlay dark-overlay section-padding" style="padding: 80px 0 70px;">
+            <div class="container">
+                <div class="section-head" style="margin-bottom:60px;">
+                    <h3 class="section-title parallax-title">
+                        Become a Volunteer
+                    </h3>
+                </div>
+
+                <div class="row justify-content-center">
+                    <p class="parallax-description w-100 px-3"
+                        style="font-size:1.7em; line-height:35px; margin-bottom: 30px;">
+                        Do you like to work for children? Do you feel the slogan "Save the Children". Yes. Here, you are
+                        welcome to our team and you can work as a volunteer.
+                    </p>
+                    <button type="button" class="btn btn-outline-light py-2 px-4 custom-btn angle-effect">Join
+                        Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Volunteer Section End-->
+
+<section id="gallery">
+    <div class="bg-grey" style="padding: 80px 0 60px;">
+        <div class="container">
+            <div class="section-head">
+                <h2 class="section-title">
+                    Gallery
+                </h2>
+                <p class="section-description">
+                    TAKE A LOOK AT OUR GALLERY TO SEE HOW WE ENDANGER THE CHILD. YOU MAY ALSO SEE OUR WORLDWIDE ACTIVITY
+                    AROUND THE GLOBE HOW WE WORKING FOR CHILDREN.
+                </p>
+            </div>
+
+            <div id="gallery-container" class="gallery-container">
+                <div class="add-images">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addToGallery">
+                        Upload Images
+                    </button>
+                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addToGallery" role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Upload Images</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="POST" enctype="multipart/form-data" action="{% url 'AddToGallery' %}">
+                                        {% csrf_token %}
+                                        <input type="text" hidden name="slug" value={{ashram.slug}}>
+
+                                        <input type="file" class="form-control" multiple name="gallery_images">
+                                        <button class="btn btn-primary">Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="gallery-item element-from-bottom clearfix">
+
+                    {% for photo in photos %}
+                    <figure class="item cat-3 cat-4">
+                        <img src='/media/{{photo.picture}}' alt="Item 3" data-rel="photoSwipe">
+                        <a href="" class="stretched-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </figure>
+                    {% if not photo.approved %}
+                    <button type="button" onclick="imageApproval('approve','{{photo.pk}}');">Approve</button>
+                    <button type="button" onclick="imageApproval('discard','{{photo.pk}}');">Discard</button>
+                    {% endif %}
+                    {% endfor %}
+
+                </div><!-- /.gallery-item -->
+            </div><!-- /gallery-container -->
+        </div><!-- /.container -->
+        <!-- <div class="bottom-angle">
+        </div> -->
+        <!-- /.bottom-angle -->
+    </div><!-- /.gallery-section -->
+</section>
+
+<!-- Include PhotoSwipe -->
+{% include 'snippets/init_pswp.html' %}
+
+<!-- Scroll To Top Button -->
+<div id="scroll-to-top">
+    <div class="hex scroll-top">
+        <span><i class="fa fa-arrow-up"></i></span>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+<!-- Glide Carousel JS -->
+<script src="{% static 'vendor/js/glide.min.js' %}"></script>
+<script src="{% static 'js/glide-custom.js' %}"></script>
+<!-- Isotope JS -->
+<script src='{% static "vendor/js/isotope.pkgd.min.js" %}'></script>
+<!-- PhotoSwipe JS -->
+<script src="{% static 'vendor/photoswipe/photoswipe.min.js' %}"></script>
+<script src="{% static 'vendor/photoswipe/photoswipe-ui-default.min.js' %}"></script>
+<!-- Custom JS -->
+<script src="{% static 'js/bandhu.js' %}"></script>
+<!-- Contact Scrollspy Problem -->
+<script>contact_scrollspy()</script>
+
+<!-- Semantic UI -->
+
+<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"> </script>
+<script type="text/javascript" src="{% static 'js/semantic-notify.js' %}"> </script>
+
+<script type="text/javascript" src="{% static 'js/semantic.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/dropdown.js' %}"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.ui.dropdown').dropdown();
+    });
+
+    function hideFields(id) {
+        document.getElementById(id).style.display = "none";
+        document.getElementById('orr').style.display = "none";
+    }
+
+    function validateWinners(counter) {
+        alert(counter)
+        var winner = document.getElementById(`winner${counter}`).value;
+        var runner_up1 = document.getElementById(`runnerUp1${counter}`).value;
+        var runner_up2 = document.getElementById(`runnerUp2${counter}`).value;
+
+        if (winner == runner_up1 || winner == runner_up2 || runner_up1 == runner_up2) {
+            document.getElementsByClassName('errorMessageWinners')[0].style.display = "grid";
+            return;
+        }
+        $('chooseWinnersForm' + counter).submit();
+    }
+
+    function imageApproval(status, image) {
+        var ashram = "{{ashram.slug}}";
+        $.ajax({
+            type: "POST",
+            url: "/ashram/admin_approval/",
+            data: {
+                status: status,
+                image: image,
+                ashram: ashram,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function (data1) {
+                var data = JSON.parse(data1);
+                alert("D")
+                $('#galleryBox').empty();
+                for (let photo = 0; photo < data.length; photo++) {
+                    var k = data[photo].fields.approved;
+                    var ele = `<figure class="item cat-3 cat-4" style="width: 267px; height: 183.9px;">
+                        <img src='/media/${data[photo].fields.picture}' alt="Item 3" data-rel="photoSwipe">
+                        <a href="" class="stretched-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </figure>`
+                    if (!k) {
+                        ele += `
+                        <button type="button" onclick="imageApproval('approve','${data[photo].pk}');">Approve</button>
+                        <button type="button" onclick="imageApproval('discard','${data[photo].pk}');">Discard</button>
+                        `
+                    }
+                    $('#galleryBox').append(ele);
+                }
+            }
+        });
+    }
+
+</script>
+{% endblock %}

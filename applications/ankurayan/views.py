@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect,JsonResponse
 from datetime import datetime
+from django.core import serializers
 from django.contrib.auth.decorators import login_required
 
 from bandhuapp.models import Profile
@@ -121,7 +122,7 @@ def create_activity(request):
                                 name=name,description=description,activity_date=activity_date)
 
         for i in activity_images:
-            Photo.objects.create(ankurayan=ankurayan,picture=i,activity=activity)
+            Photo.objects.create(ankurayan=ankurayan,picture=i,activity=activity,approved=True)
 
         url = '/ankurayan/detail/' + slug +'/'
         return HttpResponseRedirect(url)
@@ -163,8 +164,12 @@ def add_to_gallery(request):
         activity_images = request.FILES.getlist('gallery_images')
         ankurayan = get_object_or_404(Ankurayan,slug=slug)
         print("image =",activity_images)
+
         for i in activity_images:
-            Photo.objects.create(ankurayan=ankurayan,picture=i)
+            if ankurayan.admin is not None and ankurayan.admin.user == request.user:
+                Photo.objects.create(ankurayan=ankurayan,picture=i,approved=True)
+            else:
+                Photo.objects.create(ankurayan=ankurayan,picture=i)
 
         url = '/ankurayan/detail/' + slug +'/'
         return HttpResponseRedirect(url)
@@ -173,7 +178,7 @@ def add_to_gallery(request):
 @login_required
 def admin_approval(request):
     if request.method == 'POST':
-        slug = request.POST.get('kendra')
+        slug = request.POST.get('ankurayan')
         image_pk = request.POST.get('image')
         status = request.POST.get('status')
 
