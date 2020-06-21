@@ -80,7 +80,7 @@ def signup_view(request):
         email_check = request.POST.get('email')
         obj = User.objects.filter(email=email_check).first()
         if obj:
-            return render(request,'signup_failure_page.html',{'message':'This Email has already been taken!!'})
+            return render(request,'signup.html',{'form': form, 'message':'This Email has already been taken!!', 'done':0})
         if form.is_valid():
             user = form.save(commit=False)
             user.is_active = False

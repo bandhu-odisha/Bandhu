@@ -4,6 +4,7 @@ from django.template.defaultfilters import slugify
 
 from bandhuapp.models import Profile
 
+from bandhuapp.models import Profile
 # Create your models here.
 
 class Charity(models.Model):

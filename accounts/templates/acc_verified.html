@@ -1,11 +1,24 @@
 {% autoescape off %}
-Hi {{email}},
-{{msg}}
+{% extends 'accounts_base.html' %}
 
-http://127.0.0.1:8000/accounts/login/
+{% block content %}
+    <div class="container form-display" style="margin-top: 50px;">
+        <div class="wrap-login100 p-l-50 p-r-50 p-t-32 p-b-23 text-center" 
+            style="margin: auto; margin-top: 45px; border: 1px solid #e7e4e4; max-width: 500px; border-radius: 5px; background-color: #eff2f357;">
+            <h2 class="mx-3 font-weight-bolder">Reset Password</h2>
+            <p calss="mx-3">
+                Hi {{email}},
+                    {{msg}}
+
+                    http://127.0.0.1:8000/accounts/login/
 
 
-Regards
-Team Bandhu
-bandhu@gmail.com
+                Regards
+                Team Bandhu
+                bandhu@gmail.com
+            </p>
+            <p class="mx-3">Contact adminstrator : <a href="mailto:admin@admin.com">admin@admin.com</a></p>
+        </div>
+    </div>
+{% endblock %}
 {% endautoescape %}

@@ -1,40 +1,74 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="en">
-<head>
-	<title>Bandhu | Login</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="icon" type="image/ico" href='{% static "img/icon/favicon.ico" %}'/>
-	<link rel="stylesheet" type="text/css" href='{% static "vendor/css/bootstrap.min.css" %}'>
-	<link rel="stylesheet" type="text/css" href='{% static "css1/font-awesome.min.css" %}'>
-	<link rel="stylesheet" type="text/css" href='{% static "css1/util.css" %}'>
-	<link rel="stylesheet" type="text/css" href='{% static "css1/main.css" %}'>
-</head>
-<body>
-	<div class="limiter">
-    	<div class="container-login100">
-			<div class="wrap-login100 p-l-50 p-r-50 p-t-32 p-b-23">
-				<form class="login100-form validate-form flex-sb flex-w" method="POST">
-					{% csrf_token %}
-					<span class="login100-form-title p-b-33">
-						Sign In
-					</span>
-					<a href="{% url 'social:begin' 'facebook' %}" class="btn-face m-b-15">
+{% extends 'accounts_base.html' %}
+{% block title %}
+	Bandhu | Signin
+{% endblock %}
+
+{% block style %}
+<style>
+	.btn-google {
+		padding: 5px;
+		margin: 5px;
+		border: 1px solid rgb(228, 224, 224);
+		border-radius: 5px;
+		background-color: white;
+		min-width: 140px;
+		box-shadow: 0 3px 0 rgba(0, 0, 0, .16), 0 1px 2px rgba(0, 0, 0, .23);
+		min-height: 30px;
+	}
+
+	.btn-facebook {
+		margin: 5px;
+		padding: 5px;
+		border: 1px solid #4267b2;
+		border-radius: 5px;
+		box-shadow: 0 3px 0 rgba(0, 0, 0, .16), 0 1px 2px rgba(0, 0, 0, .23);
+		color: white;
+		min-width: 140px;
+		min-height: 30px;
+		background-color: #4267b2;
+	}
+
+	.main{
+		min-height: 100vh;
+		/* height: 100%; */
+	}
+
+	#main-menu {
+		background-color: rgb(27, 26, 26) !important;
+	}
+
+	.form-display {
+		margin-top: 20px !important;
+		padding-top: 80px;
+	}
+
+	.form-control {
+		min-height: 45px;
+	}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container form-display">
+	<div class="row justify-content-center my-5" style="margin-left: 10px; margin-right: 10px;">
+		<div class="col-lg-5 border rounded px-5 py-4" style="background-color: rgb(246, 247, 247); z-index: 3;">
+			<form class="login100-form validate-form flex-sb flex-w" method="POST">
+				{% csrf_token %}
+				<h1 class="text-center font-weight-bolder">Sign In</h1>
+				<div class="mb-4 text-center">
+					<a href="{% url 'social:begin' 'facebook' %}" class="btn btn-facebook">
 						<i class="fa fa-facebook-official"></i>
 						Facebook
 					</a>
-					<a href="{% url 'social:begin' 'google-oauth2' %}" class="btn-google m-b-20">
-						<img src= "{% static 'img/icon/icon-google.png' %}" alt="GOOGLE">
+					<a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-google">
+						<i class="fa fa fa-google-plus" style="color: red;"></i>
 						Google
 					</a>
-					<div class="w-full text-center p-t-3 p-b-10">
-						<p>---OR---</p>
-						<span class="txt2">
-							Sign In Using Email
-						</span>
-					</div>
-					<!-- Main login area  -->
+				</div>
+				<div class="w-full text-center p-t-3 p-b-10">
+					<h5 class="">OR</h5>
+				</div>
+				<div class="error_msg text-center w-full">
 					{% if err_code == 1 %}
 					<p class="mt-3 mb-3" style="color:red;">*Your Account has not been activated. Please activate your account to continue.</p>
 					{% elif err_code == 2 %}
@@ -42,38 +76,33 @@
 					{% elif err_code == 3 %}
 					<p class="mt-3 mb-3" style="color:red;">*Please enter Correct Email and Password.</p>
 					{% endif %}
-					<div class="wrap-input100 validate-input" data-validate = "Username is required">
-						<input class="input100" type="email" name="email" placeholder="Email">
-					</div>
-					<div class="col-md-2" style="height: 10px;">
-
-					</div>
-					<div class="wrap-input100 validate-input" data-validate = "Password is required">
-						<input class="input100" type="password" name="password" placeholder="Password">
-					</div>
-					<div class="p-t-13 p-b-9">
-						<a href="{% url 'password_reset' %}" class="txt2 bo1 m-l-5">
-							Forgot Password?
-						</a>
-					</div>
-
-					<div class="container-login100-form-btn m-t-17">
-						<button class="login100-form-btn" type="submit">
-							Sign In
-						</button>
-					</div>
-
-					<div class="w-full text-center p-t-15">
-						<span class="txt2">
-							Not a member?
-						</span>
-						<a href="{% url 'signup' %}" class="txt2 bo1">
-							Sign up now
-						</a>
-					</div>
-				</form>
-			</div>
-	    </div>
+				</div>
+				<div class="row">
+					<input type="email" name="email" placeholder="Email" class="form-control" required="required" id="id_email">
+					<div class="col-md-2" style="height: 10px;"></div>
+					<input type="password" name="password" placeholder="Password" class="form-control" required="required" id="id_password">
+					<div class="col-md-2" style="height: 10px;"></div>
+				</div>
+				<div class="row">
+					<a href="{% url 'password_reset' %}" class="txt2 bo1" style="text-decoration: none; font-size: 12px;">
+						Forgot Password?
+					</a>
+				</div>
+				<div class="col-md-2" style="height: 10px;"></div>
+				<div class="row ">
+					<button class="btn btn-primary btn-lg" type="submit" style="width:100%">
+						Sign In
+					</button>
+				</div>
+				<div class="col-md-2" style="height: 10px;"></div>
+				<div class="w-full text-center p-t-15">
+					<a href="{% url 'signup' %}" class="txt2 bo1">
+						Create Account
+					</a>
+				</div>
+			</form>
+		</div>
 	</div>
-</body>
-</html>
+</div>
+{% endblock %}
+

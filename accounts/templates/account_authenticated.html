@@ -1,25 +1,17 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" type="text/css" href='{% static "vendor/css/bootstrap.min.css" %}'>
-	  <link rel="stylesheet" type="text/css" href='{% static "css1/font-awesome.min.css" %}'>
-	  <link rel="stylesheet" type="text/css" href='{% static "css1/util.css" %}'>
-	  <link rel="stylesheet" type="text/css" href='{% static "css1/main.css" %}'>
-    <title>Account Authenticated</title>
-</head>
-<body>
-    <div class="container-login100">
-        <div class="wrap-login100 p-l-50 p-r-50 p-t-32 p-b-23 text-center">
-                <i class="fa fa-check-circle mt-3" style="font-size: 3em; color: green;"></i>
-                <h2 class="mx-3">Account Authenticated.</h2>
-                <p class="mx-3">You have Successfully authenticated the User Account.</p>
-                
-            </span>
+{% extends 'accounts_base.html' %}
+
+{% block title %}
+    Bandhu | Account Activation
+{% endblock %}
+
+
+{% block content %}
+    <div class="container form-display" style="margin-top: 50px;">
+        <div class="wrap-login100 p-l-50 p-r-50 p-t-32 p-b-23 text-center" 
+            style="margin: auto; margin-top: 45px; border: 1px solid #e7e4e4; max-width: 500px; border-radius: 5px; background-color: #eff2f357;">
+            <i class="fa fa-check-circle mt-3" style="font-size: 3em; color: green;"></i>
+            <h2 class="mx-3 font-weight-bolder">Account Authenticated</h2>
+            <p class="mx-3">You have successfully Authenticated the user account. </p>
         </div>
     </div>
-</body>
-</html>
+{% endblock %}
