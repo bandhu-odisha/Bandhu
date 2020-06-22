@@ -1,0 +1,301 @@
+@import url(http://fonts.googleapis.com/css?family=Raleway:300,400,600,700,800,900);
+
+@font-face {
+    font-family: oriya;
+    src: url("../vendor/fonts/OR51_Ananta.c4fc9e650203.ttf");
+}
+
+/* GLOBAL */
+
+html, body {
+    font-family: 'Raleway', sans-serif;
+    /* color: #737373; */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 16px;
+}
+
+a, h1, h2, h3, h4, h5, h6, p {
+    font-family: 'Raleway', sans-serif;
+}
+
+.bg-grey {
+    background-color: #ecf0f1;
+}
+
+/* NAVBAR STARTS */
+
+/* Navbar Brand */
+.navbar .navbar-brand .navbar-logo {
+    height: 70px;
+    width: 70px;
+}
+.navbar .navbar-brand .navbar-title {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 600;
+    display: inline-block;
+    margin: 0;
+    vertical-align: middle;
+}
+
+/* Navbar Links and Link-Buttons */
+.navbar .navbar-nav .nav-link {
+    font-size: 1em;
+    font-weight: 600;
+    line-height: 45px;
+    padding: 0 20px;
+    color: #ffffff;
+}
+.navbar .navbar-nav .nav-link:hover, .navbar .navbar-nav .nav-link:focus, .navbar .navbar-nav .nav-link:active {
+    color: #ffb307;
+}
+.navbar .navbar-nav>.active>a, .navbar .navbar-nav>.active>a:hover, .navbar .navbar-nav>.active>a:focus {
+    color: #ffb307;
+    /* background-color: transparent; */
+}
+.navbar .navbar-nav .nav-link.active {
+    color: #ffb307;
+}
+/* Link-Buttons */
+.navbar .navbar-nav .nav-button {
+    border-radius: 3px;
+    text-transform: none;
+    font-weight: 600;
+}
+
+/* Navbar Toggle Button */
+.custom-toggler.navbar-toggler {
+    font-size: 28px;
+    color: #fff;
+    border-color: transparent;
+    outline: transparent;
+}
+.custom-toggler.navbar-toggler[aria-expanded="true"], .custom-toggler.navbar-toggler:hover { 
+    color: #ffb307;
+} 
+
+/* Navbar Scroll Behaviour */
+.navbar.navbar-dark.navbar-scrolled {
+    background-color: rgba(0,0,0,.5) !important;
+}
+.navbar.navbar-dark.navbar-scrolled-again {
+    background-color: rgba(0,0,0,.85) !important;
+}
+
+/* Navbar non-transparent on small screens */
+@media screen and (max-width: 991px){
+    .navbar.bg-transparent.navbar-dark {
+        background-color: rgba(0,0,0,.85) !important;
+    }
+}
+
+
+/* SHOWCASE STARTS */
+
+#top-section {
+    background: url("../img/our_mission.371dc96babfa.jpg") 50% 0 no-repeat fixed;
+    margin: 0 auto;
+    background-repeat: no-repeat;
+    background-size: 100vw 120vh;
+    padding: 0;
+}
+.top-section {
+    position: relative;
+}
+.parallax-style, .no-parallax-style {
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+.parallax-style {
+    position: relative;
+    z-index: 1;
+}
+.parallax-overlay {
+    background-color: rgba(0,0,0,.6);
+}
+.slider-txt-container {
+    color: #ffffff;
+    text-align: center;
+    text-transform: uppercase;
+    padding: 150px 0 185px 0;
+    width: 100%;
+    overflow: hidden;
+}
+.slider-txt-container .bold-txt {
+    font-size: 3.875em;
+    font-weight: 800;
+    line-height: 70px;
+}
+.slider-txt-container .parallax-description {
+    color: #ffffff;
+    text-align: center;
+    font-size: 1.7em;
+    font-weight: 300;
+    line-height: 40px;
+    width: 70%;
+    margin: auto;
+}
+
+/* Angular Cut on Showcase */
+.angular {
+    position: relative;
+}
+.angular .top-angle, .angular .bottom-angle {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    height: 151px;
+    overflow: hidden;
+    z-index: 2;
+}
+.angular .top-angle {
+    top: -150px;
+}
+.angular .top-angle:before, .angular .bottom-angle:before {
+    content: "";
+    width: 100%;
+    height: 150px;
+    background: #ffffff;
+    position: absolute;
+    left: 0;
+    -webkit-transform: rotate(-3deg) skew(-3deg) scale(1.1,1);
+    -mox-transform: rotate(-3deg) skew(-3deg) scale(1.1,1);
+    -ms-transform: rotate(-3deg) skew(-3deg) scale(1.1,1);
+    -o-transform: rotate(-3deg) skew(-3deg) scale(1.1,1);
+    transform: rotate(-3deg) skew(-3deg) scale(1.1,1);
+}
+.angular .top-angle:before {
+    top: 75px;
+}
+
+
+
+/* FOOTER */
+
+#contact .nav .nav-link {
+    font-size: 1em;
+    font-weight: 600;
+    padding: 3px;
+    color: #ffffff;
+}
+#contact .nav .nav-link:hover, #contact .nav .nav-link:focus {
+    color: #ffb307;
+}
+#contact .nav>.active>a, #contact .nav>.active>a:hover, #contact .nav>.active>a:focus {
+    color: #ffb307;
+    /* background-color: transparent; */
+}
+
+#contact .social-icons a {
+    font-size: 32px;
+    margin-right: 12px;
+    text-decoration: none;
+}
+/* #contact .social-icons .fa-facebook-square:hover {
+    color: #1877f2 !important;
+}
+#contact .social-icons .fa-twitter:hover {
+    color: #00acee !important;
+} */
+
+#contact .footer a {
+    color: white;
+    font-weight: 600;
+}
+
+
+
+
+/* HEXAGON */
+
+.hex {
+    position: relative;
+    width: 100px;
+    height: 61px;
+    border-radius: 7px;
+    margin: 30px auto 50px auto;
+}
+
+.hex:before, .hex:after {
+    position: absolute;
+    width: inherit;
+    height: inherit;
+    border-radius: inherit;
+    background: inherit;
+    content: '';
+    margin-left: -1px;
+}
+
+.hex , .hex:before, .hex:after {
+    border-left: 2px solid #ffb307;
+    border-right: 2px solid #ffb307;
+}
+
+.hex:before {
+    -webkit-transform: rotate(60deg);
+    -moz-transform: rotate(60deg);
+    -ms-transform: rotate(60deg);
+    -o-transform: rotate(60deg);
+    transform: rotate(60deg);
+}
+
+.hex:after {
+    -webkit-transform: rotate(-60deg);
+    -moz-transform: rotate(-60deg);
+    -ms-transform: rotate(-60deg);
+    -o-transform: rotate(-60deg);
+    transform: rotate(-60deg);
+}
+
+.hex.hex-margin {
+    margin-bottom: 60px;
+}
+
+
+/* SCROLL TO TOP */
+
+#scroll-to-top {
+    position: fixed;
+    right: 30px;
+    bottom: 40px;
+    cursor: pointer;
+    display: none;
+    opacity: .7;
+    z-index: 99;
+    -webkit-transition: all .25s ease;
+    -moz-transition: all .25s ease;
+    -ms-transition: all .25s ease;
+    -o-transition: all .25s ease;
+    transition: all .25s ease;
+}
+
+#scroll-to-top:hover {
+    opacity: 1;
+}
+
+#scroll-to-top span {
+    font-size: 20px;
+}
+
+#scroll-to-top span {
+    color: #ffffff;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: block;
+    text-align: center;
+    z-index: 1;
+}
+
+.hex.scroll-top {
+    width: 45px;
+    height: 29px;
+    margin-bottom: 5px;
+    background-color: #ffb307;
+}
+
+.hex.scroll-top:after, .hex.scroll-top:before {
+    margin-left: -2px;
+    background-color: #ffb307;
+}
