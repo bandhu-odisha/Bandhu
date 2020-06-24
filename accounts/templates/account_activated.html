@@ -1,16 +1,17 @@
 {% extends 'accounts_base.html' %}
 {% block title %}
-    Bandhu | Password Reset
+    Bandhu | Profile in Review
 {% endblock %}
 
 {% block content %}
-    <div class="container-login100">
-        <div class="wrap-login100 p-l-50 p-r-50 p-t-32 p-b-23 text-center">
-                <i class="fa fa-check-circle mt-3" style="font-size: 3em; color: green;"></i>
-                <h2 class="mx-3">Profile in Review</h2>
-                <p class="mx-3">We have sent your Profile to our Admin for verification. </p>
-                <p class="mx-3"><b>You will recieve an Email Notification once your Profile gets verified by Admin.</b></p>
-            </span>
+    <div class="container form-display" style="margin-top: 50px;">
+        <div class="wrap-login100 p-l-50 p-r-50 p-t-32 p-b-23 text-center" 
+            style="margin: auto; margin-top: 45px; border: 0 solid #e7e4e4; max-width: 500px; border-radius: 5px; background-color: #;">
+            <!-- <img src="/static/img/icon/tick.gif" alt="Done" style="max-width: 100px;"> -->
+            <i class="far fa-address-card mt-3" style="font-size: 7em; color: orange;"></i>
+            <br></br>
+            <h1 class="mx-3 font-weight-bolder">Profile in Review</h1>
+            <p class="mx-3">We have sent your Profile to our Admin for verification. You will recieve an Email Notification once your Profile gets verified by Admin.</p>
         </div>
     </div>
 {% endblock %}

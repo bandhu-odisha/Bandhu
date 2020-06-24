@@ -88,7 +88,7 @@ def signup_view(request):
             user.save()
             user.refresh_from_db()
             current_site = get_current_site(request)
-
+            print("123")
             from_email = settings.SENDER_EMAIL
             mail_subject = '[noreply] Activate your Account'
             msg = 'Thanks for signing up, welcome to bandhu. You have been successfully registered.'
@@ -105,7 +105,8 @@ def signup_view(request):
             )
             email.content_subtype = "html"
             email.send()
-
+            print("654")
+            print(email)
             return redirect('signup_success_page')
         else:
             return render(request,'signup_failure_page.html',{'message':'You have not been registered. Your Passwords doesnt match!!'})
