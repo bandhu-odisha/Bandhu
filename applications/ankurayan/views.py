@@ -35,9 +35,10 @@ def create_ankurayan(request):
         
         return HttpResponseRedirect('/ankurayan/')
         
-def ankurayan_detail(request,slug):
-    ankurayan = get_object_or_404(Ankurayan,slug=slug)
-    activities = Activity.objects.filter(ankurayan=ankurayan)
+def ankurayan_detail(request, slug):
+    ankurayan = get_object_or_404(Ankurayan, slug=slug)
+    categories = ActivityCategory.objects.filter(ankurayan=ankurayan)
+    participants = Participant.objects.filter(ankurayan=ankurayan)
     check_admin = False
 
     if ankurayan.admin is not None and ankurayan.admin.user == request.user:
@@ -46,11 +47,17 @@ def ankurayan_detail(request,slug):
     else:
         photos = Photo.objects.filter(ankurayan=ankurayan).filter(approved=True)
 
-    categories = ActivityCategory.objects.all()
-    participants = Participant.objects.all()
-    return render(request,'ankurayan_detail.html',{'ankurayan':ankurayan,'activities':activities,
-                                                    'photos':photos,'categories':categories,
-                                                    'participants':participants,'check_admin':check_admin})
+    ankurayans = Ankurayan.objects.all().exclude(slug=slug)
+
+    context = {
+        'ankurayan': ankurayan,
+        'categories': categories,
+        'participants': participants,
+        'photos': photos,
+        'check_admin': check_admin,
+        'ankurayans': ankurayans,
+    }
+    return render(request,'ankurayan_detail.html', context)
 
 @login_required
 def add_participant(request):
@@ -92,13 +99,14 @@ def add_guest(request):
     return HttpResponseRedirect('/')
 
 @login_required
-def add_activity(request):
+def add_activity_category(request):
     if request.method == 'POST':
         slug = request.POST.get('slug')
         name = request.POST.get('name')
-        category = request.POST.get('category')
 
-        ActivityCategory.objects.create(name=name,category=category)
+        ankurayan = get_object_or_404(Ankurayan, slug=slug)
+
+        ActivityCategory.objects.create(ankurayan=ankurayan, name=name)
 
         url = '/ankurayan/detail/' + slug +'/'
         return HttpResponseRedirect(url)
@@ -118,7 +126,7 @@ def create_activity(request):
         activity_category = get_object_or_404(ActivityCategory,pk=int(category))
 
         print(ankurayan,activity_category,category)
-        activity = Activity.objects.create(ankurayan=ankurayan,category=activity_category,
+        activity = Activity.objects.create(category=activity_category,
                                 name=name,description=description,activity_date=activity_date)
 
         for i in activity_images:
@@ -143,8 +151,9 @@ def add_winners(request):
         runner_up2_profile = get_object_or_404(Participant,pk=int(runner_up2))
 
         ankurayan = get_object_or_404(Ankurayan,slug=slug)
+        category = get_object_or_404(ActivityCategory, ankurayan=ankurayan)  # Modify this
 
-        activity = Activity.objects.filter(ankurayan=ankurayan).filter(name=name).first()
+        activity = Activity.objects.filter(category=category).filter(name=name).first()
         activity.winner = winner_profile
         activity.runner_up1 = runner_up1_profile
         activity.runner_up2 = runner_up2_profile

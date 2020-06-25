@@ -7,10 +7,11 @@ from bandhuapp.models import Profile
 
 class Ankurayan(models.Model):
     year = models.IntegerField(unique=True)
+    title = models.CharField(max_length=100)
+    theme = models.TextField(max_length=250)
+    description = models.TextField(max_length=3000)
     start_date = models.DateField()
     end_date = models.DateField()
-    theme = models.TextField(max_length=250)
-    description = models.TextField(max_length=1000)
     logo = models.ImageField(upload_to='ankurayan/logo')
     slug = models.SlugField()
     admin = models.ForeignKey(Profile,blank=True,null=True,on_delete=models.PROTECT)
@@ -56,23 +57,16 @@ class Guest(models.Model):
 
 
 class ActivityCategory(models.Model):
-    CATEGORY = (
-        ('Cultural','Cultural'),
-        ('Sports','Sports'),
-        ('Debate','Debate'),
-    )
-
-    name = models.CharField(max_length=150)
-    category = models.CharField(max_length=100,choices=CATEGORY)
+    ankurayan = models.ForeignKey(Ankurayan, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
 
     class Meta:
         verbose_name_plural = 'Activity Categories'
 
     def __str__(self):
-        return f'{self.name}'
+        return f'{self.ankurayan.year} - {self.name}'
 
 class Activity(models.Model):
-    ankurayan = models.ForeignKey(Ankurayan, on_delete=models.CASCADE)
     category = models.ForeignKey(ActivityCategory, on_delete=models.PROTECT)
     name = models.CharField(max_length=50)
     description = models.TextField(max_length=1000)
@@ -86,7 +80,7 @@ class Activity(models.Model):
         verbose_name_plural = 'Activities'
 
     def __str__(self):
-        return f'{self.ankurayan.year} - {self.name} ({self.category.name})'
+        return f'{self.category.ankurayan.year} - {self.name} ({self.category.name})'
 
 class Photo(models.Model):
     ankurayan = models.ForeignKey(Ankurayan, on_delete=models.CASCADE)

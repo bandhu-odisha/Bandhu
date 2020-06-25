@@ -5,12 +5,6 @@
 {% block title %} Bandhu {% endblock %}
 
 {% block style %}
-<!-- Glide Carousel CSS -->
-<link rel="stylesheet" href="{% static 'vendor/css/glide.core.min.css' %}">
-<link rel="stylesheet" href="{% static 'vendor/css/glide.theme.min.css' %}">
-<!-- PhotoSwipe CSS -->
-<link rel="stylesheet" href="{% static 'vendor/photoswipe/photoswipe.css' %}">
-<link rel="stylesheet" href="{% static 'vendor/photoswipe/default-skin/default-skin.css' %}">
 <!-- Custom CSS -->
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
 {% endblock %}
@@ -85,7 +79,7 @@
 <section id="initiatives" style="margin-top: -200px;">
     <div class="row justify-content-center initiatives mx-0">
         <div class="col-lg-3 col-md-4 col-sm-6 px-2">
-            <div class="col-sm card  mx-auto" >
+            <div class="col-sm card mx-auto" >
                 <img src="{% static 'img/pimg3.jpg' %}" class="rounded-top">
                 <div class="card-body p-3">
                     <h5 class="card-title content-title font-weight-bolder" style="text-align: center;">Ankurayan</h5>
@@ -474,13 +468,7 @@
 
 {% block scripts %}
 <!-- Glide Carousel JS -->
-<script src="{% static 'vendor/js/glide.min.js' %}"></script>
 <script src="{% static 'js/glide-custom.js' %}"></script>
-<!-- Isotope JS -->
-<script src='{% static "vendor/js/isotope.pkgd.min.js" %}'></script>
-<!-- PhotoSwipe JS -->
-<script src="{% static 'vendor/photoswipe/photoswipe.min.js' %}"></script>
-<script src="{% static 'vendor/photoswipe/photoswipe-ui-default.min.js' %}"></script>
 <!-- Custom JS -->
 <script src="{% static 'js/bandhu.js' %}"></script>
 <!-- Contact Scrollspy Problem -->
