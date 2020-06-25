@@ -391,62 +391,62 @@
         </div>
     </div>
     {% if check_admin and user.is_authenticated %}
-                                    <div class="modal fade" tabindex="-1"
-                                        id="selectWinners{{forloop.counter}}" role="dialog"
-                                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                                            <div class="modal-content shadow">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title content-title" id="exampleModalLongTitle">Select Winners
-                                                    </h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p style="color:red;display:none;" class="errorMessageWinners" >A student cannot come at two positions.</p>
-                                                    <form method="POST" enctype="multipart/form-data" action="{% url 'ankurayan:AddWinners' %}"
-                                                        id="chooseWinnersForm{{forloop.counter}}">{% csrf_token %}
-                                                        <input type="text" hidden name="pk" value="{{activity.pk}}">
-                                                        <input type="text" hidden name="slug" value="{{ankurayan.slug}}">
-                                                        <!-- <input type="text" hidden name="activity_name"
-                                                            value={{activity.activity_name}}>
-                                                        <input type="text" hidden name="date"
-                                                            value={{activity.activity_date}}> -->
-                                                        <select required class="form-control" id="winner{{forloop.counter}}"
-                                                            name="pk_winner">
-                                                            <option value="">Select Winner</option>
-                                                            {% for participant in participants %}
-                                                            <option value="{{participant.pk}}">{{participant.name}} -
-                                                                {{participant.school_class}}</option>
-                                                            {% endfor %}
-                                                        </select><br>
-                                                        <select required class="form-control" id="runnerUp1{{forloop.counter}}"
-                                                            name="pk_runner_up1">
-                                                            <option value="">Select first runner up</option>
-                                                            {% for participant in participants %}
-                                                            <option value="{{participant.pk}}">{{participant.name}} -
-                                                                {{participant.school_class}}</option>
-                                                            {% endfor %}
-                                                        </select><br>
-                                                        <select required class="form-control" id="runnerUp2{{forloop.counter}}"
-                                                            name="pk_runner_up2">
-                                                            <option value="">Select second runner up</option>
-                                                            {% for participant in participants %}
-                                                            <option value="{{participant.pk}}">{{participant.name}} -
-                                                                {{participant.school_class}}</option>
-                                                            {% endfor %}
-                                                        </select><br>
-                                                        <input type="file" class="form-control" multiple name="activity_images">
-                                                        <button type="button" class="btn btn-primary"
-                                                            onclick="validateWinners(`{{forloop.counter}}`);">Submit</button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {% endif %}
+    <div class="modal fade" tabindex="-1"
+        id="selectWinners{{forloop.counter}}" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content shadow">
+                <div class="modal-header">
+                    <h5 class="modal-title content-title" id="exampleModalLongTitle">Select Winners
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p style="color:red;display:none;" class="errorMessageWinners" >A student cannot come at two positions.</p>
+                    <form method="POST" enctype="multipart/form-data" action="{% url 'ankurayan:AddWinners' %}"
+                        id="chooseWinnersForm{{forloop.counter}}">{% csrf_token %}
+                        <input type="text" hidden name="pk" value="{{activity.pk}}">
+                        <input type="text" hidden name="slug" value="{{ankurayan.slug}}">
+                        <!-- <input type="text" hidden name="activity_name"
+                            value={{activity.activity_name}}>
+                        <input type="text" hidden name="date"
+                            value={{activity.activity_date}}> -->
+                        <select required class="form-control" id="winner{{forloop.counter}}"
+                            name="pk_winner">
+                            <option value="">Select Winner</option>
+                            {% for participant in participants %}
+                            <option value="{{participant.pk}}">{{participant.name}} -
+                                {{participant.school_class}}</option>
+                            {% endfor %}
+                        </select><br>
+                        <select required class="form-control" id="runnerUp1{{forloop.counter}}"
+                            name="pk_runner_up1">
+                            <option value="">Select first runner up</option>
+                            {% for participant in participants %}
+                            <option value="{{participant.pk}}">{{participant.name}} -
+                                {{participant.school_class}}</option>
+                            {% endfor %}
+                        </select><br>
+                        <select required class="form-control" id="runnerUp2{{forloop.counter}}"
+                            name="pk_runner_up2">
+                            <option value="">Select second runner up</option>
+                            {% for participant in participants %}
+                            <option value="{{participant.pk}}">{{participant.name}} -
+                                {{participant.school_class}}</option>
+                            {% endfor %}
+                        </select><br>
+                        <input type="file" class="form-control" multiple name="activity_images">
+                        <button type="button" class="btn btn-primary"
+                            onclick="validateWinners(`{{forloop.counter}}`);">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
     {% endfor %}
 {% endfor %}
 
