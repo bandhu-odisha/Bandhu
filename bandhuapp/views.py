@@ -99,7 +99,7 @@ def profile_page(request):
                 mail_subject, message, from_email, to_email,
             )
             email.send()
-        
+            email.content_subtype = "html"
             logout(request)
             return redirect('account_activated')
 

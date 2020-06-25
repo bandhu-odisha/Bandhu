@@ -7,9 +7,9 @@ from .models import User
 
 
 class RegisterForm(forms.ModelForm):
-    password = forms.CharField(label=None,widget=forms.PasswordInput(attrs={'placeholder':'Password','class':'form-control'}))
-    password2 = forms.CharField(label=None,widget=forms.PasswordInput(attrs={'placeholder':'Confirm Password','class':'form-control'}))
-    email = forms.CharField(label=None,widget=forms.EmailInput(attrs={'placeholder':'Email','class':'form-control'}))
+    password = forms.CharField(label=None,widget=forms.PasswordInput(attrs={'placeholder':'Password','class':'input100'}))
+    password2 = forms.CharField(label=None,widget=forms.PasswordInput(attrs={'placeholder':'Confirm Password','class':'input100'}))
+    email = forms.CharField(label=None,widget=forms.EmailInput(attrs={'placeholder':'Email','class':'input100'}))
 
     class Meta:
         model = User

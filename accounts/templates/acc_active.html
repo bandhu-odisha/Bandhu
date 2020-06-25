@@ -189,27 +189,15 @@
 										<div style="color:#555555;font-family:'Roboto', Tahoma, Verdana, Segoe, sans-serif;line-height:1.2;padding-top:10px;padding-right:10px;padding-bottom:10px;padding-left:10px;">
 											<div style="font-size: 14px; line-height: 1.2; font-family: 'Roboto', Tahoma, Verdana, Segoe, sans-serif; color: #555555; mso-line-height-alt: 17px;">
 												<p style="font-size: 14px; line-height: 1.2; word-break: break-word; text-align: justify; font-family: Raleway; mso-line-height-alt: 17px; margin: 0;">
-													Hi {{user.email}},<br><br>
-													Thanks for signing up, Welcome to
-                                                    Bandhu.
-                                                    <br>
-												</p><p style="font-size: 14px; line-height: 1.2; word-break: break-word; text-align: justify; font-family: Roboto, Tahoma, Verdana, Segoe, sans-serif; mso-line-height-alt: 17px; margin: 0;"></p>
+												    {{msg}},<br><br>
+													<b>Please verify his profile.</b>
+                                                    <br><br>
+                                                </p>
+                                                <p style="font-size: 14px; line-height: 1.2; word-break: break-word; text-align: justify; font-family: Roboto, Tahoma, Verdana, Segoe, sans-serif; mso-line-height-alt: 17px; margin: 0;"></p>
 												<p style="font-size: 14px; line-height: 1.2; word-break: break-word; text-align: justify; font-family: Raleway; mso-line-height-alt: 17px; margin: 0;">
-													Here are the steps to be followed:
+                                                    {% for pf in profile %}
+                                                    <strong>{{pf}}</strong>
 													<br>
-													<strong>1.</strong>
-													Verify your Profile <a href="http://{{ domain }}{% url 'account_activation' uidb64=uid token=token %}" style="text-decoration: none; color: #3f51b5">(Click
-                                                        here)</a>
-													<br>
-													<strong>2.</strong>
-													Update your profile.
-                                                        <br>
-													<strong>3.</strong>
-													Admin will verify your profile.
-                                                        <br>
-													<strong>4.</strong>
-													You will get a mail after your profile is verified and then you are good to go.
-
 												</p>
 											</div>
 										</div>
@@ -220,8 +208,7 @@
 												<a href="http://{{ domain }}{% url 'account_activation' uidb64=uid token=token %}" style="color: #fff;">
 													<span style="padding-left:20px;padding-right:20px;font-size:16px;display:inline-block;">
 														<span style="font-size: 16px; line-height: 2; word-break: break-word; mso-line-height-alt: 32px;">
-															<strong>Activate
-                                                                my account</strong>
+															<strong>Verify Profile</strong>
 														</span>
 													</span>
 												</a>
