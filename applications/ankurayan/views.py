@@ -36,7 +36,18 @@ def create_ankurayan(request):
         return HttpResponseRedirect('/ankurayan/')
         
 def ankurayan_detail(request, slug):
-    ankurayan = get_object_or_404(Ankurayan, slug=slug)
+    ankurayan = Ankurayan.objects.filter(slug=slug)
+    if ankurayan.exists():
+        ankurayan = ankurayan[0]
+    elif slug == str(datetime.now().year):
+        ankurayan = Ankurayan.objects.order_by('-year')
+        if ankurayan.exists():
+            ankurayan = ankurayan[0]
+        else:
+            raise Http404
+    else:
+        raise Http404
+
     categories = ActivityCategory.objects.filter(ankurayan=ankurayan)
     participants = Participant.objects.filter(ankurayan=ankurayan)
     check_admin = False

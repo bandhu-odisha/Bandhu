@@ -25,33 +25,25 @@ class Ashram(models.Model):
         super(Ashram,self).save(*args,**kwargs)
 
 class ActivityCategory(models.Model):
-    CATEGORY = (
-        ('Cultural','Cultural'),
-        ('Sports','Sports'),
-        ('Debate','Debate'),
-    )
-
+    ashram = models.ForeignKey(Ashram, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
-    category = models.CharField(max_length=50,choices=CATEGORY)
 
     class Meta:
         verbose_name_plural = 'Activity Categories'
 
     def __str__(self):
-        return f'{self.category} - {self.name}'
+        return f'{self.ashram.name} - {self.name}'
 
 class Activity(models.Model):
-    ashram = models.ForeignKey(Ashram, on_delete=models.CASCADE)
     category = models.ForeignKey(ActivityCategory, on_delete=models.PROTECT)
     name = models.CharField(max_length=50)
     description = models.TextField(max_length=1000)
-    activity_date = models.DateField(default=timezone.now)
 
     class Meta:
         verbose_name_plural = 'Activities'
 
     def __str__(self):
-        return f'{self.ashram.name} - {self.name} ({self.category.name})'
+        return f'{self.category.ashram.name} - {self.name} ({self.category.name})'
 
 class Meeting(models.Model):
     ashram = models.ForeignKey(Ashram, on_delete=models.CASCADE)
