@@ -48,26 +48,11 @@
         <i style="margin-left:10px !important;" class="fas fa-chevron-down"></i>
     </button>
     <div class="collapse recent-activities-collapse" id="collapseExample">
-        <div class="card card-body">
+        <div class="card card-body" style="font-size: 20px;">
             <ol>
-                <li>
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
-                </li>
-                <li>
-                    Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                </li>
-                <li>
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
-                </li>
-                <li>
-                    Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                </li>
-                <li>
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
-                </li>
-                <li>
-                    Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                </li>
+                {% for i in recent_activities %}
+                    <li><a href="#">{{i.name}}</a><br>{{i.description|truncatechars:80}}</li>
+                {% endfor %}
             </ol>
         </div>
     </div>

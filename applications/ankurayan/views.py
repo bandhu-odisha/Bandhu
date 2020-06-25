@@ -48,7 +48,12 @@ def ankurayan_detail(request, slug):
         photos = Photo.objects.filter(ankurayan=ankurayan).filter(approved=True)
 
     ankurayans = Ankurayan.objects.all().exclude(slug=slug)
-
+    activity_img = []
+    for i in categories:
+        for j in i.activity_set.all():
+            activity_img.append(Photo.objects.filter(activity=j))
+    print("helo")
+    print(activity_img)
     context = {
         'ankurayan': ankurayan,
         'categories': categories,
@@ -56,6 +61,7 @@ def ankurayan_detail(request, slug):
         'photos': photos,
         'check_admin': check_admin,
         'ankurayans': ankurayans,
+        'activity_img': activity_img,
     }
     return render(request,'ankurayan_detail.html', context)
 
@@ -140,6 +146,7 @@ def create_activity(request):
 def add_winners(request):
     if request.method == 'POST':
         slug = request.POST.get('slug')
+        activity_pk = request.POST.get('pk')
         name = request.POST.get('activity_name')
         winner = request.POST.get('pk_winner')
         runner_up1 = request.POST.get('pk_runner_up1')
@@ -147,13 +154,15 @@ def add_winners(request):
         activity_images = request.FILES.getlist('activity_images')
 
         winner_profile = get_object_or_404(Participant,pk=int(winner))
+        print(1, winner_profile)
         runner_up1_profile = get_object_or_404(Participant,pk=int(runner_up1))
+        print(2, runner_up1_profile)
         runner_up2_profile = get_object_or_404(Participant,pk=int(runner_up2))
-
+        print(3, runner_up2_profile)
+        print(activity_pk)
         ankurayan = get_object_or_404(Ankurayan,slug=slug)
-        category = get_object_or_404(ActivityCategory, ankurayan=ankurayan)  # Modify this
-
-        activity = Activity.objects.filter(category=category).filter(name=name).first()
+        # category = get_object_or_404(ActivityCategory, ankurayan=ankurayan)  # Modify this
+        activity = get_object_or_404(Activity, pk=int(activity_pk))
         activity.winner = winner_profile
         activity.runner_up1 = runner_up1_profile
         activity.runner_up2 = runner_up2_profile
@@ -161,7 +170,7 @@ def add_winners(request):
 
         for i in activity_images:
             Photo.objects.create(ankurayan=ankurayan,picture=i,activity=activity)
-
+        
         url = '/ankurayan/detail/' + slug +'/'
         return HttpResponseRedirect(url)
     return HttpResponseRedirect('/')
