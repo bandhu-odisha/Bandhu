@@ -109,7 +109,7 @@ def signup_view(request):
             print(email)
             return redirect('signup_success_page')
         else:
-            return render(request,'signup_failure_page.html',{'message':'You have not been registered. Your Passwords doesnt match!!'})
+            return render(request,'signup.html',{'form':form,'done': 0})
     else:
         form = RegisterForm()
     return render(request, 'signup.html', {'form': form,'done':0})

@@ -63,7 +63,12 @@
 				</span>
 				<div class="w-full text-center p-t-3 p-b-10">
 					<div class="error_msg text-center w-full">
-						<p style="color: red">{{message}}</p>
+                        {% for field in form %}
+                        {% for error in field.errors %}
+						<p style="color: red">{{error}}</p>
+                        <p style="color: red">{{message}}</p>
+                        {% endfor %}
+                        {% endfor %}
 					</div>
 				</div>
 				<!-- Main login area  -->
