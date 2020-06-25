@@ -1,15 +1,16 @@
-.content-title {
-    color: #0d0d0d;
-    font-size: 1.375em;
-    font-weight: 700;
-    line-height: 1em;
-    text-transform: none;
-    margin-top: 0;
-}
 
 #about .title {
     color: #0d0d0d;
     /* font-size: 1.375em; */
+    font-weight: 800;
+    line-height: 1em;
+    text-transform: uppercase;
+    margin-top: 0;
+}
+
+#about .content-title {
+    color: #0d0d0d;
+    font-size: 1.375em;
     font-weight: 800;
     line-height: 1em;
     text-transform: uppercase;
@@ -55,4 +56,8 @@
 #activities .glide__arrow i{
     font-size: 36px;
     color: #d3d3d3;
+}
+#activities .glide__arrow:hover i{
+    font-size: 36px;
+    color: #ffb307;
 }

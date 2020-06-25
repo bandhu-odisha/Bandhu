@@ -30,9 +30,10 @@ def create_anandakendra(request):
         
         return HttpResponseRedirect('/anandakendra/')
 
-def anandkendra_detail(request,slug):
-    kendra = get_object_or_404(AnandaKendra,slug=slug)
-    activities = Activity.objects.filter(kendra=kendra)
+def anandkendra_detail(request, slug):
+    kendra = get_object_or_404(AnandaKendra, slug=slug)
+    categories = ActivityCategory.objects.filter(kendra=kendra)
+    students = Student.objects.filter(kendra=kendra)
     check_admin = False
 
     if kendra.admin is not None and kendra.admin.user == request.user:
@@ -40,17 +41,24 @@ def anandkendra_detail(request,slug):
         check_admin = True
     else:
         photos = Photo.objects.filter(kendra=kendra).filter(approved=True)
-    categories = ActivityCategory.objects.all()
-    students = Student.objects.all()
+
     activities_list = []
 
+    activities = Activity.objects.filter(category__kendra=kendra)
     for activity in activities:
         photos = Photo.objects.filter(activity=activity).filter(approved=True)
         activities_list.append([activity,photos])
 
-    return render(request,'anandkendra_detail.html',{'kendra':kendra,'activities':activities_list,
-                                                    'photos':photos,'categories':categories,
-                                                    'students':students,'check_admin':check_admin})
+    context = {
+        'kendra': kendra,
+        'categories': categories,
+        'activities': activities_list,
+        'students': students,
+        'photos': photos,
+        'check_admin': check_admin,
+    }
+
+    return render(request,'anandkendra_detail.html', context)
 
 @login_required
 def enroll_student(request):
@@ -90,13 +98,14 @@ def add_acharya(request):
     return HttpResponseRedirect('/')
 
 @login_required
-def add_activity(request):
+def add_activity_category(request):
     if request.method == 'POST':
         slug = request.POST.get('slug')
         name = request.POST.get('name')
-        category = request.POST.get('category')
 
-        ActivityCategory.objects.create(name=name,category=category)
+        kendra = get_object_or_404(AnandaKendra, slug=slug)
+
+        ActivityCategory.objects.create(kendra=kendra, name=name)
 
         url = '/anandakendra/detail/' + slug +'/'
         return HttpResponseRedirect(url)
@@ -109,15 +118,15 @@ def create_activity(request):
         name = request.POST.get('activity_name')
         category = request.POST.get('category')
         description = request.POST.get('description')
-        activity_date = request.POST.get('activity_date')
+        activity_time = request.POST.get('activity_time')
         activity_images = request.FILES.getlist('activity_images')
 
-        kendra = get_object_or_404(AnandaKendra,slug=slug)
-        activity_category = get_object_or_404(ActivityCategory,pk=int(category))
+        kendra = get_object_or_404(AnandaKendra, slug=slug)
+        activity_category = get_object_or_404(ActivityCategory, pk=int(category))
 
         print(kendra,activity_category,category)
-        activity = Activity.objects.create(kendra=kendra,category=activity_category,
-                                name=name,description=description,activity_date=activity_date)
+        activity = Activity.objects.create(category=activity_category,
+                                name=name,description=description,activity_time=activity_time)
 
         for i in activity_images:
             Photo.objects.create(kendra=kendra,picture=i,activity=activity,approved=True)

@@ -2,33 +2,31 @@
 
 {% load static %}
 
-{% block title %} Bandhu {% endblock %}
+{% block title %} Anandakendra - {{ kendra.locality }} {% endblock %}
 
 {% block style %}
-<!-- Glide Carousel CSS -->
-<link rel="stylesheet" href="{% static 'vendor/css/glide.core.min.css' %}">
-<link rel="stylesheet" href="{% static 'vendor/css/glide.theme.min.css' %}">
-<!-- PhotoSwipe CSS -->
-<link rel="stylesheet" href="{% static 'vendor/photoswipe/photoswipe.css' %}">
-<link rel="stylesheet" href="{% static 'vendor/photoswipe/default-skin/default-skin.css' %}">
 <!-- Custom CSS -->
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
+<link rel="stylesheet" href="{% static 'css/anandakendra.css' %}">
 
 <!-- Semantic UI , Used only for Multiple Select in select Acharya Form -->
-<link rel="stylesheet" type="text/css" href="{% static 'css/icon.css' %}">
+<!-- <link rel="stylesheet" type="text/css" href="{% static 'css/icon.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/semantic.min.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css/mediaquery.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'css/semantic-notify.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/semantic-notify.css' %}"> -->
 
 {% endblock %}
 
 {% block navbar-links %}
 <li class="nav-item">
-    <a class="nav-link px-3 px-lg-2" href="#about">About</a>
+    <a class="nav-link px-3 px-lg-2" href="{% url 'home' %}">Home</a>
 </li>
 <li class="nav-item">
-    <a class="nav-link px-3 px-lg-2" href="#recent-activities">Recents</a>
+    <a class="nav-link px-3 px-lg-2" href="#about">About</a>
 </li>
+<!-- <li class="nav-item">
+    <a class="nav-link px-3 px-lg-2" href="#recent-activities">Recents</a>
+</li> -->
 <li class="nav-item">
     <a class="nav-link px-3 px-lg-2" href="#gallery">Gallery</a>
 </li>
@@ -41,40 +39,50 @@
 {% endblock %}
 
 {% block showcase-title-container %}
-<div class="slider-txt-container" style="padding: 200px 0 300px 0;">
-
+<div class="slider-txt-container" style="padding: 200px 0 200px 0;">
+    <h2 class="bold-txt"> Anandakendra </h2>
+    <p class="showcase-description mt-n3 mb-5">{{ kendra.locality }}</p>
 </div>
 
 {% endblock %}
 
 {% block content %}
-<!-- Cause Section  -->
-<div class="" id="cause">
-    <div class="angular">
-        <div class="top-angle">
-        </div><!-- /.top-angle -->
-    </div>
-    <div class="container" style="position: relative; top: -150px; z-index: 1000;">
+
+<section id="about" style="margin-top: -200px;">
+    <div class="container pb-3 mb-5">
         <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div style="padding: 165px 25px 0;">
-                    <h3 class="content-title" style="font-size: 2rem; margin-bottom: 20px;">{{kendra.name}} -
-                        {{kendra.locality}}</h3>
-                    <p>
-                        <strong>
-                            Address :- {{kendra.address}}
-                        </strong>
-                    </p>
-                    <p>
-                        {{kendra.description}}
-                    </p>
-                    </h3>
+            <div class="col-lg-8 text-left px-0 py-0 py-lg-2 mx-auto" style="z-index: 10;">
+
+
+                <div class="card m-2 shadow-sm d-none d-lg-block">
+                    <div class="card-body p-4">
+                        <h1 class="mb-3 title">{{ kendra.name|safe }} ({{ kendra.locality }})</h1>
+                        <p class="m-0">
+                            {{ kendra.address }}
+                        </p>
+                    </div>
                 </div>
+                <!--   DESCRIPTON  -->
+                <div class="card m-2 shadow-sm">
+                    <div class="card-body p-4">
+                        <h2 class="content-title mb-2">Description</h1>
+                        <p>{{ kendra.description|safe }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 text-left px-0 py-0 py-lg-2 mx-auto" style="z-index: 10;">
+				<!--   PIC CARD  -->
+				<div class="card m-2 shadow-sm mb-4">
+					<div class="card-body p-1">
+						<img src="{{ kendra.image.url }}" alt="DP" class="img-fluid h-100 w-100" style="max-height: 300px;" />
+					</div>
+                </div>
+
 
                 {% if check_admin and user.is_authenticated %}
                 <!-- Add Acharyas to this Kendra -->
-                <div class="select-acharyas">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#selectacharyamodal">
+                <div class="select-acharyas text-center my-2">
+                    <button type="button" class="btn btn-primary w-75" data-toggle="modal" data-target="#selectacharyamodal">
                         Select Acharyas
                     </button>
                     <div class="modal fade bd-example-modal-lg" tabindex="-1" id="selectacharyamodal" role="dialog"
@@ -88,7 +96,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form method="POST" action="{% url 'AddAcharya' %}">{% csrf_token %}
+                                    <form method="POST" action="{% url 'anandakendra:AddAcharya' %}">{% csrf_token %}
                                         <input type="text" hidden name="slug" value={{kendra.slug}}>
                                         <div class="ui fluid multiple search selection dropdown">
                                             <input type="hidden" name="acharyas">
@@ -111,8 +119,8 @@
                 </div>
 
                 <!-- Add Students to this kendra -->
-                <div class="add-students">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addStudentsModal">
+                <div class="add-students text-center my-2">
+                    <button type="button" class="btn btn-primary w-75" data-toggle="modal" data-target="#addStudentsModal">
                         Add Students
                     </button>
                     <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addStudentsModal" role="dialog"
@@ -126,7 +134,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form method="POST" action="{% url 'EnrollStudent' %}">{% csrf_token %}
+                                    <form method="POST" action="{% url 'anandakendra:EnrollStudent' %}">{% csrf_token %}
                                         <input type="text" hidden name="slug" value={{kendra.slug}}>
                                         <input type="text" class="form-control" name="name"
                                             placeholder="Student name"><br>
@@ -164,8 +172,8 @@
                 </div>
 
                 <!-- Add Activity Category -->
-                <div class="add-activity-category">
-                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                <div class="add-activity-category text-center my-2">
+                    <button type="button" class="btn btn-primary w-75" data-toggle="modal"
                         data-target="#addActivityCategory">
                         Add Category
                     </button>
@@ -180,16 +188,11 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form method="POST" action="{% url 'AnandakendraAddActivityCategory' %}">
+                                    <form method="POST" action="{% url 'anandakendra:AnandakendraAddActivityCategory' %}">
                                         {% csrf_token %}
                                         <input type="text" hidden name="slug" value={{kendra.slug}}>
                                         <input type="text" class="form-control" name="name"
                                             placeholder="Activity name"><br>
-                                        <select class="form-control" name="category">
-                                            <option value="Cultural">Cultural</option>
-                                            <option value="Sports">Sports</option>
-                                            <option value="Debate">Debate</option>
-                                        </select><br>
                                         <button class="btn btn-primary">Submit</button>
                                     </form>
                                 </div>
@@ -199,8 +202,8 @@
                 </div>
 
                 <!-- Add Activity -->
-                <div class="add-activity">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addActivity">
+                <div class="add-activity text-center my-2">
+                    <button type="button" class="btn btn-primary w-75" data-toggle="modal" data-target="#addActivity">
                         Add Activity
                     </button>
                     <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addActivity" role="dialog"
@@ -215,7 +218,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <form method="POST" enctype="multipart/form-data"
-                                        action="{% url 'AnandakendraCreateActivity' %}">{% csrf_token %}
+                                        action="{% url 'anandakendra:AnandakendraCreateActivity' %}">{% csrf_token %}
                                         <input type="text" hidden name="slug" value={{kendra.slug}}>
                                         <input type="text" class="form-control" name="activity_name"
                                             placeholder="Activity name"><br>
@@ -224,7 +227,7 @@
                                             <option value="{{category.pk}}">{{category.name}}</option>
                                             {% endfor %}
                                         </select><br>
-                                        <input type="date" name="activity_date" class="form-control"><br>
+                                        <input type="text" name="activity_time" class="form-control" placeholder="Time of Activity"><br>
                                         <textarea name="description" cols="80" class="form-control"
                                             rows="8"></textarea><br>
                                         <input type="file" class="form-control" multiple name="activity_images">
@@ -236,21 +239,63 @@
                     </div>
                 </div>
                 {% endif %}
-
-            </div>
-            <div class="col-md-6">
-                <div class="card border text-center">
-                    <img class="card-img-top" src='{% static "img/gimg-3.png" %}' alt="Card image cap"
-                        style="height: 400px; width: 100%;">
-                    <!-- <div class="card-body">
-					  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-					</div> -->
-                </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
+
+<!-- Activities Section -->
+<section id="activities">
+    <div class="bg-grey" style="padding: 50px 0;">
+        <h3 class="section-title">Activities</h3>
+        <div class="container">
+            {% for category in categories %}
+            {% if category.activity_set.count %}
+            <h3 class="title mt-5 mb-3">{{ category.name }}</h3>
+            <div class="row">
+                <div class="glide category{{ forloop.counter0 }}">
+                    <div class="glide__track" data-glide-el="track">
+                        <ul class="glide__slides">
+                            {% for activity in category.activity_set.all %}
+                            <li class="glide__slide">
+                                <div class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
+                                    <img src="{% static 'img/pimg6.jpg' %}" class="card-img-top home-card-img" alt="" width="300px">
+                                    <div class="card-body pb-0">
+                                        <h5 class="card-title font-weight-bold">{{ activity.name }}</h5>
+                                        <p class="mb-3">
+                                        {{ activity.description }}
+                                        <br>
+                                        </p>
+                                        <a class="stretched-link" href="#" data-toggle="modal" data-target="#activity_modal{{ activity.id }}"></a>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="glide__arrows disable_arrows d-none d-md-block" data-glide-el="controls">
+                        <button class="slider_arrow slider_arrow--prev glide__arrow glide__arrow--left" data-glide-dir="<">
+                            <i class="fas fa-arrow-circle-left"></i>
+                        </button>
+                        <button class="slider_arrow slider_arrow--next glide__arrow glide__arrow--right" data-glide-dir=">">
+                            <i class="fas fa-arrow-circle-right"></i>
+                        </button>
+                    </div>
+                    <div class="glide__bullets" data-glide-el="controls[nav]">
+                        {% for activity in category.activity_set.all %}
+                        <button class="glide__bullet" data-glide-dir="={{ forloop.counter0 }}"></button>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% comment %}
 <!-- Activities Section -->
 <section id="recent-activities">
     <div class="bg-grey" style="padding: 50px 0;">
@@ -305,6 +350,7 @@
     </div>
 </section>
 <!-- Recent Activities Section Ends -->
+{% endcomment %}
 
 <!-- Volunteer Section -->
 <section id="volunteer">
@@ -363,7 +409,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <form method="POST" enctype="multipart/form-data"
-                                        action="{% url 'AnandakendraAddToGallery' %}">{% csrf_token %}
+                                        action="{% url 'anandakendra:AnandakendraAddToGallery' %}">{% csrf_token %}
                                         <input type="text" hidden name="slug" value={{kendra.slug}}>
 
                                         <input type="file" class="form-control" multiple name="gallery_images">
@@ -412,14 +458,6 @@
 
 
 {% block scripts %}
-<!-- Glide Carousel JS -->
-<script src="{% static 'vendor/js/glide.min.js' %}"></script>
-<script src="{% static 'js/glide-custom.js' %}"></script>
-<!-- Isotope JS -->
-<script src='{% static "vendor/js/isotope.pkgd.min.js" %}'></script>
-<!-- PhotoSwipe JS -->
-<script src="{% static 'vendor/photoswipe/photoswipe.min.js' %}"></script>
-<script src="{% static 'vendor/photoswipe/photoswipe-ui-default.min.js' %}"></script>
 <!-- Custom JS -->
 <script src="{% static 'js/bandhu.js' %}"></script>
 <!-- Contact Scrollspy Problem -->
@@ -427,11 +465,11 @@
 
 <!-- Semantic UI -->
 
-<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"> </script>
+<!-- <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"> </script>
 <script type="text/javascript" src="{% static 'js/semantic-notify.js' %}"> </script>
 
 <script type="text/javascript" src="{% static 'js/semantic.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/dropdown.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/dropdown.js' %}"></script> -->
 
 <script>
     $(document).ready(function () {
@@ -486,4 +524,30 @@
     }
 
 </script>
+
+
+<script>
+    // ACTIVITIES CAROUSEL
+    {% for category in categories %}
+    {% if category.activity_set.count %}
+        var glide = new Glide('.category{{forloop.counter0}}',{
+            type: 'carousel',
+            focusAt: 'center',
+            perView: 3,
+            autoplay: 2000,
+            gap: 30,
+            breakpoints: {
+                991: {
+                    perView: 2,
+                },
+                767:{
+                    perView: 1,
+                }
+            }
+        })
+        glide.mount()
+    {% endif %}
+    {% endfor %}
+</script>
+
 {% endblock %}

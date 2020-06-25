@@ -45,7 +45,7 @@
 {% endblock %}
 
 {% block content %}
-<!-- Cause Section  -->
+<!-- About Section  -->
 <section id="about" style="margin-top: -200px;">
     <div class="container">
         <div class="row justify-content-center">
@@ -58,29 +58,10 @@
                         <p class="m-0">
                             {{ ankurayan.theme }}
                         </p>
-                        <!-- {% if event.is_completed %}
-                        <button type="button" class="btn btn-secondary btn-sm px-4 py-2 mt-2" disabled>Event Ended</button>
-                        {% elif not check %}
-                        <form method="POST">
-                            {% csrf_token %}
-                            <button type="submit" name="submit" value="rsvp" class="btn btn-success btn-sm px-4 py-2 mt-2">Register</button>
-                        </form>
-                        {% else %}
-                        <form method="POST">
-                            {% csrf_token %}
-                            <button type="button"  class="btn btn-success btn-sm px-4 py-2 mt-2" disabled>Registered</button>
-                            <button type="submit" name="submit" value="rsvp_del" class="btn btn-danger btn-sm px-4 py-2 mt-2">Remove Registration</button>
-                        </form>
-                        {% endif %} -->
-
                     </div>
                 </div>
                 <!--   DESCRIPTON  -->
                 <div class="card m-2 shadow-sm">
-                    <!-- <div class="card-header font-weight-bold">
-                        <i class="fas fa-th-list pr-2"></i>
-                        Description
-                    </div> -->
                     <div class="card-body p-4">
                         <h2 class="content-title mb-2">Description</h1>
                         <p>{{ ankurayan.description|safe }}</p>
