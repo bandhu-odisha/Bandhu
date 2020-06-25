@@ -44,10 +44,10 @@ def anandkendra_detail(request, slug):
 
     activities_list = []
 
-    activities = Activity.objects.filter(category__kendra=kendra)
-    for activity in activities:
-        photos = Photo.objects.filter(activity=activity).filter(approved=True)
-        activities_list.append([activity,photos])
+    # activities = Activity.objects.filter(category__kendra=kendra)
+    # for activity in activities:
+    #     photos = Photo.objects.filter(activity=activity).filter(approved=True)
+    #     activities_list.append([activity,photos])
 
     context = {
         'kendra': kendra,

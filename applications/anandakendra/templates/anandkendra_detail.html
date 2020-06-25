@@ -47,13 +47,11 @@
 {% endblock %}
 
 {% block content %}
-
+<!-- About Section -->
 <section id="about" style="margin-top: -200px;">
     <div class="container pb-3 mb-5">
         <div class="row justify-content-center">
             <div class="col-lg-8 text-left px-0 py-0 py-lg-2 mx-auto" style="z-index: 10;">
-
-
                 <div class="card m-2 shadow-sm d-none d-lg-block">
                     <div class="card-body p-4">
                         <h1 class="mb-3 title">{{ kendra.name|safe }} ({{ kendra.locality }})</h1>
@@ -332,12 +330,6 @@
                         <div class="col-md-6">
                             <h3 class="font-weight-bolder">Description</h3>
                             {{ activity.description }}
-                            {% if activity.winner %}
-                            <h3 class="font-weight-bolder">Result</h3>
-                            <p><b>Winner:</b>{{ activity.winner }}</p>
-                            <p><b>Runner Up1:</b>{{ activity.runner_up1 }}</p>
-                            <p><b>Runner Up2:</b>{{ activity.runner_up2}}</p>
-                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -447,6 +439,34 @@
             </div>
 
             <div id="gallery-container" class="gallery-container">
+                <div class="galleryFilter">
+                    <a href="#" data-filter="" class="current">All</a>
+                    {% for category in categories %}
+                        {% if category.activity_set.count %}
+                        <a href="#" data-filter=".{{ category.name }}">{{ category.name }}</a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                <div class="gallery-item element-from-bottom clearfix">
+                    {% for photo in photos %}
+                    <figure class="item {{ photo.activity.category.name }} photo-{{ photo.id }}">
+                        <img src='{{ photo.picture.url }}' data-rel="photoSwipe">
+                        <a href="javascript:pswpInit({{ forloop.counter0 }})" class="stretched-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        {% if not photo.approved %}
+                        <!-- <div style="transform: translateY(-100%); z-index: 20000;">
+                            <button type="button" onclick="imageApproval('approve','{{photo.pk}}');">Approve</button>
+                            <button type="button" onclick="imageApproval('discard','{{photo.pk}}');">Discard</button>
+                        </div> -->
+                        {% endif %}
+                    </figure>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div id="gallery-container" class="gallery-container">
                 <div class="add-activity">
                     {% if user.is_authenticated %}
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addToGallery">
@@ -477,7 +497,7 @@
                     {% endif %}
                 </div>
 
-                <div class="gallery-item element-from-bottom clearfix" id="galleryBox">
+                <!-- <div class="gallery-item element-from-bottom clearfix" id="galleryBox">
                     {% for photo in photos %}
                     <figure class="item cat-3 cat-4">
                         <img src='/media/{{photo.picture}}' alt="Item 3" data-rel="photoSwipe">
@@ -490,13 +510,10 @@
                     <button type="button" onclick="imageApproval('discard','{{photo.pk}}');">Discard</button>
                     {% endif %}
                     {% endfor %}
-                </div><!-- /.gallery-item -->
-            </div><!-- /gallery-container -->
-        </div><!-- /.container -->
-        <!-- <div class="bottom-angle">
-        </div> -->
-        <!-- /.bottom-angle -->
-    </div><!-- /.gallery-section -->
+                </div> -->
+            </div>
+        </div>
+    </div>
 </section>
 
 <!-- Include PhotoSwipe -->
@@ -513,8 +530,66 @@
 
 
 {% block scripts %}
+<!-- PHOTOSWIPE -->
+<script>
+    // build the json album images collection 
+    window.djangoAlbumImages = [
+        {% for photo in photos %}
+            {
+                src: '{{ photo.picture.url }}',
+                w:  {{ photo.picture.width }},
+                h:  {{ photo.picture.height }}
+            },
+        {% endfor %}
+    ];
+
+    // Change album on filtering images
+    $('#gallery-container .galleryFilter a').on("click", function(){
+        let filter = $(this).data('filter');
+        
+        if (filter == ""){
+            window.djangoAlbumImages = [
+                {% for photo in photos %}
+                    {
+                        src: '{{ photo.picture.url }}',
+                        w:  {{ photo.picture.width }},
+                        h:  {{ photo.picture.height }}
+                    },
+                {% endfor %}
+            ];
+
+            $('#gallery-container .gallery-item a').each(function(index, img){
+                $(img).attr("href", 'javascript:pswpInit(' + index + ')');
+            });
+        }
+        else{
+            category = filter.slice(1);
+
+            window.djangoAlbumImages = [];
+
+            {% for photo in photos %}
+            if("{{ photo.activity.category.name }}" == category){
+                window.djangoAlbumImages.push(
+                    {
+                        src: '{{ photo.picture.url }}',
+                        w:  {{ photo.picture.width }},
+                        h:  {{ photo.picture.height }}
+                    }
+                );
+            }
+            {% endfor %}
+
+            let selector = '#gallery-container ' + filter + ' a';
+            $(selector).each(function(index, img){
+                $(img).attr("href", 'javascript:pswpInit(' + index + ')');
+            });
+        }
+
+    });
+</script>
 <!-- Custom JS -->
 <script src="{% static 'js/bandhu.js' %}"></script>
+<script src="{% static 'js/anandakendra.js' %}"></script>
 <!-- Contact Scrollspy Problem -->
 <script>contact_scrollspy()</script>
 
