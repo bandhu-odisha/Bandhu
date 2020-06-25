@@ -91,12 +91,36 @@
                         <p>{{ ankurayan.description|safe }}</p>
                     </div>
                 </div> -->
-                
+            </div>
+
+            <div class="col-lg-3 text-left px-0 py-0 py-lg-2 mx-auto" style="z-index: 10;">
+				<!--   PIC CARD  -->
+				<div class="card m-2 shadow-sm">
+					<div class="card-body p-1">
+						<img src="{{ ankurayan.logo.url }}" alt="DP" class="img-fluid h-100 w-100" style="max-height: 300px;" />
+					</div>
+                </div>
+                <!--  SCHEDULE  -->
+                <div class="card m-2 shadow-sm">
+                    <div class="card-header">
+                        <i class="fas fa-clock pr-2"></i>
+                        Schedule
+                    </div>
+                    <div class="card-body">
+                        <p class="font-weight-normal mb-1">
+
+                            <span>Starts on <b>{{ankurayan.start_date|date:"d M, o"}}</b></span>
+                            <br>
+                            <span>Ends on <b>{{ankurayan.end_date|date:"d M, o"}}</b></span>
+                        </p>
+                    </div>
+                </div>
+
 
                 {% if check_admin and user.is_authenticated %}
                 <!-- Add Guest to this Ankurayan -->
-                <div class="select-acharyas">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addGuest">
+                <div class="select-acharyas text-center my-2">
+                    <button type="button" class="btn btn-primary w-75" data-toggle="modal" data-target="#addGuest">
                         Add Guest
                     </button>
                     <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addGuest" role="dialog"
@@ -130,8 +154,8 @@
                 </div>
 
                 <!-- Add Participants to this Ankurayan -->
-                <div class="add-participants">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addParticipantsModal">
+                <div class="add-participants text-center my-2">
+                    <button type="button" class="btn btn-primary w-75" data-toggle="modal" data-target="#addParticipantsModal">
                         Add Participants
                     </button>
                     <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addParticipantsModal" role="dialog"
@@ -181,8 +205,8 @@
                 </div>
 
                 <!-- Add Activity Category -->
-                <div class="add-activity-category">
-                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                <div class="add-activity-category text-center my-2">
+                    <button type="button" class="btn btn-primary w-75" data-toggle="modal"
                         data-target="#addActivityCategory">
                         Add Category
                     </button>
@@ -210,8 +234,8 @@
                 </div>
 
                 <!-- Add Activity -->
-                <div class="add-activity">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addActivity">
+                <div class="add-activity text-center my-2">
+                    <button type="button" class="btn btn-primary w-75" data-toggle="modal" data-target="#addActivity">
                         Add Activity
                     </button>
                     <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addActivity" role="dialog"
@@ -246,37 +270,7 @@
                     </div>
                 </div>
                 {% endif %}
-
             </div>
-            <div class="col-lg-3 text-left px-0 py-0 py-lg-2 mx-auto" style="z-index: 10;">
-				<!--   PIC CARD  -->
-				<div class="card m-2 shadow-sm">
-					<div class="card-body p-1">
-						<img src="{{ ankurayan.logo.url }}" alt="DP" class="img-fluid h-100 w-100" style="max-height: 300px;" />
-					</div>
-                </div>
-                <!--  SCHEDULE  -->
-                <div class="card m-2 shadow-sm">
-                    <div class="card-header">
-                        <i class="fas fa-clock pr-2"></i>
-                        Schedule
-                    </div>
-                    <div class="card-body">
-                        <p class="font-weight-normal mb-1">
-
-                            <span>Starts on <b>{{ankurayan.start_date|date:"d M, o"}}</b></span>
-                            <br>
-                            <span>Ends on <b>{{ankurayan.end_date|date:"d M, o"}}</b></span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <!-- <div class="col-md-6">
-                <div class="card border text-center">
-                    <img class="card-img-top" src='/media/{{ankurayan.logo}}' alt="Card image cap"
-                        style="height: 400px; width: 100%;">
-                </div>
-            </div> -->
         </div>
     </div>
 </section>
