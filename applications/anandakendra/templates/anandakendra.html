@@ -2,17 +2,12 @@
 
 {% load static %}
 
-{% block title %} Bandhu {% endblock %}
+{% block title %} Anandakendra {% endblock %}
 
 {% block style %}
-<!-- Glide Carousel CSS -->
-<link rel="stylesheet" href="{% static 'vendor/css/glide.core.min.css' %}">
-<link rel="stylesheet" href="{% static 'vendor/css/glide.theme.min.css' %}">
-<!-- PhotoSwipe CSS -->
-<link rel="stylesheet" href="{% static 'vendor/photoswipe/photoswipe.css' %}">
-<link rel="stylesheet" href="{% static 'vendor/photoswipe/default-skin/default-skin.css' %}">
 <!-- Custom CSS -->
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
+<link rel="stylesheet" href="{% static 'css/anandakendra.css' %}">
 
 {% endblock %}
 
@@ -35,24 +30,19 @@
 {% endblock %}
 
 {% block showcase-title-container %}
-<div class="slider-txt-container" style="padding: 200px 0 300px 0;">
-    
+<div class="slider-txt-container" style="padding: 200px 0 200px 0;">
+    <h2 class="bold-txt"> AnandaKendra </h2>
 </div>
-
 {% endblock %}
 
 {% block content %}
 <!-- Cause Section  -->
 <div class="" id="cause">
-	<div class="angular">
-		<div class="top-angle">
-		</div><!-- /.top-angle -->
-	</div>
-	<div class="container" style="position: relative; top: -150px; z-index: 1000;">
+	<div class="container pb-5 mb-5" style="margin-top: -150px;">
 		<div class="row justify-content-center">
-			<div class="col-md-6">
+			<div class="col-md-6" style="z-index: 10;">
 				<div style="padding: 165px 25px 0;">
-					<h3 class="content-title" style="font-size: 2rem; margin-bottom: 20px;">Anandkendra</h3>
+					<!-- <h3 class="content-title   " style="font-size: 2rem; margin-bottom: 20px;">Anandkendra</h3> -->
 						<p>
 							<strong>10 Years long run, we are working for the welfare of children. It was a little step, but it's now a big organization and worldwide activity as a child welfare non-profit organization.</strong>
 						</p>
@@ -62,7 +52,7 @@
 					</h3>
 				</div>
 			</div>
-			<div class="col-md-6">
+			<div class="col-md-6" style="z-index: 10;">
 				<div class="card border text-center">
 					<img class="card-img-top" src='{% static "img/gimg-3.png" %}' alt="Card image cap" style="height: 500px; width: 100%;">
 					<!-- <div class="card-body">
@@ -96,7 +86,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form method="POST" enctype="multipart/form-data" action="{% url 'CreateAnandaKendra' %}">
+                                <form method="POST" enctype="multipart/form-data" action="{% url 'anandakendra:CreateAnandaKendra' %}">
                                     {% csrf_token %}
                                     <input type="text" class="form-control" name="name"
                                         placeholder="Anandakendra name"><br>
@@ -120,7 +110,7 @@
                 <div class="section-content w-100">
                     <div class="content-box from-bottom delay-200">
                         <h3 class="section-title">Running Anandkendras</h3>
-                        <div class="glide">
+                        <div class="glide anandakendras">
                             <div class="glide__track" data-glide-el="track">
                                 <ul class="glide__slides">
 									{% for kendra in kendras %}
@@ -129,11 +119,11 @@
 												<img src="/media/{{kendra.image}}" class="card-img-top home-card-img" alt=""  width="300px">
 												<div class="card-body pb-0">
 													<h5 class="card-title font-weight-bold">{{kendra.name}}</h5>
-													<p class="m-2 font-italic  font-open-sans mb-3">
-													{{kendra.description}}
+													<p class="mb-3">
+													{{kendra.locality}}
 													<br>
 													</p>
-													<a href="{% url 'AnandkendraDetail' slug=kendra.slug %}" class="stretched-link"></a>
+													<a href="{% url 'anandakendra:AnandkendraDetail' slug=kendra.slug %}" class="stretched-link"></a>
 												</div>
 											</div>
 										</li>
@@ -150,7 +140,7 @@
                             </div>
                             <div class="glide__bullets" data-glide-el="controls[nav]">
 								{% for kendra in kendras %}
-									<button class="glide__bullet" data-glide-dir="={{forloop.counter}}"></button>
+									<button class="glide__bullet" data-glide-dir="={{forloop.counter0}}"></button>
 								{% endfor %}
                             </div>
                         </div>
@@ -162,7 +152,7 @@
 </section>
 <!-- Recent Activities Section Ends -->
 <!-- Volunteer Section -->
-<section id="volunteer">
+<!-- <section id="volunteer">
     <div class="parallax-style text-white text-center">
         <div class="parallax-overlay dark-overlay section-padding" style="padding: 80px 0 70px;">
             <div class="container">
@@ -181,11 +171,11 @@
             </div>
         </div>
     </div>
-</section>
+</section> -->
 <!-- Volunteer Section End-->
 
     
-
+<!-- 
 <section id="gallery">
     <div class="bg-grey" style="padding: 80px 0 60px;">
         <div class="container">
@@ -210,14 +200,11 @@
                     </figure>
                     {% endfor %}
 
-                </div><!-- /.gallery-item -->
-            </div><!-- /gallery-container -->
-        </div><!-- /.container -->
-        <!-- <div class="bottom-angle">
-        </div> -->
-        <!-- /.bottom-angle -->
-    </div><!-- /.gallery-section -->
-</section>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> -->
 
 <!-- Include PhotoSwipe -->
 {% include 'snippets/init_pswp.html' %}
@@ -233,18 +220,30 @@
 
 
 {% block scripts %}
-<!-- Glide Carousel JS -->
-<script src="{% static 'vendor/js/glide.min.js' %}"></script>
-<script src="{% static 'js/glide-custom.js' %}"></script>
-<!-- Isotope JS -->
-<script src='{% static "vendor/js/isotope.pkgd.min.js" %}'></script>
-<!-- PhotoSwipe JS -->
-<script src="{% static 'vendor/photoswipe/photoswipe.min.js' %}"></script>
-<script src="{% static 'vendor/photoswipe/photoswipe-ui-default.min.js' %}"></script>
 <!-- Custom JS -->
 <script src="{% static 'js/bandhu.js' %}"></script>
 <!-- Contact Scrollspy Problem -->
 <script>contact_scrollspy()</script>
+
+<script>
+    // ANANDAKENDRAS CAROUSEL
+    var kendra_glide = new Glide('.anandakendras',{
+        type: 'slide',
+        focusAt: 'center',
+        perView: 3,
+        autoplay: 2000,
+        gap: 30,
+        breakpoints: {
+            991: {
+                perView: 2,
+            },
+            767: {
+                perView: 1,
+            },
+        }
+    })
+    kendra_glide.mount()
+</script>
 
 
 {% endblock %}

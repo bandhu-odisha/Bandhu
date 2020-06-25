@@ -299,3 +299,30 @@ a, h1, h2, h3, h4, h5, h6, p {
     margin-left: -2px;
     background-color: #ffb307;
 }
+
+/* GLIDE CARDS IMG */
+
+.glide .card img {
+    height: 270px;
+}
+
+@media screen and (max-width: 1199px){
+    .glide.anandakendras .card img {
+        height: 225px;
+    }
+}
+@media screen and (max-width: 991px){
+    .glide.anandakendras .card img {
+        height: 288px;
+    }
+}
+@media screen and (max-width: 767px){
+    .glide.anandakendras .card img {
+        height: 259px;
+    }
+}
+@media screen and (max-width: 575px){
+    .glide.anandakendras .card img {
+        height: 240px;
+    }
+}
