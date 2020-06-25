@@ -314,14 +314,23 @@
                         {% for activity in category.activity_set.all %}
                         <li class="glide__slide">
                             <div class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
+                                <a class="" href="#" data-toggle="modal" data-target="#activity_modal{{ activity.id }}">
                                 <img src="{% static 'img/pimg6.jpg' %}" class="card-img-top home-card-img" alt="" width="300px">
+                                </a>
                                 <div class="card-body pb-0">
+                                    <a class="" href="#" data-toggle="modal" data-target="#activity_modal{{ activity.id }}" style="text-decoration: none; color: black !important;">
                                     <h5 class="card-title font-weight-bold">{{ activity.name }}</h5>
+                                    </a>
                                     <p class="mb-3">
-                                    {{ activity.description }}
+                                    {% if check_admin and user.is_authenticated %}
+                                        {% if activity.winner %}
+                                        {% else %}
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#selectWinners{{forloop.counter}}">Add Winners</button>
+                                        {% endif %}
+                                    {% endif %}
                                     <br>
+                                    
                                     </p>
-                                    <a class="stretched-link" href="#" data-toggle="modal" data-target="#activity_modal{{ activity.id }}"></a>
                                 </div>
                             </div>
                         </li>
@@ -361,7 +370,38 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    {{ activity.description }}
+                    <div class="row">
+                        <div class="col-md-6 col-lg-6 align-self-center">
+                            <div id="mission-carousel" class="mission-carousel carousel slide m-auto" data-ride="carousel">
+                                <ul class="carousel-indicators">
+                                    <li data-target="#mission-carousel" data-slide-to="0" class=""></li>
+                                    <li data-target="#mission-carousel" data-slide-to="1" class=""></li>
+                                    <li data-target="#mission-carousel" data-slide-to="2" class="active"></li>
+                                </ul>
+                                <div class="carousel-inner">
+                                    <div class="carousel-item">
+                                        <img src="/static/img/pimg6.jpg" alt="carousel image">
+                                    </div>
+                                    <div class="carousel-item">
+                                        <img src="/static/img/pimg2.jpg" alt="carousel image">
+                                    </div>
+                                    <div class="carousel-item active">
+                                        <img src="/static/img/pimg3.jpg" alt="carousel image">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h3 class="font-weight-bolder">Description</h3>
+                            {{ activity.description }}
+                            {% if activity.winner %}
+                            <h3 class="font-weight-bolder">Result</h3>
+                            <p><b>Winner:</b>{{ activity.winner }}</p>
+                            <p><b>Runner Up1:</b>{{ activity.runner_up1 }}</p>
+                            <p><b>Runner Up2:</b>{{ activity.runner_up2}}</p>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -369,6 +409,63 @@
             </div>
         </div>
     </div>
+    {% if check_admin and user.is_authenticated %}
+                                    <div class="modal fade" tabindex="-1"
+                                        id="selectWinners{{forloop.counter}}" role="dialog"
+                                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                            <div class="modal-content shadow">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title content-title" id="exampleModalLongTitle">Select Winners
+                                                    </h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p style="color:red;display:none;" class="errorMessageWinners" >A student cannot come at two positions.</p>
+                                                    <form method="POST" enctype="multipart/form-data" action="{% url 'ankurayan:AddWinners' %}"
+                                                        id="chooseWinnersForm{{forloop.counter}}">{% csrf_token %}
+                                                        <input type="text" hidden name="pk" value="{{activity.pk}}">
+                                                        <input type="text" hidden name="slug" value="{{ankurayan.slug}}">
+                                                        <!-- <input type="text" hidden name="activity_name"
+                                                            value={{activity.activity_name}}>
+                                                        <input type="text" hidden name="date"
+                                                            value={{activity.activity_date}}> -->
+                                                        <select required class="form-control" id="winner{{forloop.counter}}"
+                                                            name="pk_winner">
+                                                            <option value="">Select Winner</option>
+                                                            {% for participant in participants %}
+                                                            <option value="{{participant.pk}}">{{participant.name}} -
+                                                                {{participant.school_class}}</option>
+                                                            {% endfor %}
+                                                        </select><br>
+                                                        <select required class="form-control" id="runnerUp1{{forloop.counter}}"
+                                                            name="pk_runner_up1">
+                                                            <option value="">Select first runner up</option>
+                                                            {% for participant in participants %}
+                                                            <option value="{{participant.pk}}">{{participant.name}} -
+                                                                {{participant.school_class}}</option>
+                                                            {% endfor %}
+                                                        </select><br>
+                                                        <select required class="form-control" id="runnerUp2{{forloop.counter}}"
+                                                            name="pk_runner_up2">
+                                                            <option value="">Select second runner up</option>
+                                                            {% for participant in participants %}
+                                                            <option value="{{participant.pk}}">{{participant.name}} -
+                                                                {{participant.school_class}}</option>
+                                                            {% endfor %}
+                                                        </select><br>
+                                                        <input type="file" class="form-control" multiple name="activity_images">
+                                                        <button type="button" class="btn btn-primary"
+                                                            onclick="validateWinners(`{{forloop.counter}}`);">Submit</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
     {% endfor %}
 {% endfor %}
 
@@ -729,13 +826,13 @@
 <script type="text/javascript" src="{% static 'js/semantic.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/dropdown.js' %}"></script> -->
 
-<!-- <script>
+<script>
     $(document).ready(function () {
         $('.ui.dropdown').dropdown();
     });
 
     function validateWinners(counter) {
-        alert(counter)
+        // alert(counter)
         var winner = document.getElementById(`winner${counter}`).value;
         var runner_up1 = document.getElementById(`runnerUp1${counter}`).value;
         var runner_up2 = document.getElementById(`runnerUp2${counter}`).value;
@@ -744,7 +841,7 @@
             document.getElementsByClassName('errorMessageWinners')[0].style.display = "grid";
             return;
         }
-        $('chooseWinnersForm'+counter).submit();
+        $('#chooseWinnersForm'+counter).submit();
     }
 
     function imageApproval(status, image) {
@@ -781,7 +878,7 @@
         });
     }
 
-</script> -->
+</script>
 
 <script>
     // ACTIVITIES CAROUSEL
