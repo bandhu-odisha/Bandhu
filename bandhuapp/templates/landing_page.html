@@ -74,7 +74,8 @@
                         creative events along with conducting various competitions among school students.
                     </p>
                 </div>
-                <a href="{% url 'ankurayan:ankurayan' %}" class="stretched-link"></a>
+                {% now 'Y' as current_year %}
+                <a href="{% url 'ankurayan:AnkurayanDetail' current_year %}" class="stretched-link"></a>
             </div>
         </div>
         <div class="col-lg-3 col-md-4 col-sm-6 px-2">
