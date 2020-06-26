@@ -86,13 +86,13 @@ def create_activity(request):
         slug = request.POST.get('slug')
         name = request.POST.get('activity_name')
         description = request.POST.get('description')
-        activity_date = request.POST.get('activity_date')
+        activity_duration = request.POST.get('activity_duration')
         activity_images = request.FILES.getlist('activity_images')
 
         charity = get_object_or_404(Charity,slug=slug)
 
         activity = Activity.objects.create(charity=charity,name=name,description=description,
-                                            activity_date=activity_date)
+                                            activity_duration=activity_duration)
 
         for i in activity_images:
             Photo.objects.create(charity=charity,picture=i,activity=activity,approved=True)
