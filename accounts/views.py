@@ -106,7 +106,7 @@ def signup_view(request):
             email.content_subtype = "html"
             email.send()
             print("654")
-            print(email)
+            print(message)
             return redirect('signup_success_page')
         else:
             return render(request,'signup.html',{'form':form,'done': 0})
@@ -142,18 +142,20 @@ def account_authentication(request, uidb64, token):
     if user is not None and account_activation_token.check_token(user, token):
         user.auth = True
         user.save()
-
+        current_site = get_current_site(request)
         from_email = settings.SENDER_EMAIL
         mail_subject = '[noreply] Account Verified'
         msg = 'Your account has been verified by the admin, you can now Login to Bandhu.'
         message = render_to_string('acc_verified.html', {
             'email': user.email,
             'msg':msg,
+            'domain': current_site.domain,
         })
         to_email = [user.email]
         email = EmailMessage(
             mail_subject, message, from_email, to_email,
         )
+        email.content_subtype="html"
         email.send()
 
         return redirect('account_authenticated')

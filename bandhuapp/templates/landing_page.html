@@ -48,10 +48,11 @@
         <i style="margin-left:10px !important;" class="fas fa-chevron-down"></i>
     </button>
     <div class="collapse recent-activities-collapse" id="collapseExample">
-        <div class="card card-body" style="font-size: 20px;">
+        <div class="card card-body">
             <ol>
                 {% for i in recent_activities %}
-                    <li><a href="#">{{i.name}}</a><br>{{i.description|truncatechars:80}}</li>
+                    <li><a href="#" style="font-size: 20px;">{{i.name}}</a> <i style="font-size: 12px;">{{i.activity_date}}</i><br>{{i.description|truncatechars:80}}</li>
+                    <hr>
                 {% endfor %}
             </ol>
         </div>
