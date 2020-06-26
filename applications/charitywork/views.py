@@ -12,9 +12,9 @@ from .models import Charity,Activity,Photo,Volunteer
 # Create your views here.
 
 def index(request):
-    charity = Charity.objects.all()
+    charity_works = Charity.objects.all()
     photos = Photo.objects.all()
-    return render(request, 'charity.html',{'charity':charity,'photos':photos})
+    return render(request, 'charity.html',{'charity_works':charity_works,'photos':photos})
 
 @login_required
 def create_charity(request):
