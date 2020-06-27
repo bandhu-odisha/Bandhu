@@ -662,9 +662,10 @@
                 </div>
             </div>
 
-            <div id="gallery-container" class="gallery-container">
-                <div class="add-images">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addToGallery">
+            {% if user.is_authenticated %}
+            <div class="row justify-content-center mt-2">
+                <div class="col-sm-5 add-images text-center">
+                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#addToGallery">
                         Upload Images
                     </button>
                     <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addToGallery" role="dialog"
@@ -689,6 +690,69 @@
                         </div>
                     </div>
                 </div>
+                {% if check_admin %}
+                <div class="col-sm-5 approve-images text-center">
+                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#approveGallery">
+                        Approve Images
+                    </button>
+                    <div class="modal fade" id="approveGallery">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content shadow">
+                                <div class="modal-header">
+                                    <h5 class="modal-title content-title">Approve Photos</h5>
+                                    <button type="button" class="close" style="padding: .5rem 1rem;" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true" style="font-size: 2.375rem;">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div id="approve-images-carousel" class="approve-images-carousel carousel slide m-auto" data-ride="carousel">
+                                            <!-- <ul class="carousel-indicators">
+                                                <li data-target="#approve-images-carousel" data-slide-to="0" class="active"></li>
+                                                <li data-target="#approve-images-carousel" data-slide-to="1" class=""></li>
+                                                <li data-target="#approve-images-carousel" data-slide-to="2" class=""></li>
+                                            </ul> -->
+                                            <div class="carousel-inner">
+                                                {% for photo in unapproved_photos %}
+                                                {% if forloop.counter == 1 %}
+                                                <div class="carousel-item active unapp-photo{{ photo.id }}">
+                                                {% else %}
+                                                <div class="carousel-item unapp-photo{{ photo.id }}">
+                                                {% endif %}
+                                                    <img src="{{ photo.picture.url }}" alt="carousel image" class="w-100">
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-sm-5 text-center">
+                                                            <button type="button" onclick="imageApproval('approve','{{photo.pk}}');"
+                                                                class="btn btn-primary">Approve</button>
+                                                        </div>
+                                                        <div class="col-sm-5 text-center">
+                                                            <button type="button" onclick="imageApproval('discard','{{photo.pk}}');"
+                                                                class="btn btn-primary">Discard</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                            <a class="carousel-control-prev" href="#approve-images-carousel" data-slide="prev">
+                                                <span class="carousel-control-prev-icon"></span>
+                                            </a>
+                                            <a class="carousel-control-next" href="#approve-images-carousel" data-slide="next">
+                                                <span class="carousel-control-next-icon"></span>
+                                            </a>
+                                        </div>
+                                        <p class="text-center">
+                                            Note: You need to Refresh Page for changes to take effect in Gallery.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
 
                 <!-- <div class="gallery-item element-from-bottom clearfix">
 
@@ -707,6 +771,7 @@
 
                 </div> -->
             </div>
+            {% endif %}
         </div>
     </div>
 </section>
@@ -815,6 +880,12 @@
 
     function imageApproval(status, image) {
         var ankurayan = "{{ankurayan.slug}}";
+        let selector = '.unapp-photo' + image;
+        console.log($(selector).prev(), $(selector).prev().length, $(selector));
+        if ($(selector).next().length != 0) $(selector).next().addClass('active')
+        else $(selector).prev().addClass('active')
+        $(selector).remove()
+
         $.ajax({
             type: "POST",
             url: "/ankurayan/admin_approval/",

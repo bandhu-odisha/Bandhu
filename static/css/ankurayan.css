@@ -61,3 +61,21 @@
     font-size: 36px;
     color: #ffb307;
 }
+
+
+/* Gallery Buttons */
+.add-images>.btn, .approve-images>.btn {
+    color: #ffb307;
+    border-color: #ffb307;
+    border-radius: 5px;
+    border-width: 2px;
+    font-weight: 700;
+}
+.add-images>.btn:hover, .approve-images>.btn:hover {
+    background-color: #ffb307 !important;
+    color: #ecf0f1 !important;
+}
+.add-images>.btn:focus, .add-images>.btn:active, .approve-images>.btn:focus, .approve-images>.btn:active {
+    box-shadow: none !important;
+    border-color: #ffb307 !important;
+}

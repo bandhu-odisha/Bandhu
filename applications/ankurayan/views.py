@@ -58,6 +58,8 @@ def ankurayan_detail(request, slug):
     else:
         photos = Photo.objects.filter(ankurayan=ankurayan).filter(approved=True)
 
+    unapproved_photos = photos.filter(approved=False)
+
     ankurayans = Ankurayan.objects.all().exclude(slug=slug)
     activity_img = []
     for i in categories:
@@ -70,6 +72,7 @@ def ankurayan_detail(request, slug):
         'categories': categories,
         'participants': participants,
         'photos': photos,
+        'unapproved_photos': unapproved_photos,
         'check_admin': check_admin,
         'ankurayans': ankurayans,
         'activity_img': activity_img,
@@ -218,6 +221,7 @@ def admin_approval(request):
             photo.approved = True
             photo.save()
         else:
+            photo.picture.delete()
             photo.delete()
         
         print(photo.approved)
