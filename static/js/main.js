@@ -194,7 +194,6 @@ $(document).ready(function() {
       });
       $(hiddenElems).addClass('hidden');
       $('#load-more').removeClass("hidden");
-      $container.isotope('layout');
   
       //when no more to load, hide show more button
       if (hiddenElems.length <= 1) {  // Hidden elements will also contain #load-more
@@ -202,6 +201,8 @@ $(document).ready(function() {
       } else {
         jQuery("#load-more").show();
       };
+
+      $container.isotope('layout');
   
     }
   
