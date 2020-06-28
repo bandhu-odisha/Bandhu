@@ -179,7 +179,8 @@ $(document).ready(function() {
     //****************************
     // Isotope Load more button
     //****************************
-    var initShow = 1; //number of items loaded on init & onclick load more button
+    var initShow = 3; //number of items loaded on init & onclick load more button
+    var next_show = 4;
     var counter = initShow; //counter for load more button
     var iso = $container.data('isotope'); // get Isotope instance
   
@@ -193,7 +194,6 @@ $(document).ready(function() {
       });
       $(hiddenElems).addClass('hidden');
       $('#load-more').removeClass("hidden");
-      $container.isotope('layout');
   
       //when no more to load, hide show more button
       if (hiddenElems.length <= 1) {  // Hidden elements will also contain #load-more
@@ -201,6 +201,8 @@ $(document).ready(function() {
       } else {
         jQuery("#load-more").show();
       };
+
+      $container.isotope('layout');
   
     }
   
@@ -217,7 +219,7 @@ $(document).ready(function() {
         counter = counter;
       };
   
-      counter = counter + initShow;
+      counter = counter + next_show;
   
       loadMore(counter);
     });
