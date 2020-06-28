@@ -200,7 +200,7 @@ def create_event(request):
         description = request.POST.get('description')
         
         ashram = get_object_or_404(Ashram,slug=slug)        
-        Event.objects.filter(name=name,ashram=ashram,date=date,
+        Event.objects.create(name=name,ashram=ashram,date=date,
                             description=description,image=image)
 
         url = '/ashram/detail/' + slug +'/'

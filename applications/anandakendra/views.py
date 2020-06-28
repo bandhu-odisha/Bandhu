@@ -189,7 +189,7 @@ def create_event(request):
         description = request.POST.get('description')
         
         kendra = get_object_or_404(AnandaKendra,slug=slug)        
-        Event.objects.filter(name=name,kendra=kendra,date=date,
+        Event.objects.create(name=name,kendra=kendra,date=date,
                             description=description,image=image)
 
         url = '/anandakendra/detail/' + slug +'/'

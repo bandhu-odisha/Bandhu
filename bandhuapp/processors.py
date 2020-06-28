@@ -22,13 +22,14 @@ def userList(request):
     
 def recent_activities(request):
     # anandakendra_act = anandakendra_activity.objects.all().order_by('activity_date')[0]
-    ankurayan_act = ankurayan_activity.objects.all().order_by('-activity_date')[0]
+    ankurayan_act = ankurayan_activity.objects.all().order_by('-activity_date').first()
     # charitywork_act = charitywork_activity.objects.all().order_by('activity_date')[0]
     # sanskarbarga_act = sanskarbarga_activity.objects.all().order_by('activity_date')
     # madhmukti_act = madhmukti_activity.objects.all().order_by('activity_date')
     # ashram_act = ashram_activity.objects.all().order_by('activity_date')[0]
     # recent_act = [anandakendra_act, ankurayan_act, charitywork_act, ashram_act]
-    recent_act = [ankurayan_act]
+    recent_act = []
+    if ankurayan_act:
+        recent_act = [ankurayan_act]
     recent_act.sort(key=lambda x: x.activity_date, reverse=True)
-    print(recent_act)
     return {'recent_activities' :  recent_act}
