@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 
 from bandhuapp.models import Profile
 from accounts.models import User
-from .models import Ashram,Activity,Photo,Meeting,Attendee,ActivityCategory
+from .models import Ashram,Activity,Photo,Meeting,Attendee,ActivityCategory, Event
 
 # Create your views here.
 
@@ -38,18 +38,24 @@ def create_ashram(request):
 def ashram_detail(request,slug):
     ashram = get_object_or_404(Ashram,slug=slug)
     categories = ActivityCategory.objects.filter(ashram=ashram)
+    events = Event.objects.filter(ashram=ashram)
     meetings = Meeting.objects.filter(ashram=ashram)
     check_admin = False
 
     if ashram.admin is not None and ashram.admin.user == request.user:
-        photos = Photo.objects.filter(ashram=ashram)
+        # photos = Photo.objects.filter(ashram=ashram)
         check_admin = True
-    else:
-        photos = Photo.objects.filter(ashram=ashram).filter(approved=True)
+    # else:
+    #     photos = Photo.objects.filter(ashram=ashram).filter(approved=True)
+
+    photos = Photo.objects.filter(ashram=ashram)
+    unapproved_photos = photos.filter(approved=False)
+    photos = photos.filter(approved=True)
 
     context = {
         'ashram': ashram,
         'categories':categories,
+        'events': events,
         'meetings':meetings,
         'photos':photos,
         'check_admin':check_admin,

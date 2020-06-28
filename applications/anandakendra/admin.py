@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from .models import (
     AnandaKendra, ActivityCategory, Activity,
-    Student, Acharya, Photo,
+    Event, Student, Acharya, Photo,
 )
 
 @admin.register(AnandaKendra)
@@ -25,9 +25,25 @@ class ActivityCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Activity)
 class ActivityAdmin(admin.ModelAdmin):
-    list_display = ('name','category', 'activity_time')
+    list_display = ('name','category', 'get_kendra', 'activity_time')
     ordering = ('category__kendra__name', 'category__name', 'name')
     search_fields = ('name', 'category__kendra__name','category__name')
+
+    def get_kendra(self, obj):
+        return obj.category.kendra.name
+    get_kendra.short_description = 'Ananda Kendra'
+    get_kendra.admin_order_field = 'category__kendra__name'
+
+@admin.register(Event)
+class EventAdmin(admin.ModelAdmin):
+    list_display = ('name','get_kendra', 'date')
+    ordering = ('kendra__name', '-date')
+    search_fields = ('name', 'kendra__name', 'date')
+
+    def get_kendra(self, obj):
+        return obj.kendra.name
+    get_kendra.short_description = 'Ananda Kendra'
+    get_kendra.admin_order_field = 'kendra__name'
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
