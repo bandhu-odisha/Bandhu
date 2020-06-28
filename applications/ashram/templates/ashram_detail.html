@@ -48,7 +48,7 @@
 {% block content %}
 <!-- About Section -->
 <section id="about" style="margin-top: -200px;">
-    <div class="container pb-3 mb-5">
+    <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8 text-left px-0 py-0 py-lg-2 mx-auto" style="z-index: 10;">
                 <div class="card m-2 shadow-sm d-none d-lg-block">
@@ -186,52 +186,50 @@
 </section>
 
 <!-- Activities Section -->
-<section id="activities">
-    <div class="bg-grey" style="padding: 50px 0;">
-        <h3 class="section-title">Activities</h3>
-        <div class="container">
-            {% for category in categories %}
-            {% if category.activity_set.count %}
-            <h3 class="title mt-5 mb-3">{{ category.name }}</h3>
-            <div class="row">
-                <div class="glide category{{ forloop.counter0 }}">
-                    <div class="glide__track" data-glide-el="track">
-                        <ul class="glide__slides">
-                            {% for activity in category.activity_set.all %}
-                            <li class="glide__slide">
-                                <div class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
-                                    <img src="{% static 'img/pimg6.jpg' %}" class="card-img-top home-card-img" alt="" width="300px">
-                                    <div class="card-body pb-0">
-                                        <h5 class="card-title font-weight-bold">{{ activity.name }}</h5>
-                                        <p class="mb-3">
-                                        {{ activity.description }}
-                                        <br>
-                                        </p>
-                                        <a class="stretched-link" href="#" data-toggle="modal" data-target="#activity_modal{{ activity.id }}"></a>
-                                    </div>
-                                </div>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    <div class="glide__arrows disable_arrows d-none d-md-block" data-glide-el="controls">
-                        <button class="slider_arrow slider_arrow--prev glide__arrow glide__arrow--left" data-glide-dir="<">
-                            <i class="fas fa-arrow-circle-left"></i>
-                        </button>
-                        <button class="slider_arrow slider_arrow--next glide__arrow glide__arrow--right" data-glide-dir=">">
-                            <i class="fas fa-arrow-circle-right"></i>
-                        </button>
-                    </div>
-                    <div class="glide__bullets" data-glide-el="controls[nav]">
+<section id="activities" class="mb-5">
+    <h3 class="section-title mt-5 pt-3 pt-sm-0">Activities</h3>
+    <div class="container">
+        {% for category in categories %}
+        {% if category.activity_set.count %}
+        <h3 class="title mt-5 mb-3">{{ category.name }}</h3>
+        <div class="row">
+            <div class="glide category{{ forloop.counter0 }}">
+                <div class="glide__track" data-glide-el="track">
+                    <ul class="glide__slides">
                         {% for activity in category.activity_set.all %}
-                        <button class="glide__bullet" data-glide-dir="={{ forloop.counter0 }}"></button>
+                        <li class="glide__slide">
+                            <div class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
+                                <img src="{% static 'img/pimg6.jpg' %}" class="card-img-top home-card-img" alt="" width="300px">
+                                <div class="card-body pb-0">
+                                    <h5 class="card-title font-weight-bold">{{ activity.name }}</h5>
+                                    <p class="mb-3">
+                                    {{ activity.description }}
+                                    <br>
+                                    </p>
+                                    <a class="stretched-link" href="#" data-toggle="modal" data-target="#activity_modal{{ activity.id }}"></a>
+                                </div>
+                            </div>
+                        </li>
                         {% endfor %}
-                    </div>
+                    </ul>
+                </div>
+                <div class="glide__arrows disable_arrows d-none d-md-block" data-glide-el="controls">
+                    <button class="slider_arrow slider_arrow--prev glide__arrow glide__arrow--left" data-glide-dir="<">
+                        <i class="fas fa-arrow-circle-left"></i>
+                    </button>
+                    <button class="slider_arrow slider_arrow--next glide__arrow glide__arrow--right" data-glide-dir=">">
+                        <i class="fas fa-arrow-circle-right"></i>
+                    </button>
+                </div>
+                <div class="glide__bullets" data-glide-el="controls[nav]">
+                    {% for activity in category.activity_set.all %}
+                    <button class="glide__bullet" data-glide-dir="={{ forloop.counter0 }}"></button>
+                    {% endfor %}
                 </div>
             </div>
-            {% endif %}
-            {% endfor %}
         </div>
+        {% endif %}
+        {% endfor %}
     </div>
 </section>
 
@@ -283,6 +281,50 @@
     </div>
     {% endfor %}
 {% endfor %}
+
+<!-- EVENTS SECTION -->
+<section id="events">
+    <div class="bg-grey" style="padding: 50px 0;">
+        <h3 class="section-title">Events</h3>
+        <div class="container">
+            <div class="row">
+                <div class="glide events">
+                    <div class="glide__track" data-glide-el="track">
+                        <ul class="glide__slides">
+                            {% for event in events %}
+                            <li class="glide__slide">
+                                <div class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
+                                    <img src="{{ event.image.url }}" class="card-img-top home-card-img" alt="" width="300px" >
+                                    <div class="card-body pb-0">
+                                        <h5 class="card-title font-weight-bold">{{ event.name }}</h5>
+                                        <p class="mb-3">
+                                            {{ event.date }}<br>
+                                        </p>
+                                        <a href="#" class="stretched-link"></a>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="glide__arrows disable_arrows d-none d-md-block" data-glide-el="controls">
+                        <button class="slider_arrow slider_arrow--prev glide__arrow glide__arrow--left" data-glide-dir="<">
+                            <i class="fas fa-arrow-circle-left"></i>
+                        </button>
+                        <button class="slider_arrow slider_arrow--next glide__arrow glide__arrow--right" data-glide-dir=">">
+                            <i class="fas fa-arrow-circle-right"></i>
+                        </button>
+                    </div>
+                    <div class="glide__bullets" data-glide-el="controls[nav]">
+                        {% for event in events %}
+                        <button class="glide__bullet" data-glide-dir="={{ forloop.counter0 }}"></button>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 {% comment %}
 <!-- Meetings Section -->
@@ -557,6 +599,12 @@
                         </a>
                     </figure>
                     {% endfor %}
+                    <figure id="load-more" class="item {% for activity in activities %} {{ activity.id }} {% endfor %}">
+                        <img src='{{ photo.picture.url }}'>
+                        <a href="javascript:void(0);" class="stretched-link">
+                            Show More
+                        </a>
+                    </figure>
                 </div>
             </div>
 
@@ -652,7 +700,7 @@
             ];
 
             $('#gallery-container .gallery-item a').each(function(index, img){
-                $(img).attr("href", 'javascript:pswpInit(' + index + ')');
+                if ($(img).closest('#load-more') == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
             });
         }
         else{
@@ -674,7 +722,7 @@
 
             let selector = '#gallery-container ' + filter + ' a';
             $(selector).each(function(index, img){
-                $(img).attr("href", 'javascript:pswpInit(' + index + ')');
+                if ($(img).closest('#load-more') == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
             });
         }
 
@@ -776,6 +824,24 @@
         glide.mount()
     {% endif %}
     {% endfor %}
+
+    // EVENTS CAROUSEL
+    var events_glide = new Glide('.events',{
+        type: 'slide',
+        focusAt: 'center',
+        perView: 3,
+        autoplay: 2000,
+        gap: 30,
+        breakpoints: {
+            991: {
+                perView: 2,
+            },
+            767:{
+                perView: 1,
+            }
+        }
+    })
+    events_glide.mount()
 </script>
 
 {% endblock %}
