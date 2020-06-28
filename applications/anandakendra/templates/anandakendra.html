@@ -92,16 +92,19 @@
                                 <form method="POST" enctype="multipart/form-data" action="{% url 'anandakendra:CreateAnandaKendra' %}">
                                     {% csrf_token %}
                                     <input type="text" class="form-control" name="name"
-                                        placeholder="Anandakendra name"><br>
-                                    <input type="text" class="form-control" name="locality"><br>
-                                    <input type="text" class="form-control" name="address"><br>
-                                    <textarea name="description" id="" cols="80" rows="8"></textarea><br>
-                                    <input type="file" class="form-control" name="image"><br>
+                                        placeholder="Anandakendra name" required="required"><br>
+                                    <input type="text" class="form-control" name="locality" placeholder="Locality" required="required"><br>
+                                    <input type="text" class="form-control" name="address" placeholder="Address" required="required"><br>
+                                    <textarea name="description" class="form-control" id="" cols="80" rows="8" placeholder="Description" ></textarea><br>
+                                    <label for="image">Logo</label>
+                                    <input type="file" class="form-control" name="image" required="required"><br>
+                                    <label for="admin" required="required">Admin</label>
                                     <select required name="admin" class="form-control">
                                         {% for user in all_users %}
                                             <option value={{user.pk}}>{{user.first_name}} {{user.last_name}}</option>
                                         {% endfor %}
                                     </select>
+                                    <br>
                                     <button class="btn btn-primary">Submit</button>
                                 </form>
                             </div>

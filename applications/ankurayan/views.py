@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect,JsonResponse
 from datetime import datetime
 from django.core import serializers
 from django.contrib.auth.decorators import login_required
-
+from django.http import Http404
 from bandhuapp.models import Profile
 from .models import Ankurayan,Activity,Photo,Guest,Participant,ActivityCategory
 
