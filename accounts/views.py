@@ -92,7 +92,7 @@ def signup_view(request):
             from_email = settings.SENDER_EMAIL
             mail_subject = '[noreply] Activate your Account'
             msg = 'Thanks for signing up, welcome to bandhu. You have been successfully registered.'
-            message = render_to_string('acc_email_active.html', {
+            message = render_to_string('account_activation_email.html', {
                 'user': user,
                 'domain': current_site.domain,
                 'msg':msg,
@@ -146,7 +146,7 @@ def account_authentication(request, uidb64, token):
         from_email = settings.SENDER_EMAIL
         mail_subject = '[noreply] Account Verified'
         msg = 'Your account has been verified by the admin, you can now Login to Bandhu.'
-        message = render_to_string('acc_verified.html', {
+        message = render_to_string('account_verified_email.html', {
             'email': user.email,
             'msg':msg,
             'domain': current_site.domain,
@@ -170,6 +170,3 @@ def account_authenticated(request):
 
 def signup_success(request):
     return render(request,'signup_success.html')
-
-def signup_failure(request):
-    return render(request,'signup_failure.html')

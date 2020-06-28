@@ -6,6 +6,8 @@ __pycache__
 migrations
 db.sqlite3
 media
+staticfiles
+.vscode
 
 # Backup files #
 *.bak
