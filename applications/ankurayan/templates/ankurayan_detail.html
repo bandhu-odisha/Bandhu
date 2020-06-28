@@ -137,14 +137,14 @@
                                     <form method="POST" action="{% url 'ankurayan:AddGuest' %}">{% csrf_token %}
                                         <input type="text" hidden name="slug" value={{ankurayan.slug}}>
                                         <input type="text" class="form-control" name="name"
-                                            placeholder="Guest Name"><br>
+                                            placeholder="Guest Name" required="required"><br>
                                         <input type="text" class="form-control" name="contact_no"
-                                            placeholder="Contact number"><br>
+                                            placeholder="Contact number" required="required"><br>
                                         <input type="text" class="form-control" name="profession"
-                                            placeholder="Profession"><br>
+                                            placeholder="Profession" required="required"><br>
                                         <input type="text" class="form-control" name="email"
                                             placeholder="Email"><br>
-                                        <textarea name="about" cols="80" rows="8" class="form-control"></textarea><br>
+                                        <textarea name="about" cols="80" rows="8" class="form-control" placeholder="About Guest"></textarea><br>
                                         <button class="btn btn-primary">Submit</button>
                                     </form>
                                 </div>
@@ -172,7 +172,7 @@
                                     <form method="POST" action="{% url 'ankurayan:AddParticipant' %}">{% csrf_token %}
                                         <input type="text" hidden name="slug" value={{ankurayan.slug}}>
                                         <input type="text" class="form-control" name="name"
-                                            placeholder="Student name"><br>
+                                            placeholder="Student name" required="required"><br>
                                         <select class="form-control" name="gender">
                                             <option value="M">Male</option>
                                             <option value="F">Female</option>
@@ -193,9 +193,9 @@
                                             <option value="XII">Class XII</option>
                                         </select><br>
                                         <input type="text" class="form-control" name="address"
-                                            placeholder="Student Address"><br>
+                                            placeholder="Student Address" required="required"><br>
                                         <input type="text" class="form-control" name="contact_no"
-                                            placeholder="Guardian Contact number"><br>
+                                            placeholder="Guardian Contact number" required="required"><br>
                                         <button class="btn btn-primary">Submit</button>
                                     </form>
                                 </div>
@@ -224,7 +224,7 @@
                                     <form method="POST" action="{% url 'ankurayan:AddActivityCategory' %}">{% csrf_token %}
                                         <input type="text" hidden name="slug" value={{ankurayan.slug}}>
                                         <input type="text" class="form-control" name="name"
-                                            placeholder="Category name"><br>
+                                            placeholder="Category name" required="required"><br>
                                         <button class="btn btn-primary">Submit</button>
                                     </form>
                                 </div>
@@ -252,16 +252,19 @@
                                     <form method="POST" enctype="multipart/form-data" action="{% url 'ankurayan:CreateActivity' %}">{% csrf_token %}
                                         <input type="text" hidden name="slug" value={{ankurayan.slug}}>
                                         <input type="text" class="form-control" name="activity_name"
-                                            placeholder="Activity name"><br>
+                                            placeholder="Activity name" required="required"><br>
+                                            <label for="category" style="text-align: left; float: left; padding-left: 5px;">Category</label>
                                         <select class="form-control" name="category">
                                             {% for category in categories %}
                                             <option value="{{category.pk}}">{{category.name}}</option>
                                             {% endfor %}
                                         </select><br>
-                                        <input type="date" name="activity_date" class="form-control"><br>
-                                        <textarea name="description" cols="80" class="form-control"
-                                            rows="8"></textarea><br>
-                                        <input type="file" class="form-control" multiple name="activity_images">
+                                        <label for="activity_date" style="text-align: left; float: left; padding-left: 5px;"    >Activity Date</label>
+                                        <input type="date" name="activity_date" class="form-control" required="required"><br>
+                                        <textarea name="description" cols="80" class="form-control" placeholder="Description"
+                                            rows="4"></textarea><br>
+                                        <label for="activity_images" style="text-align: left; float: left; padding-left: 5px;">Activity Images</label>
+                                        <input type="file" class="form-control" multiple name="activity_images"><br>
                                         <button class="btn btn-primary">Submit</button>
                                     </form>
                                 </div>
@@ -432,7 +435,8 @@
                                 {{participant.school_class}}</option>
                             {% endfor %}
                         </select><br>
-                        <input type="file" class="form-control" multiple name="activity_images">
+                        <label for="activity_images" style="text-align: left; float: left; padding-left: 5px;">Activity Images</label>
+                        <input type="file" class="form-control" multiple name="activity_images"><br>
                         <button type="button" class="btn btn-primary"
                             onclick="validateWinners(`{{forloop.counter}}`);">Submit</button>
                     </form>
@@ -652,12 +656,14 @@
 
                 <div class="gallery-item element-from-bottom clearfix">
                     {% for photo in photos %}
+                    {% if photo not in unapproved_photos %}
                     <figure class="item {{ photo.activity.category.name }} photo-{{ photo.id }}">
                         <img src='{{ photo.picture.url }}' data-rel="photoSwipe">
                         <a href="javascript:pswpInit({{ forloop.counter0 }})" class="stretched-link">
                             <i class="fab fa-instagram"></i>
                         </a>
                     </figure>
+                    {% endif %}
                     {% endfor %}
                 </div>
             </div>
@@ -719,28 +725,30 @@
                                                 {% else %}
                                                 <div class="carousel-item unapp-photo{{ photo.id }}">
                                                 {% endif %}
-                                                    <img src="{{ photo.picture.url }}" alt="carousel image" class="w-100">
+                                                    <img src="{{ photo.picture.url }}" alt="carousel image" class="w-100" style="height: 400px; width: 400px;">
+                                                    <br><br>
                                                     <div class="row justify-content-center">
                                                         <div class="col-sm-5 text-center">
                                                             <button type="button" onclick="imageApproval('approve','{{photo.pk}}');"
-                                                                class="btn btn-primary">Approve</button>
+                                                                class="btn btn-success">Approve</button>
                                                         </div>
+                                                        <div class="col col-md-2"></div>
                                                         <div class="col-sm-5 text-center">
                                                             <button type="button" onclick="imageApproval('discard','{{photo.pk}}');"
-                                                                class="btn btn-primary">Discard</button>
+                                                                class="btn btn-danger">Discard</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 {% endfor %}
                                             </div>
                                             <a class="carousel-control-prev" href="#approve-images-carousel" data-slide="prev">
-                                                <span class="carousel-control-prev-icon"></span>
+                                                <span class="carousel-control-prev-icon" style="background-color: black; width:40px; height: 40px;"></span>
                                             </a>
                                             <a class="carousel-control-next" href="#approve-images-carousel" data-slide="next">
-                                                <span class="carousel-control-next-icon"></span>
+                                                <span class="carousel-control-next-icon" style="background-color: black; width:40px; height: 40px;"></span>
                                             </a>
                                         </div>
-                                        <p class="text-center">
+                                        <p class="text-center" style="font-size: 15px; font-weight: bolder; padding:10px;" >
                                             Note: You need to Refresh Page for changes to take effect in Gallery.
                                         </p>
                                     </div>
