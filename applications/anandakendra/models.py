@@ -65,6 +65,16 @@ class Activity(models.Model):
     def __str__(self):
         return f'{self.category.kendra.name} - {self.name} ({self.category.name})'
 
+class Event(models.Model):
+    kendra = models.ForeignKey(AnandaKendra, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    description = models.TextField(max_length=1000)
+    image = models.ImageField(upload_to='anandkendra/events')
+    date = models.DateField()
+
+    def __str__(self):
+        return f'{self.kendra.name} - {self.name}'
+
 class Acharya(models.Model):
     kendra = models.ForeignKey(AnandaKendra, on_delete=models.CASCADE)
     acharya_id = models.ForeignKey(Profile,on_delete=models.CASCADE)
