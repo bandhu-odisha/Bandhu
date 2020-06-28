@@ -308,7 +308,7 @@ a, h1, h2, h3, h4, h5, h6, p {
 
 /* ACTIVITIES SECTION ON ALL PAGES */
 
-#activities .title {
+#activities .title, #events .title {
     color: #0d0d0d;
     /* font-size: 1.375em; */
     font-weight: 800;
@@ -317,7 +317,7 @@ a, h1, h2, h3, h4, h5, h6, p {
     margin-top: 0;
 }
 
-#activities::before {
+#activities::before, #events::before {
     display: block;
     content: "";
     margin-top: -30px;
@@ -325,20 +325,20 @@ a, h1, h2, h3, h4, h5, h6, p {
     visibility: hidden;
 }
 
-#activities .card {
+#activities .card, #events .card {
     border: none !important;
 }
 
-#activities .glide__slide .card {
+#activities .glide__slide .card, #events .glide__slide .card {
     max-width: 24rem;
     max-height: 40rem;
 }
 
 @media screen and (max-width: 760px) {
-    #activities .glide__slide {
+    #activities .glide__slide, #events .glide__slide {
         padding: 0 15px;
     }
-    #activities .glide__slide .card {
+    #activities .glide__slide .card, #events .glide__slide .card {
         max-width: 20rem;
         max-height: 40rem;
     }

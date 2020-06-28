@@ -5,7 +5,7 @@ from django.core import serializers
 from django.contrib.auth.decorators import login_required
 
 from bandhuapp.models import Profile
-from .models import AnandaKendra,Activity,Photo,Acharya,Student,ActivityCategory
+from .models import AnandaKendra,Activity,Photo,Acharya,Student,ActivityCategory, Event
 
 # Create your views here.
 
@@ -33,14 +33,19 @@ def create_anandakendra(request):
 def anandkendra_detail(request, slug):
     kendra = get_object_or_404(AnandaKendra, slug=slug)
     categories = ActivityCategory.objects.filter(kendra=kendra)
+    events = Event.objects.filter(kendra=kendra)
     students = Student.objects.filter(kendra=kendra)
     check_admin = False
 
     if kendra.admin is not None and kendra.admin.user == request.user:
-        photos = Photo.objects.filter(kendra=kendra)
+        # photos = Photo.objects.filter(kendra=kendra)
         check_admin = True
-    else:
-        photos = Photo.objects.filter(kendra=kendra).filter(approved=True)
+    # else:
+    #     photos = Photo.objects.filter(kendra=kendra).filter(approved=True)
+
+    photos = Photo.objects.filter(kendra=kendra)
+    unapproved_photos = photos.filter(approved=False)
+    photos = photos.filter(approved=True)
 
     activities_list = []
 
@@ -53,6 +58,7 @@ def anandkendra_detail(request, slug):
         'kendra': kendra,
         'categories': categories,
         'activities': activities_list,
+        'events': events,
         'students': students,
         'photos': photos,
         'check_admin': check_admin,
