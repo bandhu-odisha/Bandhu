@@ -54,7 +54,7 @@ class Activity(models.Model):   # Donation/Food Supply
     name = models.CharField(max_length=50)
     description = models.TextField(max_length=1000)
     volunteers = models.ManyToManyField(Volunteer)
-    activity_duration = models.CharField(max_length=100)
+    activity_date = models.DateField()
 
     class Meta:
         verbose_name_plural = 'Activities'
