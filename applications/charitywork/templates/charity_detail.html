@@ -376,6 +376,12 @@
                         </a>
                     </figure>
                     {% endfor %}
+                    <figure id="load-more" class="item {% for activity in activities %} {{ activity.id }} {% endfor %}">
+                        <img src='{{ photo.picture.url }}'>
+                        <a href="javascript:void(0);" class="stretched-link">
+                            Show More
+                        </a>
+                    </figure>
                 </div>
             </div>
 
@@ -397,7 +403,7 @@
                                 <div class="modal-body">
                                     <form method="POST" enctype="multipart/form-data" action="{% url 'charitywork:AddToGallery' %}">
                                         {% csrf_token %}
-                                        <input type="text" hidden name="slug" value={{ashram.slug}}>
+                                        <input type="text" hidden name="slug" value="{{charity.slug}}">
 
                                         <input type="file" class="form-control" multiple name="gallery_images">
                                         <button class="btn btn-primary">Submit</button>
@@ -472,7 +478,7 @@
             ];
 
             $('#gallery-container .gallery-item a').each(function(index, img){
-                $(img).attr("href", 'javascript:pswpInit(' + index + ')');
+                if ($(img).closest('#load-more') == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
             });
         }
         else{
@@ -494,7 +500,7 @@
 
             let selector = '#gallery-container ' + filter + ' a';
             $(selector).each(function(index, img){
-                $(img).attr("href", 'javascript:pswpInit(' + index + ')');
+                if ($(img).closest('#load-more') == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
             });
         }
 

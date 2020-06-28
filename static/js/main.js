@@ -175,5 +175,58 @@ $(document).ready(function() {
         });
         return false;
     });
+
+    //****************************
+    // Isotope Load more button
+    //****************************
+    var initShow = 1; //number of items loaded on init & onclick load more button
+    var counter = initShow; //counter for load more button
+    var iso = $container.data('isotope'); // get Isotope instance
+  
+    loadMore(initShow); //execute function onload
+  
+    function loadMore(toShow) {
+      $container.find(".hidden").removeClass("hidden");
+  
+      var hiddenElems = iso.filteredItems.slice(toShow, iso.filteredItems.length).map(function(item) {
+        return item.element;
+      });
+      $(hiddenElems).addClass('hidden');
+      $('#load-more').removeClass("hidden");
+      $container.isotope('layout');
+  
+      //when no more to load, hide show more button
+      if (hiddenElems.length <= 1) {  // Hidden elements will also contain #load-more
+        jQuery("#load-more").hide();
+      } else {
+        jQuery("#load-more").show();
+      };
+  
+    }
+  
+    //append load more button
+    // $container.after('<button id="load-more"> Load More</button>');
+  
+    //when load more button clicked
+    $("#load-more").click(function() {
+      if ($('.galleryFilter').data('clicked')) {
+        //when filter button clicked, set initial value for counter
+        counter = initShow;
+        $('.galleryFilter').data('clicked', false);
+      } else {
+        counter = counter;
+      };
+  
+      counter = counter + initShow;
+  
+      loadMore(counter);
+    });
+  
+    //when filter button clicked
+    $(".galleryFilter a").click(function() {
+      $(this).parent().data('clicked', true);
+
+      loadMore(initShow);
+    });
   
 });
