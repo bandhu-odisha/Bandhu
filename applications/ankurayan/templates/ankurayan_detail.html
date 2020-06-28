@@ -656,15 +656,19 @@
 
                 <div class="gallery-item element-from-bottom clearfix">
                     {% for photo in photos %}
-                    {% if photo not in unapproved_photos %}
                     <figure class="item {{ photo.activity.category.name }} photo-{{ photo.id }}">
                         <img src='{{ photo.picture.url }}' data-rel="photoSwipe">
                         <a href="javascript:pswpInit({{ forloop.counter0 }})" class="stretched-link">
                             <i class="fab fa-instagram"></i>
                         </a>
                     </figure>
-                    {% endif %}
                     {% endfor %}
+                    <figure id="load-more" class="item {% for activity in activities %} {{ activity.id }} {% endfor %}">
+                        <img src='{{ photo.picture.url }}'>
+                        <a href="javascript:void(0);" class="stretched-link">
+                            Show More
+                        </a>
+                    </figure>
                 </div>
             </div>
 
@@ -827,7 +831,7 @@
             ];
 
             $('#gallery-container .gallery-item a').each(function(index, img){
-                $(img).attr("href", 'javascript:pswpInit(' + index + ')');
+                if ($(img).closest('#load-more') == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
             });
         }
         else{
@@ -849,7 +853,7 @@
 
             let selector = '#gallery-container ' + filter + ' a';
             $(selector).each(function(index, img){
-                $(img).attr("href", 'javascript:pswpInit(' + index + ')');
+                if ($(img).closest('#load-more') == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
             });
         }
 

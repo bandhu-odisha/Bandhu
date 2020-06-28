@@ -53,12 +53,14 @@ def ankurayan_detail(request, slug):
     check_admin = False
 
     if ankurayan.admin is not None and ankurayan.admin.user == request.user:
-        photos = Photo.objects.filter(ankurayan=ankurayan)
+        # photos = Photo.objects.filter(ankurayan=ankurayan)
         check_admin = True
-    else:
-        photos = Photo.objects.filter(ankurayan=ankurayan).filter(approved=True)
+    # else:
+    #     photos = Photo.objects.filter(ankurayan=ankurayan).filter(approved=True)
 
+    photos = Photo.objects.filter(ankurayan=ankurayan)
     unapproved_photos = photos.filter(approved=False)
+    photos = photos.filter(approved=True)
 
     ankurayans = Ankurayan.objects.all().exclude(slug=slug)
     activity_img = []

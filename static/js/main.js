@@ -179,7 +179,8 @@ $(document).ready(function() {
     //****************************
     // Isotope Load more button
     //****************************
-    var initShow = 1; //number of items loaded on init & onclick load more button
+    var initShow = 3; //number of items loaded on init & onclick load more button
+    var next_show = 4;
     var counter = initShow; //counter for load more button
     var iso = $container.data('isotope'); // get Isotope instance
   
@@ -217,7 +218,7 @@ $(document).ready(function() {
         counter = counter;
       };
   
-      counter = counter + initShow;
+      counter = counter + next_show;
   
       loadMore(counter);
     });
