@@ -50,24 +50,10 @@
     <div class="collapse recent-activities-collapse" id="collapseExample">
         <div class="card card-body">
             <ol>
-                <li>
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
-                </li>
-                <li>
-                    Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                </li>
-                <li>
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
-                </li>
-                <li>
-                    Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                </li>
-                <li>
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
-                </li>
-                <li>
-                    Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                </li>
+                {% for i in recent_activities %}
+                    <li><a href="#" style="font-size: 20px;">{{i.name}}</a> <i style="font-size: 12px; float: right;">{{i.activity_date}}</i><br>{{i.description|truncatechars:80}}</li>
+                    <hr>
+                {% endfor %}
             </ol>
         </div>
     </div>
@@ -89,7 +75,8 @@
                         creative events along with conducting various competitions among school students.
                     </p>
                 </div>
-                <a href="{% url 'ankurayan:ankurayan' %}" class="stretched-link"></a>
+                {% now 'Y' as current_year %}
+                <a href="{% url 'ankurayan:AnkurayanDetail' current_year %}" class="stretched-link"></a>
             </div>
         </div>
         <div class="col-lg-3 col-md-4 col-sm-6 px-2">
@@ -113,7 +100,7 @@
                         We dream about a new world for the children with no harm. We are aiming to build a strong and a bouncing platform where anyone can work for children worldwide.
                     </p>
                 </div>
-                <a href="{% url 'anandakendra' %}" class="stretched-link"></a>
+                <a href="{% url 'anandakendra:anandakendra' %}" class="stretched-link"></a>
             </div>
         </div>
         <div class="col-lg-3 col-md-4 col-sm-6 px-2">
@@ -125,7 +112,7 @@
                         We dream about a new world for the children with no harm. We are aiming to build a strong and a bouncing platform where anyone can work for children worldwide.
                     </p>
                 </div>
-                <a href="{% url 'ashram' %}" class="stretched-link"></a>
+                <a href="{% url 'ashram:ashram' %}" class="stretched-link"></a>
             </div>
         </div>
         <div class="col-lg-3 col-md-4 col-sm-6 px-2">
@@ -137,7 +124,7 @@
                         We dream about a new world for the children with no harm. We are aiming to build a strong and a bouncing platform where anyone can work for children worldwide.
                     </p>
                 </div>
-                <a href="{% url 'charity_work' %}" class="stretched-link"></a>
+                <a href="{% url 'charitywork:charity_work' %}" class="stretched-link"></a>
             </div>
         </div>
         <div class="col-lg-3 col-md-4 col-sm-6 px-2">

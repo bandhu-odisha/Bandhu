@@ -45,7 +45,7 @@
 {% endblock %}
 
 {% block content %}
-<!-- Cause Section  -->
+<!-- About Section  -->
 <section id="about" style="margin-top: -200px;">
     <div class="container">
         <div class="row justify-content-center">
@@ -58,29 +58,10 @@
                         <p class="m-0">
                             {{ ankurayan.theme }}
                         </p>
-                        <!-- {% if event.is_completed %}
-                        <button type="button" class="btn btn-secondary btn-sm px-4 py-2 mt-2" disabled>Event Ended</button>
-                        {% elif not check %}
-                        <form method="POST">
-                            {% csrf_token %}
-                            <button type="submit" name="submit" value="rsvp" class="btn btn-success btn-sm px-4 py-2 mt-2">Register</button>
-                        </form>
-                        {% else %}
-                        <form method="POST">
-                            {% csrf_token %}
-                            <button type="button"  class="btn btn-success btn-sm px-4 py-2 mt-2" disabled>Registered</button>
-                            <button type="submit" name="submit" value="rsvp_del" class="btn btn-danger btn-sm px-4 py-2 mt-2">Remove Registration</button>
-                        </form>
-                        {% endif %} -->
-
                     </div>
                 </div>
                 <!--   DESCRIPTON  -->
                 <div class="card m-2 shadow-sm">
-                    <!-- <div class="card-header font-weight-bold">
-                        <i class="fas fa-th-list pr-2"></i>
-                        Description
-                    </div> -->
                     <div class="card-body p-4">
                         <h2 class="content-title mb-2">Description</h1>
                         <p>{{ ankurayan.description|safe }}</p>
@@ -110,163 +91,8 @@
                         <p>{{ ankurayan.description|safe }}</p>
                     </div>
                 </div> -->
-                
-
-                {% if check_admin and user.is_authenticated %}
-                <!-- Add Guest to this Ankurayan -->
-                <div class="select-acharyas">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addGuest">
-                        Add Guest
-                    </button>
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addGuest" role="dialog"
-                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Guest</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST" action="{% url 'ankurayan:AddGuest' %}">{% csrf_token %}
-                                        <input type="text" hidden name="slug" value={{ankurayan.slug}}>
-                                        <input type="text" class="form-control" name="name"
-                                            placeholder="Guest Name"><br>
-                                        <input type="text" class="form-control" name="contact_no"
-                                            placeholder="Contact number"><br>
-                                        <input type="text" class="form-control" name="profession"
-                                            placeholder="Profession"><br>
-                                        <input type="text" class="form-control" name="email"
-                                            placeholder="Email"><br>
-                                        <textarea name="about" cols="80" rows="8" class="form-control"></textarea><br>
-                                        <button class="btn btn-primary">Submit</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Add Participants to this Ankurayan -->
-                <div class="add-participants">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addParticipantsModal">
-                        Add Participants
-                    </button>
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addParticipantsModal" role="dialog"
-                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Participants</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST" action="{% url 'ankurayan:AddParticipant' %}">{% csrf_token %}
-                                        <input type="text" hidden name="slug" value={{ankurayan.slug}}>
-                                        <input type="text" class="form-control" name="name"
-                                            placeholder="Student name"><br>
-                                        <select class="form-control" name="gender">
-                                            <option value="M">Male</option>
-                                            <option value="F">Female</option>
-                                            <option value="O">Other</option>
-                                        </select><br>
-                                        <select class="form-control" name="school_class">
-                                            <option value="I">Class I</option>
-                                            <option value="II">Class II</option>
-                                            <option value="III">Class III</option>
-                                            <option value="IV">Class IV</option>
-                                            <option value="V">Class V</option>
-                                            <option value="VI">Class VI</option>
-                                            <option value="VII">Class VII</option>
-                                            <option value="VIII">Class VIII</option>
-                                            <option value="IX">Class IX</option>
-                                            <option value="X">Class X</option>
-                                            <option value="XI">Class XI</option>
-                                            <option value="XII">Class XII</option>
-                                        </select><br>
-                                        <input type="text" class="form-control" name="address"
-                                            placeholder="Student Address"><br>
-                                        <input type="text" class="form-control" name="contact_no"
-                                            placeholder="Guardian Contact number"><br>
-                                        <button class="btn btn-primary">Submit</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Add Activity Category -->
-                <div class="add-activity-category">
-                    <button type="button" class="btn btn-primary" data-toggle="modal"
-                        data-target="#addActivityCategory">
-                        Add Category
-                    </button>
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addActivityCategory" role="dialog"
-                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Activity Category</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST" action="{% url 'ankurayan:AddActivityCategory' %}">{% csrf_token %}
-                                        <input type="text" hidden name="slug" value={{ankurayan.slug}}>
-                                        <input type="text" class="form-control" name="name"
-                                            placeholder="Category name"><br>
-                                        <button class="btn btn-primary">Submit</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Add Activity -->
-                <div class="add-activity">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addActivity">
-                        Add Activity
-                    </button>
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addActivity" role="dialog"
-                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Activity</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST" enctype="multipart/form-data" action="{% url 'ankurayan:CreateActivity' %}">{% csrf_token %}
-                                        <input type="text" hidden name="slug" value={{ankurayan.slug}}>
-                                        <input type="text" class="form-control" name="activity_name"
-                                            placeholder="Activity name"><br>
-                                        <select class="form-control" name="category">
-                                            {% for category in categories %}
-                                            <option value="{{category.pk}}">{{category.name}}</option>
-                                            {% endfor %}
-                                        </select><br>
-                                        <input type="date" name="activity_date" class="form-control"><br>
-                                        <textarea name="description" cols="80" class="form-control"
-                                            rows="8"></textarea><br>
-                                        <input type="file" class="form-control" multiple name="activity_images">
-                                        <button class="btn btn-primary">Submit</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endif %}
-
             </div>
+
             <div class="col-lg-3 text-left px-0 py-0 py-lg-2 mx-auto" style="z-index: 10;">
 				<!--   PIC CARD  -->
 				<div class="card m-2 shadow-sm">
@@ -289,13 +115,165 @@
                         </p>
                     </div>
                 </div>
-            </div>
-            <!-- <div class="col-md-6">
-                <div class="card border text-center">
-                    <img class="card-img-top" src='/media/{{ankurayan.logo}}' alt="Card image cap"
-                        style="height: 400px; width: 100%;">
+
+
+                {% if check_admin and user.is_authenticated %}
+                <!-- Add Guest to this Ankurayan -->
+                <div class="select-acharyas text-center my-2">
+                    <button type="button" class="btn btn-primary w-75" data-toggle="modal" data-target="#addGuest">
+                        Add Guest
+                    </button>
+                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addGuest" role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Guest</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="POST" action="{% url 'ankurayan:AddGuest' %}">{% csrf_token %}
+                                        <input type="text" hidden name="slug" value={{ankurayan.slug}}>
+                                        <input type="text" class="form-control" name="name"
+                                            placeholder="Guest Name" required="required"><br>
+                                        <input type="text" class="form-control" name="contact_no"
+                                            placeholder="Contact number" required="required"><br>
+                                        <input type="text" class="form-control" name="profession"
+                                            placeholder="Profession" required="required"><br>
+                                        <input type="text" class="form-control" name="email"
+                                            placeholder="Email"><br>
+                                        <textarea name="about" cols="80" rows="8" class="form-control" placeholder="About Guest"></textarea><br>
+                                        <button class="btn btn-primary">Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div> -->
+
+                <!-- Add Participants to this Ankurayan -->
+                <div class="add-participants text-center my-2">
+                    <button type="button" class="btn btn-primary w-75" data-toggle="modal" data-target="#addParticipantsModal">
+                        Add Participants
+                    </button>
+                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addParticipantsModal" role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Participants</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="POST" action="{% url 'ankurayan:AddParticipant' %}">{% csrf_token %}
+                                        <input type="text" hidden name="slug" value={{ankurayan.slug}}>
+                                        <input type="text" class="form-control" name="name"
+                                            placeholder="Student name" required="required"><br>
+                                        <select class="form-control" name="gender">
+                                            <option value="M">Male</option>
+                                            <option value="F">Female</option>
+                                            <option value="O">Other</option>
+                                        </select><br>
+                                        <select class="form-control" name="school_class">
+                                            <option value="I">Class I</option>
+                                            <option value="II">Class II</option>
+                                            <option value="III">Class III</option>
+                                            <option value="IV">Class IV</option>
+                                            <option value="V">Class V</option>
+                                            <option value="VI">Class VI</option>
+                                            <option value="VII">Class VII</option>
+                                            <option value="VIII">Class VIII</option>
+                                            <option value="IX">Class IX</option>
+                                            <option value="X">Class X</option>
+                                            <option value="XI">Class XI</option>
+                                            <option value="XII">Class XII</option>
+                                        </select><br>
+                                        <input type="text" class="form-control" name="address"
+                                            placeholder="Student Address" required="required"><br>
+                                        <input type="text" class="form-control" name="contact_no"
+                                            placeholder="Guardian Contact number" required="required"><br>
+                                        <button class="btn btn-primary">Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add Activity Category -->
+                <div class="add-activity-category text-center my-2">
+                    <button type="button" class="btn btn-primary w-75" data-toggle="modal"
+                        data-target="#addActivityCategory">
+                        Add Category
+                    </button>
+                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addActivityCategory" role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Activity Category</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="POST" action="{% url 'ankurayan:AddActivityCategory' %}">{% csrf_token %}
+                                        <input type="text" hidden name="slug" value={{ankurayan.slug}}>
+                                        <input type="text" class="form-control" name="name"
+                                            placeholder="Category name" required="required"><br>
+                                        <button class="btn btn-primary">Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add Activity -->
+                <div class="add-activity text-center my-2">
+                    <button type="button" class="btn btn-primary w-75" data-toggle="modal" data-target="#addActivity">
+                        Add Activity
+                    </button>
+                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addActivity" role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Activity</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="POST" enctype="multipart/form-data" action="{% url 'ankurayan:CreateActivity' %}">{% csrf_token %}
+                                        <input type="text" hidden name="slug" value={{ankurayan.slug}}>
+                                        <input type="text" class="form-control" name="activity_name"
+                                            placeholder="Activity name" required="required"><br>
+                                            <label for="category" style="text-align: left; float: left; padding-left: 5px;">Category</label>
+                                        <select class="form-control" name="category">
+                                            {% for category in categories %}
+                                            <option value="{{category.pk}}">{{category.name}}</option>
+                                            {% endfor %}
+                                        </select><br>
+                                        <label for="activity_date" style="text-align: left; float: left; padding-left: 5px;"    >Activity Date</label>
+                                        <input type="date" name="activity_date" class="form-control" required="required"><br>
+                                        <textarea name="description" cols="80" class="form-control" placeholder="Description"
+                                            rows="4"></textarea><br>
+                                        <label for="activity_images" style="text-align: left; float: left; padding-left: 5px;">Activity Images</label>
+                                        <input type="file" class="form-control" multiple name="activity_images"><br>
+                                        <button class="btn btn-primary">Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
         </div>
     </div>
 </section>
@@ -314,14 +292,23 @@
                         {% for activity in category.activity_set.all %}
                         <li class="glide__slide">
                             <div class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
+                                <a class="" href="#" data-toggle="modal" data-target="#activity_modal{{ activity.id }}">
                                 <img src="{% static 'img/pimg6.jpg' %}" class="card-img-top home-card-img" alt="" width="300px">
+                                </a>
                                 <div class="card-body pb-0">
+                                    <a class="" href="#" data-toggle="modal" data-target="#activity_modal{{ activity.id }}" style="text-decoration: none; color: black !important;">
                                     <h5 class="card-title font-weight-bold">{{ activity.name }}</h5>
+                                    </a>
                                     <p class="mb-3">
-                                    {{ activity.description }}
+                                    {% if check_admin and user.is_authenticated %}
+                                        {% if activity.winner %}
+                                        {% else %}
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#selectWinners{{forloop.counter}}">Add Winners</button>
+                                        {% endif %}
+                                    {% endif %}
                                     <br>
+                                    
                                     </p>
-                                    <a class="stretched-link" href="#" data-toggle="modal" data-target="#activity_modal{{ activity.id }}"></a>
                                 </div>
                             </div>
                         </li>
@@ -361,7 +348,38 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    {{ activity.description }}
+                    <div class="row">
+                        <div class="col-md-6 col-lg-6 align-self-center">
+                            <div id="mission-carousel" class="mission-carousel carousel slide m-auto" data-ride="carousel">
+                                <ul class="carousel-indicators">
+                                    <li data-target="#mission-carousel" data-slide-to="0" class=""></li>
+                                    <li data-target="#mission-carousel" data-slide-to="1" class=""></li>
+                                    <li data-target="#mission-carousel" data-slide-to="2" class="active"></li>
+                                </ul>
+                                <div class="carousel-inner">
+                                    <div class="carousel-item">
+                                        <img src="/static/img/pimg6.jpg" alt="carousel image">
+                                    </div>
+                                    <div class="carousel-item">
+                                        <img src="/static/img/pimg2.jpg" alt="carousel image">
+                                    </div>
+                                    <div class="carousel-item active">
+                                        <img src="/static/img/pimg3.jpg" alt="carousel image">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h3 class="font-weight-bolder">Description</h3>
+                            {{ activity.description }}
+                            {% if activity.winner %}
+                            <h3 class="font-weight-bolder">Result</h3>
+                            <p><b>Winner:</b>{{ activity.winner }}</p>
+                            <p><b>Runner Up1:</b>{{ activity.runner_up1 }}</p>
+                            <p><b>Runner Up2:</b>{{ activity.runner_up2}}</p>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -369,6 +387,64 @@
             </div>
         </div>
     </div>
+    {% if check_admin and user.is_authenticated %}
+    <div class="modal fade" tabindex="-1"
+        id="selectWinners{{forloop.counter}}" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content shadow">
+                <div class="modal-header">
+                    <h5 class="modal-title content-title" id="exampleModalLongTitle">Select Winners
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p style="color:red;display:none;" class="errorMessageWinners" >A student cannot come at two positions.</p>
+                    <form method="POST" enctype="multipart/form-data" action="{% url 'ankurayan:AddWinners' %}"
+                        id="chooseWinnersForm{{forloop.counter}}">{% csrf_token %}
+                        <input type="text" hidden name="pk" value="{{activity.pk}}">
+                        <input type="text" hidden name="slug" value="{{ankurayan.slug}}">
+                        <!-- <input type="text" hidden name="activity_name"
+                            value={{activity.activity_name}}>
+                        <input type="text" hidden name="date"
+                            value={{activity.activity_date}}> -->
+                        <select required class="form-control" id="winner{{forloop.counter}}"
+                            name="pk_winner">
+                            <option value="">Select Winner</option>
+                            {% for participant in participants %}
+                            <option value="{{participant.pk}}">{{participant.name}} -
+                                {{participant.school_class}}</option>
+                            {% endfor %}
+                        </select><br>
+                        <select required class="form-control" id="runnerUp1{{forloop.counter}}"
+                            name="pk_runner_up1">
+                            <option value="">Select first runner up</option>
+                            {% for participant in participants %}
+                            <option value="{{participant.pk}}">{{participant.name}} -
+                                {{participant.school_class}}</option>
+                            {% endfor %}
+                        </select><br>
+                        <select required class="form-control" id="runnerUp2{{forloop.counter}}"
+                            name="pk_runner_up2">
+                            <option value="">Select second runner up</option>
+                            {% for participant in participants %}
+                            <option value="{{participant.pk}}">{{participant.name}} -
+                                {{participant.school_class}}</option>
+                            {% endfor %}
+                        </select><br>
+                        <label for="activity_images" style="text-align: left; float: left; padding-left: 5px;">Activity Images</label>
+                        <input type="file" class="form-control" multiple name="activity_images"><br>
+                        <button type="button" class="btn btn-primary"
+                            onclick="validateWinners(`{{forloop.counter}}`);">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
     {% endfor %}
 {% endfor %}
 
@@ -587,13 +663,26 @@
                         </a>
                     </figure>
                     {% endfor %}
+                    <figure id="load-more" class="item {% for activity in activities %} {{ activity.id }} {% endfor %}">
+                        <img src='{{ photo.picture.url }}'>
+                        <a href="javascript:void(0);" class="stretched-link">
+                            Show More
+                        </a>
+                    </figure>
                 </div>
             </div>
 
+<<<<<<< HEAD
             <div id="gallery-container" class="gallery-container">
                 <div class="add-images">
                     {% if user.is_authenticated %}
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addToGallery">
+=======
+            {% if user.is_authenticated %}
+            <div class="row justify-content-center mt-2">
+                <div class="col-sm-5 add-images text-center">
+                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#addToGallery">
+>>>>>>> 92ffca8d6c962365d8590a9dc9e614ccf17387a4
                         Upload Images
                     </button>
                     {% endif %}
@@ -619,6 +708,71 @@
                         </div>
                     </div>
                 </div>
+                {% if check_admin %}
+                <div class="col-sm-5 approve-images text-center">
+                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#approveGallery">
+                        Approve Images
+                    </button>
+                    <div class="modal fade" id="approveGallery">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content shadow">
+                                <div class="modal-header">
+                                    <h5 class="modal-title content-title">Approve Photos</h5>
+                                    <button type="button" class="close" style="padding: .5rem 1rem;" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true" style="font-size: 2.375rem;">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div id="approve-images-carousel" class="approve-images-carousel carousel slide m-auto" data-ride="carousel">
+                                            <!-- <ul class="carousel-indicators">
+                                                <li data-target="#approve-images-carousel" data-slide-to="0" class="active"></li>
+                                                <li data-target="#approve-images-carousel" data-slide-to="1" class=""></li>
+                                                <li data-target="#approve-images-carousel" data-slide-to="2" class=""></li>
+                                            </ul> -->
+                                            <div class="carousel-inner">
+                                                {% for photo in unapproved_photos %}
+                                                {% if forloop.counter == 1 %}
+                                                <div class="carousel-item active unapp-photo{{ photo.id }}">
+                                                {% else %}
+                                                <div class="carousel-item unapp-photo{{ photo.id }}">
+                                                {% endif %}
+                                                    <img src="{{ photo.picture.url }}" alt="carousel image" class="w-100" style="height: 400px; width: 400px;">
+                                                    <br><br>
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-sm-5 text-center">
+                                                            <button type="button" onclick="imageApproval('approve','{{photo.pk}}');"
+                                                                class="btn btn-success">Approve</button>
+                                                        </div>
+                                                        <div class="col col-md-2"></div>
+                                                        <div class="col-sm-5 text-center">
+                                                            <button type="button" onclick="imageApproval('discard','{{photo.pk}}');"
+                                                                class="btn btn-danger">Discard</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                            <a class="carousel-control-prev" href="#approve-images-carousel" data-slide="prev">
+                                                <span class="carousel-control-prev-icon" style="background-color: black; width:40px; height: 40px;"></span>
+                                            </a>
+                                            <a class="carousel-control-next" href="#approve-images-carousel" data-slide="next">
+                                                <span class="carousel-control-next-icon" style="background-color: black; width:40px; height: 40px;"></span>
+                                            </a>
+                                        </div>
+                                        <p class="text-center" style="font-size: 15px; font-weight: bolder; padding:10px;" >
+                                            Note: You need to Refresh Page for changes to take effect in Gallery.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
 
                 <!-- <div class="gallery-item element-from-bottom clearfix">
 
@@ -637,11 +791,9 @@
 
                 </div> -->
             </div>
-        </div><!-- /.container -->
-        <!-- <div class="bottom-angle">
-        </div> -->
-        <!-- /.bottom-angle -->
-    </div><!-- /.gallery-section -->
+            {% endif %}
+        </div>
+    </div>
 </section>
 
 <!-- Include PhotoSwipe -->
@@ -658,7 +810,7 @@
 
 
 {% block scripts %}
-<!-- PhotoSwipe -->
+<!-- PHOTOSWIPE -->
 <script>
     // build the json album images collection 
     window.djangoAlbumImages = [
@@ -687,7 +839,7 @@
             ];
 
             $('#gallery-container .gallery-item a').each(function(index, img){
-                $(img).attr("href", 'javascript:pswpInit(' + index + ')');
+                if ($(img).closest('#load-more') == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
             });
         }
         else{
@@ -709,14 +861,11 @@
 
             let selector = '#gallery-container ' + filter + ' a';
             $(selector).each(function(index, img){
-                $(img).attr("href", 'javascript:pswpInit(' + index + ')');
+                if ($(img).closest('#load-more') == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
             });
         }
 
     });
-
-
-    
 </script>
 <!-- Custom JS -->
 <script src="{% static 'js/ankurayan.js' %}"></script>
@@ -731,13 +880,13 @@
 <script type="text/javascript" src="{% static 'js/semantic.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/dropdown.js' %}"></script> -->
 
-<!-- <script>
+<script>
     $(document).ready(function () {
         $('.ui.dropdown').dropdown();
     });
 
     function validateWinners(counter) {
-        alert(counter)
+        // alert(counter)
         var winner = document.getElementById(`winner${counter}`).value;
         var runner_up1 = document.getElementById(`runnerUp1${counter}`).value;
         var runner_up2 = document.getElementById(`runnerUp2${counter}`).value;
@@ -746,11 +895,17 @@
             document.getElementsByClassName('errorMessageWinners')[0].style.display = "grid";
             return;
         }
-        $('chooseWinnersForm'+counter).submit();
+        $('#chooseWinnersForm'+counter).submit();
     }
 
     function imageApproval(status, image) {
         var ankurayan = "{{ankurayan.slug}}";
+        let selector = '.unapp-photo' + image;
+        console.log($(selector).prev(), $(selector).prev().length, $(selector));
+        if ($(selector).next().length != 0) $(selector).next().addClass('active')
+        else $(selector).prev().addClass('active')
+        $(selector).remove()
+
         $.ajax({
             type: "POST",
             url: "/ankurayan/admin_approval/",
@@ -783,7 +938,7 @@
         });
     }
 
-</script> -->
+</script>
 
 <script>
     // ACTIVITIES CAROUSEL
@@ -796,6 +951,9 @@
             autoplay: 2000,
             gap: 30,
             breakpoints: {
+                991: {
+                    perView: 2,
+                },
                 767:{
                     perView: 1,
                 }
@@ -813,6 +971,9 @@
         autoplay: 2000,
         gap: 30,
         breakpoints: {
+            991: {
+                perView: 2,
+            },
             767:{
                 perView: 1,
             }

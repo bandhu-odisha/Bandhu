@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 
 from bandhuapp.models import Profile
 from accounts.models import User
-from .models import Ashram,Activity,Photo,Meeting,Attendee,ActivityCategory
+from .models import Ashram,Activity,Photo,Meeting,Attendee,ActivityCategory, Event
 
 # Create your views here.
 
@@ -37,20 +37,30 @@ def create_ashram(request):
         
 def ashram_detail(request,slug):
     ashram = get_object_or_404(Ashram,slug=slug)
-    activities = Activity.objects.filter(ashram=ashram)
+    categories = ActivityCategory.objects.filter(ashram=ashram)
+    events = Event.objects.filter(ashram=ashram)
+    meetings = Meeting.objects.filter(ashram=ashram)
     check_admin = False
 
     if ashram.admin is not None and ashram.admin.user == request.user:
-        photos = Photo.objects.filter(ashram=ashram)
+        # photos = Photo.objects.filter(ashram=ashram)
         check_admin = True
-    else:
-        photos = Photo.objects.filter(ashram=ashram).filter(approved=True)
+    # else:
+    #     photos = Photo.objects.filter(ashram=ashram).filter(approved=True)
 
-    categories = ActivityCategory.objects.all()
-    meetings = Meeting.objects.all()
-    return render(request,'ashram_detail.html',{'ashram':ashram,'activities':activities,
-                                                    'photos':photos,'categories':categories,
-                                                    'meetings':meetings,'check_admin':check_admin})
+    photos = Photo.objects.filter(ashram=ashram)
+    unapproved_photos = photos.filter(approved=False)
+    photos = photos.filter(approved=True)
+
+    context = {
+        'ashram': ashram,
+        'categories':categories,
+        'events': events,
+        'meetings':meetings,
+        'photos':photos,
+        'check_admin':check_admin,
+    }
+    return render(request,'ashram_detail.html', context)
 
 @login_required
 def add_attendee(request):
@@ -103,13 +113,14 @@ def add_meeting(request):
     return HttpResponseRedirect('/')
 
 @login_required
-def add_activity(request):
+def add_activity_category(request):
     if request.method == 'POST':
         slug = request.POST.get('slug')
         name = request.POST.get('name')
-        category = request.POST.get('category')
 
-        ActivityCategory.objects.create(name=name,category=category)
+        ashram = get_object_or_404(Ashram, slug=slug)
+
+        ActivityCategory.objects.create(ashram=ashram, name=name)
 
         url = '/ashram/detail/' + slug +'/'
         return HttpResponseRedirect(url)
@@ -122,15 +133,14 @@ def create_activity(request):
         name = request.POST.get('activity_name')
         category = request.POST.get('category')
         description = request.POST.get('description')
-        activity_date = request.POST.get('activity_date')
         activity_images = request.FILES.getlist('activity_images')
 
-        ashram = get_object_or_404(Ashram,slug=slug)
-        activity_category = get_object_or_404(ActivityCategory,pk=int(category))
+        ashram = get_object_or_404(Ashram, slug=slug)
+        activity_category = get_object_or_404(ActivityCategory, pk=int(category))
 
         print(ashram,activity_category,category)
-        activity = Activity.objects.create(ashram=ashram,category=activity_category,
-                                name=name,description=description,activity_date=activity_date)
+        activity = Activity.objects.create(category=activity_category,
+                                name=name,description=description)
 
         for i in activity_images:
             Photo.objects.create(ashram=ashram,picture=i,activity=activity,approved=True)
@@ -178,4 +188,21 @@ def admin_approval(request):
 
         data = serializers.serialize('json', photos)
         return JsonResponse(data,safe=False)
+    return HttpResponseRedirect('/')
+
+@login_required
+def create_event(request):
+    if request.method == 'POST':
+        slug = request.POST.get('slug')
+        image = request.FILES.get('event_image')
+        name = request.POST.get('event_name')
+        date = request.POST.get('event_date')
+        description = request.POST.get('description')
+        
+        ashram = get_object_or_404(Ashram,slug=slug)        
+        Event.objects.filter(name=name,ashram=ashram,date=date,
+                            description=description,image=image)
+
+        url = '/ashram/detail/' + slug +'/'
+        return HttpResponseRedirect(url)
     return HttpResponseRedirect('/')

@@ -4,7 +4,6 @@ from django.template.defaultfilters import slugify
 
 from bandhuapp.models import Profile
 
-from bandhuapp.models import Profile
 # Create your models here.
 
 class Charity(models.Model):
@@ -12,8 +11,9 @@ class Charity(models.Model):
     disaster_type = models.CharField(max_length=500)   # Cyclone/Earthquake
     description = models.TextField()
     location = models.CharField(max_length=800)
-    start_date = models.DateField()
-    end_date = models.DateField()
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
+    image = models.ImageField(upload_to='charity_work/charities/', blank=True, null=True)
     slug = models.SlugField()
     admin = models.ForeignKey(Profile,on_delete=models.PROTECT,null=True,blank=True)
 

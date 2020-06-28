@@ -17,6 +17,7 @@ from social_django.models import UserSocialAuth
 from accounts.models import User
 from accounts.tokens import account_activation_token
 from .models import Profile
+from django.template import RequestContext
 
 # Create your views here.
 
@@ -98,8 +99,8 @@ def profile_page(request):
             email = EmailMessage(
                 mail_subject, message, from_email, to_email,
             )
-            email.send()
             email.content_subtype = "html"
+            email.send()
             logout(request)
             return redirect('account_activated')
 

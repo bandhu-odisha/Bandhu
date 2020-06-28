@@ -63,6 +63,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'bandhuapp.processors.recent_activities',
                 'bandhuapp.processors.userList',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',

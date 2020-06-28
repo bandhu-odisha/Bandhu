@@ -112,16 +112,27 @@
                                             <form method="POST" enctype="multipart/form-data" action="{% url 'ankurayan:CreateAnkurayan' %}">
                                                 {% csrf_token %}
                                                 <input type="text" class="form-control" name="theme"
-                                                    placeholder="Ankurayan Theme"><br>
-                                                <select required name="admin" class="form-control">
+                                                    placeholder="Ankurayan Theme" required="required"><br>
+                                                <label for="admin">Admin</label>
+                                                <select required name="admin" class="form-control"> 
                                                     {% for user in all_users %}
                                                         <option value={{user.pk}}>{{user.first_name}} {{user.last_name}}</option>
                                                     {% endfor %}
                                                 </select><br>
+<<<<<<< HEAD
                                                 <input type="date" class="form-control" name="start_date"><br>
                                                 <input type="date" class="form-control" name="end_date"><br>
                                                 <textarea name="description" id="" cols="80" rows="8"></textarea><br>
                                                 <input type="file" class="form-control" name="logo"><br>
+=======
+                                                <label for="start_date">Start Date</label>
+                                                <input type="date" class="form-control" name="start_date" required="required"><br>
+                                                <label for="end_date">End Date</label>
+                                                <input type="date" class="form-control" name="end_date" required="required"><br>
+                                                <textarea name="description" id="" cols="80" rows="8" placeholder="Description" class="form-control"></textarea><br>
+                                                <label for="logo">Add Logo</label>
+                                                <input type="file" class="form-control" name="logo" required="required"><br>
+>>>>>>> 92ffca8d6c962365d8590a9dc9e614ccf17387a4
                                                 <button class="btn btn-primary">Submit</button>
                                             </form>
                                         </div>

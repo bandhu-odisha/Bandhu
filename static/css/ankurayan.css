@@ -1,11 +1,3 @@
-.content-title {
-    color: #0d0d0d;
-    font-size: 1.375em;
-    font-weight: 700;
-    line-height: 1em;
-    text-transform: none;
-    margin-top: 0;
-}
 
 #about .title {
     color: #0d0d0d;
@@ -16,7 +8,16 @@
     margin-top: 0;
 }
 
-#activities .title, #ankurayans .title {
+#about .content-title {
+    color: #0d0d0d;
+    font-size: 1.375em;
+    font-weight: 800;
+    line-height: 1em;
+    text-transform: uppercase;
+    margin-top: 0;
+}
+
+#ankurayans .title {
     color: #0d0d0d;
     /* font-size: 1.375em; */
     font-weight: 800;
@@ -25,7 +26,7 @@
     margin-top: 0;
 }
 
-#activities::before, #ankurayans::before {
+#ankurayans::before {
     display: block;
     content: "";
     margin-top: -30px;
@@ -33,26 +34,48 @@
     visibility: hidden;
 }
 
-#activities .card, #ankurayans .card {
+#ankurayans .card {
     border: none !important;
 }
 
-#activities .glide__slide .card, #ankurayans .glide__slide .card{
+#ankurayans .glide__slide .card{
     max-width: 24rem;
     max-height: 40rem;
 }
 
 @media screen and (max-width: 760px) {
-    #activities .glide__slide, #ankurayans .glide__slide{
+    #ankurayans .glide__slide{
         padding: 0 15px;
     }
-    #activities .glide__slide .card, #ankurayans .glide__slide .card{
+    #ankurayans .glide__slide .card{
         max-width: 20rem;
         max-height: 40rem;
     }
 }
 
-.glide__arrow i{
+#activities .glide__arrow i{
     font-size: 36px;
     color: #d3d3d3;
+}
+#activities .glide__arrow:hover i{
+    font-size: 36px;
+    color: #ffb307;
+}
+
+
+/* Gallery Buttons */
+.add-images>.btn, .approve-images>.btn {
+    color: #ffb307;
+    border-color: #ffb307;
+    border-radius: 5px;
+    border-width: 2px;
+    font-weight: 700;
+}
+.add-images>.btn:hover, .approve-images>.btn:hover {
+    background-color: #ffb307 !important;
+    color: #ecf0f1 !important;
+}
+.add-images>.btn:focus, .add-images>.btn:active, .approve-images>.btn:focus, .approve-images>.btn:active {
+    box-shadow: none !important;
+    border-color: #ffb307 !important;
 }

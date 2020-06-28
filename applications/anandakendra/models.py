@@ -44,33 +44,36 @@ class Student(models.Model):
         return self.name
 
 class ActivityCategory(models.Model):
-    CATEGORY = (
-        ('Cultural','Cultural'),
-        ('Sports','Sports'),
-        ('Debate','Debate'),
-    )
-
+    kendra = models.ForeignKey(AnandaKendra, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
-    category = models.CharField(max_length=50,choices=CATEGORY)
 
     class Meta:
         verbose_name_plural = 'Activity Categories'
 
     def __str__(self):
-        return self.name
+        return f'{self.kendra.name} - {self.name}'
 
 class Activity(models.Model):
-    kendra = models.ForeignKey(AnandaKendra, on_delete=models.CASCADE)
     category = models.ForeignKey(ActivityCategory, on_delete=models.PROTECT)
     name = models.CharField(max_length=50)
     description = models.TextField(max_length=1000)
-    activity_date = models.DateField(default=timezone.now)
+    activity_time = models.CharField(max_length=100)
     
     class Meta:
         verbose_name_plural = 'Activities'
 
     def __str__(self):
-        return self.name
+        return f'{self.category.kendra.name} - {self.name} ({self.category.name})'
+
+class Event(models.Model):
+    kendra = models.ForeignKey(AnandaKendra, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    description = models.TextField(max_length=1000)
+    image = models.ImageField(upload_to='anandkendra/events')
+    date = models.DateField()
+
+    def __str__(self):
+        return f'{self.kendra.name} - {self.name}'
 
 class Acharya(models.Model):
     kendra = models.ForeignKey(AnandaKendra, on_delete=models.CASCADE)

@@ -299,3 +299,90 @@ a, h1, h2, h3, h4, h5, h6, p {
     margin-left: -2px;
     background-color: #ffb307;
 }
+
+
+
+
+
+
+
+/* ACTIVITIES SECTION ON ALL PAGES */
+
+#activities .title, #events .title {
+    color: #0d0d0d;
+    /* font-size: 1.375em; */
+    font-weight: 800;
+    line-height: 1em;
+    text-transform: uppercase;
+    margin-top: 0;
+}
+
+#activities::before, #events::before {
+    display: block;
+    content: "";
+    margin-top: -30px;
+    height: 30px;
+    visibility: hidden;
+}
+
+#activities .card, #events .card {
+    border: none !important;
+}
+
+#activities .glide__slide .card, #events .glide__slide .card {
+    max-width: 24rem;
+    max-height: 40rem;
+}
+
+@media screen and (max-width: 760px) {
+    #activities .glide__slide, #events .glide__slide {
+        padding: 0 15px;
+    }
+    #activities .glide__slide .card, #events .glide__slide .card {
+        max-width: 20rem;
+        max-height: 40rem;
+    }
+}
+
+
+/* GLIDE CARDS IMG */
+
+.glide .card img {
+    height: 270px;
+}
+
+@media screen and (max-width: 1199px){
+    .glide .card img {
+        height: 225px;
+    }
+}
+@media screen and (max-width: 991px){
+    .glide .card img {
+        height: 288px;
+    }
+}
+@media screen and (max-width: 767px){
+    .glide .card img {
+        height: 259px;
+    }
+}
+@media screen and (max-width: 575px){
+    .glide .card img {
+        height: 240px;
+    }
+}
+
+
+/* GALLERY "SHOW MORE" BUTTON */
+
+#load-more{
+    float:right;
+    margin:5px;
+}
+.hidden{
+    visibility:hidden;
+    width:0px!important;
+    height:0px!important;
+    margin:0px!important;
+    padding:0px!important;
+}

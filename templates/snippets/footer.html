@@ -7,19 +7,20 @@
                 </h3>
                 <ul class="nav flex-column py-4">
                     <li class="nav-item">
-                        <a href="{% url 'ankurayan:ankurayan' %}" class="nav-link">Ankurayan</a>
+                        {% now 'Y' as current_year %}
+                        <a href="{% url 'ankurayan:AnkurayanDetail' current_year %}" class="nav-link">Ankurayan</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{% url 'anandakendra' %}" class="nav-link">Ananda Kendra</a>
+                        <a href="{% url 'anandakendra:anandakendra' %}" class="nav-link">Ananda Kendra</a>
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link">Arpan Bandhu</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{% url 'ashram' %}" class="nav-link">Ashram</a>
+                        <a href="{% url 'ashram:ashram' %}" class="nav-link">Ashram</a>
                     </li>
                     <li class="nav-item">
-                        <a href="{% url 'charity_work' %}" class="nav-link">Charity Work</a>
+                        <a href="{% url 'charitywork:charity_work' %}" class="nav-link">Charity Work</a>
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link">Madh Mukti</a>
