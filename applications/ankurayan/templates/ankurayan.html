@@ -117,7 +117,7 @@
                                                     {% for user in all_users %}
                                                         <option value={{user.pk}}>{{user.first_name}} {{user.last_name}}</option>
                                                     {% endfor %}
-                                                </select>
+                                                </select><br>
                                                 <input type="date" class="form-control" name="start_date"><br>
                                                 <input type="date" class="form-control" name="end_date"><br>
                                                 <textarea name="description" id="" cols="80" rows="8"></textarea><br>
@@ -136,7 +136,7 @@
                                     <li class="glide__slide">
                                         <div
                                             class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
-                                            <img src="/media/{{ankurayan.image}}" class="card-img-top home-card-img"
+                                            <img src="/media/{{ankurayan.logo}}" class="card-img-top home-card-img"
                                                 alt="" width="300px">
                                             <div class="card-body pb-0">
                                                 <h5 class="card-title font-weight-bold">{{ankurayan.theme}}</h5>

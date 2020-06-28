@@ -592,9 +592,11 @@
 
             <div id="gallery-container" class="gallery-container">
                 <div class="add-images">
+                    {% if user.is_authenticated %}
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addToGallery">
                         Upload Images
                     </button>
+                    {% endif %}
                     <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addToGallery" role="dialog"
                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -609,7 +611,7 @@
                                     <form method="POST" enctype="multipart/form-data" action="{% url 'ankurayan:AddToGallery' %}">{% csrf_token %}
                                         <input type="text" hidden name="slug" value={{ankurayan.slug}}>
                                         
-                                        <input type="file" class="form-control" multiple name="gallery_images">
+                                        <input type="file" class="form-control" multiple name="gallery_images"><br>
                                         <button class="btn btn-primary">Submit</button>
                                     </form>
                                 </div>

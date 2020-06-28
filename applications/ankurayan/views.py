@@ -48,6 +48,8 @@ def ankurayan_detail(request, slug):
         photos = Photo.objects.filter(ankurayan=ankurayan).filter(approved=True)
 
     ankurayans = Ankurayan.objects.all().exclude(slug=slug)
+    for i in categories:
+        print(i.activity_set.all())
 
     context = {
         'ankurayan': ankurayan,
