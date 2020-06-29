@@ -129,7 +129,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Guest</h5>
+                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Add Guest</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -137,14 +137,32 @@
                                 <div class="modal-body">
                                     <form method="POST" action="{% url 'ankurayan:AddGuest' %}">{% csrf_token %}
                                         <input type="text" hidden name="slug" value={{ankurayan.slug}}>
-                                        <input type="text" class="form-control" name="name" placeholder="Guest Name"
-                                            required="required"><br>
-                                        <input type="text" class="form-control" name="contact_no"
-                                            placeholder="Contact number" required="required"><br>
-                                        <input type="text" class="form-control" name="profession"
-                                            placeholder="Profession" required="required"><br>
-                                        <input type="text" class="form-control" name="email" placeholder="Email"><br>
-                                        <textarea name="about" cols="80" rows="8" class="form-control"
+                                        <div class="row">
+                                            <div class="col">
+                                                <label class="left-label bld" for="">Name</label>
+                                                <input type="text" class="form-control" name="name" placeholder="Guest Name"
+                                                    required="required"><br>
+                                            </div>
+                                            <div class="col">
+                                                <label class="left-label bld" for="">Contact Number</label>
+                                                <input type="text" class="form-control" name="contact_no"
+                                                    placeholder="Contact number" required="required"><br>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col">
+                                                <label class="left-label bld" for="">Profession</label>
+                                                <input type="text" class="form-control" name="profession"
+                                                    placeholder="Profession" required="required"><br>
+                                            </div>
+                                            <div class="col">
+                                                <label class="left-label bld" for="">Email</label>
+                                                <input type="text" class="form-control" name="email" placeholder="Email"><br>        
+                                            </div>
+                                        </div>
+                                        <label class="left-label bld" for="">About Guest</label>
+                                        <textarea name="about" cols="80" rows="4" class="form-control"
                                             placeholder="About Guest"></textarea><br>
                                         <button class="btn btn-primary">Submit</button>
                                     </form>
@@ -165,7 +183,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Participants</h5>
+                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Add Participants</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -173,31 +191,49 @@
                                 <div class="modal-body">
                                     <form method="POST" action="{% url 'ankurayan:AddParticipant' %}">{% csrf_token %}
                                         <input type="text" hidden name="slug" value={{ankurayan.slug}}>
-                                        <input type="text" class="form-control" name="name" placeholder="Student name"
+                                        <div class="row">
+                                            <div class="col">
+                                                <label class="left-label bld" for="">Name</label>
+                                                <input type="text" class="form-control" name="name" placeholder="Student name"
                                             required="required"><br>
-                                        <select class="form-control" name="gender">
-                                            <option value="M">Male</option>
-                                            <option value="F">Female</option>
-                                            <option value="O">Other</option>
-                                        </select><br>
-                                        <select class="form-control" name="school_class">
-                                            <option value="I">Class I</option>
-                                            <option value="II">Class II</option>
-                                            <option value="III">Class III</option>
-                                            <option value="IV">Class IV</option>
-                                            <option value="V">Class V</option>
-                                            <option value="VI">Class VI</option>
-                                            <option value="VII">Class VII</option>
-                                            <option value="VIII">Class VIII</option>
-                                            <option value="IX">Class IX</option>
-                                            <option value="X">Class X</option>
-                                            <option value="XI">Class XI</option>
-                                            <option value="XII">Class XII</option>
-                                        </select><br>
+                                            </div>
+                                            <div class="col">
+                                                <label class="left-label bld" for="">Contact Number</label>
+                                                <input type="text" class="form-control" name="contact_no"
+                                            placeholder="Guardian Contact number" required="required"><br>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <label class="left-label bld" for="">Gender</label>
+                                                <select class="form-control" name="gender">
+                                                    <option value="M">Male</option>
+                                                    <option value="F">Female</option>
+                                                    <option value="O">Other</option>
+                                                </select><br>
+                                            </div>
+                                            <div class="col">
+                                                <label class="left-label bld" for="">School Class</label>
+                                                <select class="form-control" name="school_class">
+                                                    <option value="I">Class I</option>
+                                                    <option value="II">Class II</option>
+                                                    <option value="III">Class III</option>
+                                                    <option value="IV">Class IV</option>
+                                                    <option value="V">Class V</option>
+                                                    <option value="VI">Class VI</option>
+                                                    <option value="VII">Class VII</option>
+                                                    <option value="VIII">Class VIII</option>
+                                                    <option value="IX">Class IX</option>
+                                                    <option value="X">Class X</option>
+                                                    <option value="XI">Class XI</option>
+                                                    <option value="XII">Class XII</option>
+                                                </select><br>
+                                            </div>
+                                        </div>
+                                        <label class="left-label bld" for="">Address</label>
                                         <input type="text" class="form-control" name="address"
                                             placeholder="Student Address" required="required"><br>
-                                        <input type="text" class="form-control" name="contact_no"
-                                            placeholder="Guardian Contact number" required="required"><br>
+                                        
                                         <button class="btn btn-primary">Submit</button>
                                     </form>
                                 </div>
@@ -217,7 +253,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Activity Category</h5>
+                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Add Activity Category</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -246,7 +282,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Activity</h5>
+                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Add Activity</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -255,27 +291,37 @@
                                     <form method="POST" enctype="multipart/form-data"
                                         action="{% url 'ankurayan:CreateActivity' %}">{% csrf_token %}
                                         <input type="text" hidden name="slug" value={{ankurayan.slug}}>
-                                        <input type="text" class="form-control" name="activity_name"
+                                        <div class="row">
+                                            <div class="col">
+                                                <label class="left-label bld" for="">Activity Name</label>
+                                                <input type="text" class="form-control" name="activity_name"
                                             placeholder="Activity name" required="required"><br>
-                                        <label for="category"
-                                            style="text-align: left; float: left; padding-left: 5px;">Category</label>
+                                            </div>
+                                            <div class="col">
+                                                <label class="left-label bld" for="category">Category</label>
                                         <select class="form-control" name="category">
                                             {% for category in categories %}
                                             <option value="{{category.pk}}">{{category.name}}</option>
                                             {% endfor %}
                                         </select><br>
-                                        <label for="activity_date"
-                                            style="text-align: left; float: left; padding-left: 5px;">Activity
+                                            </div>
+                                        </div>
+                                        <label class="left-label bld" for="activity_date">Activity
                                             Date</label>
                                         <input type="date" name="activity_date" class="form-control"
                                             required="required"><br>
+                                        <label class="left-label bld" for="activity_images">Images</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" multiple name="activity_images" id="inputGroupFile04" 
+                                                    aria-describedby="inputGroupFileAddon04">
+                                                <label class="custom-file-label" for="inputGroupFile04">Add Images</label>
+                                            </div>
+                                        </div><br>
+                                        <label class="left-label bld" for="">Description</label>
                                         <textarea name="description" cols="80" class="form-control"
                                             placeholder="Description" rows="4"></textarea><br>
-                                        <label for="activity_images"
-                                            style="text-align: left; float: left; padding-left: 5px;">Activity
-                                            Images</label>
-                                        <input type="file" class="form-control" multiple name="activity_images"><br>
-                                        <button class="btn btn-primary">Submit</button>
+                                        <button class="btn btn-primary">Add Activity</button>
                                     </form>
                                 </div>
                             </div>
@@ -356,7 +402,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content shadow">
             <div class="modal-header">
-                <h5 class="modal-title content-title">{{ activity.name }}</h5>
+                <h5 class="modal-title bld content-title">{{ activity.name }}</h5>
                 <button type="button" class="close" style="padding: .5rem 1rem;" data-dismiss="modal"
                     aria-label="Close">
                     <span aria-hidden="true" style="font-size: 2.375rem;">&times;</span>
@@ -408,7 +454,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content shadow">
             <div class="modal-header">
-                <h5 class="modal-title content-title" id="exampleModalLongTitle">Select Winners
+                <h5 class="modal-title bld content-title" id="exampleModalLongTitle">Select Winners
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -425,6 +471,7 @@
                             value={{activity.activity_name}}>
                         <input type="text" hidden name="date"
                             value={{activity.activity_date}}> -->
+                    <label class="label-left bld" for="">Winner</label>
                     <select required class="form-control" id="winner{{forloop.counter}}" name="pk_winner">
                         <option value="">Select Winner</option>
                         {% for participant in participants %}
@@ -432,6 +479,7 @@
                             {{participant.school_class}}</option>
                         {% endfor %}
                     </select><br>
+                    <label class="label-left bld" for="">RunnerUp 1</label>
                     <select required class="form-control" id="runnerUp1{{forloop.counter}}" name="pk_runner_up1">
                         <option value="">Select first runner up</option>
                         {% for participant in participants %}
@@ -439,6 +487,7 @@
                             {{participant.school_class}}</option>
                         {% endfor %}
                     </select><br>
+                    <label class="label-left bld" for="">RunnerUp 2</label>
                     <select required class="form-control" id="runnerUp2{{forloop.counter}}" name="pk_runner_up2">
                         <option value="">Select second runner up</option>
                         {% for participant in participants %}
@@ -446,9 +495,15 @@
                             {{participant.school_class}}</option>
                         {% endfor %}
                     </select><br>
-                    <label for="activity_images" style="text-align: left; float: left; padding-left: 5px;">Activity
+                    <label class="label-left bld" for="activity_images" style="text-align: left; float: left; padding-left: 5px;">Activity
                         Images</label>
-                    <input type="file" class="form-control" multiple name="activity_images"><br>
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" multiple name="activity_images" id="inputGroupFile04" 
+                                aria-describedby="inputGroupFileAddon04">
+                            <label class="custom-file-label" for="inputGroupFile04">Add Images</label>
+                        </div>
+                    </div><br>
                     <button type="button" class="btn btn-primary"
                         onclick="validateWinners(`{{forloop.counter}}`);">Submit</button>
                 </form>
@@ -546,7 +601,7 @@
                                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLongTitle">Select Winners
+                                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Select Winners
                                                     </h5>
                                                     <button type="button" class="close" data-dismiss="modal"
                                                         aria-label="Close">
@@ -690,7 +745,7 @@
 
             {% if user.is_authenticated %}
             <div class="row justify-content-center mt-2">
-                <div class="col-sm-5 add-images text-center">
+                <div class="col col-sm-5 add-images text-center">
                     <button type="button" class="btn btn-outline-primary" data-toggle="modal"
                         data-target="#addToGallery">
                         Upload Images
@@ -701,7 +756,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Upload Images</h5>
+                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Upload Images</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -718,7 +773,7 @@
                                                 <label class="custom-file-label" for="inputGroupFile04">Add
                                                     Images</label>
                                             </div>
-                                        </div>
+                                        </div><br>
                                         <button class="btn btn-primary">Submit</button>
                                     </form>
                                 </div>
@@ -727,16 +782,16 @@
                     </div>
                 </div>
                 {% if check_admin %}
-                <div class="col-sm-5 approve-images text-center">
+                <div class="col col-sm-5 approve-images text-center">
                     <button type="button" class="btn btn-outline-primary" data-toggle="modal"
                         data-target="#approveGallery">
-                        Approve Images
+                        Approve Image
                     </button>
                     <div class="modal fade" id="approveGallery">
                         <div class="modal-dialog modal-dialog-centered modal-lg">
                             <div class="modal-content shadow">
                                 <div class="modal-header">
-                                    <h5 class="modal-title content-title">Approve Photos</h5>
+                                    <h5 class="modal-title bld content-title">Approve Photos</h5>
                                     <button type="button" class="close" style="padding: .5rem 1rem;"
                                         data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true" style="font-size: 2.375rem;">&times;</span>
@@ -762,13 +817,13 @@
                                                             class="w-100" style="height: 400px; width: 400px;">
                                                         <br><br>
                                                         <div class="row justify-content-center">
-                                                            <div class="col-sm-5 text-center">
+                                                            <div class="col col-sm-5 text-center">
                                                                 <button type="button"
                                                                     onclick="imageApproval('approve','{{photo.pk}}');"
                                                                     class="btn btn-success">Approve</button>
                                                             </div>
-                                                            <div class="col col-md-2"></div>
-                                                            <div class="col-sm-5 text-center">
+                                                            <!-- <div class="col col-md-2"></div> -->
+                                                            <div class="col col-sm-5 text-center">
                                                                 <button type="button"
                                                                     onclick="imageApproval('discard','{{photo.pk}}');"
                                                                     class="btn btn-danger">Discard</button>
@@ -789,7 +844,7 @@
                                                 </a>
                                             </div>
                                             <p class="text-center"
-                                                style="font-size: 15px; font-weight: bolder; padding:10px;">
+                                                style="font-size: 12px; padding:10px;">
                                                 Note: You need to Refresh Page for changes to take effect in Gallery.
                                             </p>
                                         </div>

@@ -301,7 +301,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Event</h5>
+                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Add Event</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -310,12 +310,29 @@
                                     <form method="POST" enctype="multipart/form-data"
                                         action="{% url 'anandakendra:CreateEventAnandakendra' %}">{% csrf_token %}
                                         <input type="text" hidden name="slug" value={{kendra.slug}}>
+                                        <div class="row">
+                                            <div class="col">
+                                                <label class="left-label bld" for="">Event Name</label>
                                         <input type="text" class="form-control" name="event_name"
                                             placeholder="Event name"><br>
+                                            </div>
+                                            <div class="col">
+                                                <label class="left-label bld" for="">Event Image</label>
+                                                <div class="input-group">
+                                                    <div class="custom-file">
+                                                        <input type="file" class="custom-file-input" name="event_image" id="inputGroupFile04" 
+                                                            aria-describedby="inputGroupFileAddon04">
+                                                        <label class="custom-file-label" for="inputGroupFile04">Image</label>
+                                                    </div>
+                                                </div><br>
+                                            </div>
+                                        </div>
+                                        
+                                        <label class="left-label bld" for="">Event Date</label>
                                         <input type="date" name="event_date" class="form-control"><br>
+                                        <label class="left-label bld" for="">Description</label>
                                         <textarea name="description" cols="80" class="form-control"
-                                            rows="8"></textarea><br>
-                                        <input type="file" class="form-control" name="event_image">
+                                            rows="4" placeholder="Description"></textarea><br>
                                         <button class="btn btn-primary">Submit</button>
                                     </form>
                                 </div>
