@@ -549,3 +549,17 @@
     max-height:60vh;
     overflow-y: auto;
 }
+
+/* Custom label */
+
+.left-label {
+    float: left !important;
+}
+
+.bld {
+    font-weight: bold !important;
+}
+
+::placeholder {
+    opacity: 0.65 !important;
+}

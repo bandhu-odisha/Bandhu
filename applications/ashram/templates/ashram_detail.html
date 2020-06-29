@@ -87,7 +87,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Guest</h5>
+                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Add Guest</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -95,15 +95,36 @@
                                 <div class="modal-body">
                                     <form method="POST" action="{% url 'ashram:AddMeeting' %}">{% csrf_token %}
                                         <input type="text" hidden name="slug" value={{ashram.slug}}>
-                                        <input type="text" class="form-control" name="topic"
-                                            placeholder="Meeting topic"><br>
-                                        <input type="date" class="form-control" name="schedule"><br>
-                                        <input type="text" class="form-control" name="location"
-                                            placeholder="Location"><br>
-                                        <input type="file" class="form-control" name="minutes"
-                                            placeholder="Minutes"><br>
-                                        <textarea name="agenda" cols="80" rows="8" class="form-control"></textarea><br>
-                                        <button class="btn btn-primary">Submit</button>
+                                        <div class="row">
+                                            <div class="col">
+                                                <label class="left-label bld" for="">Topic</label>
+                                                <input type="text" class="form-control" name="topic"
+                                                placeholder="Meeting topic" required="required"><br></div>
+                                            <div class="col">
+                                                <label class="left-label bld" for="">Date</label>
+                                                <input type="date" class="form-control" name="schedule" required="required"><br></div>
+                                        </div>
+                                        
+                                        <div class="row">
+                                            <div class="col">
+                                                <label class="left-label bld" for="">Location</label>
+                                                <input type="text" class="form-control" name="location"
+                                                    placeholder="Location" required="required"><br>
+                                            </div>
+                                            <div class="col">
+                                                <label class="left-label bld" for="">Minutes</label>
+                                                <div class="input-group">
+                                                    <div class="custom-file">
+                                                        <input type="file" class="custom-file-input" name="minutes" id="inputGroupFile04" 
+                                                            aria-describedby="inputGroupFileAddon04">
+                                                        <label class="custom-file-label" for="logo">Add Minutes</label><br>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <label class="left-label bld" for="">Agenda</label>
+                                        <textarea name="agenda" cols="80" rows="4" placeholder="Agenda" class="form-control" required="required"></textarea><br>
+                                        <button class="btn btn-primary">Create Meeting</button>
                                     </form>
                                 </div>
                             </div>
@@ -125,7 +146,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Activity Category</h5>
+                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Add Activity Category</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -153,7 +174,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Activity</h5>
+                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Add Activity</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -240,7 +261,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content shadow">
                 <div class="modal-header">
-                    <h5 class="modal-title content-title">{{ activity.name }}</h5>
+                    <h5 class="modal-title bld content-title">{{ activity.name }}</h5>
                     <button type="button" class="close" style="padding: .5rem 1rem;" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" style="font-size: 2.375rem;">&times;</span>
                     </button>
@@ -361,7 +382,7 @@
                                             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLongTitle">Add Attendees</h5>
+                                                        <h5 class="modal-title bld" id="exampleModalLongTitle">Add Attendees</h5>
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
@@ -463,7 +484,7 @@
                                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLongTitle">Select Winners
+                                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Select Winners
                                                     </h5>
                                                     <button type="button" class="close" data-dismiss="modal"
                                                         aria-label="Close">
@@ -618,7 +639,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Upload Images</h5>
+                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Upload Images</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -628,7 +649,7 @@
                                         <input type="text" hidden name="slug" value={{ashram.slug}}>
                                         
                                         <input type="file" class="form-control" multiple name="gallery_images">
-                                        <button class="btn btn-primary">Submit</button>
+                                        <button class="btn btn-primary">Upload</button>
                                     </form>
                                 </div>
                             </div>
@@ -843,5 +864,21 @@
     })
     events_glide.mount()
 </script>
+<!-- Upload Detail in forms -->
+<script type="text/javascript">
 
+    $('.custom-file input').change(function (e) {
+        var files = [];
+        for (var i = 0; i < $(this)[0].files.length; i++) {
+            files.push($(this)[0].files[i].name);
+        }
+        if(files.length > 1) {
+            $(this).next('.custom-file-label').html(files.length + ' files selected');
+        }
+        else {
+            $(this).next('.custom-file-label').html('1 file selected');
+        }
+    });
+
+</script>
 {% endblock %}

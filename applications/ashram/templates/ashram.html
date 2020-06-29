@@ -80,39 +80,68 @@
             <div class="row">
                 <div class="section-content w-100">
                     <div class="content-box from-bottom delay-200">
-                        <h3 class="section-title">Ashrams</h3>
-                        <div class="add-ankurayan">
-                            {% if user.is_admin %}
+                        {% if user.is_admin %}
                             <button type="button" class="btn btn-primary" data-toggle="modal"
                                 data-target="#addAnkurayan">
                                 Create Ashram
                             </button>
                             {% endif %}
+                        <h3 class="section-title">Ashrams</h3>
+                        <div class="add-ankurayan">
+                            
                             <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addAnkurayan" role="dialog"
                                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLongTitle">Create Ashram</h5>
+                                            <h5 class="modal-title bld" id="exampleModalLongTitle">Create Ashram</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form method="POST" enctype="multipart/form-data" action="{% url 'ashram:CreateAshram' %}">
+                                            <form method="POST" enctype="multipart/form-data"
+                                                action="{% url 'ashram:CreateAshram' %}">
                                                 {% csrf_token %}
-                                                <input type="text" class="form-control" name="name"
-                                                    placeholder="Ashram name"><br>
-                                                <select required name="admin" class="form-control">
-                                                    {% for user in all_users %}
-                                                        <option value={{user.pk}}>{{user.first_name}} {{user.last_name}}</option>
-                                                    {% endfor %}
-                                                </select>
-                                                <input type="text" class="form-control" name="locality"><br>
-                                                <input type="text" class="form-control" name="address"><br>
-                                                <textarea name="description" id="" cols="80" rows="8"></textarea><br>
-                                                <input type="file" class="form-control" name="image"><br>
-                                                <button class="btn btn-primary">Submit</button>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <label class="left-label bld" for="">Ashram Name</label>
+                                                        <input type="text" class="form-control" name="name"
+                                                            placeholder="Ashram name"><br>
+                                                    </div>
+                                                    <div class="col">
+                                                        <label class="left-label bld" for="">Admin</label>
+                                                        <select required name="admin" class="form-control">
+                                                            {% for user in all_users %}
+                                                            <option value={{user.pk}}>{{user.first_name}}
+                                                                {{user.last_name}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <label class="left-label bld" for="">Locality</label>
+                                                        <input type="text" class="form-control" name="locality"
+                                                            placeholder="Locality"><br>
+                                                    </div>
+                                                    <div class="col">
+                                                        <label class="left-label bld" for="">Address</label>
+                                                        <input type="text" class="form-control" name="address"
+                                                            placeholder="Address"><br>
+                                                    </div>
+                                                </div>
+                                                <label class="left-label bld" for="">Description</label>
+                                                <textarea name="description" placeholder="Description" class="form-control" id="" cols="80" rows="8"></textarea><br>
+                                                <label class="left-label bld" for="">Add Image</label>
+                                                <div class="input-group">
+                                                    <div class="custom-file">
+                                                        <input type="file" class="custom-file-input" name="image" id="inputGroupFile04" 
+                                                            aria-describedby="inputGroupFileAddon04">
+                                                        <label class="custom-file-label" for="logo">Add Image</label>
+                                                    </div>
+                                                </div><br>
+                                                <button class="btn btn-primary">Create Ashram</button>
                                             </form>
                                         </div>
                                     </div>
@@ -126,8 +155,8 @@
                                     <li class="glide__slide">
                                         <div
                                             class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
-                                            <img src="{{ ashram.image.url }}" class="card-img-top home-card-img"
-                                                alt="" width="300px">
+                                            <img src="{{ ashram.image.url }}" class="card-img-top home-card-img" alt=""
+                                                width="300px">
                                             <div class="card-body pb-0">
                                                 <h5 class="card-title font-weight-bold">{{ ashram.name }}</h5>
                                                 <p class="mb-3">
@@ -250,7 +279,7 @@
 
 <script>
     // AHSRAMS CAROUSEL
-    var ashram_glide = new Glide('.ashrams',{
+    var ashram_glide = new Glide('.ashrams', {
         type: 'slide',
         focusAt: 'center',
         perView: 3,
@@ -268,4 +297,21 @@
     ashram_glide.mount()
 </script>
 
+<!-- Upload Detail in forms -->
+<script type="text/javascript">
+
+    $('.custom-file input').change(function (e) {
+        var files = [];
+        for (var i = 0; i < $(this)[0].files.length; i++) {
+            files.push($(this)[0].files[i].name);
+        }
+        if(files.length > 1) {
+            $(this).next('.custom-file-label').html(files.length + ' files selected');
+        }
+        else {
+            $(this).next('.custom-file-label').html('1 file selected');
+        }
+    });
+
+</script>
 {% endblock %}

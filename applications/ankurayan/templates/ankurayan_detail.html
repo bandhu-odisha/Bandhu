@@ -691,8 +691,13 @@
                                 <div class="modal-body">
                                     <form method="POST" enctype="multipart/form-data" action="{% url 'ankurayan:AddToGallery' %}">{% csrf_token %}
                                         <input type="text" hidden name="slug" value={{ankurayan.slug}}>
-                                        
-                                        <input type="file" class="form-control" multiple name="gallery_images">
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" multiple name="gallery_images" id="inputGroupFile04" 
+                                                    aria-describedby="inputGroupFileAddon04">
+                                                <label class="custom-file-label" for="inputGroupFile04">Add Images</label>
+                                            </div>
+                                        </div>
                                         <button class="btn btn-primary">Submit</button>
                                     </form>
                                 </div>
@@ -973,5 +978,21 @@
     })
     ankur_glide.mount()
 </script>
+<!-- Upload Detail in forms -->
+<script type="text/javascript">
 
+    $('.custom-file input').change(function (e) {
+        var files = [];
+        for (var i = 0; i < $(this)[0].files.length; i++) {
+            files.push($(this)[0].files[i].name);
+        }
+        if(files.length > 1) {
+            $(this).next('.custom-file-label').html(files.length + ' files selected');
+        }
+        else {
+            $(this).next('.custom-file-label').html('1 file selected');
+        }
+    });
+
+</script>
 {% endblock %}
