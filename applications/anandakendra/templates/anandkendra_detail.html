@@ -609,7 +609,7 @@
                         </a>
                     </figure>
                     {% endfor %}
-                    <figure id="load-more" class="item {% for activity in activities %} {{ activity.id }} {% endfor %}">
+                    <figure id="load-more" class="item {% for category in categories %} {{ category.name }} {% endfor %}">
                         <img src='{{ photo.picture.url }}'>
                         <a href="javascript:void(0);" class="stretched-link">
                             Show More
