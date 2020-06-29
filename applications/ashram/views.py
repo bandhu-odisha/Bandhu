@@ -189,3 +189,20 @@ def admin_approval(request):
         data = serializers.serialize('json', photos)
         return JsonResponse(data,safe=False)
     return HttpResponseRedirect('/')
+
+@login_required
+def create_event(request):
+    if request.method == 'POST':
+        slug = request.POST.get('slug')
+        image = request.FILES.get('event_image')
+        name = request.POST.get('event_name')
+        date = request.POST.get('event_date')
+        description = request.POST.get('description')
+        
+        ashram = get_object_or_404(Ashram,slug=slug)        
+        Event.objects.create(name=name,ashram=ashram,date=date,
+                            description=description,image=image)
+
+        url = '/ashram/detail/' + slug +'/'
+        return HttpResponseRedirect(url)
+    return HttpResponseRedirect('/')

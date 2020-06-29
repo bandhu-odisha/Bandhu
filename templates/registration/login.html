@@ -1,0 +1,123 @@
+{% extends 'accounts_base.html' %}
+{% block title %}
+	Bandhu | Signin
+{% endblock %}
+
+{% block style %}
+<style>
+	/* .btn-google {
+		padding: 5px;
+		margin: 5px;
+		border: 1px solid rgb(228, 224, 224);
+		border-radius: 5px;
+		background-color: white;
+		min-width: 140px;
+		box-shadow: 0 3px 0 rgba(0, 0, 0, .16), 0 1px 2px rgba(0, 0, 0, .23);
+		min-height: 50px;
+		padding-top: 12px;
+	} */
+
+	.btn-facebook {
+		margin: 5px;
+		padding: 5px;
+		border: 1px solid #4267b2;
+		border-radius: 5px;
+		box-shadow: 0 3px 0 rgba(0, 0, 0, .16), 0 1px 2px rgba(0, 0, 0, .23);
+		color: white;
+		min-width: 140px;
+		min-height: 50px;
+		padding-top: 12px;
+		background-color: #4267b2;
+	}
+
+	.main{
+		min-height: 100vh;
+		/* height: 100%; */
+	}
+
+	#main-menu {
+		background-color: rgb(27, 26, 26) !important;
+	}
+
+	.form-display {
+		margin-top: 20px !important;
+		padding-top: 80px;
+	}
+
+	.form-control {
+		min-height: 50px;
+	}
+</style>
+	<link rel="stylesheet" type="text/css" href='/static/css1/util.css'>
+	<link rel="stylesheet" type="text/css" href='/static/css1/main.css'>
+{% endblock %}
+
+{% block content %}
+<div class="limiter" style="margin-top: 60px;">
+	<div class="container-login100">
+		<div class="wrap-login100 p-l-50 p-r-50 p-t-32 p-b-23">
+			<form class="login100-form validate-form flex-sb flex-w" method="POST">
+				{% csrf_token %}
+				<span class="login100-form-title p-b-33">
+					<h1 class="font-weight-bolder">Sign In</h1>
+				</span>
+				<a href="/oauth/login/facebook/" class="btn-face m-b-15">
+					<i class="fab fa-facebook-square"></i>
+					Facebook
+				</a>
+				<a href="/oauth/login/google-oauth2/" class="btn-google m-b-20">
+					<img src="/static/img/icon/icon-google.png" alt="GOOGLE">
+					Google
+				</a>
+				<div class="w-full text-center p-t-3 p-b-10">
+					<p>---OR---</p>
+					<span >
+						Sign In Using Email
+					</span>
+					<div class="error_msg text-center w-full">
+						{% if err_code == 1 %}
+						<p class="mt-3 mb-3" style="color:red;">*Your Account has not been activated. Please activate your account to continue.</p>
+						{% elif err_code == 2 %}
+						<p class="mt-3 mb-3" style="color:red;">*Your Account is not yet authorised. Kindly contact admin.</p>
+						{% elif err_code == 3 %}
+						<p class="mt-3 mb-3" style="color:red;">*Please enter Correct Email and Password.</p>
+						{% endif %}
+					</div>
+				</div>
+				<!-- Main login area  -->
+				
+				<div class="wrap-input100 validate-input" data-validate="Username is required">
+					<input class="input100" type="email" name="email" placeholder="Email" required="required">
+				</div>
+				<div class="col-md-2" style="height: 10px;">
+
+				</div>
+				<div class="wrap-input100 validate-input" data-validate="Password is required">
+					<input class="input100" type="password" name="password" placeholder="Password" required="required">
+				</div>
+				<div class="p-t-13 p-b-9">
+					<a href="/accounts/password_reset/" class="txt2 bo1 m-l-5">
+						Forgot Password?
+					</a>
+				</div>
+
+				<div class="container-login100-form-btn m-t-17">
+					<button class="login100-form-btn" type="submit">
+						<h4> Sign In </h4>
+					</button>
+				</div>
+
+				<div class="w-full text-center p-t-15">
+					<span >
+						Not a member?
+					</span>
+					<a href="/accounts/signup/" >
+						Sign up now
+					</a>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}
+© 2020 GitHub

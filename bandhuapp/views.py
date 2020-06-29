@@ -87,7 +87,7 @@ def profile_page(request):
             from_email = settings.SENDER_EMAIL
             mail_subject = '[noreply] New User Signed Up'
             msg = 'A new User has signed up.'
-            message = render_to_string('acc_active.html', {
+            message = render_to_string('account_verification_email.html', {
                 'user': user,
                 'profile': profile,
                 'domain': current_site.domain,
