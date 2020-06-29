@@ -76,41 +76,74 @@
             <div class="row">
                 <div class="section-content w-100">
                     <div class="content-box from-bottom delay-200">
-                        <h3 class="section-title">Charity events</h3>
-                        <div class="add-ankurayan">
+                        <h3 class="section-title">
                             {% if user.is_admin %}
                             <button type="button" class="btn btn-primary" data-toggle="modal"
                                 data-target="#addAnkurayan">
                                 Create Charity
                             </button>
                             {% endif %}
+                            Charity events</h3>
+                        <div class="add-ankurayan">
+
                             <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addAnkurayan" role="dialog"
                                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLongTitle">Create Charity</h5>
+                                            <h5 class="modal-title bld" id="exampleModalLongTitle">Create Charity</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form method="POST" enctype="multipart/form-data" action="{% url 'charitywork:CreateCharity' %}">
+                                            <form method="POST" enctype="multipart/form-data"
+                                                action="{% url 'charitywork:CreateCharity' %}">
                                                 {% csrf_token %}
-                                                <input type="text" class="form-control" name="title"
-                                                    placeholder="Charity title"><br>
-                                                <select required name="admin" class="form-control">
-                                                    {% for user in all_users %}
-                                                        <option value={{user.pk}}>{{user.first_name}} {{user.last_name}}</option>
-                                                    {% endfor %}
-                                                </select>
-                                                <input type="text" class="form-control" name="location"><br>
-                                                <input type="text" class="form-control" name="disaster_type"><br>
-                                                <textarea name="description" id="" cols="80" rows="8"></textarea><br>
-                                                <input type="date" class="form-control" name="start_date"><br>
-                                                <input type="date" class="form-control" name="end_date"><br>
-                                                <input type="file" name="logo" class="form-control">
-                                                <button class="btn btn-primary">Submit</button>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <label class="left-label bld" for="">Title</label>
+                                                        <input type="text" class="form-control" name="title"
+                                                            placeholder="Charity title" required="required"><br>
+                                                    </div>
+                                                    <div class="col">
+                                                        <label class="left-label bld" for="Admin">Admin</label>
+                                                        <select required name="admin" class="form-control">
+                                                            {% for user in all_users %}
+                                                            <option value={{user.pk}}>{{user.first_name}}
+                                                                {{user.last_name}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <label class="left-label bld" for="">Location</label>
+                                                        <input type="text" required="required" placeholder="Location"
+                                                            class="form-control" name="location"><br>
+                                                    </div>
+                                                    <div class="col">
+                                                        <label class="left-label bld" for="">Disaster Type</label>
+                                                        <input type="text" required="required" class="form-control"
+                                                            placeholder="Disaster Type" name="disaster_type"><br>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <label class="left-label bld" for="">Start Date</label>
+                                                        <input type="date" required="required" class="form-control"
+                                                            name="start_date"><br>
+                                                    </div>
+                                                    <div class="col">
+                                                        <label class="left-label bld" for="">End Date</label>
+                                                        <input type="date" required="required" class="form-control"
+                                                            name="end_date"><br>
+                                                    </div>
+                                                </div>
+                                                <label class="left-label bld" for="">Description</label>
+                                                <textarea name="description" class="form-control"
+                                                    placeholder="Description" id="" cols="80" rows="4"></textarea><br>
+                                                <button class="btn btn-primary">Create</button>
                                             </form>
                                         </div>
                                     </div>
@@ -124,8 +157,8 @@
                                     <li class="glide__slide">
                                         <div
                                             class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
-                                            <img src="{{ charity.image.url }}" class="card-img-top home-card-img"
-                                                alt="" width="300px">
+                                            <img src="{{ charity.image.url }}" class="card-img-top home-card-img" alt=""
+                                                width="300px">
                                             <div class="card-body pb-0">
                                                 <h5 class="card-title font-weight-bold">{{ charity.title }}</h5>
                                                 <p class="mb-3">{{ charity.disaster_type }}, {{ charity.location }}</p>
@@ -242,7 +275,7 @@
 
 <script>
     // CHARITY CAROUSEL
-    var charity_glide = new Glide('.charity',{
+    var charity_glide = new Glide('.charity', {
         type: 'slide',
         focusAt: 'center',
         perView: 3,
@@ -259,5 +292,20 @@
     })
     charity_glide.mount()
 </script>
+<script type="text/javascript">
 
+    $('.custom-file input').change(function (e) {
+        var files = [];
+        for (var i = 0; i < $(this)[0].files.length; i++) {
+            files.push($(this)[0].files[i].name);
+        }
+        if(files.length > 1) {
+            $(this).next('.custom-file-label').html(files.length + ' files selected');
+        }
+        else {
+            $(this).next('.custom-file-label').html('1 file selected');
+        }
+    });
+
+</script>
 {% endblock %}

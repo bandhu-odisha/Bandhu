@@ -63,23 +63,25 @@
                 <div class="card m-2 shadow-sm">
                     <div class="card-body p-4">
                         <h2 class="content-title mb-2">Description</h1>
-                        <p>{{ kendra.description|safe }}</p>
+                            <p>{{ kendra.description|safe }}</p>
                     </div>
                 </div>
             </div>
             <div class="col-lg-4 text-left px-0 py-0 py-lg-2 mx-auto" style="z-index: 10;">
-				<!--   PIC CARD  -->
-				<div class="card m-2 shadow-sm mb-4">
-					<div class="card-body p-1">
-						<img src="{{ kendra.image.url }}" alt="DP" class="img-fluid h-100 w-100" style="max-height: 300px;" />
-					</div>
+                <!--   PIC CARD  -->
+                <div class="card m-2 shadow-sm mb-4">
+                    <div class="card-body p-1">
+                        <img src="{{ kendra.image.url }}" alt="DP" class="img-fluid h-100 w-100"
+                            style="max-height: 300px;" />
+                    </div>
                 </div>
 
 
                 {% if check_admin and user.is_authenticated %}
                 <!-- Add Acharyas to this Kendra -->
                 <div class="select-acharyas text-center my-2">
-                    <button type="button" class="btn btn-primary w-75" data-toggle="modal" data-target="#selectacharyamodal">
+                    <button type="button" class="btn btn-primary w-75" data-toggle="modal"
+                        data-target="#selectacharyamodal">
                         Select Acharyas
                     </button>
                     <div class="modal fade bd-example-modal-lg" tabindex="-1" id="selectacharyamodal" role="dialog"
@@ -87,7 +89,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Select Acharyas</h5>
+                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Select Acharyas</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -117,7 +119,8 @@
 
                 <!-- Add Students to this kendra -->
                 <div class="add-students text-center my-2">
-                    <button type="button" class="btn btn-primary w-75" data-toggle="modal" data-target="#addStudentsModal">
+                    <button type="button" class="btn btn-primary w-75" data-toggle="modal"
+                        data-target="#addStudentsModal">
                         Add Students
                     </button>
                     <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addStudentsModal" role="dialog"
@@ -125,7 +128,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Students</h5>
+                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Add Students</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -133,34 +136,59 @@
                                 <div class="modal-body">
                                     <form method="POST" action="{% url 'anandakendra:EnrollStudent' %}">{% csrf_token %}
                                         <input type="text" hidden name="slug" value={{kendra.slug}}>
-                                        <input type="text" class="form-control" name="name"
-                                            placeholder="Student name"><br>
-                                        <input type="text" class="form-control" name="guardian_name"
-                                            placeholder="Guardian name"><br>
-                                        <select class="form-control" name="gender">
-                                            <option value="M">Male</option>
-                                            <option value="F">Female</option>
-                                            <option value="O">Other</option>
-                                        </select><br>
-                                        <select class="form-control" name="school_class">
-                                            <option value="I">Class I</option>
-                                            <option value="II">Class II</option>
-                                            <option value="III">Class III</option>
-                                            <option value="IV">Class IV</option>
-                                            <option value="V">Class V</option>
-                                            <option value="VI">Class VI</option>
-                                            <option value="VII">Class VII</option>
-                                            <option value="VIII">Class VIII</option>
-                                            <option value="IX">Class IX</option>
-                                            <option value="X">Class X</option>
-                                            <option value="XI">Class XI</option>
-                                            <option value="XII">Class XII</option>
-                                        </select><br>
-                                        <input type="text" class="form-control" name="address"
-                                            placeholder="Student Address"><br>
-                                        <input type="text" class="form-control" name="contact_no"
-                                            placeholder="Guardian Contact number"><br>
+                                        <div class="row justify-content">
+                                            <div class="col col-md-6">
+                                                <label class="left-label bld" for="name">Name</label>
+                                                <input type="text" class="form-control" name="name"
+                                                    placeholder="Student name" required="required"><br>
+                                            </div>
+                                            <div class="col col-md-6">
+                                                <label class="left-label bld" for="guardian_name">Guardian Name</label>
+                                                <input type="text" class="form-control" name="guardian_name"
+                                                    placeholder="Guardian name" required="required"><br>
+                                            </div>
+                                        </div>
+                                        <div class="row justify-content-center">
+                                            <div class="col col-md-6">
+                                                <label class="left-label bld" for="gender">Gender</label>
+                                                <select class="form-control" name="gender">
+                                                    <option value="M">Male</option>
+                                                    <option value="F">Female</option>
+                                                    <option value="O">Other</option>
+                                                </select><br>
+                                            </div>
+                                            <div class="col col-md-6">
+                                                <label class="left-label bld" for="school_class">School Class</label>
+                                                <select class="form-control" name="school_class">
+                                                    <option value="I">Class I</option>
+                                                    <option value="II">Class II</option>
+                                                    <option value="III">Class III</option>
+                                                    <option value="IV">Class IV</option>
+                                                    <option value="V">Class V</option>
+                                                    <option value="VI">Class VI</option>
+                                                    <option value="VII">Class VII</option>
+                                                    <option value="VIII">Class VIII</option>
+                                                    <option value="IX">Class IX</option>
+                                                    <option value="X">Class X</option>
+                                                    <option value="XI">Class XI</option>
+                                                    <option value="XII">Class XII</option>
+                                                </select><br>
+                                            </div>
+                                        </div>
+                                        <div class="row justify-content-center">
+                                            <div class="col col-md-6">
+                                                <label class="left-label bld" for="address">Address</label>
+                                                <input type="text" class="form-control" name="address"
+                                                    placeholder="Student Address" required="required"><br>
+                                            </div>
+                                            <div class="col col-md-6">
+                                                <label class="left-label bld" for="contact_no">Contact Number</label>
+                                                <input type="text" class="form-control" name="contact_no"
+                                                    placeholder="Guardian Contact number" required="required"><br>
+                                            </div>
+                                        </div>
                                         <button class="btn btn-primary">Submit</button>
+
                                     </form>
                                 </div>
                             </div>
@@ -179,17 +207,18 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Activity Category</h5>
+                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Add Activity Category</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form method="POST" action="{% url 'anandakendra:AnandakendraAddActivityCategory' %}">
+                                    <form method="POST"
+                                        action="{% url 'anandakendra:AnandakendraAddActivityCategory' %}">
                                         {% csrf_token %}
                                         <input type="text" hidden name="slug" value={{kendra.slug}}>
                                         <input type="text" class="form-control" name="name"
-                                            placeholder="Activity name"><br>
+                                            placeholder="Activity name" required="required"><br>
                                         <button class="btn btn-primary">Submit</button>
                                     </form>
                                 </div>
@@ -208,7 +237,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Activity</h5>
+                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Add Activity</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -217,17 +246,43 @@
                                     <form method="POST" enctype="multipart/form-data"
                                         action="{% url 'anandakendra:AnandakendraCreateActivity' %}">{% csrf_token %}
                                         <input type="text" hidden name="slug" value={{kendra.slug}}>
-                                        <input type="text" class="form-control" name="activity_name"
-                                            placeholder="Activity name"><br>
-                                        <select class="form-control" name="category">
-                                            {% for category in categories %}
-                                            <option value="{{category.pk}}">{{category.name}}</option>
-                                            {% endfor %}
-                                        </select><br>
-                                        <input type="text" name="activity_time" class="form-control" placeholder="Time of Activity"><br>
+                                        <div class="row">
+                                            <div class="col">
+                                                <label class="left-label bld" for="activity_name">Activity Name</label>
+                                                <input type="text" class="form-control" name="activity_name"
+                                                    placeholder="Activity name" required="required"><br>
+                                            </div>
+                                            <div class="col">
+                                                <label class="left-label bld" for="category">Category</label>
+                                                <select class="form-control" name="category">
+                                                    {% for category in categories %}
+                                                    <option value="{{category.pk}}">{{category.name}}</option>
+                                                    {% endfor %}
+                                                </select><br>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <label class="left-label bld" for="activity_time">Activity Time</label>
+                                                <input type="text" name="activity_time" class="form-control"
+                                                    placeholder="Time of Activity" required="required"><br>
+                                            </div>
+                                            <div class="col">
+                                                <label class="left-label bld" for="activity_images">Activity Photos</label>
+                                                <!-- <input type="file" class="form-control" multiple name="activity_images"> -->
+                                                <div class="input-group">
+                                                    <div class="custom-file">
+                                                        <input type="file" multiple class="custom-file-input" name="activity_images" id="inputGroupFile04" 
+                                                            aria-describedby="inputGroupFileAddon04">
+                                                        <label class="left-label custom-file-label" for="inputGroupFile04">Add Photos</label>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <label class="left-label bld" for="description">Description</label>
                                         <textarea name="description" cols="80" class="form-control"
-                                            rows="8"></textarea><br>
-                                        <input type="file" class="form-control" multiple name="activity_images">
+                                            rows="4"></textarea><br>
                                         <button class="btn btn-primary">Submit</button>
                                     </form>
                                 </div>
@@ -246,7 +301,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Event</h5>
+                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Add Event</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -255,12 +310,29 @@
                                     <form method="POST" enctype="multipart/form-data"
                                         action="{% url 'anandakendra:CreateEventAnandakendra' %}">{% csrf_token %}
                                         <input type="text" hidden name="slug" value={{kendra.slug}}>
+                                        <div class="row">
+                                            <div class="col">
+                                                <label class="left-label bld" for="">Event Name</label>
                                         <input type="text" class="form-control" name="event_name"
                                             placeholder="Event name"><br>
+                                            </div>
+                                            <div class="col">
+                                                <label class="left-label bld" for="">Event Image</label>
+                                                <div class="input-group">
+                                                    <div class="custom-file">
+                                                        <input type="file" class="custom-file-input" name="event_image" id="inputGroupFile04" 
+                                                            aria-describedby="inputGroupFileAddon04">
+                                                        <label class="custom-file-label" for="inputGroupFile04">Image</label>
+                                                    </div>
+                                                </div><br>
+                                            </div>
+                                        </div>
+                                        
+                                        <label class="left-label bld" for="">Event Date</label>
                                         <input type="date" name="event_date" class="form-control"><br>
+                                        <label class="left-label bld" for="">Description</label>
                                         <textarea name="description" cols="80" class="form-control"
-                                            rows="8"></textarea><br>
-                                        <input type="file" class="form-control" name="event_image">
+                                            rows="4" placeholder="Description"></textarea><br>
                                         <button class="btn btn-primary">Submit</button>
                                     </form>
                                 </div>
@@ -289,14 +361,16 @@
                         {% for activity in category.activity_set.all %}
                         <li class="glide__slide">
                             <div class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
-                                <img src="{% static 'img/pimg6.jpg' %}" class="card-img-top home-card-img" alt="" width="300px">
+                                <img src="{% static 'img/pimg6.jpg' %}" class="card-img-top home-card-img" alt=""
+                                    width="300px">
                                 <div class="card-body pb-0">
                                     <h5 class="card-title font-weight-bold">{{ activity.name }}</h5>
                                     <p class="mb-3">
-                                    {{ activity.description }}
-                                    <br>
+                                        {{ activity.description }}
+                                        <br>
                                     </p>
-                                    <a class="stretched-link" href="#" data-toggle="modal" data-target="#activity_modal{{ activity.id }}"></a>
+                                    <a class="stretched-link" href="#" data-toggle="modal"
+                                        data-target="#activity_modal{{ activity.id }}"></a>
                                 </div>
                             </div>
                         </li>
@@ -325,51 +399,52 @@
 
 <!-- ACTIVITIES MODALS -->
 {% for category in categories %}
-    {% for activity in category.activity_set.all %}
-    <div class="modal fade" id="activity_modal{{ activity.id }}">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content shadow">
-                <div class="modal-header">
-                    <h5 class="modal-title content-title">{{ activity.name }}</h5>
-                    <button type="button" class="close" style="padding: .5rem 1rem;" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true" style="font-size: 2.375rem;">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-6 col-lg-6 align-self-center">
-                            <div id="mission-carousel" class="mission-carousel carousel slide m-auto" data-ride="carousel">
-                                <ul class="carousel-indicators">
-                                    <li data-target="#mission-carousel" data-slide-to="0" class=""></li>
-                                    <li data-target="#mission-carousel" data-slide-to="1" class=""></li>
-                                    <li data-target="#mission-carousel" data-slide-to="2" class="active"></li>
-                                </ul>
-                                <div class="carousel-inner">
-                                    <div class="carousel-item">
-                                        <img src="/static/img/pimg6.jpg" alt="carousel image">
-                                    </div>
-                                    <div class="carousel-item">
-                                        <img src="/static/img/pimg2.jpg" alt="carousel image">
-                                    </div>
-                                    <div class="carousel-item active">
-                                        <img src="/static/img/pimg3.jpg" alt="carousel image">
-                                    </div>
+{% for activity in category.activity_set.all %}
+<div class="modal fade" id="activity_modal{{ activity.id }}">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content shadow">
+            <div class="modal-header">
+                <h5 class="modal-title content-title">{{ activity.name }}</h5>
+                <button type="button" class="close" style="padding: .5rem 1rem;" data-dismiss="modal"
+                    aria-label="Close">
+                    <span aria-hidden="true" style="font-size: 2.375rem;">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 col-lg-6 align-self-center">
+                        <div id="mission-carousel" class="mission-carousel carousel slide m-auto" data-ride="carousel">
+                            <ul class="carousel-indicators">
+                                <li data-target="#mission-carousel" data-slide-to="0" class=""></li>
+                                <li data-target="#mission-carousel" data-slide-to="1" class=""></li>
+                                <li data-target="#mission-carousel" data-slide-to="2" class="active"></li>
+                            </ul>
+                            <div class="carousel-inner">
+                                <div class="carousel-item">
+                                    <img src="/static/img/pimg6.jpg" alt="carousel image">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="/static/img/pimg2.jpg" alt="carousel image">
+                                </div>
+                                <div class="carousel-item active">
+                                    <img src="/static/img/pimg3.jpg" alt="carousel image">
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <h3 class="font-weight-bolder">Description</h3>
-                            {{ activity.description }}
-                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h3 class="font-weight-bolder">Description</h3>
+                        {{ activity.description }}
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
-    {% endfor %}
+</div>
+{% endfor %}
 {% endfor %}
 
 <!-- EVENTS SECTION -->
@@ -384,7 +459,8 @@
                             {% for event in events %}
                             <li class="glide__slide">
                                 <div class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
-                                    <img src="{{ event.image.url }}" class="card-img-top home-card-img" alt="" width="300px" >
+                                    <img src="{{ event.image.url }}" class="card-img-top home-card-img" alt=""
+                                        width="300px">
                                     <div class="card-body pb-0">
                                         <h5 class="card-title font-weight-bold">{{ event.name }}</h5>
                                         <p class="mb-3">
@@ -398,10 +474,12 @@
                         </ul>
                     </div>
                     <div class="glide__arrows disable_arrows d-none d-md-block" data-glide-el="controls">
-                        <button class="slider_arrow slider_arrow--prev glide__arrow glide__arrow--left" data-glide-dir="<">
+                        <button class="slider_arrow slider_arrow--prev glide__arrow glide__arrow--left"
+                            data-glide-dir="<">
                             <i class="fas fa-arrow-circle-left"></i>
                         </button>
-                        <button class="slider_arrow slider_arrow--next glide__arrow glide__arrow--right" data-glide-dir=">">
+                        <button class="slider_arrow slider_arrow--next glide__arrow glide__arrow--right"
+                            data-glide-dir=">">
                             <i class="fas fa-arrow-circle-right"></i>
                         </button>
                     </div>
@@ -516,9 +594,9 @@
                 <div class="galleryFilter">
                     <a href="#" data-filter="" class="current">All</a>
                     {% for category in categories %}
-                        {% if category.activity_set.count %}
-                        <a href="#" data-filter=".{{ category.name }}">{{ category.name }}</a>
-                        {% endif %}
+                    {% if category.activity_set.count %}
+                    <a href="#" data-filter=".{{ category.name }}">{{ category.name }}</a>
+                    {% endif %}
                     {% endfor %}
                 </div>
 
@@ -551,7 +629,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Upload Images</h5>
+                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Upload Images</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -560,9 +638,14 @@
                                     <form method="POST" enctype="multipart/form-data"
                                         action="{% url 'anandakendra:AnandakendraAddToGallery' %}">{% csrf_token %}
                                         <input type="text" hidden name="slug" value={{kendra.slug}}>
-
-                                        <input type="file" class="form-control" multiple name="gallery_images">
-                                        <button class="btn btn-primary">Submit</button>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" multiple class="custom-file-input" name="gallery_images" id="inputGroupFile04" 
+                                                    aria-describedby="inputGroupFileAddon04">
+                                                <label class="custom-file-label" for="inputGroupFile04">Add Images</label>
+                                            </div>
+                                        </div><br>
+                                        <button class="btn btn-primary">Upload</button>
                                     </form>
                                 </div>
                             </div>
@@ -609,54 +692,54 @@
     // build the json album images collection 
     window.djangoAlbumImages = [
         {% for photo in photos %}
-            {
-                src: '{{ photo.picture.url }}',
-                w:  {{ photo.picture.width }},
-                h:  {{ photo.picture.height }}
-            },
-        {% endfor %}
+    {
+        src: '{{ photo.picture.url }}',
+            w: { { photo.picture.width } },
+        h: { { photo.picture.height } }
+    },
+    {% endfor %}
     ];
 
     // Change album on filtering images
-    $('#gallery-container .galleryFilter a').on("click", function(){
+    $('#gallery-container .galleryFilter a').on("click", function () {
         let filter = $(this).data('filter');
-        
-        if (filter == ""){
+
+        if (filter == "") {
             window.djangoAlbumImages = [
                 {% for photo in photos %}
-                    {
-                        src: '{{ photo.picture.url }}',
-                        w:  {{ photo.picture.width }},
-                        h:  {{ photo.picture.height }}
-                    },
-                {% endfor %}
+        {
+            src: '{{ photo.picture.url }}',
+                w: { { photo.picture.width } },
+            h: { { photo.picture.height } }
+        },
+        {% endfor %}
             ];
 
-            $('#gallery-container .gallery-item a').each(function(index, img){
-                if ($(img).closest('#load-more') == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
-            });
-        }
-        else{
+        $('#gallery-container .gallery-item a').each(function (index, img) {
+            if ($(img).closest('#load-more') == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
+        });
+    }
+        else {
             category = filter.slice(1);
 
             window.djangoAlbumImages = [];
 
             {% for photo in photos %}
-            if("{{ photo.activity.category.name }}" == category){
-                window.djangoAlbumImages.push(
-                    {
-                        src: '{{ photo.picture.url }}',
-                        w:  {{ photo.picture.width }},
-                        h:  {{ photo.picture.height }}
+    if ("{{ photo.activity.category.name }}" == category) {
+        window.djangoAlbumImages.push(
+            {
+                src: '{{ photo.picture.url }}',
+                w: {{ photo.picture.width }},
+    h: { { photo.picture.height } }
                     }
                 );
             }
-            {% endfor %}
+    {% endfor %}
 
-            let selector = '#gallery-container ' + filter + ' a';
-            $(selector).each(function(index, img){
-                if ($(img).closest('#load-more') == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
-            });
+    let selector = '#gallery-container ' + filter + ' a';
+    $(selector).each(function (index, img) {
+        if ($(img).closest('#load-more') == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
+    });
         }
 
     });
@@ -707,7 +790,7 @@
             success: function (data1) {
                 var data = JSON.parse(data1);
                 $('#galleryBox').empty();
-                for(let photo=0;photo<data.length;photo++){
+                for (let photo = 0; photo < data.length; photo++) {
                     var k = data[photo].fields.approved;
                     var ele = `<figure class="item cat-3 cat-4" style="width: 267px; height: 183.9px;">
                         <img src='/media/${data[photo].fields.picture}' alt="Item 3" data-rel="photoSwipe">
@@ -715,7 +798,7 @@
                             <i class="fab fa-instagram"></i>
                         </a>
                     </figure>`
-                    if(!k) {
+                    if (!k) {
                         ele += `
                         <button type="button" onclick="imageApproval('approve','${data[photo].pk}');">Approve</button>
                         <button type="button" onclick="imageApproval('discard','${data[photo].pk}');">Discard</button>
@@ -733,27 +816,27 @@
     // ACTIVITIES CAROUSEL
     {% for category in categories %}
     {% if category.activity_set.count %}
-        var glide = new Glide('.category{{forloop.counter0}}',{
-            type: 'carousel',
-            focusAt: 'center',
-            perView: 3,
-            autoplay: 2000,
-            gap: 30,
-            breakpoints: {
-                991: {
-                    perView: 2,
-                },
-                767:{
-                    perView: 1,
-                }
+    var glide = new Glide('.category{{forloop.counter0}}', {
+        type: 'carousel',
+        focusAt: 'center',
+        perView: 3,
+        autoplay: 2000,
+        gap: 30,
+        breakpoints: {
+            991: {
+                perView: 2,
+            },
+            767: {
+                perView: 1,
             }
-        })
-        glide.mount()
+        }
+    })
+    glide.mount()
     {% endif %}
     {% endfor %}
 
     // EVENTS CAROUSEL
-    var events_glide = new Glide('.events',{
+    var events_glide = new Glide('.events', {
         type: 'slide',
         focusAt: 'center',
         perView: 3,
@@ -763,12 +846,28 @@
             991: {
                 perView: 2,
             },
-            767:{
+            767: {
                 perView: 1,
             }
         }
     })
     events_glide.mount()
 </script>
+<!-- Upload Detail in forms -->
+<script type="text/javascript">
 
-{% endblock %}
+    $('.custom-file input').change(function (e) {
+        var files = [];
+        for (var i = 0; i < $(this)[0].files.length; i++) {
+            files.push($(this)[0].files[i].name);
+        }
+        if(files.length > 1) {
+            $(this).next('.custom-file-label').html(files.length + ' files selected');
+        }
+        else {
+            $(this).next('.custom-file-label').html('1 file selected');
+        }
+    });
+
+</script>
+{% endblock %}`
