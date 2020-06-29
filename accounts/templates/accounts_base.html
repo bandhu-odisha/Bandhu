@@ -8,15 +8,20 @@
 	<link rel="shortcut icon" href='{% static "img/bandhulogo.gif" %}'>
 	<title>{% block title %}  {% endblock %} </title>
 
+	<style>
+		.main{
+			min-height: 100vh;
+			/* height: 100%; */
+		}
+	</style>
+
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="{% static 'vendor/css/bootstrap.min.css' %}">
-	<!-- Date Picker CSS -->
-	<link rel="stylesheet" href="{% static 'vendor/css/bootstrap-datepicker.min.css' %}">
 	<!-- Font Awesome CSS -->
 	<link rel="stylesheet" href="{% static 'vendor/css/fontawesome-all.min.css' %}">
 	<!-- Custom CSS -->
 	<link rel="stylesheet" href="{% static 'css/custom.css' %}">
-    <!-- Custom CSS -->
+
     {% block style %}
 	<style>
 		.btn-google {
@@ -62,7 +67,7 @@
 </head>
 <body data-spy="scroll" data-target=".navbar" data-offset="10">
 	<div class="main">
-		<div id="main-menu" class="navbar navbar-expand-lg  fixed-top navbar-dark"
+		<div id="main-menu" class="navbar navbar-expand-lg fixed-top navbar-dark"
         		style="padding: 0;" role="navigation">
 			<div class="container">
 				<a class="navbar-brand" href="{% url 'home' %}" style="padding-bottom: 0;">
@@ -79,6 +84,9 @@
 						{% block navbar-links %}
 						<li class="nav-item">
 							<a class="nav-link" href="{% url 'home' %}">Home</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#contact">Contact</a>
 						</li>
 						{% endblock %}
 						<li class="nav-item align-self-center w-100 mt-2 mt-lg-0">
@@ -98,77 +106,51 @@
         {% endblock %}
 	</div>
 
-	<!-- Footer Area -->
-	<section id="contact" class="p-4 pt-5 text-white" style="background-color: #212529">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-6">
-					<h3 class="font-weight-bolder border-bottom">
-						Our Initiatives
-					</h3>
-					<ul class="nav flex-column py-4">
-						<li class="nav-item">
-							<a href="/ankurayan/" class="nav-link">Ankurayan</a>
-						</li>
-						<li class="nav-item">
-							<a href="/anandakendra/" class="nav-link">Ananda Kendra</a>
-						</li>
-						<li class="nav-item">
-							<a href="#" class="nav-link">Arpan Bandhu</a>
-						</li>
-						<li class="nav-item">
-							<a href="/ashram/" class="nav-link">Ashram</a>
-						</li>
-						<li class="nav-item">
-							<a href="/charity_work/" class="nav-link">Charity Work</a>
-						</li>
-						<li class="nav-item">
-							<a href="#" class="nav-link">Madh Mukti</a>
-						</li>
-					</ul>
-				</div>
-	
-				<div class="col-md-6">
-					<h3 class="font-weight-bolder border-bottom">
-						Contact Us
-					</h3>
-					<div class="pt-4 pb-3">
-						<h5 class="font-weight-bolder mb-3">Bandhu</h5>
-						<h6>PDPM IIITDM Jabalpur, Madhya Pradesh</h6>
-					</div>
-					<ul class="nav flex-column">
-						<li class="nav-item">
-							<a href="tel:+919437439371" class="nav-link">
-								<i class="fas fa-phone-alt border rounded-circle p-2"></i>
-								+91 94374 39371
-							</a>
-						</li>
-						<li class="nav-item">
-							<a href="mailto:bandhuodisha@gmail.com" class="nav-link">
-								<i class="fas fa-envelope border rounded-circle p-2"></i>
-								bandhuodisha@gmail.com
-							</a>
-						</li>
-					</ul>
-					<div class="social-icons my-3 ml-2">
-						<a href="https://www.facebook.com/npobandhu/" target="_blank">
-							<i class="fab fa-facebook-square text-white"></i>
-						</a>
-						<a href="#">
-							<i class="fab fa-twitter text-white"></i>
-						</a>
-					</div>
-				</div>
-			</div>
-	
-			<hr class="bg-white">
-	
-			<div class="footer text-white clearfix">
-				<div class="float-left">
-					© <a href="/">Bandhu</a> 2020, All Rights Reserved.
+	<!-- Toast -->
+	{% for message in messages %}
+	<div class="row justify-content-center">
+		<div style="position: fixed; bottom: 25px; left: 10px; z-index: 10;">
+			<div class="toast {{ message.tags }}" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1500">
+				<div class="toast-body p-2 px-3">
+					<strong class="mr-auto">{{message}}</strong>
+					<button type="button" class="ml-3 close" style="margin-top: -3px;" data-dismiss="toast" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
 			</div>
 		</div>
-	</section>
+	</div>
+  	{% endfor %}
+
+	<!-- Scroll To Top Button -->
+	<div id="scroll-to-top">
+		<div class="hex scroll-top">
+			<span><i class="fa fa-arrow-up"></i></span>
+		</div>
+	</div>
+	
+	{% include 'snippets/footer.html' %}
+
+	<!-- Bootstrap JS -->
+    <script src="{% static 'vendor/js/jquery-3.4.1.min.js' %}"></script>
+	<script src="{% static 'vendor/js/popper.min.js' %}"></script>
+	<script src="{% static 'vendor/js/bootstrap.min.js' %}"></script>
+	<!-- Custom Scripts -->
+	<script src='{% static "js/main.js" %}'></script>
+
+	<!-- Script for Toast -->
+	<script>
+		if("{% for message in messages %}{{message}}{% endfor %}"){
+			$('#alert_toast').toast('show');
+			if("{% for message in messages %}{{message.level}}{% endfor %}" == "40")
+				document.getElementById("alert_toast").classList.add("bg-danger");
+			else
+				document.getElementById("alert_toast").classList.add("bg-success");
+		}	
+	</script>
+
+	<!-- Contact Scrollspy Problem -->
+	<script>contact_scrollspy()</script>
+
 </body>
 </html>

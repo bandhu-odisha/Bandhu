@@ -31,21 +31,6 @@ def index(request):
     # print(obj,obj1)
     return render(request, 'landing_page.html')
 
-def cause1(request):
-    return render(request, 'cause1.html')
-
-def cause2(request):
-    return render(request, 'cause2.html')
-
-def cause3(request):
-    return render(request, 'cause3.html')
-
-def cause4(request):
-    return render(request, 'cause4.html')
-
-def cause5(request):
-    return render(request, 'cause5.html')
-
 @login_required
 def profile_page(request):
     user = request.user
@@ -95,7 +80,7 @@ def profile_page(request):
                 'uid':urlsafe_base64_encode(force_bytes(user.pk)),
                 'token':account_activation_token.make_token(user),
             })
-            to_email = [settings.ADMINS_EMAIL]
+            to_email = settings.ADMINS_EMAIL
             email = EmailMessage(
                 mail_subject, message, from_email, to_email,
             )
