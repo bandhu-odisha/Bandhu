@@ -64,7 +64,7 @@
                 <div class="card m-2 shadow-sm">
                     <div class="card-body p-4">
                         <h2 class="content-title mb-2">Description</h1>
-                        <p>{{ ankurayan.description|safe }}</p>
+                            <p>{{ ankurayan.description|safe }}</p>
                     </div>
                 </div>
 
@@ -94,11 +94,12 @@
             </div>
 
             <div class="col-lg-3 text-left px-0 py-0 py-lg-2 mx-auto" style="z-index: 10;">
-				<!--   PIC CARD  -->
-				<div class="card m-2 shadow-sm">
-					<div class="card-body p-1">
-						<img src="{{ ankurayan.logo.url }}" alt="DP" class="img-fluid h-100 w-100" style="max-height: 300px;" />
-					</div>
+                <!--   PIC CARD  -->
+                <div class="card m-2 shadow-sm">
+                    <div class="card-body p-1">
+                        <img src="{{ ankurayan.logo.url }}" alt="DP" class="img-fluid h-100 w-100"
+                            style="max-height: 300px;" />
+                    </div>
                 </div>
                 <!--  SCHEDULE  -->
                 <div class="card m-2 shadow-sm">
@@ -128,7 +129,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Guest</h5>
+                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Add Guest</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -136,15 +137,33 @@
                                 <div class="modal-body">
                                     <form method="POST" action="{% url 'ankurayan:AddGuest' %}">{% csrf_token %}
                                         <input type="text" hidden name="slug" value={{ankurayan.slug}}>
-                                        <input type="text" class="form-control" name="name"
-                                            placeholder="Guest Name" required="required"><br>
-                                        <input type="text" class="form-control" name="contact_no"
-                                            placeholder="Contact number" required="required"><br>
-                                        <input type="text" class="form-control" name="profession"
-                                            placeholder="Profession" required="required"><br>
-                                        <input type="text" class="form-control" name="email"
-                                            placeholder="Email"><br>
-                                        <textarea name="about" cols="80" rows="8" class="form-control" placeholder="About Guest"></textarea><br>
+                                        <div class="row">
+                                            <div class="col">
+                                                <label class="left-label bld" for="">Name</label>
+                                                <input type="text" class="form-control" name="name" placeholder="Guest Name"
+                                                    required="required"><br>
+                                            </div>
+                                            <div class="col">
+                                                <label class="left-label bld" for="">Contact Number</label>
+                                                <input type="text" class="form-control" name="contact_no"
+                                                    placeholder="Contact number" required="required"><br>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col">
+                                                <label class="left-label bld" for="">Profession</label>
+                                                <input type="text" class="form-control" name="profession"
+                                                    placeholder="Profession" required="required"><br>
+                                            </div>
+                                            <div class="col">
+                                                <label class="left-label bld" for="">Email</label>
+                                                <input type="text" class="form-control" name="email" placeholder="Email"><br>        
+                                            </div>
+                                        </div>
+                                        <label class="left-label bld" for="">About Guest</label>
+                                        <textarea name="about" cols="80" rows="4" class="form-control"
+                                            placeholder="About Guest"></textarea><br>
                                         <button class="btn btn-primary">Submit</button>
                                     </form>
                                 </div>
@@ -155,7 +174,8 @@
 
                 <!-- Add Participants to this Ankurayan -->
                 <div class="add-participants text-center my-2">
-                    <button type="button" class="btn btn-primary w-75" data-toggle="modal" data-target="#addParticipantsModal">
+                    <button type="button" class="btn btn-primary w-75" data-toggle="modal"
+                        data-target="#addParticipantsModal">
                         Add Participants
                     </button>
                     <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addParticipantsModal" role="dialog"
@@ -163,7 +183,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Participants</h5>
+                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Add Participants</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -171,31 +191,49 @@
                                 <div class="modal-body">
                                     <form method="POST" action="{% url 'ankurayan:AddParticipant' %}">{% csrf_token %}
                                         <input type="text" hidden name="slug" value={{ankurayan.slug}}>
-                                        <input type="text" class="form-control" name="name"
-                                            placeholder="Student name" required="required"><br>
-                                        <select class="form-control" name="gender">
-                                            <option value="M">Male</option>
-                                            <option value="F">Female</option>
-                                            <option value="O">Other</option>
-                                        </select><br>
-                                        <select class="form-control" name="school_class">
-                                            <option value="I">Class I</option>
-                                            <option value="II">Class II</option>
-                                            <option value="III">Class III</option>
-                                            <option value="IV">Class IV</option>
-                                            <option value="V">Class V</option>
-                                            <option value="VI">Class VI</option>
-                                            <option value="VII">Class VII</option>
-                                            <option value="VIII">Class VIII</option>
-                                            <option value="IX">Class IX</option>
-                                            <option value="X">Class X</option>
-                                            <option value="XI">Class XI</option>
-                                            <option value="XII">Class XII</option>
-                                        </select><br>
+                                        <div class="row">
+                                            <div class="col">
+                                                <label class="left-label bld" for="">Name</label>
+                                                <input type="text" class="form-control" name="name" placeholder="Student name"
+                                            required="required"><br>
+                                            </div>
+                                            <div class="col">
+                                                <label class="left-label bld" for="">Contact Number</label>
+                                                <input type="text" class="form-control" name="contact_no"
+                                            placeholder="Guardian Contact number" required="required"><br>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <label class="left-label bld" for="">Gender</label>
+                                                <select class="form-control" name="gender">
+                                                    <option value="M">Male</option>
+                                                    <option value="F">Female</option>
+                                                    <option value="O">Other</option>
+                                                </select><br>
+                                            </div>
+                                            <div class="col">
+                                                <label class="left-label bld" for="">School Class</label>
+                                                <select class="form-control" name="school_class">
+                                                    <option value="I">Class I</option>
+                                                    <option value="II">Class II</option>
+                                                    <option value="III">Class III</option>
+                                                    <option value="IV">Class IV</option>
+                                                    <option value="V">Class V</option>
+                                                    <option value="VI">Class VI</option>
+                                                    <option value="VII">Class VII</option>
+                                                    <option value="VIII">Class VIII</option>
+                                                    <option value="IX">Class IX</option>
+                                                    <option value="X">Class X</option>
+                                                    <option value="XI">Class XI</option>
+                                                    <option value="XII">Class XII</option>
+                                                </select><br>
+                                            </div>
+                                        </div>
+                                        <label class="left-label bld" for="">Address</label>
                                         <input type="text" class="form-control" name="address"
                                             placeholder="Student Address" required="required"><br>
-                                        <input type="text" class="form-control" name="contact_no"
-                                            placeholder="Guardian Contact number" required="required"><br>
+                                        
                                         <button class="btn btn-primary">Submit</button>
                                     </form>
                                 </div>
@@ -215,16 +253,17 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Activity Category</h5>
+                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Add Activity Category</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form method="POST" action="{% url 'ankurayan:AddActivityCategory' %}">{% csrf_token %}
+                                    <form method="POST" action="{% url 'ankurayan:AddActivityCategory' %}">
+                                        {% csrf_token %}
                                         <input type="text" hidden name="slug" value={{ankurayan.slug}}>
-                                        <input type="text" class="form-control" name="name"
-                                            placeholder="Category name" required="required"><br>
+                                        <input type="text" class="form-control" name="name" placeholder="Category name"
+                                            required="required"><br>
                                         <button class="btn btn-primary">Submit</button>
                                     </form>
                                 </div>
@@ -243,29 +282,46 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Activity</h5>
+                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Add Activity</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form method="POST" enctype="multipart/form-data" action="{% url 'ankurayan:CreateActivity' %}">{% csrf_token %}
+                                    <form method="POST" enctype="multipart/form-data"
+                                        action="{% url 'ankurayan:CreateActivity' %}">{% csrf_token %}
                                         <input type="text" hidden name="slug" value={{ankurayan.slug}}>
-                                        <input type="text" class="form-control" name="activity_name"
+                                        <div class="row">
+                                            <div class="col">
+                                                <label class="left-label bld" for="">Activity Name</label>
+                                                <input type="text" class="form-control" name="activity_name"
                                             placeholder="Activity name" required="required"><br>
-                                            <label for="category" style="text-align: left; float: left; padding-left: 5px;">Category</label>
+                                            </div>
+                                            <div class="col">
+                                                <label class="left-label bld" for="category">Category</label>
                                         <select class="form-control" name="category">
                                             {% for category in categories %}
                                             <option value="{{category.pk}}">{{category.name}}</option>
                                             {% endfor %}
                                         </select><br>
-                                        <label for="activity_date" style="text-align: left; float: left; padding-left: 5px;"    >Activity Date</label>
-                                        <input type="date" name="activity_date" class="form-control" required="required"><br>
-                                        <textarea name="description" cols="80" class="form-control" placeholder="Description"
-                                            rows="4"></textarea><br>
-                                        <label for="activity_images" style="text-align: left; float: left; padding-left: 5px;">Activity Images</label>
-                                        <input type="file" class="form-control" multiple name="activity_images"><br>
-                                        <button class="btn btn-primary">Submit</button>
+                                            </div>
+                                        </div>
+                                        <label class="left-label bld" for="activity_date">Activity
+                                            Date</label>
+                                        <input type="date" name="activity_date" class="form-control"
+                                            required="required"><br>
+                                        <label class="left-label bld" for="activity_images">Images</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" multiple name="activity_images" id="inputGroupFile04" 
+                                                    aria-describedby="inputGroupFileAddon04">
+                                                <label class="custom-file-label" for="inputGroupFile04">Add Images</label>
+                                            </div>
+                                        </div><br>
+                                        <label class="left-label bld" for="">Description</label>
+                                        <textarea name="description" cols="80" class="form-control"
+                                            placeholder="Description" rows="4"></textarea><br>
+                                        <button class="btn btn-primary">Add Activity</button>
                                     </form>
                                 </div>
                             </div>
@@ -293,21 +349,25 @@
                         <li class="glide__slide">
                             <div class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
                                 <a class="" href="#" data-toggle="modal" data-target="#activity_modal{{ activity.id }}">
-                                <img src="{% static 'img/pimg6.jpg' %}" class="card-img-top home-card-img" alt="" width="300px">
+                                    <img src="{% static 'img/pimg6.jpg' %}" class="card-img-top home-card-img" alt=""
+                                        width="300px">
                                 </a>
                                 <div class="card-body pb-0">
-                                    <a class="" href="#" data-toggle="modal" data-target="#activity_modal{{ activity.id }}" style="text-decoration: none; color: black !important;">
-                                    <h5 class="card-title font-weight-bold">{{ activity.name }}</h5>
+                                    <a class="" href="#" data-toggle="modal"
+                                        data-target="#activity_modal{{ activity.id }}"
+                                        style="text-decoration: none; color: black !important;">
+                                        <h5 class="card-title font-weight-bold">{{ activity.name }}</h5>
                                     </a>
                                     <p class="mb-3">
-                                    {% if check_admin and user.is_authenticated %}
+                                        {% if check_admin and user.is_authenticated %}
                                         {% if activity.winner %}
                                         {% else %}
-                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#selectWinners{{forloop.counter}}">Add Winners</button>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#selectWinners{{forloop.counter}}">Add Winners</button>
                                         {% endif %}
-                                    {% endif %}
-                                    <br>
-                                    
+                                        {% endif %}
+                                        <br>
+
                                     </p>
                                 </div>
                             </div>
@@ -337,115 +397,122 @@
 
 <!-- ACTIVITIES MODALS -->
 {% for category in categories %}
-    {% for activity in category.activity_set.all %}
-    <div class="modal fade" id="activity_modal{{ activity.id }}">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content shadow">
-                <div class="modal-header">
-                    <h5 class="modal-title content-title">{{ activity.name }}</h5>
-                    <button type="button" class="close" style="padding: .5rem 1rem;" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true" style="font-size: 2.375rem;">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-6 col-lg-6 align-self-center">
-                            <div id="mission-carousel" class="mission-carousel carousel slide m-auto" data-ride="carousel">
-                                <ul class="carousel-indicators">
-                                    <li data-target="#mission-carousel" data-slide-to="0" class=""></li>
-                                    <li data-target="#mission-carousel" data-slide-to="1" class=""></li>
-                                    <li data-target="#mission-carousel" data-slide-to="2" class="active"></li>
-                                </ul>
-                                <div class="carousel-inner">
-                                    <div class="carousel-item">
-                                        <img src="/static/img/pimg6.jpg" alt="carousel image">
-                                    </div>
-                                    <div class="carousel-item">
-                                        <img src="/static/img/pimg2.jpg" alt="carousel image">
-                                    </div>
-                                    <div class="carousel-item active">
-                                        <img src="/static/img/pimg3.jpg" alt="carousel image">
-                                    </div>
+{% for activity in category.activity_set.all %}
+<div class="modal fade" id="activity_modal{{ activity.id }}">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content shadow">
+            <div class="modal-header">
+                <h5 class="modal-title bld content-title">{{ activity.name }}</h5>
+                <button type="button" class="close" style="padding: .5rem 1rem;" data-dismiss="modal"
+                    aria-label="Close">
+                    <span aria-hidden="true" style="font-size: 2.375rem;">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 col-lg-6 align-self-center">
+                        <div id="mission-carousel" class="mission-carousel carousel slide m-auto" data-ride="carousel">
+                            <ul class="carousel-indicators">
+                                <li data-target="#mission-carousel" data-slide-to="0" class=""></li>
+                                <li data-target="#mission-carousel" data-slide-to="1" class=""></li>
+                                <li data-target="#mission-carousel" data-slide-to="2" class="active"></li>
+                            </ul>
+                            <div class="carousel-inner">
+                                <div class="carousel-item">
+                                    <img src="/static/img/pimg6.jpg" alt="carousel image">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="/static/img/pimg2.jpg" alt="carousel image">
+                                </div>
+                                <div class="carousel-item active">
+                                    <img src="/static/img/pimg3.jpg" alt="carousel image">
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <h3 class="font-weight-bolder">Description</h3>
-                            {{ activity.description }}
-                            {% if activity.winner %}
-                            <h3 class="font-weight-bolder">Result</h3>
-                            <p><b>Winner:</b>{{ activity.winner }}</p>
-                            <p><b>Runner Up1:</b>{{ activity.runner_up1 }}</p>
-                            <p><b>Runner Up2:</b>{{ activity.runner_up2}}</p>
-                            {% endif %}
-                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h3 class="font-weight-bolder">Description</h3>
+                        {{ activity.description }}
+                        {% if activity.winner %}
+                        <h3 class="font-weight-bolder">Result</h3>
+                        <p><b>Winner:</b>{{ activity.winner }}</p>
+                        <p><b>Runner Up1:</b>{{ activity.runner_up1 }}</p>
+                        <p><b>Runner Up2:</b>{{ activity.runner_up2}}</p>
+                        {% endif %}
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
-    {% if check_admin and user.is_authenticated %}
-    <div class="modal fade" tabindex="-1"
-        id="selectWinners{{forloop.counter}}" role="dialog"
-        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content shadow">
-                <div class="modal-header">
-                    <h5 class="modal-title content-title" id="exampleModalLongTitle">Select Winners
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal"
-                        aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p style="color:red;display:none;" class="errorMessageWinners" >A student cannot come at two positions.</p>
-                    <form method="POST" enctype="multipart/form-data" action="{% url 'ankurayan:AddWinners' %}"
-                        id="chooseWinnersForm{{forloop.counter}}">{% csrf_token %}
-                        <input type="text" hidden name="pk" value="{{activity.pk}}">
-                        <input type="text" hidden name="slug" value="{{ankurayan.slug}}">
-                        <!-- <input type="text" hidden name="activity_name"
+</div>
+{% if check_admin and user.is_authenticated %}
+<div class="modal fade" tabindex="-1" id="selectWinners{{forloop.counter}}" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content shadow">
+            <div class="modal-header">
+                <h5 class="modal-title bld content-title" id="exampleModalLongTitle">Select Winners
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p style="color:red;display:none;" class="errorMessageWinners">A student cannot come at two positions.
+                </p>
+                <form method="POST" enctype="multipart/form-data" action="{% url 'ankurayan:AddWinners' %}"
+                    id="chooseWinnersForm{{forloop.counter}}">{% csrf_token %}
+                    <input type="text" hidden name="pk" value="{{activity.pk}}">
+                    <input type="text" hidden name="slug" value="{{ankurayan.slug}}">
+                    <!-- <input type="text" hidden name="activity_name"
                             value={{activity.activity_name}}>
                         <input type="text" hidden name="date"
                             value={{activity.activity_date}}> -->
-                        <select required class="form-control" id="winner{{forloop.counter}}"
-                            name="pk_winner">
-                            <option value="">Select Winner</option>
-                            {% for participant in participants %}
-                            <option value="{{participant.pk}}">{{participant.name}} -
-                                {{participant.school_class}}</option>
-                            {% endfor %}
-                        </select><br>
-                        <select required class="form-control" id="runnerUp1{{forloop.counter}}"
-                            name="pk_runner_up1">
-                            <option value="">Select first runner up</option>
-                            {% for participant in participants %}
-                            <option value="{{participant.pk}}">{{participant.name}} -
-                                {{participant.school_class}}</option>
-                            {% endfor %}
-                        </select><br>
-                        <select required class="form-control" id="runnerUp2{{forloop.counter}}"
-                            name="pk_runner_up2">
-                            <option value="">Select second runner up</option>
-                            {% for participant in participants %}
-                            <option value="{{participant.pk}}">{{participant.name}} -
-                                {{participant.school_class}}</option>
-                            {% endfor %}
-                        </select><br>
-                        <label for="activity_images" style="text-align: left; float: left; padding-left: 5px;">Activity Images</label>
-                        <input type="file" class="form-control" multiple name="activity_images"><br>
-                        <button type="button" class="btn btn-primary"
-                            onclick="validateWinners(`{{forloop.counter}}`);">Submit</button>
-                    </form>
-                </div>
+                    <label class="label-left bld" for="">Winner</label>
+                    <select required class="form-control" id="winner{{forloop.counter}}" name="pk_winner">
+                        <option value="">Select Winner</option>
+                        {% for participant in participants %}
+                        <option value="{{participant.pk}}">{{participant.name}} -
+                            {{participant.school_class}}</option>
+                        {% endfor %}
+                    </select><br>
+                    <label class="label-left bld" for="">RunnerUp 1</label>
+                    <select required class="form-control" id="runnerUp1{{forloop.counter}}" name="pk_runner_up1">
+                        <option value="">Select first runner up</option>
+                        {% for participant in participants %}
+                        <option value="{{participant.pk}}">{{participant.name}} -
+                            {{participant.school_class}}</option>
+                        {% endfor %}
+                    </select><br>
+                    <label class="label-left bld" for="">RunnerUp 2</label>
+                    <select required class="form-control" id="runnerUp2{{forloop.counter}}" name="pk_runner_up2">
+                        <option value="">Select second runner up</option>
+                        {% for participant in participants %}
+                        <option value="{{participant.pk}}">{{participant.name}} -
+                            {{participant.school_class}}</option>
+                        {% endfor %}
+                    </select><br>
+                    <label class="label-left bld" for="activity_images" style="text-align: left; float: left; padding-left: 5px;">Activity
+                        Images</label>
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" multiple name="activity_images" id="inputGroupFile04" 
+                                aria-describedby="inputGroupFileAddon04">
+                            <label class="custom-file-label" for="inputGroupFile04">Add Images</label>
+                        </div>
+                    </div><br>
+                    <button type="button" class="btn btn-primary"
+                        onclick="validateWinners(`{{forloop.counter}}`);">Submit</button>
+                </form>
             </div>
         </div>
     </div>
-    {% endif %}
-    {% endfor %}
+</div>
+{% endif %}
+{% endfor %}
 {% endfor %}
 
 <!-- ANKURAYANS SECTION -->
@@ -460,13 +527,15 @@
                             {% for ankur in ankurayans %}
                             <li class="glide__slide">
                                 <div class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
-                                    <img src="{{ ankur.logo.url }}" class="card-img-top home-card-img" alt="" width="300px" >
+                                    <img src="{{ ankur.logo.url }}" class="card-img-top home-card-img" alt=""
+                                        width="300px">
                                     <div class="card-body pb-0">
                                         <h5 class="card-title font-weight-bold">{{ankur.title}}</h5>
                                         <p class="mb-3">
                                             {{ankur.theme}}<br>
                                         </p>
-                                        <a href="{% url 'ankurayan:AnkurayanDetail' ankur.slug %}" class="stretched-link"></a>
+                                        <a href="{% url 'ankurayan:AnkurayanDetail' ankur.slug %}"
+                                            class="stretched-link"></a>
                                     </div>
                                 </div>
                             </li>
@@ -474,10 +543,12 @@
                         </ul>
                     </div>
                     <div class="glide__arrows disable_arrows d-none d-md-block" data-glide-el="controls">
-                        <button class="slider_arrow slider_arrow--prev glide__arrow glide__arrow--left" data-glide-dir="<">
+                        <button class="slider_arrow slider_arrow--prev glide__arrow glide__arrow--left"
+                            data-glide-dir="<">
                             <i class="fas fa-arrow-circle-left"></i>
                         </button>
-                        <button class="slider_arrow slider_arrow--next glide__arrow glide__arrow--right" data-glide-dir=">">
+                        <button class="slider_arrow slider_arrow--next glide__arrow glide__arrow--right"
+                            data-glide-dir=">">
                             <i class="fas fa-arrow-circle-right"></i>
                         </button>
                     </div>
@@ -530,7 +601,7 @@
                                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLongTitle">Select Winners
+                                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Select Winners
                                                     </h5>
                                                     <button type="button" class="close" data-dismiss="modal"
                                                         aria-label="Close">
@@ -648,9 +719,9 @@
                 <div class="galleryFilter">
                     <a href="#" data-filter="" class="current">All</a>
                     {% for category in categories %}
-                        {% if category.activity_set.count %}
-                        <a href="#" data-filter=".{{ category.name }}">{{ category.name }}</a>
-                        {% endif %}
+                    {% if category.activity_set.count %}
+                    <a href="#" data-filter=".{{ category.name }}">{{ category.name }}</a>
+                    {% endif %}
                     {% endfor %}
                 </div>
 
@@ -674,8 +745,9 @@
 
             {% if user.is_authenticated %}
             <div class="row justify-content-center mt-2">
-                <div class="col-sm-5 add-images text-center">
-                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#addToGallery">
+                <div class="col col-sm-5 add-images text-center">
+                    <button type="button" class="btn btn-outline-primary" data-toggle="modal"
+                        data-target="#addToGallery">
                         Upload Images
                     </button>
                     {% endif %}
@@ -684,16 +756,24 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Upload Images</h5>
+                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Upload Images</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form method="POST" enctype="multipart/form-data" action="{% url 'ankurayan:AddToGallery' %}">{% csrf_token %}
+                                    <form method="POST" enctype="multipart/form-data"
+                                        action="{% url 'ankurayan:AddToGallery' %}">{% csrf_token %}
                                         <input type="text" hidden name="slug" value={{ankurayan.slug}}>
-                                        
-                                        <input type="file" class="form-control" multiple name="gallery_images"><br>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" multiple
+                                                    name="gallery_images" id="inputGroupFile04"
+                                                    aria-describedby="inputGroupFileAddon04">
+                                                <label class="custom-file-label" for="inputGroupFile04">Add
+                                                    Images</label>
+                                            </div>
+                                        </div><br>
                                         <button class="btn btn-primary">Submit</button>
                                     </form>
                                 </div>
@@ -702,22 +782,25 @@
                     </div>
                 </div>
                 {% if check_admin %}
-                <div class="col-sm-5 approve-images text-center">
-                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#approveGallery">
-                        Approve Images
+                <div class="col col-sm-5 approve-images text-center">
+                    <button type="button" class="btn btn-outline-primary" data-toggle="modal"
+                        data-target="#approveGallery">
+                        Approve Image
                     </button>
                     <div class="modal fade" id="approveGallery">
                         <div class="modal-dialog modal-dialog-centered modal-lg">
                             <div class="modal-content shadow">
                                 <div class="modal-header">
-                                    <h5 class="modal-title content-title">Approve Photos</h5>
-                                    <button type="button" class="close" style="padding: .5rem 1rem;" data-dismiss="modal" aria-label="Close">
+                                    <h5 class="modal-title bld content-title">Approve Photos</h5>
+                                    <button type="button" class="close" style="padding: .5rem 1rem;"
+                                        data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true" style="font-size: 2.375rem;">&times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-body">
                                     <div class="row">
-                                        <div id="approve-images-carousel" class="approve-images-carousel carousel slide m-auto" data-ride="carousel">
+                                        <div id="approve-images-carousel"
+                                            class="approve-images-carousel carousel slide m-auto" data-ride="carousel">
                                             <!-- <ul class="carousel-indicators">
                                                 <li data-target="#approve-images-carousel" data-slide-to="0" class="active"></li>
                                                 <li data-target="#approve-images-carousel" data-slide-to="1" class=""></li>
@@ -727,47 +810,55 @@
                                                 {% for photo in unapproved_photos %}
                                                 {% if forloop.counter == 1 %}
                                                 <div class="carousel-item active unapp-photo{{ photo.id }}">
-                                                {% else %}
-                                                <div class="carousel-item unapp-photo{{ photo.id }}">
-                                                {% endif %}
-                                                    <img src="{{ photo.picture.url }}" alt="carousel image" class="w-100" style="height: 400px; width: 400px;">
-                                                    <br><br>
-                                                    <div class="row justify-content-center">
-                                                        <div class="col-sm-5 text-center">
-                                                            <button type="button" onclick="imageApproval('approve','{{photo.pk}}');"
-                                                                class="btn btn-success">Approve</button>
-                                                        </div>
-                                                        <div class="col col-md-2"></div>
-                                                        <div class="col-sm-5 text-center">
-                                                            <button type="button" onclick="imageApproval('discard','{{photo.pk}}');"
-                                                                class="btn btn-danger">Discard</button>
+                                                    {% else %}
+                                                    <div class="carousel-item unapp-photo{{ photo.id }}">
+                                                        {% endif %}
+                                                        <img src="{{ photo.picture.url }}" alt="carousel image"
+                                                            class="w-100" style="height: 400px; width: 400px;">
+                                                        <br><br>
+                                                        <div class="row justify-content-center">
+                                                            <div class="col col-sm-5 text-center">
+                                                                <button type="button"
+                                                                    onclick="imageApproval('approve','{{photo.pk}}');"
+                                                                    class="btn btn-success">Approve</button>
+                                                            </div>
+                                                            <!-- <div class="col col-md-2"></div> -->
+                                                            <div class="col col-sm-5 text-center">
+                                                                <button type="button"
+                                                                    onclick="imageApproval('discard','{{photo.pk}}');"
+                                                                    class="btn btn-danger">Discard</button>
+                                                            </div>
                                                         </div>
                                                     </div>
+                                                    {% endfor %}
                                                 </div>
-                                                {% endfor %}
+                                                <a class="carousel-control-prev" href="#approve-images-carousel"
+                                                    data-slide="prev">
+                                                    <span class="carousel-control-prev-icon"
+                                                        style="background-color: black; width:40px; height: 40px;"></span>
+                                                </a>
+                                                <a class="carousel-control-next" href="#approve-images-carousel"
+                                                    data-slide="next">
+                                                    <span class="carousel-control-next-icon"
+                                                        style="background-color: black; width:40px; height: 40px;"></span>
+                                                </a>
                                             </div>
-                                            <a class="carousel-control-prev" href="#approve-images-carousel" data-slide="prev">
-                                                <span class="carousel-control-prev-icon" style="background-color: black; width:40px; height: 40px;"></span>
-                                            </a>
-                                            <a class="carousel-control-next" href="#approve-images-carousel" data-slide="next">
-                                                <span class="carousel-control-next-icon" style="background-color: black; width:40px; height: 40px;"></span>
-                                            </a>
+                                            <p class="text-center"
+                                                style="font-size: 12px; padding:10px;">
+                                                Note: You need to Refresh Page for changes to take effect in Gallery.
+                                            </p>
                                         </div>
-                                        <p class="text-center" style="font-size: 15px; font-weight: bolder; padding:10px;" >
-                                            Note: You need to Refresh Page for changes to take effect in Gallery.
-                                        </p>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                {% endif %}
+                    {% endif %}
 
-                <!-- <div class="gallery-item element-from-bottom clearfix">
+                    <!-- <div class="gallery-item element-from-bottom clearfix">
 
                     {% for photo in photos %}
                     <figure class="item cat-3 cat-4">
@@ -783,9 +874,9 @@
                     {% endfor %}        
 
                 </div> -->
+                </div>
             </div>
         </div>
-    </div>
 </section>
 
 <!-- Include PhotoSwipe -->
@@ -807,54 +898,54 @@
     // build the json album images collection 
     window.djangoAlbumImages = [
         {% for photo in photos %}
-            {
-                src: '{{ photo.picture.url }}',
-                w:  {{ photo.picture.width }},
-                h:  {{ photo.picture.height }}
-            },
-        {% endfor %}
+    {
+        src: '{{ photo.picture.url }}',
+            w: { { photo.picture.width } },
+        h: { { photo.picture.height } }
+    },
+    {% endfor %}
     ];
 
     // Change album on filtering images
-    $('#gallery-container .galleryFilter a').on("click", function(){
+    $('#gallery-container .galleryFilter a').on("click", function () {
         let filter = $(this).data('filter');
-        
-        if (filter == ""){
+
+        if (filter == "") {
             window.djangoAlbumImages = [
                 {% for photo in photos %}
-                    {
-                        src: '{{ photo.picture.url }}',
-                        w:  {{ photo.picture.width }},
-                        h:  {{ photo.picture.height }}
-                    },
-                {% endfor %}
+        {
+            src: '{{ photo.picture.url }}',
+                w: { { photo.picture.width } },
+            h: { { photo.picture.height } }
+        },
+        {% endfor %}
             ];
 
-            $('#gallery-container .gallery-item a').each(function(index, img){
-                if ($(img).closest('#load-more') == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
-            });
-        }
-        else{
+        $('#gallery-container .gallery-item a').each(function (index, img) {
+            if ($(img).closest('#load-more') == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
+        });
+    }
+        else {
             category = filter.slice(1);
 
             window.djangoAlbumImages = [];
 
             {% for photo in photos %}
-            if("{{ photo.activity.category.name }}" == category){
-                window.djangoAlbumImages.push(
-                    {
-                        src: '{{ photo.picture.url }}',
-                        w:  {{ photo.picture.width }},
-                        h:  {{ photo.picture.height }}
+    if ("{{ photo.activity.category.name }}" == category) {
+        window.djangoAlbumImages.push(
+            {
+                src: '{{ photo.picture.url }}',
+                w: {{ photo.picture.width }},
+    h: { { photo.picture.height } }
                     }
                 );
             }
-            {% endfor %}
+    {% endfor %}
 
-            let selector = '#gallery-container ' + filter + ' a';
-            $(selector).each(function(index, img){
-                if ($(img).closest('#load-more') == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
-            });
+    let selector = '#gallery-container ' + filter + ' a';
+    $(selector).each(function (index, img) {
+        if ($(img).closest('#load-more') == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
+    });
         }
 
     });
@@ -883,11 +974,11 @@
         var runner_up1 = document.getElementById(`runnerUp1${counter}`).value;
         var runner_up2 = document.getElementById(`runnerUp2${counter}`).value;
 
-        if(winner == runner_up1 || winner == runner_up2 || runner_up1 == runner_up2) {
+        if (winner == runner_up1 || winner == runner_up2 || runner_up1 == runner_up2) {
             document.getElementsByClassName('errorMessageWinners')[0].style.display = "grid";
             return;
         }
-        $('#chooseWinnersForm'+counter).submit();
+        $('#chooseWinnersForm' + counter).submit();
     }
 
     function imageApproval(status, image) {
@@ -910,7 +1001,7 @@
             success: function (data1) {
                 var data = JSON.parse(data1);
                 $('#galleryBox').empty();
-                for(let photo=0;photo<data.length;photo++){
+                for (let photo = 0; photo < data.length; photo++) {
                     var k = data[photo].fields.approved;
                     var ele = `<figure class="item cat-3 cat-4" style="width: 267px; height: 183.9px;">
                         <img src='/media/${data[photo].fields.picture}' alt="Item 3" data-rel="photoSwipe">
@@ -918,7 +1009,7 @@
                             <i class="fab fa-instagram"></i>
                         </a>
                     </figure>`
-                    if(!k) {
+                    if (!k) {
                         ele += `
                         <button type="button" onclick="imageApproval('approve','${data[photo].pk}');">Approve</button>
                         <button type="button" onclick="imageApproval('discard','${data[photo].pk}');">Discard</button>
@@ -936,27 +1027,27 @@
     // ACTIVITIES CAROUSEL
     {% for category in categories %}
     {% if category.activity_set.count %}
-        var glide = new Glide('.category{{forloop.counter0}}',{
-            type: 'carousel',
-            focusAt: 'center',
-            perView: 3,
-            autoplay: 2000,
-            gap: 30,
-            breakpoints: {
-                991: {
-                    perView: 2,
-                },
-                767:{
-                    perView: 1,
-                }
+    var glide = new Glide('.category{{forloop.counter0}}', {
+        type: 'carousel',
+        focusAt: 'center',
+        perView: 3,
+        autoplay: 2000,
+        gap: 30,
+        breakpoints: {
+            991: {
+                perView: 2,
+            },
+            767: {
+                perView: 1,
             }
-        })
-        glide.mount()
+        }
+    })
+    glide.mount()
     {% endif %}
     {% endfor %}
 
     // ANKURAYANS CAROUSEL
-    var ankur_glide = new Glide('.ankurayans',{
+    var ankur_glide = new Glide('.ankurayans', {
         type: 'slide',
         focusAt: 'center',
         perView: 3,
@@ -966,12 +1057,28 @@
             991: {
                 perView: 2,
             },
-            767:{
+            767: {
                 perView: 1,
             }
         }
     })
     ankur_glide.mount()
 </script>
+<!-- Upload Detail in forms -->
+<script type="text/javascript">
 
+    $('.custom-file input').change(function (e) {
+        var files = [];
+        for (var i = 0; i < $(this)[0].files.length; i++) {
+            files.push($(this)[0].files[i].name);
+        }
+        if (files.length > 1) {
+            $(this).next('.custom-file-label').html(files.length + ' files selected');
+        }
+        else {
+            $(this).next('.custom-file-label').html('1 file selected');
+        }
+    });
+
+</script>
 {% endblock %}
