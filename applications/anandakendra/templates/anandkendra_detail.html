@@ -452,6 +452,7 @@
     <div class="bg-grey" style="padding: 50px 0;">
         <h3 class="section-title">Events</h3>
         <div class="container">
+            {% if events.count %}
             <div class="row">
                 <div class="glide events">
                     <div class="glide__track" data-glide-el="track">
@@ -490,6 +491,9 @@
                     </div>
                 </div>
             </div>
+            {% else %}
+            <p class="text-center lead pt-2 mb-n1"><em>Nothing to show here!</em></p>
+            {% endif %}
         </div>
     </div>
 </section>
@@ -590,6 +594,7 @@
                 </p>
             </div>
 
+            {% if photos.count %}
             <div id="gallery-container" class="gallery-container">
                 <div class="galleryFilter">
                     <a href="#" data-filter="" class="current">All</a>
@@ -669,6 +674,9 @@
                     {% endfor %}
                 </div> -->
             </div>
+            {% else %}
+            <p class="text-center lead mt-n2 mb-n1"><em>Nothing to show here!</em></p>
+            {% endif %}
         </div>
     </div>
 </section>
