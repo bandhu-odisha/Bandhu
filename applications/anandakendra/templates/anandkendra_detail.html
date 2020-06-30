@@ -622,6 +622,9 @@
                     </figure>
                 </div>
             </div>
+            {% else %}
+            <p class="text-center lead mt-n2 mb-n1"><em>Nothing to show here!</em></p>
+            {% endif %}
 
             <div id="gallery-container" class="gallery-container">
                 <div class="add-activity">
@@ -674,9 +677,6 @@
                     {% endfor %}
                 </div> -->
             </div>
-            {% else %}
-            <p class="text-center lead mt-n2 mb-n1"><em>Nothing to show here!</em></p>
-            {% endif %}
         </div>
     </div>
 </section>
