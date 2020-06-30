@@ -806,12 +806,12 @@
     // build the json album images collection 
     window.djangoAlbumImages = [
         {% for photo in photos %}
-    {
-        src: '{{ photo.picture.url }}',
-            w: { { photo.picture.width } },
-        h: { { photo.picture.height } }
-    },
-    {% endfor %}
+            {
+                src: '{{ photo.picture.url }}',
+                w:  {{ photo.picture.width }},
+                h:  {{ photo.picture.height }}
+            },
+        {% endfor %}
     ];
 
     // Change album on filtering images
@@ -821,39 +821,39 @@
         if (filter == "") {
             window.djangoAlbumImages = [
                 {% for photo in photos %}
-        {
-            src: '{{ photo.picture.url }}',
-                w: { { photo.picture.width } },
-            h: { { photo.picture.height } }
-        },
-        {% endfor %}
+                    {
+                        src: '{{ photo.picture.url }}',
+                        w: {{ photo.picture.width }},
+                        h: {{ photo.picture.height }}
+                    },
+                {% endfor %}
             ];
 
-        $('#gallery-container .gallery-item a').each(function (index, img) {
-            if ($(img).closest('#load-more') == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
-        });
-    }
+            $('#gallery-container .gallery-item a').each(function (index, img) {
+                if ($(img).closest('#load-more') == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
+            });
+        }
         else {
             category = filter.slice(1);
 
             window.djangoAlbumImages = [];
 
             {% for photo in photos %}
-    if ("{{ photo.activity.category.name }}" == category) {
-        window.djangoAlbumImages.push(
-            {
-                src: '{{ photo.picture.url }}',
-                w: {{ photo.picture.width }},
-    h: { { photo.picture.height } }
+            if ("{{ photo.activity.category.name }}" == category) {
+                window.djangoAlbumImages.push(
+                    {
+                        src: '{{ photo.picture.url }}',
+                        w: {{ photo.picture.width }},
+                        h: {{ photo.picture.height }}
                     }
                 );
             }
-    {% endfor %}
+            {% endfor %}
 
-    let selector = '#gallery-container ' + filter + ' a';
-    $(selector).each(function (index, img) {
-        if ($(img).closest('#load-more') == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
-    });
+            let selector = '#gallery-container ' + filter + ' a';
+            $(selector).each(function (index, img) {
+                if ($(img).closest('#load-more') == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
+            });
         }
 
     });
