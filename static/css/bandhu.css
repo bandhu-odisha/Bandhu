@@ -527,7 +527,8 @@
 }
 
 .modal-backdrop{
-    display:none !important;
+    /* display:none !important; */
+    z-index: 1035 !important;
 }
 
 .recent-activities{

@@ -84,37 +84,7 @@
                         data-target="#selectacharyamodal">
                         Select Acharyas
                     </button>
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="selectacharyamodal" role="dialog"
-                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Select Acharyas</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST" action="{% url 'anandakendra:AddAcharya' %}">{% csrf_token %}
-                                        <input type="text" hidden name="slug" value={{kendra.slug}}>
-                                        <div class="ui fluid multiple search selection dropdown">
-                                            <input type="hidden" name="acharyas">
-                                            <i class="dropdown icon"></i>
-                                            <div class="default text">Select Acharya</div>
-                                            <div class="menu">
-                                                {% for user in users %}
-                                                <div class="item" data-value={{user.user.email}}>{{user.first_name}}
-                                                    {{user.last_name}}</div>
-                                                {% endfor %}
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <button class="btn btn-primary">Submit</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
 
                 <!-- Add Students to this kendra -->
@@ -123,77 +93,7 @@
                         data-target="#addStudentsModal">
                         Add Students
                     </button>
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addStudentsModal" role="dialog"
-                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Add Students</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST" action="{% url 'anandakendra:EnrollStudent' %}">{% csrf_token %}
-                                        <input type="text" hidden name="slug" value={{kendra.slug}}>
-                                        <div class="row justify-content">
-                                            <div class="col col-md-6">
-                                                <label class="left-label bld" for="name">Name</label>
-                                                <input type="text" class="form-control" name="name"
-                                                    placeholder="Student name" required="required"><br>
-                                            </div>
-                                            <div class="col col-md-6">
-                                                <label class="left-label bld" for="guardian_name">Guardian Name</label>
-                                                <input type="text" class="form-control" name="guardian_name"
-                                                    placeholder="Guardian name" required="required"><br>
-                                            </div>
-                                        </div>
-                                        <div class="row justify-content-center">
-                                            <div class="col col-md-6">
-                                                <label class="left-label bld" for="gender">Gender</label>
-                                                <select class="form-control" name="gender">
-                                                    <option value="M">Male</option>
-                                                    <option value="F">Female</option>
-                                                    <option value="O">Other</option>
-                                                </select><br>
-                                            </div>
-                                            <div class="col col-md-6">
-                                                <label class="left-label bld" for="school_class">School Class</label>
-                                                <select class="form-control" name="school_class">
-                                                    <option value="I">Class I</option>
-                                                    <option value="II">Class II</option>
-                                                    <option value="III">Class III</option>
-                                                    <option value="IV">Class IV</option>
-                                                    <option value="V">Class V</option>
-                                                    <option value="VI">Class VI</option>
-                                                    <option value="VII">Class VII</option>
-                                                    <option value="VIII">Class VIII</option>
-                                                    <option value="IX">Class IX</option>
-                                                    <option value="X">Class X</option>
-                                                    <option value="XI">Class XI</option>
-                                                    <option value="XII">Class XII</option>
-                                                </select><br>
-                                            </div>
-                                        </div>
-                                        <div class="row justify-content-center">
-                                            <div class="col col-md-6">
-                                                <label class="left-label bld" for="address">Address</label>
-                                                <input type="text" class="form-control" name="address"
-                                                    placeholder="Student Address" required="required"><br>
-                                            </div>
-                                            <div class="col col-md-6">
-                                                <label class="left-label bld" for="contact_no">Contact Number</label>
-                                                <input type="text" class="form-control" name="contact_no"
-                                                    placeholder="Guardian Contact number" required="required"><br>
-                                            </div>
-                                        </div>
-                                        <button class="btn btn-primary">Submit</button>
 
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Add Activity Category -->
@@ -202,29 +102,7 @@
                         data-target="#addActivityCategory">
                         Add Category
                     </button>
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addActivityCategory" role="dialog"
-                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Add Activity Category</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST"
-                                        action="{% url 'anandakendra:AnandakendraAddActivityCategory' %}">
-                                        {% csrf_token %}
-                                        <input type="text" hidden name="slug" value={{kendra.slug}}>
-                                        <input type="text" class="form-control" name="name"
-                                            placeholder="Activity name" required="required"><br>
-                                        <button class="btn btn-primary">Submit</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
 
                 <!-- Add Activity -->
@@ -232,63 +110,7 @@
                     <button type="button" class="btn btn-primary w-75" data-toggle="modal" data-target="#addActivity">
                         Add Activity
                     </button>
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addActivity" role="dialog"
-                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Add Activity</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST" enctype="multipart/form-data"
-                                        action="{% url 'anandakendra:AnandakendraCreateActivity' %}">{% csrf_token %}
-                                        <input type="text" hidden name="slug" value={{kendra.slug}}>
-                                        <div class="row">
-                                            <div class="col">
-                                                <label class="left-label bld" for="activity_name">Activity Name</label>
-                                                <input type="text" class="form-control" name="activity_name"
-                                                    placeholder="Activity name" required="required"><br>
-                                            </div>
-                                            <div class="col">
-                                                <label class="left-label bld" for="category">Category</label>
-                                                <select class="form-control" name="category">
-                                                    {% for category in categories %}
-                                                    <option value="{{category.pk}}">{{category.name}}</option>
-                                                    {% endfor %}
-                                                </select><br>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                <label class="left-label bld" for="activity_time">Activity Time</label>
-                                                <input type="text" name="activity_time" class="form-control"
-                                                    placeholder="Time of Activity" required="required"><br>
-                                            </div>
-                                            <div class="col">
-                                                <label class="left-label bld" for="activity_images">Activity Photos</label>
-                                                <!-- <input type="file" class="form-control" multiple name="activity_images"> -->
-                                                <div class="input-group">
-                                                    <div class="custom-file">
-                                                        <input type="file" multiple class="custom-file-input" name="activity_images" id="inputGroupFile04" 
-                                                            aria-describedby="inputGroupFileAddon04">
-                                                        <label class="left-label custom-file-label" for="inputGroupFile04">Add Photos</label>
-                                                    </div>
-                                                </div>
 
-                                            </div>
-                                        </div>
-                                        <label class="left-label bld" for="description">Description</label>
-                                        <textarea name="description" cols="80" class="form-control"
-                                            rows="4"></textarea><br>
-                                        <button class="btn btn-primary">Submit</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Add Event -->
@@ -296,49 +118,7 @@
                     <button type="button" class="btn btn-primary w-75" data-toggle="modal" data-target="#addEvent">
                         Add Event
                     </button>
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addEvent" role="dialog"
-                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Add Event</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST" enctype="multipart/form-data"
-                                        action="{% url 'anandakendra:CreateEventAnandakendra' %}">{% csrf_token %}
-                                        <input type="text" hidden name="slug" value={{kendra.slug}}>
-                                        <div class="row">
-                                            <div class="col">
-                                                <label class="left-label bld" for="">Event Name</label>
-                                        <input type="text" class="form-control" name="event_name"
-                                            placeholder="Event name"><br>
-                                            </div>
-                                            <div class="col">
-                                                <label class="left-label bld" for="">Event Image</label>
-                                                <div class="input-group">
-                                                    <div class="custom-file">
-                                                        <input type="file" class="custom-file-input" name="event_image" id="inputGroupFile04" 
-                                                            aria-describedby="inputGroupFileAddon04">
-                                                        <label class="custom-file-label" for="inputGroupFile04">Image</label>
-                                                    </div>
-                                                </div><br>
-                                            </div>
-                                        </div>
-                                        
-                                        <label class="left-label bld" for="">Event Date</label>
-                                        <input type="date" name="event_date" class="form-control"><br>
-                                        <label class="left-label bld" for="">Description</label>
-                                        <textarea name="description" cols="80" class="form-control"
-                                            rows="4" placeholder="Description"></textarea><br>
-                                        <button class="btn btn-primary">Submit</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
                 {% endif %}
             </div>
@@ -404,7 +184,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content shadow">
             <div class="modal-header">
-                <h5 class="modal-title content-title">{{ activity.name }}</h5>
+                <h3 style="text-transform: uppercase;" class="modal-title bld content-title">{{ activity.name }}</h3 style="text-transform: uppercase;">
                 <button type="button" class="close" style="padding: .5rem 1rem;" data-dismiss="modal"
                     aria-label="Close">
                     <span aria-hidden="true" style="font-size: 2.375rem;">&times;</span>
@@ -498,6 +278,54 @@
     </div>
 </section>
 
+<!-- EVENTS MODALS -->
+{% for event in events %}
+<div class="modal fade" id="event_modal{{ event.id }}">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content shadow">
+            <div class="modal-header">
+                <h3 style="text-transform: uppercase;" class="modal-title bld content-title">{{ event.name }}</h3 style="text-transform: uppercase;">
+                <button type="button" class="close" style="padding: .5rem 1rem;" data-dismiss="modal"
+                    aria-label="Close">
+                    <span aria-hidden="true" style="font-size: 2.375rem;">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 col-lg-6 align-self-center">
+                        <div id="mission-carousel" class="mission-carousel carousel slide m-auto" data-ride="carousel">
+                            <ul class="carousel-indicators">
+                                <li data-target="#mission-carousel" data-slide-to="0" class=""></li>
+                                <li data-target="#mission-carousel" data-slide-to="1" class=""></li>
+                                <li data-target="#mission-carousel" data-slide-to="2" class="active"></li>
+                            </ul>
+                            <div class="carousel-inner">
+                                <div class="carousel-item">
+                                    <img src="/static/img/pimg6.jpg" alt="carousel image">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="/static/img/pimg2.jpg" alt="carousel image">
+                                </div>
+                                <div class="carousel-item active">
+                                    <img src="/static/img/pimg3.jpg" alt="carousel image">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h3 class="font-weight-bolder">Description</h3>
+                        {{ event.description }}
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
 {% comment %}
 <!-- Activities Section -->
 <section id="recent-activities">
@@ -556,6 +384,7 @@
 {% endcomment %}
 
 <!-- Volunteer Section -->
+
 <section id="volunteer">
     <div class="parallax-style text-white text-center">
         <div class="parallax-overlay dark-overlay section-padding" style="padding: 80px 0 70px;">
@@ -569,7 +398,7 @@
                 <div class="row justify-content-center">
                     <p class="parallax-description w-100 px-3"
                         style="font-size:1.7em; line-height:35px; margin-bottom: 30px;">
-                        Do you like to work for children? Do you feel the slogan "Save the Children". Yes. Here, you are
+                        Do you like to work for a social cause?. Yes. Here, you are
                         welcome to our team and you can work as a volunteer.
                     </p>
                     <button type="button" class="btn btn-outline-light py-2 px-4 custom-btn angle-effect">
@@ -580,6 +409,7 @@
         </div>
     </div>
 </section>
+
 <!-- Volunteer Section End-->
 
 <section id="gallery">
@@ -680,6 +510,237 @@
         </div>
     </div>
 </section>
+
+<!-- MODALS  -->
+<div class="modal fade bd-example-modal-lg" tabindex="-1" id="selectacharyamodal" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title bld" id="exampleModalLongTitle">Select Acharyas</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{% url 'anandakendra:AddAcharya' %}">{% csrf_token %}
+                    <input type="text" hidden name="slug" value={{kendra.slug}}>
+                    <label class="left-label bld" for="">Acharya 1</label>
+                    <select class="form-control" name="acharyas" id="">
+                        <option value="">Select Acharya 1</option>
+                        {% for user in users %}
+                        <option value={{user.user.email}} data-value={{user.user.email}}>{{user.first_name}}</option>
+                        {{user.last_name}}</option>
+                        {% endfor %}
+                    </select>
+                    <br>
+                    <label class="left-label bld" for="">Acharya 2</label>
+                    <select class="form-control" name="acharyas" id="">
+                        <option value="">Select Acharya 1</option>
+                        {% for user in users %}
+                        <option value={{user.user.email}} data-value={{user.user.email}}>{{user.first_name}}</option>
+                        {{user.last_name}}</option>
+                        {% endfor %}
+                    </select>
+                    <br>
+                    <button class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade bd-example-modal-lg" tabindex="-1" id="addStudentsModal" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title bld" id="exampleModalLongTitle">Add Students</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{% url 'anandakendra:EnrollStudent' %}">{% csrf_token %}
+                    <input type="text" hidden name="slug" value={{kendra.slug}}>
+                    <div class="row justify-content">
+                        <div class="col col-md-6">
+                            <label class="left-label bld" for="name">Name</label>
+                            <input type="text" class="form-control" name="name" placeholder="Student name"
+                                required="required"><br>
+                        </div>
+                        <div class="col col-md-6">
+                            <label class="left-label bld" for="guardian_name">Guardian Name</label>
+                            <input type="text" class="form-control" name="guardian_name" placeholder="Guardian name"
+                                required="required"><br>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col col-md-6">
+                            <label class="left-label bld" for="gender">Gender</label>
+                            <select class="form-control" name="gender">
+                                <option value="M">Male</option>
+                                <option value="F">Female</option>
+                                <option value="O">Other</option>
+                            </select><br>
+                        </div>
+                        <div class="col col-md-6">
+                            <label class="left-label bld" for="school_class">School Class</label>
+                            <select class="form-control" name="school_class">
+                                <option value="I">Class I</option>
+                                <option value="II">Class II</option>
+                                <option value="III">Class III</option>
+                                <option value="IV">Class IV</option>
+                                <option value="V">Class V</option>
+                                <option value="VI">Class VI</option>
+                                <option value="VII">Class VII</option>
+                                <option value="VIII">Class VIII</option>
+                                <option value="IX">Class IX</option>
+                                <option value="X">Class X</option>
+                                <option value="XI">Class XI</option>
+                                <option value="XII">Class XII</option>
+                            </select><br>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col col-md-6">
+                            <label class="left-label bld" for="address">Address</label>
+                            <input type="text" class="form-control" name="address" placeholder="Student Address"
+                                required="required"><br>
+                        </div>
+                        <div class="col col-md-6">
+                            <label class="left-label bld" for="contact_no">Contact Number</label>
+                            <input type="text" class="form-control" name="contact_no"
+                                placeholder="Guardian Contact number" required="required"><br>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary">Submit</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade bd-example-modal-lg" tabindex="-1" id="addActivityCategory" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title bld" id="exampleModalLongTitle">Add Activity Category</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{% url 'anandakendra:AnandakendraAddActivityCategory' %}">
+                    {% csrf_token %}
+                    <input type="text" hidden name="slug" value={{kendra.slug}}>
+                    <input type="text" class="form-control" name="name" placeholder="Activity name"
+                        required="required"><br>
+                    <button class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade bd-example-modal-lg" tabindex="-1" id="addActivity" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title bld" id="exampleModalLongTitle">Add Activity</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" enctype="multipart/form-data"
+                    action="{% url 'anandakendra:AnandakendraCreateActivity' %}">{% csrf_token %}
+                    <input type="text" hidden name="slug" value={{kendra.slug}}>
+                    <div class="row">
+                        <div class="col">
+                            <label class="left-label bld" for="activity_name">Activity Name</label>
+                            <input type="text" class="form-control" name="activity_name" placeholder="Activity name"
+                                required="required"><br>
+                        </div>
+                        <div class="col">
+                            <label class="left-label bld" for="category">Category</label>
+                            <select class="form-control" name="category">
+                                {% for category in categories %}
+                                <option value="{{category.pk}}">{{category.name}}</option>
+                                {% endfor %}
+                            </select><br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label class="left-label bld" for="activity_time">Activity Time</label>
+                            <input type="text" name="activity_time" class="form-control" placeholder="Time of Activity"
+                                required="required"><br>
+                        </div>
+                        <div class="col">
+                            <label class="left-label bld" for="activity_images">Activity Photos</label>
+                            <!-- <input type="file" class="form-control" multiple name="activity_images"> -->
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" multiple class="custom-file-input" name="activity_images"
+                                        id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
+                                    <label class="left-label custom-file-label" for="inputGroupFile04">Add
+                                        Photos</label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <label class="left-label bld" for="description">Description</label>
+                    <textarea name="description" cols="80" class="form-control" rows="4"></textarea><br>
+                    <button class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade bd-example-modal-lg" tabindex="-1" id="addEvent" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title bld" id="exampleModalLongTitle">Add Event</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" enctype="multipart/form-data"
+                    action="{% url 'anandakendra:CreateEventAnandakendra' %}">{% csrf_token %}
+                    <input type="text" hidden name="slug" value={{kendra.slug}}>
+                    <div class="row">
+                        <div class="col">
+                            <label class="left-label bld" for="">Event Name</label>
+                            <input type="text" class="form-control" name="event_name" placeholder="Event name"><br>
+                        </div>
+                        <div class="col">
+                            <label class="left-label bld" for="">Event Image</label>
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" name="event_image"
+                                        id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
+                                    <label class="custom-file-label" for="inputGroupFile04">Image</label>
+                                </div>
+                            </div><br>
+                        </div>
+                    </div>
+
+                    <label class="left-label bld" for="">Event Date</label>
+                    <input type="date" name="event_date" class="form-control"><br>
+                    <label class="left-label bld" for="">Description</label>
+                    <textarea name="description" cols="80" class="form-control" rows="4"
+                        placeholder="Description"></textarea><br>
+                    <button class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Include PhotoSwipe -->
 {% include 'snippets/init_pswp.html' %}
@@ -866,7 +927,7 @@
         for (var i = 0; i < $(this)[0].files.length; i++) {
             files.push($(this)[0].files[i].name);
         }
-        if(files.length > 1) {
+        if (files.length > 1) {
             $(this).next('.custom-file-label').html(files.length + ' files selected');
         }
         else {
