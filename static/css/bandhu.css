@@ -494,9 +494,21 @@
     color: white;
     z-index: 3;
 }
+#gallery figure .stretched-link p{
+    /* display: none; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 35px;
+    font-weight: 700;
+    color: white;
+    z-index: 3;
+}
 #gallery figure:hover .stretched-link i{
     display: block;
 }
+
 
 
 

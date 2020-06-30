@@ -16,6 +16,7 @@ djangorestframework-jwt==1.11.0
 easy-thumbnails==2.6
 idna==2.8
 mysql-connector-python==8.0.20
+mysqlclient==1.4.6
 numpy==1.17.4
 oauthlib==3.1.0
 Pillow==6.2.1

@@ -229,50 +229,53 @@
 
 <!-- EVENTS SECTION -->
 <section id="events">
-	<div class="bg-grey" style="padding: 50px 0;">
-		<h3 class="section-title">Events</h3>
-		<div class="container">
-			<div class="row">
-				<div class="glide events">
-					<div class="glide__track" data-glide-el="track">
-						<ul class="glide__slides">
-							{% for event in events %}
-							<li class="glide__slide">
-								<div class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
-									<img src="{{ event.image.url }}" class="card-img-top home-card-img" alt=""
-										width="300px">
-									<div class="card-body pb-0">
-										<h5 class="card-title font-weight-bold">{{ event.name }}</h5>
-										<p class="mb-3">
-											{{ event.date }}<br>
-										</p>
-										<a class="stretched-link" href="#" data-toggle="modal"
-										data-target="#event_modal{{ event.id }}"></a>
-									</div>
-								</div>
-							</li>
-							{% endfor %}
-						</ul>
-					</div>
-					<div class="glide__arrows disable_arrows d-none d-md-block" data-glide-el="controls">
-						<button class="slider_arrow slider_arrow--prev glide__arrow glide__arrow--left"
-							data-glide-dir="<">
-							<i class="fas fa-arrow-circle-left"></i>
-						</button>
-						<button class="slider_arrow slider_arrow--next glide__arrow glide__arrow--right"
-							data-glide-dir=">">
-							<i class="fas fa-arrow-circle-right"></i>
-						</button>
-					</div>
-					<div class="glide__bullets" data-glide-el="controls[nav]">
-						{% for event in events %}
-						<button class="glide__bullet" data-glide-dir="={{ forloop.counter0 }}"></button>
-						{% endfor %}
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="bg-grey" style="padding: 50px 0;">
+        <h3 class="section-title">Events</h3>
+        <div class="container">
+            {% if events.count %}
+            <div class="row">
+                <div class="glide events">
+                    <div class="glide__track" data-glide-el="track">
+                        <ul class="glide__slides">
+                            {% for event in events %}
+                            <li class="glide__slide">
+                                <div class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
+                                    <img src="{{ event.image.url }}" class="card-img-top home-card-img" alt=""
+                                        width="300px">
+                                    <div class="card-body pb-0">
+                                        <h5 class="card-title font-weight-bold">{{ event.name }}</h5>
+                                        <p class="mb-3">
+                                            {{ event.date }}<br>
+                                        </p>
+                                        <a href="#" class="stretched-link"></a>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="glide__arrows disable_arrows d-none d-md-block" data-glide-el="controls">
+                        <button class="slider_arrow slider_arrow--prev glide__arrow glide__arrow--left"
+                            data-glide-dir="<">
+                            <i class="fas fa-arrow-circle-left"></i>
+                        </button>
+                        <button class="slider_arrow slider_arrow--next glide__arrow glide__arrow--right"
+                            data-glide-dir=">">
+                            <i class="fas fa-arrow-circle-right"></i>
+                        </button>
+                    </div>
+                    <div class="glide__bullets" data-glide-el="controls[nav]">
+                        {% for event in events %}
+                        <button class="glide__bullet" data-glide-dir="={{ forloop.counter0 }}"></button>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <p class="text-center lead pt-2 mb-n1"><em>Nothing to show here!</em></p>
+            {% endif %}
+        </div>
+    </div>
 </section>
 
 <!-- EVENTS MODALS -->
@@ -381,127 +384,131 @@
 {% endcomment %}
 
 <!-- Volunteer Section -->
+{% if not user.is_authenticated %}
 <section id="volunteer">
-	<div class="parallax-style text-white text-center">
-		<div class="parallax-overlay dark-overlay section-padding" style="padding: 80px 0 70px;">
-			<div class="container">
-				<div class="section-head" style="margin-bottom:60px;">
-					<h3 class="section-title parallax-title">
-						Become a Volunteer
-					</h3>
-				</div>
+    <div class="parallax-style text-white text-center">
+        <div class="parallax-overlay dark-overlay section-padding" style="padding: 80px 0 70px;">
+            <div class="container">
+                <div class="section-head" style="margin-bottom:60px;">
+                    <h3 class="section-title parallax-title">
+                        Become a Volunteer
+                    </h3>
+                </div>
 
-				<div class="row justify-content-center">
-					<p class="parallax-description w-100 px-3"
-						style="font-size:1.7em; line-height:35px; margin-bottom: 30px;">
-						Do you like to work for children? Do you feel the slogan "Save the Children". Yes. Here, you are
-						welcome to our team and you can work as a volunteer.
-					</p>
-					<button type="button" class="btn btn-outline-light py-2 px-4 custom-btn angle-effect">Join
-						Now</button>
-				</div>
-			</div>
-		</div>
-	</div>
+                <div class="row justify-content-center">
+                    <p class="parallax-description w-100 px-3"
+                        style="font-size:1.7em; line-height:35px; margin-bottom: 30px;">
+                        Do you like to work for children? Do you feel the slogan "Save the Children". Yes. Here, you are
+                        welcome to our team and you can work as a volunteer.
+                    </p>
+                    <button type="button" class="btn btn-outline-light py-2 px-4 custom-btn angle-effect">
+                        <a href="{% url 'signup' %}" class="d-block text-decoration-none text-white">Join Now</a>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
+{% endif %}
 <!-- Volunteer Section End-->
 
 <section id="gallery">
-	<div class="bg-grey" style="padding: 80px 0 60px;">
-		<div class="container">
-			<div class="section-head">
-				<h2 class="section-title">
-					Gallery
-				</h2>
-				<p class="section-description">
-					TAKE A LOOK AT OUR GALLERY TO SEE HOW WE ENDANGER THE CHILD. YOU MAY ALSO SEE OUR WORLDWIDE ACTIVITY
-					AROUND THE GLOBE HOW WE WORKING FOR CHILDREN.
-				</p>
-			</div>
+    <div class="bg-grey" style="padding: 80px 0 60px;">
+        <div class="container">
+            <div class="section-head">
+                <h2 class="section-title">
+                    Gallery
+                </h2>
+                <p class="section-description">
+                    TAKE A LOOK AT OUR GALLERY TO SEE HOW WE ENDANGER THE CHILD. YOU MAY ALSO SEE OUR WORLDWIDE ACTIVITY
+                    AROUND THE GLOBE HOW WE WORKING FOR CHILDREN.
+                </p>
+            </div>
 
-			<div id="gallery-container" class="gallery-container">
-				<div class="galleryFilter">
-					<a href="#" data-filter="" class="current">All</a>
-					{% for category in categories %}
-					{% if category.activity_set.count %}
-					<a href="#" data-filter=".{{ category.name }}">{{ category.name }}</a>
-					{% endif %}
-					{% endfor %}
-				</div>
+            {% if photos.count %}
+            <div id="gallery-container" class="gallery-container">
+                <div class="galleryFilter">
+                    <a href="#" data-filter="" class="current">All</a>
+                    {% for category in categories %}
+                    {% if category.activity_set.count %}
+                    <a href="#" data-filter=".{{ category.name }}">{{ category.name }}</a>
+                    {% endif %}
+                    {% endfor %}
+                </div>
 
-				<div class="gallery-item element-from-bottom clearfix">
-					{% for photo in photos %}
-					<figure class="item {{ photo.activity.category.name }} photo-{{ photo.id }}">
-						<img src='{{ photo.picture.url }}' data-rel="photoSwipe">
-						<a href="javascript:pswpInit({{ forloop.counter0 }})" class="stretched-link">
-							<i class="fab fa-instagram"></i>
-						</a>
-					</figure>
-					{% endfor %}
-					<figure id="load-more" class="item {% for activity in activities %} {{ activity.id }} {% endfor %}">
-						<img src='{{ photo.picture.url }}'>
-						<a href="javascript:void(0);" class="stretched-link">
-							Show More
-						</a>
-					</figure>
-				</div>
-			</div>
+                <div class="gallery-item element-from-bottom clearfix">
+                    {% for photo in photos %}
+                    <figure class="item {{ photo.activity.category.name }} photo-{{ photo.id }}">
+                        <img src='{{ photo.picture.url }}' data-rel="photoSwipe">
+                        <a href="javascript:pswpInit({{ forloop.counter0 }})" class="stretched-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </figure>
+                    {% endfor %}
+                    <figure id="load-more" class="item {% for category in categories %} {{ category.name }} {% endfor %}">
+                        <a href="javascript:void(0);" class="stretched-link">
+                            <p class="text-center">Show More</p>
+                        </a>
+                    </figure>
+                </div>
+            </div>
+            {% else %}
+            <p class="text-center lead mt-n2 mb-n1"><em>Nothing to show here!</em></p>
+            {% endif %}
 
-			<div id="gallery-container" class="gallery-container">
-				<div class="add-activity">
-					{% if user.is_authenticated %}
-					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addToGallery">
-						Upload Images
-					</button>
-					<div class="modal fade bd-example-modal-lg" tabindex="-1" id="addToGallery" role="dialog"
-						aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-						<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title bld" id="exampleModalLongTitle">Upload Images</h5>
-									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-									</button>
-								</div>
-								<div class="modal-body">
-									<form method="POST" enctype="multipart/form-data"
-										action="{% url 'anandakendra:AnandakendraAddToGallery' %}">{% csrf_token %}
-										<input type="text" hidden name="slug" value={{kendra.slug}}>
-										<div class="input-group">
-											<div class="custom-file">
-												<input type="file" multiple class="custom-file-input"
-													name="gallery_images" id="inputGroupFile04"
-													aria-describedby="inputGroupFileAddon04">
-												<label class="custom-file-label" for="inputGroupFile04">Add
-													Images</label>
-											</div>
-										</div><br>
-										<button class="btn btn-primary">Upload</button>
-									</form>
-								</div>
-							</div>
-						</div>
-					</div>
-					{% endif %}
-				</div>
+            <div id="gallery-container" class="gallery-container">
+                <div class="add-activity">
+                    {% if user.is_authenticated %}
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addToGallery">
+                        Upload Images
+                    </button>
+                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addToGallery" role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Upload Images</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="POST" enctype="multipart/form-data"
+                                        action="{% url 'anandakendra:AnandakendraAddToGallery' %}">{% csrf_token %}
+                                        <input type="text" hidden name="slug" value={{kendra.slug}}>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" multiple class="custom-file-input" name="gallery_images" id="inputGroupFile04" 
+                                                    aria-describedby="inputGroupFileAddon04">
+                                                <label class="custom-file-label" for="inputGroupFile04">Add Images</label>
+                                            </div>
+                                        </div><br>
+                                        <button class="btn btn-primary">Upload</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
 
-				<!-- <div class="gallery-item element-from-bottom clearfix" id="galleryBox">
-					{% for photo in photos %}
-					<figure class="item cat-3 cat-4">
-						<img src='/media/{{photo.picture}}' alt="Item 3" data-rel="photoSwipe">
-						<a href="" class="stretched-link">
-							<i class="fab fa-instagram"></i>
-						</a>
-					</figure>
-					{% if not photo.approved %}
-					<button type="button" onclick="imageApproval('approve','{{photo.pk}}');">Approve</button>
-					<button type="button" onclick="imageApproval('discard','{{photo.pk}}');">Discard</button>
-					{% endif %}
-					{% endfor %}
-				</div> -->
-			</div>
-		</div>
-	</div>
+                <!-- <div class="gallery-item element-from-bottom clearfix" id="galleryBox">
+                    {% for photo in photos %}
+                    <figure class="item cat-3 cat-4">
+                        <img src='/media/{{photo.picture}}' alt="Item 3" data-rel="photoSwipe">
+                        <a href="" class="stretched-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </figure>
+                    {% if not photo.approved %}
+                    <button type="button" onclick="imageApproval('approve','{{photo.pk}}');">Approve</button>
+                    <button type="button" onclick="imageApproval('discard','{{photo.pk}}');">Discard</button>
+                    {% endif %}
+                    {% endfor %}
+                </div> -->
+            </div>
+        </div>
+    </div>
 </section>
 
 <!-- MODALS  -->
@@ -751,64 +758,61 @@
 {% block scripts %}
 <!-- PHOTOSWIPE -->
 <script>
-	// build the json album images collection 
-	window.djangoAlbumImages = [
-		{% for photo in photos %}
-	{
-		src: '{{ photo.picture.url }}',
-			w: {{ photo.picture.width }},
-		h: {{ photo.picture.height }}
-	},
-	{% endfor %}
-	];
+    // build the json album images collection 
+    window.djangoAlbumImages = [
+        {% for photo in photos %}
+            {
+                src: '{{ photo.picture.url }}',
+                w:  {{ photo.picture.width }},
+                h:  {{ photo.picture.height }}
+            },
+        {% endfor %}
+    ];
 
-	// Change album on filtering images
-	$('#gallery-container .galleryFilter a').on("click", function () {
-		let filter = $(this).data('filter');
+    // Change album on filtering images
+    $('#gallery-container .galleryFilter a').on("click", function () {
+        let filter = $(this).data('filter');
 
-		if (filter == "") {
-			window.djangoAlbumImages = [
-				{% for photo in photos %}
-		{
-			src: '{{ photo.picture.url }}',
-				w: {{ photo.picture.width }},
-			h: {{ photo.picture.height }}
-		},
-		{% endfor %}
-			];
+        if (filter == "") {
+            window.djangoAlbumImages = [
+                {% for photo in photos %}
+                    {
+                        src: '{{ photo.picture.url }}',
+                        w: {{ photo.picture.width }},
+                        h: {{ photo.picture.height }}
+                    },
+                {% endfor %}
+            ];
 
-		$('#gallery-container .gallery-item a').each(function (index, img) {
-			if ($(img).closest('#load-more') == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
-		});
-	}
-		else {
-			category = filter.slice(1);
+            $('#gallery-container .gallery-item a').each(function (index, img) {
+                if ($(img).closest('#load-more').length == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
+            });
+        }
+        else {
+            category = filter.slice(1);
 
-			window.djangoAlbumImages = [];
+            window.djangoAlbumImages = [];
 
-			{% for photo in photos %}
-	if ("{{ photo.activity.category.name }}" == category) {
-		window.djangoAlbumImages.push(
-			{
-				src: '{{ photo.picture.url }}',
-				w: {{ photo.picture.width }},
-	h: {{ photo.picture.height }}
-					}
-				);
-			}
-	{% endfor %}
+            {% for photo in photos %}
+            if ("{{ photo.activity.category.name }}" == category) {
+                window.djangoAlbumImages.push(
+                    {
+                        src: '{{ photo.picture.url }}',
+                        w: {{ photo.picture.width }},
+                        h: {{ photo.picture.height }}
+                    }
+                );
+            }
+            {% endfor %}
 
-	let selector = '#gallery-container ' + filter + ' a';
-	$(selector).each(function (index, img) {
-		if ($(img).closest('#load-more') == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
-	});
-		}
+            let selector = '#gallery-container ' + filter + ' a';
+            $(selector).each(function (index, img) {
+                if ($(img).closest('#load-more').length == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
+            });
+        }
 
-	});
+    });
 </script>
-<!-- Custom JS -->
-<script src="{% static 'js/bandhu.js' %}"></script>
-<script src="{% static 'js/anandakendra.js' %}"></script>
 <!-- Contact Scrollspy Problem -->
 <script>contact_scrollspy()</script>
 

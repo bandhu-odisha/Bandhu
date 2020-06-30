@@ -693,8 +693,9 @@
                         Do you like to work for children? Do you feel the slogan "Save the Children". Yes. Here, you are
                         welcome to our team and you can work as a volunteer.
                     </p>
-                    <button type="button" class="btn btn-outline-light py-2 px-4 custom-btn angle-effect">Join
-                        Now</button>
+                    <button type="button" class="btn btn-outline-light py-2 px-4 custom-btn angle-effect">
+                        <a href="{% url 'signup' %}" class="d-block text-decoration-none text-white">Join Now</a>
+                    </button>
                 </div>
             </div>
         </div>
@@ -734,10 +735,9 @@
                         </a>
                     </figure>
                     {% endfor %}
-                    <figure id="load-more" class="item {% for activity in activities %} {{ activity.id }} {% endfor %}">
-                        <img src='{{ photo.picture.url }}'>
+                    <figure id="load-more" class="item {% for category in categories %} {{ category.name }} {% endfor %}">
                         <a href="javascript:void(0);" class="stretched-link">
-                            Show More
+                            <p class="text-center">Show More</p>
                         </a>
                     </figure>
                 </div>
@@ -898,12 +898,12 @@
     // build the json album images collection 
     window.djangoAlbumImages = [
         {% for photo in photos %}
-    {
-        src: '{{ photo.picture.url }}',
-            w: { { photo.picture.width } },
-        h: { { photo.picture.height } }
-    },
-    {% endfor %}
+            {
+                src: '{{ photo.picture.url }}',
+                w:  {{ photo.picture.width }},
+                h:  {{ photo.picture.height }}
+            },
+        {% endfor %}
     ];
 
     // Change album on filtering images
@@ -913,45 +913,43 @@
         if (filter == "") {
             window.djangoAlbumImages = [
                 {% for photo in photos %}
-        {
-            src: '{{ photo.picture.url }}',
-                w: { { photo.picture.width } },
-            h: { { photo.picture.height } }
-        },
-        {% endfor %}
+                    {
+                        src: '{{ photo.picture.url }}',
+                        w: {{ photo.picture.width }},
+                        h: {{ photo.picture.height }}
+                    },
+                {% endfor %}
             ];
 
-        $('#gallery-container .gallery-item a').each(function (index, img) {
-            if ($(img).closest('#load-more') == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
-        });
-    }
+            $('#gallery-container .gallery-item a').each(function (index, img) {
+                if ($(img).closest('#load-more').length == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
+            });
+        }
         else {
             category = filter.slice(1);
 
             window.djangoAlbumImages = [];
 
             {% for photo in photos %}
-    if ("{{ photo.activity.category.name }}" == category) {
-        window.djangoAlbumImages.push(
-            {
-                src: '{{ photo.picture.url }}',
-                w: {{ photo.picture.width }},
-    h: { { photo.picture.height } }
+            if ("{{ photo.activity.category.name }}" == category) {
+                window.djangoAlbumImages.push(
+                    {
+                        src: '{{ photo.picture.url }}',
+                        w: {{ photo.picture.width }},
+                        h: {{ photo.picture.height }}
                     }
                 );
             }
-    {% endfor %}
+            {% endfor %}
 
-    let selector = '#gallery-container ' + filter + ' a';
-    $(selector).each(function (index, img) {
-        if ($(img).closest('#load-more') == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
-    });
+            let selector = '#gallery-container ' + filter + ' a';
+            $(selector).each(function (index, img) {
+                if ($(img).closest('#load-more').length == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
+            });
         }
 
     });
 </script>
-<!-- Custom JS -->
-<script src="{% static 'js/ankurayan.js' %}"></script>
 <!-- Contact Scrollspy Problem -->
 <script>contact_scrollspy()</script>
 

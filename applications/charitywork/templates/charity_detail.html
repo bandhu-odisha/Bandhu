@@ -53,7 +53,7 @@
             <div class="col-lg-8 text-left px-0 py-0 py-lg-2 mx-auto" style="z-index: 10;">
                 <div class="card m-2 shadow-sm d-none d-lg-block">
                     <div class="card-body p-4">
-                        <h1 class="mb-3 title">{{charity.title}}</h1>
+                        <h1 class="mb-3 title">{{ charity.title }}</h1>
                         <p class="m-0 font-weight-bold">
                             {{ charity.disaster_type }}, {{ charity.location }}
                         </p>
@@ -65,7 +65,7 @@
                     <div class="card-body p-4">
                         <h2 class="content-title mb-2">Description</h1>
                         <p class="mt-3 mb-2 font-weight-bold">
-                            {{charity.start_date}} - {{charity.end_date}}
+                            {{ charity.start_date }} - {{ charity.end_date }}
                         </p>
                         <p>{{ charity.description|safe }}</p>
                     </div>
@@ -184,6 +184,7 @@
     <div class="bg-grey" style="padding: 50px 0;">
         <h3 class="section-title">Activities</h3>
         <div class="container">
+            {% if activities.count %}
             <div class="row">
                 <div class="glide charity_activities">
                     <div class="glide__track" data-glide-el="track">
@@ -220,6 +221,9 @@
                     </div>
                 </div>
             </div>
+            {% else %}
+            <p class="text-center lead pt-2 mb-n1"><em>Nothing to show here!</em></p>
+            {% endif %}
         </div>
     </div>
 </section>
@@ -316,7 +320,7 @@
                             </div>
                             <div class="glide__bullets" data-glide-el="controls[nav]">
                                 {% for activity in activities %}
-                                <button class="glide__bullet" data-glide-dir="={{forloop.counter}}"></button>
+                                <button class="glide__bullet" data-glide-dir="={{ forloop.counter0 }}"></button>
                                 {% endfor %}
                             </div>
                         </div>
@@ -346,8 +350,9 @@
                         Do you like to work for children? Do you feel the slogan "Save the Children". Yes. Here, you are
                         welcome to our team and you can work as a volunteer.
                     </p>
-                    <button type="button" class="btn btn-outline-light py-2 px-4 custom-btn angle-effect">Join
-                        Now</button>
+                    <button type="button" class="btn btn-outline-light py-2 px-4 custom-btn angle-effect">
+                        <a href="{% url 'signup' %}" class="d-block text-decoration-none text-white">Join Now</a>
+                    </button>
                 </div>
             </div>
         </div>
@@ -368,6 +373,7 @@
                 </p>
             </div>
 
+            {% if photos.count %}
             <div id="gallery-container" class="gallery-container">
                 <div class="galleryFilter">
                     <a href="#" data-filter="" class="current">All</a>
@@ -386,13 +392,15 @@
                     </figure>
                     {% endfor %}
                     <figure id="load-more" class="item {% for activity in activities %} {{ activity.id }} {% endfor %}">
-                        <img src='{{ photo.picture.url }}'>
                         <a href="javascript:void(0);" class="stretched-link">
-                            Show More
+                            <p class="text-center">Show More</p>
                         </a>
                     </figure>
                 </div>
             </div>
+            {% else %}
+            <p class="text-center lead mt-n2 mb-n1"><em>Nothing to show here!</em></p>
+            {% endif %}
 
             <div id="gallery-container" class="gallery-container">
                 <div class="add-images">
@@ -492,7 +500,7 @@
             ];
 
             $('#gallery-container .gallery-item a').each(function(index, img){
-                if ($(img).closest('#load-more') == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
+                if ($(img).closest('#load-more').length == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
             });
         }
         else{
@@ -514,15 +522,12 @@
 
             let selector = '#gallery-container ' + filter + ' a';
             $(selector).each(function(index, img){
-                if ($(img).closest('#load-more') == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
+                if ($(img).closest('#load-more').length == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
             });
         }
 
     });
 </script>
-<!-- Custom JS -->
-<script src="{% static 'js/bandhu.js' %}"></script>
-<script src="{% static 'js/charity_work.js' %}"></script>
 <!-- Contact Scrollspy Problem -->
 <script>contact_scrollspy()</script>
 

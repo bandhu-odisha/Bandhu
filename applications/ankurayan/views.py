@@ -42,7 +42,7 @@ def ankurayan_detail(request, slug):
     elif slug == str(datetime.now().year):
         ankurayan = Ankurayan.objects.order_by('-year')
         if ankurayan.exists():
-            url = '/ankurayan/detail/' + ankurayan.slug +'/'
+            url = '/ankurayan/detail/' + ankurayan[0].slug +'/'
             return HttpResponseRedirect(url)
         else:
             raise Http404

@@ -61,7 +61,19 @@
 				<span class="login100-form-title p-b-33">
 					<h1 class="font-weight-bolder">Sign Up</h1>
 				</span>
+				<a href="/oauth/login/facebook/" class="btn-face m-b-15">
+					<i class="fab fa-facebook-square"></i>
+					Facebook
+				</a>
+				<a href="/oauth/login/google-oauth2/" class="btn-google m-b-20">
+					<img src="/static/img/icon/icon-google.png" alt="GOOGLE">
+					Google
+				</a>
 				<div class="w-full text-center p-t-3 p-b-10">
+					<p>---OR---</p>
+					<span >
+						Sign Up Using Email
+					</span>
 					<div class="error_msg text-center w-full">
                         {% for field in form %}
                         {% for error in field.errors %}
