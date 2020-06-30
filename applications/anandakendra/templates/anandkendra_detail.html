@@ -724,7 +724,7 @@
             ];
 
             $('#gallery-container .gallery-item a').each(function (index, img) {
-                if ($(img).closest('#load-more') == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
+                if ($(img).closest('#load-more').length == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
             });
         }
         else {
@@ -746,15 +746,12 @@
 
             let selector = '#gallery-container ' + filter + ' a';
             $(selector).each(function (index, img) {
-                if ($(img).closest('#load-more') == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
+                if ($(img).closest('#load-more').length == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
             });
         }
 
     });
 </script>
-<!-- Custom JS -->
-<script src="{% static 'js/bandhu.js' %}"></script>
-<script src="{% static 'js/anandakendra.js' %}"></script>
 <!-- Contact Scrollspy Problem -->
 <script>contact_scrollspy()</script>
 
