@@ -63,16 +63,17 @@
                 <div class="card m-2 shadow-sm">
                     <div class="card-body p-4">
                         <h2 class="content-title mb-2">Description</h1>
-                        <p>{{ ashram.description|safe }}</p>
+                            <p>{{ ashram.description|safe }}</p>
                     </div>
                 </div>
             </div>
             <div class="col-lg-4 text-left px-0 py-0 py-lg-2 mx-auto" style="z-index: 10;">
-				<!--   PIC CARD  -->
-				<div class="card m-2 shadow-sm mb-4">
-					<div class="card-body p-1">
-						<img src="{{ ashram.image.url }}" alt="DP" class="img-fluid h-100 w-100" style="max-height: 300px;" />
-					</div>
+                <!--   PIC CARD  -->
+                <div class="card m-2 shadow-sm mb-4">
+                    <div class="card-body p-1">
+                        <img src="{{ ashram.image.url }}" alt="DP" class="img-fluid h-100 w-100"
+                            style="max-height: 300px;" />
+                    </div>
                 </div>
 
 
@@ -87,7 +88,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Add Guest</h5>
+                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Create Meeting</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -99,12 +100,13 @@
                                             <div class="col">
                                                 <label class="left-label bld" for="">Topic</label>
                                                 <input type="text" class="form-control" name="topic"
-                                                placeholder="Meeting topic" required="required"><br></div>
+                                                    placeholder="Meeting topic" required="required"><br></div>
                                             <div class="col">
                                                 <label class="left-label bld" for="">Date</label>
-                                                <input type="date" class="form-control" name="schedule" required="required"><br></div>
+                                                <input type="date" class="form-control" name="schedule"
+                                                    required="required"><br></div>
                                         </div>
-                                        
+
                                         <div class="row">
                                             <div class="col">
                                                 <label class="left-label bld" for="">Location</label>
@@ -115,15 +117,18 @@
                                                 <label class="left-label bld" for="">Minutes</label>
                                                 <div class="input-group">
                                                     <div class="custom-file">
-                                                        <input type="file" class="custom-file-input" name="minutes" id="inputGroupFile04" 
+                                                        <input type="file" class="custom-file-input" name="minutes"
+                                                            id="inputGroupFile04"
                                                             aria-describedby="inputGroupFileAddon04">
-                                                        <label class="custom-file-label" for="logo">Add Minutes</label><br>
+                                                        <label class="custom-file-label" for="logo">Add
+                                                            Minutes</label><br>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <label class="left-label bld" for="">Agenda</label>
-                                        <textarea name="agenda" cols="80" rows="4" placeholder="Agenda" class="form-control" required="required"></textarea><br>
+                                        <textarea name="agenda" cols="80" rows="4" placeholder="Agenda"
+                                            class="form-control" required="required"></textarea><br>
                                         <button class="btn btn-primary">Create Meeting</button>
                                     </form>
                                 </div>
@@ -133,7 +138,7 @@
                 </div>
 
                 <!-- Add Attendee to this Meeting -->
-                
+
 
                 <!-- Add Activity Category -->
                 <div class="add-activity-category text-center my-2">
@@ -180,20 +185,33 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form method="POST" enctype="multipart/form-data" action="{% url 'ashram:CreateActivity' %}">{% csrf_token %}
+                                    <form method="POST" enctype="multipart/form-data"
+                                        action="{% url 'ashram:CreateActivity' %}">{% csrf_token %}
                                         <input type="text" hidden name="slug" value={{ashram.slug}}>
+                                        <label class="left-label bld" for="">Activity Name</label>
                                         <input type="text" class="form-control" name="activity_name"
-                                            placeholder="Activity name"><br>
-                                        <select class="form-control" name="category">
+                                            placeholder="Activity name" required="required"><br>
+                                        <label class="left-label bld" for="">Category</label>
+                                        <select class="form-control" required="required" name="category">
                                             {% for category in categories %}
                                             <option value="{{category.pk}}">{{category.name}}</option>
                                             {% endfor %}
                                         </select><br>
                                         <!-- <input type="date" name="activity_date" class="form-control"><br> -->
-                                        <textarea name="description" cols="80" class="form-control"
-                                            rows="8"></textarea><br>
-                                        <input type="file" class="form-control" multiple name="activity_images">
-                                        <button class="btn btn-primary">Submit</button>
+                                        <label class="left-label bld" for="">Description</label>
+                                        <textarea name="description" cols="80" class="form-control" rows="4"
+                                            placeholder="Description"></textarea><br>
+                                        <label class="left-label bld" for="">Activity Images</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" multiple
+                                                    name="activity_images" id="inputGroupFile04"
+                                                    aria-describedby="inputGroupFileAddon04">
+                                                <label class="custom-file-label" for="inputGroupFile04">Add
+                                                    Images</label>
+                                            </div>
+                                        </div><br>
+                                        <button class="btn btn-primary">Add Activity</button>
                                     </form>
                                 </div>
                             </div>
@@ -211,7 +229,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Event</h5>
+                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Add Event</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -220,13 +238,25 @@
                                     <form method="POST" enctype="multipart/form-data"
                                         action="{% url 'ashram:CreateEventAshram' %}">{% csrf_token %}
                                         <input type="text" hidden name="slug" value={{ashram.slug}}>
+                                        <label class="left-label bld" for="">Event Name</label>
                                         <input type="text" class="form-control" name="event_name"
-                                            placeholder="Event name"><br>
-                                        <input type="date" name="event_date" class="form-control"><br>
-                                        <textarea name="description" cols="80" class="form-control"
-                                            rows="8"></textarea><br>
-                                        <input type="file" class="form-control" name="event_image">
-                                        <button class="btn btn-primary">Submit</button>
+                                            placeholder="Event name" required="required"><br>
+                                        <label class="left-label bld" for="">Event Date</label>
+                                        <input type="date" name="event_date" required="required"
+                                            class="form-control"><br>
+                                        <label class="left-label bld" for="">Description</label>
+                                        <textarea name="description" cols="80" class="form-control" rows="4"
+                                            placeholder="Description"></textarea><br>
+                                        <label class="left-label bld" for="">Event Photo</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" multiple name="event_image"
+                                                    id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
+                                                <label class="custom-file-label" for="inputGroupFile04">Add
+                                                    Image</label>
+                                            </div>
+                                        </div><br>
+                                        <button class="btn btn-primary">Add Event</button>
                                     </form>
                                 </div>
                             </div>
@@ -253,14 +283,16 @@
                         {% for activity in category.activity_set.all %}
                         <li class="glide__slide">
                             <div class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
-                                <img src="{% static 'img/pimg6.jpg' %}" class="card-img-top home-card-img" alt="" width="300px">
+                                <img src="{% static 'img/pimg6.jpg' %}" class="card-img-top home-card-img" alt=""
+                                    width="300px">
                                 <div class="card-body pb-0">
                                     <h5 class="card-title font-weight-bold">{{ activity.name }}</h5>
                                     <p class="mb-3">
-                                    {{ activity.description }}
-                                    <br>
+                                        {{ activity.description }}
+                                        <br>
                                     </p>
-                                    <a class="stretched-link" href="#" data-toggle="modal" data-target="#activity_modal{{ activity.id }}"></a>
+                                    <a class="stretched-link" href="#" data-toggle="modal"
+                                        data-target="#activity_modal{{ activity.id }}"></a>
                                 </div>
                             </div>
                         </li>
@@ -289,51 +321,52 @@
 
 <!-- ACTIVITIES MODALS -->
 {% for category in categories %}
-    {% for activity in category.activity_set.all %}
-    <div class="modal fade" id="activity_modal{{ activity.id }}">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content shadow">
-                <div class="modal-header">
-                    <h5 class="modal-title bld content-title">{{ activity.name }}</h5>
-                    <button type="button" class="close" style="padding: .5rem 1rem;" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true" style="font-size: 2.375rem;">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-6 col-lg-6 align-self-center">
-                            <div id="mission-carousel" class="mission-carousel carousel slide m-auto" data-ride="carousel">
-                                <ul class="carousel-indicators">
-                                    <li data-target="#mission-carousel" data-slide-to="0" class=""></li>
-                                    <li data-target="#mission-carousel" data-slide-to="1" class=""></li>
-                                    <li data-target="#mission-carousel" data-slide-to="2" class="active"></li>
-                                </ul>
-                                <div class="carousel-inner">
-                                    <div class="carousel-item">
-                                        <img src="/static/img/pimg6.jpg" alt="carousel image">
-                                    </div>
-                                    <div class="carousel-item">
-                                        <img src="/static/img/pimg2.jpg" alt="carousel image">
-                                    </div>
-                                    <div class="carousel-item active">
-                                        <img src="/static/img/pimg3.jpg" alt="carousel image">
-                                    </div>
+{% for activity in category.activity_set.all %}
+<div class="modal fade" id="activity_modal{{ activity.id }}">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content shadow">
+            <div class="modal-header">
+                <h5 class="modal-title bld content-title">{{ activity.name }}</h5>
+                <button type="button" class="close" style="padding: .5rem 1rem;" data-dismiss="modal"
+                    aria-label="Close">
+                    <span aria-hidden="true" style="font-size: 2.375rem;">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 col-lg-6 align-self-center">
+                        <div id="mission-carousel" class="mission-carousel carousel slide m-auto" data-ride="carousel">
+                            <ul class="carousel-indicators">
+                                <li data-target="#mission-carousel" data-slide-to="0" class=""></li>
+                                <li data-target="#mission-carousel" data-slide-to="1" class=""></li>
+                                <li data-target="#mission-carousel" data-slide-to="2" class="active"></li>
+                            </ul>
+                            <div class="carousel-inner">
+                                <div class="carousel-item">
+                                    <img src="/static/img/pimg6.jpg" alt="carousel image">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="/static/img/pimg2.jpg" alt="carousel image">
+                                </div>
+                                <div class="carousel-item active">
+                                    <img src="/static/img/pimg3.jpg" alt="carousel image">
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <h3 class="font-weight-bolder">Description</h3>
-                            {{ activity.description }}
-                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h3 class="font-weight-bolder">Description</h3>
+                        {{ activity.description }}
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
-    {% endfor %}
+</div>
+{% endfor %}
 {% endfor %}
 
 <!-- EVENTS SECTION -->
@@ -348,7 +381,8 @@
                             {% for event in events %}
                             <li class="glide__slide">
                                 <div class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
-                                    <img src="{{ event.image.url }}" class="card-img-top home-card-img" alt="" width="300px" >
+                                    <img src="{{ event.image.url }}" class="card-img-top home-card-img" alt=""
+                                        width="300px">
                                     <div class="card-body pb-0">
                                         <h5 class="card-title font-weight-bold">{{ event.name }}</h5>
                                         <p class="mb-3">
@@ -362,10 +396,12 @@
                         </ul>
                     </div>
                     <div class="glide__arrows disable_arrows d-none d-md-block" data-glide-el="controls">
-                        <button class="slider_arrow slider_arrow--prev glide__arrow glide__arrow--left" data-glide-dir="<">
+                        <button class="slider_arrow slider_arrow--prev glide__arrow glide__arrow--left"
+                            data-glide-dir="<">
                             <i class="fas fa-arrow-circle-left"></i>
                         </button>
-                        <button class="slider_arrow slider_arrow--next glide__arrow glide__arrow--right" data-glide-dir=">">
+                        <button class="slider_arrow slider_arrow--next glide__arrow glide__arrow--right"
+                            data-glide-dir=">">
                             <i class="fas fa-arrow-circle-right"></i>
                         </button>
                     </div>
@@ -405,47 +441,61 @@
                                             </div>
                                         </div>
                                         {% if check_admin and user.is_authenticated %}
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addAttendee{{forloop.counter}}">Add attendees</button>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#addAttendee{{forloop.counter}}">Add attendees</button>
                                         {% endif %}
                                     </li>
                                     {% if check_admin and user.is_authenticated %}
                                     <div class="add-attendees">
-                                        <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addAttendee{{forloop.counter}}" role="dialog"
+                                        <div class="modal fade bd-example-modal-lg" tabindex="-1"
+                                            id="addAttendee{{forloop.counter}}" role="dialog"
                                             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title bld" id="exampleModalLongTitle">Add Attendees</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <h5 class="modal-title bld" id="exampleModalLongTitle">Add
+                                                            Attendees</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <form method="POST" action="{% url 'ashram:AddAttendee' %}">{% csrf_token %}
+                                                        <form method="POST" action="{% url 'ashram:AddAttendee' %}">
+                                                            {% csrf_token %}
                                                             <input type="text" hidden name="slug" value={{ashram.slug}}>
-                                                            <input type="date" hidden name="schedule" value="{{meeting.schedule|date:'Y-m-d'}}">
-                                                            <input type="text" hidden name="topic" value={{meeting.topic}}>
-                                                            <div class="ui fluid multiple search selection dropdown" id="attendee_dropdown" onclick="hideFields('formFieldsAttendees');">
-                                                                <input type="hidden" name="attendes" >
+                                                            <input type="date" hidden name="schedule"
+                                                                value="{{meeting.schedule|date:'Y-m-d'}}">
+                                                            <input type="text" hidden name="topic"
+                                                                value={{meeting.topic}}>
+                                                            <div class="ui fluid multiple search selection dropdown"
+                                                                id="attendee_dropdown"
+                                                                onclick="hideFields('formFieldsAttendees');">
+                                                                <input type="hidden" name="attendes">
                                                                 <i class="dropdown icon"></i>
                                                                 <div class="default text">Select Acharya</div>
                                                                 <div class="menu">
                                                                     {% for user in users %}
-                                                                    <div class="item" data-value='{{user.user.email}}'>{{user.first_name}}
+                                                                    <div class="item" data-value='{{user.user.email}}'>
+                                                                        {{user.first_name}}
                                                                         {{user.last_name}}</div>
                                                                     {% endfor %}
                                                                 </div>
                                                             </div>
-                                                            <span id="orr" > ---------- OR ----------------- </span>
-                                                            <div id="formFieldsAttendees" >
+                                                            <span id="orr"> ---------- OR ----------------- </span>
+                                                            <div id="formFieldsAttendees">
                                                                 <input type="text" class="form-control" name="name"
-                                                                    placeholder="Attende name" id="at_name" onclick="hideFields('attendee_dropdown');"><br>
+                                                                    placeholder="Attende name" id="at_name"
+                                                                    onclick="hideFields('attendee_dropdown');"><br>
                                                                 <input type="text" class="form-control" name="email"
-                                                                    placeholder="Attendee email" id="at_email" onclick="hideFields('attendee_dropdown');"><br>
-                                                                <input type="text" class="form-control" name="contact_no"
-                                                                    placeholder="Contact number" id="at_contact_no" onclick="hideFields('attendee_dropdown');"><br>
+                                                                    placeholder="Attendee email" id="at_email"
+                                                                    onclick="hideFields('attendee_dropdown');"><br>
+                                                                <input type="text" class="form-control"
+                                                                    name="contact_no" placeholder="Contact number"
+                                                                    id="at_contact_no"
+                                                                    onclick="hideFields('attendee_dropdown');"><br>
                                                             </div>
-                                                            
+
                                                             <button class="btn btn-primary">Submit</button>
                                                         </form>
                                                     </div>
@@ -507,7 +557,8 @@
                                             </div>
                                         </div>
                                         {% if check_admin and user.is_authenticated %}
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#selectWinners{{forloop.counter}}">Add Winners</button>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#selectWinners{{forloop.counter}}">Add Winners</button>
                                         {% endif %}
                                     </li>
                                     {% if check_admin and user.is_authenticated %}
@@ -517,7 +568,8 @@
                                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Select Winners
+                                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Select
+                                                        Winners
                                                     </h5>
                                                     <button type="button" class="close" data-dismiss="modal"
                                                         aria-label="Close">
@@ -525,39 +577,55 @@
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <p style="color:red;display:none;" class="errorMessageWinners" >A student cannot come at two positions.</p>
-                                                    <form method="POST" enctype="multipart/form-data" action="{% url 'ashram:AddWinners' %}"
+                                                    <p style="color:red;display:none;" class="errorMessageWinners">A
+                                                        student cannot come at two positions.</p>
+                                                    <form method="POST" enctype="multipart/form-data"
+                                                        action="{% url 'ashram:AddWinners' %}"
                                                         id="chooseWinnersForm{{forloop.counter}}">{% csrf_token %}
                                                         <input type="text" hidden name="slug" value={{kendra.slug}}>
                                                         <input type="text" hidden name="activity_name"
                                                             value={{activity.activity_name}}>
                                                         <input type="text" hidden name="date"
                                                             value={{activity.activity_date}}>
-                                                        <select required class="form-control" id="winner{{forloop.counter}}"
-                                                            name="pk_winner">
+                                                        <label class="label-left bld" for="">Winner</label>
+                                                        <select required class="form-control"
+                                                            id="winner{{forloop.counter}}" name="pk_winner">
                                                             <option value="">Select Winner</option>
                                                             {% for participant in participants %}
                                                             <option value="{{participant.pk}}">{{participant.name}} -
                                                                 {{participant.school_class}}</option>
                                                             {% endfor %}
                                                         </select><br>
-                                                        <select required class="form-control" id="runnerUp1{{forloop.counter}}"
-                                                            name="pk_runner_up1">
+                                                        <label class="label-left bld" for="">RunnerUp 1</label>
+                                                        <select required class="form-control"
+                                                            id="runnerUp1{{forloop.counter}}" name="pk_runner_up1">
                                                             <option value="">Select first runner up</option>
                                                             {% for participant in participants %}
                                                             <option value="{{participant.pk}}">{{participant.name}} -
                                                                 {{participant.school_class}}</option>
                                                             {% endfor %}
                                                         </select><br>
-                                                        <select required class="form-control" id="runnerUp2{{forloop.counter}}"
-                                                            name="pk_runner_up2">
+                                                        <label class="label-left bld" for="">RunnerUp 2</label>
+                                                        <select required class="form-control"
+                                                            id="runnerUp2{{forloop.counter}}" name="pk_runner_up2">
                                                             <option value="">Select second runner up</option>
                                                             {% for participant in participants %}
                                                             <option value="{{participant.pk}}">{{participant.name}} -
                                                                 {{participant.school_class}}</option>
                                                             {% endfor %}
                                                         </select><br>
-                                                        <input type="file" class="form-control" multiple name="activity_images">
+                                                        <label class="label-left bld" for="activity_images"
+                                                            style="text-align: left; float: left; padding-left: 5px;">Activity
+                                                            Images</label>
+                                                        <div class="input-group">
+                                                            <div class="custom-file">
+                                                                <input type="file" class="custom-file-input" multiple
+                                                                    name="activity_images" id="inputGroupFile04"
+                                                                    aria-describedby="inputGroupFileAddon04">
+                                                                <label class="custom-file-label"
+                                                                    for="inputGroupFile04">Add Images</label>
+                                                            </div>
+                                                        </div><br>
                                                         <button type="button" class="btn btn-primary"
                                                             onclick="validateWinners(`{{forloop.counter}}`);">Submit</button>
                                                     </form>
@@ -638,9 +706,9 @@
                 <div class="galleryFilter">
                     <a href="#" data-filter="" class="current">All</a>
                     {% for category in categories %}
-                        {% if category.activity_set.count %}
-                        <a href="#" data-filter=".{{ category.name }}">{{ category.name }}</a>
-                        {% endif %}
+                    {% if category.activity_set.count %}
+                    <a href="#" data-filter=".{{ category.name }}">{{ category.name }}</a>
+                    {% endif %}
                     {% endfor %}
                 </div>
 
@@ -678,10 +746,18 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form method="POST" enctype="multipart/form-data" action="{% url 'ashram:AddToGallery' %}">{% csrf_token %}
+                                    <form method="POST" enctype="multipart/form-data"
+                                        action="{% url 'ashram:AddToGallery' %}">{% csrf_token %}
                                         <input type="text" hidden name="slug" value={{ashram.slug}}>
-                                        
-                                        <input type="file" class="form-control" multiple name="gallery_images">
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" multiple
+                                                    name="gallery_images" id="inputGroupFile04"
+                                                    aria-describedby="inputGroupFileAddon04">
+                                                <label class="custom-file-label" for="inputGroupFile04">Add
+                                                    Images</label>
+                                            </div>
+                                        </div><br>
                                         <button class="btn btn-primary">Upload</button>
                                     </form>
                                 </div>
@@ -730,54 +806,54 @@
     // build the json album images collection 
     window.djangoAlbumImages = [
         {% for photo in photos %}
-            {
-                src: '{{ photo.picture.url }}',
-                w:  {{ photo.picture.width }},
-                h:  {{ photo.picture.height }}
-            },
-        {% endfor %}
+    {
+        src: '{{ photo.picture.url }}',
+            w: { { photo.picture.width } },
+        h: { { photo.picture.height } }
+    },
+    {% endfor %}
     ];
 
     // Change album on filtering images
-    $('#gallery-container .galleryFilter a').on("click", function(){
+    $('#gallery-container .galleryFilter a').on("click", function () {
         let filter = $(this).data('filter');
-        
-        if (filter == ""){
+
+        if (filter == "") {
             window.djangoAlbumImages = [
                 {% for photo in photos %}
-                    {
-                        src: '{{ photo.picture.url }}',
-                        w:  {{ photo.picture.width }},
-                        h:  {{ photo.picture.height }}
-                    },
-                {% endfor %}
+        {
+            src: '{{ photo.picture.url }}',
+                w: { { photo.picture.width } },
+            h: { { photo.picture.height } }
+        },
+        {% endfor %}
             ];
 
-            $('#gallery-container .gallery-item a').each(function(index, img){
-                if ($(img).closest('#load-more') == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
-            });
-        }
-        else{
+        $('#gallery-container .gallery-item a').each(function (index, img) {
+            if ($(img).closest('#load-more') == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
+        });
+    }
+        else {
             category = filter.slice(1);
 
             window.djangoAlbumImages = [];
 
             {% for photo in photos %}
-            if("{{ photo.activity.category.name }}" == category){
-                window.djangoAlbumImages.push(
-                    {
-                        src: '{{ photo.picture.url }}',
-                        w:  {{ photo.picture.width }},
-                        h:  {{ photo.picture.height }}
+    if ("{{ photo.activity.category.name }}" == category) {
+        window.djangoAlbumImages.push(
+            {
+                src: '{{ photo.picture.url }}',
+                w: {{ photo.picture.width }},
+    h: { { photo.picture.height } }
                     }
                 );
             }
-            {% endfor %}
+    {% endfor %}
 
-            let selector = '#gallery-container ' + filter + ' a';
-            $(selector).each(function(index, img){
-                if ($(img).closest('#load-more') == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
-            });
+    let selector = '#gallery-container ' + filter + ' a';
+    $(selector).each(function (index, img) {
+        if ($(img).closest('#load-more') == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
+    });
         }
 
     });
@@ -812,11 +888,11 @@
         var runner_up1 = document.getElementById(`runnerUp1${counter}`).value;
         var runner_up2 = document.getElementById(`runnerUp2${counter}`).value;
 
-        if(winner == runner_up1 || winner == runner_up2 || runner_up1 == runner_up2) {
+        if (winner == runner_up1 || winner == runner_up2 || runner_up1 == runner_up2) {
             document.getElementsByClassName('errorMessageWinners')[0].style.display = "grid";
             return;
         }
-        $('chooseWinnersForm'+counter).submit();
+        $('chooseWinnersForm' + counter).submit();
     }
 
     function imageApproval(status, image) {
@@ -834,7 +910,7 @@
                 var data = JSON.parse(data1);
                 alert("D")
                 $('#galleryBox').empty();
-                for(let photo=0;photo<data.length;photo++){
+                for (let photo = 0; photo < data.length; photo++) {
                     var k = data[photo].fields.approved;
                     var ele = `<figure class="item cat-3 cat-4" style="width: 267px; height: 183.9px;">
                         <img src='/media/${data[photo].fields.picture}' alt="Item 3" data-rel="photoSwipe">
@@ -842,7 +918,7 @@
                             <i class="fab fa-instagram"></i>
                         </a>
                     </figure>`
-                    if(!k) {
+                    if (!k) {
                         ele += `
                         <button type="button" onclick="imageApproval('approve','${data[photo].pk}');">Approve</button>
                         <button type="button" onclick="imageApproval('discard','${data[photo].pk}');">Discard</button>
@@ -860,27 +936,27 @@
     // ACTIVITIES CAROUSEL
     {% for category in categories %}
     {% if category.activity_set.count %}
-        var glide = new Glide('.category{{forloop.counter0}}',{
-            type: 'carousel',
-            focusAt: 'center',
-            perView: 3,
-            autoplay: 2000,
-            gap: 30,
-            breakpoints: {
-                991: {
-                    perView: 2,
-                },
-                767:{
-                    perView: 1,
-                }
+    var glide = new Glide('.category{{forloop.counter0}}', {
+        type: 'carousel',
+        focusAt: 'center',
+        perView: 3,
+        autoplay: 2000,
+        gap: 30,
+        breakpoints: {
+            991: {
+                perView: 2,
+            },
+            767: {
+                perView: 1,
             }
-        })
-        glide.mount()
+        }
+    })
+    glide.mount()
     {% endif %}
     {% endfor %}
 
     // EVENTS CAROUSEL
-    var events_glide = new Glide('.events',{
+    var events_glide = new Glide('.events', {
         type: 'slide',
         focusAt: 'center',
         perView: 3,
@@ -890,7 +966,7 @@
             991: {
                 perView: 2,
             },
-            767:{
+            767: {
                 perView: 1,
             }
         }
@@ -905,7 +981,7 @@
         for (var i = 0; i < $(this)[0].files.length; i++) {
             files.push($(this)[0].files[i].name);
         }
-        if(files.length > 1) {
+        if (files.length > 1) {
             $(this).next('.custom-file-label').html(files.length + ' files selected');
         }
         else {

@@ -100,12 +100,22 @@
                                     <form method="POST" enctype="multipart/form-data"
                                         action="{% url 'charitywork:CreateActivity' %}">{% csrf_token %}
                                         <input type="text" hidden name="slug" value={{charity.slug}}>
-                                        <input type="text" class="form-control" name="activity_name"
+                                        <label class="left-label bld" for="">Activity Name</label>
+                                        <input type="text" required="required" class="form-control" name="activity_name"
                                             placeholder="Activity name"><br>
+                                        <label class="left-label bld" for="">Activity Date</label>
+                                        <input type="date" name="activity_date" required="required" class="form-control"><br>
+                                        <label class="left-label bld" for="">Description</label>
                                         <textarea name="description" cols="80" class="form-control"
-                                            rows="8"></textarea><br>
-                                        <input type="date" name="activity_date" class="form-control"><br>
-                                        <input type="file" class="form-control" multiple name="activity_images">
+                                            rows="4" placeholder="Description"></textarea><br>
+                                        <label class="left-label bld" for="">Activity Images</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" multiple name="activity_images" id="inputGroupFile04" 
+                                                    aria-describedby="inputGroupFileAddon04">
+                                                <label class="custom-file-label" for="inputGroupFile04">Add Images</label>
+                                            </div>
+                                        </div><br>
                                         <button class="btn btn-primary">Submit</button>
                                     </form>
                                 </div>
@@ -124,7 +134,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Select Volunteers
+                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Select Volunteers
                                     </h5>
                                     <button type="button" class="close" data-dismiss="modal"
                                         aria-label="Close">
@@ -394,7 +404,7 @@
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Upload Images</h5>
+                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Upload Images</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -403,8 +413,13 @@
                                     <form method="POST" enctype="multipart/form-data" action="{% url 'charitywork:AddToGallery' %}">
                                         {% csrf_token %}
                                         <input type="text" hidden name="slug" value="{{charity.slug}}">
-
-                                        <input type="file" class="form-control" multiple name="gallery_images">
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" multiple name="gallery_images" id="inputGroupFile04" 
+                                                    aria-describedby="inputGroupFileAddon04">
+                                                <label class="custom-file-label" for="inputGroupFile04">Upload Images</label>
+                                            </div>
+                                        </div>
                                         <button class="btn btn-primary">Submit</button>
                                     </form>
                                 </div>
