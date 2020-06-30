@@ -61,8 +61,7 @@
 
 #initiatives .card img{
     height: 230px;
-    background-size: cover;
-
+    object-fit: cover;
 }
 
 #initiatives .card-body h5{
@@ -112,6 +111,14 @@
     color:black;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     transform: scale(1.05);
+}
+
+/* Initiatives Card Bootstrap Tweeks */
+@media (min-width: 992px){
+    .col-lg-20 {
+        -ms-flex: 0 0 20%;
+        flex: 0 0 20%;
+        max-width: 20%;
 }
 
 
