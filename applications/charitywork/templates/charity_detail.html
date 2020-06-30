@@ -86,91 +86,14 @@
                     <button type="button" class="btn btn-primary w-75" data-toggle="modal" data-target="#addActivity">
                         Add Activity
                     </button>
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addActivity" role="dialog"
-                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Add Activity</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST" enctype="multipart/form-data"
-                                        action="{% url 'charitywork:CreateActivity' %}">{% csrf_token %}
-                                        <input type="text" hidden name="slug" value={{charity.slug}}>
-                                        <label class="left-label bld" for="">Activity Name</label>
-                                        <input type="text" required="required" class="form-control" name="activity_name"
-                                            placeholder="Activity name"><br>
-                                        <label class="left-label bld" for="">Activity Date</label>
-                                        <input type="date" name="activity_date" required="required" class="form-control"><br>
-                                        <label class="left-label bld" for="">Description</label>
-                                        <textarea name="description" cols="80" class="form-control"
-                                            rows="4" placeholder="Description"></textarea><br>
-                                        <label class="left-label bld" for="">Activity Images</label>
-                                        <div class="input-group">
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" multiple name="activity_images" id="inputGroupFile04" 
-                                                    aria-describedby="inputGroupFileAddon04">
-                                                <label class="custom-file-label" for="inputGroupFile04">Add Images</label>
-                                            </div>
-                                        </div><br>
-                                        <button class="btn btn-primary">Submit</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
 
                 <div class="add-volunteers text-center my-2" >
                     <button type="button" class="btn btn-primary w-75" data-toggle="modal" data-target="#selectVolunteers">
                         Add Volunteers
                     </button>
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1"
-                        id="selectVolunteers" role="dialog"
-                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Select Volunteers
-                                    </h5>
-                                    <button type="button" class="close" data-dismiss="modal"
-                                        aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST" action="{% url 'charitywork:AddVolunteers' %}">{% csrf_token %}
-                                        <input type="text" hidden name="slug" value={{charity.slug}}>
-                                        <div class="ui fluid multiple search selection dropdown" id="attendee_dropdown" onclick="hideFields('formFieldsAttendees');">
-                                            <input type="hidden" name="volunteers" >
-                                            <i class="dropdown icon"></i>
-                                            <div class="default text">Select Volunteers</div>
-                                            <div class="menu">
-                                                {% for user in users %}
-                                                <div class="item" data-value='{{user.user.email}}'>{{user.first_name}}
-                                                    {{user.last_name}}</div>
-                                                {% endfor %}
-                                            </div>
-                                        </div>
-                                        <span id="orr" > ---------- OR ----------------- </span>
-                                        <div id="formFieldsAttendees" >
-                                            <input type="text" class="form-control" name="name"
-                                                placeholder="Volunteer name" id="at_name" onclick="hideFields('attendee_dropdown');"><br>
-                                            <input type="text" class="form-control" name="email"
-                                                placeholder="Volunteer email" id="at_email" onclick="hideFields('attendee_dropdown');"><br>
-                                            <input type="text" class="form-control" name="contact_no"
-                                                placeholder="Contact number" id="at_contact_no" onclick="hideFields('attendee_dropdown');"><br>
-                                        </div>
-                                        
-                                        <button class="btn btn-primary">Submit</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
                 {% endif %}
             </div>
@@ -347,7 +270,7 @@
                 <div class="row justify-content-center">
                     <p class="parallax-description w-100 px-3"
                         style="font-size:1.7em; line-height:35px; margin-bottom: 30px;">
-                        Do you like to work for children? Do you feel the slogan "Save the Children". Yes. Here, you are
+                        Do you like to work for a social cause? Yes. Here, you are
                         welcome to our team and you can work as a volunteer.
                     </p>
                     <button type="button" class="btn btn-outline-light py-2 px-4 custom-btn angle-effect">
@@ -456,6 +379,87 @@
         </div>
     </div>
 </section>
+
+<!-- MODALS -->
+<div class="modal fade bd-example-modal-lg" tabindex="-1" id="addActivity" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Add Activity</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form method="POST" enctype="multipart/form-data"
+                action="{% url 'charitywork:CreateActivity' %}">{% csrf_token %}
+                <input type="text" hidden name="slug" value={{charity.slug}}>
+                <label class="left-label bld" for="">Activity Name</label>
+                <input type="text" required="required" class="form-control" name="activity_name"
+                    placeholder="Activity name"><br>
+                <label class="left-label bld" for="">Activity Date</label>
+                <input type="date" name="activity_date" required="required" class="form-control"><br>
+                <label class="left-label bld" for="">Description</label>
+                <textarea name="description" cols="80" class="form-control"
+                    rows="4" placeholder="Description"></textarea><br>
+                <label class="left-label bld" for="">Activity Images</label>
+                <div class="input-group">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" multiple name="activity_images" id="inputGroupFile04" 
+                            aria-describedby="inputGroupFileAddon04">
+                        <label class="custom-file-label" for="inputGroupFile04">Add Images</label>
+                    </div>
+                </div><br>
+                <button class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+<div class="modal fade bd-example-modal-lg" tabindex="-1"
+id="selectVolunteers" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title bld" id="exampleModalLongTitle">Select Volunteers
+            </h5>
+            <button type="button" class="close" data-dismiss="modal"
+                aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form method="POST" action="{% url 'charitywork:AddVolunteers' %}">{% csrf_token %}
+                <input type="text" hidden name="slug" value={{charity.slug}}>
+                <div class="ui fluid multiple search selection dropdown" id="attendee_dropdown" onclick="hideFields('formFieldsAttendees');">
+                    <input type="hidden" name="volunteers" >
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Select Volunteers</div>
+                    <div class="menu">
+                        {% for user in users %}
+                        <div class="item" data-value='{{user.user.email}}'>{{user.first_name}}
+                            {{user.last_name}}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <span id="orr" > ---------- OR ----------------- </span>
+                <div id="formFieldsAttendees" >
+                    <input type="text" class="form-control" name="name"
+                        placeholder="Volunteer name" id="at_name" onclick="hideFields('attendee_dropdown');"><br>
+                    <input type="text" class="form-control" name="email"
+                        placeholder="Volunteer email" id="at_email" onclick="hideFields('attendee_dropdown');"><br>
+                    <input type="text" class="form-control" name="contact_no"
+                        placeholder="Contact number" id="at_contact_no" onclick="hideFields('attendee_dropdown');"><br>
+                </div>
+                
+                <button class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
 
 <!-- Include PhotoSwipe -->
 {% include 'snippets/init_pswp.html' %}

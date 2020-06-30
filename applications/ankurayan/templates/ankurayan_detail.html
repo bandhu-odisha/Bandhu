@@ -124,52 +124,7 @@
                     <button type="button" class="btn btn-primary w-75" data-toggle="modal" data-target="#addGuest">
                         Add Guest
                     </button>
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addGuest" role="dialog"
-                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Add Guest</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST" action="{% url 'ankurayan:AddGuest' %}">{% csrf_token %}
-                                        <input type="text" hidden name="slug" value={{ankurayan.slug}}>
-                                        <div class="row">
-                                            <div class="col">
-                                                <label class="left-label bld" for="">Name</label>
-                                                <input type="text" class="form-control" name="name" placeholder="Guest Name"
-                                                    required="required"><br>
-                                            </div>
-                                            <div class="col">
-                                                <label class="left-label bld" for="">Contact Number</label>
-                                                <input type="text" class="form-control" name="contact_no"
-                                                    placeholder="Contact number" required="required"><br>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col">
-                                                <label class="left-label bld" for="">Profession</label>
-                                                <input type="text" class="form-control" name="profession"
-                                                    placeholder="Profession" required="required"><br>
-                                            </div>
-                                            <div class="col">
-                                                <label class="left-label bld" for="">Email</label>
-                                                <input type="text" class="form-control" name="email" placeholder="Email"><br>        
-                                            </div>
-                                        </div>
-                                        <label class="left-label bld" for="">About Guest</label>
-                                        <textarea name="about" cols="80" rows="4" class="form-control"
-                                            placeholder="About Guest"></textarea><br>
-                                        <button class="btn btn-primary">Submit</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
 
                 <!-- Add Participants to this Ankurayan -->
@@ -178,68 +133,7 @@
                         data-target="#addParticipantsModal">
                         Add Participants
                     </button>
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addParticipantsModal" role="dialog"
-                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Add Participants</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST" action="{% url 'ankurayan:AddParticipant' %}">{% csrf_token %}
-                                        <input type="text" hidden name="slug" value={{ankurayan.slug}}>
-                                        <div class="row">
-                                            <div class="col">
-                                                <label class="left-label bld" for="">Name</label>
-                                                <input type="text" class="form-control" name="name" placeholder="Student name"
-                                            required="required"><br>
-                                            </div>
-                                            <div class="col">
-                                                <label class="left-label bld" for="">Contact Number</label>
-                                                <input type="text" class="form-control" name="contact_no"
-                                            placeholder="Guardian Contact number" required="required"><br>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                <label class="left-label bld" for="">Gender</label>
-                                                <select class="form-control" name="gender">
-                                                    <option value="M">Male</option>
-                                                    <option value="F">Female</option>
-                                                    <option value="O">Other</option>
-                                                </select><br>
-                                            </div>
-                                            <div class="col">
-                                                <label class="left-label bld" for="">School Class</label>
-                                                <select class="form-control" name="school_class">
-                                                    <option value="I">Class I</option>
-                                                    <option value="II">Class II</option>
-                                                    <option value="III">Class III</option>
-                                                    <option value="IV">Class IV</option>
-                                                    <option value="V">Class V</option>
-                                                    <option value="VI">Class VI</option>
-                                                    <option value="VII">Class VII</option>
-                                                    <option value="VIII">Class VIII</option>
-                                                    <option value="IX">Class IX</option>
-                                                    <option value="X">Class X</option>
-                                                    <option value="XI">Class XI</option>
-                                                    <option value="XII">Class XII</option>
-                                                </select><br>
-                                            </div>
-                                        </div>
-                                        <label class="left-label bld" for="">Address</label>
-                                        <input type="text" class="form-control" name="address"
-                                            placeholder="Student Address" required="required"><br>
-                                        
-                                        <button class="btn btn-primary">Submit</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
 
                 <!-- Add Activity Category -->
@@ -248,28 +142,7 @@
                         data-target="#addActivityCategory">
                         Add Category
                     </button>
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addActivityCategory" role="dialog"
-                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Add Activity Category</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST" action="{% url 'ankurayan:AddActivityCategory' %}">
-                                        {% csrf_token %}
-                                        <input type="text" hidden name="slug" value={{ankurayan.slug}}>
-                                        <input type="text" class="form-control" name="name" placeholder="Category name"
-                                            required="required"><br>
-                                        <button class="btn btn-primary">Submit</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
 
                 <!-- Add Activity -->
@@ -277,56 +150,7 @@
                     <button type="button" class="btn btn-primary w-75" data-toggle="modal" data-target="#addActivity">
                         Add Activity
                     </button>
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addActivity" role="dialog"
-                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Add Activity</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST" enctype="multipart/form-data"
-                                        action="{% url 'ankurayan:CreateActivity' %}">{% csrf_token %}
-                                        <input type="text" hidden name="slug" value={{ankurayan.slug}}>
-                                        <div class="row">
-                                            <div class="col">
-                                                <label class="left-label bld" for="">Activity Name</label>
-                                                <input type="text" class="form-control" name="activity_name"
-                                            placeholder="Activity name" required="required"><br>
-                                            </div>
-                                            <div class="col">
-                                                <label class="left-label bld" for="category">Category</label>
-                                        <select class="form-control" name="category">
-                                            {% for category in categories %}
-                                            <option value="{{category.pk}}">{{category.name}}</option>
-                                            {% endfor %}
-                                        </select><br>
-                                            </div>
-                                        </div>
-                                        <label class="left-label bld" for="activity_date">Activity
-                                            Date</label>
-                                        <input type="date" name="activity_date" class="form-control"
-                                            required="required"><br>
-                                        <label class="left-label bld" for="activity_images">Images</label>
-                                        <div class="input-group">
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" multiple name="activity_images" id="inputGroupFile04" 
-                                                    aria-describedby="inputGroupFileAddon04">
-                                                <label class="custom-file-label" for="inputGroupFile04">Add Images</label>
-                                            </div>
-                                        </div><br>
-                                        <label class="left-label bld" for="">Description</label>
-                                        <textarea name="description" cols="80" class="form-control"
-                                            placeholder="Description" rows="4"></textarea><br>
-                                        <button class="btn btn-primary">Add Activity</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
                 {% endif %}
             </div>
@@ -690,7 +514,7 @@
                 <div class="row justify-content-center">
                     <p class="parallax-description w-100 px-3"
                         style="font-size:1.7em; line-height:35px; margin-bottom: 30px;">
-                        Do you like to work for children? Do you feel the slogan "Save the Children". Yes. Here, you are
+                        Do you like to work for a social cause? Yes. Here, you are
                         welcome to our team and you can work as a volunteer.
                     </p>
                     <button type="button" class="btn btn-outline-light py-2 px-4 custom-btn angle-effect">
@@ -878,6 +702,188 @@
             </div>
         </div>
 </section>
+
+<!-- MODALS -->
+<div class="modal fade bd-example-modal-lg" tabindex="-1" id="addGuest" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title bld" id="exampleModalLongTitle">Add Guest</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form method="POST" action="{% url 'ankurayan:AddGuest' %}">{% csrf_token %}
+                <input type="text" hidden name="slug" value={{ankurayan.slug}}>
+                <div class="row">
+                    <div class="col">
+                        <label class="left-label bld" for="">Name</label>
+                        <input type="text" class="form-control" name="name" placeholder="Guest Name"
+                            required="required"><br>
+                    </div>
+                    <div class="col">
+                        <label class="left-label bld" for="">Contact Number</label>
+                        <input type="text" class="form-control" name="contact_no"
+                            placeholder="Contact number" required="required"><br>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <label class="left-label bld" for="">Profession</label>
+                        <input type="text" class="form-control" name="profession"
+                            placeholder="Profession" required="required"><br>
+                    </div>
+                    <div class="col">
+                        <label class="left-label bld" for="">Email</label>
+                        <input type="text" class="form-control" name="email" placeholder="Email"><br>        
+                    </div>
+                </div>
+                <label class="left-label bld" for="">About Guest</label>
+                <textarea name="about" cols="80" rows="4" class="form-control"
+                    placeholder="About Guest"></textarea><br>
+                <button class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+<div class="modal fade bd-example-modal-lg" tabindex="-1" id="addParticipantsModal" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title bld" id="exampleModalLongTitle">Add Participants</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form method="POST" action="{% url 'ankurayan:AddParticipant' %}">{% csrf_token %}
+                <input type="text" hidden name="slug" value={{ankurayan.slug}}>
+                <div class="row">
+                    <div class="col">
+                        <label class="left-label bld" for="">Name</label>
+                        <input type="text" class="form-control" name="name" placeholder="Student name"
+                    required="required"><br>
+                    </div>
+                    <div class="col">
+                        <label class="left-label bld" for="">Contact Number</label>
+                        <input type="text" class="form-control" name="contact_no"
+                    placeholder="Guardian Contact number" required="required"><br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label class="left-label bld" for="">Gender</label>
+                        <select class="form-control" name="gender">
+                            <option value="M">Male</option>
+                            <option value="F">Female</option>
+                            <option value="O">Other</option>
+                        </select><br>
+                    </div>
+                    <div class="col">
+                        <label class="left-label bld" for="">School Class</label>
+                        <select class="form-control" name="school_class">
+                            <option value="I">Class I</option>
+                            <option value="II">Class II</option>
+                            <option value="III">Class III</option>
+                            <option value="IV">Class IV</option>
+                            <option value="V">Class V</option>
+                            <option value="VI">Class VI</option>
+                            <option value="VII">Class VII</option>
+                            <option value="VIII">Class VIII</option>
+                            <option value="IX">Class IX</option>
+                            <option value="X">Class X</option>
+                            <option value="XI">Class XI</option>
+                            <option value="XII">Class XII</option>
+                        </select><br>
+                    </div>
+                </div>
+                <label class="left-label bld" for="">Address</label>
+                <input type="text" class="form-control" name="address"
+                    placeholder="Student Address" required="required"><br>
+                
+                <button class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+<div class="modal fade bd-example-modal-lg" tabindex="-1" id="addActivityCategory" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title bld" id="exampleModalLongTitle">Add Activity Category</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form method="POST" action="{% url 'ankurayan:AddActivityCategory' %}">
+                {% csrf_token %}
+                <input type="text" hidden name="slug" value={{ankurayan.slug}}>
+                <input type="text" class="form-control" name="name" placeholder="Category name"
+                    required="required"><br>
+                <button class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+<div class="modal fade bd-example-modal-lg" tabindex="-1" id="addActivity" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title bld" id="exampleModalLongTitle">Add Activity</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form method="POST" enctype="multipart/form-data"
+                action="{% url 'ankurayan:CreateActivity' %}">{% csrf_token %}
+                <input type="text" hidden name="slug" value={{ankurayan.slug}}>
+                <div class="row">
+                    <div class="col">
+                        <label class="left-label bld" for="">Activity Name</label>
+                        <input type="text" class="form-control" name="activity_name"
+                    placeholder="Activity name" required="required"><br>
+                    </div>
+                    <div class="col">
+                        <label class="left-label bld" for="category">Category</label>
+                <select class="form-control" name="category">
+                    {% for category in categories %}
+                    <option value="{{category.pk}}">{{category.name}}</option>
+                    {% endfor %}
+                </select><br>
+                    </div>
+                </div>
+                <label class="left-label bld" for="activity_date">Activity
+                    Date</label>
+                <input type="date" name="activity_date" class="form-control"
+                    required="required"><br>
+                <label class="left-label bld" for="activity_images">Images</label>
+                <div class="input-group">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" multiple name="activity_images" id="inputGroupFile04" 
+                            aria-describedby="inputGroupFileAddon04">
+                        <label class="custom-file-label" for="inputGroupFile04">Add Images</label>
+                    </div>
+                </div><br>
+                <label class="left-label bld" for="">Description</label>
+                <textarea name="description" cols="80" class="form-control"
+                    placeholder="Description" rows="4"></textarea><br>
+                <button class="btn btn-primary">Add Activity</button>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
 
 <!-- Include PhotoSwipe -->
 {% include 'snippets/init_pswp.html' %}

@@ -83,58 +83,7 @@
                     <button type="button" class="btn btn-primary w-75" data-toggle="modal" data-target="#addMeeting">
                         Create Meeting
                     </button>
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addMeeting" role="dialog"
-                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Create Meeting</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST" action="{% url 'ashram:AddMeeting' %}">{% csrf_token %}
-                                        <input type="text" hidden name="slug" value={{ashram.slug}}>
-                                        <div class="row">
-                                            <div class="col">
-                                                <label class="left-label bld" for="">Topic</label>
-                                                <input type="text" class="form-control" name="topic"
-                                                    placeholder="Meeting topic" required="required"><br></div>
-                                            <div class="col">
-                                                <label class="left-label bld" for="">Date</label>
-                                                <input type="date" class="form-control" name="schedule"
-                                                    required="required"><br></div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col">
-                                                <label class="left-label bld" for="">Location</label>
-                                                <input type="text" class="form-control" name="location"
-                                                    placeholder="Location" required="required"><br>
-                                            </div>
-                                            <div class="col">
-                                                <label class="left-label bld" for="">Minutes</label>
-                                                <div class="input-group">
-                                                    <div class="custom-file">
-                                                        <input type="file" class="custom-file-input" name="minutes"
-                                                            id="inputGroupFile04"
-                                                            aria-describedby="inputGroupFileAddon04">
-                                                        <label class="custom-file-label" for="logo">Add
-                                                            Minutes</label><br>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <label class="left-label bld" for="">Agenda</label>
-                                        <textarea name="agenda" cols="80" rows="4" placeholder="Agenda"
-                                            class="form-control" required="required"></textarea><br>
-                                        <button class="btn btn-primary">Create Meeting</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
 
                 <!-- Add Attendee to this Meeting -->
@@ -146,27 +95,7 @@
                         data-target="#addActivityCategory">
                         Add Category
                     </button>
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addActivityCategory" role="dialog"
-                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Add Activity Category</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST" action="{% url 'ashram:AddActivityCategory' %}">{% csrf_token %}
-                                        <input type="text" hidden name="slug" value={{ashram.slug}}>
-                                        <input type="text" class="form-control" name="name"
-                                            placeholder="Activity name"><br>
-                                        <button class="btn btn-primary">Submit</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
 
                 <!-- Add Activity -->
@@ -174,49 +103,7 @@
                     <button type="button" class="btn btn-primary w-75" data-toggle="modal" data-target="#addActivity">
                         Add Activity
                     </button>
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addActivity" role="dialog"
-                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Add Activity</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST" enctype="multipart/form-data"
-                                        action="{% url 'ashram:CreateActivity' %}">{% csrf_token %}
-                                        <input type="text" hidden name="slug" value={{ashram.slug}}>
-                                        <label class="left-label bld" for="">Activity Name</label>
-                                        <input type="text" class="form-control" name="activity_name"
-                                            placeholder="Activity name" required="required"><br>
-                                        <label class="left-label bld" for="">Category</label>
-                                        <select class="form-control" required="required" name="category">
-                                            {% for category in categories %}
-                                            <option value="{{category.pk}}">{{category.name}}</option>
-                                            {% endfor %}
-                                        </select><br>
-                                        <!-- <input type="date" name="activity_date" class="form-control"><br> -->
-                                        <label class="left-label bld" for="">Description</label>
-                                        <textarea name="description" cols="80" class="form-control" rows="4"
-                                            placeholder="Description"></textarea><br>
-                                        <label class="left-label bld" for="">Activity Images</label>
-                                        <div class="input-group">
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" multiple
-                                                    name="activity_images" id="inputGroupFile04"
-                                                    aria-describedby="inputGroupFileAddon04">
-                                                <label class="custom-file-label" for="inputGroupFile04">Add
-                                                    Images</label>
-                                            </div>
-                                        </div><br>
-                                        <button class="btn btn-primary">Add Activity</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
 
                 <!-- Add Event -->
@@ -224,44 +111,7 @@
                     <button type="button" class="btn btn-primary w-75" data-toggle="modal" data-target="#addEvent">
                         Add Event
                     </button>
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addEvent" role="dialog"
-                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Add Event</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST" enctype="multipart/form-data"
-                                        action="{% url 'ashram:CreateEventAshram' %}">{% csrf_token %}
-                                        <input type="text" hidden name="slug" value={{ashram.slug}}>
-                                        <label class="left-label bld" for="">Event Name</label>
-                                        <input type="text" class="form-control" name="event_name"
-                                            placeholder="Event name" required="required"><br>
-                                        <label class="left-label bld" for="">Event Date</label>
-                                        <input type="date" name="event_date" required="required"
-                                            class="form-control"><br>
-                                        <label class="left-label bld" for="">Description</label>
-                                        <textarea name="description" cols="80" class="form-control" rows="4"
-                                            placeholder="Description"></textarea><br>
-                                        <label class="left-label bld" for="">Event Photo</label>
-                                        <div class="input-group">
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" multiple name="event_image"
-                                                    id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
-                                                <label class="custom-file-label" for="inputGroupFile04">Add
-                                                    Image</label>
-                                            </div>
-                                        </div><br>
-                                        <button class="btn btn-primary">Add Event</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
                 {% endif %}
             </div>
@@ -677,7 +527,7 @@
                 <div class="row justify-content-center">
                     <p class="parallax-description w-100 px-3"
                         style="font-size:1.7em; line-height:35px; margin-bottom: 30px;">
-                        Do you like to work for children? Do you feel the slogan "Save the Children". Yes. Here, you are
+                        Do you like to work for a social cause? Yes. Here, you are
                         welcome to our team and you can work as a volunteer.
                     </p>
                     <button type="button" class="btn btn-outline-light py-2 px-4 custom-btn angle-effect">
@@ -786,6 +636,162 @@
         </div>
     </div>
 </section>
+
+<!-- MODALS -->
+<div class="modal fade bd-example-modal-lg" tabindex="-1" id="addMeeting" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title bld" id="exampleModalLongTitle">Create Meeting</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form method="POST" action="{% url 'ashram:AddMeeting' %}">{% csrf_token %}
+                <input type="text" hidden name="slug" value={{ashram.slug}}>
+                <div class="row">
+                    <div class="col">
+                        <label class="left-label bld" for="">Topic</label>
+                        <input type="text" class="form-control" name="topic"
+                            placeholder="Meeting topic" required="required"><br></div>
+                    <div class="col">
+                        <label class="left-label bld" for="">Date</label>
+                        <input type="date" class="form-control" name="schedule"
+                            required="required"><br></div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <label class="left-label bld" for="">Location</label>
+                        <input type="text" class="form-control" name="location"
+                            placeholder="Location" required="required"><br>
+                    </div>
+                    <div class="col">
+                        <label class="left-label bld" for="">Minutes</label>
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" name="minutes"
+                                    id="inputGroupFile04"
+                                    aria-describedby="inputGroupFileAddon04">
+                                <label class="custom-file-label" for="logo">Add
+                                    Minutes</label><br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <label class="left-label bld" for="">Agenda</label>
+                <textarea name="agenda" cols="80" rows="4" placeholder="Agenda"
+                    class="form-control" required="required"></textarea><br>
+                <button class="btn btn-primary">Create Meeting</button>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+<div class="modal fade bd-example-modal-lg" tabindex="-1" id="addActivityCategory" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title bld" id="exampleModalLongTitle">Add Activity Category</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form method="POST" action="{% url 'ashram:AddActivityCategory' %}">{% csrf_token %}
+                <input type="text" hidden name="slug" value={{ashram.slug}}>
+                <input type="text" class="form-control" name="name"
+                    placeholder="Activity name"><br>
+                <button class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+<div class="modal fade bd-example-modal-lg" tabindex="-1" id="addActivity" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title bld" id="exampleModalLongTitle">Add Activity</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form method="POST" enctype="multipart/form-data"
+                action="{% url 'ashram:CreateActivity' %}">{% csrf_token %}
+                <input type="text" hidden name="slug" value={{ashram.slug}}>
+                <label class="left-label bld" for="">Activity Name</label>
+                <input type="text" class="form-control" name="activity_name"
+                    placeholder="Activity name" required="required"><br>
+                <label class="left-label bld" for="">Category</label>
+                <select class="form-control" required="required" name="category">
+                    {% for category in categories %}
+                    <option value="{{category.pk}}">{{category.name}}</option>
+                    {% endfor %}
+                </select><br>
+                <!-- <input type="date" name="activity_date" class="form-control"><br> -->
+                <label class="left-label bld" for="">Description</label>
+                <textarea name="description" cols="80" class="form-control" rows="4"
+                    placeholder="Description"></textarea><br>
+                <label class="left-label bld" for="">Activity Images</label>
+                <div class="input-group">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" multiple
+                            name="activity_images" id="inputGroupFile04"
+                            aria-describedby="inputGroupFileAddon04">
+                        <label class="custom-file-label" for="inputGroupFile04">Add
+                            Images</label>
+                    </div>
+                </div><br>
+                <button class="btn btn-primary">Add Activity</button>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+<div class="modal fade bd-example-modal-lg" tabindex="-1" id="addEvent" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title bld" id="exampleModalLongTitle">Add Event</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form method="POST" enctype="multipart/form-data"
+                action="{% url 'ashram:CreateEventAshram' %}">{% csrf_token %}
+                <input type="text" hidden name="slug" value={{ashram.slug}}>
+                <label class="left-label bld" for="">Event Name</label>
+                <input type="text" class="form-control" name="event_name"
+                    placeholder="Event name" required="required"><br>
+                <label class="left-label bld" for="">Event Date</label>
+                <input type="date" name="event_date" required="required"
+                    class="form-control"><br>
+                <label class="left-label bld" for="">Description</label>
+                <textarea name="description" cols="80" class="form-control" rows="4"
+                    placeholder="Description"></textarea><br>
+                <label class="left-label bld" for="">Event Photo</label>
+                <div class="input-group">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" multiple name="event_image"
+                            id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
+                        <label class="custom-file-label" for="inputGroupFile04">Add
+                            Image</label>
+                    </div>
+                </div><br>
+                <button class="btn btn-primary">Add Event</button>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
 
 <!-- Include PhotoSwipe -->
 {% include 'snippets/init_pswp.html' %}
