@@ -350,8 +350,9 @@
                         Do you like to work for children? Do you feel the slogan "Save the Children". Yes. Here, you are
                         welcome to our team and you can work as a volunteer.
                     </p>
-                    <button type="button" class="btn btn-outline-light py-2 px-4 custom-btn angle-effect">Join
-                        Now</button>
+                    <button type="button" class="btn btn-outline-light py-2 px-4 custom-btn angle-effect">
+                        <a href="{% url 'signup' %}" class="d-block text-decoration-none text-white">Join Now</a>
+                    </button>
                 </div>
             </div>
         </div>
@@ -391,9 +392,8 @@
                     </figure>
                     {% endfor %}
                     <figure id="load-more" class="item {% for activity in activities %} {{ activity.id }} {% endfor %}">
-                        <img src='/media/profile_photos/man.png'>
                         <a href="javascript:void(0);" class="stretched-link">
-                            Show More
+                            <p class="text-center">Show More</p>
                         </a>
                     </figure>
                 </div>

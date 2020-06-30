@@ -345,7 +345,9 @@
                     <p class="parallax-description w-100 px-3" style="font-size:1.7em; line-height:35px; margin-bottom: 30px;">
                         Do you like to work for children? Do you feel the slogan "Save the Children". Yes. Here, you are welcome to our team and you can work as a volunteer.
                     </p>
-                    <button type="button" class="btn btn-outline-light py-2 px-4 custom-btn angle-effect">Join Now</button>
+                    <button type="button" class="btn btn-outline-light py-2 px-4 custom-btn angle-effect">
+                        <a href="{% url 'signup' %}" class="d-block text-decoration-none text-white">Join Now</a>
+                    </button>
                 </div>
             </div>
         </div>
@@ -432,9 +434,8 @@
                         </a>
                     </figure>
                     <figure id="load-more" class="item cat-1 cat-2 cat-3 cat-4 cat-5">
-                        <img src=''>
                         <a href="javascript:void(0);" class="stretched-link">
-                            Show More
+                            <p class="text-center">Show More</p>
                         </a>
                     </figure>
                 </div>
