@@ -20,9 +20,9 @@ body, html {
 /*---------------------------------------------*/
 a {
 	font-family: Poppins;
-	font-size: 14px;
+	/* font-size: 14px; */
 	line-height: 1.7;
-	color: #666666;
+	/* color: #666666; */
 	margin: 0px;
 	transition: all 0.4s;
 	-webkit-transition: all 0.4s;
@@ -36,7 +36,7 @@ a:focus {
 
 a:hover {
 	text-decoration: none;
-  color: #000;
+  /* color: #000; */
 }
 
 /*---------------------------------------------*/
