@@ -132,9 +132,9 @@
 }
 
 
-/* MISSION AND VISION COROUSEL */
+/* ABOUT AND MISSION SECTION */
 
-#about::before {
+#about::before, #mission::before {
     display: block;
     content: "";
     margin-top: -30px;
@@ -142,10 +142,10 @@
     visibility: hidden;
 }
 
-#about .content-box {
+#mission .content-box {
     text-align: justify;
 }
-#about .content-title {
+#mission .content-title {
     color: #0d0d0d;
     font-size: 1.375em;
     font-weight: 800;
@@ -154,20 +154,20 @@
     margin-top: 0;
 }
 
-#mission-carousel img, #vision-carousel img {
+#mission .carousel img {
     width: 100%;
 }
 
 @media screen and (max-width: 767px) {
-    #mission-carousel, #vision-carousel {
+    #mission .carousel {
         width: 75%;
     }
-    #mission>.content-title, #vision>.content-title {
+    #mission .content-title {
         font-size: 1.875rem;
     }
 }
 @media screen and (max-width: 400px) {
-    #mission-carousel, #vision-carousel {
+    #mission .carousel {
         width: 100%;
     }
 }
