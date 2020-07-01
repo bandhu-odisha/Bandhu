@@ -130,7 +130,8 @@ def account_activation(request, uidb64, token):
         messages.success(request, "Account Activation Successful!")
         return redirect('profile_page')
     else:
-        return HttpResponse('Account Activation Token Expired.')
+        msg = "The token entered is wrong or your account has already been activated. Try signing in."
+        return render(request, 'token_expired.html', {'msg': msg})
 
 def account_authentication(request, uidb64, token):
     try:
@@ -160,7 +161,8 @@ def account_authentication(request, uidb64, token):
 
         return redirect('account_authenticated')
     else:
-        return HttpResponse('Account Authentication Token Expired.')   # Token expired
+        msg = "The token entered is wrong or your account has already been verified. Try signing in."
+        return render(request, 'token_expired.html', {'msg': msg})
 
 def account_activated(request):
     return render(request,'account_activated.html')
