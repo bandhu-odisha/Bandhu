@@ -27,6 +27,7 @@ import random
 
 def login_view(request):
     if request.user.is_authenticated:
+        message.success(request, "You are already logged in.")
         return redirect('home')
 
     err_code = 0
@@ -73,6 +74,7 @@ def login_view(request):
 
 def signup_view(request):
     if request.user.is_authenticated:
+        message.success(request, "You are already logged in.")
         return redirect('home')
 
     if request.method == 'POST':
@@ -130,8 +132,8 @@ def account_activation(request, uidb64, token):
         messages.success(request, "Account Activation Successful!")
         return redirect('profile_page')
     else:
-        msg = "The token entered is wrong or your account has already been activated. Try signing in."
-        return render(request, 'token_expired.html', {'msg': msg})
+        msg = "You have either entered a wrong link or your account has already been activated."
+        return render(request, 'token_expired.html', {'msg': msg, 'act_token': True})
 
 def account_authentication(request, uidb64, token):
     try:
@@ -161,7 +163,7 @@ def account_authentication(request, uidb64, token):
 
         return redirect('account_authenticated')
     else:
-        msg = "The token entered is wrong or your account has already been verified. Try signing in."
+        msg = "You have either entered a wrong link or some admin has already verified this account."
         return render(request, 'token_expired.html', {'msg': msg})
 
 def account_activated(request):

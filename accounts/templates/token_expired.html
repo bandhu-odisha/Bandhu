@@ -12,8 +12,13 @@
             style="margin: auto; margin-top: 50px; max-width: 500px;">
             <!-- <img src="/static/img/icon/mail-sent-2.gif" alt="Email Sent" style="max-width: 200px;"> -->
             <i class="fa fa-unlink" style="font-size: 7em; color: orange;"></i>
-            <h1 class="mx-3 font-weight-bolder">Token Expired</h1>
-            <p class="mx-3"> {{msg}} </p>
+            <h1 class="m-4 font-weight-bolder">Token Expired</h1>
+            <p class="m-3">
+                {{msg}} 
+                {% if act_token %}
+                Try <a href="{% url 'login' %}">signing in</a> with your credentials.
+                {% endif %}
+            </p>
         </div>
     </div>
 {% endblock %}
