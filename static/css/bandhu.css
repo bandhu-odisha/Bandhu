@@ -62,7 +62,16 @@
 #initiatives .card img{
     height: 230px;
     object-fit: cover;
+    min-height: 230px;
 }
+
+/* @media screen and (max-width: 1199px){
+    #initiatives .card img{
+        height: 210px;
+        object-fit: cover;
+        min-height: 210px;
+    }
+} */
 
 #initiatives .card-body h5{
     text-align: center;

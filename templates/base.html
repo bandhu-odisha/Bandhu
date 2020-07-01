@@ -61,13 +61,18 @@
 							<a class="nav-link" href="{% url 'home' %}">Home</a>
 						</li>
 						{% endblock %}
-						<li class="nav-item align-self-center w-100 mt-2 mt-lg-0">
-							{% if user.is_authenticated %}
-							<a class="nav-button btn btn-danger px-3 ml-3" href="{% url 'logout' %}"> Logout</a>
-							{% else %}
-							<a class="nav-button btn btn-danger px-3 ml-3" href="{% url 'login' %}"> Login</a>
-							{% endif %}
+						{% if user.is_authenticated %}
+						<li class="nav-item">
+							<a class="nav-link px-3 px-lg-2" href="{% url 'profile_page' %}" style="/*white-space: nowrap;*/">Profile</a>
 						</li>
+						<li class="nav-item align-self-center w-100 mt-2 mt-lg-0">
+							<a class="nav-button btn btn-danger px-3 ml-3" href="{% url 'logout' %}"> Logout</a>
+						</li>
+						{% else %}
+						<li class="nav-item align-self-center w-100 mt-2 mt-lg-0">
+							<a class="nav-button btn btn-danger px-3 ml-3" href="{% url 'login' %}"> Login</a>
+						</li>
+						{% endif %}
 					</ul>
 				</nav>
 			</div>
