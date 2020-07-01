@@ -1,0 +1,19 @@
+{% extends 'accounts_base.html' %}
+
+{% block title %}
+    Bandhu | Token Expired
+{% endblock %}
+
+
+{% block content %}
+    <div class="container form-display" style="margin-top: 50px;">
+        
+        <div class="wrap-login100 p-l-50 p-r-50 p-t-32 p-b-23 text-center" 
+            style="margin: auto; margin-top: 50px; max-width: 500px;">
+            <!-- <img src="/static/img/icon/mail-sent-2.gif" alt="Email Sent" style="max-width: 200px;"> -->
+            <i class="fa fa-unlink" style="font-size: 7em; color: orange;"></i>
+            <h1 class="mx-3 font-weight-bolder">Token Expired</h1>
+            <p class="mx-3"> {{msg}} </p>
+        </div>
+    </div>
+{% endblock %}
