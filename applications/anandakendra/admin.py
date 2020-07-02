@@ -7,6 +7,7 @@ from .models import (
 
 @admin.register(AnandaKendra)
 class AnandaKendraAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('name','locality')}
     list_display = ('name','locality', 'admin')
     ordering = ('name',)
     search_fields = ('name', 'admin__first_name','locality')

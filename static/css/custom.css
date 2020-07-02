@@ -261,7 +261,7 @@ a, h1, h2, h3, h4, h5, h6, p {
     bottom: 40px;
     cursor: pointer;
     display: none;
-    opacity: .7;
+    opacity: .85;
     z-index: 99;
     -webkit-transition: all .25s ease;
     -moz-transition: all .25s ease;

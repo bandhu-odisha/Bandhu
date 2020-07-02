@@ -19,12 +19,6 @@ class AnandaKendra(models.Model):
     def __str__(self):
         return self.name
 
-    def save(self,*args,**kwargs):
-        str1 = self.name
-        str2 = self.locality
-        self.slug = slugify(str1+'-'+str2)
-        super(AnandaKendra,self).save(*args,**kwargs)
-
 class Student(models.Model):
     GENDER = (
         ('M', 'Male'),
