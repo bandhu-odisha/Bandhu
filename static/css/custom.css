@@ -93,7 +93,7 @@ a, h1, h2, h3, h4, h5, h6, p {
 /* SHOWCASE STARTS */
 
 #top-section {
-    background: url(../img/our_mission.jpg) 50% 0 no-repeat fixed;
+    background: url(../img/our_mission.jpg) 50% center no-repeat fixed;
     margin: 0 auto;
     background-repeat: no-repeat;
     background-size: 100vw 120vh;
