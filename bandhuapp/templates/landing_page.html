@@ -46,14 +46,18 @@
 <div class="recent-activities">
     <button class="btn btn-primary recent-activities-btn" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
         OnGoing/Recent Activities
-        <i style="margin-left:10px !important;" class="fas fa-chevron-down"></i>
     </button>
     <div class="collapse recent-activities-collapse" id="collapseExample">
-        <div class="card card-body">
-            <ol>
+        <div class="card card-body recent-activity-card">
+            <ol class="recent-activity-ol">
                 {% for i in recent_activities %}
-                    <li><a href="#" style="font-size: 20px;">{{i.name}}</a> <i style="font-size: 12px; float: right;">{{i.activity_date}}</i><br>{{i.description|truncatechars:80}}</li>
-                    <hr>
+                    <a href="#" style="font-size: 20px; text-decoration: none;">
+                        <li class="recent-activity-li">
+                            {{i.name}}
+                            <i style="font-size: 12px; float: right;">{{i.activity_date}}</i><br>
+                            <p style="font-size: 13px;">{{i.description|truncatechars:80}}</p>
+                        </li>
+                    </a> 
                 {% endfor %}
             </ol>
         </div>
@@ -86,7 +90,9 @@
                 <div class="card-body p-3">
                     <h5 class="card-title content-title font-weight-bolder">Ananda Kendra</h5>
                     <p class="content-description">
-                        
+                        Anandakendra is an idea concieved to support school education of children in all possible ways.
+                        This initiative aims to ensure a supportive environment for an overall (personal-social-spirtual)
+                        development at a tender stage of life.   
                     </p>
                 </div>
                 <a href="{% url 'anandakendra:anandakendra' %}" class="stretched-link"></a>
@@ -188,7 +194,12 @@
                         </strong>
                     </p>
                     <p>
-                        <!-- description -->
+                        It is a group of people, good but not necessarily great, bound by a spontaneous flow of boudless friendship. 
+                        It is concerned towards the inconsistencies within and without. Bandhu does small things with highest possible 
+                        sincerity like running weekly sessions of yoga, game, song and story telling. It leads the movement against 
+                        liquor both locally and at state level. It's brand programme Ankurayan is in its 13th year and a houshold 
+                        name in Tirtol, Garadpur and some part of cuttack dist. It strives to revive the village spirit and check, 
+                        rather reverse the mindless migration to cities.
                     </p>
                 </div>
             </div>
@@ -225,7 +236,12 @@
                         </strong>
                     </p>
                     <p>
-                        <!-- description -->
+                        It is a group of people, good but not necessarily great, bound by a spontaneous flow of boudless friendship. 
+                        It is concerned towards the inconsistencies within and without. Bandhu does small things with highest possible 
+                        sincerity like running weekly sessions of yoga, game, song and story telling. It leads the movement against 
+                        liquor both locally and at state level. It's brand programme Ankurayan is in its 13th year and a houshold 
+                        name in Tirtol, Garadpur and some part of cuttack dist. It strives to revive the village spirit and check, 
+                        rather reverse the mindless migration to cities.
                     </p>
                 </div>
             </div>
@@ -260,7 +276,12 @@
                         </strong>
                     </p>
                     <p>
-                        <!-- description -->
+                        It is a group of people, good but not necessarily great, bound by a spontaneous flow of boudless friendship. 
+                        It is concerned towards the inconsistencies within and without. Bandhu does small things with highest possible 
+                        sincerity like running weekly sessions of yoga, game, song and story telling. It leads the movement against 
+                        liquor both locally and at state level. It's brand programme Ankurayan is in its 13th year and a houshold 
+                        name in Tirtol, Garadpur and some part of cuttack dist. It strives to revive the village spirit and check, 
+                        rather reverse the mindless migration to cities.
                     </p>
                 </div>   
             </div>
