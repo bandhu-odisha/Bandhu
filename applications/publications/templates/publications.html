@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block showcase-title-container %}
-<div class="slider-txt-container" style="padding: 200px 0 100px 0;">
+<div class="slider-txt-container" style="padding: 150px 0 75px 0;">
     <h2 class="bold-txt"> Publications </h2>
 </div>
 {% endblock %}
@@ -22,35 +22,29 @@
 {% block angular %} {% endblock %}
 
 {% block content %}
-
-<section id="services" class="bg-primary p-1">
+<section id="services" class="bg-dark p-1">
 </section>
 
 <section class="bg-white" id="about" style="padding: 5rem 0 3rem;">
-
-  <div class="container px-sm-0 px-md-4 px-xl-2 font-open-sans">
-    <div class="row w-100 mx-auto">
-      {% for item in publications %}
-      <div class="col-sm-6 col-lg-4 col-xl-3 d-flex justify-content-center mb-5 px-sm-2 px-md-4 px-lg-3 px-xl-2">
-        <div class="card dpg-album-card">
-          <img src="{{ item.thumb.url }}" alt="{{ item.title }}" class="card-image-top dpg-album-card-image w-100" />
-          <div class="card-body">
-            <h5 class="card-title">{{ item.title|safe }}</h5>
-            <span class=""><i class="far fa-calendar-check"></i>
-              <time datetime="{{ album.created|date:'Y-m-d' }}">{{ item.created|date:"d M, Y" }}</time>
-            </span>
-            <p class="card-text">{{ item.description|safe|truncatechars:200 }}</p>
-          </div>
-          <div class="card-footer">
-            <h5 class="text-muted text-center m-0 py-2">
-              <a class="btn btn-primary btn-sm py-2 px-4" href="{% url 'publications:publication' item.slug %}">View</a>
-            </h5>
-          </div>
+    <div class="container px-sm-0 px-md-4 px-xl-2 font-open-sans">
+        <div class="row w-100 mx-auto">
+            {% for item in publications %}
+            {% if item.is_visible %}
+            <div class="col-sm-6 col-lg-4 col-xl-3 d-flex justify-content-center mb-5 px-sm-2 px-md-4 px-lg-3 px-xl-2">
+                <div class="card dpg-album-card">
+                    <img src="{{ item.thumb.url }}" alt="{{ item.title }}" class="card-image-top w-100" style="height: 225px;" />
+                    <div class="card-body">
+                        <h5 class="card-title font-weight-bolder">{{ item.title|safe }}</h5>
+                        <span class=""><i class="far fa-calendar-check mr-1"></i>
+                            <time datetime="{{ album.created|date:'Y-m-d' }}">{{ item.created|date:"d M, Y" }}</time>
+                        </span>
+                    </div>
+                    <a class="stretched-link" href="{% url 'publications:publication' item.slug %}"></a>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
         </div>
-      </div>
-      {% endfor %}
     </div>
-  </div>
-
 </section>
 {% endblock %}
