@@ -22,11 +22,6 @@ class Ankurayan(models.Model):
     def __str__(self):
         return f'Ankurayan {self.year}'
 
-    def save(self,*args,**kwargs):
-        str1 = self.year
-        self.slug = slugify(str1)
-        super(Ankurayan,self).save(*args,**kwargs)
-
 class Participant(models.Model):
     GENDER = (
         ('M', 'Male'),

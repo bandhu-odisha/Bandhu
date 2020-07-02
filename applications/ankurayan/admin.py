@@ -7,6 +7,7 @@ from .models import (
 
 @admin.register(Ankurayan)
 class AnkurayanAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('year',)}
     list_display = ('theme','year','start_date','end_date', 'admin')
     ordering = ('year',)
     search_fields = ('year','theme','admin__first_name','locality')
