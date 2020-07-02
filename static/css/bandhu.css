@@ -242,7 +242,7 @@
 /* VOLUNTEER SECTION START */
 
 #volunteer {
-    background: url(../img/clients-bg.jpg) 50% 0 no-repeat fixed;
+    background: url(../img/clients-bg.jpg) 50% 35% no-repeat fixed;
     margin: 0 auto;
     padding: 0;
 }
@@ -549,19 +549,20 @@
 }
 
 .recent-activities{
-    position:fixed;
+    position: absolute;;
     z-index:250;
     top:79px;
-    right:30px;
-    width:350px !important;
+    right:60px;
+    width:300px !important;
 }
 
 .recent-activities-btn {
     width:350px !important;
+    font-weight: bolder;
     outline:none;
-    background-color: rgb(116, 116, 116) !important;
+    background-color: #ff9800  !important;
     color:white;
-    border-color: rgba(104, 101, 101,1) !important;
+    border-color: #ff9800  !important;
     letter-spacing: 1.2px;
     box-shadow: none !important;
 }
@@ -569,15 +570,34 @@
 .recent-activities-btn:hover {
     width:350px !important;
     outline:none;
-    background-color: rgba(104, 101, 101,1) !important;
+    background-color: #d37e00 !important;
     color:white;
-    border-color: rgba(104, 101, 101,1);
+    border-color: #d37e00;
 }
 
 .recent-activities-collapse{
     width:350px !important;
     max-height:60vh;
     overflow-y: auto;
+}
+
+.recent-activity-card {
+    padding: 10px !important;
+    background-color: #f2f1f1;
+}
+
+.recent-activity-ol {
+    list-style: none;
+    padding: 0;
+}
+
+.recent-activity-li {
+    padding: 10px !important;
+	font-size: 18px !important;
+	border: 1px solid #ece5e5 !important;
+	border-radius: 5px !important;
+	background-color: white !important;
+	box-shadow: 0px 1px 0px 0px #d8d6d6 !important;
 }
 
 /* Custom label */
