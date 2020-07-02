@@ -17,10 +17,8 @@ urlpatterns = [
     path('charity_work/', include('applications.charitywork.urls')),
     path('sanskarbarga/', include('applications.sanskarbarga.urls')),
     path('madh_mukti/', include('applications.madhmukti.urls')),
+    path('publications/', include('applications.publications.urls')),
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-# if not settings.DEBUG:
-#     urlpatterns += [ path('media/<str:path>/', serve,{'document_root': settings.MEDIA_ROOT}), path('static/<str:path>/', serve,{'document_root': settings.STATIC_ROOT}), ]
