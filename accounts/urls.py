@@ -24,10 +24,13 @@ urlpatterns = [
     path('signup/', views.signup_view,name="signup"),
     path('activate/<slug:uidb64>/<slug:token>/', views.account_activation, name='account_activation'),
     path('authenticate/<slug:uidb64>/<slug:token>/', views.account_authentication, name='account_authentication'),
+    path('delete/<slug:uidb64>/<slug:token>/', views.account_deletion, name='account_deletion'),
+    path('delete/<slug:uidb64>/confirmed/', views.account_deletion_confirmed, name='account_deletion_confirmed'),
 
     path('signup/success/', views.signup_success,name="signup_success_page"),   # User Signup Complete
     path('activated/', views.account_activated,name="account_activated"),   # User Activation Complete
     path('authenticated/', views.account_authenticated,name="account_authenticated"),   # User Authentication Complete
+    path('deleted/', views.account_deleted,name="account_deleted"),   # User Authentication Complete
 
     
     # Django Auth Urls

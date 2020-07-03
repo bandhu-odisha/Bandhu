@@ -35,5 +35,8 @@ class RecentActivity(models.Model):
     date = models.CharField(max_length=100)
     link = models.CharField(max_length=500)
 
+    class Meta:
+        verbose_name_plural = 'Recent Activities'
+
     def __str__(self):
         return f'{self.title} - {self.date}'

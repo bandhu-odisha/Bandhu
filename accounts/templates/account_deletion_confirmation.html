@@ -1,0 +1,29 @@
+{% extends 'accounts_base.html' %}
+
+{% block title %}
+	Bandhu | Delete User Account
+{% endblock %}
+
+{% block content %}
+<section style="margin-top: 180px;">
+    <div class="container">
+        <div class="row justify-content-center mx-4 mx-md-0">
+            <div class="col-md-6 bg-grey p-5 border rounded">
+                <h1>Delete User Account</h1>
+                <p>Are you sure wnat to delete the account of the following user?</p>
+                <p>
+                    <!-- USER INFO LIKE THAT IN EMAIL -->
+                </p>
+                <div class="row justify-content-center">
+                    <div class="col-sm-6 text-center mb-3">
+                        <a href="{% url 'account_deletion_confirmed' uidb64 %}" class="btn btn-danger w-75">Confirm</a>
+                    </div>
+                    <div class="col-sm-6 text-center mb-3 order-sm-first">
+                        <a href="{% url 'home' %}" class="btn btn-success w-75">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -163,14 +163,58 @@ def account_authentication(request, uidb64, token):
 
         return redirect('account_authenticated')
     else:
-        msg = "You have either entered a wrong link or some admin has already verified this account."
+        msg = "You have either entered a wrong link or some admin has already verified or deleted this account."
         return render(request, 'token_expired.html', {'msg': msg})
+
+def account_deletion(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        context = {
+            'uidb64': uidb64,
+        }
+        return render(request, 'account_deletion_confirmation.html')
+    else:
+        msg = "You have either entered a wrong link or some admin has already verified or deleted this account this account."
+        return render(request, 'token_expired.html', {'msg': msg})
+
+def account_deletion_confirmed(request, uidb64):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None:
+        # user.profile.profile_pic.delete()  # man.png will also be deleted
+        user.delete()
+        current_site = get_current_site(request)
+        from_email = settings.SENDER_EMAIL
+        mail_subject = '[noreply] Account Deleted'
+        message = render_to_string('account_emails/account_verified_email.html', {
+            'email': user.email,
+        })
+        to_email = [user.email]
+        email = EmailMessage(
+            mail_subject, message, from_email, to_email,
+        )
+        email.content_subtype="html"
+        email.send()
+
+        return redirect('account_deleted')
+    else:
+        raise Http404
 
 def account_activated(request):
     return render(request,'account_activated.html')
 
 def account_authenticated(request):
     return render(request,'account_authenticated.html')
+
+def account_deleted(request):
+    return render(request,'account_deleted.html')
 
 def signup_success(request):
     return render(request,'signup_success.html')
