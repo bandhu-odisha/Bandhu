@@ -9,4 +9,7 @@ admin.site.register(Profile)
 # admin.site.register(Meeting)
 # admin.site.register(Ashram)
 admin.site.register(RecentActivity)
-admin.site.register(Photo)
+
+@admin.register(Photo)
+class PublicationModelAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'picture')

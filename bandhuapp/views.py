@@ -27,7 +27,7 @@ def index(request):
         return redirect('profile_page')
 
     context = {
-        'photos': Photo.objects.all()
+        'photos': Photo.objects.order_by('created')
     }
     return render(request, 'landing_page.html', context)
 
@@ -96,3 +96,18 @@ def profile_page(request):
         'first_time': first_time,
     }
     return render(request,'profile.html', context)
+
+
+def add_images(request):
+    if request.method == 'POST':
+        picture = request.FILES['image']
+        caption = request.POST['caption']
+        tag_list = request.POST.getlist('tags')
+
+        tags = ""
+        for tag in tag_list:
+            tags += f'{tag} '
+
+        Photo.objects.create(picture=picture, caption=caption, tags=tags)
+
+    return HttpResponseRedirect('/')

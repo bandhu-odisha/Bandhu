@@ -42,9 +42,10 @@ class RecentActivity(models.Model):
         return f'{self.title} - {self.date}'
 
 class Photo(models.Model):
-    caption = models.TextField(max_length=500)
     picture = models.ImageField(upload_to='bandhuapp/gallery')
+    caption = models.TextField(max_length=500, null=True, blank=True)
     tags = models.CharField(max_length=100, null=True, blank=True)
+    created = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f'Photo{self.id}'

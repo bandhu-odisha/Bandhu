@@ -7,6 +7,7 @@
 {% block style %}
 <!-- Custom CSS -->
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
+<link rel="stylesheet" href="{% static 'vendor/css/bootstrap-select.min.css' %}">
 {% endblock %}
 
 {% block navbar-links %}
@@ -462,6 +463,61 @@
                     </figure>
                 </div>
             </div>
+            {% if user.is_admin %}
+            <div class="row justify-content-center mt-4">
+                <div class="col col-sm-5 add-images text-center">
+                    <button type="button" class="btn btn-outline-primary" data-toggle="modal"
+                        data-target="#addToGallery">
+                        Upload Image
+                    </button>
+                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addToGallery" role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Upload Images</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="POST" enctype="multipart/form-data" action="{% url 'add_images' %}">
+                                        {% csrf_token %}
+                                        <label class="left-label bld" for="">Image</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input"
+                                                    name="image" id="inputGroupFile04"
+                                                    aria-describedby="inputGroupFileAddon04">
+                                                <label class="custom-file-label" for="inputGroupFile04">Add
+                                                    Image</label>
+                                            </div>
+                                        </div><br>
+                                        <label class="left-label bld" for="">Caption</label>
+                                        <textarea class="form-control" name="caption" rows="3"
+                                            placeholder="Caption for image (optional)"></textarea><br>
+                                        <label class="left-label bld" for="tags-select">Tags</label>
+                                        <select id="tags-select" class="form-control selectpicker" name="tags" multiple>
+                                            <option value="ankurayan">Ankurayan</option>
+                                            <option value="anandakendra">Ananda Kendra</option>
+                                            <option value="bandhughar">Bandhu Ghar</option>
+                                            <option value="other">Other Activities</option>
+                                        </select><br>
+                                        <button class="btn btn-primary w-50 mt-4">Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col col-sm-5 approve-images text-center">
+                    <button type="button" class="btn btn-outline-primary" data-toggle="modal"
+                        data-target="#deleteImages">
+                        Delete Images
+                    </button>
+                </div> -->
+            </div>
+            {% endif %}
         </div>
     </div>
 </section>
@@ -488,7 +544,7 @@
                 src: '{{ photo.picture.url }}',
                 w:  {{ photo.picture.width }},
                 h:  {{ photo.picture.height }},
-                // title: '{{ photo.caption }}',
+                title: '{{ photo.caption }}',
             },
         {% endfor %}
     ];
@@ -539,8 +595,19 @@
 
     });
 </script>
+<!-- Custom JS -->
+<script src="{% static 'vendor/js/bootstrap-select.min.js' %}"></script>
 <!-- Glide Carousel JS -->
 <script src="{% static 'js/glide-custom.js' %}"></script>
 <!-- Contact Scrollspy Problem -->
 <script>contact_scrollspy()</script>
+<!-- Change name of image input -->
+<script>
+    $(".custom-file-input").on("change", function() {
+      var fileName = $(this).val().split("\\").pop();
+      $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+</script>
+<!-- Initiate Bootstrap Select -->
+<script>$('#tags-select').selectpicker();</script>
 {% endblock %}
