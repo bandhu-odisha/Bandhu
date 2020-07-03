@@ -171,10 +171,8 @@ def account_deletion(request, uidb64, token):
         uid = force_text(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
         profile = Profile.objects.filter(user=user).first()
-        print(profile)
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
-    print(account_activation_token.check_token(user, token))
     if user is not None and account_activation_token.check_token(user, token):
         context = {
             'uidb64': uidb64,
@@ -192,7 +190,6 @@ def account_deletion_confirmed(request, uidb64):
         user = User.objects.get(pk=uid)
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
-    print(user)
     if user is not None:
         # user.profile.profile_pic.delete()  # man.png will also be deleted
         user.delete()
