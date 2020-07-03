@@ -39,3 +39,12 @@ class Profile(models.Model):
 
 # 	def __str__(self):
 # 		return self.name
+
+class Recent_Activity(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.CharField(max_length=350)
+    date = models.DateTimeField()
+    link = models.CharField(max_length=350)
+
+    def __str__(self):
+        return f'{self.name} {self.date}'
