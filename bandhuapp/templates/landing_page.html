@@ -481,7 +481,8 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form method="POST" enctype="multipart/form-data" action="{% url 'add_images' %}">
+                                    <form method="POST" enctype="multipart/form-data" name="imageUploadForm"
+                                            action="{% url 'add_images' %}" onsubmit="return imageValidation()">
                                         {% csrf_token %}
                                         <label class="left-label bld" for="">Image</label>
                                         <div class="input-group">
@@ -608,6 +609,22 @@
       $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
     });
 </script>
-<!-- Initiate Bootstrap Select -->
+<!-- Instantiate Bootstrap Select -->
 <script>$('#tags-select').selectpicker();</script>
+<!-- Image Validation -->
+<script>
+    function imageValidation() {
+        var imageInput = document.forms["imageUploadForm"]["image"];
+        var image = imageInput.value;
+        console.log(image)
+        var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i; 
+            
+        if (!allowedExtensions.exec(image)) { 
+            alert('Invalid file type');
+            imageInput.nextElementSibling.classList.remove("selected");
+            imageInput.nextElementSibling.innerHTML = "Add Image";
+            return false; 
+        }
+    }
+</script>
 {% endblock %}
