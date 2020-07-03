@@ -50,12 +50,12 @@
     <div class="collapse recent-activities-collapse" id="collapseExample">
         <div class="card card-body recent-activity-card">
             <ol class="recent-activity-ol">
-                {% for i in recent_activities %}
-                    <a href="#" style="font-size: 20px; text-decoration: none;">
+                {% for act in recent_activities %}
+                    <a href="{{ act.link }}" style="font-size: 20px; text-decoration: none;">
                         <li class="recent-activity-li">
-                            {{i.name}}
-                            <i style="font-size: 12px; float: right;">{{i.date}}</i><br>
-                            <p style="font-size: 13px;">{{i.description|truncatechars:80}}</p>
+                            {{ act.title }}
+                            <i style="font-size: 12px; float: right;">{{ act.date }}</i><br>
+                            <p style="font-size: 13px;">{{ act.description|truncatechars:80 }}...</p>
                         </li>
                     </a> 
                 {% endfor %}

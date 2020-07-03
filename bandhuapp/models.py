@@ -28,23 +28,11 @@ class Profile(models.Model):
     def __str__(self):
         return f'{self.first_name} {self.last_name} - {self.user.email}'
 
-# class Charity(models.Model):
-# 	name = models.CharField(max_length=350)
-# 	description = models.TextField(max_length=1000)
-# 	# charity_type = models.choices(CHARITY_TYPES)
-# 	# amount = models.IntegerField(min=0)
-# 	date = models.DateTimeField()
-# 	address = models.CharField(max_length=350)
-# 	city = models.CharField(max_length=100)
-
-# 	def __str__(self):
-# 		return self.name
-
-class Recent_Activity(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.CharField(max_length=350)
-    date = models.DateTimeField()
-    link = models.CharField(max_length=350)
+class RecentActivity(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.TextField(max_length=500)
+    date = models.DateTimeField(auto_now_add=True)
+    link = models.CharField(max_length=500)
 
     def __str__(self):
-        return f'{self.name} {self.date}'
+        return f'{self.title} - {self.date.date()}'

@@ -6,7 +6,7 @@ from applications.ankurayan.models import Activity as ankurayan_activity
 from applications.charitywork.models import Activity as charitywork_activity
 from applications.ashram.models import Activity as ashram_activity
 # from applications.madhmukti.models import Activity as madhmukti_activity
-from bandhuapp.models import Recent_Activity as recent_acts
+from bandhuapp.models import RecentActivity as recent_acts
 
 # Create your views here.
 def userList(request):
