@@ -170,13 +170,18 @@ def account_deletion(request, uidb64, token):
     try:
         uid = force_text(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
+        profile = Profile.objects.filter(user=user).first()
+        print(profile)
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
+    print(account_activation_token.check_token(user, token))
     if user is not None and account_activation_token.check_token(user, token):
         context = {
             'uidb64': uidb64,
+            'user': user,
+            'profile': profile,
         }
-        return render(request, 'account_deletion_confirmation.html')
+        return render(request, 'account_deletion_confirmation.html', context)
     else:
         msg = "You have either entered a wrong link or some admin has already verified or deleted this account this account."
         return render(request, 'token_expired.html', {'msg': msg})
@@ -187,13 +192,14 @@ def account_deletion_confirmed(request, uidb64):
         user = User.objects.get(pk=uid)
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
+    print(user)
     if user is not None:
         # user.profile.profile_pic.delete()  # man.png will also be deleted
         user.delete()
         current_site = get_current_site(request)
         from_email = settings.SENDER_EMAIL
         mail_subject = '[noreply] Account Deleted'
-        message = render_to_string('account_emails/account_verified_email.html', {
+        message = render_to_string('account_emails/account_deleted_email.html', {
             'email': user.email,
         })
         to_email = [user.email]

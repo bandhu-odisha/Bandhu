@@ -211,7 +211,7 @@
 													<b>Verify Profile : </b><br>
 													http://{{ domain }}{% url 'account_authentication' uidb64=uid token=token %}<br><br>
 													<b>Delete User : </b><br>
-													<!-- link here -->
+													http://{{ domain }}{% url 'account_deletion' uidb64=uid token=token %}
 												</p>
 												<p>
 													Regards <br>
@@ -233,7 +233,7 @@
 											</div>
 											<!-- Add link for deletion -->
 											<div style="margin-left:10px;text-decoration:none;display:inline-block;color:#ffffff;background-color:#f0332d;border-radius:4px;-webkit-border-radius:4px;-moz-border-radius:4px;width:auto; width:auto;;border-top:1px solid #f09f2d;border-right:1px solid #f09f2d;border-bottom:1px solid #f09f2d;border-left:1px solid #f09f2d;padding-top:5px;padding-bottom:5px;font-family:Raleway;text-align:center;mso-border-alt:none;word-break:keep-all;box-shadow: 0px 3px 0px 0px #e2e2e2;">
-												<a href="#" style="color: #fff;">
+												<a href="http://{{ domain }}{% url 'account_deletion' uidb64=uid token=token %}" style="color: #fff;">
 													<span style="padding-left:20px;padding-right:20px;font-size:16px;display:inline-block;">
 														<span style="font-family: sans-serif; font-size: 16px; line-height: 2; word-break: break-word; mso-line-height-alt: 32px;">
 															<strong>Delete User</strong>
