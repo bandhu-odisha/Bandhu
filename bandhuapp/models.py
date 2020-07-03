@@ -31,8 +31,9 @@ class Profile(models.Model):
 class RecentActivity(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(max_length=500)
-    date = models.DateTimeField(auto_now_add=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date = models.CharField(max_length=100)
     link = models.CharField(max_length=500)
 
     def __str__(self):
-        return f'{self.title} - {self.date.date()}'
+        return f'{self.title} - {self.date}'

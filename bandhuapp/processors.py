@@ -22,7 +22,7 @@ def userList(request):
     return {'users': rm_users,'all_users':users}
     
 def recent_activities(request):
-    recent_act = recent_acts.objects.all().order_by('-date')
+    recent_act = recent_acts.objects.all().order_by('-date_created')
     # anandakendra_act = anandakendra_activity.objects.all().order_by('activity_date')[0]
     # ankurayan_act = ankurayan_activity.objects.all().order_by('-activity_date').first()
     # charitywork_act = charitywork_activity.objects.all().order_by('activity_date')[0]
