@@ -440,70 +440,22 @@
             <div id="gallery-container" class="gallery-container">
                 <div class="galleryFilter">
                     <a href="#" data-filter="" class="current">All</a>
-                    <a href="#" data-filter=".cat-1">Ankurayan</a>
-                    <a href="#" data-filter=".cat-2">Ananda Kendra</a>
-                    <a href="#" data-filter=".cat-3">Sanskarbarga</a>
-                    <a href="#" data-filter=".cat-4">Ashram</a>
-                    <a href="#" data-filter=".cat-5">Charity Work</a>
+                    <a href="#" data-filter=".ankurayan">Ankurayan</a>
+                    <a href="#" data-filter=".anandakendra">Ananda Kendra</a>
+                    <a href="#" data-filter=".bandhughar">Bandhu Ghar</a>
+                    <a href="#" data-filter=".other">Other Activities</a>
                 </div>
 
                 <div class="gallery-item element-from-bottom clearfix">
-                    <figure class="item cat-3 cat-4">
-                        <img src='{% static "img/pimg1.jpg" %}' alt="Item 3" data-rel="photoSwipe">
-                        <a href="" class="stretched-link">
+                    {% for photo in photos %}
+                    <figure class="item {{ photo.tags }}">
+                        <img src='{{ photo.picture.url }}' alt="Photo" data-rel="photoSwipe">
+                        <a href="javascript:pswpInit({{ forloop.counter0 }})" class="stretched-link">
                             <i class="fab fa-instagram"></i>
                         </a>
                     </figure>
-
-                    <figure class="item cat-2 cat-5">
-                        <img src='{% static "img/pimg2.jpg" %}' alt="Item 4" data-rel="photoSwipe">
-                        <a href="" class="stretched-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </figure>
-
-                    <figure class="item cat-1 cat-2">
-                        <img src='{% static "img/pimg3.jpg" %}' alt="Item 1" data-rel="photoSwipe">
-                        <a href="" class="stretched-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </figure>
-
-                    <figure class="item cat-1 cat-5">
-                        <img src='{% static "img/pimg4.jpg" %}' alt="Item 2" data-rel="photoSwipe">
-                        <a href="" class="stretched-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </figure>
-
-                    <figure class="item cat-3 cat-1">
-                        <img src='{% static "img/pimg5.jpg" %}' alt="Item 5" data-rel="photoSwipe">
-                        <a href="" class="stretched-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </figure>
-
-                    <figure class="item cat-4 cat-1 cat-5">
-                        <img src='{% static "img/pimg6.jpg" %}' alt="Item 6" data-rel="photoSwipe">
-                        <a href="" class="stretched-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </figure>
-
-                    <figure class="item cat-3 cat-1 cat-4">
-                        <img src='{% static "img/pimg7.jpg" %}' alt="Item 7" data-rel="photoSwipe">
-                        <a href="" class="stretched-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </figure>
-
-                    <figure class="item cat-4 cat-2 cat-5">
-                        <img src='{% static "img/pimg8.jpg" %}' alt="Item 7" data-rel="photoSwipe">
-                        <a href="" class="stretched-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </figure>
-                    <figure id="load-more" class="item cat-1 cat-2 cat-3 cat-4 cat-5">
+                    {% endfor %}
+                    <figure id="load-more" class="item ankurayan anandakendra bandhughar other">
                         <a href="javascript:void(0);" class="stretched-link">
                             <p class="text-center">Show More</p>
                         </a>
@@ -527,11 +479,68 @@
 {% endblock %}
 
 
-{% block scripts %}
+{% block scripts %}<!-- PHOTOSWIPE -->
+<script>
+    // build the json album images collection 
+    window.djangoAlbumImages = [
+        {% for photo in photos %}
+            {
+                src: '{{ photo.picture.url }}',
+                w:  {{ photo.picture.width }},
+                h:  {{ photo.picture.height }},
+                // title: '{{ photo.caption }}',
+            },
+        {% endfor %}
+    ];
+
+    // Change album on filtering images
+    $('#gallery-container .galleryFilter a').on("click", function () {
+        let filter = $(this).data('filter');
+
+        if (filter == "") {
+            window.djangoAlbumImages = [
+                {% for photo in photos %}
+                    {
+                        src: '{{ photo.picture.url }}',
+                        w: {{ photo.picture.width }},
+                        h: {{ photo.picture.height }},
+                        title: '{{ photo.caption }}',
+                    },
+                {% endfor %}
+            ];
+
+            $('#gallery-container .gallery-item a').each(function (index, img) {
+                if ($(img).closest('#load-more').length == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
+            });
+        }
+        else {
+            section = filter.slice(1);
+
+            window.djangoAlbumImages = [];
+
+            {% for photo in photos %}
+            if ("{{ photo.tags }}".includes(section)) {
+                window.djangoAlbumImages.push(
+                    {
+                        src: '{{ photo.picture.url }}',
+                        w: {{ photo.picture.width }},
+                        h: {{ photo.picture.height }},
+                        title: '{{ photo.caption }}',
+                    }
+                );
+            }
+            {% endfor %}
+
+            let selector = '#gallery-container ' + filter + ' a';
+            $(selector).each(function (index, img) {
+                if ($(img).closest('#load-more').length == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
+            });
+        }
+
+    });
+</script>
 <!-- Glide Carousel JS -->
 <script src="{% static 'js/glide-custom.js' %}"></script>
-<!-- Custom JS -->
-<script src="{% static 'js/bandhu.js' %}"></script>
 <!-- Contact Scrollspy Problem -->
 <script>contact_scrollspy()</script>
 {% endblock %}

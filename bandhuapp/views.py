@@ -16,7 +16,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from social_django.models import UserSocialAuth
 from accounts.models import User
 from accounts.tokens import account_activation_token
-from .models import Profile
+from .models import Profile, Photo
 from django.template import RequestContext
 
 # Create your views here.
@@ -26,10 +26,10 @@ def index(request):
         messages.error(request, "Complete your Profile first.")
         return redirect('profile_page')
 
-    # obj = UserSocialAuth.objects.all()
-    # obj1 = User.objects.all()
-    # print(obj,obj1)
-    return render(request, 'landing_page.html')
+    context = {
+        'photos': Photo.objects.all()
+    }
+    return render(request, 'landing_page.html', context)
 
 @login_required
 def profile_page(request):
