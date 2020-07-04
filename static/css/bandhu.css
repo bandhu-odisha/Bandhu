@@ -549,7 +549,7 @@
 }
 
 .recent-activities{
-    position: absolute;;
+    position: fixed;
     z-index:250;
     top:79px;
     right:60px;
