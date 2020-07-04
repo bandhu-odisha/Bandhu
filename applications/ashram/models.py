@@ -49,7 +49,7 @@ class Event(models.Model):
     ashram = models.ForeignKey(Ashram, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     description = models.TextField(max_length=1000)
-    image = models.ImageField(upload_to='ashram/events')
+    thumb = models.ImageField(upload_to='ashram/events')
     date = models.DateField()
 
     def __str__(self):

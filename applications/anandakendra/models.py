@@ -63,7 +63,7 @@ class Event(models.Model):
     kendra = models.ForeignKey(AnandaKendra, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     description = models.TextField(max_length=1000)
-    image = models.ImageField(upload_to='anandkendra/events')
+    thumb = models.ImageField(upload_to='anandkendra/events')
     date = models.DateField()
 
     def __str__(self):

@@ -237,7 +237,7 @@
                             {% for event in events %}
                             <li class="glide__slide">
                                 <div class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
-                                    <img src="{{ event.image.url }}" class="card-img-top home-card-img" alt=""
+                                    <img src="{{ event.thumb.url }}" class="card-img-top home-card-img" alt=""
                                         width="300px">
                                     <div class="card-body pb-0">
                                         <h5 class="card-title font-weight-bold">{{ event.name }}</h5>
@@ -716,12 +716,12 @@
                             <input type="text" class="form-control" name="event_name" placeholder="Event name"><br>
                         </div>
                         <div class="col">
-                            <label class="left-label bld" for="">Event Image</label>
+                            <label class="left-label bld" for="">Event Thumbnail</label>
                             <div class="input-group">
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" name="event_image"
+                                    <input type="file" class="custom-file-input" name="event_thumb"
                                         id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
-                                    <label class="custom-file-label" for="inputGroupFile04">Image</label>
+                                    <label class="custom-file-label" for="inputGroupFile04">Add Thumbnail</label>
                                 </div>
                             </div><br>
                         </div>

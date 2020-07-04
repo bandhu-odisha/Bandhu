@@ -228,7 +228,7 @@
                             {% for event in events %}
                             <li class="glide__slide">
                                 <div class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
-                                    <img src="{{ event.image.url }}" class="card-img-top home-card-img" alt=""
+                                    <img src="{{ event.thumb.url }}" class="card-img-top home-card-img" alt=""
                                         width="300px">
                                     <div class="card-body pb-0">
                                         <h5 class="card-title font-weight-bold">{{ event.name }}</h5>
@@ -774,13 +774,13 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <label class="left-label bld" for="">Description</label>
                 <textarea name="description" cols="80" class="form-control" rows="4"
                     placeholder="Description"></textarea><br>
-                <label class="left-label bld" for="">Event Photo</label>
+                <label class="left-label bld" for="">Event Thumbnail</label>
                 <div class="input-group">
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" multiple name="event_image"
+                        <input type="file" class="custom-file-input" multiple name="event_thumb"
                             id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
                         <label class="custom-file-label" for="inputGroupFile04">Add
-                            Image</label>
+                            Thumbnail</label>
                     </div>
                 </div><br>
                 <button class="btn btn-primary">Add Event</button>

@@ -194,14 +194,14 @@ def admin_approval(request):
 def create_event(request):
     if request.method == 'POST':
         slug = request.POST.get('slug')
-        image = request.FILES.get('event_image')
+        thumb = request.FILES.get('event_thumb')
         name = request.POST.get('event_name')
         date = request.POST.get('event_date')
         description = request.POST.get('description')
         
-        ashram = get_object_or_404(Ashram,slug=slug)        
+        ashram = get_object_or_404(Ashram,slug=slug)
         Event.objects.create(name=name,ashram=ashram,date=date,
-                            description=description,image=image)
+                            description=description,thumb=thumb)
 
         url = '/ashram/detail/' + slug +'/'
         return HttpResponseRedirect(url)
