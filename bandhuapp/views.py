@@ -8,6 +8,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.http import HttpResponseRedirect,Http404
 from django.shortcuts import render, redirect
+from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.encoding import force_bytes, force_text
@@ -16,8 +17,12 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from social_django.models import UserSocialAuth
 from accounts.models import User
 from accounts.tokens import account_activation_token
+from applications.anandakendra.models import Event as KendraEvent
+from applications.ankurayan.models import Activity as AnkurayanActivity
+from applications.ashram.models import Event as AshramEvent
+from applications.charitywork.models import Activity as CharityActivity
 from .models import Profile, Photo
-from django.template import RequestContext
+
 
 # Create your views here.
 
@@ -26,8 +31,18 @@ def index(request):
         messages.error(request, "Complete your Profile first.")
         return redirect('profile_page')
 
+    recent_events = []
+    recent_events.extend(KendraEvent.objects.order_by('-date')[:10])
+    recent_events.extend(AnkurayanActivity.objects.order_by('-date')[:10])
+    recent_events.extend(AshramEvent.objects.order_by('-date')[:10])
+    recent_events.extend(CharityActivity.objects.order_by('-date')[:10])
+
+    recent_events.sort(key=lambda act: act.date, reverse=True)
+    recent_events = recent_events[:10]
+
     context = {
-        'photos': Photo.objects.order_by('created')
+        'photos': Photo.objects.order_by('created'),
+        'recent_events': recent_events,
     }
     return render(request, 'landing_page.html', context)
 
@@ -109,5 +124,6 @@ def add_images(request):
             tags += f'{tag} '
 
         Photo.objects.create(picture=picture, caption=caption, tags=tags)
+        messages.success(request, "Image added Successfully!")
 
     return HttpResponseRedirect('/')

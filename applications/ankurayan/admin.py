@@ -26,8 +26,8 @@ class ActivityCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Activity)
 class ActivityAdmin(admin.ModelAdmin):
-    list_display = ('name', 'category', 'activity_date', 'winner','runner_up1','runner_up1')
-    ordering = ('-activity_date',)
+    list_display = ('name', 'category', 'date', 'winner','runner_up1','runner_up1')
+    ordering = ('-date',)
     search_fields = ('name', 'category__ankurayan__year','category__ankurayan__theme','category__name')
 
 @admin.register(Participant)

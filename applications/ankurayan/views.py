@@ -142,7 +142,7 @@ def create_activity(request):
         name = request.POST.get('activity_name')
         category = request.POST.get('category')
         description = request.POST.get('description')
-        activity_date = request.POST.get('activity_date')
+        date = request.POST.get('date')
         activity_images = request.FILES.getlist('activity_images')
 
         ankurayan = get_object_or_404(Ankurayan,slug=slug)
@@ -150,7 +150,7 @@ def create_activity(request):
 
         print(ankurayan,activity_category,category)
         activity = Activity.objects.create(category=activity_category,
-                                name=name,description=description,activity_date=activity_date)
+                                name=name,description=description,date=date)
 
         for i in activity_images:
             Photo.objects.create(ankurayan=ankurayan,picture=i,activity=activity,approved=True)

@@ -54,7 +54,7 @@ def charity_detail(request,slug):
 @login_required
 def add_volunteers(request):
     if request.method == 'POST':
-        activity_date = request.POST.get('activity_date')
+        date = request.POST.get('date')
         name = request.POST.get('name')
         slug = request.POST.get('slug')
         print(slug)
@@ -87,13 +87,13 @@ def create_activity(request):
         slug = request.POST.get('slug')
         name = request.POST.get('activity_name')
         description = request.POST.get('description')
-        activity_date = request.POST.get('activity_date')
+        date = request.POST.get('date')
         activity_images = request.FILES.getlist('activity_images')
 
         charity = get_object_or_404(Charity,slug=slug)
 
         activity = Activity.objects.create(charity=charity,name=name,description=description,
-                                            activity_date=activity_date)
+                                            date=date)
 
         for i in activity_images:
             Photo.objects.create(charity=charity,picture=i,activity=activity,approved=True)

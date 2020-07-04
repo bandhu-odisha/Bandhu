@@ -291,7 +291,7 @@
                     <!-- <input type="text" hidden name="activity_name"
                             value={{activity.activity_name}}>
                         <input type="text" hidden name="date"
-                            value={{activity.activity_date}}> -->
+                            value={{activ}}> -->
                     <label class="label-left bld" for="">Winner</label>
                     <select required class="form-control" id="winner{{forloop.counter}}" name="pk_winner">
                         <option value="">Select Winner</option>
@@ -437,7 +437,7 @@
                                                         <input type="text" hidden name="activity_name"
                                                             value={{activity.activity_name}}>
                                                         <input type="text" hidden name="date"
-                                                            value={{activity.activity_date}}>
+                                                            value={{activity.date}}>
                                                         <select required class="form-control" id="winner{{forloop.counter}}"
                                                             name="pk_winner">
                                                             <option value="">Select Winner</option>
@@ -860,9 +860,9 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 </select><br>
                     </div>
                 </div>
-                <label class="left-label bld" for="activity_date">Activity
+                <label class="left-label bld" for="date">Activity
                     Date</label>
-                <input type="date" name="activity_date" class="form-control"
+                <input type="date" name="date" class="form-control"
                     required="required"><br>
                 <label class="left-label bld" for="activity_images">Images</label>
                 <div class="input-group">
