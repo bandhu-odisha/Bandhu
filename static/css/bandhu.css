@@ -557,7 +557,10 @@
 }
 
 .recent-activities-btn {
+    padding:5px;
+    text-align: center;
     width:350px !important;
+    /* border-radius: 5px; */
     font-weight: bolder;
     outline:none;
     background-color: #ff9800  !important;
@@ -567,23 +570,24 @@
     box-shadow: none !important;
 }
 
-.recent-activities-btn:hover {
+/* .recent-activities-btn:hover {
     width:350px !important;
     outline:none;
     background-color: #d37e00 !important;
     color:white;
     border-color: #d37e00;
-}
+} */
 
 .recent-activities-collapse{
     width:350px !important;
-    max-height:60vh;
+    max-height:40vh;
     overflow-y: auto;
 }
 
 .recent-activity-card {
     padding: 10px !important;
     background-color: #f2f1f1;
+    border-radius: 0;
 }
 
 .recent-activity-ol {
@@ -592,7 +596,8 @@
 }
 
 .recent-activity-li {
-    padding: 10px !important;
+    margin-top: 5px;
+    padding: 5px !important;
 	font-size: 18px !important;
 	border: 1px solid #ece5e5 !important;
 	border-radius: 5px !important;

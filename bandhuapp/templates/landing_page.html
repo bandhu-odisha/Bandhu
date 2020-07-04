@@ -44,10 +44,10 @@
 
 <!-- Recent Activities tab -->
 <div class="recent-activities">
-    <button class="btn btn-primary recent-activities-btn" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    <div class="recent-activities-btn">
         OnGoing/Recent Activities
-    </button>
-    <div class="collapse recent-activities-collapse" id="collapseExample">
+    </div>
+    <div class="recent-activities-collapse" id="collapseExample">
         <div class="card card-body recent-activity-card">
             <ol class="recent-activity-ol">
                 {% for act in recent_activities %}
@@ -301,76 +301,23 @@
                         <div class="glide">
                             <div class="glide__track" data-glide-el="track">
                                 <ul class="glide__slides">
+                                {% for sec in recent_sec %}
                                     <li class="glide__slide">
                                         <div class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
-                                            <img src="{% static 'img/pimg6.jpg' %}" class="card-img-top home-card-img" alt=""  width="300px">
-                                            <div class="card-body pb-0">
-                                                <h5 class="card-title font-weight-bold">Activity-Title</h5>
+                                            <!-- <img src="{% static 'img/pimg6.jpg' %}" class="card-img-top home-card-img" alt=""  width="300px"> -->
+                                            <div class="card-body pb-0" style="min-height: 150px;">
+                                                <h5 class="card-title font-weight-bold">{{sec.act.name}}</h5>
                                                 <p class="m-2 font-italic  font-open-sans mb-3">
                                                 <!-- <i class="fas fa-calendar-alt font-weight-lighter "></i> -->
-                                                Description
+                                                {{sec.act.description}}
                                                 <br>
                                                 </p>
-                                                <a href="javascript:pswpInit(0);" class="stretched-link"></a>
+                                                <a href="javascript:pswpInit({{forloop.counter0}});" class="stretched-link"></a>
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="glide__slide">
-                                        <div class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
-                                            <img src="{% static 'img/pimg6.jpg' %}" class="card-img-top home-card-img" alt=""  width="300px">
-                                            <div class="card-body pb-0">
-                                                <h5 class="card-title font-weight-bold">Activity-Title</h5>
-                                                <p class="m-2 font-italic  font-open-sans mb-3">
-                                                <!-- <i class="fas fa-calendar-alt font-weight-lighter "></i> -->
-                                                Description
-                                                <br>
-                                                </p>
-                                                <a href="javascript:pswpInit(1);" class="stretched-link"></a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="glide__slide">
-                                        <div class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
-                                            <img src="{% static 'img/pimg6.jpg' %}" class="card-img-top home-card-img" alt=""  width="300px">
-                                            <div class="card-body pb-0">
-                                                <h5 class="card-title font-weight-bold">Activity-Title</h5>
-                                                <p class="m-2 font-italic  font-open-sans mb-3">
-                                                <!-- <i class="fas fa-calendar-alt font-weight-lighter "></i> -->
-                                                Description
-                                                <br>
-                                                </p>
-                                                <a href="javascript:pswpInit(2);" class="stretched-link"></a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="glide__slide">
-                                        <div class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
-                                            <img src="{% static 'img/pimg6.jpg' %}" class="card-img-top home-card-img" alt=""  width="300px">
-                                            <div class="card-body pb-0">
-                                                <h5 class="card-title font-weight-bold">Activity-Title</h5>
-                                                <p class="m-2 font-italic  font-open-sans mb-3">
-                                                <!-- <i class="fas fa-calendar-alt font-weight-lighter "></i> -->
-                                                Description
-                                                <br>
-                                                </p>
-                                                <a href="javascript:pswpInit(3);" class="stretched-link"></a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="glide__slide">
-                                        <div class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
-                                            <img src="{% static 'img/pimg6.jpg' %}" class="card-img-top home-card-img" alt=""  width="300px">
-                                            <div class="card-body pb-0">
-                                                <h5 class="card-title font-weight-bold">Activity-Title</h5>
-                                                <p class="m-2 font-italic  font-open-sans mb-3">
-                                                <!-- <i class="fas fa-calendar-alt font-weight-lighter "></i> -->
-                                                Description
-                                                <br>
-                                                </p>
-                                                <a href="" class="stretched-link"></a>
-                                            </div>
-                                        </div>
-                                    </li>
+                                {% endfor %}
+                                    
                                 </ul>
                             </div>
                                 <div class="glide__arrows disable_arrows d-none d-md-block" data-glide-el="controls">
