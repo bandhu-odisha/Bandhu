@@ -55,7 +55,7 @@ class Activity(models.Model):   # Donation/Food Supply
     description = models.TextField(max_length=1000)
     volunteers = models.ManyToManyField(Volunteer)
     date = models.DateField()
-    thumb = models.ImageField(upload_to='charitywork/thumbnails', default='charitywork/thumbnails/activity.jpg')
+    thumb = models.ImageField(upload_to='charity_work/thumbnails', default='charity_work/thumbnails/activity.jpg')
 
     class Meta:
         verbose_name_plural = 'Activities'
