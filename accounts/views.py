@@ -27,7 +27,7 @@ import random
 
 def login_view(request):
     if request.user.is_authenticated:
-        message.success(request, "You are already logged in.")
+        messages.success(request, "You are already logged in.")
         return redirect('home')
 
     err_code = 0
@@ -74,7 +74,7 @@ def login_view(request):
 
 def signup_view(request):
     if request.user.is_authenticated:
-        message.success(request, "You are already logged in.")
+        messages.success(request, "You are already logged in.")
         return redirect('home')
 
     if request.method == 'POST':
