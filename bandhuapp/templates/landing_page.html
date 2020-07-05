@@ -312,7 +312,7 @@
                                                     {{ event.kendra }}{{ event.category.ankurayan }}{{ event.ashram }}{{ event.charity }}
                                                 <br>
                                                 </p>
-                                                <a href="javascript:pswpInit(0);" class="stretched-link"></a>
+                                                <a href="javascript:pswpInit({{forloop.counter0}});" class="stretched-link" data-target="#recent-modal{{forloop.counter0}}" data-toggle="modal"></a>
                                             </div>
                                         </div>
                                     </li>
@@ -339,6 +339,36 @@
         </div>
     </div>
 </section>
+
+<!-- MODAL -->
+{% for i in recent_events %}
+<div class="modal fade bd-example-modal-lg" tabindex="-1" id="recent-modal{{forloop.counter0}}" role="dialog"
+aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title bld" id="exampleModalLongTitle">{{i.name}}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col">
+                    <img src="{{ i.thumb.url }}" class="card-img-top home-card-img" alt=""  width="300px">
+                </div>
+                <div class="col">
+                    <h5>Description:</h5>
+                    {{i.description}}
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+</div>
+{% endfor %}
+
 <!-- Recent Activities Section Ends -->
 <!-- Volunteer Section -->
 <section id="volunteer">

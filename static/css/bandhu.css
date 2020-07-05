@@ -577,7 +577,7 @@
 
 .recent-activities-collapse{
     width:350px !important;
-    max-height:60vh;
+    max-height:40vh;
     overflow-y: auto;
 }
 
@@ -592,6 +592,7 @@
 }
 
 .recent-activity-li {
+    margin-top:5px;
     padding: 10px !important;
 	font-size: 18px !important;
 	border: 1px solid #ece5e5 !important;
