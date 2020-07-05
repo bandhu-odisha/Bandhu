@@ -62,6 +62,21 @@
 // }
 
 
+// HEADER TEXT ANIMATION
+$(function () {
+    var $header = $("#header-text");
+    var header = ['<span class="d-block" lang="or" style="font-family: oriya;">ସବାଶେଷ  ମଣିଷର</span>', '<span class="d-block">The Friend of the Last Man</span>'];
+    var position = -1;
+    
+    !function loop() {
+        position = (position + 1) % header.length;
+        $header.html(header[position])
+        .fadeIn(1000)
+        .delay(4000)
+        .fadeOut(1000, loop);
+    }();
+});
+
 // Recent Activities Collapsible
 $(document).ready(function() {
     if ($(window).scrollTop() <= 200) $('#collapseExample').collapse('show')

@@ -32,9 +32,11 @@
 <div class="slider-txt-container" style="padding: 200px 0 275px 0;">
     <p class="bold-txt mb-4">
         BANDHU
-    </span>
-    <p class="parallax-description font-weight-bold">
+    </p>
+    <p id="header-text" class="parallax-description font-weight-bold">
         <span class="d-block" lang="or" style="font-family: oriya;">ସବାଶେଷ  ମଣିଷର </span>
+    </p>
+    <p class="parallax-description font-weight-bold pt-1">
         Sanskar, Swaraj and Swabalamban
     </p>
 </div>
@@ -585,8 +587,6 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 <!-- Custom JS -->
 <script src="{% static 'js/bandhu.js' %}"></script>
 <script src="{% static 'vendor/js/bootstrap-select.min.js' %}"></script>
-<!-- Glide Carousel JS -->
-<script src="{% static 'js/glide-custom.js' %}"></script>
 <!-- Contact Scrollspy Problem -->
 <script>contact_scrollspy()</script>
 <!-- Change name of image input -->
@@ -613,5 +613,22 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             return false; 
         }
     }
+</script>
+<!-- RECENT ACTIVITIES CAROUSEL -->
+<script>
+    var glide = new Glide('.glide',{
+        type: 'carousel',
+        focusAt: 'center',
+        perView: 3,
+        autoplay: 2000,
+        gap: 30,
+        breakpoints: {
+            767:{
+                perView: 1,
+            }
+        }
+    })
+
+    glide.mount()
 </script>
 {% endblock %}
