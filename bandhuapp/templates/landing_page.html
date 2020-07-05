@@ -312,7 +312,7 @@
                                                     {{ event.kendra }}{{ event.category.ankurayan }}{{ event.ashram }}{{ event.charity }}
                                                 <br>
                                                 </p>
-                                                <a href="javascript:pswpInit({{forloop.counter0}});" class="stretched-link" data-target="#recent-modal{{forloop.counter0}}" data-toggle="modal"></a>
+                                                <a href="#" class="stretched-link" data-target="#recent-modal{{forloop.counter0}}" data-toggle="modal"></a>
                                             </div>
                                         </div>
                                     </li>
@@ -341,25 +341,42 @@
 </section>
 
 <!-- MODAL -->
-{% for i in recent_events %}
+{% for event in recent_events %}
 <div class="modal fade bd-example-modal-lg" tabindex="-1" id="recent-modal{{forloop.counter0}}" role="dialog"
 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title bld" id="exampleModalLongTitle">{{i.name}}</h5>
+            <h5 class="modal-title bld" id="exampleModalLongTitle">{{event.name}}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
         <div class="modal-body">
             <div class="row">
-                <div class="col">
-                    <img src="{{ i.thumb.url }}" class="card-img-top home-card-img" alt=""  width="300px">
+                <div class="col-md-6 align-self-center">
+                    <div id="event{{ forloop.count0 }}-carousel" class="carousel slide m-auto" data-ride="carousel">
+                        <ul class="carousel-indicators">
+                            <li data-target="#event{{ forloop.count0 }}-carousel" data-slide-to="0" class=""></li>
+                            <li data-target="#event{{ forloop.count0 }}-carousel" data-slide-to="1" class=""></li>
+                            <li data-target="#event{{ forloop.count0 }}-carousel" data-slide-to="2" class="active"></li>
+                        </ul>
+                        <div class="carousel-inner">
+                            <div class="carousel-item">
+                                <img src="/static/img/pimg6.jpg" alt="carousel image" class="w-100">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="/static/img/pimg2.jpg" alt="carousel image" class="w-100">
+                            </div>
+                            <div class="carousel-item active">
+                                <img src="/static/img/pimg3.jpg" alt="carousel image" class="w-100">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col">
-                    <h5>Description:</h5>
-                    {{i.description}}
+                <div class="col-md-6">
+                    <h3 class="font-weight-bolder">Description</h3>
+                    {{ event.description }}
                 </div>
             </div>
             

@@ -64,7 +64,7 @@
 
 // Recent Activities Collapsible
 $(document).ready(function() {
-    if ($(window).scrollTop <= 200) $('#collapseExample').collapse('show')
+    if ($(window).scrollTop() <= 200) $('#collapseExample').collapse('show')
     $(window).scroll(function() {
         if ($(this).scrollTop() > 200) {
             $('#collapseExample').collapse('hide')
