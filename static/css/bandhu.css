@@ -57,7 +57,7 @@
     max-width: 250px !important; */
     padding: 0;
     margin: 0px 15px 15px; 
-    border: 5px solid #f2f2f6
+    border: 3px solid #f2f2f6;
 }
 
 #initiatives .card img{
@@ -116,12 +116,13 @@
         opacity: 1;
     }
 }
+
 #initiatives .card:hover{
     background-color: #ffb307;
     color:black;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     transform: scale(1.05);
-    border-color:#ffb307;
+    border-color: #ffb307;
 }
 
 /* Initiatives Card Bootstrap Tweeks */
@@ -567,9 +568,12 @@
     border-color: #ff9800  !important;
     letter-spacing: 1.2px;
     box-shadow: none !important;
+}
+
+.recent-activities-btn:not(.collapsed) {
     border-radius: 0;
-    /* border-top-left-radius: 5px;
-    border-top-right-radius: 5px; */
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
 .recent-activities-btn:hover {
