@@ -13,13 +13,14 @@ from django.core.mail import EmailMessage
 from django.shortcuts import render,redirect
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.views import PasswordResetView
 from django.contrib import messages
 
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse,Http404
 
 from .models import User
 from .tokens import account_activation_token
-from .forms import RegisterForm
+from .forms import CustomPasswordResetForm, RegisterForm
 from bandhuapp.models import Profile
 
 from sendgrid import SendGridAPIClient
@@ -27,6 +28,11 @@ from sendgrid.helpers.mail import Mail
 
 import random
 
+
+class CustomPasswordResetView(PasswordResetView):
+    from_email = settings.SENDER_EMAIL
+    html_email_template_name = 'registration/password_reset_email.html'
+    form_class = CustomPasswordResetForm
 
 def login_view(request):
     if request.user.is_authenticated:
