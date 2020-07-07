@@ -23,6 +23,9 @@ from applications.ashram.models import Event as AshramEvent
 from applications.charitywork.models import Activity as CharityActivity
 from .models import Profile, Photo
 
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+
 
 # Create your views here.
 
@@ -96,11 +99,27 @@ def profile_page(request):
                 'token':account_activation_token.make_token(user),
             })
             to_email = settings.ADMINS_EMAIL
-            email = EmailMessage(
-                mail_subject, message, from_email, to_email,
+            # email = EmailMessage(
+            #     mail_subject, message, from_email, to_email,
+            # )
+            # email.content_subtype = "html"
+            # email.send()
+
+            email = Mail(
+                from_email=from_email,
+                to_emails=to_email,
+                subject=mail_subject,
+                html_content=message,
             )
-            email.content_subtype = "html"
-            email.send()
+            try:
+                sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
+                response = sg.send(email)
+                print(response.status_code)
+                print(response.body)
+                print(response.headers)
+            except Exception as e:
+                print(e)
+
             logout(request)
             return redirect('account_activated')
 

@@ -22,6 +22,9 @@ from .tokens import account_activation_token
 from .forms import RegisterForm
 from bandhuapp.models import Profile
 
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+
 import random
 
 
@@ -102,13 +105,27 @@ def signup_view(request):
                 'token':account_activation_token.make_token(user),
             })
             to_email = [form.cleaned_data.get('email')]
-            email = EmailMessage(
-                mail_subject, message, from_email, to_email,
+            # email = EmailMessage(
+            #     mail_subject, message, from_email, to_email,
+            # )
+            # email.content_subtype = "html"
+            # email.send()
+
+            email = Mail(
+                from_email=from_email,
+                to_emails=to_email,
+                subject=mail_subject,
+                html_content=message,
             )
-            email.content_subtype = "html"
-            email.send()
-            print("654")
-            print(message)
+            try:
+                sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
+                response = sg.send(email)
+                print(response.status_code)
+                print(response.body)
+                print(response.headers)
+            except Exception as e:
+                print(e)
+
             return redirect('signup_success_page')
         else:
             return render(request,'signup.html',{'form':form,'done': 0})
@@ -155,11 +172,26 @@ def account_authentication(request, uidb64, token):
             'domain': current_site.domain,
         })
         to_email = [user.email]
-        email = EmailMessage(
-            mail_subject, message, from_email, to_email,
+        # email = EmailMessage(
+        #     mail_subject, message, from_email, to_email,
+        # )
+        # email.content_subtype="html"
+        # email.send()
+
+        email = Mail(
+            from_email=from_email,
+            to_emails=to_email,
+            subject=mail_subject,
+            html_content=message,
         )
-        email.content_subtype="html"
-        email.send()
+        try:
+            sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
+            response = sg.send(email)
+            print(response.status_code)
+            print(response.body)
+            print(response.headers)
+        except Exception as e:
+            print(e)
 
         return redirect('account_authenticated')
     else:
@@ -200,11 +232,26 @@ def account_deletion_confirmed(request, uidb64):
             'email': user.email,
         })
         to_email = [user.email]
-        email = EmailMessage(
-            mail_subject, message, from_email, to_email,
+        # email = EmailMessage(
+        #     mail_subject, message, from_email, to_email,
+        # )
+        # email.content_subtype="html"
+        # email.send()
+
+        email = Mail(
+            from_email=from_email,
+            to_emails=to_email,
+            subject=mail_subject,
+            html_content=message,
         )
-        email.content_subtype="html"
-        email.send()
+        try:
+            sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
+            response = sg.send(email)
+            print(response.status_code)
+            print(response.body)
+            print(response.headers)
+        except Exception as e:
+            print(e)
 
         return redirect('account_deleted')
     else:
