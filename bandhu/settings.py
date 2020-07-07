@@ -14,7 +14,7 @@ PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = (config("DEBUG") == 'True')
 # TEMPLATE_DEBUG = True
 # DEBUG_PROPAGATE_EXCEPTIONS = True
 
@@ -171,6 +171,8 @@ SOCIAL_AUTH_FACEBOOK_SECRET = config("SOCIAL_AUTH_FACEBOOK_SECRET")
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY")
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
 
+# SendGrid API
+SENDGRID_API_KEY = config("SENDGRID_API_KEY")
 
 
 # Static files (CSS, JavaScript, Images)
