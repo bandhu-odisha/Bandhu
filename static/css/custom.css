@@ -1,5 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Raleway:300,400,600,700,800,900);
-
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap');
 @font-face {
     font-family: oriya;
     src: url(../fonts/OR51_Ananta.ttf);
@@ -21,6 +21,10 @@ a, h1, h2, h3, h4, h5, h6, p {
 
 .bg-grey {
     background-color: #ecf0f1;
+}
+
+section p {
+    font-family: 'Open Sans';
 }
 
 /* NAVBAR STARTS */

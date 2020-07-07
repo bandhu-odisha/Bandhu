@@ -57,6 +57,7 @@
     max-width: 250px !important; */
     padding: 0;
     margin: 0px 15px 15px; 
+    border: 5px solid #f2f2f6
 }
 
 #initiatives .card img{
@@ -120,6 +121,7 @@
     color:black;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     transform: scale(1.05);
+    border-color:#ffb307;
 }
 
 /* Initiatives Card Bootstrap Tweeks */
@@ -565,6 +567,9 @@
     border-color: #ff9800  !important;
     letter-spacing: 1.2px;
     box-shadow: none !important;
+    border-radius: 0;
+    /* border-top-left-radius: 5px;
+    border-top-right-radius: 5px; */
 }
 
 .recent-activities-btn:hover {
@@ -579,11 +584,16 @@
     width:350px !important;
     max-height:40vh;
     overflow-y: auto;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 .recent-activity-card {
     padding: 10px !important;
     background-color: #f2f1f1;
+    border-radius: 0;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 .recent-activity-ol {
@@ -593,12 +603,17 @@
 
 .recent-activity-li {
     margin-top:5px;
+    color: black;
     padding: 10px !important;
 	font-size: 18px !important;
 	border: 1px solid #ece5e5 !important;
 	border-radius: 5px !important;
 	background-color: white !important;
 	box-shadow: 0px 1px 0px 0px #d8d6d6 !important;
+}
+
+.recent-activity-li:hover {
+    box-shadow: 0px 2px 2px 0px #d8d6d6 !important;
 }
 
 /* Custom label */
