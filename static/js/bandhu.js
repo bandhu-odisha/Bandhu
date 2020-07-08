@@ -78,27 +78,29 @@ $(function () {
 });
 
 // Recent Activities Collapsible
-$(document).ready(function() {
-    if ($(window).scrollTop() <= 200){
-        $('#collapseExample').collapse('show')
-        $('.recent-activities-btn i').removeClass('fa-chevron-down').addClass('fa-chevron-up')
-    }
-    $(window).scroll(function() {
-        if ($(this).scrollTop() > 200) {
-            $('#collapseExample').collapse('hide')
-            $('.recent-activities-btn i').removeClass('fa-chevron-up').addClass('fa-chevron-down')
-        } 
-        else {
+if ($(window).width() >= 1200) {
+    $(document).ready(function() {
+        if ($(window).scrollTop() <= 200){
             $('#collapseExample').collapse('show')
             $('.recent-activities-btn i').removeClass('fa-chevron-down').addClass('fa-chevron-up')
         }
-    });
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > 200) {
+                $('#collapseExample').collapse('hide')
+                $('.recent-activities-btn i').removeClass('fa-chevron-up').addClass('fa-chevron-down')
+            } 
+            else {
+                $('#collapseExample').collapse('show')
+                $('.recent-activities-btn i').removeClass('fa-chevron-down').addClass('fa-chevron-up')
+            }
+        });
 
-    // Change Arrow on show/hide
-    $("#collapseExample").on('show.bs.collapse', function(){
-        $('.recent-activities-btn i').removeClass('fa-chevron-down').addClass('fa-chevron-up')
+        // Change Arrow on show/hide
+        $("#collapseExample").on('show.bs.collapse', function(){
+            $('.recent-activities-btn i').removeClass('fa-chevron-down').addClass('fa-chevron-up')
+        });
+        $("#collapseExample").on('hide.bs.collapse', function(){
+            $('.recent-activities-btn i').removeClass('fa-chevron-up').addClass('fa-chevron-down')
+        });
     });
-    $("#collapseExample").on('hide.bs.collapse', function(){
-        $('.recent-activities-btn i').removeClass('fa-chevron-up').addClass('fa-chevron-down')
-    });
-});
+}

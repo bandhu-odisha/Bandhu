@@ -126,11 +126,13 @@
 }
 
 /* Initiatives Card Bootstrap Tweeks */
-@media (min-width: 992px){
+@media (min-width: 1100px){
     .col-lg-20 {
         -ms-flex: 0 0 20%;
         flex: 0 0 20%;
         max-width: 20%;
+        font-size: 15px;
+        line-height: 17px;
     }
 }
 
