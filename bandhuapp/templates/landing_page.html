@@ -85,13 +85,11 @@
     <div class="row justify-content-center initiatives mx-0">
         <div class="col-lg-20 col-md-4 col-sm-6 px-2">
             <div class="col-sm card mx-auto" >
-                <img src="{% static 'img/pimg3.jpg' %}" class="rounded-top card-img-top">
+                <img src="{{ initiatives.ankurayan_thumb.url }}" class="rounded-top card-img-top">
                 <div class="card-body p-3">
                     <h5 class="card-title content-title font-weight-bolder" style="text-align: center;">Ankurayan</h5>
                     <p class="content-description">
-                        ANKURAYAN is a small and sincere effort where we introduce to the young minds a nobler, 
-                        happier and more complete ways and points of view of life through informal sessions and 
-                        creative events along with conducting various competitions among school students.
+                        {{ initiatives.ankurayan_desc }}
                     </p>
                 </div>
                 {% now 'Y' as current_year %}
@@ -100,13 +98,11 @@
         </div>
         <div class="col-lg-20 col-md-4 col-sm-6 px-2">
             <div class="col-sm card  mx-auto" >
-                <img src="{% static 'img/pimg2.jpg' %}" class="rounded-top">
+                <img src="{{ initiatives.kendra_thumb.url }}" class="rounded-top">
                 <div class="card-body p-3">
                     <h5 class="card-title content-title font-weight-bolder">Ananda Kendra</h5>
                     <p class="content-description">
-                        Anandakendra is an idea concieved to support school education of children in all possible ways.
-                        This initiative aims to ensure a supportive environment for an overall (personal-social-spirtual)
-                        development at a tender stage of life.   
+                        {{ initiatives.kendra_desc }}
                     </p>
                 </div>
                 <a href="{% url 'anandakendra:anandakendra' %}" class="stretched-link"></a>
@@ -114,11 +110,11 @@
         </div>
         <div class="col-lg-20 col-md-4 col-sm-6 px-2">
             <div class="col-sm card  mx-auto" >
-                <img src="{% static 'img/pimg1.jpg' %}" class="rounded-top">
+                <img src="{{ initiatives.bandhughar_thumb.url }}" class="rounded-top">
                 <div class="card-body p-3">
                     <h5 class="card-title content-title font-weight-bolder">Bandhu Ghar</h5>
                     <p class="content-description">
-                        Some Tagline here
+                        {{ initiatives.bandhughar_desc }}
                     </p>
                 </div>
                 <a href="{% url 'ashram:ashram' %}" class="stretched-link"></a>
@@ -126,11 +122,11 @@
         </div>
         <div class="col-lg-20 col-md-4 col-sm-6 px-2">
             <div class="col-sm card  mx-auto" >
-                <img src="{% static 'img/pimg2.jpg' %}" class="rounded-top">
+                <img src="{{ initiatives.otheract_thumb.url }}" class="rounded-top">
                 <div class="card-body p-3">
                     <h5 class="card-title content-title font-weight-bolder">Other Activities</h5>
                     <p class="content-description">
-                        Some Tagline here
+                        {{ initiatives.otheract_desc }}
                     </p>
                 </div>
                 <a href="{% url 'charitywork:charity_work' %}" class="stretched-link"></a>
@@ -138,11 +134,11 @@
         </div>
         <div class="col-lg-20 col-md-4 col-sm-6 px-2">
             <div class="col-sm card  mx-auto" >
-                <img src="{% static 'img/pimg2.jpg' %}" class="rounded-top">
+                <img src="{{ initiatives.publications_thumb.url }}" class="rounded-top">
                 <div class="card-body p-3">
                     <h5 class="card-title content-title font-weight-bolder">Our Publications</h5>
                     <p class="content-description">
-                        Some Tagline here
+                        {{ initiatives.publications_desc }}
                     </p>
                 </div>
                 <a href="{% url 'publications:index' %}" class="stretched-link"></a>
@@ -158,15 +154,10 @@
     <div class="container">
         <div class="content-box mt-4 text-center">
             <p style="font-size: 20px;">
-                <strong>Bandhu is an idea that celebrates goodness, that is in you, me and all others.</strong>
+                <strong>{{ about.tagline }}</strong>
             </p>
             <p style="font-size: 18px;">
-                It is a group of people, good but not necessarily great, bound by a spontaneous flow of boudless friendship. 
-                It is concerned towards the inconsistencies within and without. Bandhu does small things with highest possible 
-                sincerity like running weekly sessions of yoga, game, song and story telling. It leads the movement against 
-                liquor both locally and at state level. It's brand programme Ankurayan is in its 13th year and a houshold 
-                name in Tirtol, Garadpur and some part of cuttack dist. It strives to revive the village spirit and check, 
-                rather reverse the mindless migration to cities.
+                {{ about.desc }}
             </p>
         </div>
     </div>
@@ -205,16 +196,11 @@
                         <h3 class="content-title d-none d-md-block">Sanskar</h3>
                         <p>
                             <strong>
-                                Some Tagline here
+                                {{ mission.sanskar_tagline }}
                             </strong>
                         </p>
                         <p>
-                            It is a group of people, good but not necessarily great, bound by a spontaneous flow of boudless friendship. 
-                            It is concerned towards the inconsistencies within and without. Bandhu does small things with highest possible 
-                            sincerity like running weekly sessions of yoga, game, song and story telling. It leads the movement against 
-                            liquor both locally and at state level. It's brand programme Ankurayan is in its 13th year and a houshold 
-                            name in Tirtol, Garadpur and some part of cuttack dist. It strives to revive the village spirit and check, 
-                            rather reverse the mindless migration to cities.
+                            {{ mission.sanskar_desc }}
                         </p>
                     </div>
                 </div>
@@ -249,16 +235,11 @@
                         <h3 class="content-title d-none d-md-block">Swaraj</h3>
                         <p>
                             <strong>
-                                Some Tagline here
+                                {{ mission.swaraj_tagline }}
                             </strong>
                         </p>
                         <p>
-                            It is a group of people, good but not necessarily great, bound by a spontaneous flow of boudless friendship. 
-                            It is concerned towards the inconsistencies within and without. Bandhu does small things with highest possible 
-                            sincerity like running weekly sessions of yoga, game, song and story telling. It leads the movement against 
-                            liquor both locally and at state level. It's brand programme Ankurayan is in its 13th year and a houshold 
-                            name in Tirtol, Garadpur and some part of cuttack dist. It strives to revive the village spirit and check, 
-                            rather reverse the mindless migration to cities.
+                            {{ mission.swaraj_desc }}
                         </p>
                     </div>
                 </div>
@@ -291,18 +272,13 @@
                         <h3 class="content-title d-none d-md-block">Swabalamban</h3>
                         <p>
                             <strong>
-                                Some Tagline here
+                                {{ mission.swaraj_tagline }}
                             </strong>
                         </p>
                         <p>
-                            It is a group of people, good but not necessarily great, bound by a spontaneous flow of boudless friendship. 
-                            It is concerned towards the inconsistencies within and without. Bandhu does small things with highest possible 
-                            sincerity like running weekly sessions of yoga, game, song and story telling. It leads the movement against 
-                            liquor both locally and at state level. It's brand programme Ankurayan is in its 13th year and a houshold 
-                            name in Tirtol, Garadpur and some part of cuttack dist. It strives to revive the village spirit and check, 
-                            rather reverse the mindless migration to cities.
+                            {{ mission.swaraj_desc }}
                         </p>
-                    </div>   
+                    </div>
                 </div>
             </div>
 
@@ -413,13 +389,13 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="container">
                 <div class="section-head" style="margin-bottom:60px;">
                     <h3 class="section-title parallax-title" style="word-spacing: 5px;">
-                        Be a Bandhu
+                        {{ volunteer.title }}
                     </h3>
                 </div>
 
                 <div class="row justify-content-center">
                     <p class="parallax-description w-100 px-3" style="font-size:1.7em; line-height:35px; margin-bottom: 30px;">
-                        Do you like to work for a social cause? Yes. Here, you are welcome to our team and you can work as a volunteer.
+                        {{ volunteer.tagline }}
                     </p>
                     <button type="button" class="btn btn-outline-light py-2 px-4 custom-btn angle-effect">
                         <a href="{% url 'signup' %}" class="d-block text-decoration-none text-white">Join Now</a>
@@ -439,7 +415,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     Gallery
                 </h2>
                 <p class="section-description">
-                    TAKE A LOOK AT OUR GALLERY TO GET A GLIMPSE OF WHAT WE DO AND WHAT IT FEELS LIKE WORKING FOR A SOCIAL CAUSE.
+                    {{ gallery.tagline }}
                 </p>
             </div>
 

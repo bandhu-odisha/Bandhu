@@ -28,27 +28,27 @@
                 </h3>
                 <div class="pt-4 pb-3">
                     <h5 class="font-weight-bolder mb-3">Bandhu</h5>
-                    <h6>PDPM IIITDM Jabalpur, Madhya Pradesh</h6>
+                    <h6>{{ contact.address }}</h6>
                 </div>
                 <ul class="nav flex-column">
                     <li class="nav-item pb-1">
-                        <a href="tel:+919437439371" class="nav-link">
+                        <a href="tel:{{ contact.contact_no }}" class="nav-link">
                             <i class="fas fa-phone-alt border rounded-circle p-2"></i>
-                            +91 94374 39371
+                            {{ contact.contact_no }}
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="mailto:bandhuodisha@gmail.com" class="nav-link">
+                        <a href="mailto:{{ contact.email }}" class="nav-link">
                             <i class="fas fa-envelope border rounded-circle p-2"></i>
-                            bandhuodisha@gmail.com
+                            {{ contact.email }}
                         </a>
                     </li>
                 </ul>
                 <div class="social-icons my-3 ml-2">
-                    <a href="https://www.facebook.com/npobandhu/" target="_blank">
+                    <a href="{{ contact.facebook_link }}" target="_blank">
                         <i class="fab fa-facebook-square text-white"></i>
                     </a>
-                    <a href="#">
+                    <a href="{{ contact.twitter_link }}">
                         <i class="fab fa-twitter text-white"></i>
                     </a>
                 </div>
@@ -59,7 +59,7 @@
 
         <div class="footer text-white text-center clearfix">
             <div class="float-lg-left pt-1 pb-2 py-lg-0">
-                &copy; <a href="{% url 'home' %}">Bandhu</a> 2020, All Rights Reserved.
+                &copy; <a href="{% url 'home' %}">Bandhu</a> {{ current_year }}, All Rights Reserved.
             </div>
             <div class="float-lg-right">
                 Designed and Developed by 

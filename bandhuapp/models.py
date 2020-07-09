@@ -47,5 +47,84 @@ class Photo(models.Model):
     tags = models.CharField(max_length=100, null=True, blank=True)
     created = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = 'Gallery Photo'
+        verbose_name_plural = 'Gallery Photos'
+
     def __str__(self):
         return f'Photo{self.id}'
+
+class Initiatives(models.Model):
+    ankurayan_desc = models.TextField(max_length=500, verbose_name='Anurayan Tagline')
+    ankurayan_thumb = models.ImageField(upload_to='main_page/initiatives', verbose_name='Ankurayan Thumbnail')
+    kendra_desc = models.TextField(max_length=500, verbose_name='Ananda Kendra Tagline')
+    kendra_thumb = models.ImageField(upload_to='main_page/initiatives', verbose_name='Ananda Kendra Thumbnail')
+    bandhughar_desc = models.TextField(max_length=500, verbose_name='Bandhu Ghar Tagline')
+    bandhughar_thumb = models.ImageField(upload_to='main_page/initiatives', verbose_name='Bandhu Ghar Thumbnail')
+    otheract_desc = models.TextField(max_length=500, verbose_name='Other Activities Tagline')
+    otheract_thumb = models.ImageField(upload_to='main_page/initiatives', verbose_name='Other Activities Thumbnail')
+    publications_desc = models.TextField(max_length=500, verbose_name='Our Publications Tagline')
+    publications_thumb = models.ImageField(upload_to='main_page/initiatives', verbose_name='Our Publications Thumbnail')
+
+    class Meta:
+        verbose_name_plural = 'Initiatives Section'
+
+    def __str__(self):
+        return 'Initiative Section Details'
+
+class AboutUs(models.Model):
+    tagline = models.TextField(max_length=1000, verbose_name='About Us Tagline (Bold)')
+    desc = models.TextField(max_length=3000, verbose_name='About Us Description')
+
+    class Meta:
+        verbose_name_plural = 'About Us Section'
+
+    def __str__(self):
+        return 'About Us Section Details'
+
+class Mission(models.Model):
+    sanskar_tagline = models.TextField(max_length=500, verbose_name='Sanskar Tagline (Bold)')
+    sanskar_desc = models.TextField(max_length=3000, verbose_name='Sanskar Description')
+    swaraj_tagline = models.TextField(max_length=500, verbose_name='Swaraj Tagline (Bold)')
+    swaraj_desc = models.TextField(max_length=3000, verbose_name='Swaraj Description')
+    swabalamban_tagline = models.TextField(max_length=500, verbose_name='Swabalamban Tagline (Bold)')
+    swabalamban_desc = models.TextField(max_length=3000, verbose_name='Swabalamban Description')
+
+    class Meta:
+        verbose_name_plural = 'Our Mission Section'
+
+    def __str__(self):
+        return 'Our Mission Section Details'
+
+class Volunteer(models.Model):
+    title = models.CharField(max_length=50)
+    tagline = models.TextField(max_length=1500)
+
+    class Meta:
+        verbose_name_plural = 'Volunteer Section'
+
+    def __str__(self):
+        return 'Volunteer Section Details'
+
+class Gallery(models.Model):
+    tagline = models.TextField(max_length=500)
+
+    class Meta:
+        verbose_name_plural = 'Gallery Section'
+
+    def __str__(self):
+        return 'Gallery Section Details'
+
+class Contact(models.Model):
+    address = models.CharField(max_length=200)
+    contact_no = models.CharField(max_length=50, verbose_name='Contact Number')
+    email = models.CharField(max_length=50)
+    facebook_link = models.CharField(max_length=150)
+    twitter_link = models.CharField(max_length=150)
+
+    class Meta:
+        verbose_name_plural = 'Contact Us Section'
+
+    def __str__(self):
+        return 'Contact Us Section Details'
+

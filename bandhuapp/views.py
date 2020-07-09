@@ -21,7 +21,10 @@ from applications.anandakendra.models import Event as KendraEvent
 from applications.ankurayan.models import Activity as AnkurayanActivity
 from applications.ashram.models import Event as AshramEvent
 from applications.charitywork.models import Activity as CharityActivity
-from .models import Profile, Photo
+from .models import (
+    Profile, Photo, Initiatives, AboutUs,
+    Mission, Volunteer, Gallery, Contact,
+)
 
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
@@ -44,8 +47,12 @@ def index(request):
     recent_events = recent_events[:10]
 
     context = {
-        'photos': Photo.objects.order_by('created'),
+        'initiatives': Initiatives.objects.all().first(),
+        'about': AboutUs.objects.all().first(),
+        'mission': Mission.objects.all().first(),
         'recent_events': recent_events,
+        'volunteer': Volunteer.objects.all().first(),
+        'photos': Photo.objects.order_by('created'),
     }
     return render(request, 'landing_page.html', context)
 
