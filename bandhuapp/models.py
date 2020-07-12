@@ -1,6 +1,9 @@
 from django.db import models
-from accounts.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils import timezone
+
+from accounts.models import User
 
 # Create your models here.
 
@@ -33,13 +36,23 @@ class RecentActivity(models.Model):
     description = models.TextField(max_length=500)
     date_created = models.DateTimeField(auto_now_add=True)
     date = models.CharField(max_length=100)
-    link = models.CharField(max_length=500)
+    link = models.CharField(max_length=500, verbose_name='Link (not required if inserting file)', null=True, blank=True)
+    notice_file = models.FileField(upload_to='notice_files', verbose_name='Notice File (Optional)', null=True, blank=True)
 
     class Meta:
         verbose_name_plural = 'Recent Activities'
 
     def __str__(self):
         return f'{self.title} - {self.date}'
+
+@receiver(post_save, sender=RecentActivity)
+def create_link_for_file(sender, instance=None, created=False, **kwargs):
+    """Update link to direct to File field."""
+    if instance.notice_file:
+        instance.link = instance.notice_file.url
+    if instance.link is None:
+        instance.link = '#'
+    sender.objects.filter(id=instance.id).update(link=instance.link)
 
 class Photo(models.Model):
     picture = models.ImageField(upload_to='bandhuapp/gallery')
