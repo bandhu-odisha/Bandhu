@@ -79,18 +79,21 @@ $(function () {
 
 // Recent Activities Collapsible
 $(document).ready(function() {
-    if ($(window).scrollTop() <= 200){
+    console.log(window.innerWidth)
+    if ($(window).scrollTop() <= 200 && window.innerWidth >= 1200){
         $('#collapseExample').collapse('show')
         $('.recent-activities-btn i').removeClass('fa-chevron-down').addClass('fa-chevron-up')
     }
     $(window).scroll(function() {
-        if ($(this).scrollTop() > 200) {
-            $('#collapseExample').collapse('hide')
-            $('.recent-activities-btn i').removeClass('fa-chevron-up').addClass('fa-chevron-down')
-        } 
-        else {
-            $('#collapseExample').collapse('show')
-            $('.recent-activities-btn i').removeClass('fa-chevron-down').addClass('fa-chevron-up')
+        if (window.innerWidth >= 1200) {
+            if ($(this).scrollTop() > 200) {
+                $('#collapseExample').collapse('hide')
+                $('.recent-activities-btn i').removeClass('fa-chevron-up').addClass('fa-chevron-down')
+            } 
+            else {
+                $('#collapseExample').collapse('show')
+                $('.recent-activities-btn i').removeClass('fa-chevron-down').addClass('fa-chevron-up')
+            }
         }
     });
 

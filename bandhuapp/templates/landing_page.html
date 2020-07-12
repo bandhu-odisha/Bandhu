@@ -57,7 +57,7 @@
 
 <!-- Recent Activities tab -->
 <div class="recent-activities">
-    <button class="btn btn-primary recent-activities-btn" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    <button class="btn btn-primary recent-activities-btn collapsed" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
         OnGoing/Recent Activities
         <i style="margin-left:10px !important;" class="fas fa-chevron-down"></i>
     </button>
@@ -82,8 +82,8 @@
 
 <!-- Initiatives Cards Section -->
 <section id="initiatives" style="margin-top: -200px;">
-    <div class="row justify-content-center initiatives mx-0">
-        <div class="col-lg-20 col-md-4 col-sm-6 px-2">
+    <div class="row justify-content-center initiatives mx-1">
+        <div class="col-lg-20 col-md-4 col-sm-6 px-1">
             <div class="col-sm card mx-auto" >
                 <img src="{{ initiatives.ankurayan_thumb.url }}" class="rounded-top card-img-top">
                 <div class="card-body p-3">
@@ -96,7 +96,7 @@
                 <a href="{% url 'ankurayan:AnkurayanDetail' current_year %}" class="stretched-link"></a>
             </div>
         </div>
-        <div class="col-lg-20 col-md-4 col-sm-6 px-2">
+        <div class="col-lg-20 col-md-4 col-sm-6 px-1">
             <div class="col-sm card  mx-auto" >
                 <img src="{{ initiatives.kendra_thumb.url }}" class="rounded-top">
                 <div class="card-body p-3">
@@ -108,7 +108,7 @@
                 <a href="{% url 'anandakendra:anandakendra' %}" class="stretched-link"></a>
             </div>
         </div>
-        <div class="col-lg-20 col-md-4 col-sm-6 px-2">
+        <div class="col-lg-20 col-md-4 col-sm-6 px-1">
             <div class="col-sm card  mx-auto" >
                 <img src="{{ initiatives.bandhughar_thumb.url }}" class="rounded-top">
                 <div class="card-body p-3">
@@ -120,7 +120,7 @@
                 <a href="{% url 'ashram:ashram' %}" class="stretched-link"></a>
             </div>
         </div>
-        <div class="col-lg-20 col-md-4 col-sm-6 px-2">
+        <div class="col-lg-20 col-md-4 col-sm-6 px-1">
             <div class="col-sm card  mx-auto" >
                 <img src="{{ initiatives.otheract_thumb.url }}" class="rounded-top">
                 <div class="card-body p-3">
@@ -132,7 +132,7 @@
                 <a href="{% url 'charitywork:charity_work' %}" class="stretched-link"></a>
             </div>
         </div>
-        <div class="col-lg-20 col-md-4 col-sm-6 px-2">
+        <div class="col-lg-20 col-md-4 col-sm-6 px-1">
             <div class="col-sm card  mx-auto" >
                 <img src="{{ initiatives.publications_thumb.url }}" class="rounded-top">
                 <div class="card-body p-3">
