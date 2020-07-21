@@ -109,6 +109,39 @@ class Mission(models.Model):
     def __str__(self):
         return 'Our Mission Section Details'
 
+class SanskarCarousel(models.Model):
+    mission = models.ForeignKey(Mission, on_delete=models.CASCADE)
+    picture = models.ImageField(upload_to='bandhuapp/sanskar')
+
+    class Meta:
+        verbose_name = 'Sanskar Photo'
+        verbose_name_plural = 'Sanskar Photos'
+
+    def __str__(self):
+        return f'Photo{self.id}'
+
+class SwarajCarousel(models.Model):
+    mission = models.ForeignKey(Mission, on_delete=models.CASCADE)
+    picture = models.ImageField(upload_to='bandhuapp/swaraj')
+
+    class Meta:
+        verbose_name = 'Swaraj Photo'
+        verbose_name_plural = 'Swaraj Photos'
+
+    def __str__(self):
+        return f'Photo{self.id}'
+
+class SwabalambanCarousel(models.Model):
+    mission = models.ForeignKey(Mission, on_delete=models.CASCADE)
+    picture = models.ImageField(upload_to='bandhuapp/swabalamban')
+
+    class Meta:
+        verbose_name = 'Swabalamban Photo'
+        verbose_name_plural = 'Swabalamban Photos'
+
+    def __str__(self):
+        return f'Photo{self.id}'
+
 class Volunteer(models.Model):
     title = models.CharField(max_length=50)
     tagline = models.TextField(max_length=1500)

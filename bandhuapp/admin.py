@@ -1,15 +1,29 @@
 from django.contrib import admin
 from .models import (
     Profile, RecentActivity, Photo, Initiatives, AboutUs,
-    Mission, Volunteer, Gallery, Contact,
+    Mission, SanskarCarousel, SwarajCarousel,
+    SwabalambanCarousel, Volunteer, Gallery, Contact,
 )
 
 # Register your models here.
 
+class SanskarCarouselInline(admin.StackedInline):
+    model = SanskarCarousel
+
+class SwarajCarouselInline(admin.StackedInline):
+    model = SwarajCarousel
+
+class SwabalambanCarouselInline(admin.StackedInline):
+    model = SwabalambanCarousel
+
 admin.site.register(Profile)
 admin.site.register(Initiatives)
 admin.site.register(AboutUs)
-admin.site.register(Mission)
+
+@admin.register(Mission)
+class MissionAdmin(admin.ModelAdmin):
+    inlines = [SanskarCarouselInline, SwarajCarouselInline, SwabalambanCarouselInline]
+
 admin.site.register(Volunteer)
 admin.site.register(Gallery)
 admin.site.register(Contact)
@@ -29,5 +43,17 @@ class RecentActivityAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
 @admin.register(Photo)
-class PublicationModelAdmin(admin.ModelAdmin):
+class PhotoAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'picture')
+
+# @admin.register(SanskarCarousel)
+# class SanskarCarouselAdmin(admin.ModelAdmin):
+#     list_display = ('__str__', 'picture')
+
+# @admin.register(SwarajCarousel)
+# class SwarajCarouselAdmin(admin.ModelAdmin):
+#     list_display = ('__str__', 'picture')
+
+# @admin.register(SwabalambanCarousel)
+# class SwabalambanCarouselAdmin(admin.ModelAdmin):
+#     list_display = ('__str__', 'picture')
