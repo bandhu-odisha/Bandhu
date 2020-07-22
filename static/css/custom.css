@@ -380,10 +380,6 @@ section p {
 
 /* GALLERY "SHOW MORE" BUTTON */
 
-#load-more{
-    float:right;
-    margin:5px;
-}
 .hidden{
     visibility:hidden;
     width:0px!important;

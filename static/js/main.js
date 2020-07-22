@@ -199,7 +199,7 @@ $(document).ready(function() {
       if (hiddenElems.length <= 1) {  // Hidden elements will also contain #load-more
         jQuery("#load-more").hide();
       } else {
-        jQuery("#load-more").show();
+        jQuery("#load-more").show().children('img')[0].src = hiddenElems[0].firstElementChild.src;
       };
 
       $container.isotope('layout');

@@ -494,8 +494,14 @@
     left: 0;
     z-index: 1;
 }
-
 .gallery-item figure:hover:after {
+    opacity: 1;
+}
+
+#load-more:after {
+    opacity: 0.85;
+}
+#load-more:hover:after {
     opacity: 1;
 }
 
