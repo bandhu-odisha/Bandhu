@@ -233,8 +233,8 @@ section p {
 }
 
 .hex , .hex:before, .hex:after {
-    border-left: 2px solid #ffb307;
-    border-right: 2px solid #ffb307;
+    border-left: 2px solid #ff9800;
+    border-right: 2px solid #ff9800;
 }
 
 .hex:before {
@@ -266,7 +266,7 @@ section p {
     bottom: 40px;
     cursor: pointer;
     display: none;
-    opacity: .85;
+    opacity: 1;
     z-index: 99;
     -webkit-transition: all .25s ease;
     -moz-transition: all .25s ease;
@@ -297,12 +297,12 @@ section p {
     width: 45px;
     height: 29px;
     margin-bottom: 5px;
-    background-color: #ffb307;
+    background-color: #ff9800;
 }
 
 .hex.scroll-top:after, .hex.scroll-top:before {
     margin-left: -2px;
-    background-color: #ffb307;
+    background-color: #ff9800;
 }
 
 
