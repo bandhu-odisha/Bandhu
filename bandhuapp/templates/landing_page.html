@@ -174,12 +174,14 @@
                     <h3 class="content-title d-md-none mb-4">Sanskar</h3>
                     <div class="col-md-5 col-lg-4 align-self-center">
                         <div id="sanskar-carousel" class="carousel slide m-auto" data-ride="carousel">
+                            {% if mission.sanskarcarousel_set.count > 1 %}
                             <ul class="carousel-indicators">
                                 {% for img in mission.sanskarcarousel_set.all %}
                                 <li data-target="#sanskar-carousel" data-slide-to="{{ forloop.counter0 }}" 
                                     class="{% if forloop.counter == 1 %}active{% endif %}"></li>
                                 {% endfor %}
                             </ul>
+                            {% endif %}
                             <div class="carousel-inner">
                                 {% for img in mission.sanskarcarousel_set.all %}
                                 <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}">
@@ -208,12 +210,14 @@
                     <h3 class="content-title d-md-none mb-4">Swaraj</h3>
                     <div class="col-md-5 col-lg-4 align-self-center">
                         <div id="swaraj-carousel" class="carousel slide m-auto" data-ride="carousel">
+                            {% if mission.swarajcarousel_set.count > 1 %}
                             <ul class="carousel-indicators">
                                 {% for img in mission.swarajcarousel_set.all %}
                                 <li data-target="#swaraj-carousel" data-slide-to="{{ forloop.counter0 }}" 
                                     class="{% if forloop.counter == 1 %}active{% endif %}"></li>
                                 {% endfor %}
                             </ul>
+                            {% endif %}
                             <div class="carousel-inner">
                                 {% for img in mission.swarajcarousel_set.all %}
                                 <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}">
@@ -244,12 +248,14 @@
                     <h3 class="content-title d-md-none mb-4">Swabalamban</h3>
                     <div class="col-md-5 col-lg-4 align-self-center">
                         <div id="swabalamban-carousel" class="carousel slide m-auto" data-ride="carousel">
+                            {% if mission.swabalambancarousel_set.count > 1 %}
                             <ul class="carousel-indicators">
                                 {% for img in mission.swabalambancarousel_set.all %}
                                 <li data-target="#swabalamban-carousel" data-slide-to="{{ forloop.counter0 }}" 
                                     class="{% if forloop.counter == 1 %}active{% endif %}"></li>
                                 {% endfor %}
                             </ul>
+                            {% endif %}
                             <div class="carousel-inner">
                                 {% for img in mission.swabalambancarousel_set.all %}
                                 <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}">
