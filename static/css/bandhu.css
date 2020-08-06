@@ -591,8 +591,8 @@
 }
 
 .recent-activities-collapse{
-    width:350px !important;
-    max-height:40vh;
+    width: 350px !important;
+    max-height: 300px;
     overflow-y: auto;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
