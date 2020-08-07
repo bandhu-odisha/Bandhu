@@ -284,6 +284,7 @@
 </section>
 <!-- About Section Ends -->
 <!-- Recent Activities Section -->
+{% if recent_events %}
 <section id="recent-activities">
     <div class="bg-grey" style="padding: 50px 0;">
         <div class="container">
@@ -377,7 +378,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 </div>
 </div>
 {% endfor %}
-
+{% endif %}
 <!-- Recent Activities Section Ends -->
 <!-- Volunteer Section -->
 <section id="volunteer">
