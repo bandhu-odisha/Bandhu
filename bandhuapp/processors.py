@@ -6,7 +6,7 @@ from applications.ankurayan.models import Activity as ankurayan_activity
 from applications.charitywork.models import Activity as charitywork_activity
 from applications.ashram.models import Activity as ashram_activity
 # from applications.madhmukti.models import Activity as madhmukti_activity
-from bandhuapp.models import RecentActivity as recent_acts
+from bandhuapp.models import RecentActivity, Gallery, Contact
 
 # Create your views here.
 def userList(request):
@@ -22,16 +22,11 @@ def userList(request):
     return {'users': rm_users,'all_users':users}
     
 def recent_activities(request):
-    recent_act = recent_acts.objects.all().order_by('-date_created')
-    # anandakendra_act = anandakendra_activity.objects.all().order_by('activity_date')[0]
-    # ankurayan_act = ankurayan_activity.objects.all().order_by('-activity_date').first()
-    # charitywork_act = charitywork_activity.objects.all().order_by('activity_date')[0]
-    # sanskarbarga_act = sanskarbarga_activity.objects.all().order_by('activity_date')
-    # madhmukti_act = madhmukti_activity.objects.all().order_by('activity_date')
-    # ashram_act = ashram_activity.objects.all().order_by('activity_date')[0]
-    # recent_act = [anandakendra_act, ankurayan_act, charitywork_act, ashram_act]
-    # recent_act = []
-    # if ankurayan_act:
-    #     recent_act = [ankurayan_act]
-    # recent_act.sort(key=lambda x: x.activity_date, reverse=True)
-    return {'recent_activities' :  recent_act}
+    recent_act = RecentActivity.objects.all().order_by('-date_created')
+    gallery = Gallery.objects.all().first()
+    contact = Contact.objects.all().first()
+    return {
+        'recent_activities':  recent_act,
+        'gallery': gallery,
+        'contact': contact,
+    }

@@ -1,15 +1,59 @@
 from django.contrib import admin
-from .models import Profile, RecentActivity, Photo
-# from .models import Profile, Charity, Activity, Meeting, Ashram
+from .models import (
+    Profile, RecentActivity, Photo, Initiatives, AboutUs,
+    Mission, SanskarCarousel, SwarajCarousel,
+    SwabalambanCarousel, Volunteer, Gallery, Contact,
+)
+
 # Register your models here.
 
+class SanskarCarouselInline(admin.StackedInline):
+    model = SanskarCarousel
+
+class SwarajCarouselInline(admin.StackedInline):
+    model = SwarajCarousel
+
+class SwabalambanCarouselInline(admin.StackedInline):
+    model = SwabalambanCarousel
+
 admin.site.register(Profile)
-# admin.site.register(Charity)
-# admin.site.register(Activity)
-# admin.site.register(Meeting)
-# admin.site.register(Ashram)
-admin.site.register(RecentActivity)
+admin.site.register(Initiatives)
+admin.site.register(AboutUs)
+
+@admin.register(Mission)
+class MissionAdmin(admin.ModelAdmin):
+    inlines = [SanskarCarouselInline, SwarajCarouselInline, SwabalambanCarouselInline]
+
+admin.site.register(Volunteer)
+admin.site.register(Gallery)
+admin.site.register(Contact)
+
+@admin.register(RecentActivity)
+class RecentActivityAdmin(admin.ModelAdmin):
+    list_display = ('title', 'link', 'notice_file')
+
+    def save_model(self, request, obj, form, change):
+        """Updating link and deleting file if file is removed."""
+        if change and not obj.notice_file:
+            pre_instance = RecentActivity.objects.filter(id=obj.id)
+            if (pre_instance.exists() and pre_instance[0].notice_file and
+                    obj.link == pre_instance[0].notice_file.url):
+                pre_instance[0].notice_file.delete(False)
+                obj.link = '#'
+        super().save_model(request, obj, form, change)
 
 @admin.register(Photo)
-class PublicationModelAdmin(admin.ModelAdmin):
+class PhotoAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'picture')
+
+# @admin.register(SanskarCarousel)
+# class SanskarCarouselAdmin(admin.ModelAdmin):
+#     list_display = ('__str__', 'picture')
+
+# @admin.register(SwarajCarousel)
+# class SwarajCarouselAdmin(admin.ModelAdmin):
+#     list_display = ('__str__', 'picture')
+
+# @admin.register(SwabalambanCarousel)
+# class SwabalambanCarouselAdmin(admin.ModelAdmin):
+#     list_display = ('__str__', 'picture')

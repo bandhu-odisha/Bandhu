@@ -1,15 +1,15 @@
 // Collapse Navbar
 // Add styling fallback for when a transparent background .navbar is scrolled
 var navbarCollapse = function() {
-    if($(".navbar.bg-transparent.fixed-top").length === 0) {
-        return;
-    }
-    if ($(".navbar.bg-transparent.fixed-top").offset().top > 50) {
-        $(".navbar").addClass("navbar-scrolled");
-    }
-    else {
-        $(".navbar").removeClass("navbar-scrolled");
-    }
+    // if($(".navbar.bg-transparent.fixed-top").length === 0) {
+    //     return;
+    // }
+    // if ($(".navbar.bg-transparent.fixed-top").offset().top > 50) {
+    //     $(".navbar").addClass("navbar-scrolled");
+    // }
+    // else {
+    //     $(".navbar").removeClass("navbar-scrolled");
+    // }
     if ($(".navbar.bg-transparent.fixed-top").offset().top > 300) {
         $(".navbar").addClass("navbar-scrolled-again");
     }
@@ -18,7 +18,7 @@ var navbarCollapse = function() {
     }
 };
 // Collapse now if page is not at top
-navbarCollapse();
+// navbarCollapse();
 // Collapse the navbar when page is scrolled
 $(window).scroll(navbarCollapse);
 
@@ -199,7 +199,7 @@ $(document).ready(function() {
       if (hiddenElems.length <= 1) {  // Hidden elements will also contain #load-more
         jQuery("#load-more").hide();
       } else {
-        jQuery("#load-more").show();
+        jQuery("#load-more").show().children('img')[0].src = hiddenElems[0].firstElementChild.src;
       };
 
       $container.isotope('layout');

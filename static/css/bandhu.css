@@ -496,8 +496,14 @@
     left: 0;
     z-index: 1;
 }
-
 .gallery-item figure:hover:after {
+    opacity: 1;
+}
+
+#load-more:after {
+    opacity: 0.85;
+}
+#load-more:hover:after {
     opacity: 1;
 }
 
@@ -558,7 +564,7 @@
     z-index:250;
     top:79px;
     right:60px;
-    width:300px !important;
+    /* width:300px !important; */
 }
 
 .recent-activities-btn {
@@ -579,7 +585,7 @@
 }
 
 .recent-activities-btn:hover {
-    width:350px !important;
+    /* width:350px !important; */
     outline:none;
     background-color: #d37e00 !important;
     color:white;
@@ -587,11 +593,34 @@
 }
 
 .recent-activities-collapse{
-    width:350px !important;
-    max-height:40vh;
+    width: 350px !important;
+    max-height: 300px;
     overflow-y: auto;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
+}
+
+@media screen and (max-width: 575px){
+    .recent-activities {
+        right: unset;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .recent-activities-btn {
+        width: 85vw !important;
+    }
+    .recent-activities-collapse {
+        width: 85vw !important;
+    }
+}
+
+@media screen and (max-width: 400px){
+    .recent-activities-btn {
+        width: 92vw !important;
+    }
+    .recent-activities-collapse {
+        width: 92vw !important;
+    }
 }
 
 .recent-activity-card {

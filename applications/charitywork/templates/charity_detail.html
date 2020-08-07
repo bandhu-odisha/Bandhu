@@ -288,8 +288,7 @@
                     Gallery
                 </h2>
                 <p class="section-description">
-                    TAKE A LOOK AT OUR GALLERY TO GET A GLIMPSE OF WHAT WE DO 
-                    AND WHAT IT FEELS LIKE WORKING FOR A SOCIAL CAUSE.
+                    {{ gallery.tagline }}
                 </p>
             </div>
 
@@ -312,6 +311,7 @@
                     </figure>
                     {% endfor %}
                     <figure id="load-more" class="item {% for activity in activities %} {{ activity.id }} {% endfor %}">
+                        <img alt="Photo">
                         <a href="javascript:void(0);" class="stretched-link">
                             <p class="text-center">Show More</p>
                         </a>
