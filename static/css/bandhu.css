@@ -179,7 +179,7 @@
 
 /* RECENT ACTIVITIES START */
 
-#recent-activities::before {
+.glide-carousel-custom::before {
     display: block;
     content: "";
     margin-top: -30px;
@@ -187,24 +187,24 @@
     visibility: hidden;
 }
 
-#recent-activities .card {
+.glide-carousel-custom .card {
     border: none !important;
 }
 
-#recent-activities .glide__slides{
+.glide-carousel-custom .glide__slides{
     background-color: #ecf0f1;
 }
 
-#recent-activities .glide__slide .card{
+.glide-carousel-custom .glide__slide .card{
     max-width: 24rem;
     max-height: 40rem;
 }
 
 @media screen and (max-width: 760px) {
-    #recent-activities .glide__slide{
+    .glide-carousel-custom .glide__slide{
         padding: 0 15px;
     }
-    #recent-activities .glide__slide .card{
+    .glide-carousel-custom .glide__slide .card{
         max-width: 20rem;
         max-height: 40rem;
     }
@@ -542,7 +542,7 @@
 /* CUSTOM CONTAINER WIDTH */
 
 @media screen and (min-width: 880px) and (max-width: 991px) {
-    #about .container, #recent-activities .container {
+    #about .container, .glide-carousel-custom .container {
         max-width: 840px;
         /* margin: 0 32px; */
     }
