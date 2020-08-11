@@ -7,11 +7,15 @@
 {% block style %}
 <!-- Custom CSS -->
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
+<link rel="stylesheet" href="{% static 'css/ankurayan.css' %}">
 {% endblock %}
 
 {% block navbar-links %}
 <li class="nav-item">
     <a class="nav-link px-3 px-lg-2" href="{% url 'home' %}">Home</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link px-3 px-lg-2" href="#about">About</a>
 </li>
 <li class="nav-item">
     <a class="nav-link px-3 px-lg-2" href="#ankurayans">Ankurayans</a>
@@ -29,11 +33,11 @@
 
 {% block content %}
 <!-- ABOUT Section  -->
-<section class="" id="about">
-    <div class="container pb-5 mb-5" style="margin-top: -150px;">
+<section id="about" style="margin-top: -220px;">
+    <div class="container pb-5 mb-5">
         <div class="row justify-content-center">
             <div class="col-md-6" style="z-index: 10;">
-                <div style="padding: 165px 25px 0;">
+                <div style="padding: 135px 25px 0;">
                     <!-- <h3 class="content-title" style="font-size: 2rem; margin-bottom: 20px;">Ankurayan</h3> -->
                     <p style="font-size: 20px;">
                         <strong>Some Tagline here</strong>
@@ -186,11 +190,12 @@
 {% block scripts %}
 <!-- Custom JS -->
 <script src="{% static 'js/bandhu.js' %}"></script>
+
 <!-- Contact Scrollspy Problem -->
 <script>contact_scrollspy()</script>
+
 <!-- Upload Detail in forms -->
 <script type="text/javascript">
-
     $('.custom-file input').change(function (e) {
         var files = [];
         for (var i = 0; i < $(this)[0].files.length; i++) {
@@ -203,8 +208,8 @@
             $(this).next('.custom-file-label').html('1 file selected');
         }
     });
-
 </script>
+
 <script>
     // ANKURAYANS CAROUSEL
     var ankur_glide = new Glide('.ankurayans', {
