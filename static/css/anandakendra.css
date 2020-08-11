@@ -7,6 +7,14 @@
     margin: auto;
 }
 
+#about::before {
+    display: block;
+    content: "";
+    margin-top: -80px;
+    height: 80px;
+    visibility: hidden;
+}
+
 #about .title {
     color: #0d0d0d;
     /* font-size: 1.375em; */

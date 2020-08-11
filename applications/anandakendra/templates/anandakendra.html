@@ -17,6 +17,9 @@
     <a class="nav-link px-3 px-lg-2" href="{% url 'home' %}">Home</a>
 </li>
 <li class="nav-item">
+    <a class="nav-link px-3 px-lg-2" href="#about">About</a>
+</li>
+<li class="nav-item">
     <a class="nav-link px-3 px-lg-2" href="#anandakendras">Anandakendras</a>
 </li>
 <li class="nav-item">
@@ -26,119 +29,47 @@
 
 {% block showcase-title-container %}
 <div class="slider-txt-container" style="padding: 200px 0 200px 0;">
-    <h2 class="bold-txt"> AnandaKendra </h2>
+    <h2 class="bold-txt"> Anandakendra </h2>
 </div>
 {% endblock %}
 
 {% block content %}
-<!-- Cause Section  -->
-<div class="" id="cause">
-    <div class="container pb-5 mb-5" style="margin-top: -150px;">
+<!-- ANANDAKENDRA Section  -->
+<section id="about" style="margin-top: -220px;">
+    <div class="container pb-5 mb-5">
         <div class="row justify-content-center">
             <div class="col-md-6" style="z-index: 10;">
-                <div style="padding: 165px 25px 0;">
+                <div style="padding: 135px 25px 0;">
                     <!-- <h3 class="content-title   " style="font-size: 2rem; margin-bottom: 20px;">Anandkendra</h3> -->
-                    <p>
-                        <strong>
-                            The Idea and the objective:
-                        </strong>
+                    <p style="font-size: 20px;">
+                        <strong>The Idea and the objective:</strong>
                     </p>
-                    <p>
-                         Bandhu Anandakendra, henceforward called Kendra, is conceived to support the school education in all possible ways. It is observed that there are children in 
-                         villages, whose parents cannot or are not willing to afford to care for their education. These children need to be assisted for completing the school education 
-                         successfully.
-                         <br><br>
-                         <strong>Modus Operandi:</strong> Weekly sessions on Sunday mornings are meant for developing spiritual, physical and emotional culture among children. This includes yogabhyas, 
-                         creative and delightful games, inspiring songs, storytelling and other creative activities.  Daily guidance for 2 hours on school curriculum is provided beyond 
-                         school timing. A Kendra is supposed to be run by one or two youth, who have preferably completed or are continuing their college education. They are called 
-                         Anandakendra Acharyas/Acharyaas. 
+                    <p style="font-size: 17px;">
+                        Bandhu Anandakendra, henceforward called Kendra, is conceived to support the school education in all possible ways. It is observed that there are children in 
+                        villages, whose parents cannot or are not willing to afford to care for their education. These children need to be assisted for completing the school education 
+                        successfully.
+                        <br><br>
+                        <strong>Modus Operandi:</strong> Weekly sessions on Sunday mornings are meant for developing spiritual, physical and emotional culture among children. This includes yogabhyas, 
+                        creative and delightful games, inspiring songs, storytelling and other creative activities.  Daily guidance for 2 hours on school curriculum is provided beyond 
+                        school timing. A Kendra is supposed to be run by one or two youth, who have preferably completed or are continuing their college education. They are called 
+                        Anandakendra Acharyas/Acharyaas. 
                     </p>
-                    </h3>
                 </div>
             </div>
             <div class="col-md-6" style="z-index: 10;">
                 <div class="card border text-center">
                     <img class="card-img-top" src='{% static "img/gimg-3.png" %}' alt="Card image cap"
                         style="height: 500px; width: 100%;">
-                    <!-- <div class="card-body">
-                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    </div> -->
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
-<!-- Recent Activities Section -->
+<!-- ANANDAKENDRAS Section -->
 <section id="anandakendras" class="glide-carousel-custom">
     <div class="bg-grey" style="padding: 50px 0;">
         <div class="container">
-            <div class="add-ankurayan">
-                {% if user.is_admin %}
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addAnandakendra">
-                    Create Anandakendra
-                </button>
-                {% endif %}
-                <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addAnandakendra" role="dialog"
-                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title bld" id="exampleModalLongTitle">Create Anandakendra</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form method="POST" enctype="multipart/form-data"
-                                    action="{% url 'anandakendra:CreateAnandaKendra' %}">
-                                    {% csrf_token %}
-                                    <div class="row">
-                                        <div class="col">
-                                            <label class="left-label bld" for="name">Name</label>
-                                            <input type="text" class="form-control" name="name"
-                                                placeholder="Name" required="required"><br>
-                                        </div>
-                                        <div class="col">
-                                            <label class="left-label bld" for="locality">Locality</label>
-                                            <input type="text" class="form-control" name="locality"
-                                                placeholder="Locality" required="required"><br>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <label class="left-label bld" for="address">Address</label>
-                                            <input type="text" class="form-control" name="address"
-                                                placeholder="Address" required="required"><br>
-                                        </div>
-                                        <div class="col">
-                                            <label class="left-label bld" for="admin" required="required">Admin</label>
-                                            <select required name="admin" class="form-control">
-                                                {% for user in all_users %}
-                                                <option value={{user.pk}}>{{user.first_name}} {{user.last_name}}
-                                                </option>
-                                                {% endfor %}
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <label class="left-label bld" for="image">Thumbnail</label>
-                                    <div class="input-group">
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input" name="image" id="inputGroupFile04" 
-                                                aria-describedby="inputGroupFileAddon04">
-                                            <label class="custom-file-label" for="logo">Add Thumbnail</label>
-                                        </div>
-                                    </div><br>
-                                    <label class="left-label bld" for="description">Description</label>
-                                    <textarea name="description" class="form-control" id="" cols="80" rows="4"
-                                        placeholder="Description"></textarea><br>
-                                    <button class="btn btn-primary">Create Kendra</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="row">
                 <div class="section-content w-100">
                     <div class="content-box from-bottom delay-200">
@@ -185,6 +116,74 @@
                     </div>
                 </div>
             </div>
+            <div class="row justify-content-center mt-4">
+                <div class="add-ankurayan">
+                    {% if user.is_admin %}
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addAnandakendra">
+                        Create Anandakendra
+                    </button>
+                    {% endif %}
+                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addAnandakendra" role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Create Anandakendra</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="POST" enctype="multipart/form-data"
+                                        action="{% url 'anandakendra:CreateAnandaKendra' %}">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="col">
+                                                <label class="left-label bld" for="name">Name</label>
+                                                <input type="text" class="form-control" name="name"
+                                                    placeholder="Name" required="required"><br>
+                                            </div>
+                                            <div class="col">
+                                                <label class="left-label bld" for="locality">Locality</label>
+                                                <input type="text" class="form-control" name="locality"
+                                                    placeholder="Locality" required="required"><br>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <label class="left-label bld" for="address">Address</label>
+                                                <input type="text" class="form-control" name="address"
+                                                    placeholder="Address" required="required"><br>
+                                            </div>
+                                            <div class="col">
+                                                <label class="left-label bld" for="admin" required="required">Admin</label>
+                                                <select required name="admin" class="form-control">
+                                                    {% for user in all_users %}
+                                                    <option value={{user.pk}}>{{user.first_name}} {{user.last_name}}
+                                                    </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <label class="left-label bld" for="image">Thumbnail</label>
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" name="image" id="inputGroupFile04" 
+                                                    aria-describedby="inputGroupFileAddon04">
+                                                <label class="custom-file-label" for="logo">Add Thumbnail</label>
+                                            </div>
+                                        </div><br>
+                                        <label class="left-label bld" for="description">Description</label>
+                                        <textarea name="description" class="form-control" id="" cols="80" rows="4"
+                                            placeholder="Description"></textarea><br>
+                                        <button class="btn btn-primary">Create Kendra</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -195,13 +194,13 @@
         <span><i class="fa fa-arrow-up"></i></span>
     </div>
 </div>
-
 {% endblock %}
 
 
 {% block scripts %}
 <!-- Custom JS -->
 <script src="{% static 'js/bandhu.js' %}"></script>
+
 <!-- Contact Scrollspy Problem -->
 <script>contact_scrollspy()</script>
 
@@ -224,6 +223,7 @@
     })
     kendra_glide.mount()
 </script>
+
 <!-- Upload Detail in forms -->
 <script type="text/javascript">
 
@@ -239,7 +239,5 @@
             $(this).next('.custom-file-label').html('1 file selected');
         }
     });
-
 </script>
-
 {% endblock %}
