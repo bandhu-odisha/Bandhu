@@ -95,6 +95,10 @@ $(document).ready(function() {
                 $('.recent-activities-btn i').removeClass('fa-chevron-down').addClass('fa-chevron-up')
             }
         }
+        else {
+            $('#collapseExample').collapse('hide')
+            $('.recent-activities-btn i').removeClass('fa-chevron-up').addClass('fa-chevron-down')
+        }
     });
 
     // Change Arrow on show/hide
