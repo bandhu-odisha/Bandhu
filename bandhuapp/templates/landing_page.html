@@ -92,8 +92,7 @@
                         {{ initiatives.ankurayan_desc }}
                     </p>
                 </div>
-                {% now 'Y' as current_year %}
-                <a href="{% url 'ankurayan:AnkurayanDetail' current_year %}" class="stretched-link"></a>
+                <a href="{% url 'ankurayan:ankurayan' %}" class="stretched-link"></a>
             </div>
         </div>
         <div class="col-lg-20 col-md-4 col-sm-6 px-1">
@@ -284,7 +283,8 @@
 </section>
 <!-- About Section Ends -->
 <!-- Recent Activities Section -->
-<section id="recent-activities">
+{% if recent_events %}
+<section id="recent-activities" class="glide-carousel-custom">
     <div class="bg-grey" style="padding: 50px 0;">
         <div class="container">
             <div class="row">
@@ -377,7 +377,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 </div>
 </div>
 {% endfor %}
-
+{% endif %}
 <!-- Recent Activities Section Ends -->
 <!-- Volunteer Section -->
 <section id="volunteer">

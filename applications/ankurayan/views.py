@@ -12,8 +12,7 @@ from .models import Ankurayan,Activity,Photo,Guest,Participant,ActivityCategory
 
 def index(request):
     ankurayans = Ankurayan.objects.all()
-    photos = Photo.objects.all()
-    return render(request, 'ankurayan.html',{'ankurayans':ankurayans,'photos':photos})
+    return render(request, 'ankurayan.html', {'ankurayans':ankurayans})
 
 @login_required
 def create_ankurayan(request):
@@ -34,20 +33,9 @@ def create_ankurayan(request):
                                 admin=admin_profile)
         
         return HttpResponseRedirect('/ankurayan/')
-        
+
 def ankurayan_detail(request, slug):
-    ankurayan = Ankurayan.objects.filter(slug=slug)
-    if ankurayan.exists():
-        ankurayan = ankurayan[0]
-    elif slug == str(datetime.now().year):
-        ankurayan = Ankurayan.objects.order_by('-year')
-        if ankurayan.exists():
-            url = '/ankurayan/detail/' + ankurayan[0].slug +'/'
-            return HttpResponseRedirect(url)
-        else:
-            raise Http404
-    else:
-        raise Http404
+    ankurayan = get_object_or_404(Ankurayan, slug=slug)
 
     categories = ActivityCategory.objects.filter(ankurayan=ankurayan)
     participants = Participant.objects.filter(ankurayan=ankurayan)

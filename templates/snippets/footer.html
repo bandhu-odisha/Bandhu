@@ -7,8 +7,7 @@
                 </h3>
                 <ul class="nav flex-column py-4" style="font-size: 18px;">
                     <li class="nav-item pb-1">
-                        {% now 'Y' as current_year %}
-                        <a href="{% url 'ankurayan:AnkurayanDetail' current_year %}" class="nav-link">Ankurayan</a>
+                        <a href="{% url 'ankurayan:ankurayan' %}" class="nav-link">Ankurayan</a>
                     </li>
                     <li class="nav-item pb-1">
                         <a href="{% url 'anandakendra:anandakendra' %}" class="nav-link">Anandakendra</a>
