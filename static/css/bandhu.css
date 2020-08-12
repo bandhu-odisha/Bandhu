@@ -3,7 +3,7 @@
 
 .section-title {
     color: #0d0d0d;
-    font-size: 2.875em;
+    font-size: 2.25em;
     font-weight: 900;
     line-height: 54px;
     text-align: center;
@@ -27,7 +27,7 @@
 /* SHOWCASE STARTS */
 
 .slider-txt-container .bold-txt {
-    font-size: 5em;
+    font-size: 3.875em;
     margin-bottom: 60px;
 }
 
@@ -313,7 +313,7 @@
 /* GALLERY START */
 
 #gallery .section-title {
-    font-size: 3.4375em;
+    font-size: 2.4375em;
 }
 
 #gallery .section-description {
