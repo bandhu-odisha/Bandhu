@@ -55,7 +55,7 @@
         </div>
 
         <hr class="bg-white">
-
+        {% now 'Y' as current_year %}
         <div class="footer text-white text-center clearfix">
             <div class="float-lg-left pt-1 pb-2 py-lg-0">
                 &copy; <a href="{% url 'home' %}">Bandhu</a> {{ current_year }}, All Rights Reserved.
