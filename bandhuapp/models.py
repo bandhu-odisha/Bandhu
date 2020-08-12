@@ -70,8 +70,8 @@ class Photo(models.Model):
 class Initiatives(models.Model):
     ankurayan_desc = models.TextField(max_length=500, verbose_name='Anurayan Tagline')
     ankurayan_thumb = models.ImageField(upload_to='main_page/initiatives', verbose_name='Ankurayan Thumbnail')
-    kendra_desc = models.TextField(max_length=500, verbose_name='Ananda Kendra Tagline')
-    kendra_thumb = models.ImageField(upload_to='main_page/initiatives', verbose_name='Ananda Kendra Thumbnail')
+    kendra_desc = models.TextField(max_length=500, verbose_name='Anandakendra Tagline')
+    kendra_thumb = models.ImageField(upload_to='main_page/initiatives', verbose_name='Anandakendra Thumbnail')
     bandhughar_desc = models.TextField(max_length=500, verbose_name='Bandhu Ghar Tagline')
     bandhughar_thumb = models.ImageField(upload_to='main_page/initiatives', verbose_name='Bandhu Ghar Thumbnail')
     otheract_desc = models.TextField(max_length=500, verbose_name='Other Activities Tagline')
