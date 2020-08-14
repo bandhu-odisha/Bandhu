@@ -598,6 +598,7 @@
     overflow-y: auto;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
+    border-bottom: 1px solid rgba(0,0,0,.125);
 }
 
 @media screen and (max-width: 575px){
