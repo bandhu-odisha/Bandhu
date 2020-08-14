@@ -65,7 +65,7 @@
         <div class="card card-body recent-activity-card">
             <ol class="recent-activity-ol">
                 {% for act in recent_activities %}
-                    {% if new_event %}
+                    {% if act.end_date >= today_date or act.date_created >= ten_day_delta %}
                         <div class="ribbon-new">New</div>
                     {% endif %}
                     <a href="{{ act.link }}" style="font-size: 20px; text-decoration: none;">
