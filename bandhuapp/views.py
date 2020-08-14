@@ -6,8 +6,8 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
-from django.http import HttpResponseRedirect,Http404
-from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect, Http404, JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -25,6 +25,7 @@ from .models import (
     Profile, Photo, Initiatives, AboutUs,
     Mission, Volunteer, Gallery, Contact,
 )
+from .templatetags import permissions as temp_perms  # Template permissions
 
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
@@ -52,7 +53,8 @@ def index(request):
         'mission': Mission.objects.all().first(),
         'recent_events': recent_events,
         'volunteer': Volunteer.objects.all().first(),
-        'photos': Photo.objects.order_by('created'),
+        'photos': Photo.objects.filter(approved=True).order_by('-created'),
+        'unapproved_photos': Photo.objects.filter(approved=False).order_by('created'),
     }
     return render(request, 'landing_page.html', context)
 
@@ -138,8 +140,8 @@ def profile_page(request):
     }
     return render(request,'profile.html', context)
 
-
-def add_images(request):
+@login_required
+def add_image(request):
     if request.method == 'POST':
         picture = request.FILES['image']
         caption = request.POST['caption']
@@ -149,7 +151,31 @@ def add_images(request):
         for tag in tag_list:
             tags += f'{tag} '
 
-        Photo.objects.create(picture=picture, caption=caption, tags=tags)
-        messages.success(request, "Image added Successfully!")
+        if temp_perms.is_admin(request.user):
+            Photo.objects.create(picture=picture, caption=caption, tags=tags, approved=True)
+            messages.success(request, "Image added successfully!")
+        else:
+            Photo.objects.create(picture=picture, caption=caption, tags=tags)
+            messages.success(request, "Image sent for admin approval")
 
+    return HttpResponseRedirect('/')
+
+@login_required
+def approve_image(request):
+    if request.method == 'POST':
+        image_pk = request.POST.get('image')
+        status = request.POST.get('status')
+
+        photo = get_object_or_404(Photo, pk=int(image_pk))
+
+        if status == "approve":
+            photo.approved = True
+            photo.save()
+            return JsonResponse({'response': 'approved'})
+        else:
+            photo.picture.delete(save=False)
+            photo.delete()
+            return JsonResponse({'response': 'discarded'})
+
+        
     return HttpResponseRedirect('/')
