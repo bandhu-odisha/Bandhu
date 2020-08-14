@@ -65,7 +65,7 @@
 // HEADER TEXT ANIMATION
 $(function () {
     var $header = $("#header-text");
-    var header = ['<span class="d-block" lang="or" style="font-family: oriya;">ସବାଶେଷ  ମଣିଷର</span>', '<span class="d-block" style="font-weight:normal; font-family:cursive; text-transform: none;">The friend of the last man</span>'];
+    var header = ['<span class="d-block" lang="or" style="font-family: oriya;">ସବାଶେଷ  ମଣିଷର</span>', '<span class="d-block" style="font-weight:100; font-family:Satisfy; text-transform: none;">The friend of the last man</span>'];
     var position = -1;
     
     !function loop() {
@@ -95,17 +95,23 @@ $(document).ready(function() {
                 $('.recent-activities-btn i').removeClass('fa-chevron-down').addClass('fa-chevron-up')
             }
         }
-        else {
-            $('#collapseExample').collapse('hide')
-            $('.recent-activities-btn i').removeClass('fa-chevron-up').addClass('fa-chevron-down')
-        }
-    });
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > 200) {
+                $('#collapseExample').collapse('hide')
+                $('.recent-activities-btn i').removeClass('fa-chevron-up').addClass('fa-chevron-down')
+            } 
+            else {
+                $('#collapseExample').collapse('show')
+                $('.recent-activities-btn i').removeClass('fa-chevron-down').addClass('fa-chevron-up')
+            }
+        });
 
-    // Change Arrow on show/hide
-    $("#collapseExample").on('show.bs.collapse', function(){
-        $('.recent-activities-btn i').removeClass('fa-chevron-down').addClass('fa-chevron-up')
-    });
-    $("#collapseExample").on('hide.bs.collapse', function(){
-        $('.recent-activities-btn i').removeClass('fa-chevron-up').addClass('fa-chevron-down')
+        // Change Arrow on show/hide
+        $("#collapseExample").on('show.bs.collapse', function(){
+            $('.recent-activities-btn i').removeClass('fa-chevron-down').addClass('fa-chevron-up')
+        });
+        $("#collapseExample").on('hide.bs.collapse', function(){
+            $('.recent-activities-btn i').removeClass('fa-chevron-up').addClass('fa-chevron-down')
+        });
     });
 });
