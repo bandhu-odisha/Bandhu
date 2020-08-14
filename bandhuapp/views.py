@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django.conf import settings
 from django.contrib import messages
@@ -53,6 +53,8 @@ def index(request):
         'recent_events': recent_events,
         'volunteer': Volunteer.objects.all().first(),
         'photos': Photo.objects.order_by('created'),
+        'today_date': datetime.now() + timedelta(days=9),
+        'ten_day_delta': datetime.now() + timedelta(days=10),
     }
     return render(request, 'landing_page.html', context)
 

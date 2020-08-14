@@ -640,6 +640,7 @@
     margin-top:5px;
     color: black;
     padding: 10px !important;
+    padding-right: 40px !important;
 	font-size: 18px !important;
 	border: 1px solid #ece5e5 !important;
 	border-radius: 5px !important;
@@ -649,6 +650,59 @@
 
 .recent-activity-li:hover {
     box-shadow: 0px 2px 2px 0px #d8d6d6 !important;
+}
+
+.ribbon-new {
+    background: #ff9800;
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    text-align: center;
+    font: 400 13px sans-serif;
+    color: #fff;
+    line-height: 27px;
+    border: 0;
+    right: 16px;
+    margin-top: 5px;
+	animation: colorRotate 2s ease infinite;
+}
+
+@keyframes colorRotate {
+    from {
+      color: gray;
+    }
+    10% {
+      color: #0099ff;
+    }
+    50% {
+      color: white;
+    }
+    75% {
+      color: #ff3399;
+    }
+    100% {
+      color: black;
+    }
+  }
+
+.ribbon-new:after {
+    content: "";
+    position: absolute;
+    bottom: -18px;
+    left: 0;
+    height: 0;
+    width: 0;
+    border: solid 15px #ff9800;
+    border-bottom-color: transparent;
+}
+
+.ribbon-new:hover {
+    background: #ff9800;
+}
+
+.ribbon-new:hover:after {
+    border-color: #ff9800;
+    border-bottom-color: transparent;
 }
 
 /* Custom label */
