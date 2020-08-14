@@ -21,7 +21,7 @@ class ActivityCategoryAdmin(admin.ModelAdmin):
 
     def get_kendra(self, obj):
         return obj.kendra.name
-    get_kendra.short_description = 'Ananda Kendra'
+    get_kendra.short_description = 'Anandakendra'
     get_kendra.admin_order_field = 'kendra__name'
 
 @admin.register(Activity)
@@ -32,7 +32,7 @@ class ActivityAdmin(admin.ModelAdmin):
 
     def get_kendra(self, obj):
         return obj.category.kendra.name
-    get_kendra.short_description = 'Ananda Kendra'
+    get_kendra.short_description = 'Anandakendra'
     get_kendra.admin_order_field = 'category__kendra__name'
 
 @admin.register(Event)
@@ -43,7 +43,7 @@ class EventAdmin(admin.ModelAdmin):
 
     def get_kendra(self, obj):
         return obj.kendra.name
-    get_kendra.short_description = 'Ananda Kendra'
+    get_kendra.short_description = 'Anandakendra'
     get_kendra.admin_order_field = 'kendra__name'
 
 @admin.register(Student)
