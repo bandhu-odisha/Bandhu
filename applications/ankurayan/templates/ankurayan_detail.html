@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load static %}
+{% load permissions %}
 
 {% block title %} Ankurayan {{ ankurayan.year }} {% endblock %}
 
@@ -602,7 +603,7 @@
                         </div>
                     </div>
                 </div>
-                {% if check_admin %}
+                {% if user|is_admin %}
                 <div class="col col-sm-5 approve-images text-center">
                     <button type="button" class="btn btn-outline-primary" data-toggle="modal"
                         data-target="#approveGallery">
