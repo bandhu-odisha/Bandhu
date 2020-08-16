@@ -18,11 +18,8 @@
 <li class="nav-item">
     <a class="nav-link px-3 px-lg-2" href="#about">About</a>
 </li>
-<!-- <li class="nav-item">
-    <a class="nav-link px-3 px-lg-2" href="#recent-activities">Recents</a>
-</li> -->
 <li class="nav-item">
-    <a class="nav-link px-3 px-lg-2" href="#gallery">Gallery</a>
+    <a class="nav-link px-3 px-lg-2" href="#bandhughars">Bandhughar</a>
 </li>
 <li class="nav-item">
     <a class="nav-link px-3 px-lg-2" href="#contact">Contact</a>
@@ -31,45 +28,40 @@
 
 {% block showcase-title-container %}
 <div class="slider-txt-container" style="padding: 200px 0 200px 0;">
-    <h2 class="bold-txt"> Ashram </h2>
+    <h2 class="bold-txt"> Bandhughar </h2>
 </div>
 {% endblock %}
 
 {% block content %}
-<!-- Cause Section  -->
-<div class="" id="cause">
-    <div class="container pb-5 mb-5" style="margin-top: -150px;">
+<!-- ABOUT Section  -->
+<div id="about" style="margin-top: -220px;">
+    <div class="container pb-5 mb-5">
         <div class="row justify-content-center">
             <div class="col-md-6" style="z-index: 10;">
-                <div style="padding: 165px 25px 0;">
+                <div style="padding: 135px 25px 0;">
                     <!-- <h3 class="content-title" style="font-size: 2rem; margin-bottom: 20px;">Ashram</h3> -->
-                    <p>
-                        <strong>
-                            Some Tagline here
-                        </strong>
+                    <p style="font-size: 20px;">
+                        <strong>Some Tagline here</strong>
                     </p>
-                    <p>
+                    <p style="font-size: 17px;">
                         Some Description here
                     </p>
-                    </h3>
                 </div>
             </div>
             <div class="col-md-6" style="z-index: 10;">
                 <div class="card border text-center">
-                    <img class="card-img-top" src='{% static "img/gimg-3.png" %}' alt="Card image cap"
-                        style="height: 500px; width: 100%;">
-                    <!-- <div class="card-body">
-					  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-					</div> -->
+                    <img class="card-img-top" src='{% static "img/pimg4.jpg" %}' alt="Bandhughar"
+                        style="height: 500px; width: 100%; object-fit: cover;">
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Recent Activities Section -->
-<section id="recent-activities" class="glide-carousel-custom">
+<!-- BANDHUGHAR SECTION -->
+<section id="bandhughars" class="glide-carousel-custom">
     <div class="bg-grey" style="padding: 50px 0;">
+        <h3 class="section-title">Bandhughar</h3>
         <div class="container">
             <div class="row">
                 <div class="section-content w-100">
@@ -80,7 +72,7 @@
                                 Create Ashram
                             </button>
                             {% endif %}
-                        <h3 class="section-title">Ashrams</h3>
+                        
                         <div class="add-ankurayan">
                             
                             <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addAnkurayan" role="dialog"
