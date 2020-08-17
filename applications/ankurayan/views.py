@@ -22,15 +22,14 @@ def create_ankurayan(request):
         end_date = request.POST.get('end_date')
         logo = request.FILES.get('logo')
         description = request.POST.get('description')
-        admin = request.POST.get('admin')
+        # admin = request.POST.get('admin')
 
         year = datetime.now().year
-        admin_profile = get_object_or_404(Profile,pk=int(admin))
+        # admin_profile = get_object_or_404(Profile,pk=int(admin))
 
         Ankurayan.objects.create(theme=theme,start_date=start_date,
                                 end_date=end_date,logo=logo,
-                                description=description,year=int(year),
-                                admin=admin_profile)
+                                description=description,year=int(year))
         
         return HttpResponseRedirect('/ankurayan/')
 
