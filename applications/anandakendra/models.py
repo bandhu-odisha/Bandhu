@@ -14,7 +14,7 @@ class AnandaKendra(models.Model):
     address = models.CharField(max_length=250)
     image = models.ImageField(upload_to='anandkendra/kendras',null=True,blank=True)
     slug = models.SlugField(blank=True,null=True)
-    admin = models.ForeignKey(Profile,blank=True,null=True,on_delete=models.PROTECT)
+    admin = models.ForeignKey(Profile,blank=True,null=True,on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.name
