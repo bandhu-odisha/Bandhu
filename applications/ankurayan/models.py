@@ -14,7 +14,7 @@ class Ankurayan(models.Model):
     end_date = models.DateField()
     logo = models.ImageField(upload_to='ankurayan/logo')
     slug = models.SlugField()
-    admin = models.ForeignKey(Profile,blank=True,null=True,on_delete=models.PROTECT)
+    # admin = models.ForeignKey(Profile, on_delete=models.SET_NULL, blank=True, null=True)
 
     class Meta:
         verbose_name_plural = 'Ankurayan'

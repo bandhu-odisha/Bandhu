@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.http import HttpResponseRedirect
+from django.shortcuts import reverse
 
 from .models import (
     Ankurayan, Participant, Guest,
@@ -8,9 +10,9 @@ from .models import (
 @admin.register(Ankurayan)
 class AnkurayanAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('year',)}
-    list_display = ('theme','year','start_date','end_date', 'admin')
+    list_display = ('theme','year','start_date','end_date')
     ordering = ('year',)
-    search_fields = ('year','theme','admin__first_name','locality')
+    search_fields = ('year','theme','locality')
 
 @admin.register(ActivityCategory)
 class ActivityCategoryAdmin(admin.ModelAdmin):
