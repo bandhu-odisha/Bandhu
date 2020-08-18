@@ -1,11 +1,12 @@
 from django.contrib import messages
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect,JsonResponse
 from datetime import datetime
 from django.core import serializers
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import Http404
+from django.template.defaultfilters import slugify
 from bandhuapp.models import Profile
 from bandhuapp.templatetags.permissions import is_admin
 from .models import Ankurayan,Activity,Photo,Guest,Participant,ActivityCategory
@@ -35,11 +36,12 @@ def create_ankurayan(request):
             messages.error(request, "Ankurayan with entered year already exists.")
             return redirect('ankurayan:ankurayan')
 
+        slug = slugify(year)
+        Ankurayan.objects.create(year=year, title=title, theme=theme, slug=slug,
+                                 start_date=start_date, end_date=end_date,
+                                 logo=logo, description=description)
+        return redirect('ankurayan:AnkurayanDetail', slug)
 
-        Ankurayan.objects.create(title=title, theme=theme, start_date=start_date,
-                                end_date=end_date, logo=logo,
-                                description=description, year=int(year))
-        
     return redirect('ankurayan:ankurayan')
 
 def ankurayan_detail(request, slug):
@@ -47,11 +49,11 @@ def ankurayan_detail(request, slug):
 
     categories = ActivityCategory.objects.filter(ankurayan=ankurayan)
     participants = Participant.objects.filter(ankurayan=ankurayan)
-    check_admin = False
+    check_admin = is_admin(request.user)
 
-    if ankurayan.admin is not None and ankurayan.admin.user == request.user:
-        # photos = Photo.objects.filter(ankurayan=ankurayan)
-        check_admin = True
+    # if ankurayan.admin is not None and ankurayan.admin.user == request.user:
+    #     # photos = Photo.objects.filter(ankurayan=ankurayan)
+    #     check_admin = True
     # else:
     #     photos = Photo.objects.filter(ankurayan=ankurayan).filter(approved=True)
 
