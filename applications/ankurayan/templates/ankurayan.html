@@ -110,10 +110,11 @@
             <div class="row justify-content-center mt-4">
                 <div class="add-ankurayan">
                     {% if user|is_admin %}
-                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                    <!-- <button type="button" class="btn btn-primary" data-toggle="modal"
                         data-target="#add_ankurayan">
                         Create Ankurayan
-                    </button>
+                    </button> -->
+                    <a href="{% url 'admin:ankurayan_ankurayan_add' %}?next=ankurayan_details" class="btn btn-primary">Create Ankurayan</a>
                     {% endif %}
                     <div class="modal fade" tabindex="-1" id="add_ankurayan" role="dialog"
                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

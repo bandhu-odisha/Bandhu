@@ -14,6 +14,13 @@ class AnkurayanAdmin(admin.ModelAdmin):
     ordering = ('year',)
     search_fields = ('year','theme','locality')
 
+    def response_add(self, request, obj, post_url_continue=None):
+        next_site = request.GET.get('next')
+        if next_site == 'ankurayan_details':
+            return HttpResponseRedirect(reverse('ankurayan:AnkurayanDetail', args=(obj.slug,)))
+
+        return super(AnkurayanAdmin, self).response_add(request, obj, post_url_continue)
+
 @admin.register(ActivityCategory)
 class ActivityCategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'get_year',)
