@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load static %}
+{% load permissions %}
 
 {% block title %} Ankurayan {% endblock %}
 
@@ -60,10 +61,12 @@
 </section>
 
 <!-- ANKURAYANS SECTION -->
+{% if ankurayans.count or user|is_admin %}
 <section id="ankurayans" class="glide-carousel-custom">
     <div class="bg-grey" style="padding: 50px 0;">
         <h3 class="section-title">Ankurayans</h3>
         <div class="container">
+            {% if ankurayans.count %}
             <div class="row">
                 <div class="glide ankurayans">
                     <div class="glide__track" data-glide-el="track">
@@ -103,20 +106,21 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
             <div class="row justify-content-center mt-4">
                 <div class="add-ankurayan">
-                    {% if user.is_admin %}
+                    {% if user|is_admin %}
                     <button type="button" class="btn btn-primary" data-toggle="modal"
-                        data-target="#addAnkurayan">
+                        data-target="#add_ankurayan">
                         Create Ankurayan
                     </button>
                     {% endif %}
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addAnkurayan" role="dialog"
+                    <div class="modal fade" tabindex="-1" id="add_ankurayan" role="dialog"
                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Create Ankurayan</h5>
+                                    <h5 class="modal-title bld">Create Ankurayan</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -126,12 +130,15 @@
                                         action="{% url 'ankurayan:CreateAnkurayan' %}">
                                         {% csrf_token %}
                                         <div class="row">
-                                            <div class="col">
-                                                <label class="left-label bld" for="theme">Theme</label>
-                                                <input type="text" class="form-control" name="theme"
-                                                    placeholder="Ankurayan Theme" required="required"><br>
+                                            <div class="col-12 col-sm-6">
+                                                <label class="left-label bld" for="year">Year</label>
+                                                <input type="text" class="form-control" name="year" placeholder="Ankurayan Year" required><br>
                                             </div>
-                                            <div class="col">
+                                            <div class="col-12 col-sm-6">
+                                                <label class="left-label bld" for="title">Title</label>
+                                                <input type="text" class="form-control" name="title" placeholder="Ankurayan Title" required><br>
+                                            </div>
+                                            <!-- <div class="col">
                                                 <label class="left-label bld" for="admin">Admin</label>
                                                 <select required name="admin" class="form-control">
                                                     {% for user in all_users %}
@@ -139,33 +146,40 @@
                                                         {{user.last_name}}</option>
                                                     {% endfor %}
                                                 </select><br>
-                                            </div>
+                                            </div> -->
                                         </div>
+
+                                        <label class="left-label bld" for="theme">Theme</label>
+                                        <input type="text" class="form-control" name="theme" placeholder="Ankurayan Theme" required><br>
+
                                         <div class="row">
                                             <div class="col">
                                                 <label class="left-label bld" for="start_date">Start Date</label>
                                                 <input type="date" class="form-control" name="start_date"
-                                                    required="required"><br>
+                                                    required><br>
                                             </div>
                                             <div class="col">
                                                 <label class="left-label bld" for="end_date">End Date</label>
                                                 <input type="date" class="form-control" name="end_date"
-                                                    required="required"><br>
+                                                    required><br>
                                             </div>
                                         </div>
+
                                         <label class="left-label bld" for="description">Description</label>
                                         <textarea name="description" id="" cols="80" rows="4"
-                                            placeholder="Description" class="form-control"></textarea><br>
-                                        <label class="left-label bld" for="logo">Add Logo</label>
+                                            placeholder="Description" class="form-control" required></textarea><br>
+
+                                        <label class="left-label bld" for="logo">Logo</label>
                                         <!-- <input type="file" class="form-control" name="logo"
-                                            required="required"><br> -->
+                                            required><br> -->
                                         <div class="input-group">
                                             <div class="custom-file">
                                                 <input type="file" class="custom-file-input" name="logo" id="inputGroupFile04" 
-                                                    aria-describedby="inputGroupFileAddon04">
+                                                    aria-describedby="inputGroupFileAddon04" required>
                                                 <label class="custom-file-label" for="logo">Add Logo</label>
                                             </div>
                                         </div><br>
+
                                         <button class="btn btn-primary">Create Ankurayan</button>
                                     </form>
                                 </div>
@@ -177,6 +191,7 @@
         </div>
     </div>
 </section>
+{% endif %}
 
 <!-- Scroll To Top Button -->
 <div id="scroll-to-top">
@@ -197,16 +212,7 @@
 <!-- Upload Detail in forms -->
 <script type="text/javascript">
     $('.custom-file input').change(function (e) {
-        var files = [];
-        for (var i = 0; i < $(this)[0].files.length; i++) {
-            files.push($(this)[0].files[i].name);
-        }
-        if(files.length > 1) {
-            $(this).next('.custom-file-label').html(files.length + ' files selected');
-        }
-        else {
-            $(this).next('.custom-file-label').html('1 file selected');
-        }
+        $(this).next('.custom-file-label').html($(this)[0].files[0].name);
     });
 </script>
 

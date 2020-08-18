@@ -1,11 +1,13 @@
+from django.contrib import messages
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect,JsonResponse
 from datetime import datetime
 from django.core import serializers
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import Http404
 from bandhuapp.models import Profile
+from bandhuapp.templatetags.permissions import is_admin
 from .models import Ankurayan,Activity,Photo,Guest,Participant,ActivityCategory
 
 # Create your views here.
@@ -15,23 +17,30 @@ def index(request):
     return render(request, 'ankurayan.html', {'ankurayans':ankurayans})
 
 @login_required
+@user_passes_test(is_admin, redirect_field_name=None, login_url="/ankurayan/")
 def create_ankurayan(request):
     if request.method == 'POST':
+        year = request.POST.get('year')
+        title = request.POST.get('title')
         theme = request.POST.get('theme')
         start_date = request.POST.get('start_date')
         end_date = request.POST.get('end_date')
         logo = request.FILES.get('logo')
         description = request.POST.get('description')
-        # admin = request.POST.get('admin')
 
-        year = datetime.now().year
+        # admin = request.POST.get('admin')
         # admin_profile = get_object_or_404(Profile,pk=int(admin))
 
-        Ankurayan.objects.create(theme=theme,start_date=start_date,
-                                end_date=end_date,logo=logo,
-                                description=description,year=int(year))
+        if Ankurayan.objects.filter(year=year).exists():
+            messages.error(request, "Ankurayan with entered year already exists.")
+            return redirect('ankurayan:ankurayan')
+
+
+        Ankurayan.objects.create(title=title, theme=theme, start_date=start_date,
+                                end_date=end_date, logo=logo,
+                                description=description, year=int(year))
         
-        return HttpResponseRedirect('/ankurayan/')
+    return redirect('ankurayan:ankurayan')
 
 def ankurayan_detail(request, slug):
     ankurayan = get_object_or_404(Ankurayan, slug=slug)
