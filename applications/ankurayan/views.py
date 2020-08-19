@@ -9,13 +9,19 @@ from django.http import Http404
 from django.template.defaultfilters import slugify
 from bandhuapp.models import Profile
 from bandhuapp.templatetags.permissions import is_admin
-from .models import Ankurayan,Activity,Photo,Guest,Participant,ActivityCategory
+from .models import (
+    Ankurayan, Activity, Photo, Guest, Participant,
+    ActivityCategory, HomePage,
+)
 
 # Create your views here.
 
 def index(request):
-    ankurayans = Ankurayan.objects.all()
-    return render(request, 'ankurayan.html', {'ankurayans':ankurayans})
+    context = {
+        'ankurayans': Ankurayan.objects.all(),
+        'content': HomePage.objects.all().first(),
+    }
+    return render(request, 'ankurayan.html', context)
 
 @login_required
 @user_passes_test(is_admin, redirect_field_name=None, login_url="/ankurayan/")

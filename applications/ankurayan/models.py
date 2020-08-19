@@ -86,3 +86,15 @@ class Photo(models.Model):
 
     def __str__(self):
         return f'{self.ankurayan.year}'
+
+class HomePage(models.Model):
+    tagline = models.TextField(max_length=1000, verbose_name="Tagline (Bold)")
+    description = models.TextField(max_length=3000)
+    picture = models.ImageField(upload_to='ankurayan/index')
+
+    class Meta:
+        verbose_name = 'Ankurayan Home Page'
+        verbose_name_plural = 'Ankurayan Home Page'
+
+    def __str__(self):
+        return 'Ankurayan Home Page Content'

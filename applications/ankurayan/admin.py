@@ -5,6 +5,7 @@ from django.shortcuts import reverse
 from .models import (
     Ankurayan, Participant, Guest,
     ActivityCategory, Activity, Photo,
+    HomePage,
 )
 
 @admin.register(Ankurayan)
@@ -58,3 +59,6 @@ class PhotoAdmin(admin.ModelAdmin):
     ordering = ('ankurayan',)
     list_filter = ('approved',)
     search_fields = ('activity', 'ankurayan__year','ankurayan__theme',)
+
+
+admin.site.register(HomePage)

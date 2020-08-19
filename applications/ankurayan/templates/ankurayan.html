@@ -41,18 +41,16 @@
                 <div style="padding: 135px 25px 0;">
                     <!-- <h3 class="content-title" style="font-size: 2rem; margin-bottom: 20px;">Ankurayan</h3> -->
                     <p style="font-size: 20px;">
-                        <strong>Some Tagline here</strong>
+                        <strong>{{ content.tagline }}</strong>
                     </p>
                     <p style="font-size: 17px;">
-                        ANKURAYAN is a small and sincere effort where we introduce to the young minds a nobler, 
-                        happier and more complete ways and points of view of life through informal sessions and 
-                        creative events along with conducting various competitions among school students.
+                        {{ content.description|safe }}
                     </p>
                 </div>
             </div>
             <div class="col-md-6" style="z-index: 10;">
                 <div class="card border text-center">
-                    <img class="card-img-top" src='{% static "img/pimg4.jpg" %}' alt="Ankurayan"
+                    <img class="card-img-top" src='{{ content.picture.url }}' alt="Ankurayan"
                         style="height: 500px; width: 100%; object-fit: cover;">
                 </div>
             </div>
