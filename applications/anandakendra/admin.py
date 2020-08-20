@@ -10,9 +10,9 @@ from .models import (
 @admin.register(AnandaKendra)
 class AnandaKendraAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name','locality')}
-    list_display = ('name','locality', 'admin')
+    list_display = ('name', 'locality')
     ordering = ('name',)
-    search_fields = ('name', 'admin__first_name','locality')
+    search_fields = ('name', 'locality')
 
     def response_add(self, request, obj, post_url_continue=None):
         next_site = request.GET.get('next')

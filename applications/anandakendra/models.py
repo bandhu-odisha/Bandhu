@@ -14,7 +14,7 @@ class AnandaKendra(models.Model):
     address = models.CharField(max_length=250)
     image = models.ImageField(upload_to='anandakendra/kendras',null=True,blank=True)
     slug = models.SlugField(blank=True,null=True)
-    admin = models.ForeignKey(Profile,blank=True,null=True,on_delete=models.SET_NULL)
+    # admin = models.ForeignKey(Profile,blank=True,null=True,on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name = 'Anandakendra'
