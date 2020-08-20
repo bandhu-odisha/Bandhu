@@ -5,13 +5,19 @@ from django.core import serializers
 from django.contrib.auth.decorators import login_required
 
 from bandhuapp.models import Profile
-from .models import AnandaKendra,Activity,Photo,Acharya,Student,ActivityCategory, Event
+from .models import (
+    AnandaKendra, Activity, Photo, Acharya,
+    Student, ActivityCategory, Event, HomePage,
+)
 
 # Create your views here.
 
 def index(request):
-    kendras = AnandaKendra.objects.all()
-    return render(request, 'anandakendra.html',{'kendras':kendras})
+    context = {
+        'kendras': AnandaKendra.objects.all(),
+        'content': HomePage.objects.all().first(),
+    }
+    return render(request, 'anandakendra.html', context)
 
 @login_required
 def create_anandakendra(request):

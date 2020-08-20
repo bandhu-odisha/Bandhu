@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from .models import (
     AnandaKendra, ActivityCategory, Activity,
-    Event, Student, Acharya, Photo,
+    Event, Student, Acharya, Photo, HomePage,
 )
 
 @admin.register(AnandaKendra)
@@ -65,3 +65,5 @@ class PhotoAdmin(admin.ModelAdmin):
     ordering = ('kendra',)
     list_filter = ('approved',)
     search_fields = ('activity', 'kendra__name',)
+
+admin.site.register(HomePage)

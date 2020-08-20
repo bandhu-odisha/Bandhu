@@ -2,6 +2,7 @@
 {% extends 'base.html' %}
 
 {% load static %}
+{% load permissions %}
 
 {% block title %} Anandakendra {% endblock %}
 
@@ -9,7 +10,6 @@
 <!-- Custom CSS -->
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
 <link rel="stylesheet" href="{% static 'css/anandakendra.css' %}">
-
 {% endblock %}
 
 {% block navbar-links %}
@@ -42,23 +42,16 @@
                 <div style="padding: 135px 25px 0;">
                     <!-- <h3 class="content-title   " style="font-size: 2rem; margin-bottom: 20px;">Anandkendra</h3> -->
                     <p style="font-size: 20px;">
-                        <strong>The Idea and the objective:</strong>
+                        <strong>{{ content.tagline }}</strong>
                     </p>
                     <p style="font-size: 17px;">
-                        Bandhu Anandakendra, henceforward called Kendra, is conceived to support the school education in all possible ways. It is observed that there are children in 
-                        villages, whose parents cannot or are not willing to afford to care for their education. These children need to be assisted for completing the school education 
-                        successfully.
-                        <br><br>
-                        <strong>Modus Operandi:</strong> Weekly sessions on Sunday mornings are meant for developing spiritual, physical and emotional culture among children. This includes yogabhyas, 
-                        creative and delightful games, inspiring songs, storytelling and other creative activities.  Daily guidance for 2 hours on school curriculum is provided beyond 
-                        school timing. A Kendra is supposed to be run by one or two youth, who have preferably completed or are continuing their college education. They are called 
-                        Anandakendra Acharyas/Acharyaas. 
+                        {{ content.description|safe }}
                     </p>
                 </div>
             </div>
             <div class="col-md-6" style="z-index: 10;">
                 <div class="card border text-center">
-                    <img class="card-img-top" src='{% static "img/clients-bg1.jpg" %}' alt="Anandakendra"
+                    <img class="card-img-top" src='{{ content.picture.url }}' alt="Anandakendra"
                         style="height: 500px; width: 100%; object-fit: cover;">
                 </div>
             </div>
@@ -67,68 +60,65 @@
 </section>
 
 <!-- ANANDAKENDRAS Section -->
+{% if kendras.count or user|is_admin %}
 <section id="anandakendras" class="glide-carousel-custom">
     <div class="bg-grey" style="padding: 50px 0;">
+        <h3 class="section-title">Running Anandkendras</h3>
         <div class="container">
+            {% if kendras.count %}
             <div class="row">
-                <div class="section-content w-100">
-                    <div class="content-box from-bottom delay-200">
-                        <h3 class="section-title">Running Anandkendras</h3>
-                        <div class="glide anandakendras">
-                            <div class="glide__track" data-glide-el="track">
-                                <ul class="glide__slides">
-                                    {% for kendra in kendras %}
-                                    <li class="glide__slide">
-                                        <div
-                                            class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
-                                            <img src="{{ kendra.image.url }}" class="card-img-top home-card-img" alt=""
-                                                width="300px">
-                                            <div class="card-body pb-0">
-                                                <h5 class="card-title font-weight-bold">{{kendra.name}}</h5>
-                                                <p class="mb-3">
-                                                    {{kendra.locality}}
-                                                    <br>
-                                                </p>
-                                                <a href="{% url 'anandakendra:AnandkendraDetail' slug=kendra.slug %}"
-                                                    class="stretched-link"></a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                            <div class="glide__arrows disable_arrows d-none d-md-block" data-glide-el="controls">
-                                <button class="slider_arrow slider_arrow--prev glide__arrow glide__arrow--left"
-                                    data-glide-dir="<">
-                                    <i class="fas fa-arrow-circle-left"></i>
-                                </button>
-                                <button class="slider_arrow slider_arrow--next glide__arrow glide__arrow--right"
-                                    data-glide-dir=">">
-                                    <i class="fas fa-arrow-circle-right"></i>
-                                </button>
-                            </div>
-                            <div class="glide__bullets" data-glide-el="controls[nav]">
-                                {% for kendra in kendras %}
-                                <button class="glide__bullet" data-glide-dir="={{forloop.counter0}}"></button>
-                                {% endfor %}
-                            </div>
-                        </div>
+                <div class="glide anandakendras">
+                    <div class="glide__track" data-glide-el="track">
+                        <ul class="glide__slides">
+                            {% for kendra in kendras %}
+                            <li class="glide__slide">
+                                <div class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
+                                    <img src="{{ kendra.image.url }}" class="card-img-top home-card-img" alt=""
+                                        width="300px">
+                                    <div class="card-body pb-0">
+                                        <h5 class="card-title font-weight-bold">{{kendra.name}}</h5>
+                                        <p class="mb-3">
+                                            {{kendra.locality}}<br>
+                                        </p>
+                                        <a href="{% url 'anandakendra:AnandkendraDetail' slug=kendra.slug %}"
+                                            class="stretched-link"></a>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="glide__arrows disable_arrows d-none d-md-block" data-glide-el="controls">
+                        <button class="slider_arrow slider_arrow--prev glide__arrow glide__arrow--left"
+                            data-glide-dir="<">
+                            <i class="fas fa-arrow-circle-left"></i>
+                        </button>
+                        <button class="slider_arrow slider_arrow--next glide__arrow glide__arrow--right"
+                            data-glide-dir=">">
+                            <i class="fas fa-arrow-circle-right"></i>
+                        </button>
+                    </div>
+                    <div class="glide__bullets" data-glide-el="controls[nav]">
+                        {% for kendra in kendras %}
+                        <button class="glide__bullet" data-glide-dir="={{ forloop.counter0 }}"></button>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
+            {% endif %}
             <div class="row justify-content-center mt-4">
-                <div class="add-ankurayan">
-                    {% if user.is_admin %}
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addAnandakendra">
+                <div class="add-anandakendra">
+                    {% if user|is_admin %}
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_anandakendra">
                         Create Anandakendra
                     </button>
                     {% endif %}
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addAnandakendra" role="dialog"
+                    <div class="modal fade" tabindex="-1" id="add_anandakendra" role="dialog"
                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Create Anandakendra</h5>
+                                    <h5 class="modal-title bld">Create Anandakendra</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -155,7 +145,7 @@
                                                 <input type="text" class="form-control" name="address"
                                                     placeholder="Address" required="required"><br>
                                             </div>
-                                            <div class="col">
+                                            <!-- <div class="col">
                                                 <label class="left-label bld" for="admin" required="required">Admin</label>
                                                 <select required name="admin" class="form-control">
                                                     {% for user in all_users %}
@@ -163,7 +153,7 @@
                                                     </option>
                                                     {% endfor %}
                                                 </select>
-                                            </div>
+                                            </div> -->
                                         </div>
                                         <label class="left-label bld" for="image">Thumbnail</label>
                                         <div class="input-group">
@@ -187,6 +177,7 @@
         </div>
     </div>
 </section>
+{% endif %}
 
 <!-- Scroll To Top Button -->
 <div id="scroll-to-top">
@@ -203,6 +194,13 @@
 
 <!-- Contact Scrollspy Problem -->
 <script>contact_scrollspy()</script>
+
+<!-- Upload Detail in forms -->
+<script type="text/javascript">
+    $('.custom-file input').change(function (e) {
+        $(this).next('.custom-file-label').html($(this)[0].files[0].name);
+    });
+</script>
 
 <script>
     // ANANDAKENDRAS CAROUSEL
@@ -222,22 +220,5 @@
         }
     })
     kendra_glide.mount()
-</script>
-
-<!-- Upload Detail in forms -->
-<script type="text/javascript">
-
-    $('.custom-file input').change(function (e) {
-        var files = [];
-        for (var i = 0; i < $(this)[0].files.length; i++) {
-            files.push($(this)[0].files[i].name);
-        }
-        if(files.length > 1) {
-            $(this).next('.custom-file-label').html(files.length + ' files selected');
-        }
-        else {
-            $(this).next('.custom-file-label').html('1 file selected');
-        }
-    });
 </script>
 {% endblock %}
