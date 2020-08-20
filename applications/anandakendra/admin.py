@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.http import HttpResponseRedirect
+from django.shortcuts import reverse
 
 from .models import (
     AnandaKendra, ActivityCategory, Activity,
@@ -11,6 +13,13 @@ class AnandaKendraAdmin(admin.ModelAdmin):
     list_display = ('name','locality', 'admin')
     ordering = ('name',)
     search_fields = ('name', 'admin__first_name','locality')
+
+    def response_add(self, request, obj, post_url_continue=None):
+        next_site = request.GET.get('next')
+        if next_site == 'anandakendra_details':
+            return HttpResponseRedirect(reverse('anandakendra:AnandkendraDetail', args=(obj.slug,)))
+
+        return super(AnandaKendraAdmin, self).response_add(request, obj, post_url_continue)
 
 @admin.register(ActivityCategory)
 class ActivityCategoryAdmin(admin.ModelAdmin):

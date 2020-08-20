@@ -109,9 +109,10 @@
             <div class="row justify-content-center mt-4">
                 <div class="add-anandakendra">
                     {% if user|is_admin %}
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_anandakendra">
+                    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_anandakendra">
                         Create Anandakendra
-                    </button>
+                    </button> -->
+                    <a href="{% url 'admin:anandakendra_anandakendra_add' %}?next=anandakendra_details" class="btn btn-primary">Create Anandakendra</a>
                     {% endif %}
                     <div class="modal fade" tabindex="-1" id="add_anandakendra" role="dialog"
                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
