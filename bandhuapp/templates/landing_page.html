@@ -66,11 +66,14 @@
         <div class="card card-body recent-activity-card">
             <ol class="recent-activity-ol">
                 {% for act in recent_activities %}
+                {% if act.end_date|date:"Y-m-d" >= curr_date|date:"Y-m-d" or act.date_created|date:"Y-m-d" >= ten_day_delta|date:"Y-m-d" %}
+                        <div class="ribbon-new">New</div>
+                    {% endif %}
                     <a href="{{ act.link }}" style="font-size: 20px; text-decoration: none;">
                         <li class="recent-activity-li">
                             {{ act.title }}
-                            <i style="font-size: 12px; float: right;">{{ act.date }}</i><br>
                             <p style="font-size: 13px;">{{ act.description|truncatechars:135 }}</p>
+                            <p style="font-size: 12px; font-weight: bolder; float: right; margin-top:-18px; margin-right: -30px;"><i class="far fa-calendar-alt"></i> {{ act.start_date.date }} {{act.end_date.date}}</p>
                         </li>
                     </a> 
                 {% endfor %}
