@@ -501,6 +501,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     </button>
                 </div> -->
                 {% if user|is_admin %}
+                <a href="{% url 'extract_user_data' %}">Download User Data</a>
                 <div class="col col-sm-5 approve-images text-center">
                     <button type="button" class="btn btn-outline-primary" data-toggle="modal"
                         data-target="#approveGallery">
