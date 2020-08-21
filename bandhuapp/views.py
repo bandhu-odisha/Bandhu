@@ -54,6 +54,8 @@ def index(request):
         'volunteer': Volunteer.objects.all().first(),
         'photos': Photo.objects.filter(approved=True).order_by('-created'),
         'unapproved_photos': Photo.objects.filter(approved=False).order_by('created'),
+        'curr_date': datetime.now(),
+        'ten_day_delta': datetime.now() - timedelta(days=10),
     }
     return render(request, 'landing_page.html', context)
 
