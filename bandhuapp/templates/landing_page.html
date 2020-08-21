@@ -59,21 +59,54 @@
 <!-- Recent Activities tab -->
 <div class="recent-activities">
     <button class="btn btn-primary recent-activities-btn collapsed" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-        OnGoing/Recent Activities
+        NOTICE BOARD
         <i style="margin-left:10px !important;" class="fas fa-chevron-down"></i>
     </button>
     <div class="collapse recent-activities-collapse shadow-sm" id="collapseExample">
         <div class="card card-body recent-activity-card">
             <ol class="recent-activity-ol">
                 {% for act in recent_activities %}
-                {% if act.end_date|date:"Y-m-d" >= curr_date|date:"Y-m-d" or act.date_created|date:"Y-m-d" >= ten_day_delta|date:"Y-m-d" %}
+                    {% if act.end_date %}
+                        <!-- If it is an event. So, keep "New" until event is over -->
+                        {% if act.end_date|date:"Y-m-d" >= curr_date|date:"Y-m-d" %}
                         <div class="ribbon-new">New</div>
+                        {% endif %}
+                    {% elif act.start_date %}
+                        {% if act.start_date|date:"Y-m-d" > act.date_created|date:"Y-m-d" and act.start_date|date:"Y-m-d" >= curr_date|date:"Y-m-d" %}
+                        <!-- If it is a one day event, keep "New" until event is over -->
+                        <div class="ribbon-new">New</div>
+                        {% elif act.start_date|date:"Y-m-d" == act.date_created|date:"Y-m-d" and act.start_date|date:"Y-m-d" >= seven_day_delta|date:"Y-m-d" %}
+                        <!-- If it is a notifiation, keep "New" for 7 days -->
+                        <div class="ribbon-new">New</div>
+                        {% endif %}
+                    {% else %}
+                        <!-- If no date is mentioned, keep "New" for 7 days -->
+                        {% if act.date_created|date:"Y-m-d" >= seven_day_delta|date:"Y-m-d" %}
+                        <div class="ribbon-new">New</div>
+                        {% endif %}
                     {% endif %}
                     <a href="{{ act.link }}" style="font-size: 20px; text-decoration: none;">
                         <li class="recent-activity-li">
                             {{ act.title }}
                             <p style="font-size: 13px;">{{ act.description|truncatechars:135 }}</p>
-                            <p style="font-size: 12px; font-weight: bolder; float: right; margin-top:-18px; margin-right: -30px;"><i class="far fa-calendar-alt"></i> {{ act.start_date.date }} {{act.end_date.date}}</p>
+                            {% if act.start_date %}
+                            <p style="font-size: 12px; font-weight: bolder; float: right; margin-top:-18px; margin-right: -30px;">
+                                <i class="far fa-calendar-alt"></i>
+                                {% if act.end_date %}
+                                    {% if act.start_date|date:"Y" != act.end_date|date:"Y" %}
+                                        {{ act.start_date }} - {{ act.end_date }}
+                                    {% elif act.start_date|date:"M" != act.end_date|date:"M" %}
+                                        {{ act.start_date|date:"M d" }} - {{ act.end_date|date:"M d" }}, {{ act.start_date.year }}
+                                    {% elif act.start_date|date:"d" != act.end_date|date:"d" %}
+                                        {{ act.start_date|date:"M" }} {{ act.start_date|date:"d" }} - {{ act.end_date|date:"d" }}, {{ act.start_date.year }}
+                                    {% else %}
+                                        {{ act.start_date }}
+                                    {% endif %}
+                                {% else %}
+                                    {{ act.start_date }}
+                                {% endif %}
+                            </p>
+                            {% endif %}
                         </li>
                     </a> 
                 {% endfor %}

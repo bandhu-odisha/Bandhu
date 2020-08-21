@@ -35,8 +35,8 @@ class RecentActivity(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(max_length=500)
     date_created = models.DateTimeField(auto_now_add=True)
-    start_date = models.DateTimeField()
-    end_date = models.DateTimeField()
+    start_date = models.DateField(null=True, blank=True, verbose_name="Date/ Start Date (Optional)")
+    end_date = models.DateField(null=True, blank=True, verbose_name="End Date (Optional)")
     link = models.CharField(max_length=500, verbose_name='Link (not required if inserting file)', null=True, blank=True)
     notice_file = models.FileField(upload_to='notice_files', verbose_name='Notice File (Optional)', null=True, blank=True)
 
@@ -44,12 +44,12 @@ class RecentActivity(models.Model):
         verbose_name_plural = 'Recent Activities'
 
     def __str__(self):
-        return f'{self.title} - {self.date_created}'
-    
-    def save(self,*args,**kwargs):
-        if self.end_date < self.start_date:
+        return f'{self.title} - {self.start_date}'
+
+    def save(self, *args, **kwargs):
+        if self.start_date and self.end_date and self.end_date < self.start_date:
             raise ValueError("Start date cannot come after end date!")
-        super(RecentActivity, self).save(*args,**kwargs)
+        super(RecentActivity, self).save(*args, **kwargs)
 
 @receiver(post_save, sender=RecentActivity)
 def create_link_for_file(sender, instance=None, created=False, **kwargs):
