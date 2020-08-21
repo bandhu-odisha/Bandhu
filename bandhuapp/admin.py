@@ -44,7 +44,7 @@ class RecentActivityAdmin(admin.ModelAdmin):
 
 @admin.register(Photo)
 class PhotoAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'picture')
+    list_display = ('__str__', 'picture', 'approved')
 
 # @admin.register(SanskarCarousel)
 # class SanskarCarouselAdmin(admin.ModelAdmin):

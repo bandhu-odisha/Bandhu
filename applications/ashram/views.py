@@ -24,14 +24,13 @@ def create_ashram(request):
         image = request.FILES.get('image')
         description = request.POST.get('description')
         address = request.POST.get('address')
-        admin = request.POST.get('admin')
+        # admin = request.POST.get('admin')
 
-        admin_profile = get_object_or_404(Profile,pk=int(admin))
+        # admin_profile = get_object_or_404(Profile,pk=int(admin))
 
         Ashram.objects.create(name=name,locality=locality,
                                 image=image,address=address,
-                                description=description,
-                                admin=admin_profile)
+                                description=description)
         
         return HttpResponseRedirect('/ashram/')
         

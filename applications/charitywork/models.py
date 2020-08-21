@@ -15,7 +15,7 @@ class Charity(models.Model):
     end_date = models.DateField(null=True, blank=True)
     image = models.ImageField(upload_to='charity_work/charities/', blank=True, null=True)
     slug = models.SlugField()
-    admin = models.ForeignKey(Profile,on_delete=models.PROTECT,null=True,blank=True)
+    admin = models.ForeignKey(Profile,on_delete=models.SET_NULL,null=True,blank=True)
 
     def save(self,*args,**kwargs):
         str1 = self.title

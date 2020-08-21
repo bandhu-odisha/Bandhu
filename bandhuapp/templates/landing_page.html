@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load static %}
+{% load permissions %}
 
 {% block title %} Bandhu {% endblock %}
 
@@ -445,7 +446,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     </figure>
                 </div>
             </div>
-            {% if user.is_admin %}
+            {% if user.is_authenticated %}
             <div class="row justify-content-center mt-4">
                 <div class="col col-sm-5 add-images text-center">
                     <button type="button" class="btn btn-outline-primary" data-toggle="modal"
@@ -464,7 +465,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                 </div>
                                 <div class="modal-body">
                                     <form method="POST" enctype="multipart/form-data" name="imageUploadForm"
-                                            action="{% url 'add_images' %}" onsubmit="return imageValidation()">
+                                            action="{% url 'add_image' %}" onsubmit="return imageValidation()">
                                         {% csrf_token %}
                                         <label class="left-label bld" for="">Image</label>
                                         <div class="input-group">
@@ -499,6 +500,81 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         Delete Images
                     </button>
                 </div> -->
+                {% if user|is_admin %}
+                <div class="col col-sm-5 approve-images text-center">
+                    <button type="button" class="btn btn-outline-primary" data-toggle="modal"
+                        data-target="#approveGallery">
+                        Approve Image
+                    </button>
+                    <div class="modal fade" id="approveGallery">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content shadow">
+                                <div class="modal-header">
+                                    <h5 class="modal-title bld content-title">Approve Photos</h5>
+                                    <button type="button" class="close" style="padding: .5rem 1rem;"
+                                        data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true" style="font-size: 2.375rem;">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        {% if unapproved_photos.count %}
+                                        <div id="approve-images-carousel" class="col-12 approve-images-carousel carousel slide m-auto" data-ride="carousel">
+                                            <div class="carousel-inner">
+                                                {% for photo in unapproved_photos %}
+                                                {% if forloop.counter == 1 %}
+                                                <div class="carousel-item active unapp-photo{{ photo.id }}">
+                                                {% else %}
+                                                <div class="carousel-item unapp-photo{{ photo.id }}">
+                                                {% endif %}
+                                                    <img src="{{ photo.picture.url }}" alt="carousel image"
+                                                        class="w-100" style="height: 400px; width: 400px;">
+                                                    <br><br>
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-sm-5 text-center">
+                                                            <button type="button" onclick="imageApproval('approve','{{photo.pk}}');" class="btn btn-success">Approve</button>
+                                                        </div>
+                                                        <!-- <div class="col col-md-2"></div> -->
+                                                        <div class="col-sm-5 text-center">
+                                                            <button type="button"
+                                                                onclick="imageApproval('discard','{{photo.pk}}');"
+                                                                class="btn btn-danger">Discard</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% endfor %}
+                                                <a class="carousel-control-prev" href="#approve-images-carousel"
+                                                    data-slide="prev">
+                                                    <span class="carousel-control-prev-icon"
+                                                        style="background-color: black; width:40px; height: 40px;"></span>
+                                                </a>
+                                                <a class="carousel-control-next" href="#approve-images-carousel"
+                                                    data-slide="next">
+                                                    <span class="carousel-control-next-icon"
+                                                        style="background-color: black; width:40px; height: 40px;"></span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <p class="text-center mt-4 mb-0" style="font-size: 12px;">
+                                                Note: You need to Refresh Page for changes to take effect in Gallery.
+                                            </p>
+                                        </div>
+                                        {% else %}
+                                        <div class="col-12">
+                                            NO UNAPPROVED PHOTOS!!
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
             </div>
             {% endif %}
         </div>
@@ -517,8 +593,8 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
 {% endblock %}
 
-
-{% block scripts %}<!-- PHOTOSWIPE -->
+{% block scripts %}
+<!-- PHOTOSWIPE -->
 <script>
     // build the json album images collection 
     window.djangoAlbumImages = [
@@ -578,11 +654,14 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
     });
 </script>
+
 <!-- Custom JS -->
 <script src="{% static 'js/bandhu.js' %}"></script>
 <script src="{% static 'vendor/js/bootstrap-select.min.js' %}"></script>
+
 <!-- Contact Scrollspy Problem -->
 <script>contact_scrollspy()</script>
+
 <!-- Change name of image input -->
 <script>
     $(".custom-file-input").on("change", function() {
@@ -608,6 +687,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         }
     }
 </script>
+
 <!-- RECENT ACTIVITIES CAROUSEL -->
 <script>
     var glide = new Glide('.glide',{
@@ -625,7 +705,76 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             },
         }
     })
-
     glide.mount()
+</script>
+
+<script>
+    function imageApproval(status, image) {
+        let selector = '.unapp-photo' + image;
+        console.log($(selector).prev(), $(selector).prev().length, $(selector));
+        if ($(selector).next().length != 0) $(selector).next().addClass('active')
+        else $(selector).prev().addClass('active')
+        $(selector).remove()
+
+        $.ajax({
+            type: "POST",
+            url: "{% url 'approve_image' %}",
+            data: {
+                status: status,
+                image: image,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function (data) {
+                if (data.response == "approved"){
+                    $('#alert-toast-div > div').html(
+                        `<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3500">
+                            <div class="toast-body p-2 px-3">
+                                <strong class="mr-auto">Image approved successfully!</strong>
+                                <button type="button" class="ml-3 close" style="margin-top: -3px;" data-dismiss="toast" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>`
+                    )
+
+                    $('#alert_toast').toast('show');
+                    $("#alert_toast").addClass("bg-success");
+                }
+                else if (data.response == "discarded") {
+                    $('#alert-toast-div > div').html(
+                        `<div class="toast" id="alert_toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3500">
+                            <div class="toast-body p-2 px-3">
+                                <strong class="mr-auto">Image discarded successfully!</strong>
+                                <button type="button" class="ml-3 close" style="margin-top: -3px;" data-dismiss="toast" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>`
+                    )
+
+                    $('#alert_toast').toast('show');
+                    $("#alert_toast").addClass("bg-danger");
+                }
+                // var data = JSON.parse(data1);
+                // $('#galleryBox').empty();
+                // for (let photo = 0; photo < data.length; photo++) {
+                //     var k = data[photo].fields.approved;
+                //     var ele = `<figure class="item cat-3 cat-4" style="width: 267px; height: 183.9px;">
+                //         <img src='/media/${data[photo].fields.picture}' alt="Item 3" data-rel="photoSwipe">
+                //         <a href="" class="stretched-link">
+                //             <i class="fab fa-instagram"></i>
+                //         </a>
+                //     </figure>`
+                //     if (!k) {
+                //         ele += `
+                //         <button type="button" onclick="imageApproval('approve','${data[photo].pk}');">Approve</button>
+                //         <button type="button" onclick="imageApproval('discard','${data[photo].pk}');">Discard</button>
+                //         `
+                //     }
+                //     $('#galleryBox').append(ele);
+                // }
+            }
+        });
+    }
 </script>
 {% endblock %}

@@ -13,7 +13,7 @@ class Ashram(models.Model):
     address = models.CharField(max_length=250)
     slug = models.SlugField(blank=True,null=True)
     image = models.ImageField(upload_to='ashram/thumbnails/',blank=True,null=True)
-    admin = models.ForeignKey(Profile,blank=True,null=True,on_delete=models.PROTECT)
+    admin = models.ForeignKey(Profile,blank=True,null=True,on_delete=models.SET_NULL)
 
     def __str__(self):
         return f'{self.name} - {self.locality}'

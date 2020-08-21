@@ -20,13 +20,13 @@ def create_anandakendra(request):
         locality = request.POST.get('locality')
         address = request.POST.get('address')
         image = request.FILES.get('image')
-        admin = request.POST.get('admin')
+        # admin = request.POST.get('admin')
         description = request.POST.get('description')
 
-        admin_profile = get_object_or_404(Profile,pk=int(admin))
+        # admin_profile = get_object_or_404(Profile,pk=int(admin))
         AnandaKendra.objects.create(name=name,locality=locality,
                                 address=address,image=image,
-                                description=description,admin=admin_profile)
+                                description=description)
         
         return HttpResponseRedirect('/anandakendra/')
 

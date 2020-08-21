@@ -1,49 +1,65 @@
-from django.shortcuts import render
+from django.contrib import messages
+from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect,JsonResponse
 from datetime import datetime
 from django.core import serializers
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import Http404
+from django.template.defaultfilters import slugify
 from bandhuapp.models import Profile
-from .models import Ankurayan,Activity,Photo,Guest,Participant,ActivityCategory
+from bandhuapp.templatetags.permissions import is_admin
+from .models import (
+    Ankurayan, Activity, Photo, Guest, Participant,
+    ActivityCategory, HomePage,
+)
 
 # Create your views here.
 
 def index(request):
-    ankurayans = Ankurayan.objects.all()
-    return render(request, 'ankurayan.html', {'ankurayans':ankurayans})
+    context = {
+        'ankurayans': Ankurayan.objects.all(),
+        'content': HomePage.objects.all().first(),
+    }
+    return render(request, 'ankurayan.html', context)
 
 @login_required
+@user_passes_test(is_admin, redirect_field_name=None, login_url="/ankurayan/")
 def create_ankurayan(request):
     if request.method == 'POST':
+        year = request.POST.get('year')
+        title = request.POST.get('title')
         theme = request.POST.get('theme')
         start_date = request.POST.get('start_date')
         end_date = request.POST.get('end_date')
         logo = request.FILES.get('logo')
         description = request.POST.get('description')
-        admin = request.POST.get('admin')
 
-        year = datetime.now().year
-        admin_profile = get_object_or_404(Profile,pk=int(admin))
+        # admin = request.POST.get('admin')
+        # admin_profile = get_object_or_404(Profile,pk=int(admin))
 
-        Ankurayan.objects.create(theme=theme,start_date=start_date,
-                                end_date=end_date,logo=logo,
-                                description=description,year=int(year),
-                                admin=admin_profile)
-        
-        return HttpResponseRedirect('/ankurayan/')
+        if Ankurayan.objects.filter(year=year).exists():
+            messages.error(request, "Ankurayan with entered year already exists.")
+            return redirect('ankurayan:ankurayan')
+
+        slug = slugify(year)
+        Ankurayan.objects.create(year=year, title=title, theme=theme, slug=slug,
+                                 start_date=start_date, end_date=end_date,
+                                 logo=logo, description=description)
+        return redirect('ankurayan:AnkurayanDetail', slug)
+
+    return redirect('ankurayan:ankurayan')
 
 def ankurayan_detail(request, slug):
     ankurayan = get_object_or_404(Ankurayan, slug=slug)
 
     categories = ActivityCategory.objects.filter(ankurayan=ankurayan)
     participants = Participant.objects.filter(ankurayan=ankurayan)
-    check_admin = False
+    check_admin = is_admin(request.user)
 
-    if ankurayan.admin is not None and ankurayan.admin.user == request.user:
-        # photos = Photo.objects.filter(ankurayan=ankurayan)
-        check_admin = True
+    # if ankurayan.admin is not None and ankurayan.admin.user == request.user:
+    #     # photos = Photo.objects.filter(ankurayan=ankurayan)
+    #     check_admin = True
     # else:
     #     photos = Photo.objects.filter(ankurayan=ankurayan).filter(approved=True)
 
