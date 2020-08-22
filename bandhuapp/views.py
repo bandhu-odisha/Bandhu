@@ -1,4 +1,3 @@
-import os
 from datetime import datetime, timedelta
 
 from django.conf import settings
@@ -14,7 +13,6 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.views.static import serve
 
 from social_django.models import UserSocialAuth
 from accounts.models import User
@@ -228,4 +226,4 @@ def extract_user_data(request):
         sheet.cell(row=row, column=11).value = int(profile.pincode)
 
     excel.save(file_path)
-    return serve(request, os.path.basename(file_path), os.path.dirname(file_path))
+    return HttpResponseRedirect(settings.MEDIA_URL + '/sheets/user_profile_data.xlsx')
