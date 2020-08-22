@@ -186,7 +186,7 @@ def approve_image(request):
 
 @login_required
 def extract_user_data(request):
-    profiles = Profile.objects.all()
+    profiles = Profile.objects.order_by('-user__is_admin')
 
     file_path = settings.MEDIA_ROOT + '/sheets/user_profile_data.xlsx'
     excel = Workbook()
@@ -194,7 +194,7 @@ def extract_user_data(request):
 
     # excel = openpyxl.load_workbook(filename = file_path)
     # sheet = excel.active
-    col_width = [8, 30, 20, 8, 15, 15, 13, 30, 10, 10, 10]
+    col_width = [8, 30, 20, 8, 15, 15, 13, 30, 10, 20, 10, 10]
 
     sheet.cell(row=1, column=1).value = 'S.No'
     sheet.cell(row=1, column=2).value = 'Email'
@@ -207,8 +207,9 @@ def extract_user_data(request):
     sheet.cell(row=1, column=9).value = 'City'
     sheet.cell(row=1, column=10).value = 'State'
     sheet.cell(row=1, column=11).value = 'Pincode'
+    sheet.cell(row=1, column=12).value = 'Admin'
 
-    for i in range(1, 12):
+    for i in range(1, 13):
         sheet.cell(row = 1, column = i).font = Font(size=12, bold=True)
         sheet.column_dimensions[chr(65+(i-1))].width=col_width[i-1]
 
@@ -224,6 +225,7 @@ def extract_user_data(request):
         sheet.cell(row=row, column=9).value = profile.city
         sheet.cell(row=row, column=10).value = profile.state
         sheet.cell(row=row, column=11).value = int(profile.pincode)
+        sheet.cell(row=row, column=12).value = profile.user.is_admin
 
     excel.save(file_path)
     return HttpResponseRedirect(settings.MEDIA_URL + '/sheets/user_profile_data.xlsx')
