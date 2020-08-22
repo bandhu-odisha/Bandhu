@@ -31,6 +31,18 @@ class Profile(models.Model):
     def __str__(self):
         return f'{self.first_name} {self.last_name} - {self.user.email}'
 
+    @property
+    def get_full_name(self):
+        return f'{self.first_name} {self.last_name}'
+
+    @property
+    def get_complete_address(self):
+        def get_complete_address(self):
+        if self.street_address2:
+            return f'{self.street_address1}, {self.street_address2}, {self.city} - {self.pincode}, {self.state}'
+        return f'{self.street_address1}, {self.city} - {self.pincode}, {self.state}'
+
+
 class RecentActivity(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(max_length=500)
