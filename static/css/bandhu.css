@@ -692,7 +692,7 @@
     bottom: -20px;
     left: 0;
     height: 0;
-    width: 0;
+    width: 30px;
     border: solid 15px #ff9800;
     border-bottom-color: transparent;
 }
