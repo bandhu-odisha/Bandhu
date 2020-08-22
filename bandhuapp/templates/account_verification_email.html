@@ -193,7 +193,7 @@
 												<p style="font-size: 14px; line-height: 1.2; word-break: break-word; text-align: justify; font-family: sans-serif; mso-line-height-alt: 17px; margin: 0;">
 													<b>Email</b> : {{user.email}}
                                                     <br>
-                                                    <b>Name</b> : {{ profile.first_name }} {{ profile.last_name }}
+                                                    <b>Name</b> : {{ profile.get_full_name }}
                                                     <br>
                                                     <b>Gender</b> : {{ profile.get_gender_display }}
                                                     <br>
@@ -203,7 +203,7 @@
                                                     <br>
                                                     <b>Contact No.</b> : {{ profile.contact_no }}
                                                     <br>
-                                                    <b>Address</b> : {{ profile.street_address1 }}, {{ profile.street_address2 }}, {{ profile.city }}, {{ profile.state }} - {{ profile.pincode }}
+                                                    <b>Address</b> : {{ profile.get_complete_address }}
 													<br>
 												</p>
 												<p style="font-size: small;">
