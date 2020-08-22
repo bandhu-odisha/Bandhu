@@ -1,3 +1,4 @@
+import os
 from datetime import datetime, timedelta
 
 from django.conf import settings
@@ -13,6 +14,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.views.static import serve
 
 from social_django.models import UserSocialAuth
 from accounts.models import User
@@ -27,6 +29,8 @@ from .models import (
 )
 from .templatetags import permissions as temp_perms  # Template permissions
 
+from openpyxl import Workbook
+from openpyxl.styles import Font
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
@@ -181,3 +185,47 @@ def approve_image(request):
 
         
     return HttpResponseRedirect('/')
+
+@login_required
+def extract_user_data(request):
+    profiles = Profile.objects.all()
+
+    file_path = settings.MEDIA_ROOT + '/sheets/user_profile_data.xlsx'
+    excel = Workbook()
+    sheet = excel.active
+
+    # excel = openpyxl.load_workbook(filename = file_path)
+    # sheet = excel.active
+    col_width = [8, 30, 20, 8, 15, 15, 13, 30, 10, 10, 10]
+
+    sheet.cell(row=1, column=1).value = 'S.No'
+    sheet.cell(row=1, column=2).value = 'Email'
+    sheet.cell(row=1, column=3).value = 'Name'
+    sheet.cell(row=1, column=4).value = 'Gender'
+    sheet.cell(row=1, column=5).value = 'Date Of Birth'
+    sheet.cell(row=1, column=6).value = 'Profession'
+    sheet.cell(row=1, column=7).value = 'Contact'
+    sheet.cell(row=1, column=8).value = 'Address'
+    sheet.cell(row=1, column=9).value = 'City'
+    sheet.cell(row=1, column=10).value = 'State'
+    sheet.cell(row=1, column=11).value = 'Pincode'
+
+    for i in range(1, 12):
+        sheet.cell(row = 1, column = i).font = Font(size=12, bold=True)
+        sheet.column_dimensions[chr(65+(i-1))].width=col_width[i-1]
+
+    for row, profile in enumerate(profiles, 2): 
+        sheet.cell(row=row, column=1).value = row - 1 
+        sheet.cell(row=row, column=2).value = profile.user.email
+        sheet.cell(row=row, column=3).value = profile.get_full_name
+        sheet.cell(row=row, column=4).value = profile.gender
+        sheet.cell(row=row, column=5).value = profile.dob
+        sheet.cell(row=row, column=6).value = profile.profession
+        sheet.cell(row=row, column=7).value = profile.contact_no
+        sheet.cell(row=row, column=8).value = f'{profile.street_address1}, {profile.street_address2}'
+        sheet.cell(row=row, column=9).value = profile.city
+        sheet.cell(row=row, column=10).value = profile.state
+        sheet.cell(row=row, column=11).value = int(profile.pincode)
+
+    excel.save(file_path)
+    return serve(request, os.path.basename(file_path), os.path.dirname(file_path))

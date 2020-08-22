@@ -9,4 +9,5 @@ urlpatterns = [
     # path('edit_profile/', views.edit_profile, name="edit_profile"),
     path('photos/add_image/', views.add_image, name='add_image'),
     path('photos/approve_image/', views.approve_image, name='approve_image'),
+    path('user_profile_data/', views.extract_user_data, name="extract_user_data"),
 ]
