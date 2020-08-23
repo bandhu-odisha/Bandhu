@@ -9,7 +9,6 @@
 <!-- Custom CSS -->
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
 <link rel="stylesheet" href="{% static 'css/ashram.css' %}">
-
 {% endblock %}
 
 {% block navbar-links %}
@@ -156,8 +155,10 @@
                                                     placeholder="Address" required><br>
                                             </div>
                                         </div>
+
                                         <label class="left-label bld" for="">Description</label>
                                         <textarea name="description" placeholder="Description" class="form-control" id="" cols="80" rows="8" required></textarea><br>
+
                                         <label class="left-label bld" for="">Thumbnail</label>
                                         <div class="input-group">
                                             <div class="custom-file">
@@ -166,6 +167,7 @@
                                                 <label class="custom-file-label" for="logo">Add Thumbnail</label>
                                             </div>
                                         </div><br>
+
                                         <button class="btn btn-primary">Create Bandhughar</button>
                                     </form>
                                 </div>
@@ -195,6 +197,13 @@
 <!-- Contact Scrollspy Problem -->
 <script>contact_scrollspy()</script>
 
+<!-- Upload Detail in forms -->
+<script type="text/javascript">
+    $('.custom-file input').change(function (e) {
+        $(this).next('.custom-file-label').html($(this)[0].files[0].name);
+    });
+</script>
+
 <!-- AHSRAMS CAROUSEL -->
 <script>
     var ashram_glide = new Glide('.ashrams', {
@@ -213,21 +222,5 @@
         }
     })
     ashram_glide.mount()
-</script>
-
-<!-- Upload Detail in forms -->
-<script type="text/javascript">
-    $('.custom-file input').change(function (e) {
-        var files = [];
-        for (var i = 0; i < $(this)[0].files.length; i++) {
-            files.push($(this)[0].files[i].name);
-        }
-        if(files.length > 1) {
-            $(this).next('.custom-file-label').html(files.length + ' files selected');
-        }
-        else {
-            $(this).next('.custom-file-label').html('1 file selected');
-        }
-    });
 </script>
 {% endblock %}
