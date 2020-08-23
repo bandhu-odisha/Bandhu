@@ -7,14 +7,19 @@ from django.contrib.auth.decorators import login_required
 
 from bandhuapp.models import Profile
 from accounts.models import User
-from .models import Ashram,Activity,Photo,Meeting,Attendee,ActivityCategory, Event
+from .models import (
+    Ashram, Activity, Photo, Meeting,
+    Attendee, ActivityCategory, Event, HomePage,
+)
 
 # Create your views here.
 
 def index(request):
-    ashrams = Ashram.objects.all()
-    photos = Photo.objects.all()
-    return render(request, 'ashram.html',{'ashrams':ashrams,'photos':photos})
+    context = {
+        'ashrams': Ashram.objects.all(),
+        'content': HomePage.objects.all().first(),
+    }
+    return render(request, 'ashram.html', context)
 
 @login_required
 def create_ashram(request):

@@ -93,3 +93,14 @@ class Photo(models.Model):
     approved = models.BooleanField(default=False)
     activity = models.ForeignKey(Activity, on_delete=models.SET_NULL, null=True, blank=True)
 
+class HomePage(models.Model):
+    tagline = models.TextField(max_length=1000, verbose_name="Tagline (Bold)")
+    description = models.TextField(max_length=3000)
+    picture = models.ImageField(upload_to='ashram/index')
+
+    class Meta:
+        verbose_name = 'Bandhughar Home Page'
+        verbose_name_plural = 'Bandhughar Home Page'
+
+    def __str__(self):
+        return 'Bandhughar Home Page Content'
