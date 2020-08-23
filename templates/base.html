@@ -62,9 +62,21 @@
 						</li>
 						{% endblock %}
 						{% if user.is_authenticated %}
-						<li class="nav-item">
-							<a class="nav-link px-3 px-lg-2" href="{% url 'profile_page' %}" style="/*white-space: nowrap;*/">Profile</a>
-						</li>
+							{% if user.is_admin %}
+							<li class="nav-item dropdown">
+								<a class="nav-link px-3 px-lg-2 dropdown-toggle" href="{% url 'profile_page' %}">
+								  Profile
+								</a>
+								<div class="dropdown-menu">
+								  <a class="dropdown-item" href="{% url 'admin:index' %}">Admin Portal</a>
+								  <a class="dropdown-item" href="{% url 'extract_user_data' %}">Download User Data</a>
+								</div>
+							</li>
+							{% else %}
+							<li class="nav-item">
+								<a class="nav-link px-3 px-lg-2" href="{% url 'profile_page' %}" style="/*white-space: nowrap;*/">Profile</a>
+							</li>
+							{% endif %}
 						<li class="nav-item align-self-center w-100 mt-2 mt-lg-0">
 							<a class="nav-button btn btn-danger px-3 ml-3" href="{% url 'logout' %}"> Logout</a>
 						</li>

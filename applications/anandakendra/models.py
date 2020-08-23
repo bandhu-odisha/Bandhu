@@ -12,9 +12,13 @@ class AnandaKendra(models.Model):
     locality = models.CharField(max_length=100)
     description = models.TextField(max_length=1000)
     address = models.CharField(max_length=250)
-    image = models.ImageField(upload_to='anandkendra/kendras',null=True,blank=True)
+    image = models.ImageField(upload_to='anandakendra/kendras',null=True,blank=True)
     slug = models.SlugField(blank=True,null=True)
-    admin = models.ForeignKey(Profile,blank=True,null=True,on_delete=models.SET_NULL)
+    # admin = models.ForeignKey(Profile,blank=True,null=True,on_delete=models.SET_NULL)
+
+    class Meta:
+        verbose_name = 'Anandakendra'
+        verbose_name_plural = 'Anandakendras'
 
     def __str__(self):
         return self.name
@@ -63,7 +67,7 @@ class Event(models.Model):
     kendra = models.ForeignKey(AnandaKendra, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     description = models.TextField(max_length=1000)
-    thumb = models.ImageField(upload_to='anandkendra/events')
+    thumb = models.ImageField(upload_to='anandakendra/events')
     date = models.DateField()
 
     def __str__(self):
@@ -81,9 +85,23 @@ def picture_upload_path(instance, filname):
 
 class Photo(models.Model):
     kendra = models.ForeignKey(AnandaKendra, on_delete=models.CASCADE)
-    picture = models.ImageField(upload_to='anandkendra/activities')
+    picture = models.ImageField(upload_to='anandakendra/activities')
     activity = models.ForeignKey(Activity, on_delete=models.SET_NULL, null=True, blank=True)
     approved = models.BooleanField(default=False)
 
     def __str__(self):
         return self.picture
+
+
+class HomePage(models.Model):
+    tagline = models.TextField(max_length=1000, verbose_name="Tagline (Bold)")
+    description = models.TextField(max_length=3000)
+    picture = models.ImageField(upload_to='anandakendra/index')
+
+    class Meta:
+        verbose_name = 'Anandakendra Home Page'
+        verbose_name_plural = 'Anandakendra Home Page'
+
+    def __str__(self):
+        return 'Anandakendra Home Page Content'
+

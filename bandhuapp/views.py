@@ -31,6 +31,8 @@ from .models import (
 )
 from .templatetags import permissions as temp_perms  # Template permissions
 
+from openpyxl import Workbook
+from openpyxl.styles import Font
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
@@ -50,6 +52,7 @@ def index(request):
 
     recent_events.sort(key=lambda act: act.date, reverse=True)
     recent_events = recent_events[:10]
+
     context = {
         'initiatives': Initiatives.objects.all().first(),
         'about': AboutUs.objects.all().first(),
@@ -58,8 +61,8 @@ def index(request):
         'volunteer': Volunteer.objects.all().first(),
         'photos': Photo.objects.filter(approved=True).order_by('-created'),
         'unapproved_photos': Photo.objects.filter(approved=False).order_by('created'),
-        'curr_date': datetime.now(),
-        'ten_day_delta': datetime.now() - timedelta(days=10),
+        'curr_date': datetime.now().date(),
+        'seven_day_delta': datetime.now().date() - timedelta(days=7),
     }
     return render(request, 'landing_page.html', context)
 
@@ -187,13 +190,16 @@ def approve_image(request):
 
 @login_required
 def extract_user_data(request):
-    profiles = Profile.objects.all()      
-    
-    file_path = "static/dataSheet.xlsx"
-    excel = openpyxl.load_workbook(filename = file_path)
+    profiles = Profile.objects.order_by('-user__is_admin')
+
+    file_path = settings.MEDIA_ROOT + '/sheets/user_profile_data.xlsx'
+    excel = Workbook()
     sheet = excel.active
-    col_width = [8, 30, 20, 8, 15, 15, 13, 30, 10, 10, 10]
-    
+
+    # excel = openpyxl.load_workbook(filename = file_path)
+    # sheet = excel.active
+    col_width = [8, 30, 20, 8, 15, 15, 13, 30, 10, 20, 10, 10]
+
     sheet.cell(row=1, column=1).value = 'S.No'
     sheet.cell(row=1, column=2).value = 'Email'
     sheet.cell(row=1, column=3).value = 'Name'
@@ -205,23 +211,25 @@ def extract_user_data(request):
     sheet.cell(row=1, column=9).value = 'City'
     sheet.cell(row=1, column=10).value = 'State'
     sheet.cell(row=1, column=11).value = 'Pincode'
+    sheet.cell(row=1, column=12).value = 'Admin'
 
-    for i in range(1, 12):
+    for i in range(1, 13):
         sheet.cell(row = 1, column = i).font = Font(size=12, bold=True)
         sheet.column_dimensions[chr(65+(i-1))].width=col_width[i-1]
-    
+
     for row, profile in enumerate(profiles, 2): 
         sheet.cell(row=row, column=1).value = row - 1 
         sheet.cell(row=row, column=2).value = profile.user.email
-        sheet.cell(row=row, column=3).value = profile.first_name + ' ' + profile.last_name
+        sheet.cell(row=row, column=3).value = profile.get_full_name
         sheet.cell(row=row, column=4).value = profile.gender
         sheet.cell(row=row, column=5).value = profile.dob
         sheet.cell(row=row, column=6).value = profile.profession
-        sheet.cell(row=row, column=7).value = int(profile.contact_no)
-        sheet.cell(row=row, column=8).value = profile.street_address1
+        sheet.cell(row=row, column=7).value = profile.contact_no
+        sheet.cell(row=row, column=8).value = f'{profile.street_address1}, {profile.street_address2}'
         sheet.cell(row=row, column=9).value = profile.city
         sheet.cell(row=row, column=10).value = profile.state
         sheet.cell(row=row, column=11).value = int(profile.pincode)
+        sheet.cell(row=row, column=12).value = profile.user.is_admin
 
     excel.save(file_path)
-    return serve(request, os.path.basename(file_path),os.path.dirname(file_path))
+    return HttpResponseRedirect(settings.MEDIA_URL + '/sheets/user_profile_data.xlsx')

@@ -1,16 +1,25 @@
 from django.contrib import admin
+from django.http import HttpResponseRedirect
+from django.shortcuts import reverse
 
 from .models import (
     AnandaKendra, ActivityCategory, Activity,
-    Event, Student, Acharya, Photo,
+    Event, Student, Acharya, Photo, HomePage,
 )
 
 @admin.register(AnandaKendra)
 class AnandaKendraAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name','locality')}
-    list_display = ('name','locality', 'admin')
+    list_display = ('name', 'locality')
     ordering = ('name',)
-    search_fields = ('name', 'admin__first_name','locality')
+    search_fields = ('name', 'locality')
+
+    def response_add(self, request, obj, post_url_continue=None):
+        next_site = request.GET.get('next')
+        if next_site == 'anandakendra_details':
+            return HttpResponseRedirect(reverse('anandakendra:AnandkendraDetail', args=(obj.slug,)))
+
+        return super(AnandaKendraAdmin, self).response_add(request, obj, post_url_continue)
 
 @admin.register(ActivityCategory)
 class ActivityCategoryAdmin(admin.ModelAdmin):
@@ -65,3 +74,5 @@ class PhotoAdmin(admin.ModelAdmin):
     ordering = ('kendra',)
     list_filter = ('approved',)
     search_fields = ('activity', 'kendra__name',)
+
+admin.site.register(HomePage)
