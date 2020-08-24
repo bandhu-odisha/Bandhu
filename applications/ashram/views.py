@@ -1,9 +1,11 @@
-from django.shortcuts import render
+from django.contrib import messages
+from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponseRedirect,JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse
 from datetime import datetime
 from django.core import serializers
 from django.contrib.auth.decorators import login_required
+from django.template.defaultfilters import slugify
 
 from accounts.models import User
 from bandhuapp.models import Profile
@@ -27,19 +29,25 @@ def create_ashram(request):
     if request.method == 'POST':
         name = request.POST.get('name')
         locality = request.POST.get('locality')
-        image = request.FILES.get('image')
         description = request.POST.get('description')
         address = request.POST.get('address')
-        # admin = request.POST.get('admin')
+        image = request.FILES.get('image')
 
+        # admin = request.POST.get('admin')
         # admin_profile = get_object_or_404(Profile,pk=int(admin))
 
-        Ashram.objects.create(name=name,locality=locality,
-                                image=image,address=address,
-                                description=description)
-        
-        return HttpResponseRedirect('/ashram/')
-        
+        if Ashram.objects.filter(name=name, locality=locality).exists():
+            messages.error(request, "Ashram with entered Name and Locality already exists.")
+            return redirect('ashram:ashram')
+
+        slug = slugify(f'{name} {locality}')
+        Ashram.objects.create(name=name, locality=locality, slug=slug,
+                              description=description, address=address,
+                              image=image)
+        return redirect('ashram:AshramDetail', slug)
+
+    return redirect('ashram:ashram')
+
 def ashram_detail(request,slug):
     ashram = get_object_or_404(Ashram,slug=slug)
     categories = ActivityCategory.objects.filter(ashram=ashram)
