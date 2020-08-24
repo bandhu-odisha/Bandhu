@@ -11,7 +11,7 @@ class Ashram(models.Model):
     address = models.CharField(max_length=250)
     image = models.ImageField(upload_to='ashram/thumbnails/')
     slug = models.SlugField()
-    admin = models.ForeignKey(Profile,blank=True,null=True,on_delete=models.SET_NULL)
+    # admin = models.ForeignKey(Profile,blank=True,null=True,on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name = 'Bandhughar'

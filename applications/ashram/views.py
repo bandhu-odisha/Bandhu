@@ -5,8 +5,9 @@ from datetime import datetime
 from django.core import serializers
 from django.contrib.auth.decorators import login_required
 
-from bandhuapp.models import Profile
 from accounts.models import User
+from bandhuapp.models import Profile
+from bandhuapp.templatetags.permissions import is_admin
 from .models import (
     Ashram, Activity, Photo, Meeting,
     Attendee, ActivityCategory, Event, HomePage,
@@ -44,11 +45,11 @@ def ashram_detail(request,slug):
     categories = ActivityCategory.objects.filter(ashram=ashram)
     events = Event.objects.filter(ashram=ashram)
     meetings = Meeting.objects.filter(ashram=ashram)
-    check_admin = False
+    check_admin = is_admin(request.user)
 
-    if ashram.admin is not None and ashram.admin.user == request.user:
-        # photos = Photo.objects.filter(ashram=ashram)
-        check_admin = True
+    # if ashram.admin is not None and ashram.admin.user == request.user:
+    #     # photos = Photo.objects.filter(ashram=ashram)
+    #     check_admin = True
     # else:
     #     photos = Photo.objects.filter(ashram=ashram).filter(approved=True)
 
