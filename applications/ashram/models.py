@@ -1,6 +1,4 @@
 from django.db import models
-from django.utils import timezone
-from django.template.defaultfilters import slugify
 
 from bandhuapp.models import Profile
 
@@ -15,14 +13,12 @@ class Ashram(models.Model):
     slug = models.SlugField()
     admin = models.ForeignKey(Profile,blank=True,null=True,on_delete=models.SET_NULL)
 
+    class Meta:
+        verbose_name = 'Bandhughar'
+        verbose_name_plural = 'Bandhughar'
+
     def __str__(self):
         return f'{self.name} - {self.locality}'
-    
-    def save(self,*args,**kwargs):
-        str1 = self.name
-        str2 = self.locality
-        self.slug = slugify(str1+'-'+str2)
-        super(Ashram,self).save(*args,**kwargs)
 
 class ActivityCategory(models.Model):
     ashram = models.ForeignKey(Ashram, on_delete=models.CASCADE)
