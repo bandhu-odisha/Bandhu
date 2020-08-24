@@ -16,6 +16,7 @@ class Ashram(models.Model):
     class Meta:
         verbose_name = 'Bandhughar'
         verbose_name_plural = 'Bandhughar'
+        unique_together = (('name', 'locality'),)
 
     def __str__(self):
         return f'{self.name} - {self.locality}'

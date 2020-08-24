@@ -19,6 +19,7 @@ class AnandaKendra(models.Model):
     class Meta:
         verbose_name = 'Anandakendra'
         verbose_name_plural = 'Anandakendras'
+        unique_together = (('name', 'locality'),)
 
     def __str__(self):
         return self.name
