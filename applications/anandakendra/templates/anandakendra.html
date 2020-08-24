@@ -132,22 +132,22 @@
                                             <div class="col">
                                                 <label class="left-label bld" for="name">Name</label>
                                                 <input type="text" class="form-control" name="name"
-                                                    placeholder="Name" required="required"><br>
+                                                    placeholder="Name" required><br>
                                             </div>
                                             <div class="col">
                                                 <label class="left-label bld" for="locality">Locality</label>
                                                 <input type="text" class="form-control" name="locality"
-                                                    placeholder="Locality" required="required"><br>
+                                                    placeholder="Locality" required><br>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col">
                                                 <label class="left-label bld" for="address">Address</label>
                                                 <input type="text" class="form-control" name="address"
-                                                    placeholder="Address" required="required"><br>
+                                                    placeholder="Address" required><br>
                                             </div>
                                             <!-- <div class="col">
-                                                <label class="left-label bld" for="admin" required="required">Admin</label>
+                                                <label class="left-label bld" for="admin" required>Admin</label>
                                                 <select required name="admin" class="form-control">
                                                     {% for user in all_users %}
                                                     <option value={{user.pk}}>{{user.first_name}} {{user.last_name}}
@@ -156,18 +156,21 @@
                                                 </select>
                                             </div> -->
                                         </div>
+
+                                        <label class="left-label bld" for="description">Description</label>
+                                        <textarea name="description" class="form-control" id="" cols="80" rows="4"
+                                            placeholder="Description" required></textarea><br>
+
                                         <label class="left-label bld" for="image">Thumbnail</label>
                                         <div class="input-group">
                                             <div class="custom-file">
                                                 <input type="file" class="custom-file-input" name="image" id="inputGroupFile04" 
-                                                    aria-describedby="inputGroupFileAddon04">
+                                                    aria-describedby="inputGroupFileAddon04" required>
                                                 <label class="custom-file-label" for="logo">Add Thumbnail</label>
                                             </div>
                                         </div><br>
-                                        <label class="left-label bld" for="description">Description</label>
-                                        <textarea name="description" class="form-control" id="" cols="80" rows="4"
-                                            placeholder="Description"></textarea><br>
-                                        <button class="btn btn-primary">Create Kendra</button>
+
+                                        <button class="btn btn-primary">Create Anandakendra</button>
                                     </form>
                                 </div>
                             </div>

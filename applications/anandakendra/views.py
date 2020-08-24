@@ -1,8 +1,10 @@
-from django.shortcuts import render
+from django.contrib import messages
+from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponseRedirect,JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse
 from django.core import serializers
 from django.contrib.auth.decorators import login_required
+from django.template.defaultfilters import slugify
 
 from bandhuapp.models import Profile
 from bandhuapp.templatetags.permissions import is_admin
@@ -25,17 +27,24 @@ def create_anandakendra(request):
     if request.method == 'POST':
         name = request.POST.get('name')
         locality = request.POST.get('locality')
+        description = request.POST.get('description')
         address = request.POST.get('address')
         image = request.FILES.get('image')
-        # admin = request.POST.get('admin')
-        description = request.POST.get('description')
 
+        # admin = request.POST.get('admin')
         # admin_profile = get_object_or_404(Profile,pk=int(admin))
-        AnandaKendra.objects.create(name=name,locality=locality,
-                                address=address,image=image,
-                                description=description)
-        
-        return HttpResponseRedirect('/anandakendra/')
+
+        if AnandaKendra.objects.filter(name=name, locality=locality).exists():
+            messages.error(request, "Anandakendra with entered Name and Locality already exists.")
+            return redirect('anandakendra:anandakendra')
+
+        slug = slugify(f'{name} {locality}')
+        AnandaKendra.objects.create(name=name, locality=locality, slug=slug,
+                                    description=description, address=address,
+                                    image=image)
+        return redirect('anandakendra:AnandkendraDetail', slug)
+
+    return redirect('anandakendra:anandakendra')
 
 def anandkendra_detail(request, slug):
     kendra = get_object_or_404(AnandaKendra, slug=slug)
