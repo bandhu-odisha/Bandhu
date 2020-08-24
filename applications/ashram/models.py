@@ -11,8 +11,8 @@ class Ashram(models.Model):
     locality = models.CharField(max_length=100)
     description = models.TextField(max_length=1000)
     address = models.CharField(max_length=250)
-    slug = models.SlugField(blank=True,null=True)
-    image = models.ImageField(upload_to='ashram/thumbnails/',blank=True,null=True)
+    image = models.ImageField(upload_to='ashram/thumbnails/')
+    slug = models.SlugField()
     admin = models.ForeignKey(Profile,blank=True,null=True,on_delete=models.SET_NULL)
 
     def __str__(self):

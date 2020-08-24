@@ -108,10 +108,11 @@
             <div class="row justify-content-center mt-4">
                 <div class="add-bandhughar">
                     {% if user|is_admin %}
-                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                    <!-- <button type="button" class="btn btn-primary" data-toggle="modal"
                         data-target="#add_bandhughar">
                         Create Bandhughar
-                    </button>
+                    </button> -->
+                    <a href="{% url 'admin:ashram_ashram_add' %}?next=bandhughar_details" class="btn btn-primary">Create Bandhughar</a>
                     {% endif %}
                     <div class="modal fade" tabindex="-1" id="add_bandhughar" role="dialog"
                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
