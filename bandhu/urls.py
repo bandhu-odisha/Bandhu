@@ -13,7 +13,7 @@ urlpatterns = [
     path('', include('bandhuapp.urls')),
     path('anandakendra/', include('applications.anandakendra.urls')),
     path('ankurayan/', include('applications.ankurayan.urls')),
-    path('ashram/', include('applications.ashram.urls')),
+    path('bandhughar/', include('applications.ashram.urls')),
     path('charity_work/', include('applications.charitywork.urls')),
     path('sanskarbarga/', include('applications.sanskarbarga.urls')),
     path('madh_mukti/', include('applications.madhmukti.urls')),
