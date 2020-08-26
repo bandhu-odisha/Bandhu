@@ -22,7 +22,7 @@ def create_charity(request):
         title = request.POST.get('title')
         location = request.POST.get('location')
         description = request.POST.get('description')
-        disaster_type = request.POST.get('disaster_type')
+        purpose = request.POST.get('purpose')
         # admin = request.POST.get('admin')
         start_date = request.POST.get('start_date')
         end_date = request.POST.get('end_date')
@@ -31,7 +31,7 @@ def create_charity(request):
         # admin_profile = get_object_or_404(Profile,pk=int(admin))
 
         Charity.objects.create(title=title,location=location,
-                                start_date=start_date,disaster_type=disaster_type,
+                                start_date=start_date,purpose=purpose,
                                 description=description,end_date=end_date,image=image)
         
         return HttpResponseRedirect('/other_activities/')

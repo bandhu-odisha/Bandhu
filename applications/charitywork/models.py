@@ -8,12 +8,12 @@ from bandhuapp.models import Profile
 
 class Charity(models.Model):
     title = models.CharField(max_length=500)
-    disaster_type = models.CharField(max_length=500)   # Cyclone/Earthquake
+    purpose = models.CharField(max_length=500)   # Cyclone/Earthquake
     description = models.TextField()
     location = models.CharField(max_length=800)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
-    image = models.ImageField(upload_to='charity_work/charities/', blank=True, null=True)
+    image = models.ImageField(upload_to='charity_work/charities/')
     slug = models.SlugField()
     admin = models.ForeignKey(Profile,on_delete=models.SET_NULL,null=True,blank=True)
 
