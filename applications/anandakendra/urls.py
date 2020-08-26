@@ -11,7 +11,7 @@ urlpatterns = [
     path('add/activity/category/', views.add_activity_category,name="AnandakendraAddActivityCategory"),
     path('create/activity/', views.create_activity,name="AnandakendraCreateActivity"),
     path('add/gallery/', views.add_to_gallery,name="AnandakendraAddToGallery"),
-    path('create/anandakendra/', views.create_anandakendra,name="CreateAnandaKendra"),
+    path('new/', views.create_anandakendra,name="CreateAnandaKendra"),
     path('admin_approval/', views.admin_approval,name="AdminImageApproval"),
     path('create/event/',views.create_event,name="CreateEventAnandakendra"),
 ]

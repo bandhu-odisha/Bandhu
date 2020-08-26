@@ -11,6 +11,6 @@ urlpatterns = [
     path('create/activity/', views.create_activity,name="CreateActivity"),
     path('add/gallery/', views.add_to_gallery,name="AddToGallery"),
     path('add/winners/', views.add_winners,name="AddWinners"),
-    path('create/ankurayan/', views.create_ankurayan,name="CreateAnkurayan"),
+    path('new/', views.create_ankurayan,name="CreateAnkurayan"),
     path('admin_approval/', views.admin_approval,name="ImageAdminApproval")
 ]
