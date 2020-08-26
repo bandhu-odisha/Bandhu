@@ -12,13 +12,14 @@ class AnandaKendra(models.Model):
     locality = models.CharField(max_length=100)
     description = models.TextField(max_length=1000)
     address = models.CharField(max_length=250)
-    image = models.ImageField(upload_to='anandakendra/kendras',null=True,blank=True)
-    slug = models.SlugField(blank=True,null=True)
+    image = models.ImageField(upload_to='anandakendra/kendras')
+    slug = models.SlugField()
     # admin = models.ForeignKey(Profile,blank=True,null=True,on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name = 'Anandakendra'
         verbose_name_plural = 'Anandakendras'
+        unique_together = (('name', 'locality'),)
 
     def __str__(self):
         return self.name

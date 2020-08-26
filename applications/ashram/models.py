@@ -1,6 +1,4 @@
 from django.db import models
-from django.utils import timezone
-from django.template.defaultfilters import slugify
 
 from bandhuapp.models import Profile
 
@@ -11,18 +9,17 @@ class Ashram(models.Model):
     locality = models.CharField(max_length=100)
     description = models.TextField(max_length=1000)
     address = models.CharField(max_length=250)
-    slug = models.SlugField(blank=True,null=True)
-    image = models.ImageField(upload_to='ashram/thumbnails/',blank=True,null=True)
-    admin = models.ForeignKey(Profile,blank=True,null=True,on_delete=models.SET_NULL)
+    image = models.ImageField(upload_to='ashram/thumbnails/')
+    slug = models.SlugField()
+    # admin = models.ForeignKey(Profile,blank=True,null=True,on_delete=models.SET_NULL)
+
+    class Meta:
+        verbose_name = 'Bandhughar'
+        verbose_name_plural = 'Bandhughar'
+        unique_together = (('name', 'locality'),)
 
     def __str__(self):
         return f'{self.name} - {self.locality}'
-    
-    def save(self,*args,**kwargs):
-        str1 = self.name
-        str2 = self.locality
-        self.slug = slugify(str1+'-'+str2)
-        super(Ashram,self).save(*args,**kwargs)
 
 class ActivityCategory(models.Model):
     ashram = models.ForeignKey(Ashram, on_delete=models.CASCADE)
@@ -93,3 +90,14 @@ class Photo(models.Model):
     approved = models.BooleanField(default=False)
     activity = models.ForeignKey(Activity, on_delete=models.SET_NULL, null=True, blank=True)
 
+class HomePage(models.Model):
+    tagline = models.TextField(max_length=1000, verbose_name="Tagline (Bold)")
+    description = models.TextField(max_length=3000)
+    picture = models.ImageField(upload_to='ashram/index')
+
+    class Meta:
+        verbose_name = 'Bandhughar Home Page'
+        verbose_name_plural = 'Bandhughar Home Page'
+
+    def __str__(self):
+        return 'Bandhughar Home Page Content'
