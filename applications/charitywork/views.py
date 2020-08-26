@@ -34,7 +34,7 @@ def create_charity(request):
                                 start_date=start_date,disaster_type=disaster_type,
                                 description=description,end_date=end_date,image=image)
         
-        return HttpResponseRedirect('/charity_work/')
+        return HttpResponseRedirect('/other_activities/')
         
 def charity_detail(request,slug):
     charity = get_object_or_404(Charity,slug=slug)
@@ -76,7 +76,7 @@ def add_volunteers(request):
                 profile = Profile.objects.filter(user__email=i).first()
                 Volunteer.objects.create(charity=charity,profile=profile)
         
-        url = '/charity_work/detail/' + slug +'/'
+        url = '/other_activities/detail/' + slug +'/'
         return HttpResponseRedirect(url)
     return HttpResponseRedirect('/')
 
@@ -97,7 +97,7 @@ def create_activity(request):
         for i in activity_images:
             Photo.objects.create(charity=charity,picture=i,activity=activity,approved=True)
 
-        url = '/charity_work/detail/' + slug +'/'
+        url = '/other_activities/detail/' + slug +'/'
         return HttpResponseRedirect(url)
     return HttpResponseRedirect('/')
 
@@ -115,7 +115,7 @@ def add_to_gallery(request):
             else:
                 Photo.objects.create(charity=charity,picture=i)
 
-        url = '/charity_work/detail/' + slug +'/'
+        url = '/other_activities/detail/' + slug +'/'
         return HttpResponseRedirect(url)
     return HttpResponseRedirect('/')
 
