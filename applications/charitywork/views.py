@@ -33,7 +33,7 @@ def create_charity(request):
         # admin = request.POST.get('admin')
         # admin_profile = get_object_or_404(Profile,pk=int(admin))
 
-        if Charity.objects.filter(name=name, locality=locality).exists():
+        if Charity.objects.filter(title=title, purpose=purpose, location=location).exists():
             messages.error(request, "Activity with entered title, purpose and location already exists.")
             return redirect('charitywork:charity_work')
 
