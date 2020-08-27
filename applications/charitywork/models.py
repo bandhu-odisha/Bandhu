@@ -17,12 +17,6 @@ class Charity(models.Model):
     slug = models.SlugField()
     admin = models.ForeignKey(Profile,on_delete=models.SET_NULL,null=True,blank=True)
 
-    def save(self,*args,**kwargs):
-        str1 = self.title
-        str2 = str(self.start_date)
-        self.slug = slugify(str1 +'-'+ str2)
-        super(Charity,self).save(*args,**kwargs)
-
     class Meta:
         unique_together = (('title', 'purpose', 'location'), )
         verbose_name = 'Other Activitie'
