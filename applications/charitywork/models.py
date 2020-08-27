@@ -15,7 +15,7 @@ class Charity(models.Model):
     end_date = models.DateField(null=True, blank=True)
     image = models.ImageField(upload_to='charity_work/charities/')
     slug = models.SlugField()
-    admin = models.ForeignKey(Profile,on_delete=models.SET_NULL,null=True,blank=True)
+    # admin = models.ForeignKey(Profile,on_delete=models.SET_NULL,null=True,blank=True)
 
     class Meta:
         unique_together = (('title', 'purpose', 'location'), )

@@ -52,16 +52,27 @@ def create_charity(request):
 def charity_detail(request,slug):
     charity = get_object_or_404(Charity,slug=slug)
     activities = Activity.objects.filter(charity=charity)
-    check_admin = False
+    check_admin = is_admin(request.user)
 
-    if charity.admin is not None and charity.admin.user == request.user:
-        photos = Photo.objects.filter(charity=charity)
-        check_admin = True
-    else:
-        photos = Photo.objects.filter(charity=charity).filter(approved=True)
+    # if charity.admin is not None and charity.admin.user == request.user:
+    #     photos = Photo.objects.filter(charity=charity)
+    #     check_admin = True
+    # else:
+    #     photos = Photo.objects.filter(charity=charity).filter(approved=True)
 
-    return render(request,'charity_detail.html',{'charity':charity,'activities':activities,
-                                                    'photos':photos,'check_admin':check_admin})
+    photos = Photo.objects.filter(charity=charity)
+    unapproved_photos = photos.filter(approved=False)
+    photos = photos.filter(approved=True)
+
+    context = {
+        'charity': charity,
+        'activities': activities,
+        'photos':photos,
+        'unapproved_photos': unapproved_photos,
+        'check_admin':check_admin,
+    }
+
+    return render(request,'charity_detail.html', context)
 
 @login_required
 def add_volunteers(request):
