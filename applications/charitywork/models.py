@@ -62,9 +62,23 @@ class Activity(models.Model):   # Donation/Food Supply
 
 class Photo(models.Model):
     charity = models.ForeignKey(Charity, on_delete=models.CASCADE)
-    picture = models.ImageField(upload_to='ankurayan/%Y')
+    picture = models.ImageField(upload_to='charity_work/%Y')
     activity = models.ForeignKey(Activity, on_delete=models.SET_NULL, null=True, blank=True)
     approved = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.charity.title}'
+
+
+class HomePage(models.Model):
+    tagline = models.TextField(max_length=1000, verbose_name="Tagline (Bold)")
+    description = models.TextField(max_length=3000)
+    picture = models.ImageField(upload_to='charity_work/index')
+
+    class Meta:
+        verbose_name = 'Other Activities Home Page'
+        verbose_name_plural = 'Other Activities Home Page'
+
+    def __str__(self):
+        return 'Other Activities Home Page Content'
+

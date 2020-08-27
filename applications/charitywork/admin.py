@@ -2,7 +2,9 @@ from django.contrib import admin
 from django.http import HttpResponseRedirect
 from django.shortcuts import reverse
 
-from .models import Charity,Volunteer,Activity,Photo
+from .models import (
+    Charity, Volunteer, Activity, Photo, HomePage,
+)
 # Register your models here.
 
 @admin.register(Charity)
@@ -23,3 +25,4 @@ class CharityAdmin(admin.ModelAdmin):
 admin.site.register(Volunteer)
 admin.site.register(Activity)
 admin.site.register(Photo)
+admin.site.register(HomePage)

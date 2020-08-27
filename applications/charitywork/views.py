@@ -10,14 +10,18 @@ from django.template.defaultfilters import slugify
 from bandhuapp.models import Profile
 from accounts.models import User
 from bandhuapp.templatetags.permissions import is_admin
-from .models import Charity,Activity,Photo,Volunteer
+from .models import (
+    Charity, Volunteer, Activity, Photo, HomePage,
+)
 
 # Create your views here.
 
 def index(request):
-    charity_works = Charity.objects.all()
-    photos = Photo.objects.all()
-    return render(request, 'charity.html',{'charity_works':charity_works,'photos':photos})
+    context = {
+        'charity_works': Charity.objects.all(),
+        'content': HomePage.objects.all().first(),
+    }
+    return render(request, 'charity.html', context)
 
 @login_required
 def create_charity(request):
