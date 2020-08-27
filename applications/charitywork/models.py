@@ -24,7 +24,9 @@ class Charity(models.Model):
         super(Charity,self).save(*args,**kwargs)
 
     class Meta:
-        verbose_name_plural = 'Charities'
+        unique_together = (('title', 'purpose', 'location'), )
+        verbose_name = 'Other Activitie'
+        verbose_name_plural = 'Other Activities'
 
     def __str__(self):
         return f'{self.title} - {self.location}'

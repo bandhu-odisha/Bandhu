@@ -1,12 +1,15 @@
-from django.shortcuts import render
+from django.contrib import messages
+from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect,JsonResponse
 from datetime import datetime
 from django.core import serializers
 from django.contrib.auth.decorators import login_required
+from django.template.defaultfilters import slugify
 
 from bandhuapp.models import Profile
 from accounts.models import User
+from bandhuapp.templatetags.permissions import is_admin
 from .models import Charity,Activity,Photo,Volunteer
 
 # Create your views here.
@@ -20,22 +23,28 @@ def index(request):
 def create_charity(request):
     if request.method == 'POST':
         title = request.POST.get('title')
-        location = request.POST.get('location')
-        description = request.POST.get('description')
         purpose = request.POST.get('purpose')
-        # admin = request.POST.get('admin')
+        location = request.POST.get('location')
         start_date = request.POST.get('start_date')
         end_date = request.POST.get('end_date')
-        image = request.FILES.get('logo')
+        description = request.POST.get('description')
+        image = request.FILES.get('image')
 
+        # admin = request.POST.get('admin')
         # admin_profile = get_object_or_404(Profile,pk=int(admin))
 
-        Charity.objects.create(title=title,location=location,
-                                start_date=start_date,purpose=purpose,
-                                description=description,end_date=end_date,image=image)
-        
-        return HttpResponseRedirect('/other_activities/')
-        
+        if Charity.objects.filter(name=name, locality=locality).exists():
+            messages.error(request, "Activity with entered title, purpose and location already exists.")
+            return redirect('charitywork:charity_work')
+
+        slug = slugify(f'{title} {purpose} {location}')
+        Charity.objects.create(title=title, purpose=purpose, location=location,
+                               slug=slug, start_date=start_date, end_date=end_date,
+                               description=description, image=image)
+        return redirect('charitywork:CharityDetail', slug)
+
+    return redirect('charitywork:charity_work')
+
 def charity_detail(request,slug):
     charity = get_object_or_404(Charity,slug=slug)
     activities = Activity.objects.filter(charity=charity)
