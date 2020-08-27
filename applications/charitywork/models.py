@@ -7,10 +7,10 @@ from bandhuapp.models import Profile
 # Create your models here.
 
 class Charity(models.Model):
-    title = models.CharField(max_length=500)
-    purpose = models.CharField(max_length=500)   # Cyclone/Earthquake
+    title = models.CharField(max_length=60)
+    purpose = models.CharField(max_length=60)   # Cyclone/Earthquake
     description = models.TextField()
-    location = models.CharField(max_length=800)
+    location = models.CharField(max_length=60)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
     image = models.ImageField(upload_to='charity_work/charities/')
@@ -19,7 +19,7 @@ class Charity(models.Model):
 
     class Meta:
         unique_together = (('title', 'purpose', 'location'), )
-        verbose_name = 'Other Activitie'
+        verbose_name = 'Other Activity'
         verbose_name_plural = 'Other Activities'
 
     def __str__(self):

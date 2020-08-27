@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponseRedirect,JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse
 from datetime import datetime
 from django.core import serializers
 from django.contrib.auth.decorators import login_required
