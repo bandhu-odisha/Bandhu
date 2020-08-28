@@ -7,24 +7,20 @@ from bandhuapp.models import Profile
 # Create your models here.
 
 class Charity(models.Model):
-    title = models.CharField(max_length=500)
-    disaster_type = models.CharField(max_length=500)   # Cyclone/Earthquake
+    title = models.CharField(max_length=60)
+    purpose = models.CharField(max_length=60)   # Cyclone/Earthquake
     description = models.TextField()
-    location = models.CharField(max_length=800)
+    location = models.CharField(max_length=60)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
-    image = models.ImageField(upload_to='charity_work/charities/', blank=True, null=True)
+    image = models.ImageField(upload_to='charity_work/charities/')
     slug = models.SlugField()
-    admin = models.ForeignKey(Profile,on_delete=models.SET_NULL,null=True,blank=True)
-
-    def save(self,*args,**kwargs):
-        str1 = self.title
-        str2 = str(self.start_date)
-        self.slug = slugify(str1 +'-'+ str2)
-        super(Charity,self).save(*args,**kwargs)
+    # admin = models.ForeignKey(Profile,on_delete=models.SET_NULL,null=True,blank=True)
 
     class Meta:
-        verbose_name_plural = 'Charities'
+        unique_together = (('title', 'purpose', 'location'), )
+        verbose_name = 'Other Activity'
+        verbose_name_plural = 'Other Activities'
 
     def __str__(self):
         return f'{self.title} - {self.location}'
@@ -66,9 +62,23 @@ class Activity(models.Model):   # Donation/Food Supply
 
 class Photo(models.Model):
     charity = models.ForeignKey(Charity, on_delete=models.CASCADE)
-    picture = models.ImageField(upload_to='ankurayan/%Y')
+    picture = models.ImageField(upload_to='charity_work/%Y')
     activity = models.ForeignKey(Activity, on_delete=models.SET_NULL, null=True, blank=True)
     approved = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.charity.title}'
+
+
+class HomePage(models.Model):
+    tagline = models.TextField(max_length=1000, verbose_name="Tagline (Bold)")
+    description = models.TextField(max_length=3000)
+    picture = models.ImageField(upload_to='charity_work/index')
+
+    class Meta:
+        verbose_name = 'Other Activities Home Page'
+        verbose_name_plural = 'Other Activities Home Page'
+
+    def __str__(self):
+        return 'Other Activities Home Page Content'
+

@@ -101,7 +101,7 @@ def add_attendee(request):
                 print(i,profile)
                 Attendee.objects.create(meeting=meeting,profile=profile)
         
-        url = '/ashram/detail/' + slug +'/'
+        url = '/bandhughar/detail/' + slug +'/'
         return HttpResponseRedirect(url)
     return HttpResponseRedirect('/')
   
@@ -121,7 +121,7 @@ def add_meeting(request):
                                     schedule=schedule,location=location,
                                     ashram=ashram)
 
-        url = '/ashram/detail/' + slug +'/'
+        url = '/bandhughar/detail/' + slug +'/'
         return HttpResponseRedirect(url)
     return HttpResponseRedirect('/')
 
@@ -135,7 +135,7 @@ def add_activity_category(request):
 
         ActivityCategory.objects.create(ashram=ashram, name=name)
 
-        url = '/ashram/detail/' + slug +'/'
+        url = '/bandhughar/detail/' + slug +'/'
         return HttpResponseRedirect(url)
     return HttpResponseRedirect('/')
 
@@ -158,7 +158,7 @@ def create_activity(request):
         for i in activity_images:
             Photo.objects.create(ashram=ashram,picture=i,activity=activity,approved=True)
 
-        url = '/ashram/detail/' + slug +'/'
+        url = '/bandhughar/detail/' + slug +'/'
         return HttpResponseRedirect(url)
     return HttpResponseRedirect('/')
 
@@ -176,7 +176,7 @@ def add_to_gallery(request):
             else:
                 Photo.objects.create(ashram=ashram,picture=i)
 
-        url = '/ashram/detail/' + slug +'/'
+        url = '/bandhughar/detail/' + slug +'/'
         return HttpResponseRedirect(url)
     return HttpResponseRedirect('/')
 
@@ -216,6 +216,6 @@ def create_event(request):
         Event.objects.create(name=name,ashram=ashram,date=date,
                             description=description,thumb=thumb)
 
-        url = '/ashram/detail/' + slug +'/'
+        url = '/bandhughar/detail/' + slug +'/'
         return HttpResponseRedirect(url)
     return HttpResponseRedirect('/')

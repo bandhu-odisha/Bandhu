@@ -1,54 +1,78 @@
-from django.shortcuts import render
+from django.contrib import messages
+from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponseRedirect,JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse
 from datetime import datetime
 from django.core import serializers
 from django.contrib.auth.decorators import login_required
+from django.template.defaultfilters import slugify
 
 from bandhuapp.models import Profile
 from accounts.models import User
-from .models import Charity,Activity,Photo,Volunteer
+from bandhuapp.templatetags.permissions import is_admin
+from .models import (
+    Charity, Volunteer, Activity, Photo, HomePage,
+)
 
 # Create your views here.
 
 def index(request):
-    charity_works = Charity.objects.all()
-    photos = Photo.objects.all()
-    return render(request, 'charity.html',{'charity_works':charity_works,'photos':photos})
+    context = {
+        'charity_works': Charity.objects.all(),
+        'content': HomePage.objects.all().first(),
+    }
+    return render(request, 'charity.html', context)
 
 @login_required
 def create_charity(request):
     if request.method == 'POST':
         title = request.POST.get('title')
+        purpose = request.POST.get('purpose')
         location = request.POST.get('location')
-        description = request.POST.get('description')
-        disaster_type = request.POST.get('disaster_type')
-        # admin = request.POST.get('admin')
         start_date = request.POST.get('start_date')
         end_date = request.POST.get('end_date')
-        image = request.FILES.get('logo')
+        description = request.POST.get('description')
+        image = request.FILES.get('image')
 
+        # admin = request.POST.get('admin')
         # admin_profile = get_object_or_404(Profile,pk=int(admin))
 
-        Charity.objects.create(title=title,location=location,
-                                start_date=start_date,disaster_type=disaster_type,
-                                description=description,end_date=end_date,image=image)
-        
-        return HttpResponseRedirect('/charity_work/')
-        
+        if Charity.objects.filter(title=title, purpose=purpose, location=location).exists():
+            messages.error(request, "Activity with entered title, purpose and location already exists.")
+            return redirect('charitywork:charity_work')
+
+        slug = slugify(f'{title} {purpose} {location}')
+        Charity.objects.create(title=title, purpose=purpose, location=location,
+                               slug=slug, start_date=start_date, end_date=end_date,
+                               description=description, image=image)
+        return redirect('charitywork:CharityDetail', slug)
+
+    return redirect('charitywork:charity_work')
+
 def charity_detail(request,slug):
     charity = get_object_or_404(Charity,slug=slug)
     activities = Activity.objects.filter(charity=charity)
-    check_admin = False
+    check_admin = is_admin(request.user)
 
-    if charity.admin is not None and charity.admin.user == request.user:
-        photos = Photo.objects.filter(charity=charity)
-        check_admin = True
-    else:
-        photos = Photo.objects.filter(charity=charity).filter(approved=True)
+    # if charity.admin is not None and charity.admin.user == request.user:
+    #     photos = Photo.objects.filter(charity=charity)
+    #     check_admin = True
+    # else:
+    #     photos = Photo.objects.filter(charity=charity).filter(approved=True)
 
-    return render(request,'charity_detail.html',{'charity':charity,'activities':activities,
-                                                    'photos':photos,'check_admin':check_admin})
+    photos = Photo.objects.filter(charity=charity)
+    unapproved_photos = photos.filter(approved=False)
+    photos = photos.filter(approved=True)
+
+    context = {
+        'charity': charity,
+        'activities': activities,
+        'photos':photos,
+        'unapproved_photos': unapproved_photos,
+        'check_admin':check_admin,
+    }
+
+    return render(request,'charity_detail.html', context)
 
 @login_required
 def add_volunteers(request):
@@ -76,7 +100,7 @@ def add_volunteers(request):
                 profile = Profile.objects.filter(user__email=i).first()
                 Volunteer.objects.create(charity=charity,profile=profile)
         
-        url = '/charity_work/detail/' + slug +'/'
+        url = '/other_activities/detail/' + slug +'/'
         return HttpResponseRedirect(url)
     return HttpResponseRedirect('/')
 
@@ -97,7 +121,7 @@ def create_activity(request):
         for i in activity_images:
             Photo.objects.create(charity=charity,picture=i,activity=activity,approved=True)
 
-        url = '/charity_work/detail/' + slug +'/'
+        url = '/other_activities/detail/' + slug +'/'
         return HttpResponseRedirect(url)
     return HttpResponseRedirect('/')
 
@@ -115,7 +139,7 @@ def add_to_gallery(request):
             else:
                 Photo.objects.create(charity=charity,picture=i)
 
-        url = '/charity_work/detail/' + slug +'/'
+        url = '/other_activities/detail/' + slug +'/'
         return HttpResponseRedirect(url)
     return HttpResponseRedirect('/')
 

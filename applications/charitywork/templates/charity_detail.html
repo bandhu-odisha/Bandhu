@@ -37,14 +37,14 @@
 
 {% block showcase-title-container %}
 <div class="slider-txt-container" style="padding: 200px 0 200px 0;">
-    <h2 class="bold-txt"> CHARITY WORK </h2>
-    <p class="showcase-description mt-n3 mb-5">{{ charity.title }}</p>
+    <h2 class="bold-txt mb-3"> CHARITY WORK </h2>
+    <p class="showcase-description mb-5">{{ charity.title }}</p>
 </div>
 {% endblock %}
 
 {% block content %}
 <!-- About Section -->
-<section id="about" style="margin-top: -200px;">
+<section id="about" style="margin-top: -250px;">
     <div class="container pb-3 mb-5">
         <div class="row justify-content-center">
             <div class="col-lg-8 text-left px-0 py-0 py-lg-2 mx-auto" style="z-index: 10;">
@@ -52,7 +52,7 @@
                     <div class="card-body p-4">
                         <h1 class="mb-3 title">{{ charity.title }}</h1>
                         <p class="m-0 font-weight-bold">
-                            {{ charity.disaster_type }}, {{ charity.location }}
+                            {{ charity.purpose }}, {{ charity.location }}
                         </p>
                         
                     </div>
@@ -567,7 +567,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         var ashram = "{{ashram.slug}}";
         $.ajax({
             type: "POST",
-            url: "/ashram/admin_approval/",
+            url: "/other_activities/admin_approval/",
             data: {
                 status: status,
                 image: image,
