@@ -50,6 +50,13 @@ class Guest(models.Model):
     def __str__(self):
         return f'{self.ankurayan.year} - {self.name} ({self.profession})'
 
+class Photo(models.Model):
+    ankurayan = models.ForeignKey(Ankurayan, on_delete=models.CASCADE)
+    picture = models.ImageField(upload_to='ankurayan/%Y')
+    approved = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.ankurayan.year}'
 
 class ActivityCategory(models.Model):
     ankurayan = models.ForeignKey(Ankurayan, on_delete=models.CASCADE)
@@ -70,7 +77,7 @@ class Activity(models.Model):
     winner = models.ForeignKey(Participant,on_delete=models.PROTECT,null=True,blank=True,related_name="Winner")
     runner_up1 = models.ForeignKey(Participant,on_delete=models.PROTECT,null=True,blank=True,related_name="FirstRunnerUp")
     runner_up2 = models.ForeignKey(Participant,on_delete=models.PROTECT,null=True,blank=True,related_name="SecondRunnerUp")
-
+    photo = models.ManyToManyField(Photo, related_name='ankurayan_activity', blank=True)
 
     class Meta:
         verbose_name_plural = 'Activities'
@@ -78,14 +85,6 @@ class Activity(models.Model):
     def __str__(self):
         return f'{self.category.ankurayan.year} - {self.name} ({self.category.name})'
 
-class Photo(models.Model):
-    ankurayan = models.ForeignKey(Ankurayan, on_delete=models.CASCADE)
-    picture = models.ImageField(upload_to='ankurayan/%Y')
-    activity = models.ForeignKey(Activity, on_delete=models.SET_NULL, null=True, blank=True)
-    approved = models.BooleanField(default=False)
-
-    def __str__(self):
-        return f'{self.ankurayan.year}'
 
 class HomePage(models.Model):
     tagline = models.TextField(max_length=1000, verbose_name="Tagline (Bold)")

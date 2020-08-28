@@ -31,10 +31,16 @@ class ActivityCategory(models.Model):
     def __str__(self):
         return f'{self.ashram.name} - {self.name}'
 
+class Photo(models.Model):
+    ashram = models.ForeignKey(Ashram, on_delete=models.CASCADE)
+    picture = models.ImageField(upload_to='ashram/')
+    approved = models.BooleanField(default=False)
+
 class Activity(models.Model):
     category = models.ForeignKey(ActivityCategory, on_delete=models.PROTECT)
     name = models.CharField(max_length=50)
     description = models.TextField(max_length=1000)
+    photo = models.ManyToManyField(Photo, related_name="ashram_activity", blank=True)
 
     class Meta:
         verbose_name_plural = 'Activities'
@@ -48,6 +54,7 @@ class Event(models.Model):
     description = models.TextField(max_length=1000)
     thumb = models.ImageField(upload_to='ashram/events')
     date = models.DateField()
+    photo = models.ManyToManyField(Photo, related_name="ashram_event", blank=True)
 
     def __str__(self):
         return f'{self.ashram.name} - {self.name}'
@@ -84,11 +91,6 @@ class Attendee(models.Model):
 def picture_upload_path(instance, filname):
     return f'ashram/{instance.ashram.name}/{filename}'
 
-class Photo(models.Model):
-    ashram = models.ForeignKey(Ashram, on_delete=models.CASCADE)
-    picture = models.ImageField(upload_to='ashram/')
-    approved = models.BooleanField(default=False)
-    activity = models.ForeignKey(Activity, on_delete=models.SET_NULL, null=True, blank=True)
 
 class HomePage(models.Model):
     tagline = models.TextField(max_length=1000, verbose_name="Tagline (Bold)")

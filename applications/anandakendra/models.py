@@ -52,11 +52,17 @@ class ActivityCategory(models.Model):
     def __str__(self):
         return f'{self.kendra.name} - {self.name}'
 
+class Photo(models.Model):
+    kendra = models.ForeignKey(AnandaKendra, on_delete=models.CASCADE)
+    picture = models.ImageField(upload_to='anandakendra/activities')
+    approved = models.BooleanField(default=False)
+
 class Activity(models.Model):
     category = models.ForeignKey(ActivityCategory, on_delete=models.PROTECT)
     name = models.CharField(max_length=50)
     description = models.TextField(max_length=1000)
     activity_time = models.CharField(max_length=100)
+    photo = models.ManyToManyField(Photo, related_name="kendra_activity", blank=True)
     
     class Meta:
         verbose_name_plural = 'Activities'
@@ -70,6 +76,7 @@ class Event(models.Model):
     description = models.TextField(max_length=1000)
     thumb = models.ImageField(upload_to='anandakendra/events')
     date = models.DateField()
+    photo = models.ManyToManyField(Photo, related_name="kendra_event", blank=True)
 
     def __str__(self):
         return f'{self.kendra.name} - {self.name}'
@@ -83,16 +90,6 @@ class Acharya(models.Model):
 
 def picture_upload_path(instance, filname):
     return f'anandakendra/{instance.kendra.name}/{filename}'
-
-class Photo(models.Model):
-    kendra = models.ForeignKey(AnandaKendra, on_delete=models.CASCADE)
-    picture = models.ImageField(upload_to='anandakendra/activities')
-    activity = models.ForeignKey(Activity, on_delete=models.SET_NULL, null=True, blank=True)
-    approved = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.picture
-
 
 class HomePage(models.Model):
     tagline = models.TextField(max_length=1000, verbose_name="Tagline (Bold)")

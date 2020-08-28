@@ -44,6 +44,13 @@ class Volunteer(models.Model):
             self.contact_no = self.profile.contact_no
         super(Volunteer, self).save(*args, **kwargs)
 
+class Photo(models.Model):
+    charity = models.ForeignKey(Charity, on_delete=models.CASCADE)
+    picture = models.ImageField(upload_to='charity_work/%Y')
+    approved = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.charity.title}'
 
 class Activity(models.Model):   # Donation/Food Supply
     charity = models.ForeignKey(Charity, on_delete=models.CASCADE)
@@ -52,6 +59,7 @@ class Activity(models.Model):   # Donation/Food Supply
     volunteers = models.ManyToManyField(Volunteer)
     date = models.DateField()
     thumb = models.ImageField(upload_to='charity_work/thumbnails', default='charity_work/thumbnails/activity.jpg')
+    photo = models.ManyToManyField(Photo, related_name="charity_activity", blank=True)
 
     class Meta:
         verbose_name_plural = 'Activities'
@@ -59,15 +67,6 @@ class Activity(models.Model):   # Donation/Food Supply
     def __str__(self):
         return f'{self.name} - {self.charity.title} '
 
-
-class Photo(models.Model):
-    charity = models.ForeignKey(Charity, on_delete=models.CASCADE)
-    picture = models.ImageField(upload_to='charity_work/%Y')
-    activity = models.ForeignKey(Activity, on_delete=models.SET_NULL, null=True, blank=True)
-    approved = models.BooleanField(default=False)
-
-    def __str__(self):
-        return f'{self.charity.title}'
 
 
 class HomePage(models.Model):
