@@ -72,6 +72,7 @@ def ashram_detail(request,slug):
         'meetings':meetings,
         'photos':photos,
         'check_admin':check_admin,
+        'content': HomePage.objects.all().first(),
     }
     return render(request,'ashram_detail.html', context)
 

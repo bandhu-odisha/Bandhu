@@ -91,6 +91,7 @@ class HomePage(models.Model):
     tagline = models.TextField(max_length=1000, verbose_name="Tagline (Bold)")
     description = models.TextField(max_length=3000)
     picture = models.ImageField(upload_to='ankurayan/index')
+    banner_image = models.ImageField(upload_to='ankurayan/banner')
 
     class Meta:
         verbose_name = 'Ankurayan Home Page'

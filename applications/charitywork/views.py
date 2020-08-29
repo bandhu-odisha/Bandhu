@@ -70,6 +70,7 @@ def charity_detail(request,slug):
         'photos':photos,
         'unapproved_photos': unapproved_photos,
         'check_admin':check_admin,
+        'content': HomePage.objects.all().first(),
     }
 
     return render(request,'charity_detail.html', context)

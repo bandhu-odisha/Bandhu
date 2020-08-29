@@ -10,6 +10,12 @@
 <!-- Custom CSS -->
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
 <link rel="stylesheet" href="{% static 'css/anandakendra.css' %}">
+<!-- Custom Style -->
+<style>
+    #top-section {
+        background: url("{{ content.banner_image.url }}") 50% center no-repeat fixed;
+    }
+</style>
 {% endblock %}
 
 {% block navbar-links %}

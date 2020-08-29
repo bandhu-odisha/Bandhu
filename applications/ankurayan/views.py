@@ -83,6 +83,7 @@ def ankurayan_detail(request, slug):
         'check_admin': check_admin,
         'ankurayans': ankurayans,
         'activity_img': activity_img,
+        'content': HomePage.objects.all().first(),
     }
     return render(request,'ankurayan_detail.html', context)
 
