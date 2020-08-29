@@ -3,30 +3,36 @@
 {% block title %} Bandhu | User Profile {% endblock %}
 
 {% block style %}
-	<style>
-		/* .container {
-			max-width: 960px;
-		} */
+<style>
+	/* .container {
+		max-width: 960px;
+	} */
 
-		@media screen and (max-width: 600px) {
-			.container{
-				width: 85vw;
-			}
+	@media screen and (max-width: 600px) {
+		.container{
+			width: 85vw;
 		}
+	}
 
-		.imgCircle{
-			position:relative;
-			width:150px !important;
-			/* margin-left:38%; */
-			margin: auto;
-		}
+	.imgCircle{
+		position:relative;
+		width:150px !important;
+		/* margin-left:38%; */
+		margin: auto;
+	}
 
-		label {
-			font-weight:600;
-			letter-spacing:1.2px;
-		}
+	label {
+		font-weight:600;
+		letter-spacing:1.2px;
+	}
 
-	</style>
+</style>
+<!-- Custom Style -->
+<style>
+    #top-section {
+        background: url("{{ content.banner_image.url }}") 50% center no-repeat fixed;
+    }
+</style>
 {% endblock %}
 
 {% block navbar-links %}

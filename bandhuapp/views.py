@@ -24,6 +24,7 @@ from applications.charitywork.models import Activity as CharityActivity
 from .models import (
     Profile, Photo, Initiatives, AboutUs,
     Mission, Volunteer, Gallery, Contact,
+    HomePage,
 )
 from .templatetags import permissions as temp_perms  # Template permissions
 
@@ -59,6 +60,7 @@ def index(request):
         'unapproved_photos': Photo.objects.filter(approved=False).order_by('created'),
         'curr_date': datetime.now().date(),
         'seven_day_delta': datetime.now().date() - timedelta(days=7),
+        'content': HomePage.objects.all().first(),
     }
     return render(request, 'landing_page.html', context)
 
@@ -141,6 +143,7 @@ def profile_page(request):
     context = {
         'profile': profile,
         'first_time': first_time,
+        'content': HomePage.objects.all().first(),
     }
     return render(request,'profile.html', context)
 

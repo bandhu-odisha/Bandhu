@@ -3,6 +3,7 @@ from .models import (
     Profile, RecentActivity, Photo, Initiatives, AboutUs,
     Mission, SanskarCarousel, SwarajCarousel,
     SwabalambanCarousel, Volunteer, Gallery, Contact,
+    HomePage,
 )
 
 # Register your models here.
@@ -57,3 +58,5 @@ class PhotoAdmin(admin.ModelAdmin):
 # @admin.register(SwabalambanCarousel)
 # class SwabalambanCarouselAdmin(admin.ModelAdmin):
 #     list_display = ('__str__', 'picture')
+
+admin.site.register(HomePage)
