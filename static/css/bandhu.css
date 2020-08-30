@@ -1,6 +1,5 @@
 /* GLOBAL */
 
-
 .section-title {
     color: #0d0d0d;
     font-size: 2.25em;
@@ -734,3 +733,36 @@
     height: 80px;
     visibility: hidden;
 }
+
+.recent-activities-collapse::-webkit-scrollbar {
+    width: 7px!important;
+    height: 6px!important;
+}
+
+.recent-activities-collapse::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,.3);
+}
+
+.recent-activities-collapse::-webkit-scrollbar-track {
+    background-color: #f2f1f1;
+    border-bottom-right-radius: 5px !important;
+} 
+
+.recent-activity-card {
+    border-bottom-right-radius: 0px !important;
+}
+
+
+body::-webkit-scrollbar {
+    width: 12px !important;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,.3) !important;
+}
+
+body::-webkit-scrollbar-track {
+    background-color: rgba(255, 255, 255, 0);
+} 
+
+  
