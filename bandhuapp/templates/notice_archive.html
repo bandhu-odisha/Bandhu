@@ -1,0 +1,131 @@
+{% extends 'accounts_base.html' %}
+
+{% load static %}
+
+{% block title %} Notice Archive {% endblock %}
+
+{% block content %}
+<!-- Don't put this in { style block } -->
+<!-- Do not import bandhu.css  -->
+<style>
+    .ribbon-new {
+        background: #ff9800;
+        height: 30px;
+        width: 30px;
+        position: absolute;
+        text-align: center;
+        font: 400 13px sans-serif;
+        color: #fff;
+        line-height: 27px;
+        border: 0;
+        right: 16px;
+        margin-top: 5px;
+        animation: colorRotate 2s ease infinite;
+    }
+    .ribbon-new:after {
+        content: "";
+        position: absolute;
+        bottom: -20px;
+        left: 0;
+        height: 0;
+        width: 30px;
+        border: solid 15px #ff9800;
+        border-bottom-color: transparent;
+    }
+    
+    .ribbon-new:hover {
+        background: #ff9800;
+    }
+    
+    .ribbon-new:hover:after {
+        border-color: #ff9800;
+        border-bottom-color: transparent;
+    }
+
+    .row {
+        margin: 0px;
+    }
+
+    .section-title {
+	    color: #0d0d0d;
+	    font-size: 2.25em;
+	    font-weight: 900;
+	    line-height: 54px;
+	    text-transform: uppercase;
+	    margin-bottom: 45px;
+	    position: relative;
+	    -webkit-text-stroke: 0.3px;;
+        margin-right: auto;
+        margin-left: auto;
+    }
+    </style>
+<div class="notice-container" style="margin-top: 100px;">
+     <!-- Search Bar  -->
+    <div class="row">
+        <h3 class="section-title">Notice Archive</h3>
+    </div>
+    <div class="row">
+        <!-- Notices -->
+        <div class="col">
+            <div class="row">
+                {% for notice in notices %}
+                    <div class="col col-md-4 col-md-offset-2" style="padding: 15px;">
+                        <div class="card bg-light mb-3 h-100" style="border: 0; box-shadow: 1px 2px 3px 0 #cccccc;">
+                            <div class="card-body">
+                                <h5 class="card-title"> <b> {{notice.title}} </b> </h5>
+                                <h6 class="card-subtitle mb-2 text-muted" style="font-size: smaller;">
+                                {% if notice.start_date %}
+                                    {{notice.start_date}}
+                                {% endif %}
+                                {% if notice.end_date %}
+                                    - {{notice.end_date}}
+                                {% endif %}
+                                </h6>
+                                <p class="card-text"> {{notice.description|truncatechars:180}} <br> 
+                                    <a href="#" style="font-size: smaller">Read More</a> 
+                                </p>
+
+                                {% if act.end_date %}
+                                    <!-- If it is an event. So, keep "New" until event is over -->
+                                    {% if notice.end_date|date:"Y-m-d" >= curr_date|date:"Y-m-d" %}
+                                        <div class="ribbon-new" style="top: -5px; right: 10px;">New</div>
+                                    {% endif %}
+                                    
+                                    {% elif notice.start_date %}
+                                        {% if notice.start_date|date:"Y-m-d" > notice.date_created|date:"Y-m-d" and notice.start_date|date:"Y-m-d" >= curr_date|date:"Y-m-d" %}
+                                            <!-- If it is a one day event, keep "New" until event is over -->
+                                            <div class="ribbon-new" style="top: -5px; right: 10px;">New</div>
+                                        {% elif notice.start_date|date:"Y-m-d" == notice.date_created|date:"Y-m-d" and notice.start_date|date:"Y-m-d" >= seven_day_delta|date:"Y-m-d" %}
+                                        <!-- If it is a notifiation, keep "New" for 7 days -->
+                                        <div class="ribbon-new" style="top: -5px; right: 10px;">New</div>
+                                    {% endif %}
+                                        
+                                {% else %}
+                                    <!-- If no date is mentioned, keep "New" for 7 days -->
+                                    {% if notice.date_created|date:"Y-m-d" >= seven_day_delta|date:"Y-m-d" %}
+                                        <div class="ribbon-new" style="top: -5px; right: 10px;">New</div>
+                                    {% endif %}
+                                {% endif %}
+                                
+                            </div>
+                            <div class="card-footer text-muted text-right">
+                                {% if notice.link %}
+                                    <a href="{{notice.link}}" style="padding: 8px; text-decoration: none; font-size: 20px;">
+                                        <i class="fa fa-link"></i>
+                                    </a>
+                                {% endif %}
+                                {% if notice.notice_file %}
+                                    <a href="{{notice.notice_file}}" style="padding: 8px; text-decoration: none; font-size: 20px;">
+                                        <i class="fa fa-paperclip"></i>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

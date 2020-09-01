@@ -28,6 +28,7 @@ from openpyxl.styles import Font
 from .models import (
     Profile, Photo, Initiatives, AboutUs,
     Mission, Volunteer, Gallery, Contact,
+    RecentActivity,
 )
 from .templatetags import permissions as temp_perms  # Template permissions
 
@@ -52,7 +53,6 @@ def index(request):
 
     recent_events.sort(key=lambda act: act.date, reverse=True)
     recent_events = recent_events[:10]
-
     context = {
         'initiatives': Initiatives.objects.all().first(),
         'about': AboutUs.objects.all().first(),
@@ -233,3 +233,12 @@ def extract_user_data(request):
 
     excel.save(file_path)
     return HttpResponseRedirect(settings.MEDIA_URL + '/sheets/user_profile_data.xlsx')
+
+def notice_archive(request):
+    notices = RecentActivity.objects.all()
+    context = {
+        'notices' : notices,
+        'curr_date': datetime.now().date(),
+        'seven_day_delta': datetime.now().date() - timedelta(days=7),
+    }
+    return render(request, 'notice_archive.html', context)
