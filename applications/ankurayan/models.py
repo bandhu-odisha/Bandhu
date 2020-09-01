@@ -62,7 +62,7 @@ class ActivityCategory(models.Model):
         return f'{self.ankurayan.year} - {self.name}'
 
 class Activity(models.Model):
-    category = models.ForeignKey(ActivityCategory, on_delete=models.PROTECT)
+    category = models.ForeignKey(ActivityCategory, on_delete=models.PROTECT, related_name='activities')
     name = models.CharField(max_length=50)
     description = models.TextField(max_length=1000)
     date = models.DateField()

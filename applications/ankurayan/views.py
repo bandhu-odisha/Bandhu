@@ -53,7 +53,7 @@ def create_ankurayan(request):
 def ankurayan_detail(request, slug):
     ankurayan = get_object_or_404(Ankurayan, slug=slug)
 
-    categories = ActivityCategory.objects.filter(ankurayan=ankurayan)
+    categories = ActivityCategory.objects.filter(ankurayan=ankurayan, activities__isnull=False).distinct()
     participants = Participant.objects.filter(ankurayan=ankurayan)
     check_admin = is_admin(request.user)
 
@@ -70,7 +70,7 @@ def ankurayan_detail(request, slug):
     ankurayans = Ankurayan.objects.all().exclude(slug=slug)
     activity_img = []
     for i in categories:
-        for j in i.activity_set.all():
+        for j in i.activities.all():
             activity_img.append(Photo.objects.filter(activity=j))
     print("helo")
     print(activity_img)
