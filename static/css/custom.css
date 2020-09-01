@@ -97,6 +97,11 @@ section p {
     }
 }
 
+/* Navbar Dropdown */
+.dropdown:hover>.dropdown-menu {
+    display: block;
+}
+
 
 /* SHOWCASE STARTS */
 

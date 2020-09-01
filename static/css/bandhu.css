@@ -720,11 +720,7 @@
 }
 
 
-/* Navbar Dropdown */
 
-.dropdown:hover>.dropdown-menu {
-    display: block;
-}
 
 #sanskar::before, #swaraj::before, #swabalamban::before {
     display: block;
