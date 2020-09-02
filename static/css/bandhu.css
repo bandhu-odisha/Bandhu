@@ -84,6 +84,7 @@
 #initiatives .content-description{
     display:none;
     box-sizing: border-box;
+    line-height: 1.25;
 }
 #initiatives .card:hover h5 {
     animation-name: cardanim;
