@@ -55,7 +55,7 @@
                     <div class="card-body p-4">
                         <h1 class="mb-3 title">{{ kendra.name|safe }} ({{ kendra.locality }})</h1>
                         <p class="m-0">
-                            {{ kendra.address }}
+                            {{ kendra.address|safe }}
                         </p>
                     </div>
                 </div>
@@ -146,7 +146,7 @@
                                 <div class="card-body pb-0">
                                     <h5 class="card-title font-weight-bold">{{ activity.name }}</h5>
                                     <p class="mb-3">
-                                        {{ activity.description }}
+                                        {{ activity.description|safe }}
                                         <br>
                                     </p>
                                     <a class="stretched-link" href="#" data-toggle="modal"
@@ -214,7 +214,7 @@
                     </div>
                     <div class="col-md-6">
                         <h3 class="font-weight-bolder">Description</h3>
-                        {{ activity.description }}
+                        {{ activity.description|safe }}
                     </div>
                 </div>
             </div>
@@ -314,7 +314,7 @@
                     </div>
                     <div class="col-md-6">
                         <h3 class="font-weight-bolder">Description</h3>
-                        {{ event.description }}
+                        {{ event.description|safe }}
                     </div>
                 </div>
             </div>
@@ -348,7 +348,7 @@
                                             <div class="card-body pb-0">
                                                 <h5 class="card-title font-weight-bold">{{activity.0.name}}</h5>
                                                 <p class="m-2 font-italic  font-open-sans mb-3">
-                                                    {{activity.0.description}}
+                                                    {{activity.0.description|safe}}
                                                     <br>
                                                 </p>
                                                 <a href="javascript:pswpInit(0);" class="stretched-link"></a>

@@ -122,7 +122,7 @@
                                     <div class="card-body pb-0">
                                         <h5 class="card-title font-weight-bold">{{ activity.name }}</h5>
                                         <p class="mb-3">
-                                        {{ activity.description }}
+                                        {{ activity.description|safe }}
                                         <br>
                                         </p>
                                         <a class="stretched-link" href="#" data-toggle="modal" data-target="#activity_modal{{ activity.id }}"></a>
@@ -189,7 +189,7 @@
                     </div>
                     <div class="col-md-6">
                         <h3 class="font-weight-bolder">Description</h3>
-                        {{ activity.description }}
+                        {{ activity.description|safe }}
                     </div>
                 </div>
             </div>
@@ -222,7 +222,7 @@
                                             <div class="card-body pb-0">
                                                 <h5 class="card-title font-weight-bold">{{ activity.name }}</h5>
                                                 <p class="m-2 font-italic  font-open-sans mb-3">
-                                                    {{ activity.description }}
+                                                    {{ activity.description|safe }}
                                                     <br>
                                                 </p>
                                                 <a href="javascript:pswpInit(0);" class="stretched-link"></a>

@@ -60,7 +60,7 @@
                     <div class="card-body p-4">
                         <h1 class="mb-3 title">{{ ankurayan.title|safe }}</h1>
                         <p class="m-0">
-                            {{ ankurayan.theme }}
+                            {{ ankurayan.theme|safe }}
                         </p>
                     </div>
                 </div>
@@ -260,7 +260,7 @@
                     </div>
                     <div class="col-md-6">
                         <h3 class="font-weight-bolder">Description</h3>
-                        {{ activity.description }}
+                        {{ activity.description|safe }}
                         {% if activity.winner %}
                         <h3 class="font-weight-bolder">Result</h3>
                         <p><b>Winner:</b>{{ activity.winner }}</p>
@@ -360,7 +360,7 @@
                                     <div class="card-body pb-0">
                                         <h5 class="card-title font-weight-bold">{{ankur.title}}</h5>
                                         <p class="mb-3">
-                                            {{ankur.theme}}<br>
+                                            {{ankur.theme|safe}}<br>
                                         </p>
                                         <a href="{% url 'ankurayan:AnkurayanDetail' ankur.slug %}"
                                             class="stretched-link"></a>
