@@ -9,6 +9,12 @@
 <!-- Custom CSS -->
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
 <link rel="stylesheet" href="{% static 'css/ashram.css' %}">
+<!-- Custom Style -->
+<style>
+    #top-section {
+        background: url("{{ content.banner_image.url }}") 50% center no-repeat fixed;
+    }
+</style>
 {% endblock %}
 
 {% block navbar-links %}
@@ -41,7 +47,7 @@
                 <div style="padding: 135px 25px 0;">
                     <!-- <h3 class="content-title" style="font-size: 2rem; margin-bottom: 20px;">Ashram</h3> -->
                     <p style="font-size: 20px;">
-                        <strong>{{ content.tagline }}</strong>
+                        <strong>{{ content.tagline|safe }}</strong>
                     </p>
                     <p style="font-size: 17px;">
                         {{ content.description|safe }}

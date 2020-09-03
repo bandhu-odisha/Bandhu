@@ -78,6 +78,7 @@ def anandkendra_detail(request, slug):
         'students': students,
         'photos': photos,
         'check_admin': check_admin,
+        'content': HomePage.objects.all().first(),
     }
 
     return render(request,'anandkendra_detail.html', context)

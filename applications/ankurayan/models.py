@@ -69,7 +69,7 @@ class ActivityCategory(models.Model):
         return f'{self.ankurayan.year} - {self.name}'
 
 class Activity(models.Model):
-    category = models.ForeignKey(ActivityCategory, on_delete=models.PROTECT)
+    category = models.ForeignKey(ActivityCategory, on_delete=models.PROTECT, related_name='activities')
     name = models.CharField(max_length=50)
     description = models.TextField(max_length=1000)
     date = models.DateField()
@@ -90,6 +90,7 @@ class HomePage(models.Model):
     tagline = models.TextField(max_length=1000, verbose_name="Tagline (Bold)")
     description = models.TextField(max_length=3000)
     picture = models.ImageField(upload_to='ankurayan/index')
+    banner_image = models.ImageField(upload_to='ankurayan/banner')
 
     class Meta:
         verbose_name = 'Ankurayan Home Page'

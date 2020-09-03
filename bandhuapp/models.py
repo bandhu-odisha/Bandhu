@@ -192,3 +192,12 @@ class Contact(models.Model):
     def __str__(self):
         return 'Contact Us Section Details'
 
+class HomePage(models.Model):
+    banner_image = models.ImageField(upload_to='bandhuapp/banner')
+
+    class Meta:
+        verbose_name = 'Bandhu Home Page'
+        verbose_name_plural = 'Bandhu Home Page'
+
+    def __str__(self):
+        return 'Bandhu Home Page Content'

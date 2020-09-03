@@ -84,6 +84,7 @@
 #initiatives .content-description{
     display:none;
     box-sizing: border-box;
+    line-height: 1.25;
 }
 #initiatives .card:hover h5 {
     animation-name: cardanim;
@@ -720,11 +721,7 @@
 }
 
 
-/* Navbar Dropdown */
 
-.dropdown:hover>.dropdown-menu {
-    display: block;
-}
 
 #sanskar::before, #swaraj::before, #swabalamban::before {
     display: block;

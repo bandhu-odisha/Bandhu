@@ -18,7 +18,7 @@ from .models import (
 
 def index(request):
     context = {
-        'ankurayans': Ankurayan.objects.all(),
+        'ankurayans': Ankurayan.objects.all().order_by('-year'),
         'content': HomePage.objects.all().first(),
     }
     return render(request, 'ankurayan.html', context)
@@ -53,7 +53,7 @@ def create_ankurayan(request):
 def ankurayan_detail(request, slug):
     ankurayan = get_object_or_404(Ankurayan, slug=slug)
 
-    categories = ActivityCategory.objects.filter(ankurayan=ankurayan)
+    categories = ActivityCategory.objects.filter(ankurayan=ankurayan, activities__isnull=False).distinct()
     participants = Participant.objects.filter(ankurayan=ankurayan)
     check_admin = is_admin(request.user)
 
@@ -67,13 +67,12 @@ def ankurayan_detail(request, slug):
     unapproved_photos = photos.filter(approved=False)
     photos = photos.filter(approved=True)
 
-    ankurayans = Ankurayan.objects.all().exclude(slug=slug)
+    ankurayans = Ankurayan.objects.all().exclude(slug=slug).order_by('-year')
     activity_img = []
     for i in categories:
-        for j in i.activity_set.all():
+        for j in i.activities.all():
             activity_img.append(Photo.objects.filter(activity=j))
-    print("helo")
-    print(activity_img)
+
     context = {
         'ankurayan': ankurayan,
         'categories': categories,
@@ -83,6 +82,7 @@ def ankurayan_detail(request, slug):
         'check_admin': check_admin,
         'ankurayans': ankurayans,
         'activity_img': activity_img,
+        'content': HomePage.objects.all().first(),
     }
     return render(request,'ankurayan_detail.html', context)
 

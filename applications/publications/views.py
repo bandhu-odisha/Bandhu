@@ -1,12 +1,15 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.sites.shortcuts import get_current_site
 
-from .models import Publication
+from .models import Publication, HomePage
 
 def index(request):
-    publication_list = Publication.objects.filter(is_visible=True).order_by('-created')
+    context = {
+        'publications': Publication.objects.filter(is_visible=True).order_by('-created'),
+        'content': HomePage.objects.all().first(),
+    }
 
-    return render(request, "publications.html", { 'publications': publication_list })
+    return render(request, "publications.html", context)
 
 def publication_detail(request, slug):
     publication = get_object_or_404(Publication, slug=slug, is_visible=True)
@@ -15,6 +18,7 @@ def publication_detail(request, slug):
     context = {
         'publication': publication,
         'domain': current_site.domain,
+        'content': HomePage.objects.all().first(),
     }
 
     return render(request, "publication_detail.html", context)

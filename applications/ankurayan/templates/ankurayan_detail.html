@@ -9,6 +9,12 @@
 <!-- Custom CSS -->
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
 <link rel="stylesheet" href="{% static 'css/ankurayan.css' %}">
+<!-- Custom Style -->
+<style>
+    #top-section {
+        background: url("{{ content.banner_image.url }}") 50% center no-repeat fixed;
+    }
+</style>
 
 <!-- Semantic UI , Used only for Multiple Select in select Acharya Form -->
 <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/icon.css' %}">
@@ -157,17 +163,17 @@
 </section>
 
 <!-- Activities Section -->
-<section id="activities" class="mb-5">
+{% if categories %}
+<section id="activities">
     <h3 class="section-title mt-5 pt-3 pt-sm-0">Activities</h3>
     <div class="container">
         {% for category in categories %}
-        {% if category.activity_set.count %}
         <h3 class="title mt-5 mb-3">{{ category.name }}</h3>
         <div class="row">
             <div class="glide category{{ forloop.counter0 }}">
                 <div class="glide__track" data-glide-el="track">
                     <ul class="glide__slides">
-                        {% for activity in category.activity_set.all %}
+                        {% for activity in category.activities.all %}
                         <li class="glide__slide">
                             <div class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
                                 <a class="" href="#" data-toggle="modal" data-target="#activity_modal{{ activity.id }}">
@@ -206,20 +212,20 @@
                     </button>
                 </div>
                 <div class="glide__bullets" data-glide-el="controls[nav]">
-                    {% for activity in category.activity_set.all %}
+                    {% for activity in category.activities.all %}
                     <button class="glide__bullet" data-glide-dir="={{ forloop.counter0 }}"></button>
                     {% endfor %}
                 </div>
             </div>
         </div>
-        {% endif %}
         {% endfor %}
     </div>
 </section>
+{% endif %}
 
 <!-- ACTIVITIES MODALS -->
 {% for category in categories %}
-{% for activity in category.activity_set.all %}
+{% for activity in category.activities.all %}
 <div class="modal fade" id="activity_modal{{ activity.id }}">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content shadow">
@@ -338,7 +344,7 @@
 {% endfor %}
 
 <!-- ANKURAYANS SECTION -->
-<section id="ankurayans" class="glide-carousel-custom">
+<section id="ankurayans" class="glide-carousel-custom mt-5">
     <div class="bg-grey" style="padding: 50px 0;">
         <h3 class="section-title">Ankurayans</h3>
         <div class="container">
@@ -541,7 +547,7 @@
                 <div class="galleryFilter">
                     <a href="#" data-filter="" class="current">All</a>
                     {% for category in categories %}
-                    {% if category.activity_set.count %}
+                    {% if category.activities.count %}
                     <a href="#" data-filter=".{{ category.name }}">{{ category.name }}</a>
                     {% endif %}
                     {% endfor %}
@@ -1028,7 +1034,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 <script>
     // ACTIVITIES CAROUSEL
     {% for category in categories %}
-    {% if category.activity_set.count %}
+    {% if category.activities.count %}
     var glide = new Glide('.category{{forloop.counter0}}', {
         type: 'carousel',
         focusAt: 'center',
