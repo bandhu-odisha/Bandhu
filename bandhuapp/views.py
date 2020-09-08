@@ -1,3 +1,4 @@
+from django.core import serializers
 from datetime import datetime, timedelta
 import os
 from django.conf import settings
@@ -245,3 +246,34 @@ def notice_archive(request):
         'seven_day_delta': datetime.now().date() - timedelta(days=7),
     }
     return render(request, 'notice_archive.html', context)
+
+def get_sorted_notice_asc(request):
+    if request.method == "GET" and request.is_ajax():
+        notices = RecentActivity.objects.all().order_by('date_created')
+        context = {
+            'notices' : notices,    
+        }
+    return JsonResponse(context, status=200)
+
+def get_active_notice(request):
+    if request.method == "POST":
+        sort_type = request.POST.get('sort_type')
+        notices = RecentActivity.objects.all()
+        print(sort_type)
+        # curr_date = datetime.now()
+        # seven_day_delta = datetime.now().date() - timedelta(days=7)
+        # active_notice = []
+        # for notice in notices:
+        #     if notice.end_date :
+        #         if notice.end_date >= curr_date:
+        #             active_notice.append(notice)
+        #         elif notice.start_date.date:
+        #             if notice.start_date > notice.date_created and notice.start_date >= curr_date:
+        #                 active_notice.append(notice)
+        #             elif notice.start_date == notice.date_created and notice.start_date.date >= seven_day_delta:
+        #                 active_notice.append(notice)
+        #     else:
+        #         if notice.date_created.date >= seven_day_delta:
+        #             active_notice.append(notice)
+        data = serializers.serialize('json', notices)
+        return JsonResponse(data, safe=False, status = 200)

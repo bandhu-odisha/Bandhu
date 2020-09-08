@@ -11,4 +11,5 @@ urlpatterns = [
     path('photos/approve_image/', views.approve_image, name='approve_image'),
     path('user_profile_data/', views.extract_user_data, name="extract_user_data"),
     path('notice-archive/', views.notice_archive, name="notice_archive"),
+    path('get_active_notice/', views.get_active_notice, name="active_notice"),
 ]

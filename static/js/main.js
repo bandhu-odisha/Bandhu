@@ -10,12 +10,12 @@ var navbarCollapse = function() {
     // else {
     //     $(".navbar").removeClass("navbar-scrolled");
     // }
-    if ($(".navbar.bg-transparent.fixed-top").offset().top > 300) {
+    // if ($(".navbar.bg-transparent.fixed-top").offset().top > 300) {
         $(".navbar").addClass("navbar-scrolled-again");
-    }
-    else {
-        $(".navbar").removeClass("navbar-scrolled-again");
-    }
+    // }
+    // else {
+    //     $(".navbar").removeClass("navbar-scrolled-again");
+    // }
 };
 // Collapse now if page is not at top
 // navbarCollapse();
