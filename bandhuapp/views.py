@@ -6,6 +6,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
+from django.db.models import F
 from django.http import HttpResponseRedirect, Http404, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template import RequestContext
@@ -40,6 +41,11 @@ def index(request):
     if request.user.is_authenticated and not Profile.objects.filter(user=request.user).exists():
         messages.error(request, "Complete your Profile first.")
         return redirect('profile_page')
+
+    # Visitor's Count
+    if not request.session.get('home_page_visited', False):
+        request.session['home_page_visited'] = True
+        HomePage.objects.all().update(visitors_count=F('visitors_count') + 1)
 
     recent_events = []
     recent_events.extend(KendraEvent.objects.order_by('-date')[:10])

@@ -19,6 +19,10 @@
                         <a href="{% url 'charitywork:charity_work' %}" class="nav-link">Other Activities</a>
                     </li>
                 </ul>
+                {% if content.visitors_count and user.is_admin %}
+                <h5 class="font-weight-bolder">Visitors Count</h5>
+                <p>{{ content.visitors_count }}</p>
+                {% endif %}
             </div>
 
             <div class="col-md-6">

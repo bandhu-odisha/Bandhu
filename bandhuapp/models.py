@@ -194,6 +194,7 @@ class Contact(models.Model):
 
 class HomePage(models.Model):
     banner_image = models.ImageField(upload_to='bandhuapp/banner')
+    visitors_count = models.IntegerField(default=0)
 
     class Meta:
         verbose_name = 'Bandhu Home Page'
