@@ -70,9 +70,9 @@ class AcharyaAdmin(admin.ModelAdmin):
 
 @admin.register(Photo)
 class PhotoAdmin(admin.ModelAdmin):
-    list_display = ('kendra','activity','approved')
+    list_display = ('kendra','approved')
     ordering = ('kendra',)
     list_filter = ('approved',)
-    search_fields = ('activity', 'kendra__name',)
+    search_fields = ('kendra__name',)
 
 admin.site.register(HomePage)

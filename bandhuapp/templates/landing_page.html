@@ -394,20 +394,17 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="col-md-6 align-self-center">
                     <div id="event{{ forloop.count0 }}-carousel" class="carousel slide m-auto" data-ride="carousel">
                         <ul class="carousel-indicators">
-                            <li data-target="#event{{ forloop.count0 }}-carousel" data-slide-to="0" class=""></li>
-                            <li data-target="#event{{ forloop.count0 }}-carousel" data-slide-to="1" class=""></li>
-                            <li data-target="#event{{ forloop.count0 }}-carousel" data-slide-to="2" class="active"></li>
+                        {% for img in event.photo.all %}
+                            <li data-target="#event{{ forloop.parentloop.count0 }}-carousel" data-slide-to="{{ forloop.counter0 }}" 
+                                class="{% if forloop.counter == 1 %}active{% endif %}"></li>
+                        {% endfor %}
                         </ul>
                         <div class="carousel-inner">
-                            <div class="carousel-item">
-                                <img src="/static/img/pimg6.jpg" alt="carousel image" class="w-100">
+                        {% for img in event.photo.all %}
+                            <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}">
+                                <img src="{{img.picture.url}}" alt="carousel image" class="w-100">
                             </div>
-                            <div class="carousel-item">
-                                <img src="/static/img/pimg2.jpg" alt="carousel image" class="w-100">
-                            </div>
-                            <div class="carousel-item active">
-                                <img src="/static/img/pimg3.jpg" alt="carousel image" class="w-100">
-                            </div>
+                        {% endfor %}
                         </div>
                     </div>
                 </div>
@@ -542,6 +539,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     </button>
                 </div> -->
                 {% if user|is_admin %}
+                <a href="{% url 'extract_user_data' %}">Download User Data</a>
                 <div class="col col-sm-5 approve-images text-center">
                     <button type="button" class="btn btn-outline-primary" data-toggle="modal"
                         data-target="#approveGallery">

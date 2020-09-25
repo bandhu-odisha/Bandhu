@@ -55,10 +55,10 @@ class GuestAdmin(admin.ModelAdmin):
 
 @admin.register(Photo)
 class PhotoAdmin(admin.ModelAdmin):
-    list_display = ('ankurayan','activity','approved')
+    list_display = ('ankurayan','approved')
     ordering = ('ankurayan',)
     list_filter = ('approved',)
-    search_fields = ('activity', 'ankurayan__year','ankurayan__theme',)
+    search_fields = ('ankurayan__year','ankurayan__theme',)
 
 
 admin.site.register(HomePage)

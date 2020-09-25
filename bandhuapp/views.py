@@ -1,5 +1,6 @@
+from django.core import serializers
 from datetime import datetime, timedelta
-
+import os
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import logout
@@ -14,6 +15,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.views.static import serve
 
 from social_django.models import UserSocialAuth
 from accounts.models import User
@@ -22,9 +24,13 @@ from applications.anandakendra.models import Event as KendraEvent
 from applications.ankurayan.models import Activity as AnkurayanActivity
 from applications.ashram.models import Event as AshramEvent
 from applications.charitywork.models import Activity as CharityActivity
+
+import openpyxl
+from openpyxl.styles import Font
 from .models import (
     Profile, Photo, Initiatives, AboutUs,
     Mission, Volunteer, Gallery, Contact,
+    RecentActivity,
     HomePage,
 )
 from .templatetags import permissions as temp_perms  # Template permissions
@@ -55,7 +61,6 @@ def index(request):
 
     recent_events.sort(key=lambda act: act.date, reverse=True)
     recent_events = recent_events[:10]
-
     context = {
         'initiatives': Initiatives.objects.all().first(),
         'about': AboutUs.objects.all().first(),
@@ -238,3 +243,43 @@ def extract_user_data(request):
 
     excel.save(file_path)
     return HttpResponseRedirect(settings.MEDIA_URL + '/sheets/user_profile_data.xlsx')
+
+def notice_archive(request):
+    notices = RecentActivity.objects.all()
+    context = {
+        'notices' : notices,
+        'curr_date': datetime.now().date(),
+        'seven_day_delta': datetime.now().date() - timedelta(days=7),
+    }
+    return render(request, 'notice_archive.html', context)
+
+def get_sorted_notice_asc(request):
+    if request.method == "GET" and request.is_ajax():
+        notices = RecentActivity.objects.all().order_by('date_created')
+        context = {
+            'notices' : notices,    
+        }
+    return JsonResponse(context, status=200)
+
+def get_active_notice(request):
+    if request.method == "POST":
+        sort_type = request.POST.get('sort_type')
+        notices = RecentActivity.objects.all()
+        print(sort_type)
+        # curr_date = datetime.now()
+        # seven_day_delta = datetime.now().date() - timedelta(days=7)
+        # active_notice = []
+        # for notice in notices:
+        #     if notice.end_date :
+        #         if notice.end_date >= curr_date:
+        #             active_notice.append(notice)
+        #         elif notice.start_date.date:
+        #             if notice.start_date > notice.date_created and notice.start_date >= curr_date:
+        #                 active_notice.append(notice)
+        #             elif notice.start_date == notice.date_created and notice.start_date.date >= seven_day_delta:
+        #                 active_notice.append(notice)
+        #     else:
+        #         if notice.date_created.date >= seven_day_delta:
+        #             active_notice.append(notice)
+        data = serializers.serialize('json', notices)
+        return JsonResponse(data, safe=False, status = 200)

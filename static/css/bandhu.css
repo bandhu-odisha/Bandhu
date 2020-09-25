@@ -26,13 +26,13 @@
 /* SHOWCASE STARTS */
 
 .slider-txt-container .bold-txt {
-    font-size: 3.875em;
+    font-size: 2.875em;
     margin-bottom: 60px;
 }
 
 @media screen and (max-width: 575px) {
     .slider-txt-container .bold-txt {
-        font-size: 3.875em;
+        font-size: 2.5em;
     }
     .slider-txt-container .parallax-description {
         font-size: 1.375em;
