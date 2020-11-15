@@ -26,7 +26,7 @@ class Profile(models.Model):
     state = models.CharField(max_length=25)
     pincode	= models.CharField(max_length=10)
     profession = models.CharField(max_length=500)
-    profile_pic = models.ImageField(upload_to='profile_photos', default='profile_photos/man.png')
+    profile_pic = models.ImageField(upload_to='profile_photos', null=True, blank=True)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name} - {self.user.email}'
@@ -50,6 +50,9 @@ class RecentActivity(models.Model):
     end_date = models.DateField(null=True, blank=True, verbose_name="End Date (Optional)")
     link = models.CharField(max_length=500, verbose_name='Link (not required if inserting file)', null=True, blank=True)
     notice_file = models.FileField(upload_to='notice_files', verbose_name='Notice File (Optional)', null=True, blank=True)
+    # active
+    # new
+    # pin (maybe for future)
 
     class Meta:
         verbose_name_plural = 'Recent Activities'
