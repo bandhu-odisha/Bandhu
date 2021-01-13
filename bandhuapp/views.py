@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-
+from django.core import serializers
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import logout
@@ -25,7 +25,7 @@ from applications.charitywork.models import Activity as CharityActivity
 from .models import (
     Profile, Photo, Initiatives, AboutUs,
     Mission, Volunteer, Gallery, Contact,
-    HomePage,
+    HomePage, RecentActivity,
 )
 from .templatetags import permissions as temp_perms  # Template permissions
 
@@ -238,3 +238,41 @@ def extract_user_data(request):
 
     excel.save(file_path)
     return HttpResponseRedirect(settings.MEDIA_URL + '/sheets/user_profile_data.xlsx')
+
+def notice_archive(request):
+    notices = RecentActivity.objects.all()
+    context = {
+        'notices' : notices,
+        'curr_date': datetime.now().date(),
+        'seven_day_delta': datetime.now().date() - timedelta(days=7),
+    }
+    return render(request, 'notice_archive.html', context) 
+
+def get_notice_asc(request):
+    if request.method == "GET" and request.is_ajax():
+        notices = RecentActivity.objects.all().order_by('date_created')
+        data = serializers.serialize('json', notices)
+    return JsonResponse(data, safe=False, status=200)
+
+def get_active_notice(request):
+    if request.method == "POST":
+        sort_type = request.POST.get('sort_type')
+        notices = RecentActivity.objects.all()
+        print(sort_type)
+        # curr_date = datetime.now()
+        # seven_day_delta = datetime.now().date() - timedelta(days=7)
+        # active_notice = []
+        # for notice in notices:
+        #     if notice.end_date :
+        #         if notice.end_date >= curr_date:
+        #             active_notice.append(notice)
+        #         elif notice.start_date.date:
+        #             if notice.start_date > notice.date_created and notice.start_date >= curr_date:
+        #                 active_notice.append(notice)
+        #             elif notice.start_date == notice.date_created and notice.start_date.date >= seven_day_delta:
+        #                 active_notice.append(notice)
+        #     else:
+        #         if notice.date_created.date >= seven_day_delta:
+        #             active_notice.append(notice)
+        data = serializers.serialize('json', notices)
+        return JsonResponse(data, safe=False, status = 200)

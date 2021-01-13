@@ -10,4 +10,7 @@ urlpatterns = [
     path('photos/add_image/', views.add_image, name='add_image'),
     path('photos/approve_image/', views.approve_image, name='approve_image'),
     path('user_profile_data/', views.extract_user_data, name="extract_user_data"),
+    path('notice_archive/', views.notice_archive, name="notice_archive"),
+    path('get_active_notice/', views.get_active_notice, name="get_active_notice"),
+    path('get_notice_asc/', views.get_notice_asc, name="get_notice_asc"),
 ]
