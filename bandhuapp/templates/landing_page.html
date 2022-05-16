@@ -7,8 +7,9 @@
 
 {% block style %}
 <!-- Custom CSS -->
-<link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
+<link rel="stylesheet" href="{% static 'css/bandhu.css' %}" >
 <link rel="stylesheet" href="{% static 'vendor/css/bootstrap-select.min.css' %}">
+
 <!-- Custom Style -->
 <style>
     #top-section {
@@ -65,6 +66,18 @@
 {% block content %}
 
 <!-- Recent Activities tab -->
+
+<!-- Modal to show activity -->
+<div class="modal" id="recent-activity-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content recent-activity-modal-content">
+        <div class="recent-activity-modal-header">Activity</div>
+        <a href="#" target="_blank" class="recent-activity-modal-title">Title</a>
+        <div class="recent-activity-modal-desc">Description..</div>
+      <img src="#" class="recent-activity-modal-image"/>
+    </div>
+  </div>
+</div>
 <div class="recent-activities">
     <button class="btn btn-primary recent-activities-btn collapsed" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
         NOTICE BOARD
@@ -93,7 +106,8 @@
                         <div class="ribbon-new">New</div>
                         {% endif %}
                     {% endif %}
-                    <a href="{{ act.link }}" target="_blank" style="font-size: 20px; text-decoration: none;">
+                    
+                    <a href="{{ act.link }}" id="{{ act.id }}" class="recent-activity-bar" target="_blank" style="font-size: 20px; text-decoration: none;">
                         <li class="recent-activity-li">
                             {{ act.title }}
                             <p style="font-size: 13px;">{{ act.description|truncatechars:135 }}</p>
@@ -635,6 +649,39 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 {% endblock %}
 
 {% block scripts %}
+
+<script>
+    function isImage(url) {
+         return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
+    }
+    const recent_activity_data = {};
+    "{% for act in recent_activities %}"
+        recent_activity_data["{{ act.id }}"] = {title:"{{ act.title }}",description:"{{ act.description }}"}
+    "{% endfor %}"
+    document.querySelectorAll('.recent-activity-bar').forEach((element)=>{
+        element.addEventListener('click',(e)=>{
+            e.preventDefault();
+            const data = recent_activity_data[element.id];
+            if(isImage(element.href)){
+                const image = document.querySelector('.recent-activity-modal-image');
+                image.style.display = 'block';
+                image.src = element.href;
+                image.addEventListener('click',(e)=>{
+                    window.open(element.href)
+                })
+            }
+            else{
+                document.querySelector('.recent-activity-modal-image').style.display = 'none';
+            }
+            const title = document.querySelector('.recent-activity-modal-title');
+            const description = document.querySelector('.recent-activity-modal-desc')
+            title.innerText = data.title;
+            title.href = element.href;
+            description.innerText = data.description;
+            $("#recent-activity-modal").modal('toggle');
+        })
+    })
+</script>
 <!-- PHOTOSWIPE -->
 <script>
     // build the json album images collection 
