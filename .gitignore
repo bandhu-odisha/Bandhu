@@ -9,10 +9,6 @@ db.sqlite3
 media
 staticfiles
 .vscode
-notice_files
-profile_photos
-Pipfile
-Pipfile.lock
 
 # Backup files #
 *.bak
