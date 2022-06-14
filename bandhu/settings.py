@@ -34,7 +34,7 @@ INSTALLED_APPS = [
     'accounts',
     'social_django',
     'django_cleanup.apps.CleanupConfig',
-
+    'products',
     # sections
     'applications.anandakendra',
     'applications.ankurayan',

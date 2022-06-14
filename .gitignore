@@ -10,6 +10,12 @@ media
 staticfiles
 .vscode
 
+products/products/
+products/banner
+
+Pipfile
+Pipfile.lock
+
 # Backup files #
 *.bak
 
