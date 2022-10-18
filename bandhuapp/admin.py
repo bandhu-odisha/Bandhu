@@ -1,8 +1,9 @@
 from django.contrib import admin
+from django.utils.html import format_html, urlencode
 from .models import (
     Profile, RecentActivity, Photo, Initiatives, AboutUs,
     Mission, SanskarCarousel, SwarajCarousel,
-    SwabalambanCarousel, Volunteer, Gallery, Contact,
+    SwabalambanCarousel, UrlData, Volunteer, Gallery, Contact,
     HomePage,
 )
 
@@ -60,3 +61,10 @@ class PhotoAdmin(admin.ModelAdmin):
 #     list_display = ('__str__', 'picture')
 
 admin.site.register(HomePage)
+
+@admin.register(UrlData)
+class UrlDataAdmin(admin.ModelAdmin):
+    list_display = ('url', 'shorten_url', 'times_followed', 'created')
+    def shorten_url(self,url_data):
+        return format_html('<a href="/links/{}">{}</a>', url_data.hash, url_data.hash)
+
