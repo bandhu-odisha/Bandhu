@@ -1,8 +1,9 @@
+from django.core.validators import URLValidator
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
-
+from .helpers import _createHash
 from accounts.models import User
 
 # Create your models here.
@@ -205,3 +206,16 @@ class HomePage(models.Model):
 
     def __str__(self):
         return 'Bandhu Home Page Content'
+
+class UrlData(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    url = models.CharField(max_length=255,validators=[URLValidator()])
+    hash = models.CharField(
+        max_length=255, primary_key=True, default=_createHash)
+    times_followed = models.PositiveIntegerField(default=0)
+    class Meta:
+        ordering = ["-created"]
+
+    def __str__(self):
+        return f'{self.url} to {self.hash}'
+

@@ -25,7 +25,7 @@ from applications.charitywork.models import Activity as CharityActivity
 from .models import (
     Profile, Photo, Initiatives, AboutUs,
     Mission, Volunteer, Gallery, Contact,
-    HomePage,
+    HomePage, UrlData
 )
 from .templatetags import permissions as temp_perms  # Template permissions
 
@@ -238,3 +238,16 @@ def extract_user_data(request):
 
     excel.save(file_path)
     return HttpResponseRedirect(settings.MEDIA_URL + '/sheets/user_profile_data.xlsx')
+
+def external_link(request,hash):
+    if request.method == "GET":
+        try:
+            url_data = get_object_or_404(UrlData,pk=hash)
+            url_data.times_followed += 1
+            url_data.save()
+            return HttpResponseRedirect(url_data.url)
+        except Exception as e:
+            return HttpResponseRedirect('/')
+
+    return HttpResponseRedirect('/')
+
