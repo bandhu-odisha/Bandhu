@@ -4,7 +4,7 @@ from .models import (
     Profile, RecentActivity, Photo, Initiatives, AboutUs,
     Mission, SanskarCarousel, SwarajCarousel,
     SwabalambanCarousel, UrlData, Volunteer, Gallery, Contact,
-    HomePage,
+    HomePage, CurrentUpdates
 )
 
 # Register your models here.
@@ -68,3 +68,6 @@ class UrlDataAdmin(admin.ModelAdmin):
     def shorten_url(self,url_data):
         return format_html('<a href="/links/{}">{}</a>', url_data.hash, url_data.hash)
 
+@admin.register(CurrentUpdates)
+class CurrentUpdatesAdmin(admin.ModelAdmin):
+    list_display = ('created_at','desc','url')

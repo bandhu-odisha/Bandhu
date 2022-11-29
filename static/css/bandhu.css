@@ -793,6 +793,11 @@
     border-bottom-right-radius: 0px !important;
 }
 
+.current-updates-marquee a:not(:last-child)::after{
+  content: ' |';
+  color: black;
+}
+
 
 body::-webkit-scrollbar {
     width: 12px !important;
