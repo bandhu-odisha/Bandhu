@@ -215,9 +215,9 @@
                         <marquee behavior="scroll" scrollamount="4" direction="left" style="margin-top:2px;" onmouseover="this.stop();" onmouseout="this.start();" width="100%" class="current-updates-marquee">
                             {% for update in current_updates %}
                                 {% if update.url %}
-                                <a href="{{ update.url }}" target="_blank">{{ update.desc}}</a>
+                                <a href="{{ update.url }}" target="_blank">{{ update.desc | safe}}</a>
                                 {% else %}
-                                <a>{{update.desc}}</a>
+                                <a>{{update.desc | safe}}</a>
                                 {% endif %}
                             {% endfor %}
                         </marquee>
