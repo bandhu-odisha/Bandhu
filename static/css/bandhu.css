@@ -22,6 +22,11 @@
     width: 70px;
 }
 
+.showNotification:hover{
+    cursor: pointer;
+    color: #ffb307;
+    text-decoration: none;
+}
 
 /* SHOWCASE STARTS */
 
@@ -553,7 +558,7 @@
 .modal{
     z-index:1040 !important;
 }
-
+ 
 .modal-backdrop{
     /* display:none !important; */
     z-index: 1035 !important;
@@ -568,7 +573,7 @@
 }
 
 .recent-activities-btn {
-    width:350px !important;
+    width:350px;
     font-weight: bolder;
     outline:none;
     background-color: #ff9800  !important;
@@ -593,7 +598,7 @@
 }
 
 .recent-activities-collapse{
-    width: 350px !important;
+    width: 350px;
     max-height: 300px;
     overflow-y: auto;
     border-bottom-left-radius: 5px;
@@ -637,6 +642,20 @@
     border-radius: 4px;
     margin-top: 5%;
     cursor: pointer;
+}
+
+.pageNumber{
+    padding: 4px 12px 4px 12px;
+    background-color: #ff9800;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.pageNumber:Hover{
+    background-color: #ff99006b;
+    color: black;
 }
 
 @media screen and (max-width: 575px){

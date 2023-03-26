@@ -10,5 +10,6 @@ urlpatterns = [
     path('photos/add_image/', views.add_image, name='add_image'),
     path('photos/approve_image/', views.approve_image, name='approve_image'),
     path('user_profile_data/', views.extract_user_data, name="extract_user_data"),
-    path('links/<str:hash>', views.external_link,name="external_url_redirect")
+    path('links/<str:hash>', views.external_link,name="external_url_redirect"),
+    path('notifications/' , views.notification_page , name="notification_page"),
 ]
