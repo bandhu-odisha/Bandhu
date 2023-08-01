@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% load static %}
+
+{% block title %} Bandhu | People {% endblock %}
+{% block navbar-links %}
+<li class="nav-item">
+	<a class="nav-link px-3" href="{% url 'home' %}">Home</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link px-3" href="#contact">Contact</a>
+</li>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+	<div class="mt-1">
+        <ul class="nav nav-tabs" id="people" role="tablist">
+            {% for desg in data %}
+                <li class="nav-item" style="cursor: pointer;">
+                    <a class="nav-link" id="{{desg.title|to_snake_case}}-tab" data-toggle="tab" data-target="#{{desg.title|to_snake_case}}" role="tab" aria-controls="{{desg.title|to_snake_case}}" aria-selected="false">{{desg.title}}</a>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="tab-content" id="peopleContent">
+            {% for desg,staffs in data.items %}
+                <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" id="{{desg.title|to_snake_case}}" role="tabpanel" aria-labelledby="{{desg.title|to_snake_case}}-tab">
+                    <div class="row mt-2 px-1">
+                        {% for staff,designation in staffs %}
+                            <div class="col-lg-3">
+                                <div class="card mb-4">
+                                    <div class="card-body text-center">
+                                        <img src="/media/{{ staff.profile.profile_pic }}" alt="avatar"
+                                        class="rounded-circle img-fluid" width="150px" height="150px" style="border: 2px solid rgb(207, 207, 207); object-fit: cover; max-height: 150px;max-width: 150px;"/>
+                                        <h5 class="my-2">{{ staff.profile.get_full_name }}</h5>
+                                        <p class="text-muted mb-1">{{staff.profile.profession}}</p>
+                                        <p class="text-muted mb-4">{{designation.title}}</p>
+                                        <div class="d-flex justify-content-center mb-2">
+                                            <a href="{{ staff.id }}" type="button" class="btn btn-outline-primary ms-1">View Profile</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<script src="{% static 'vendor/js/jquery-3.4.1.min.js' %}"></script>
+<script>
+    $(document).ready(function() {
+        // Get the hash value from the URL
+        const hash = window.location.hash;
+
+        // Check if the hash value is not empty and starts with "#"
+        if (hash && hash.startsWith("#")) {
+            // Extract the tab ID from the hash (without the leading "#")
+            const tabId = hash.substring(1);
+
+            // Find the tab element with the corresponding ID and activate it
+            const tabElement = document.getElementById(tabId+'-tab');
+            if (tabElement) {
+                // If the tab element is found, activate it
+                $(tabElement).tab("show");
+            }
+        }
+        else{
+            const tabElement = document.getElementById('all-tab');
+            $(tabElement).tab("show");
+        }
+    });
+
+</script>
+{% endblock %}

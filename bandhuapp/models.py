@@ -226,3 +226,57 @@ class CurrentUpdates(models.Model):
     url = models.CharField(max_length=100,null=True,blank=True)
     class Meta:
         ordering = ["-created_at"]
+
+
+class Designation(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    title = models.CharField(max_length=255)
+    rank = models.IntegerField(default=9999)
+
+    class Meta:
+        ordering = ["rank"]
+
+    def __str__(self):
+        return f"{self.rank} - {self.title}"
+
+
+class Staff(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    profile = models.OneToOneField(
+        Profile, on_delete=models.CASCADE, related_name="staff", unique=True
+    )
+    webpage = models.URLField(blank=True)
+    about = models.TextField(max_length=1000)
+
+    def __str__(self):
+        return self.profile.get_full_name
+
+class PeoplesDesignation(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    staff = models.OneToOneField(Staff, on_delete=models.CASCADE, related_name="desg")
+    designation = models.ForeignKey(Designation, on_delete=models.CASCADE)
+    desc = models.TextField(max_length=1000)
+    rank = models.IntegerField(default=9999)
+
+    def __str__(self):
+        return f"{self.staff.profile.get_full_name} - {self.rank} - {self.designation.rank}"
+
+
+class StaffQualification(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    degree = models.CharField(max_length=100)
+    institute = models.CharField(max_length=255)
+    since = models.DateField()
+    until = models.DateField(blank=True, null=True)
+    staff = models.ForeignKey(
+        Staff, on_delete=models.CASCADE, related_name="qualifications"
+    )
+
+
+class StaffContacts(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    staff = models.OneToOneField(Staff, on_delete=models.CASCADE, related_name="social")
+    facebook = models.URLField(blank=True)
+    twitter = models.URLField(blank=True)
+    linkedin = models.URLField(blank=True)
+    youtube = models.URLField(blank=True)

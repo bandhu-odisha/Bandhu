@@ -23,8 +23,8 @@ from applications.ankurayan.models import Activity as AnkurayanActivity
 from applications.ashram.models import Event as AshramEvent
 from applications.charitywork.models import Activity as CharityActivity
 from .models import (
-    Profile, Photo, Initiatives, AboutUs,
-    Mission, Volunteer, Gallery, Contact,
+    Designation, PeoplesDesignation, Profile, Photo, Initiatives, AboutUs,
+    Mission, Staff, Volunteer, Gallery, Contact,
     HomePage, UrlData, CurrentUpdates
 )
 from .templatetags import permissions as temp_perms  # Template permissions
@@ -67,7 +67,8 @@ def index(request):
         'curr_date': datetime.now().date(),
         'seven_day_delta': datetime.now().date() - timedelta(days=7),
         'content': HomePage.objects.all().first(),
-        'current_updates': CurrentUpdates.objects.all()[:10]
+        'current_updates': CurrentUpdates.objects.all()[:10],
+        "people_designations": Designation.objects.all().values("title"),
     }
     return render(request, 'landing_page.html', context)
 
@@ -146,7 +147,7 @@ def profile_page(request):
             return redirect('account_activated')
 
         return HttpResponseRedirect('/profile/')
-        
+
     context = {
         'profile': profile,
         'first_time': first_time,
@@ -191,7 +192,7 @@ def approve_image(request):
             photo.delete()
             return JsonResponse({'response': 'discarded'})
 
-        
+
     return HttpResponseRedirect('/')
 
 @login_required
@@ -223,8 +224,8 @@ def extract_user_data(request):
         sheet.cell(row = 1, column = i).font = Font(size=12, bold=True)
         sheet.column_dimensions[chr(65+(i-1))].width=col_width[i-1]
 
-    for row, profile in enumerate(profiles, 2): 
-        sheet.cell(row=row, column=1).value = row - 1 
+    for row, profile in enumerate(profiles, 2):
+        sheet.cell(row=row, column=1).value = row - 1
         sheet.cell(row=row, column=2).value = profile.user.email
         sheet.cell(row=row, column=3).value = profile.get_full_name
         sheet.cell(row=row, column=4).value = profile.gender
@@ -252,3 +253,31 @@ def external_link(request,hash):
 
     return HttpResponseRedirect('/')
 
+def people(request):
+    if request.method == "GET":
+        query_set = (
+            PeoplesDesignation.objects.select_related("staff", "designation")
+            .order_by("designation__rank", "rank")
+            .all()
+        )
+        dict = {"All": []}
+        for i in query_set:
+            if dict.get(i.designation.title, None) == None:
+                dict[i.designation.title] = []
+            dict[i.designation.title].append((i.staff, i.designation))
+            dict["All"].append((i.staff, i.designation))
+        return render(request, "people.html", {"data": dict})
+
+
+def staff_profile(request, id):
+    if request.method == "GET":
+        staff_data = (
+            Staff.objects.select_related("profile", "desg", "social")
+            .order_by("desg_rank")
+            .get(id=id)
+        )
+        return render(
+            request,
+            "staff-profile.html",
+            {"staff": staff_data, "qualifications": staff_data.qualifications.all()},
+        )
