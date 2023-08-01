@@ -1,0 +1,35 @@
+.pull-right {
+    float: right;
+}
+
+.pull-left {
+    float: left;
+}
+
+.profile ul {
+    text-transform: none;
+    font-size: 14px;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+}
+
+.profile ul li {
+    border-bottom: 1px solid #e5e5e5;
+    padding: 10px 0;
+}
+
+.profile ul li:last-child {
+    border-bottom: none;
+}
+
+#staff-profileContent {
+    padding: 40px;
+    border: 1px solid #dee2e6;
+    border-top: none;
+    height: 95%;
+}
+
+.social-contacts-container {
+    margin: 10px;
+}

@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block title %}Bandhu | People {% endblock %}
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
+<link rel="stylesheet" href="{% static 'css/fontawesome-all.min.css' %}">
+<!-- Custom Style -->
+
+{% block navbar-links %}
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/staff-profile.css' %}"/>
+    <!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="{% static 'vendor/css/bootstrap.min.css' %}"/>
+	<!-- Font Awesome CSS -->
+	<link rel="stylesheet" href="{% static 'vendor/css/fontawesome-all.min.css' %}"/>
+	<!-- Custom CSS -->
+	<link rel="stylesheet" href="{% static 'css/custom.css' %}"/>
+    <script src="https://kit.fontawesome.com/ab875af372.js"></script>
+
+    <li class="nav-item">
+        <a class="nav-link px-3" href="{% url 'home' %}">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link px-3" href="#contact">Contact</a>
+    </li>
+{% endblock %}
+{% block content %}
+<div class="container">
+	<div class="row justify-content-center my-5">
+		<div class="col-lg-12 border rounded shadow px-5 py-4 mb-5 bg-white"
+			style="margin-top: -280px; z-index: 3;">
+            <div class="row">
+                <aside class="col-md-3" style="padding-top: 50px;padding-right: 20px;">
+                    <div class="profile">
+                        <p class="text-center">
+                            <img src="/media/{{ staff.profile.profile_pic }}" alt="avatar"
+                                                    class="rounded-circle img-fluid" style="width: 250px;height: 250px;border: 2px solid rgb(207, 207, 207);">
+                        </p>
+                        <ul>
+                            <li>Name <strong class="pull-right">{{ staff.profile.get_full_name }}</strong> </li>
+                            <li>Profession <strong class="pull-right">{{ staff.profile.profession }}</strong> </li>
+                            <li>Designation  <strong class="pull-right">{{ staff.desg.designation.title }}</strong></li>
+                            <li>Email <strong class="pull-right">{{ staff.profile.user.email }}</strong></li>
+                            <li>Contact No.  <strong class="pull-right">{{ staff.profile.contact_no }}</strong></li>
+                            <li>Address Line<strong class="pull-right">{{ staff.profile.street_address1 }}</strong></li>
+                            <li>City<strong class="pull-right">{{ staff.profile.city }}</strong></li>
+                            <li>State<strong class="pull-right">{{ staff.profile.state }}</strong></li>
+                            <li>Pin Code<strong class="pull-right">{{ staff.profile.pincode }}</strong></li>
+                        </ul>
+                    </div>
+                    <!-- End box-sidebar -->
+                </aside>
+                <div class="col-md-9" style="padding-left: 30px;">
+                    <ul class="nav nav-tabs" id="staff-profile" role="tablist">
+                        <li class="nav-item" style="cursor: pointer;">
+                            <a class="nav-link active" id="about-tab" data-toggle="tab" data-target="#about" role="tab" aria-controls="about" aria-selected="true">About</a>
+                        </li>
+                        <li class="nav-item" style="cursor: pointer;">
+                            <a class="nav-link" id="social-tab" data-toggle="tab" data-target="#social" role="tab" aria-controls="social" aria-selected="true">Contacts</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="staff-profileContent">
+                        <div class="tab-pane fade show active" id="about" role="tabpanel" aria-labelledby="about-tab">
+                            <div class="box_style_1  animated fadeIn">
+                                <div class="indent_title_in">
+                                    <span>
+                                        <i class="far fa-user-circle" style="font-size: 30px;"></i>
+                                        <h2 style="display: inline;font-weight: 600;">Profile</h2>
+                                    </span>
+                                    <p>{{ staff.desg.desc }}</p>
+                                </div>
+                                <div class="wrapper_indent">
+                                    <div class="mb-4">
+                                        {{ staff.about }}
+                                    </div>
+                                    <div id="accordion">
+                                        <div class="card">
+                                            <div class="card-header panel-header" data-toggle="collapse" data-target="#qualifications" aria-expanded="true" aria-controls="qualifications" id="headingOne">
+                                                Qualifications
+                                            </div>
+                                            <div id="qualifications" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                            <div class="card-body">
+                                                {% for qual in qualifications %}
+                                                <ul class="list_3">
+                                                    <li>
+                                                        <strong>{{ qual.degree }}
+                                                        </strong>
+                                                        <p>{{ qual.institute }}<br>{{qual.since.year}} -{% if qual.until %} {{ qual.until.year }} {% else %} Current {% endif %}</p>
+                                                    </li>
+                                                </ul>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade " id="social" role="tabpanel" aria-labelledby="social-tab">
+                            <div class="social-contacts-container">
+                                <div class="indent_title_in mb-4">
+                                    <i class="iconcustom-know_how"></i>
+                                    <h3>Contact me</h3>
+                                    <p>Feel free to contact</p>
+                                </div>
+                                <p style="font-size:20px;">
+                                    <i class="fas fa-phone-alt">
+                                    </i>
+                                    <a class="ml-4"">{{staff.profile.contact_no}}</a>
+                                </p>
+                                {% if staff.social.facebook %}
+                                <p style="font-size:20px;">
+                                    <i class="fab fa-facebook-square">
+                                    </i>
+                                    <a class="ml-4" href="{{staff.social.facebook}}">{{staff.social.facebook}}</a>
+                                </p>
+                                {% endif %}
+                                {% if staff.social.twitter %}
+                                <p style="font-size:20px;">
+                                    <i class="fab fa-twitter-square">
+                                    </i>
+                                    <a class="ml-4" href="{{staff.social.twitter}}">{{staff.social.twitter}}</a>
+                                </p>
+                                {% endif %}
+                                {% if staff.social.linkedin %}
+                                <p style="font-size:20px;">
+                                    <i class="fab fa-linkedin">
+                                    </i>
+                                    <a class="ml-4" href="{{staff.social.linkedin}}">{{staff.social.linkedin}}</a>
+                                </p>
+                                {% endif %}
+                                {% if staff.social.youtube %}
+                                <p style="font-size:20px;">
+                                    <i class="fab fa-youtube-square">
+                                    </i>
+                                    <a class="ml-4" href="{{staff.social.youtube}}">{{staff.social.youtube}}</a>
+                                </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'vendor/js/jquery-3.4.1.min.js' %}"></script>
+{% endblock %}
+<!-- Custom JS -->
+<script src="{% static 'js/bandhu.js' %}"></script>

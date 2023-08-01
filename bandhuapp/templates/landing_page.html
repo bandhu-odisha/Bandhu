@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load custom_filters %}
 {% load static %}
 {% load permissions %}
 
@@ -21,6 +21,16 @@
 {% block navbar-links %}
 <li class="nav-item">
     <a class="nav-link px-3 px-lg-2" href="#about">About</a>
+</li>
+<li class="nav-item dropdown">
+    <a class="nav-link px-3 px-lg-2 dropdown-toggle" href="/people">
+      People
+    </a>
+    <div class="dropdown-menu">
+        {% for desg in people_designations %}
+            <a class="dropdown-item" href="/people#{{desg.title|to_snake_case}}">{{desg.title}}</a>
+        {% endfor %}
+    </div>
 </li>
 <!-- <li class="nav-item">
     <a class="nav-link px-3 px-lg-2" href="#mission">Mission</a>
@@ -106,7 +116,7 @@
                         <div class="ribbon-new">New</div>
                         {% endif %}
                     {% endif %}
-                    
+
                     <a href="{{ act.link }}" id="{{ act.id }}" class="recent-activity-bar" target="_blank" style="font-size: 20px; text-decoration: none;">
                         <li class="recent-activity-li">
                             {{ act.title }}
@@ -130,7 +140,7 @@
                             </p>
                             {% endif %}
                         </li>
-                    </a> 
+                    </a>
                 {% endfor %}
             </ol>
         </div>
@@ -257,7 +267,7 @@
                             {% if mission.sanskarcarousel_set.count > 1 %}
                             <ul class="carousel-indicators">
                                 {% for img in mission.sanskarcarousel_set.all %}
-                                <li data-target="#sanskar-carousel" data-slide-to="{{ forloop.counter0 }}" 
+                                <li data-target="#sanskar-carousel" data-slide-to="{{ forloop.counter0 }}"
                                     class="{% if forloop.counter == 1 %}active{% endif %}"></li>
                                 {% endfor %}
                             </ul>
@@ -293,7 +303,7 @@
                             {% if mission.swarajcarousel_set.count > 1 %}
                             <ul class="carousel-indicators">
                                 {% for img in mission.swarajcarousel_set.all %}
-                                <li data-target="#swaraj-carousel" data-slide-to="{{ forloop.counter0 }}" 
+                                <li data-target="#swaraj-carousel" data-slide-to="{{ forloop.counter0 }}"
                                     class="{% if forloop.counter == 1 %}active{% endif %}"></li>
                                 {% endfor %}
                             </ul>
@@ -331,7 +341,7 @@
                             {% if mission.swabalambancarousel_set.count > 1 %}
                             <ul class="carousel-indicators">
                                 {% for img in mission.swabalambancarousel_set.all %}
-                                <li data-target="#swabalamban-carousel" data-slide-to="{{ forloop.counter0 }}" 
+                                <li data-target="#swabalamban-carousel" data-slide-to="{{ forloop.counter0 }}"
                                     class="{% if forloop.counter == 1 %}active{% endif %}"></li>
                                 {% endfor %}
                             </ul>
@@ -452,7 +462,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     {{ event.description }}
                 </div>
             </div>
-            
+
         </div>
     </div>
 </div>
@@ -706,7 +716,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 </script>
 <!-- PHOTOSWIPE -->
 <script>
-    // build the json album images collection 
+    // build the json album images collection
     window.djangoAlbumImages = [
         {% for photo in photos %}
             {
@@ -787,13 +797,13 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         var imageInput = document.forms["imageUploadForm"]["image"];
         var image = imageInput.value;
         console.log(image)
-        var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i; 
-            
-        if (!allowedExtensions.exec(image)) { 
+        var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+
+        if (!allowedExtensions.exec(image)) {
             alert('Invalid file type');
             imageInput.nextElementSibling.classList.remove("selected");
             imageInput.nextElementSibling.innerHTML = "Add Image";
-            return false; 
+            return false;
         }
     }
 </script>

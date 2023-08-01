@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django.utils.html import format_html, urlencode
 from .models import (
-    Profile, RecentActivity, Photo, Initiatives, AboutUs,
-    Mission, SanskarCarousel, SwarajCarousel,
+    Designation, PeoplesDesignation, Profile, RecentActivity, Photo, Initiatives, AboutUs,
+    Mission, SanskarCarousel, Staff, StaffContacts, StaffQualification, SwarajCarousel,
     SwabalambanCarousel, UrlData, Volunteer, Gallery, Contact,
     HomePage, CurrentUpdates
 )
@@ -71,3 +71,23 @@ class UrlDataAdmin(admin.ModelAdmin):
 @admin.register(CurrentUpdates)
 class CurrentUpdatesAdmin(admin.ModelAdmin):
     list_display = ('created_at','desc','url')
+
+@admin.register(Designation)
+class DesignationAdmin(admin.ModelAdmin):
+    list_display = ('rank','title')
+
+@admin.register(Staff)
+class StaffAdmin(admin.ModelAdmin):
+    list_display = ('profile','about')
+
+@admin.register(PeoplesDesignation)
+class PeoplesDesignationAdmin(admin.ModelAdmin):
+    list_display = ('staff','designation')
+
+@admin.register(StaffQualification)
+class StaffQualificationAdmin(admin.ModelAdmin):
+    list_display = ('staff','degree','institute')
+
+@admin.register(StaffContacts)
+class StaffContactsAdmin(admin.ModelAdmin):
+    list_display = ('staff','facebook','twitter','linkedin')
