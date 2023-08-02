@@ -1,0 +1,162 @@
+{% load static %}
+
+{% block style %}
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="{% static 'vendor/css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'vendor/css/bootstrap-select.min.css' %}">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="{% static 'css/bandhu.css' %}" >
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<!-- Modal to show activity -->
+<div class="modal" id="recent-activity-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content recent-activity-modal-content">
+          <div class="recent-activity-modal-header">Activity</div>
+          <a href="#" target="_blank" class="recent-activity-modal-title">Title</a>
+          <div class="recent-activity-modal-desc">Description..</div>
+        <img src="#" class="recent-activity-modal-image"/>
+      </div>
+    </div>
+</div>
+<div class="recent-activities" style="top:12px; left: 9%; width: 85vw; ">
+    <div style="width: 85vw; padding: 8px; text-align: center;" class="recent-activities-btn">
+        NOTICE BOARD
+    </div>
+    <div class="recent-activities-collapse shadow-sm" style="overflow: auto; max-height: 85vh;left: 9%; width: 85vw;">
+        <div class="card card-body recent-activity-card" style="min-height: 85vh">
+            <ol class="recent-activity-ol">
+                {% for act in recentActivities %}
+                    {% if act.end_date %}
+                        <!-- If it is an event. So, keep "New" until event is over -->
+                        {% if act.end_date|date:"Y-m-d" >= curr_date|date:"Y-m-d" %}
+                        <div class="ribbon-new">New</div>
+                        {% endif %}
+                    {% elif act.start_date %}
+                        {% if act.start_date|date:"Y-m-d" > act.date_created|date:"Y-m-d" and act.start_date|date:"Y-m-d" >= curr_date|date:"Y-m-d" %}
+                        <!-- If it is a one day event, keep "New" until event is over -->
+                        <div class="ribbon-new">New</div>
+                        {% elif act.start_date|date:"Y-m-d" == act.date_created|date:"Y-m-d" and act.start_date|date:"Y-m-d" >= seven_day_delta|date:"Y-m-d" %}
+                        <!-- If it is a notifiation, keep "New" for 7 days -->
+                        <div class="ribbon-new">New</div>
+                        {% endif %}
+                    {% else %}
+                        <!-- If no date is mentioned, keep "New" for 7 days -->
+                        {% if act.date_created|date:"Y-m-d" >= seven_day_delta|date:"Y-m-d" %}
+                        <div class="ribbon-new">New</div>
+                        {% endif %}
+                    {% endif %}
+                    
+                    <a href="{{ act.link }}" id="{{ act.id }}" class="recent-activity-bar" target="_blank" style="font-size: 20px; text-decoration: none;">
+                        <li class="recent-activity-li">
+                            {{ act.title }}
+                            <p style="font-size: 13px;">{{ act.description|truncatechars:135 }}</p>
+                            {% if act.start_date %}
+                            <p style="font-size: 12px; font-weight: bolder; float: right; margin-top:-18px; margin-right: -30px;">
+                                <i class="far fa-calendar-alt"></i>
+                                {% if act.end_date %}
+                                    {% if act.start_date|date:"Y" != act.end_date|date:"Y" %}
+                                        {{ act.start_date }} - {{ act.end_date }}
+                                    {% elif act.start_date|date:"M" != act.end_date|date:"M" %}
+                                        {{ act.start_date|date:"M d" }} - {{ act.end_date|date:"M d" }}, {{ act.start_date.year }}
+                                    {% elif act.start_date|date:"d" != act.end_date|date:"d" %}
+                                        {{ act.start_date|date:"M" }} {{ act.start_date|date:"d" }} - {{ act.end_date|date:"d" }}, {{ act.start_date.year }}
+                                    {% else %}
+                                        {{ act.start_date }}
+                                    {% endif %}
+                                {% else %}
+                                    {{ act.start_date }}
+                                {% endif %}
+                            </p>
+                            {% endif %}
+                        </li>
+                    </a> 
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
+
+{% comment %} Pagination  {% endcomment %}
+
+<div style=" margin: 9px auto auto auto; text-align: right;">
+    {% if recentActivities.has_previous %}
+      <a 
+       class="pageNumber"
+       href="?page=1">&laquo; First</a>
+      <a
+        class="pageNumber"
+        href="?page={{recentActivities.previous_page_number}}">Previous</a>
+    {% endif %}
+
+    Page {{recentActivities.number}} of {{recentActivities.paginator.num_pages}}
+
+    {% if recentActivities.has_next %}
+        <a 
+         class="pageNumber"
+         href="?page={{recentActivities.next_page_number}}">Next</a> 
+        <a 
+         class="pageNumber"
+         href="?page={{recentActivities.paginator.num_pages}}">Last &raquo;</a> 
+    {% endif %}
+</div> 
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+    function isImage(url) {
+         return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
+    }
+    const recent_activity_data = {};
+    "{% for act in recent_activities %}"
+        recent_activity_data["{{ act.id }}"] = {title:"{{ act.title }}",description:"{{ act.description }}"}
+    "{% endfor %}"
+    document.querySelectorAll('.recent-activity-bar').forEach((element)=>{
+        element.addEventListener('click',(e)=>{
+            e.preventDefault();
+            const data = recent_activity_data[element.id];
+            if(isImage(element.href)){
+                const image = document.querySelector('.recent-activity-modal-image');
+                image.style.display = 'block';
+                image.src = element.href;
+                image.addEventListener('click',(e)=>{
+                    window.open(element.href)
+                })
+            }
+            else{
+                document.querySelector('.recent-activity-modal-image').style.display = 'none';
+            }
+            const title = document.querySelector('.recent-activity-modal-title');
+            const description = document.querySelector('.recent-activity-modal-desc')
+            title.innerText = data.title;
+            title.href = element.href;
+            description.innerText = data.description;
+            $("#recent-activity-modal").modal('toggle');
+        })
+    })
+</script>
+
+<!-- Custom JS -->
+<script src="{% static 'js/bandhu.js' %}"></script>
+<script src="{% static 'vendor/js/bootstrap-select.min.js' %}"></script>
+
+<!-- Bootstrap JS -->
+<script src="{% static 'vendor/js/jquery-3.4.1.min.js' %}"></script>
+<script src="{% static 'vendor/js/bootstrap.min.js' %}"></script>
+
+
+{% endblock %}
+
+
+

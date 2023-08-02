@@ -13,4 +13,5 @@ urlpatterns = [
     path('links/<str:hash>', views.external_link,name="external_url_redirect"),
     path("people/", views.people, name="people_page"),
     path("people/<str:id>/", views.staff_profile),
+    path('notifications/' , views.notification_page , name="notification_page"),
 ]
