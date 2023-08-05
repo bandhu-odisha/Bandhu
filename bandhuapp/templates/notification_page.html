@@ -1,4 +1,7 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
 {% load static %}
+{% load permissions %} 
 
 {% block style %}
 
@@ -27,11 +30,11 @@
       </div>
     </div>
 </div>
-<div class="recent-activities" style="top:12px; left: 9%; width: 85vw; ">
-    <div style="width: 85vw; padding: 8px; text-align: center;" class="recent-activities-btn">
+<div class="recent-activities-page" style="margin:auto; width: 72vw; margin-bottom: 5rem;">
+    <div style="width: 72vw; padding: 8px; text-align: center;" class="recent-activities-btn">
         NOTICE BOARD
     </div>
-    <div class="recent-activities-collapse shadow-sm" style="overflow: auto; max-height: 85vh;left: 9%; width: 85vw;">
+    <div class="recent-activities-collapse shadow-sm" style="overflow: auto; max-height: 85vh;left: 9%; width: 72vw;">
         <div class="card card-body recent-activity-card" style="min-height: 85vh">
             <ol class="recent-activity-ol">
                 {% for act in recentActivities %}
@@ -120,7 +123,7 @@
     }
     const recent_activity_data = {};
     "{% for act in recent_activities %}"
-        recent_activity_data["{{ act.id }}"] = {title:"{{ act.title }}",description:"{{ act.description }}"}
+        recent_activity_data["{{ act.id }}"] = {title:"{{ act.title }}",description:"{{ act.description|linebreaksbr|striptags|escapejs }}"}
     "{% endfor %}"
     document.querySelectorAll('.recent-activity-bar').forEach((element)=>{
         element.addEventListener('click',(e)=>{
