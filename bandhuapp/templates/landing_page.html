@@ -215,28 +215,6 @@
     </div>
 </section>
 <!-- Initiatives Cards Section Ends -->
-<section id="current-updates" class="current-updates">
-    <div class="d-flex flex-row justify-content-center">
-        <table style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;" width="97%">
-            <tbody>
-                <tr style="border:thin #314a7e inset;color:#083770;">
-                    <td style="color:#FFFFFF;padding-left: 10px;" width="15%" bgcolor="#083770">Current Updates:-</td>
-                    <td width="80%">
-                        <marquee behavior="scroll" scrollamount="4" direction="left" style="margin-top:2px;" onmouseover="this.stop();" onmouseout="this.start();" width="100%" class="current-updates-marquee">
-                            {% for update in current_updates %}
-                                {% if update.url %}
-                                <a href="{{ update.url }}" target="_blank">{{ update.desc | safe}}</a>
-                                {% else %}
-                                <a>{{update.desc | safe}}</a>
-                                {% endif %}
-                            {% endfor %}
-                        </marquee>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</section>
 
 <!-- About secion -->
 <section id="about" class="mb-4">
@@ -677,6 +655,28 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <span><i class="fa fa-arrow-up"></i></span>
     </div>
 </div>
+<section id="current-updates" class="current-updates" style="position: sticky;bottom: 0;z-index: 1;background-color: white; ">
+    <div class="d-flex flex-row justify-content-center">
+        <table style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;" width="100%">
+            <tbody>
+                <tr style="border:thin #314a7e inset;color:#083770;">
+                    <td style="color:#FFFFFF;padding-left: 10px;" width="15%" bgcolor="#083770">Current Updates:-</td>
+                    <td width="80%">
+                        <marquee behavior="scroll" scrollamount="4" direction="left" style="margin-top:2px;" onmouseover="this.stop();" onmouseout="this.start();" width="100%" class="current-updates-marquee">
+                            {% for update in current_updates %}
+                                {% if update.url %}
+                                <a href="{{ update.url }}" target="_blank">{{ update.desc | safe}}</a>
+                                {% else %}
+                                <a>{{update.desc | safe}}</a>
+                                {% endif %}
+                            {% endfor %}
+                        </marquee>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
 
 {% endblock %}
 
