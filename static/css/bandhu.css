@@ -55,8 +55,7 @@
     /* min-width: 250px !important;
     max-width: 250px !important; */
     padding: 0;
-    margin: 0px 15px 15px; 
-    border: 3px solid #f2f2f6;
+    margin: 0px 15px 15px;
 }
 
 #initiatives .card img{
@@ -79,50 +78,26 @@
 }
 
 #initiatives .card:hover img{
-    display: none;
+    transform: translateY(-120px);
+    transition: 0.5s;
 }
 #initiatives .content-description{
     display:none;
-    box-sizing: border-box;
-    line-height: 1.25;
 }
 #initiatives .card:hover h5 {
-    animation-name: cardanim;
-    animation-duration: 1s;
+    margin-top: -120px;
 }
 
 #initiatives .card:hover .content-description {
     display: grid;
-    animation-name: panim;
-    animation-duration: 1.5s;
-}
-
-@keyframes cardanim {
-    from {
-            transform: translateY(220px);
-    }
-    to {
-            transform: translateY(0px);
-    }
-}
-
-@keyframes panim {
-    
-    from {
-        opacity: 0;
-    }
-
-    to{
-        opacity: 1;
-    }
 }
 
 #initiatives .card:hover{
-    background-color: #ffb307;
     color:black;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    transform: scale(1.05);
-    border-color: #ffb307;
+    transform: scale(1.001);
+    padding-bottom: 130px;
+    transition: 0.5s;
 }
 
 /* Initiatives Card Bootstrap Tweeks */
@@ -192,6 +167,7 @@
 .glide-carousel-custom .card {
     border: none !important;
 }
+
 
 .glide-carousel-custom .glide__slides{
     background-color: #ecf0f1;
