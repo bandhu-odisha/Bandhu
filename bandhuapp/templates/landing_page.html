@@ -254,15 +254,16 @@ crossorigin="anonymous" />
 </section>
 
 <!-- Youtube Section -->
+{% if yt_videos %}
 <section>
     <div class="container-fluid my-5">
         <div class="row">
             <div class="col-12 m-auto">
                 <div class="owl-carousel owl-theme">
-                    {%for i in yt_videos %} 
+                    {%for video in yt_videos %} 
                       <div class="item mb-4">
                          <div class="card border-0 shadow">
-                            {% video i.url %}
+                            {% video video.url %}
                         </div>
                       </div>
                     {% endfor %}
@@ -271,6 +272,7 @@ crossorigin="anonymous" />
         </div>
     </div>
 </section>
+{% endif %}
 
 <!-- About secion -->
 <section id="about" class="mb-4">
