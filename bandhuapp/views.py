@@ -25,7 +25,7 @@ from applications.charitywork.models import Activity as CharityActivity
 from .models import (
     Designation, PeoplesDesignation, Profile, Photo, Initiatives, AboutUs,
     Mission, Staff, Volunteer, Gallery, Contact,
-    HomePage, UrlData, CurrentUpdates
+    HomePage, UrlData, CurrentUpdates, Video
 )
 from .templatetags import permissions as temp_perms  # Template permissions
 
@@ -69,6 +69,7 @@ def index(request):
         'content': HomePage.objects.all().first(),
         'current_updates': CurrentUpdates.objects.all()[:10],
         "people_designations": Designation.objects.all().values("title"),
+        'yt_videos': Video.objects.all()
     }
     return render(request, 'landing_page.html', context)
 

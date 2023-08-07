@@ -1,10 +1,11 @@
 from django.contrib import admin
 from django.utils.html import format_html, urlencode
+from embed_video.admin import AdminVideoMixin
 from .models import (
     Designation, PeoplesDesignation, Profile, RecentActivity, Photo, Initiatives, AboutUs,
     Mission, SanskarCarousel, Staff, StaffContacts, StaffQualification, SwarajCarousel,
     SwabalambanCarousel, UrlData, Volunteer, Gallery, Contact,
-    HomePage, CurrentUpdates
+    HomePage, CurrentUpdates, Video
 )
 
 # Register your models here.
@@ -91,3 +92,7 @@ class StaffQualificationAdmin(admin.ModelAdmin):
 @admin.register(StaffContacts)
 class StaffContactsAdmin(admin.ModelAdmin):
     list_display = ('staff','facebook','twitter','linkedin')
+
+@admin.register(Video)
+class VideoAdmin(AdminVideoMixin, admin.ModelAdmin):
+    list_display = ('title', 'description', 'url')
