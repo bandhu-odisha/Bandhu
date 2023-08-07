@@ -35,6 +35,7 @@ crossorigin="anonymous" />
 <li class="nav-item">
     <a class="nav-link px-3 px-lg-2" href="#about">About</a>
 </li>
+{% if people_designations %}
 <li class="nav-item dropdown">
     <a class="nav-link px-3 px-lg-2 dropdown-toggle" href="/people">
       People
@@ -45,6 +46,7 @@ crossorigin="anonymous" />
         {% endfor %}
     </div>
 </li>
+{% endif %}
 <!-- <li class="nav-item">
     <a class="nav-link px-3 px-lg-2" href="#mission">Mission</a>
 </li> -->
