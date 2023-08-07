@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'applications.sanskarbarga',
     'applications.madhmukti',
     'applications.publications',
+    'embed_video',
 ]
 
 MIDDLEWARE = [
