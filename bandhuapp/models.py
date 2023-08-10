@@ -5,6 +5,8 @@ from django.dispatch import receiver
 from django.utils import timezone
 from .helpers import _createHash
 from accounts.models import User
+from django.db import models
+from embed_video.fields import EmbedVideoField
 
 # Create your models here.
 
@@ -280,3 +282,8 @@ class StaffContacts(models.Model):
     twitter = models.URLField(blank=True)
     linkedin = models.URLField(blank=True)
     youtube = models.URLField(blank=True)
+
+class Video(models.Model):
+    title = models.CharField(max_length=100, blank=True)
+    description = models.TextField(max_length=500, blank=True)
+    url = EmbedVideoField()
