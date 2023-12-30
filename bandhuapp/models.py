@@ -280,3 +280,10 @@ class StaffContacts(models.Model):
     twitter = models.URLField(blank=True)
     linkedin = models.URLField(blank=True)
     youtube = models.URLField(blank=True)
+
+class Video(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    title = models.CharField(max_length=100, blank=True)
+    script = models.TextField(max_length=1000)
+    class Meta:
+        ordering = ["-created_at"]

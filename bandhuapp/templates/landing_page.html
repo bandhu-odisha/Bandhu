@@ -240,6 +240,45 @@
     </div>
 </section>
 
+{% if videos.count %}
+<section id="youtube" class="glide-carousel-custom">
+    <div class="bg-grey content-box from-bottom delay-200" style="padding: 50px 0;">
+        <h3 class="section-title">Youtube Videos</h3>
+        <div class="container">
+            <div class="row">
+                <div class="glide youtube_glide">
+                    <div class="glide__track" data-glide-el="track">
+                        <ul class="glide__slides">
+                            {% for video in videos %}
+                            <li class="glide__slide">
+                                {{ video.script | safe }}
+                                <h5 class="p-3 font-weight-bold">{{ video.title }}</h5>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="glide__arrows disable_arrows d-none d-md-block" data-glide-el="controls">
+                        <button class="slider_arrow slider_arrow--prev glide__arrow glide__arrow--left"
+                            data-glide-dir="<">
+                            <i class="fas fa-arrow-circle-left"></i>
+                        </button>
+                        <button class="slider_arrow slider_arrow--next glide__arrow glide__arrow--right"
+                            data-glide-dir=">">
+                            <i class="fas fa-arrow-circle-right"></i>
+                        </button>
+                    </div>
+                    <div class="glide__bullets" data-glide-el="controls[nav]">
+                        {% for video in videos %}
+                        <button class="glide__bullet" data-glide-dir="={{ forloop.counter0 }}"></button>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
 <!-- About secion -->
 <section id="about" class="mb-4">
     <h3 class="section-title mt-5 pt-3">About Us</h3>
@@ -815,14 +854,12 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     var glide = new Glide('.glide',{
         type: 'carousel',
         focusAt: 'center',
-        perView: 3,
+        perView: 2,
         autoplay: 2000,
         gap: 30,
+        hoverpause: true,
         breakpoints: {
-            991: {
-                perView: 2,
-            },
-            767: {
+            992: {
                 perView: 1,
             },
         }

@@ -812,3 +812,45 @@ body::-webkit-scrollbar-track {
 } 
 
   
+
+/* Youtube Videos */
+
+.youtube_glide iframe {
+    width: 560px;
+    height: 315px;
+}
+
+
+.youtube_glide .glide__slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width: 360px) {
+    .youtube_glide iframe {
+        width: 240px;
+        height: 135px;
+    }
+}
+@media (max-width: 576px) {
+    .youtube_glide iframe {
+        width: 360px;
+        height: 203px;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .youtube_glide iframe {
+        width: 360px;
+        height: 204px;
+    }
+}
+@media (max-width: 992px) {
+    .youtube_glide iframe {
+        width: 480px;
+        height: 270px;
+    }
+}
