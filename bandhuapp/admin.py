@@ -3,7 +3,7 @@ from django.utils.html import format_html, urlencode
 from .models import (
     Designation, PeoplesDesignation, Profile, RecentActivity, Photo, Initiatives, AboutUs,
     Mission, SanskarCarousel, Staff, StaffContacts, StaffQualification, SwarajCarousel,
-    SwabalambanCarousel, UrlData, Volunteer, Gallery, Contact,
+    SwabalambanCarousel, UrlData, Video, Volunteer, Gallery, Contact,
     HomePage, CurrentUpdates
 )
 
@@ -91,3 +91,7 @@ class StaffQualificationAdmin(admin.ModelAdmin):
 @admin.register(StaffContacts)
 class StaffContactsAdmin(admin.ModelAdmin):
     list_display = ('staff','facebook','twitter','linkedin')
+
+@admin.register(Video)
+class VideoAdmin(admin.ModelAdmin):
+    list_display = ('title', 'script')

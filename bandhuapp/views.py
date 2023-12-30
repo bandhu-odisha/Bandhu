@@ -24,7 +24,7 @@ from applications.ashram.models import Event as AshramEvent
 from applications.charitywork.models import Activity as CharityActivity
 from .models import (
     Designation, PeoplesDesignation, Profile, Photo, Initiatives, AboutUs,
-    Mission, Staff, Volunteer, Gallery, Contact,
+    Mission, Staff, Video, Volunteer, Gallery, Contact,
     HomePage, UrlData, CurrentUpdates
 )
 from .templatetags import permissions as temp_perms  # Template permissions
@@ -69,6 +69,7 @@ def index(request):
         'content': HomePage.objects.all().first(),
         'current_updates': CurrentUpdates.objects.all()[:10],
         "people_designations": Designation.objects.all().values("title"),
+        'videos': Video.objects.all().order_by('-created_at')[:10]
     }
     return render(request, 'landing_page.html', context)
 
