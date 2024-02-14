@@ -248,6 +248,12 @@ class Staff(models.Model):
     webpage = models.URLField(blank=True)
     about = models.TextField(max_length=1000)
 
+    facebook = models.URLField(blank=True)
+    twitter = models.URLField(blank=True)
+    linkedin = models.URLField(blank=True)
+    youtube = models.URLField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
     def __str__(self):
         return self.profile.get_full_name
 
@@ -271,15 +277,6 @@ class StaffQualification(models.Model):
     staff = models.ForeignKey(
         Staff, on_delete=models.CASCADE, related_name="qualifications"
     )
-
-
-class StaffContacts(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
-    staff = models.OneToOneField(Staff, on_delete=models.CASCADE, related_name="social")
-    facebook = models.URLField(blank=True)
-    twitter = models.URLField(blank=True)
-    linkedin = models.URLField(blank=True)
-    youtube = models.URLField(blank=True)
 
 class Video(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)

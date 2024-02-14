@@ -273,7 +273,7 @@ def people(request):
 def staff_profile(request, id):
     if request.method == "GET":
         staff_data = (
-            Staff.objects.select_related("profile", "desg", "social")
+            Staff.objects.select_related("profile", "desg")
             .order_by("desg_rank")
             .get(id=id)
         )
