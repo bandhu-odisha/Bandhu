@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html, urlencode
 from .models import (
     Designation, PeoplesDesignation, Profile, RecentActivity, Photo, Initiatives, AboutUs,
-    Mission, SanskarCarousel, Staff, StaffContacts, StaffQualification, SwarajCarousel,
+    Mission, SanskarCarousel, Staff, StaffQualification, SwarajCarousel,
     SwabalambanCarousel, UrlData, Video, Volunteer, Gallery, Contact,
     HomePage, CurrentUpdates
 )
@@ -87,10 +87,6 @@ class PeoplesDesignationAdmin(admin.ModelAdmin):
 @admin.register(StaffQualification)
 class StaffQualificationAdmin(admin.ModelAdmin):
     list_display = ('staff','degree','institute')
-
-@admin.register(StaffContacts)
-class StaffContactsAdmin(admin.ModelAdmin):
-    list_display = ('staff','facebook','twitter','linkedin')
 
 @admin.register(Video)
 class VideoAdmin(admin.ModelAdmin):
