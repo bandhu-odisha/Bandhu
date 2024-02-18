@@ -1,0 +1,72 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% load permissions %} 
+{% block title %} Products {% endblock %} {% block style %}
+<!-- Custom CSS -->
+<link rel="stylesheet" href="{% static 'css/bandhu.css' %}" />
+<link rel="stylesheet" href="{% static 'css/products.css' %}" />
+<!-- Custom Style -->
+<style>
+  #top-section {
+    background: url("{{ content.banner_image.url }}") 50% center no-repeat fixed;
+    width: 100vw;
+  }
+</style>
+{% endblock %} {% block navbar-links %}
+<li class="nav-item">
+  <a class="nav-link px-3 px-lg-2" href="{% url 'home' %}">Home</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link px-3 px-lg-2" href="#about">About</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link px-3 px-lg-2" href="#ankurayans">Ankurayans</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link px-3 px-lg-2" href="#contact">Contact</a>
+</li>
+{% endblock %}
+
+{% block showcase-title-container %}
+<div class="slider-txt-container" style="padding: 200px 0 200px 0;">
+    <h2 class="bold-txt"> Products </h2>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container-xxl m-auto">
+<div class="products-container">
+  {% for product in data %}
+  <div class="card product-card" style="max-width: 18rem;">
+    <div class="discount-banner-container">
+      <div class="arrow-left"></div>
+      <div class="discount-banner">-{{ product.discount }}%</div>
+    </div>
+    <img width="400px" height="250px" class="card-img-top" src="{{ product.image.url }}" alt="Card image cap">
+    <div class="card-body" style="padding: 10px;">
+      <h5 class="card-title">{{ product.name }}</h5>
+      <p class="card-text">{{ product.desc|truncatechars:80  }}</p>
+    </div>
+    <div class="card-footer product-card-footer">
+      <span class="price-container">
+        ₹{% widthratio product.discount|add:"-100" -100 product.price %} 
+      </span>
+      &nbsp;
+      <span class="strikethrough">
+        M.R.P.: ₹{{ product.price }}
+      </span>
+      {% if product.inventory < 10 and product.inventory != 0 %}
+        <br/>
+        <span class="inventory-message">Hurry, only {{ product.inventory }} left!</span>
+      {% endif %}
+      {% if product.inventory == 0 %}
+        <br/>
+        <span class="inventory-message">Out of Stock</span>
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+</div>
+
+{% endblock %}

@@ -9,26 +9,34 @@ from .models import (
 
 # Register your models here.
 
+
 class SanskarCarouselInline(admin.StackedInline):
     model = SanskarCarousel
+
 
 class SwarajCarouselInline(admin.StackedInline):
     model = SwarajCarousel
 
+
 class SwabalambanCarouselInline(admin.StackedInline):
     model = SwabalambanCarousel
+
 
 admin.site.register(Profile)
 admin.site.register(Initiatives)
 admin.site.register(AboutUs)
 
+
 @admin.register(Mission)
 class MissionAdmin(admin.ModelAdmin):
-    inlines = [SanskarCarouselInline, SwarajCarouselInline, SwabalambanCarouselInline]
+    inlines = [SanskarCarouselInline,
+               SwarajCarouselInline, SwabalambanCarouselInline]
+
 
 admin.site.register(Volunteer)
 admin.site.register(Gallery)
 admin.site.register(Contact)
+
 
 @admin.register(RecentActivity)
 class RecentActivityAdmin(admin.ModelAdmin):
@@ -43,6 +51,7 @@ class RecentActivityAdmin(admin.ModelAdmin):
                 pre_instance[0].notice_file.delete(False)
                 obj.link = '#'
         super().save_model(request, obj, form, change)
+
 
 @admin.register(Photo)
 class PhotoAdmin(admin.ModelAdmin):
@@ -59,6 +68,7 @@ class PhotoAdmin(admin.ModelAdmin):
 # @admin.register(SwabalambanCarousel)
 # class SwabalambanCarouselAdmin(admin.ModelAdmin):
 #     list_display = ('__str__', 'picture')
+
 
 admin.site.register(HomePage)
 

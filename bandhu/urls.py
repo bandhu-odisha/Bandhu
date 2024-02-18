@@ -18,7 +18,9 @@ urlpatterns = [
     path('sanskarbarga/', include('applications.sanskarbarga.urls')),
     path('madh_mukti/', include('applications.madhmukti.urls')),
     path('publications/', include('applications.publications.urls')),
+    path('products/', include('products.urls'))
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
