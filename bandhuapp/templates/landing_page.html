@@ -144,6 +144,9 @@
                         </li>
                     </a>
                 {% endfor %}
+                <a href="{% url 'notification_page' %}" target="_blank" class="showNotification" >
+                    show more .....
+                </a>
             </ol>
         </div>
     </div>
@@ -729,7 +732,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     }
     const recent_activity_data = {};
     "{% for act in recent_activities %}"
-        recent_activity_data["{{ act.id }}"] = {title:"{{ act.title }}",description:"{{ act.description }}"}
+        recent_activity_data["{{ act.id }}"] = {title:"{{ act.title }}",description:"{{ act.description|linebreaksbr|striptags|escapejs }}"}
     "{% endfor %}"
     document.querySelectorAll('.recent-activity-bar').forEach((element)=>{
         element.addEventListener('click',(e)=>{

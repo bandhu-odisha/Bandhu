@@ -22,6 +22,11 @@
     width: 70px;
 }
 
+.showNotification:hover{
+    cursor: pointer;
+    color: #ffb307;
+    text-decoration: none;
+}
 
 /* SHOWCASE STARTS */
 
@@ -543,8 +548,12 @@
     /* width:300px !important; */
 }
 
+.recent-activities-page{
+    position: relative;
+}
+
 .recent-activities-btn {
-    width:350px !important;
+    width:350px;
     font-weight: bolder;
     outline:none;
     background-color: #ff9800  !important;
@@ -569,7 +578,7 @@
 }
 
 .recent-activities-collapse{
-    width: 350px !important;
+    width: 350px;
     max-height: 300px;
     overflow-y: auto;
     border-bottom-left-radius: 5px;
@@ -615,6 +624,20 @@
     cursor: pointer;
 }
 
+.pageNumber{
+    padding: 4px 12px 4px 12px;
+    background-color: #ff9800;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.pageNumber:Hover{
+    background-color: #ff99006b;
+    color: black;
+}
+
 @media screen and (max-width: 575px){
     .recent-activities {
         right: unset;
@@ -622,10 +645,10 @@
         transform: translateX(-50%);
     }
     .recent-activities-btn {
-        width: 85vw !important;
+        width: 85vw;
     }
     .recent-activities-collapse {
-        width: 85vw !important;
+        width: 85vw;
     }
     .recent-activity-modal-desc {
         width: 90%;
@@ -634,10 +657,10 @@
 
 @media screen and (max-width: 400px){
     .recent-activities-btn {
-        width: 92vw !important;
+        width: 92vw;
     }
     .recent-activities-collapse {
-        width: 92vw !important;
+        width: 92vw;
     }
     .recent-activity-modal-desc {
         width: 90%;
