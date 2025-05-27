@@ -121,8 +121,9 @@
 
                     <a href="{{ act.link }}" id="{{ act.id }}" class="recent-activity-bar" target="_blank" style="font-size: 20px; text-decoration: none;">
                         <li class="recent-activity-li">
-                            {{ act.title }}
-                            <p style="font-size: 13px;">{{ act.description|truncatechars:135 }}</p>
+                            <div class="recent-activity-li-header">
+                                {{ act.title }}
+                            </div>                            <p style="font-size: 13px;">{{ act.description|truncatechars:135 }}</p>
                             {% if act.start_date %}
                             <p style="font-size: 12px; font-weight: bolder; float: right; margin-top:-18px; margin-right: -30px;">
                                 <i class="far fa-calendar-alt"></i>
