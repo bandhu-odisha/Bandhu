@@ -35,8 +35,16 @@
                 <aside class="col-md-3" style="padding-top: 50px;padding-right: 20px;">
                     <div class="profile">
                         <p class="text-center">
-                            <img src="/media/{{ staff.profile.profile_pic }}" alt="avatar"
-                                                    class="rounded-circle img-fluid" style="width: 250px;height: 250px;border: 2px solid rgb(207, 207, 207);">
+                            {% if staff.profile.profile_pic %}
+                                <img src="/media/{{ staff.profile.profile_pic }}" alt="avatar"
+                                                        class="rounded-circle img-fluid" style="width: 250px;height: 250px;border: 2px solid rgb(207, 207, 207);">
+                            {% elif staff.profile.gender == 'F' %}
+                                <img src="{% static 'img/woman.png' %}" alt="avatar"
+                                                        class="rounded-circle img-fluid" style="width: 250px;height: 250px;border: 2px solid rgb(207, 207, 207);">
+                            {% else %}
+                                <img src="{% static 'img/man.png' %}" alt="avatar"
+                                                        class="rounded-circle img-fluid" style="width: 250px;height: 250px;border: 2px solid rgb(207, 207, 207);">
+                            {% endif %}
                         </p>
                         <ul>
                             <li>Name <strong class="pull-right">{{ staff.profile.get_full_name }}</strong> </li>

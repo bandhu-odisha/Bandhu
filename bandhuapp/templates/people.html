@@ -4,6 +4,138 @@
 {% load static %}
 
 {% block title %} Bandhu | People {% endblock %}
+
+{% block style %}
+<style>
+    /* People Page Custom Styles */
+    .people-container {
+        padding: 2rem 0;
+    }
+    
+    .people-card-wrapper {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .people-card {
+        height: 100%;
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        background: white;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .people-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        cursor: pointer;
+    }
+    
+    .people-card.active {
+        border: 2px solid #007bff;
+        box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
+    }
+    
+    .people-card .card-body {
+        padding: 2rem 1.5rem;
+    }
+    
+    .people-card .avatar-container {
+        min-height: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+        transition: transform 0.3s ease;
+    }
+    
+    .people-card:hover .avatar-container {
+        transform: scale(1.05);
+    }
+    
+    .people-card .avatar-container img {
+        border: 3px solid #e9ecef;
+        transition: border-color 0.3s ease;
+    }
+    
+    .people-card:hover .avatar-container img {
+        border-color: #007bff;
+    }
+    
+    .people-card h5 {
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+    }
+    
+    .people-card .profession {
+        color: #6c757d;
+        font-size: 0.9rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    .people-card .designation {
+        color: #868e96;
+        font-size: 0.85rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .people-card .view-profile-btn {
+        border: 2px solid #007bff;
+        color: #007bff;
+        background: white;
+        padding: 0.5rem 1.5rem;
+        border-radius: 25px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+    
+    .people-card .view-profile-btn:hover {
+        background: #007bff;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+    }
+    
+    .people-card.active .view-profile-btn {
+        background: #007bff;
+        color: white;
+        box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+    }
+    
+    .people-tabs {
+        border-bottom: 2px solid #e9ecef;
+        margin-bottom: 2rem;
+    }
+    
+    .people-tabs .nav-link {
+        color: #6c757d;
+        border: none;
+        border-bottom: 3px solid transparent;
+        padding: 0.75rem 1.5rem;
+        margin-right: 0.5rem;
+        transition: all 0.3s ease;
+    }
+    
+    .people-tabs .nav-link:hover {
+        color: #007bff;
+        border-bottom-color: #007bff;
+    }
+    
+    .people-tabs .nav-link.active {
+        color: #007bff;
+        border-bottom-color: #007bff;
+        font-weight: 600;
+    }
+</style>
+{% endblock %}
+
 {% block navbar-links %}
 <li class="nav-item">
 	<a class="nav-link px-3" href="{% url 'home' %}">Home</a>
@@ -14,9 +146,9 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container people-container">
 	<div class="mt-1">
-        <ul class="nav nav-tabs" id="people" role="tablist">
+        <ul class="nav nav-tabs people-tabs" id="people" role="tablist">
             {% for desg in data %}
                 <li class="nav-item" style="cursor: pointer;">
                     <a class="nav-link" id="{{desg.title|to_snake_case}}-tab" data-toggle="tab" data-target="#{{desg.title|to_snake_case}}" role="tab" aria-controls="{{desg.title|to_snake_case}}" aria-selected="false">{{desg.title}}</a>
@@ -26,18 +158,28 @@
         <div class="tab-content" id="peopleContent">
             {% for desg,staffs in data.items %}
                 <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" id="{{desg.title|to_snake_case}}" role="tabpanel" aria-labelledby="{{desg.title|to_snake_case}}-tab">
-                    <div class="row mt-2 px-1">
+                    <div class="row mt-2">
                         {% for staff,designation in staffs %}
-                            <div class="col-lg-3">
-                                <div class="card mb-4">
-                                    <div class="card-body text-center">
-                                        <img src="/media/{{ staff.profile.profile_pic }}" alt="avatar"
-                                        class="rounded-circle img-fluid" width="150px" height="150px" style="border: 2px solid rgb(207, 207, 207); object-fit: cover; max-height: 150px;max-width: 150px;"/>
+                            <div class="col-lg-3 col-md-4 col-sm-6 people-card-wrapper">
+                                <div class="card people-card" data-staff-id="{{ staff.id }}">
+                                    <div class="card-body text-center d-flex flex-column">
+                                        <div class="avatar-container">
+                                            {% if staff.profile.profile_pic %}
+                                                <img src="/media/{{ staff.profile.profile_pic }}" alt="avatar"
+                                                class="rounded-circle img-fluid" width="150px" height="150px" style="object-fit: cover; max-height: 150px;max-width: 150px;"/>
+                                            {% elif staff.profile.gender == 'F' %}
+                                                <img src="{% static 'img/woman.png' %}" alt="avatar"
+                                                class="rounded-circle img-fluid" width="150px" height="150px" style="object-fit: cover; max-height: 150px;max-width: 150px;"/>
+                                            {% else %}
+                                                <img src="{% static 'img/man.png' %}" alt="avatar"
+                                                class="rounded-circle img-fluid" width="150px" height="150px" style="object-fit: cover; max-height: 150px;max-width: 150px;"/>
+                                            {% endif %}
+                                        </div>
                                         <h5 class="my-2">{{ staff.profile.get_full_name }}</h5>
-                                        <p class="text-muted mb-1">{{staff.profile.profession}}</p>
-                                        <p class="text-muted mb-4">{{designation.title}}</p>
-                                        <div class="d-flex justify-content-center mb-2">
-                                            <a href="{{ staff.id }}" type="button" class="btn btn-outline-primary ms-1">View Profile</a>
+                                        <p class="text-muted profession mb-1">{{staff.profile.profession}}</p>
+                                        <p class="text-muted designation mb-4">{{designation.title}}</p>
+                                        <div class="d-flex justify-content-center mb-2 mt-auto">
+                                            <a href="/people/{{ staff.id }}/" class="view-profile-btn">View Profile</a>
                                         </div>
                                     </div>
                                 </div>
@@ -69,9 +211,28 @@
         }
         else{
             const tabElement = document.getElementById('all-tab');
-            $(tabElement).tab("show");
+            if (tabElement) {
+                $(tabElement).tab("show");
+            }
         }
+        
+        // Highlight active card if viewing a profile
+        const currentPath = window.location.pathname;
+        if (currentPath.includes('/people/') && currentPath !== '/people/') {
+            const staffId = currentPath.split('/people/')[1].split('/')[0];
+            $('.people-card[data-staff-id="' + staffId + '"]').addClass('active');
+        }
+        
+        // Add click handler to cards for better UX
+        $('.people-card').on('click', function(e) {
+            // Don't trigger if clicking the button
+            if (!$(e.target).closest('.view-profile-btn').length) {
+                const link = $(this).find('.view-profile-btn').attr('href');
+                if (link) {
+                    window.location.href = link;
+                }
+            }
+        });
     });
-
 </script>
 {% endblock %}
