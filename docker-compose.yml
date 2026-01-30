@@ -1,0 +1,27 @@
+# MySQL container for local development
+# Usage: docker-compose up -d
+# Then run: .\scripts\import-db.ps1 (or import manually)
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: bandhu-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: bandhu_root_pass
+      MYSQL_DATABASE: bandhu_odisha_new
+      MYSQL_USER: bandhu_root
+      MYSQL_PASSWORD: bandhu_local
+    ports:
+      - "3307:3306"   # host 3307 (avoids conflict with existing MySQL on 3306)
+    volumes:
+      - bandhu_mysql_data:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pbandhu_root_pass"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  bandhu_mysql_data:

@@ -35,8 +35,18 @@
                 <aside class="col-md-3" style="padding-top: 50px;padding-right: 20px;">
                     <div class="profile">
                         <p class="text-center">
-                            <img src="/media/{{ staff.profile.profile_pic }}" alt="avatar"
+                            {% if staff.profile.profile_pic %}
+                            <img src="{{ staff.profile.profile_pic.url }}" alt="avatar"
+                                                    data-fallback="{% if staff.profile.gender == 'F' %}{% static 'img/woman.png' %}{% else %}{% static 'img/man.png' %}{% endif %}"
+                                                    onerror="this.onerror=null; this.src=this.dataset.fallback;"
                                                     class="rounded-circle img-fluid" style="width: 250px;height: 250px;border: 2px solid rgb(207, 207, 207);">
+                            {% elif staff.profile.gender == 'F' %}
+                            <img src="{% static 'img/woman.png' %}" alt="avatar"
+                                                    class="rounded-circle img-fluid" style="width: 250px;height: 250px;border: 2px solid rgb(207, 207, 207);">
+                            {% else %}
+                            <img src="{% static 'img/man.png' %}" alt="avatar"
+                                                    class="rounded-circle img-fluid" style="width: 250px;height: 250px;border: 2px solid rgb(207, 207, 207);">
+                            {% endif %}
                         </p>
                         <ul>
                             <li>Name <strong class="pull-right">{{ staff.profile.get_full_name }}</strong> </li>
