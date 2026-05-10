@@ -1,8 +1,218 @@
+/* Blend diagonal below banner – no visible line (uses .angular-publications on list & detail) */
+.angular-publications .top-angle:before {
+    background: #ffffff !important;
+    box-shadow: none !important;
+}
+/* Straight separator: don't pull content into the banner */
+.angular-publications + section#publications-list,
+.angular-publications + .publication-detail {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    border-top: none !important;
+    box-shadow: none !important;
+    position: relative !important;
+    z-index: 3 !important;
+    overflow: visible !important;
+}
+.angular-publications + section#publications-list::before,
+.angular-publications + .publication-detail::before {
+    content: none !important;
+}
+.publication-detail > section.page-hero.page-hero-with-angular {
+    border-top: none !important;
+    box-shadow: none !important;
+}
+
+/* Smooth gradient on content (no 35% hard stop), no borders */
+#publications-list.page-section.page-hero,
+#publications-list.page-section {
+    border-top: none !important;
+    border-bottom: none !important;
+    background: #ffffff !important;
+    background-image: none !important;
+}
+
+/* Ensure inner container rows don't show any inherited tint */
+#publications-list,
+#publications-list .container,
+#publications-list .row {
+    background: #ffffff !important;
+    background-image: none !important;
+}
+
+/* Absolute fallback: force the whole publications page canvas to white */
+.angular.page-angular.angular-publications,
+.angular.page-angular.angular-publications + section#publications-list,
+.angular.page-angular.angular-publications + section#publications-list * {
+    background-color: transparent;
+}
+.angular.page-angular.angular-publications + section#publications-list {
+    background: #ffffff !important;
+    background-image: none !important;
+}
+
+/* Override global page gradients just for Publications (bandhu.css) */
+body:has(#publications-list) .page-hero,
+body:has(#publications-list) .page-hero-with-angular,
+body:has(#publications-list) .page-section {
+    background: #ffffff !important;
+    background-image: none !important;
+}
+.angular-publications + section#publications-list {
+    border-top: none !important;
+}
+
 #about .title {
-    color: #0d0d0d;
+    color: #3d5c60;
     font-size: 2.5rem;
     font-weight: 800;
     line-height: 1em;
     text-transform: uppercase;
     margin-top: 0;
+}
+
+/* Center page title block; accent bar is block-level so mx-auto works */
+#publications-list .publications-list-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#publications-list .publications-list-header .page-hero-accent {
+    display: block;
+    width: 10rem;
+    max-width: 85%;
+}
+
+/* List page: drop teal border on publication cards, add deeper shadow */
+#publications-list .page-card.dpg-album-card {
+    border: none !important;
+    background: #ffffff !important;
+    box-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.04),
+        0 8px 20px rgba(61, 92, 96, 0.1),
+        0 20px 44px rgba(0, 0, 0, 0.12) !important;
+    transition: box-shadow 0.35s ease, transform 0.35s ease;
+}
+
+#publications-list .page-card.dpg-album-card:hover {
+    border: none !important;
+    border-color: transparent !important;
+    transform: translateY(-6px);
+    box-shadow:
+        0 6px 12px rgba(0, 0, 0, 0.08),
+        0 16px 36px rgba(61, 92, 96, 0.14),
+        0 32px 56px rgba(0, 0, 0, 0.14) !important;
+}
+
+/* Brand alignment to Sanskar/Swabalamban */
+#publications-list .page-about-heading {
+    color: #005E66 !important;
+    font-weight: 700;
+}
+#publications-list .publications-list-header .page-hero-accent {
+    background: linear-gradient(90deg, #005E66 0%, #006A73 100%) !important;
+    height: 5px;
+    border-radius: 3px;
+    box-shadow: 0 2px 8px rgba(0, 94, 102, 0.25);
+}
+#publications-list .page-card.dpg-album-card .card-title {
+    color: #005E66 !important;
+}
+#publications-list .page-card.dpg-album-card .card-body {
+    text-align: center;
+    font-family: 'Lora', Georgia, serif !important;
+}
+#publications-list .page-card.dpg-album-card .card-body > span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+    font-family: 'Lora', Georgia, serif !important;
+}
+#publications-list .page-card.dpg-album-card .card-title,
+#publications-list .page-card.dpg-album-card time {
+    font-family: 'Lora', Georgia, serif !important;
+}
+
+/* 5 cards per row on wide screens */
+@media (min-width: 1200px) {
+    #publications-list .publication-card-col {
+        flex: 0 0 20%;
+        max-width: 20%;
+    }
+}
+
+/* Reduce side whitespace and widen cards visually */
+#publications-list .container {
+    max-width: 1440px;
+}
+#publications-list .publication-card-col {
+    padding-left: 0.45rem !important;
+    padding-right: 0.45rem !important;
+}
+@media (min-width: 1200px) {
+    #publications-list .publication-card-col {
+        padding-left: 0.35rem !important;
+        padding-right: 0.35rem !important;
+    }
+}
+
+/* Pull publication cards up into hero area (Sanskar-like overlap) */
+.angular-publications + section#publications-list {
+    margin-top: -120px !important;
+    padding-top: 0 !important;
+    background: linear-gradient(180deg, transparent 0, transparent 150px, #ffffff 150px) !important;
+    background-image: linear-gradient(180deg, transparent 0, transparent 150px, #ffffff 150px) !important;
+}
+#publications-list .container,
+#publications-list .row {
+    background: transparent !important;
+    background-image: none !important;
+}
+
+/* Publication detail: center all content blocks */
+.publication-detail #about .container {
+    text-align: center;
+}
+.publication-detail #about .page-back {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+.publication-detail #about .mb-3.text-muted {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+.publication-detail #about .mb-3.text-muted .mr-3 {
+    margin-right: 0 !important;
+}
+.publication-detail #about p.mb-4 {
+    max-width: 980px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.publication-detail #about iframe {
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+/* Publication detail: overlap preview onto hero like Sanskar cards */
+.angular-publications + .publication-detail {
+    margin-top: -140px !important;
+    padding-top: 0 !important;
+    background: linear-gradient(180deg, transparent 0, transparent 170px, #ffffff 170px) !important;
+    background-image: linear-gradient(180deg, transparent 0, transparent 170px, #ffffff 170px) !important;
+}
+.publication-detail #about,
+.publication-detail #about .container {
+    background: transparent !important;
+    background-image: none !important;
 }

@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Bandhu | {{ staff.profile.get_full_name }} — My experience{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/staff-profile.css' %}"/>
+{% endblock %}
+
+{% block navbar-links %}
+<li class="nav-item">
+	<a class="nav-link px-3" href="{% url 'home' %}">Home</a>
+</li>
+<li class="nav-item">
+	<a class="nav-link px-3" href="#contact">Contact</a>
+</li>
+{% endblock %}
+
+{% block content %}
+<div class="staff-profile-page staff-experiences-page">
+	<a href="{% url 'people_page' %}" class="staff-profile-back" aria-label="Back to People">
+		<i class="fas fa-arrow-left" aria-hidden="true"></i> Back to People
+	</a>
+	<a href="{% url 'staff_profile' staff.id %}" class="staff-experiences-page__profile-link" aria-label="Back to full profile">
+		<i class="fas fa-user" aria-hidden="true"></i> Full profile
+	</a>
+
+	<header class="staff-experiences-page__header">
+		<h1 class="staff-experiences-page__title">My experience</h1>
+		<p class="staff-experiences-page__subtitle">Shared thoughts and reviews about {{ staff.profile.get_full_name }}</p>
+	</header>
+
+	{% if experiences %}
+	<section class="staff-profile-experiences staff-profile-experiences--standalone" aria-labelledby="experiences-heading-standalone">
+		<h2 id="experiences-heading-standalone" class="visually-hidden">Experience entries</h2>
+		<div class="staff-profile-experiences__list">
+			{% for exp in experiences %}
+			<article class="staff-profile-experiences__item">
+				<div class="staff-profile-experiences__item-body">
+					{% if exp.photos.exists %}
+					<div class="staff-profile-experiences__photos">
+						{% for photo in exp.photos.all %}
+						<div class="staff-profile-experiences__photo-wrap" data-caption="{{ photo.caption|escape }}">
+							<button type="button" class="staff-profile-experiences__photo-trigger" data-lightbox-src="{{ photo.image.url }}" aria-label="View photo full size">
+								<img src="{{ photo.image.url }}" alt="{% if photo.caption %}{{ photo.caption }}{% else %}Experience photo{% endif %}" class="staff-profile-experiences__photo" loading="lazy">
+							</button>
+							{% if photo.caption %}<span class="staff-profile-experiences__photo-caption">{{ photo.caption }}</span>{% endif %}
+						</div>
+						{% endfor %}
+					</div>
+					{% endif %}
+					<div class="staff-profile-experiences__item-text">
+						<p class="staff-profile-experiences__message">{{ exp.message }}</p>
+						<time class="staff-profile-experiences__date" datetime="{{ exp.created_at|date:'c' }}">{{ exp.created_at|date:"F j, Y" }}</time>
+					</div>
+				</div>
+			</article>
+			{% endfor %}
+		</div>
+	</section>
+	{% else %}
+	<p class="staff-experiences-page__empty">No experiences have been shared yet.</p>
+	<p class="staff-experiences-page__empty-hint"><a href="{% url 'staff_profile' staff.id %}">Go to the profile page</a> to share your experience.</p>
+	{% endif %}
+</div>
+
+<div id="experiencePhotoLightbox" class="staff-profile-modal staff-profile-photo-lightbox" role="dialog" aria-modal="true" aria-labelledby="experiencePhotoLightboxTitle" hidden>
+	<div class="staff-profile-modal__backdrop" data-modal-close="experiencePhotoLightbox"></div>
+	<div class="staff-profile-photo-lightbox__content">
+		<button type="button" class="staff-profile-photo-lightbox__close" data-modal-close="experiencePhotoLightbox" aria-label="Close">&times;</button>
+		<h2 id="experiencePhotoLightboxTitle" class="staff-profile-photo-lightbox__sr-only">Photo</h2>
+		<img src="" alt="" class="staff-profile-photo-lightbox__img" id="experiencePhotoLightboxImg" decoding="async">
+		<p class="staff-profile-photo-lightbox__caption" id="experiencePhotoLightboxCaption" hidden></p>
+	</div>
+</div>
+
+<script>
+(function() {
+	var photoLightbox = document.getElementById('experiencePhotoLightbox');
+	var photoLightboxImg = document.getElementById('experiencePhotoLightboxImg');
+	var photoLightboxCaption = document.getElementById('experiencePhotoLightboxCaption');
+	function openPhotoLightbox(src, caption) {
+		if (!photoLightbox || !photoLightboxImg || !src) return;
+		photoLightboxImg.src = src;
+		photoLightboxImg.alt = caption || 'Experience photo';
+		if (photoLightboxCaption) {
+			if (caption) {
+				photoLightboxCaption.textContent = caption;
+				photoLightboxCaption.removeAttribute('hidden');
+			} else {
+				photoLightboxCaption.textContent = '';
+				photoLightboxCaption.setAttribute('hidden', '');
+			}
+		}
+		photoLightbox.removeAttribute('hidden');
+		document.body.style.overflow = 'hidden';
+	}
+	function closePhotoLightbox() {
+		if (!photoLightbox) return;
+		photoLightbox.setAttribute('hidden', '');
+		if (photoLightboxImg) photoLightboxImg.src = '';
+		document.body.style.overflow = '';
+	}
+	document.addEventListener('click', function(e) {
+		var btn = e.target.closest('.staff-profile-experiences__photo-trigger');
+		if (!btn) return;
+		e.preventDefault();
+		var src = btn.getAttribute('data-lightbox-src');
+		var wrap = btn.closest('.staff-profile-experiences__photo-wrap');
+		var caption = wrap && wrap.getAttribute('data-caption') ? wrap.getAttribute('data-caption') : '';
+		openPhotoLightbox(src, caption);
+	});
+	document.querySelectorAll('[data-modal-close="experiencePhotoLightbox"]').forEach(function(el) {
+		el.addEventListener('click', closePhotoLightbox);
+	});
+	document.addEventListener('keydown', function(e) {
+		if (e.key !== 'Escape' || !photoLightbox || photoLightbox.hasAttribute('hidden')) return;
+		closePhotoLightbox();
+	});
+})();
+</script>
+{% endblock %}

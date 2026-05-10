@@ -1,109 +1,66 @@
 {% extends 'accounts_base.html' %}
+{% load static %}
 {% block title %}
-	Bandhu | Signup
+	Bandhu | Sign Up
 {% endblock %}
 
 {% block style %}
-	<style>
-		/* .btn-google {
-			padding: 5px;
-			margin: 5px;
-			border: 1px solid rgb(228, 224, 224);
-			border-radius: 5px;
-			background-color: white;
-			min-width: 140px;
-			box-shadow: 0 3px 0 rgba(0, 0, 0, .16), 0 1px 2px rgba(0, 0, 0, .23);
-			min-height: 50px;
-			padding-top: 12px;
-		} */
-
-		.btn-facebook {
-			margin: 5px;
-			padding: 5px;
-			border: 1px solid #4267b2;
-			border-radius: 5px;
-			box-shadow: 0 3px 0 rgba(0, 0, 0, .16), 0 1px 2px rgba(0, 0, 0, .23);
-			color: white;
-			min-width: 140px;
-			min-height: 50px;
-			padding-top: 12px;
-			background-color: #4267b2;
-		}
-
-		.main{
-			min-height: 100vh;
-			/* height: 100%; */
-		}
-
-		#main-menu {
-			background-color: rgb(27, 26, 26) !important;
-		}
-
-		.form-display {
-			margin-top: 20px !important;
-			padding-top: 80px;
-		}
-
-		.form-control {
-			min-height: 50px;
-		}
-	</style>
-	<link rel="stylesheet" type="text/css" href='/static/css1/util.css'>
-	<link rel="stylesheet" type="text/css" href='/static/css1/main.css'>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css1/util.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css1/main.css' %}">
+<link rel="stylesheet" href="{% static 'css/accounts-auth-landing.css' %}">
 {% endblock %}
 
-{% block content %}
-<div class="limiter" style="margin-top: 60px;">
-	<div class="container-login100">
-		<div class="wrap-login100 p-l-50 p-r-50 p-t-32 p-b-23">
-			<form class="login100-form validate-form flex-sb flex-w" method="POST">
-				{% csrf_token %}
-				<span class="login100-form-title p-b-33">
-					<h1 class="font-weight-bolder">Sign Up</h1>
-				</span>
-				<a href="/oauth/login/facebook/" class="btn-face m-b-15">
-					<i class="fab fa-facebook-square"></i>
-					Facebook
-				</a>
-				<a href="/oauth/login/google-oauth2/" class="btn-google m-b-20">
-					<img src="/static/img/icon/icon-google.png" alt="GOOGLE">
-					Google
-				</a>
-				<div class="w-full text-center p-t-3 p-b-10">
-					<p>---OR---</p>
-					<span >
-						Sign Up Using Email
-					</span>
-					<div class="error_msg text-center w-full">
-                        {% for field in form %}
-                        {% for error in field.errors %}
-						<p style="color: red">{{error}}</p>
-                        <p style="color: red">{{message}}</p>
-                        {% endfor %}
-                        {% endfor %}
-					</div>
-				</div>
-				<!-- Main login area  -->
-				
-				{% for field in form %}
-						{{field}}
-					<div class="col-md-2" style="height: 10px;"></div>
-					{% endfor %}
-				<div class="container-login100-form-btn m-t-17">
-					<button class="login100-form-btn" type="submit">
-						<h4> Create Account </h4>
-					</button>
-				</div>
+{% block navbar %}{% endblock %}
 
-				<div class="w-full text-center p-t-15">
-					<span >
-						Already a member?
+{% block content %}
+<div class="signup-page">
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100 p-l-50 p-r-50 p-t-32 p-b-23">
+				<form class="login100-form validate-form flex-sb flex-w" method="POST">
+					{% csrf_token %}
+					<span class="login100-form-title p-b-33">
+						<h1 class="font-weight-bolder">Sign Up</h1>
 					</span>
-					<a href="/accounts/login/" >
-						Sign in now
+					<a href="/oauth/login/facebook/" class="btn-face m-b-15">
+						<i class="fab fa-facebook-square"></i>
+						Facebook
 					</a>
-				</div>
-			</form>
+					<a href="/oauth/login/google-oauth2/" class="btn-google m-b-20">
+						<img src="{% static 'img/icon/icon-google.png' %}" alt="GOOGLE">
+						Google
+					</a>
+					<div class="w-full text-center p-t-3 p-b-10">
+						<p>— OR —</p>
+						<span>Sign Up Using Email</span>
+						<div class="error_msg text-center w-full">
+							{% for field in form %}
+							{% for error in field.errors %}
+							<p class="mt-2 mb-2">{{ error }}</p>
+							{% endfor %}
+							{% endfor %}
+						</div>
+					</div>
+					{% for field in form %}
+					<div class="wrap-input100 validate-input m-b-16" data-validate="Required">
+						{{ field }}
+					</div>
+					{% endfor %}
+					<div class="container-login100-form-btn m-t-17">
+						<button class="login100-form-btn" type="submit">
+							<h4>Create Account</h4>
+						</button>
+					</div>
+					<div class="w-full text-center p-t-15">
+						<span>Already a member?</span>
+						<a href="/accounts/login/">Sign in now</a>
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
 </div>

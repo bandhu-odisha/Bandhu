@@ -10,6 +10,9 @@ class Ankurayan(models.Model):
     title = models.CharField(max_length=100)
     theme = models.TextField(max_length=250)
     description = models.TextField(max_length=3000)
+    reports = models.TextField(max_length=5000, blank=True, null=True, verbose_name='Reports')
+    publications = models.TextField(max_length=5000, blank=True, null=True, verbose_name='Publications')
+    visitors = models.TextField(max_length=5000, blank=True, null=True, verbose_name='Our Guests')
     start_date = models.DateField()
     end_date = models.DateField()
     logo = models.ImageField(upload_to='ankurayan/logo')
@@ -44,8 +47,11 @@ class Guest(models.Model):
     name = models.CharField(max_length=50)
     profession = models.CharField(max_length=100)
     about = models.TextField(max_length=500, null=True, blank=True)
-    email = models.EmailField()
-    contact_no = models.CharField(verbose_name="Contact Number", max_length=13)
+    quote = models.TextField(max_length=500, null=True, blank=True, verbose_name='Quote / What they said')
+    email = models.EmailField(blank=True, default='')
+    contact_no = models.CharField(verbose_name="Contact Number", max_length=13, blank=True, default='')
+    facebook_url = models.URLField(max_length=255, blank=True, default='', verbose_name='Facebook profile URL')
+    linkedin_url = models.URLField(max_length=255, blank=True, default='', verbose_name='LinkedIn profile URL')
 
     def __str__(self):
         return f'{self.ankurayan.year} - {self.name} ({self.profession})'
@@ -77,6 +83,42 @@ class Activity(models.Model):
 
     def __str__(self):
         return f'{self.category.ankurayan.year} - {self.name} ({self.category.name})'
+
+class AnkurayanReportFile(models.Model):
+    """Uploaded file for Reports tab (any file type)."""
+    ankurayan = models.ForeignKey(
+        Ankurayan, on_delete=models.CASCADE, related_name='report_files', db_constraint=False
+    )
+    file = models.FileField(upload_to='ankurayan/reports/%Y')
+    title = models.CharField(max_length=200, blank=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-uploaded_at']
+        verbose_name = 'Report file'
+        verbose_name_plural = 'Report files'
+
+    def __str__(self):
+        return self.title or self.file.name
+
+
+class AnkurayanPublicationFile(models.Model):
+    """Uploaded file for Publications tab (any file type)."""
+    ankurayan = models.ForeignKey(
+        Ankurayan, on_delete=models.CASCADE, related_name='publication_files', db_constraint=False
+    )
+    file = models.FileField(upload_to='ankurayan/publications/%Y')
+    title = models.CharField(max_length=200, blank=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-uploaded_at']
+        verbose_name = 'Publication file'
+        verbose_name_plural = 'Publication files'
+
+    def __str__(self):
+        return self.title or self.file.name
+
 
 class Photo(models.Model):
     ankurayan = models.ForeignKey(Ankurayan, on_delete=models.CASCADE)

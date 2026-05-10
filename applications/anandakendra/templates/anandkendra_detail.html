@@ -4,14 +4,152 @@
 
 {% block title %} Anandakendra - {{ kendra.locality }} {% endblock %}
 
+{% block body_class %}anandakendra-detail-page{% if kendra.slug == 'anandakenra-1-jabalpur' %} anandakendra-hero-two-line{% endif %}{% endblock %}
+
 {% block style %}
 <!-- Custom CSS -->
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
 <link rel="stylesheet" href="{% static 'css/anandakendra.css' %}">
-<!-- Custom Style -->
+<!-- Custom Style (after anandakendra.css — must win over !important rules in that file) -->
 <style>
-    #top-section {
-        background: url("{{ content.banner_image.url }}") 50% center no-repeat fixed;
+    /* Pillar-style banner: override custom.css #top-section photo + match Sanskar gradient */
+    body.anandakendra-detail-page #top-section {
+        background:
+            radial-gradient(circle at 14% 22%, rgba(0, 94, 102, 0.06) 0 2px, transparent 3px),
+            radial-gradient(circle at 30% 70%, rgba(0, 94, 102, 0.04) 0 1.5px, transparent 2.5px),
+            radial-gradient(circle at 58% 28%, rgba(0, 94, 102, 0.05) 0 1.8px, transparent 2.8px),
+            radial-gradient(circle at 74% 62%, rgba(0, 94, 102, 0.04) 0 1.5px, transparent 2.6px),
+            radial-gradient(circle at 88% 24%, rgba(0, 94, 102, 0.045) 0 1.6px, transparent 2.8px),
+            linear-gradient(135deg, #e8f5f6 0%, #d6ecee 45%, #c5e4e8 100%) !important;
+        background-attachment: fixed !important;
+        background-size: cover !important;
+    }
+    body.anandakendra-detail-page #top-section .parallax-overlay {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(214, 236, 238, 0.28) 100%) !important;
+        background-color: transparent !important;
+    }
+    /* Hero title on gradient (same pattern as Ankurayan detail: ::before + hide duplicate h2/accent/description) */
+    body.anandakendra-detail-page #top-section .parallax-overlay::before {
+        content: "{{ kendra.name|addslashes }} - {{ kendra.locality|addslashes }}";
+        position: absolute;
+        top: 120px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #005E66;
+        font-family: 'Lora', Georgia, serif;
+        font-weight: 800;
+        font-size: clamp(2.2rem, 6vw, 4rem);
+        letter-spacing: 0.02em;
+        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.95), 0 2px 22px rgba(0, 94, 102, 0.14);
+        z-index: 5;
+        pointer-events: none;
+        max-width: min(92vw, 48rem);
+        text-align: center;
+        line-height: 1.2;
+        white-space: normal;
+    }
+    /*
+     * Jabalpur slug only: two-line hero. Use \0000a0 (6-digit nbsp) so the next letter is never eaten as hex (\\00a0+A was U+00A0A = garbage glyph).
+     * Line 1 = ::before, line 2 = ::after (smaller subheading).
+     */
+    body.anandakendra-detail-page.anandakendra-hero-two-line #top-section .parallax-overlay::before {
+        content: "ANADAKENDRA";
+        top: 96px;
+        white-space: normal;
+        font-size: clamp(2rem, 5.5vw, 3.75rem);
+        max-width: min(98vw, 52rem);
+    }
+    body.anandakendra-detail-page.anandakendra-hero-two-line #top-section .parallax-overlay::after {
+        content: "BANDHU\0000a0ASHRAM,\0000a0ODHISA";
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 168px;
+        white-space: nowrap;
+        color: #ffffff;
+        font-family: 'Lora', Georgia, serif;
+        font-weight: 700;
+        font-size: clamp(1.1rem, 3vw, 1.85rem);
+        letter-spacing: 0.04em;
+        text-shadow: 0 8px 24px rgba(0,0,0,0.35), 0 2px 8px rgba(128,179,186,0.35);
+        z-index: 5;
+        pointer-events: none;
+        max-width: 98vw;
+        text-align: center;
+        line-height: 1.25;
+    }
+    body.anandakendra-detail-page #top-section .slider-txt-container.page-showcase > * {
+        opacity: 0 !important;
+    }
+
+    /* Match Sanskar/Swabalamban overlay card geometry (override anandakendra.css 25/75 + 100% image width) */
+    .anandakendra-detail .pillar-overlay-cards {
+        margin-top: -200px !important;
+        position: relative;
+        z-index: 3;
+        padding-bottom: 4rem;
+        background: linear-gradient(180deg, transparent 0, transparent 420px, #ffffff 420px);
+    }
+    @media (min-width: 992px) {
+        .anandakendra-detail .pillar-overlay-cards .row > .col-lg-4 { flex: 0 0 30% !important; max-width: 30% !important; }
+        .anandakendra-detail .pillar-overlay-cards .row > .col-lg-8 { flex: 0 0 70% !important; max-width: 70% !important; }
+    }
+    .anandakendra-detail .pillar-overlay-cards .container {
+        max-width: 1400px;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+        box-sizing: border-box;
+    }
+    @media (min-width: 576px) {
+        .anandakendra-detail .pillar-overlay-cards .container { padding-left: 2rem; padding-right: 2rem; }
+    }
+    @media (min-width: 992px) {
+        .anandakendra-detail .pillar-overlay-cards .container { padding-left: 2.5rem; padding-right: 2.5rem; }
+    }
+    .anandakendra-detail .pillar-overlay-cards .pillar-overlay-card {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.06);
+        overflow: hidden;
+        padding: 1.5rem 1.75rem;
+    }
+    .anandakendra-detail .pillar-overlay-cards .pillar-overlay-card--image {
+        padding: 0;
+        aspect-ratio: 1 / 1;
+        width: 92% !important;
+        max-width: 92% !important;
+        min-height: 0;
+        margin-left: 0;
+        margin-right: auto;
+    }
+    .anandakendra-detail .pillar-overlay-cards .pillar-overlay-card--image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+    .anandakendra-detail .pillar-overlay-cards .pillar-overlay-card--text {
+        min-height: 280px;
+        height: 100%;
+        padding: 1.5rem 1.75rem !important;
+        font-family: 'Lora', Georgia, serif;
+        background: linear-gradient(180deg, #fffdf8 0%, #ffffff 58%, #fbfaf7 100%);
+        border: none;
+        box-shadow: 0 16px 26px -10px rgba(61, 92, 96, 0.36), 10px 4px 18px -10px rgba(61, 92, 96, 0.28), -10px 4px 18px -10px rgba(61, 92, 96, 0.24), 0 5px 12px -8px rgba(61, 92, 96, 0.22) !important;
+    }
+    .anandakendra-detail .pillar-overlay-cards .pillar-overlay-card--text .pillar-desc {
+        font-family: 'Lora', Georgia, serif;
+        font-weight: 600;
+        letter-spacing: 0.012em;
+        line-height: 1.9;
+        color: #005E66;
+    }
+    @media (max-width: 768px) {
+        .anandakendra-detail .pillar-overlay-cards { margin-top: -100px; }
+        .anandakendra-detail .pillar-overlay-cards .pillar-overlay-card--image { aspect-ratio: 1 / 1; }
     }
 </style>
 
@@ -30,107 +168,93 @@
 <li class="nav-item">
     <a class="nav-link px-3 px-lg-2" href="#about">About</a>
 </li>
+{% if photos.count %}
 <li class="nav-item">
     <a class="nav-link px-3 px-lg-2" href="#gallery">Gallery</a>
 </li>
+{% endif %}
 <li class="nav-item">
     <a class="nav-link px-3 px-lg-2" href="#contact">Contact</a>
 </li>
 {% endblock %}
 
 {% block showcase-title-container %}
-<div class="slider-txt-container" style="padding: 200px 0 200px 0;">
-    <h2 class="bold-txt mb-3"> Anandakendra </h2>
-    <p class="showcase-description mb-5">{{ kendra.locality }}</p>
+<div class="slider-txt-container page-showcase page-showcase-tall">
+    <h2 class="bold-txt page-showcase-title">Anandakendra</h2>
+    <div class="page-showcase-accent"></div>
+    <p class="showcase-description mb-0 mt-2 text-white">{{ kendra.locality }}</p>
+</div>
+{% endblock %}
+{% block angular %}
+<div class="angular page-angular angular-anandakendra">
+    <div class="top-angle"></div>
 </div>
 {% endblock %}
 
 {% block content %}
-<!-- About Section -->
-<section id="about" style="margin-top: -250px;">
+<div class="anandakendra-detail">
+<!-- About Section: overlay cards consistent with Sanskar / list page -->
+<section id="about" class="pillar-overlay-cards">
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8 text-left px-0 py-0 py-lg-2 mx-auto" style="z-index: 10;">
-                <div class="card m-2 shadow-sm d-none d-lg-block">
-                    <div class="card-body p-4">
-                        <h1 class="mb-3 title">{{ kendra.name|safe }} ({{ kendra.locality }})</h1>
-                        <p class="m-0">
-                            {{ kendra.address|safe }}
-                        </p>
-                    </div>
+        <div class="row align-items-start g-4">
+            <div class="col-lg-4 col-md-5">
+                <div class="pillar-overlay-card pillar-overlay-card--image">
+                    <img src="{{ kendra.image.url }}" alt="{{ kendra.name }}" loading="eager" class="pillar-overlay-single-image">
                 </div>
-                <!--   DESCRIPTON  -->
-                <div class="card m-2 shadow-sm">
-                    <div class="card-body p-4">
-                        <h2 class="content-title mb-2">Description</h1>
-                            <p>{{ kendra.description|safe }}</p>
-                    </div>
+                <div class="anandakendra-image-caption" aria-label="Anandakendra image caption">
+                    <p class="caption-line caption-en">"Man making initiative of Bandhu"</p>
+                    <p class="caption-line caption-or">"ଏକ ପ୍ରେରେଣାଶୀଳ ନୂଆପିଢୀର ନିର୍ମାଣେ"</p>
                 </div>
             </div>
-            <div class="col-lg-4 text-left px-0 py-0 py-lg-2 mx-auto" style="z-index: 10;">
-                <!--   PIC CARD  -->
-                <div class="card m-2 shadow-sm mb-4">
-                    <div class="card-body p-1">
-                        <img src="{{ kendra.image.url }}" alt="DP" class="img-fluid h-100 w-100"
-                            style="max-height: 300px;" />
+            <div class="col-lg-8 col-md-7">
+                <div class="pillar-overlay-card pillar-overlay-card--text anandakendra-sync-text">
+                    <div class="pillar-desc pillar-desc-preview">{{ kendra.description|safe }}</div>
+                    <button
+                        type="button"
+                        class="anandakendra-read-more"
+                        data-toggle="modal"
+                        data-target="#anandakendraDetailReadMoreModal"
+                    >
+                        Read more
+                    </button>
+                    {% if check_admin and user.is_authenticated %}
+                    <div class="anandakendra-detail-admin-actions mt-4 pt-3 border-top border-secondary">
+                        <a href="{% url 'anandakendra:anandakendra' %}" class="pillar-back d-block mb-2"><i class="fas fa-arrow-left"></i> Back to Anandakendras</a>
+                        <button type="button" class="btn btn-primary btn-sm mr-2 mb-2" data-toggle="modal" data-target="#selectacharyamodal">Select Acharyas</button>
+                        <button type="button" class="btn btn-primary btn-sm mr-2 mb-2" data-toggle="modal" data-target="#addStudentsModal">Add Students</button>
+                        <button type="button" class="btn btn-primary btn-sm mr-2 mb-2" data-toggle="modal" data-target="#addActivityCategory">Add Category</button>
+                        <button type="button" class="btn btn-primary btn-sm mr-2 mb-2" data-toggle="modal" data-target="#addActivity">Add Activity</button>
+                        <button type="button" class="btn btn-primary btn-sm mb-2" data-toggle="modal" data-target="#addEvent">Add Event</button>
                     </div>
+                    {% endif %}
                 </div>
-
-
-                {% if check_admin and user.is_authenticated %}
-                <!-- Add Acharyas to this Kendra -->
-                <div class="select-acharyas text-center my-2">
-                    <button type="button" class="btn btn-primary w-75" data-toggle="modal"
-                        data-target="#selectacharyamodal">
-                        Select Acharyas
-                    </button>
-
-                </div>
-
-                <!-- Add Students to this kendra -->
-                <div class="add-students text-center my-2">
-                    <button type="button" class="btn btn-primary w-75" data-toggle="modal"
-                        data-target="#addStudentsModal">
-                        Add Students
-                    </button>
-
-                </div>
-
-                <!-- Add Activity Category -->
-                <div class="add-activity-category text-center my-2">
-                    <button type="button" class="btn btn-primary w-75" data-toggle="modal"
-                        data-target="#addActivityCategory">
-                        Add Category
-                    </button>
-
-                </div>
-
-                <!-- Add Activity -->
-                <div class="add-activity text-center my-2">
-                    <button type="button" class="btn btn-primary w-75" data-toggle="modal" data-target="#addActivity">
-                        Add Activity
-                    </button>
-
-                </div>
-
-                <!-- Add Event -->
-                <div class="add-activity text-center my-2">
-                    <button type="button" class="btn btn-primary w-75" data-toggle="modal" data-target="#addEvent">
-                        Add Event
-                    </button>
-
-                </div>
-                {% endif %}
             </div>
         </div>
     </div>
 </section>
 
+<div class="modal fade anandakendra-readmore-modal" id="anandakendraDetailReadMoreModal" tabindex="-1" role="dialog" aria-labelledby="anandakendraDetailReadMoreTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="anandakendraDetailReadMoreTitle">{{ kendra.name|safe }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="readmore-content">{{ kendra.description|safe }}</div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<!-- Activities Section -->
-<section id="activities" class="mb-5">
-    <h3 class="section-title mt-5 pt-3 pt-sm-0">Activities</h3>
+<!-- Activities Section (only when there are activities) -->
+{% if has_activities %}
+<section id="activities" class="page-section anandakendra-activities-section">
     <div class="container">
+        <h2 class="section-title text-center">Activities</h2>
+        <div class="section-accent"></div>
         {% for category in categories %}
         {% if category.activity_set.count %}
         <h3 class="title mt-5 mb-3">{{ category.name }}</h3>
@@ -140,7 +264,7 @@
                     <ul class="glide__slides">
                         {% for activity in category.activity_set.all %}
                         <li class="glide__slide">
-                            <div class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
+                            <div class="card w-100 page-card mx-auto my-2">
                                 <img src="{% static 'img/pimg6.jpg' %}" class="card-img-top home-card-img" alt=""
                                     width="300px">
                                 <div class="card-body pb-0">
@@ -180,7 +304,7 @@
 <!-- ACTIVITIES MODALS -->
 {% for category in categories %}
 {% for activity in category.activity_set.all %}
-<div class="modal fade" id="activity_modal{{ activity.id }}">
+<div class="modal fade anandakendra-modal" id="activity_modal{{ activity.id }}">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content shadow">
             <div class="modal-header">
@@ -226,20 +350,21 @@
 </div>
 {% endfor %}
 {% endfor %}
+{% endif %}
 
-<!-- EVENTS SECTION -->
-<section id="events">
-    <div class="bg-grey" style="padding: 50px 0;">
-        <h3 class="section-title">Events</h3>
-        <div class="container">
-            {% if events.count %}
+<!-- Events Section (only when there are events) -->
+{% if events.count %}
+<section id="events" class="page-section anandakendra-events-section">
+    <div class="container">
+        <h2 class="section-title text-center">Events</h2>
+        <div class="section-accent"></div>
             <div class="row">
                 <div class="glide events">
                     <div class="glide__track" data-glide-el="track">
                         <ul class="glide__slides">
                             {% for event in events %}
                             <li class="glide__slide">
-                                <div class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
+                                <div class="card w-100 page-card mx-auto my-2">
                                     <img src="{{ event.thumb.url }}" class="card-img-top home-card-img" alt=""
                                         width="300px">
                                     <div class="card-body pb-0">
@@ -271,16 +396,13 @@
                     </div>
                 </div>
             </div>
-            {% else %}
-            <p class="text-center lead pt-2 mb-n1"><em>Nothing to show here!</em></p>
-            {% endif %}
         </div>
     </div>
 </section>
 
 <!-- EVENTS MODALS -->
 {% for event in events %}
-<div class="modal fade" id="event_modal{{ event.id }}">
+<div class="modal fade anandakendra-modal" id="event_modal{{ event.id }}">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content shadow">
             <div class="modal-header">
@@ -325,6 +447,7 @@
     </div>
 </div>
 {% endfor %}
+{% endif %}
 
 {% comment %}
 <!-- Activities Section -->
@@ -401,8 +524,8 @@
                         Do you like to work for a social cause?. Yes. Here, you are
                         welcome to our team and you can work as a volunteer.
                     </p>
-                    <button type="button" class="btn btn-outline-light py-2 px-4 custom-btn angle-effect">
-                        <a href="{% url 'signup' %}" class="d-block text-decoration-none text-white">Join Now</a>
+                    <button type="button" class="btn btn-outline-light py-2 px-4 custom-btn angle-effect text-white" data-toggle="modal" data-target="#signupModal">
+                        Join Now
                     </button>
                 </div>
             </div>
@@ -412,57 +535,59 @@
 
 <!-- Volunteer Section End-->
 
+{% if photos.count %}
 <section id="gallery">
     <div class="bg-grey" style="padding: 80px 0 60px;">
         <div class="container">
-            <div class="section-head">
-                <h2 class="section-title">
-                    Gallery
-                </h2>
-                <p class="section-description">
-                    {{ gallery.tagline }}
+            <div class="section-head gallery-section-head">
+                <h2 class="section-title">Gallery</h2>
+                <div class="section-accent gallery-section-accent"></div>
+                <p class="section-description gallery-section-description">
+                    {% if gallery and gallery.tagline %}{{ gallery.tagline }}{% else %}Take a look at our gallery to get a glimpse of what we do and what it feels like working for a social cause.{% endif %}
                 </p>
             </div>
 
-            {% if photos.count %}
             <div id="gallery-container" class="gallery-container">
-                <div class="galleryFilter">
-                    <a href="#" data-filter="" class="current">All</a>
-                    {% for category in categories %}
-                    {% if category.activity_set.count %}
-                    <a href="#" data-filter=".{{ category.name }}">{{ category.name }}</a>
-                    {% endif %}
-                    {% endfor %}
-                </div>
-
-                <div class="gallery-item element-from-bottom clearfix">
-                    {% for photo in photos %}
-                    <figure class="item {{ photo.activity.category.name }} photo-{{ photo.id }}">
-                        <img src='{{ photo.picture.url }}' data-rel="photoSwipe">
-                        <a href="javascript:pswpInit({{ forloop.counter0 }})" class="stretched-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </figure>
-                    {% endfor %}
-                    <figure id="load-more" class="item {% for category in categories %} {{ category.name }} {% endfor %}">
-                        <img alt="Photo">
-                        <a href="javascript:void(0);" class="stretched-link">
-                            <p class="text-center">Show More</p>
-                        </a>
-                    </figure>
+                <div class="glide-carousel-custom mt-4">
+                    <div class="glide gallery_glide">
+                        <div class="glide__track" data-glide-el="track">
+                            <ul class="glide__slides">
+                                {% for photo in photos %}
+                                <li class="glide__slide">
+                                    <div class="gallery-slide-card position-relative rounded overflow-hidden">
+                                        <img src="{{ photo.picture.url }}" alt="Gallery" class="gallery-slide-img">
+                                        <a href="javascript:pswpInit({{ forloop.counter0 }})" class="stretched-link gallery-slide-link">
+                                            <i class="fab fa-instagram"></i>
+                                        </a>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="glide__arrows gallery-glide-arrows" data-glide-el="controls">
+                            <button class="slider_arrow slider_arrow--prev glide__arrow glide__arrow--left" data-glide-dir="<">
+                                <i class="fas fa-arrow-circle-left"></i>
+                            </button>
+                            <button class="slider_arrow slider_arrow--next glide__arrow glide__arrow--right" data-glide-dir=">">
+                                <i class="fas fa-arrow-circle-right"></i>
+                            </button>
+                        </div>
+                        <div class="glide__bullets" data-glide-el="controls[nav]">
+                            {% for photo in photos %}
+                            <button class="glide__bullet" data-glide-dir="={{ forloop.counter0 }}"></button>
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
             </div>
-            {% else %}
-            <p class="text-center lead mt-n2 mb-n1"><em>Nothing to show here!</em></p>
-            {% endif %}
 
-            <div id="gallery-container" class="gallery-container">
+            <div class="gallery-actions mt-4">
                 <div class="add-activity">
                     {% if user.is_authenticated %}
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addToGallery">
                         Upload Images
                     </button>
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addToGallery" role="dialog"
+                    <div class="modal fade bd-example-modal-lg anandakendra-modal" tabindex="-1" id="addToGallery" role="dialog"
                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
@@ -510,9 +635,10 @@
         </div>
     </div>
 </section>
+{% endif %}
 
 <!-- MODALS  -->
-<div class="modal fade bd-example-modal-lg" tabindex="-1" id="selectacharyamodal" role="dialog"
+<div class="modal fade bd-example-modal-lg anandakendra-modal" tabindex="-1" id="selectacharyamodal" role="dialog"
     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
@@ -525,8 +651,8 @@
             <div class="modal-body">
                 <form method="POST" action="{% url 'anandakendra:AddAcharya' %}">{% csrf_token %}
                     <input type="text" hidden name="slug" value={{kendra.slug}}>
-                    <label class="left-label bld" for="">Acharya 1</label>
-                    <select class="form-control" name="acharyas" id="">
+                    <label class="left-label bld" for="acharya1">Acharya 1</label>
+                    <select class="form-control" name="acharyas" id="acharya1">
                         <option value="">Select Acharya 1</option>
                         {% for user in users %}
                         <option value={{user.user.email}} data-value={{user.user.email}}>{{user.first_name}}</option>
@@ -534,9 +660,9 @@
                         {% endfor %}
                     </select>
                     <br>
-                    <label class="left-label bld" for="">Acharya 2</label>
-                    <select class="form-control" name="acharyas" id="">
-                        <option value="">Select Acharya 1</option>
+                    <label class="left-label bld" for="acharya2">Acharya 2</label>
+                    <select class="form-control" name="acharyas" id="acharya2">
+                        <option value="">Select Acharya 2</option>
                         {% for user in users %}
                         <option value={{user.user.email}} data-value={{user.user.email}}>{{user.first_name}}</option>
                         {{user.last_name}}</option>
@@ -549,7 +675,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade bd-example-modal-lg" tabindex="-1" id="addStudentsModal" role="dialog"
+<div class="modal fade bd-example-modal-lg anandakendra-modal" tabindex="-1" id="addStudentsModal" role="dialog"
     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
@@ -620,7 +746,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade bd-example-modal-lg" tabindex="-1" id="addActivityCategory" role="dialog"
+<div class="modal fade bd-example-modal-lg anandakendra-modal" tabindex="-1" id="addActivityCategory" role="dialog"
     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
@@ -642,7 +768,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade bd-example-modal-lg" tabindex="-1" id="addActivity" role="dialog"
+<div class="modal fade bd-example-modal-lg anandakendra-modal" tabindex="-1" id="addActivity" role="dialog"
     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
@@ -699,7 +825,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade bd-example-modal-lg" tabindex="-1" id="addEvent" role="dialog"
+<div class="modal fade bd-example-modal-lg anandakendra-modal" tabindex="-1" id="addEvent" role="dialog"
     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
@@ -715,11 +841,11 @@
                     <input type="text" hidden name="slug" value={{kendra.slug}}>
                     <div class="row">
                         <div class="col">
-                            <label class="left-label bld" for="">Event Name</label>
-                            <input type="text" class="form-control" name="event_name" placeholder="Event name"><br>
+                            <label class="left-label bld" for="event_name">Event Name</label>
+                            <input type="text" class="form-control" name="event_name" id="event_name" placeholder="Event name" autocomplete="off"><br>
                         </div>
                         <div class="col">
-                            <label class="left-label bld" for="">Event Thumbnail</label>
+                            <label class="left-label bld">Event Thumbnail</label>
                             <div class="input-group">
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" name="event_thumb"
@@ -730,11 +856,11 @@
                         </div>
                     </div>
 
-                    <label class="left-label bld" for="">Event Date</label>
-                    <input type="date" name="event_date" class="form-control"><br>
-                    <label class="left-label bld" for="">Description</label>
-                    <textarea name="description" cols="80" class="form-control" rows="4"
-                        placeholder="Description"></textarea><br>
+                    <label class="left-label bld" for="event_date">Event Date</label>
+                    <input type="date" name="event_date" id="event_date" class="form-control" autocomplete="off"><br>
+                    <label class="left-label bld" for="event_description">Description</label>
+                    <textarea name="description" id="event_description" cols="80" class="form-control" rows="4"
+                        placeholder="Description" autocomplete="off"></textarea><br>
                     <button class="btn btn-primary">Submit</button>
                 </form>
             </div>
@@ -751,11 +877,21 @@
         <span><i class="fa fa-arrow-up"></i></span>
     </div>
 </div>
+</div><!-- .anandakendra-detail -->
+
+{% include 'includes/signup_modal.html' %}
 
 {% endblock %}
 
 
 {% block scripts %}
+{% if open_signup_modal %}
+<script>
+    $(function () {
+        $('#signupModal').modal('show');
+    });
+</script>
+{% endif %}
 <!-- PHOTOSWIPE -->
 <script>
     // build the json album images collection 
@@ -878,50 +1014,8 @@
 
 </script>
 
-<script>
-    // ACTIVITIES CAROUSEL
-    {% for category in categories %}
-    {% if category.activity_set.count %}
-    var glide = new Glide('.category{{forloop.counter0}}', {
-        type: 'carousel',
-        focusAt: 'center',
-        perView: 3,
-        autoplay: 2000,
-        gap: 30,
-        breakpoints: {
-            991: {
-                perView: 2,
-            },
-            767: {
-                perView: 1,
-            }
-        }
-    })
-    glide.mount()
-    {% endif %}
-    {% endfor %}
-
-    // EVENTS CAROUSEL
-    var events_glide = new Glide('.events', {
-        type: 'slide',
-        focusAt: 'center',
-        perView: 3,
-        autoplay: 2000,
-        gap: 30,
-        breakpoints: {
-            991: {
-                perView: 2,
-            },
-            767: {
-                perView: 1,
-            }
-        }
-    })
-    events_glide.mount()
-</script>
 <!-- Upload Detail in forms -->
 <script type="text/javascript">
-
     $('.custom-file input').change(function (e) {
         var files = [];
         for (var i = 0; i < $(this)[0].files.length; i++) {
@@ -934,6 +1028,90 @@
             $(this).next('.custom-file-label').html('1 file selected');
         }
     });
-
 </script>
-{% endblock %}`
+
+<!-- ACTIVITIES, EVENTS, GALLERY CAROUSELS (run after Glide loaded in base) -->
+<script>
+(function() {
+    if (typeof Glide === 'undefined') return;
+    {% for category in categories %}
+    {% if category.activity_set.count %}
+    (function() {
+        var el = document.querySelector('.category{{ forloop.counter0 }}');
+        if (el && el.querySelectorAll('.glide__slide').length) {
+            new Glide('.category{{ forloop.counter0 }}', {
+                type: 'carousel',
+                focusAt: 'center',
+                perView: 3,
+                autoplay: 2000,
+                gap: 30,
+                breakpoints: { 991: { perView: 2 }, 767: { perView: 1 } }
+            }).mount();
+        }
+    })();
+    {% endif %}
+    {% endfor %}
+
+    (function() {
+        var el = document.querySelector('.events');
+        if (el && el.querySelectorAll('.glide__slide').length) {
+            new Glide('.events', {
+                type: 'slide',
+                focusAt: 'center',
+                perView: 3,
+                autoplay: 2000,
+                gap: 30,
+                breakpoints: { 991: { perView: 2 }, 767: { perView: 1 } }
+            }).mount();
+        }
+    })();
+
+    (function() {
+        var galleryEl = document.querySelector('#gallery-container .gallery_glide');
+        if (!galleryEl || galleryEl.querySelectorAll('.glide__slide').length === 0) return;
+        var galleryGlide = new Glide('.gallery_glide', {
+            type: 'carousel',
+            focusAt: 'center',
+            perView: 3,
+            autoplay: 4000,
+            hoverpause: true,
+            animationDuration: 800,
+            gap: 20,
+            breakpoints: { 991: { perView: 2 }, 767: { perView: 1 } }
+        });
+        galleryGlide.mount();
+        var galleryPaused = false;
+        galleryEl.addEventListener('mouseenter', function() { galleryPaused = true; });
+        galleryEl.addEventListener('mouseleave', function() { galleryPaused = false; });
+        setInterval(function() {
+            try {
+                if (galleryGlide && galleryGlide.go && !galleryPaused) galleryGlide.go('>');
+            } catch (e) {}
+        }, 4000);
+    })();
+})();
+</script>
+
+<script>
+// Sync text-card height with image-card height on about section
+;(function syncDetailAboutCardHeights() {
+    var section = document.querySelector('#about.pillar-overlay-cards')
+    if (!section) return
+    var imageCard = section.querySelector('.pillar-overlay-card--image')
+    var textCard = section.querySelector('.pillar-overlay-card--text.anandakendra-sync-text')
+    if (!imageCard || !textCard) return
+
+    var apply = function () {
+        if (window.innerWidth < 768) {
+            textCard.style.height = 'auto'
+            return
+        }
+        textCard.style.height = imageCard.offsetHeight + 'px'
+    }
+
+    apply()
+    window.addEventListener('resize', apply)
+    window.addEventListener('load', apply)
+})();
+</script>
+{% endblock %}

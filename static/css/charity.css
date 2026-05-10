@@ -1,10 +1,263 @@
+/* Other Activities: match Bandhu teal theme */
+
+/* Overlay cards (same layout as Sanskar/Swabalamban): match position and alignment exactly */
+.pillar-overlay-cards {
+    margin-top: -200px !important;
+    position: relative;
+    z-index: 3;
+    padding-bottom: 4rem;
+    background: transparent;
+    background: linear-gradient(180deg, transparent 0, transparent 420px, #ffffff 420px);
+}
+.pillar-overlay-cards .row {
+    align-items: flex-start !important;
+}
+.pillar-overlay-cards .pillar-overlay-card--text {
+    align-self: flex-start;
+}
+@media (min-width: 992px) {
+    .pillar-overlay-cards .row > .col-lg-4 { flex: 0 0 30%; max-width: 30%; }
+    .pillar-overlay-cards .row > .col-lg-8 { flex: 0 0 70%; max-width: 70%; }
+}
+.pillar-overlay-cards .container {
+    max-width: 1400px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    box-sizing: border-box;
+}
+@media (min-width: 576px) {
+    .pillar-overlay-cards .container { padding-left: 2rem; padding-right: 2rem; }
+}
+@media (min-width: 992px) {
+    .pillar-overlay-cards .container { padding-left: 2.5rem; padding-right: 2.5rem; }
+}
+.pillar-overlay-cards .pillar-overlay-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    padding: 1.5rem 1.75rem;
+}
+.pillar-overlay-cards .pillar-overlay-card--text {
+    min-height: 280px;
+    height: 100%;
+}
+.pillar-overlay-cards .pillar-overlay-card--image {
+    padding: 0;
+    aspect-ratio: 1 / 1;
+    width: 92%;
+    max-width: 92%;
+    min-height: 0;
+    margin-left: 0;
+    margin-right: auto;
+}
+.pillar-overlay-cards .pillar-overlay-card--image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.pillar-overlay-cards .pillar-overlay-card--image img:not(:first-of-type) {
+    display: none !important;
+}
+.pillar-overlay-cards .pillar-overlay-card--text .pillar-hero-accent {
+    width: 4rem;
+    height: 5px;
+    background: linear-gradient(90deg, #80b3ba 0%, #5f8d93 100%);
+    border-radius: 3px;
+    margin: 0.5rem 0 1rem;
+    box-shadow: 0 2px 8px rgba(61, 92, 96, 0.35);
+}
+.pillar-overlay-cards .pillar-overlay-card--text h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #3d5c60;
+    margin-bottom: 0.25rem;
+}
+.pillar-overlay-cards .pillar-overlay-card--text .pillar-tagline {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+}
+.pillar-overlay-cards .pillar-overlay-card--text .pillar-desc {
+    font-size: 1rem;
+    line-height: 1.65;
+}
+.pillar-overlay-cards .pillar-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #3d5c60;
+    font-weight: 600;
+    text-decoration: none;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+.pillar-overlay-cards .pillar-back:hover {
+    color: #3d5c60;
+    text-decoration: underline;
+}
+
+/* Match Sanskar/Swaraj/Swabalamban text card typography exactly */
+.pillar-overlay-cards .pillar-overlay-card--text {
+    font-family: 'Lora', Georgia, serif !important;
+    background: linear-gradient(180deg, #fffdf8 0%, #ffffff 58%, #fbfaf7 100%) !important;
+    border: none !important;
+    box-shadow: 0 16px 26px -10px rgba(61, 92, 96, 0.36), 10px 4px 18px -10px rgba(61, 92, 96, 0.28), -10px 4px 18px -10px rgba(61, 92, 96, 0.24), 0 5px 12px -8px rgba(61, 92, 96, 0.22) !important;
+}
+.pillar-overlay-cards .pillar-overlay-card--text .pillar-tagline {
+    font-size: 1.1rem !important;
+    margin-bottom: 0.75rem !important;
+    font-weight: 600 !important;
+    color: #1e3a38 !important;
+    line-height: 1.5 !important;
+    font-family: 'Lora', Georgia, serif !important;
+}
+.pillar-overlay-cards .pillar-overlay-card--text .pillar-desc {
+    font-size: 1rem !important;
+    line-height: 1.9 !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.012em !important;
+    color: #3d5c60 !important;
+    font-family: 'Lora', Georgia, serif !important;
+}
+.pillar-overlay-cards .pillar-overlay-card--text .pillar-desc strong,
+.pillar-overlay-cards .pillar-overlay-card--text .pillar-desc b {
+    color: #3d5c60 !important;
+    font-weight: 700 !important;
+}
+.pillar-overlay-cards .pillar-back {
+    color: #3d5c60 !important;
+}
+.pillar-overlay-cards .pillar-back:hover {
+    color: #3d5c60 !important;
+}
+
+/* Alternating bilingual quote inside text card */
+.pillar-overlay-cards .pillar-text-quote {
+    margin-top: 0.75rem;
+    min-height: 2.4rem;
+    position: relative;
+}
+.pillar-overlay-cards .pillar-text-quote .quote-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    opacity: 0;
+    transform: translateY(4px);
+    animation: charityQuoteSwap 10s ease-in-out infinite;
+}
+.pillar-overlay-cards .pillar-text-quote .quote-en {
+    color: #2f4d52;
+    font-family: 'Lora', Georgia, serif;
+    font-size: 0.98rem;
+    font-style: italic;
+    font-weight: 600;
+}
+.pillar-overlay-cards .pillar-text-quote .quote-or {
+    color: #2f4d52;
+    font-family: 'Noto Sans Oriya', 'Noto Sans Odia', 'Kohinoor Odia', 'Lora', Georgia, serif;
+    font-size: 1.02rem;
+    font-weight: 600;
+    animation-delay: 5s;
+}
+@keyframes charityQuoteSwap {
+    0%, 44% { opacity: 1; transform: translateY(0); }
+    50%, 100% { opacity: 0; transform: translateY(4px); }
+}
+
+/* Inline teal Registration Form button beside tagline */
+.pillar-overlay-cards .pillar-overlay-card--text .registration-form-inline-btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0.55rem;
+    padding: 0.28rem 0.78rem;
+    border-radius: 9999px;
+    background: #005E66 !important;
+    border: 1px solid #005E66 !important;
+    color: #ffffff !important;
+    font-size: 0.84rem;
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: none !important;
+    vertical-align: middle;
+    box-shadow: 0 2px 8px rgba(0, 94, 102, 0.25);
+    outline: none !important;
+}
+.pillar-overlay-cards .pillar-overlay-card--text .pillar-tagline.tagline-with-registration-btn {
+    display: inline-flex !important;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+}
+.pillar-overlay-cards .pillar-overlay-card--text .registration-form-inline-btn:hover {
+    background: #006A73 !important;
+    border-color: #006A73 !important;
+    color: #ffffff !important;
+}
+@media (max-width: 768px) {
+    .pillar-overlay-cards { margin-top: -100px; }
+    .pillar-overlay-cards .pillar-overlay-card--image { aspect-ratio: 1 / 1; }
+}
+
+/* Diagonal cut */
+.angular.page-angular.angular-charity .top-angle:before {
+    background: #ffffff !important;
+    box-shadow: none !important;
+}
+/* Pull overlay cards up to same vertical position as Sanskar/Swabalamban */
+.angular-charity + .pillar-overlay-cards {
+    margin-top: -280px !important;
+}
+.angular-charity + section#activities {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    border-top: none !important;
+    box-shadow: none !important;
+}
+.pillar-overlay-cards + section#activities {
+    margin-top: 0;
+    padding-top: 1.5rem;
+}
+
+.charity-activities-section {
+    padding-top: 0.5rem !important;
+}
+.charity-activities-container {
+    padding: 0.75rem 0 4rem !important;
+}
+.charity-activities-section .section-title {
+    margin-bottom: 0.25rem !important;
+}
+.charity-activities-section .section-accent {
+    margin-bottom: 0.75rem !important;
+}
+/* (Layout normalized to match Publications page) */
+
+/* Remove line between description (#about) and gallery/activities (#activities) */
+#about.page-hero.page-hero-with-angular {
+    border-bottom: none !important;
+    background: #ffffff !important;
+}
+#activities.glide-carousel-custom.page-section,
+#activities.page-section {
+    border-top: none !important;
+    background: #ffffff !important;
+}
+
 .showcase-description {
-    color: #ffffff;
+    color: rgba(255, 255, 255, 0.95);
     text-align: center;
-    font-size: 2.375rem;
+    font-size: 1.5rem;
     font-weight: 500;
-    line-height: 40px;
-    margin: auto;
+    line-height: 1.4;
+    margin: 0 auto 0.5rem;
+    font-family: 'Lora', Georgia, serif;
 }
 
 #about::before {
@@ -16,18 +269,110 @@
 }
 
 #about .title {
-    color: #0d0d0d;
-    /* font-size: 1.375em; */
-    font-weight: 800;
-    line-height: 1em;
-    text-transform: uppercase;
+    color: #3d5c60;
+    font-weight: 700;
+    line-height: 1.2;
     margin-top: 0;
+    font-family: 'Lora', Georgia, serif;
 }
 #about .content-title {
-    color: #0d0d0d;
-    font-size: 1.375em;
-    font-weight: 800;
-    line-height: 1em;
-    text-transform: uppercase;
+    color: #3d5c60;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.3;
     margin-top: 0;
+    font-family: 'Lora', Georgia, serif;
+}
+
+/* Activities section: no grey – carousel track transparent, cards white with teal styling */
+#activities .glide__slides {
+    background-color: transparent !important;
+}
+#activities .glide__slide {
+    display: flex;
+    align-items: stretch;
+}
+#activities .glide__slide > .activity-card {
+    width: 100%;
+}
+#activities .activity-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 400px;
+    min-height: 400px;
+    max-height: 400px;
+    background: #ffffff !important;
+    border: 2px solid rgba(128, 179, 186, 0.35);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(61, 92, 96, 0.12);
+    font-family: 'Lora', Georgia, serif;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+#activities .activity-card .card-body {
+    background: #ffffff !important;
+}
+
+/* Gallery section (reuses pillar gallery styling) */
+.pillar-gallery.charity-gallery {
+    padding: 3rem 0 4rem;
+    background: #ffffff;
+    border-top: none;
+    border-bottom: none;
+}
+#activities .activity-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px rgba(61, 92, 96, 0.2);
+    border-color: rgba(128, 179, 186, 0.5);
+}
+#activities .activity-card-img {
+    height: 200px !important;
+    min-height: 200px !important;
+    max-height: 200px !important;
+    width: 100%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+#activities .activity-card .card-body {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 1.25rem 1.25rem 1rem;
+    overflow: hidden;
+}
+#activities .activity-card .card-title {
+    color: #3d5c60;
+    font-weight: 700;
+    font-size: 1.1rem;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+#activities .activity-card .card-body p {
+    color: #475569;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Brand alignment to Sanskar/Swabalamban */
+.pillar-overlay-cards .pillar-overlay-card--text h1,
+.pillar-overlay-cards .pillar-back,
+#about .title,
+#about .content-title,
+#activities .activity-card .card-title,
+.charity-activities-section .section-title {
+    color: #005E66 !important;
+}
+.pillar-overlay-cards .pillar-overlay-card--text .pillar-hero-accent,
+.charity-activities-section .section-accent {
+    background: linear-gradient(90deg, #005E66 0%, #006A73 100%) !important;
 }

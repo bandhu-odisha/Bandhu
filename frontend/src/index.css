@@ -1,0 +1,173 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-teal: #005e66;
+  --color-teal-vivid: #006a73;
+  --color-teal-dark: #00545b;
+  --color-teal-darker: #004a51;
+  --color-teal-deep: #004147;
+  --color-teal-bg: #d6ecee;
+  --color-teal-pale: #d6ecee;
+  --color-white: #ffffff;
+  --color-muted: #1e293b;
+  --section-shadow: 0 12px 48px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(0, 94, 102, 0.14);
+  --card-shadow: 0 12px 40px rgba(0, 0, 0, 0.14), 0 4px 16px rgba(0, 0, 0, 0.06);
+  --card-shadow-hover: 0 28px 60px rgba(0, 0, 0, 0.18), 0 8px 24px rgba(0, 94, 102, 0.18);
+  --glow-teal: 0 0 48px rgba(0, 94, 102, 0.2);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 18px;
+}
+
+/* Scrollbar – neutral on white page */
+html, body {
+  scrollbar-color: #94a3b8 #f1f5f9;
+  scrollbar-width: thin;
+}
+html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+html::-webkit-scrollbar-track, body::-webkit-scrollbar-track, *::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+html::-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb, *::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 6px;
+  border: 3px solid #f1f5f9;
+}
+html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, *::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+html::-webkit-scrollbar-corner, body::-webkit-scrollbar-corner, *::-webkit-scrollbar-corner {
+  background: #f1f5f9;
+}
+
+/* Landing page: hide scrollbar but keep scroll working */
+html.landing,
+body.landing {
+  -ms-overflow-style: none; /* IE/Edge legacy */
+  scrollbar-width: none; /* Firefox */
+}
+html.landing::-webkit-scrollbar,
+body.landing::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  display: none;
+}
+
+body {
+  margin: 0;
+  font-family: 'Lora', Georgia, serif;
+  font-size: 1rem;
+  color: var(--color-teal-dark);
+  background: #ffffff;
+  min-height: 100vh;
+  position: relative;
+}
+
+.font-heading {
+  font-family: 'Lora', Georgia, serif;
+}
+
+/* Section containers – consistent spacing and visual rhythm */
+.landing-section {
+  position: relative;
+  z-index: 1;
+  padding-top: 3.5rem;
+  padding-bottom: 3.5rem;
+}
+@media (min-width: 640px) {
+  .landing-section {
+    padding-top: 4.5rem;
+    padding-bottom: 4.5rem;
+  }
+}
+
+/* Scroll target for "Back to Our Mission" – leave room for fixed header */
+#mission {
+  scroll-margin-top: 5.25rem;
+}
+
+.section-title {
+  font-family: 'Lora', Georgia, serif;
+  font-weight: 900;
+  font-size: clamp(2.45rem, 5.6vw, 3.8rem);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  color: var(--color-teal-deep);
+}
+@media (min-width: 640px) {
+  .section-title {
+    font-size: clamp(3.1rem, 4.4vw, 4.35rem);
+  }
+}
+
+.section-title-accent {
+  width: 5.5rem;
+  height: 5px;
+  background: linear-gradient(90deg, var(--color-teal) 0%, var(--color-teal-dark) 100%);
+  border-radius: 3px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0.75rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(61, 92, 96, 0.35);
+}
+
+.section-title-underlined {
+  padding-bottom: 0.75rem;
+  margin-bottom: 0;
+  display: inline-block;
+}
+.section-title-underlined::after {
+  content: '';
+  display: block;
+  width: 5.5rem;
+  height: 5px;
+  margin: 0.5rem auto 0;
+  background: linear-gradient(90deg, var(--color-teal) 0%, var(--color-teal-dark) 100%);
+  border-radius: 3px;
+  box-shadow: 0 2px 8px rgba(61, 92, 96, 0.35);
+}
+
+/* Card lift and bright shadow so boxes stand out */
+.landing-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: var(--card-shadow);
+}
+.landing-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

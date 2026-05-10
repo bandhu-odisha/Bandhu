@@ -6,13 +6,49 @@
 {% block title %} Ashram {% endblock %}
 
 {% block style %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet">
 <!-- Custom CSS -->
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
 <link rel="stylesheet" href="{% static 'css/ashram.css' %}">
 <!-- Custom Style -->
 <style>
     #top-section {
-        background: url("{{ content.banner_image.url }}") 50% center no-repeat fixed;
+        background:
+            radial-gradient(circle at 14% 22%, rgba(0, 94, 102, 0.06) 0 2px, transparent 3px),
+            radial-gradient(circle at 30% 70%, rgba(0, 94, 102, 0.04) 0 1.5px, transparent 2.5px),
+            radial-gradient(circle at 58% 28%, rgba(0, 94, 102, 0.05) 0 1.8px, transparent 2.8px),
+            radial-gradient(circle at 74% 62%, rgba(0, 94, 102, 0.04) 0 1.5px, transparent 2.6px),
+            radial-gradient(circle at 88% 24%, rgba(0, 94, 102, 0.045) 0 1.6px, transparent 2.8px),
+            linear-gradient(135deg, #e8f5f6 0%, #d6ecee 45%, #c5e4e8 100%) !important;
+        background-attachment: fixed !important;
+        background-size: cover !important;
+    }
+    #top-section .parallax-overlay {
+        position: relative;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(214, 236, 238, 0.28) 100%) !important;
+    }
+    #top-section .parallax-overlay::before {
+        content: "Bandhughar";
+        position: absolute;
+        top: 120px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #005E66;
+        font-family: 'Lora', Georgia, serif;
+        font-weight: 800;
+        font-size: clamp(2.2rem, 6vw, 4rem);
+        letter-spacing: 0.02em;
+        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.95), 0 2px 22px rgba(0, 94, 102, 0.14);
+        z-index: 9;
+        pointer-events: none;
+    }
+    #top-section .parallax-overlay::after {
+        content: none !important;
+    }
+    /* Hide default showcase accent/title to avoid duplicate underline */
+    #top-section .slider-txt-container.page-showcase {
+        display: none !important;
     }
 </style>
 {% endblock %}
@@ -33,66 +69,80 @@
 {% endblock %}
 
 {% block showcase-title-container %}
-<div class="slider-txt-container" style="padding: 200px 0 200px 0;">
-    <h2 class="bold-txt"> Bandhughar </h2>
+<div class="slider-txt-container page-showcase page-showcase-tall">
+    <h2 class="bold-txt page-showcase-title">Bandhughar</h2>
+    <div class="page-showcase-accent"></div>
+</div>
+{% endblock %}
+{% block angular %}
+<div class="angular page-angular angular-ashram">
+    <div class="top-angle"></div>
 </div>
 {% endblock %}
 
 {% block content %}
-<!-- ABOUT Section  -->
-<div id="about" style="margin-top: -220px;">
-    <div class="container pb-5 mb-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6" style="z-index: 10;">
-                <div style="padding: 135px 25px 0;">
-                    <!-- <h3 class="content-title" style="font-size: 2rem; margin-bottom: 20px;">Ashram</h3> -->
-                    <p style="font-size: 20px;">
-                        <strong>{{ content.tagline|safe }}</strong>
-                    </p>
-                    <p style="font-size: 17px;">
-                        {{ content.description|safe }}
-                    </p>
+<!-- Overlay cards: direct sibling of angular so -280px pulls them over banner (same as Other Activities) -->
+<section id="about" class="pillar-overlay-cards">
+    <div class="container">
+        <div class="row align-items-start g-4">
+            <div class="col-lg-4 col-md-5">
+                <div class="pillar-overlay-card pillar-overlay-card--image">
+                    {% if content and content.picture %}
+                    <img src="{{ content.picture.url }}" alt="Bandhughar" loading="eager" class="pillar-overlay-single-image">
+                    {% else %}
+                    <img src="{% static 'img/our_mission1.jpg' %}" alt="Bandhughar" loading="eager" class="pillar-overlay-single-image">
+                    {% endif %}
                 </div>
             </div>
-            <div class="col-md-6" style="z-index: 10;">
-                <div class="card border text-center">
-                    <img class="card-img-top" src='{{ content.picture.url }}' alt="Bandhughar"
-                        style="height: 500px; width: 100%; object-fit: cover;">
+            <div class="col-lg-8 col-md-7">
+                <div class="pillar-overlay-card pillar-overlay-card--text">
+                    {% if content %}
+                    <p class="pillar-tagline">{{ content.tagline|safe }}</p>
+                    <div class="pillar-desc">{{ content.description|safe }}</div>
+                    {% else %}
+                    <p class="pillar-tagline">Bandhughar</p>
+                    <div class="pillar-desc">Our community spaces for reflection and connection.</div>
+                    {% endif %}
+                    <div class="pillar-text-quote" aria-label="Bandhughar quote">
+                        <p class="quote-line quote-en">"A home of care and dignity helps every heart feel safe."</p>
+                        <p class="quote-line quote-or">"ସ୍ନେହ ଓ ସମ୍ମାନର ଘରେ ପ୍ରତ୍ୟେକ ହୃଦୟ ନିରାପଦ ଅନୁଭବ କରେ।"</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
+<div class="ashram-list-page">
 <!-- BANDHUGHAR SECTION -->
 {% if ashrams.count or user|is_admin %}
-<section id="ashrams" class="glide-carousel-custom">
-    <div class="bg-grey" style="padding: 50px 0;">
-        <h3 class="section-title">Bandhughar</h3>
-        <div class="container">
-            {% if ashrams.count %}
-            <div class="row">
-                <div class="glide ashrams">
-                    <div class="glide__track" data-glide-el="track">
-                        <ul class="glide__slides">
-                            {% for ashram in ashrams %}
-                            <li class="glide__slide">
-                                <div class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
-                                    <img src="{{ ashram.image.url }}" class="card-img-top home-card-img" alt=""
-                                        width="300px">
-                                    <div class="card-body pb-0">
-                                        <h5 class="card-title font-weight-bold">{{ ashram.name }}</h5>
-                                        <p class="mb-3">
-                                            {{ ashram.locality }}<br>
-                                        </p>
-                                        <a href="{% url 'ashram:AshramDetail' slug=ashram.slug %}"
-                                            class="stretched-link"></a>
+<section id="ashrams" class="glide-carousel-custom page-section">
+    <div class="container" style="padding: 3rem 0 4rem;">
+        <h2 class="section-title text-center">Bandhughar</h2>
+        <div class="section-accent"></div>
+        {% if ashrams.count %}
+        <div class="row">
+            <div class="glide ashrams">
+                <div class="glide__track" data-glide-el="track">
+                    <ul class="glide__slides">
+                        {% for ashram in ashrams %}
+                        <li class="glide__slide">
+                            <div class="card w-100 page-card bandhughar-list-card mx-auto my-2 border-0 overflow-hidden">
+                                <div class="bandhughar-card-media position-relative">
+                                    <img src="{{ ashram.image.url }}" class="bandhughar-card-img" alt="" loading="lazy">
+                                    <div class="bandhughar-card-caption">
+                                        <h5 class="bandhughar-card-title mb-1">{{ ashram.name }}</h5>
+                                        <p class="bandhughar-card-locality mb-0">{{ ashram.locality }}</p>
                                     </div>
+                                    <a href="{% url 'ashram:AshramDetail' slug=ashram.slug %}"
+                                        class="stretched-link"
+                                        aria-label="{{ ashram.name }}, {{ ashram.locality }}"></a>
                                 </div>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
                     <div class="glide__arrows disable_arrows d-none d-md-block" data-glide-el="controls">
                         <button class="slider_arrow slider_arrow--prev glide__arrow glide__arrow--left"
                             data-glide-dir="<">
@@ -110,20 +160,16 @@
                     </div>
                 </div>
             </div>
-            {% endif %}
-            <div class="row justify-content-center mt-4">
-                <div class="add-bandhughar">
-                    {% if user|is_admin %}
-                    <!-- <button type="button" class="btn btn-primary" data-toggle="modal"
-                        data-target="#add_bandhughar">
-                        Create Bandhughar
-                    </button> -->
-                    <a href="{% url 'admin:ashram_ashram_add' %}?next=bandhughar_details" class="btn btn-primary">Create Bandhughar</a>
-                    {% endif %}
-                    <div class="modal fade" tabindex="-1" id="add_bandhughar" role="dialog"
-                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                            <div class="modal-content">
+        {% endif %}
+        <div class="row justify-content-center mt-4">
+            <div class="add-bandhughar">
+                {% if user|is_admin %}
+                <a href="{% url 'admin:ashram_ashram_add' %}?next=bandhughar_details" class="btn btn-primary">Create Bandhughar</a>
+                {% endif %}
+                <div class="modal fade ashram-modal" tabindex="-1" id="add_bandhughar" role="dialog"
+                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                        <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title bld">Create Bandhughar</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -184,9 +230,10 @@
                 </div>
             </div>
         </div>
-    </div>
 </section>
 {% endif %}
+
+</div><!-- .ashram-list-page -->
 <!-- Recent Activities Section Ends -->
 
 <!-- Scroll To Top Button -->

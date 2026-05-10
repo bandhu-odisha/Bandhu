@@ -4,6 +4,174 @@
 {% load static %}
 
 {% block title %} Bandhu | People {% endblock %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/people.css' %}">
+<style>
+    /* People page cards like reference mockup */
+    .people-page {
+        padding-top: 1rem;
+        padding-bottom: 1.75rem;
+    }
+    .people-page .nav-tabs {
+        border-bottom: 1px solid #d8d8d8;
+        margin-bottom: 0;
+    }
+    .people-page .nav-tabs .nav-link {
+        color: #353535;
+        font-weight: 500;
+        font-size: 18px;
+        border: 1px solid transparent;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+        padding: 0.8rem 1.25rem;
+    }
+    .people-page .nav-tabs .nav-link:hover {
+        color: #127f6e;
+    }
+    .people-page .nav-tabs .nav-link.active {
+        color: #282828;
+        border-color: #d8d8d8 #d8d8d8 #ffffff;
+        background-color: #ffffff;
+    }
+    #peopleContent .tab-pane {
+        padding: 1.6rem 0 1.5rem;
+    }
+    #peopleContent .people-profile-row [class*="col-"] {
+        display: flex;
+        justify-content: center;
+    }
+    #peopleContent .people-profile-row .card {
+        width: 100%;
+        max-width: 350px;
+        border: 0;
+        border-radius: 22px;
+        background: #ffffff;
+        box-shadow: 0 4px 16px rgba(26, 41, 58, 0.08);
+        overflow: hidden;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    #peopleContent .people-profile-row .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 22px rgba(26, 41, 58, 0.13);
+    }
+    #peopleContent .people-profile-row .card-body {
+        padding: 1.5rem 1.35rem 1.1rem;
+    }
+    #peopleContent .people-card-layout {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        min-height: 280px;
+    }
+    #peopleContent .people-profile-row .card-body .profile-photo-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 0.9rem;
+    }
+    #peopleContent .people-profile-row .card-body .profile-photo-wrap img {
+        width: 96px;
+        height: 96px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #e8eef3;
+        display: block;
+    }
+    #peopleContent .people-card-main {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    #peopleContent .people-profile-row .card-body .people-name {
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 1.2;
+        color: #152231;
+        margin: 0;
+        text-transform: capitalize;
+    }
+    #peopleContent .people-profile-row .card-body .people-profession {
+        margin: 0;
+        font-size: 17px;
+        line-height: 1.35;
+        color: #6f7680;
+    }
+    #peopleContent .people-profile-row .card-body .people-profession--position {
+        margin-top: 0.8rem;
+        padding-top: 0.8rem;
+        border-top: 1px solid #e9eaec;
+        width: 100%;
+        color: #4f5560;
+        font-weight: 600;
+        text-transform: lowercase;
+    }
+    #peopleContent .people-profile-row .card-body .people-profession--position::first-letter {
+        text-transform: uppercase;
+    }
+    #peopleContent .people-profile-row .card-body .people-profession--occupation {
+        margin-top: 0.18rem;
+        color: #7f8690;
+        font-weight: 400;
+    }
+    #peopleContent .people-card-footer {
+        margin-top: auto;
+        padding-top: 0.85rem;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    #peopleContent .people-view-profile-btn {
+        color: #0a7365;
+        font-size: 17px;
+        font-weight: 600;
+        text-decoration: none;
+    }
+    #peopleContent .people-view-profile-btn:hover {
+        color: #055349;
+        text-decoration: underline;
+        text-underline-offset: 0.15em;
+    }
+    #peopleContent .people-view-profile-btn:focus-visible {
+        outline: 2px solid #0a7365;
+        outline-offset: 2px;
+        border-radius: 3px;
+    }
+    @media (max-width: 991px) {
+        .people-page .nav-tabs .nav-link {
+            font-size: 16px;
+        }
+        #peopleContent .people-profile-row .card-body .people-name {
+            font-size: 22px;
+        }
+        #peopleContent .people-profile-row .card-body .people-profession,
+        #peopleContent .people-view-profile-btn {
+            font-size: 15px;
+        }
+    }
+    @media (max-width: 767px) {
+        .people-page .nav-tabs .nav-link {
+            font-size: 16px;
+            padding: 0.65rem 0.85rem;
+        }
+        #peopleContent .people-profile-row .card {
+            max-width: 100%;
+        }
+        #peopleContent .people-profile-row .card-body .profile-photo-wrap img {
+            width: 88px;
+            height: 88px;
+        }
+        #peopleContent .people-profile-row .card-body .people-name {
+            font-size: 22px;
+        }
+        #peopleContent .people-profile-row .card-body .people-profession,
+        #peopleContent .people-view-profile-btn {
+            font-size: 16px;
+        }
+    }
+</style>
+{% endblock %}
 {% block navbar-links %}
 <li class="nav-item">
 	<a class="nav-link px-3" href="{% url 'home' %}">Home</a>
@@ -14,7 +182,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container people-page">
 	<div class="mt-1">
         <ul class="nav nav-tabs" id="people" role="tablist">
             {% for desg in data %}
@@ -26,18 +194,33 @@
         <div class="tab-content" id="peopleContent">
             {% for desg,staffs in data.items %}
                 <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" id="{{desg.title|to_snake_case}}" role="tabpanel" aria-labelledby="{{desg.title|to_snake_case}}-tab">
-                    <div class="row mt-2 px-1">
+                    <div class="row mt-2 px-1 people-profile-row">
                         {% for staff,designation in staffs %}
-                            <div class="col-lg-3">
-                                <div class="card mb-4">
-                                    <div class="card-body text-center">
-                                        <img src="/media/{{ staff.profile.profile_pic }}" alt="avatar"
-                                        class="rounded-circle img-fluid" width="150px" height="150px" style="border: 2px solid rgb(207, 207, 207); object-fit: cover; max-height: 150px;max-width: 150px;"/>
-                                        <h5 class="my-2">{{ staff.profile.get_full_name }}</h5>
-                                        <p class="text-muted mb-1">{{staff.profile.profession}}</p>
-                                        <p class="text-muted mb-4">{{designation.title}}</p>
-                                        <div class="d-flex justify-content-center mb-2">
-                                            <a href="{{ staff.id }}" type="button" class="btn btn-outline-primary ms-1">View Profile</a>
+                            <div class="col-12 col-md-6 col-lg-4 mb-4">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <div class="people-card-layout">
+                                            <div class="profile-photo-wrap">
+                                                {% if staff.profile.profile_pic %}
+                                                <img src="{{ staff.profile.profile_pic.url }}" alt="avatar"
+                                                data-fallback="{% if staff.profile.gender == 'F' %}{% static 'img/woman.png' %}{% else %}{% static 'img/man.png' %}{% endif %}"
+                                                onerror="this.onerror=null; this.src=this.dataset.fallback;"
+                                                class="img-fluid"/>
+                                                {% elif staff.profile.gender == 'F' %}
+                                                <img src="{% static 'img/woman.png' %}" alt="avatar" class="img-fluid"/>
+                                                {% else %}
+                                                <img src="{% static 'img/man.png' %}" alt="avatar" class="img-fluid"/>
+                                                {% endif %}
+                                            </div>
+                                            <div class="people-card-main">
+                                                <h5 class="people-name">{{ staff.profile.get_full_name }}</h5>
+                                                {% for line in staff.profile.profession|profession_lines:designation.title %}
+                                                <p class="people-profession {% if forloop.first %}people-profession--position{% else %}people-profession--occupation{% endif %}">{{ line }}</p>
+                                                {% endfor %}
+                                                <div class="people-card-footer">
+                                                    <a href="{% url 'staff_profile' staff.id %}" class="people-view-profile-btn">View Profile</a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

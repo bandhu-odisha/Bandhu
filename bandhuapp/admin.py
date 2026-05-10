@@ -90,4 +90,5 @@ class StaffQualificationAdmin(admin.ModelAdmin):
 
 @admin.register(Video)
 class VideoAdmin(admin.ModelAdmin):
-    list_display = ('title', 'script')
+    list_display = ('title', 'duration', 'created_at')
+    fields = ('title', 'duration', 'script')

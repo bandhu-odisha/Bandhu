@@ -1,0 +1,16 @@
+/* People listing page – loaded after custom.css via template {% block style %} */
+.people-page {
+    font-family: sans-serif;
+}
+
+.people-page h1,
+.people-page h2,
+.people-page h3,
+.people-page h4,
+.people-page h5,
+.people-page h6,
+.people-page p,
+.people-page a,
+.people-page .nav-link {
+    font-family: sans-serif;
+}

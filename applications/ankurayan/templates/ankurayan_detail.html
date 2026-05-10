@@ -5,15 +5,561 @@
 
 {% block title %} Ankurayan {{ ankurayan.year }} {% endblock %}
 
+{% block body_class %}ankurayan-detail{% endblock %}
+
 {% block style %}
 <!-- Custom CSS -->
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
 <link rel="stylesheet" href="{% static 'css/ankurayan.css' %}">
 <!-- Custom Style -->
 <style>
-    #top-section {
-        background: url("{{ content.banner_image.url }}") 50% center no-repeat fixed;
+    body #top-section {
+        background:
+            radial-gradient(circle at 14% 22%, rgba(0, 94, 102, 0.06) 0 2px, transparent 3px),
+            radial-gradient(circle at 30% 70%, rgba(0, 94, 102, 0.04) 0 1.5px, transparent 2.5px),
+            radial-gradient(circle at 58% 28%, rgba(0, 94, 102, 0.05) 0 1.8px, transparent 2.8px),
+            radial-gradient(circle at 74% 62%, rgba(0, 94, 102, 0.04) 0 1.5px, transparent 2.6px),
+            radial-gradient(circle at 88% 24%, rgba(0, 94, 102, 0.045) 0 1.6px, transparent 2.8px),
+            linear-gradient(135deg, #e8f5f6 0%, #d6ecee 45%, #c5e4e8 100%) !important;
+        background-attachment: fixed !important;
+        background-size: cover !important;
     }
+    body #top-section .parallax-overlay {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(214, 236, 238, 0.28) 100%) !important;
+        background-color: transparent !important;
+    }
+    body #top-section .parallax-overlay::before {
+        content: "Ankurayan {{ ankurayan.year }}";
+        position: absolute;
+        top: 120px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #005E66;
+        font-family: 'Lora', Georgia, serif;
+        font-weight: 800;
+        font-size: clamp(2.2rem, 6vw, 4rem);
+        letter-spacing: 0.02em;
+        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.95), 0 2px 22px rgba(0, 94, 102, 0.14);
+        z-index: 5;
+        pointer-events: none;
+        white-space: nowrap;
+    }
+    body #top-section .slider-txt-container.page-showcase > * {
+        opacity: 0 !important;
+    }
+    .btn-teal { background-color: #80b3ba; border-color: #80b3ba; color: #fff; }
+    .btn-teal:hover { background-color: #3d5c60; border-color: #3d5c60; color: #fff; }
+    .btn-outline-teal { color: #80b3ba; border-color: #80b3ba; background: transparent; }
+    .btn-outline-teal:hover { color: #fff; background-color: #80b3ba; border-color: #80b3ba; }
+    .guest-profile-modal .modal-content { max-width: 56rem; width: 90vw; margin: 0 auto; border-radius: 16px; overflow: hidden; border: 2px solid rgba(128, 179, 186, 0.35) !important; box-shadow: 0 8px 24px rgba(61, 92, 96, 0.12), 0 25px 50px -12px rgba(0,0,0,0.15); background: linear-gradient(135deg, #ffffff 0%, #d7e9f2 40%, #80b3ba 100%) !important; font-family: 'Lora', Georgia, serif; }
+    .guest-profile-modal .modal-body { padding: 0; }
+    .guest-profile-modal .modal-dialog { max-width: 56rem; width: 90vw; margin: 0.5rem auto; }
+    .guest-profile-modal .modal-content { position: relative; }
+    .guest-profile-modal .guest-close-btn { position: relative !important; width: 2.5rem; height: 2.5rem; min-width: 2.5rem; min-height: 2.5rem; border-radius: 50%; background: #3d5c60; color: #fff; border: none; padding: 0; margin: 0; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); cursor: pointer; transition: background 0.2s, transform 0.2s; text-decoration: none; line-height: 0; flex-shrink: 0; }
+    .guest-profile-modal .guest-close-btn.guest-close-btn-visitor { position: absolute !important; top: 0.75rem; right: 1rem; z-index: 30; width: 2.25rem; height: 2.25rem; min-width: 2.25rem; min-height: 2.25rem; padding: 0; margin: 0; background: #fff !important; color: #3d5c60 !important; border: 1px solid #e5e7eb; box-shadow: 0 1px 3px rgba(0,0,0,0.1); display: flex !important; align-items: center; justify-content: center; cursor: pointer; }
+    .guest-profile-modal .guest-close-btn.guest-close-btn-visitor:hover { background: #f3f4f6 !important; color: #0c5c56 !important; }
+    .guest-profile-modal .guest-close-btn.guest-close-btn-visitor .guest-close-x { display: block; flex-shrink: 0; width: 20px; height: 20px; }
+    .guest-profile-modal .guest-close-btn .guest-close-icon { display: block !important; flex-shrink: 0; width: 20px; height: 20px; }
+    .guest-profile-modal .guest-close-btn:hover { background: #80b3ba; color: #fff; transform: scale(1.05); box-shadow: 0 3px 12px rgba(128, 179, 186, 0.4); }
+    .guest-profile-modal .guest-edit-btn {
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.85rem;
+        background-color: #80b3ba !important;
+        border-color: #80b3ba !important;
+        color: #fff !important;
+        padding: 0.4rem 0.75rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    }
+    .guest-profile-modal .guest-edit-btn:hover {
+        background-color: #3d5c60 !important;
+        border-color: #3d5c60 !important;
+        color: #fff !important;
+    }
+    .guest-profile-modal .guest-profile-edit .form-group label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #80b3ba; }
+    .guest-profile-modal .guest-profile-edit {
+        background: linear-gradient(180deg, #d7e9f2 0%, #f8fafc 100%);
+        border-top: 4px solid #80b3ba;
+    }
+    .guest-profile-modal .guest-profile-edit .guest-edit-form-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #3d5c60;
+        margin-bottom: 1.25rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid rgba(128, 179, 186, 0.2);
+    }
+    .guest-profile-modal .guest-profile-edit .form-group {
+        margin-bottom: 1rem;
+    }
+    .guest-profile-modal .guest-profile-edit .form-control {
+        border-radius: 10px;
+        border: 1px solid #b8dce5;
+        background: #fff;
+        font-size: 0.95rem;
+        padding: 0.5rem 0.75rem;
+    }
+    .guest-profile-modal .guest-profile-edit .form-control:focus {
+        border-color: #80b3ba;
+        box-shadow: 0 0 0 3px rgba(128, 179, 186, 0.15);
+        outline: none;
+    }
+    .guest-profile-modal .guest-profile-edit .guest-edit-error {
+        border-radius: 10px;
+        border: 1px solid #fca5a5;
+        background: #fef2f2;
+        color: #b91c1c;
+        font-size: 0.875rem;
+    }
+    .guest-profile-modal .guest-profile-edit .guest-edit-actions .btn-teal {
+        border-radius: 10px;
+        font-weight: 600;
+        padding: 0.5rem 1.25rem;
+    }
+    .guest-profile-modal .guest-profile-edit .guest-edit-actions .btn-secondary {
+        border-radius: 10px;
+        font-weight: 600;
+        padding: 0.5rem 1.25rem;
+        background: #64748b;
+        border-color: #64748b;
+    }
+    .guest-profile-modal .guest-profile-edit .guest-edit-actions .btn-secondary:hover {
+        background: #475569;
+        border-color: #475569;
+        color: #fff;
+    }
+    .bg-teal-dark { background: linear-gradient(160deg, #3d5c60 0%, #80b3ba 100%) !important; }
+    .guest-profile-modal .guest-avatar-col { min-width: 0; padding: 1.25rem 1rem !important; }
+    .guest-profile-modal .guest-avatar-col-visitor { background: #3d5c60 !important; min-height: 200px; display: flex !important; align-items: center; justify-content: center; padding: 2rem 1.5rem !important; }
+    .guest-profile-modal .guest-avatar-img { width: 7rem; height: 7rem; object-fit: cover; border-radius: 50%; border: 4px solid #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    @media (min-width: 768px) { .guest-profile-modal .guest-avatar-img { width: 8rem; height: 8rem; } }
+    .guest-profile-modal .guest-details-col { background: linear-gradient(135deg, #ffffff 0%, #d7e9f2 50%, #80b3ba 100%) !important; padding: 1.25rem 1.5rem !important; }
+    .guest-profile-modal .guest-details-col-visitor { background: linear-gradient(135deg, #ffffff 0%, #d7e9f2 50%, #80b3ba 100%) !important; padding: 1.5rem 2rem !important; }
+    .guest-profile-modal .guest-name { font-size: 1.35rem; letter-spacing: 0.02em; color: #3d5c60 !important; margin-bottom: 0.25rem; }
+    .guest-profile-modal .guest-name-visitor { font-size: 1.25rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #3d5c60 !important; margin-bottom: 1.5rem !important; }
+    @media (min-width: 576px) { .guest-profile-modal .guest-name-visitor { font-size: 1.5rem; } }
+    .guest-profile-modal .guest-dl-visitor { margin: 0; }
+    .guest-profile-modal .guest-dl-item { margin-bottom: 1rem; }
+    .guest-profile-modal .guest-dl-item:last-of-type { margin-bottom: 0; }
+    .guest-profile-modal .guest-dl-item dt { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #3d5c60; margin-bottom: 0.25rem; }
+    .guest-profile-modal .guest-dl-item dd { font-size: 0.9rem; color: #64748b; line-height: 1.5; margin: 0; }
+    .guest-profile-modal .guest-quote-inline { border-left: 4px solid #80b3ba; }
+    .guest-profile-modal .guest-profession { font-size: 0.9rem; color: #6b7280; margin-bottom: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px solid #e5e7eb; }
+    .guest-profile-modal .guest-detail-row { padding: 0.4rem 0; border-bottom: 1px solid #f3f4f6; display: flex; align-items: flex-start; gap: 0.75rem; }
+    .guest-profile-modal .guest-detail-row:last-of-type { border-bottom: none; }
+    .guest-profile-modal .guest-detail-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #80b3ba; min-width: 5.5rem; flex-shrink: 0; }
+    .guest-profile-modal .guest-detail-value { font-size: 0.9rem; color: #374151; line-height: 1.5; margin: 0; }
+    .guest-profile-modal .guest-social-link { color: #3d5c60; width: 2.25rem; height: 2.25rem; border-radius: 50%; background: #3d5c60 !important; background-color: #3d5c60 !important; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; transition: background 0.2s, transform 0.2s; }
+    .guest-profile-modal .guest-social-link:hover { background: #083d3a !important; background-color: #083d3a !important; transform: scale(1.08); }
+    .guest-profile-modal .guest-social-link .guest-social-icon { display: block; flex-shrink: 0; }
+    .guest-profile-modal .guest-social-link .guest-social-icon path { fill: #ffffff !important; }
+    .guest-profile-modal .guest-social-link:hover .guest-social-icon path { fill: #ffffff !important; }
+    .guest-profile-modal .guest-social-icon-wrap { width: 2.25rem; height: 2.25rem; border-radius: 50%; background: #3d5c60 !important; background-color: #3d5c60 !important; display: inline-flex; align-items: center; justify-content: center; cursor: default; opacity: 1 !important; }
+    .guest-profile-modal .guest-social-icon-wrap .guest-social-icon path { fill: #ffffff !important; stroke: #ffffff !important; stroke-width: 0.5 !important; stroke-linejoin: round !important; paint-order: stroke fill !important; }
+    .guest-profile-modal .guest-social-icon-wrap .guest-social-icon { display: block; flex-shrink: 0; }
+    .guest-profile-modal .guest-social-link .guest-social-icon path { stroke: #ffffff !important; stroke-width: 0.5 !important; stroke-linejoin: round !important; paint-order: stroke fill !important; }
+    .guest-profile-modal .btn-share-experience { padding: 0.6rem 1.25rem; border-radius: 9999px; font-weight: 600; font-size: 0.9rem; margin-top: 1rem; }
+    /* Ankurayan section cards: uniform size + cohesive styling */
+    .ankurayan-cards-wrap { padding-top: 0.5rem; }
+    .ankurayan-cards-row { margin-bottom: 0.5rem; }
+    .ankurayan-cards-row + .ankurayan-cards-row { margin-top: 1rem; }
+    .ankurayan-detail .ankurayan-section-card {
+        min-height: 0;
+        max-height: none;
+        display: flex;
+        flex-direction: column;
+        border: none !important;
+        border-radius: 12px !important;
+        background: #f8fafc !important;
+        box-shadow: none !important;
+        transition: background-color 0.2s ease;
+    }
+    .ankurayan-detail .ankurayan-section-card:hover {
+        box-shadow: none !important;
+        background: #f1f5f9 !important;
+    }
+    .ankurayan-detail .ankurayan-section-card .card-body,
+    .ankurayan-detail .ankurayan-section-card .ankurayan-section-card-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 1.25rem 1.35rem !important;
+        color: #334155;
+        min-height: 0;
+        overflow-y: auto;
+    }
+    .ankurayan-detail .ankurayan-section-card .content-title {
+        color: #005E66 !important;
+        font-weight: 700 !important;
+        font-size: 0.8125rem !important;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 0.85rem !important;
+        padding-bottom: 0.65rem;
+        border-bottom: 1px solid #e2e8f0;
+    }
+    .ankurayan-detail .ankurayan-section-card .title {
+        color: #005E66 !important;
+        font-weight: 700 !important;
+    }
+    .ankurayan-detail .ankurayan-section-card p,
+    .ankurayan-detail .ankurayan-section-card .text-muted {
+        font-size: 0.9375rem;
+        line-height: 1.65;
+        color: #475569;
+        margin-bottom: 0.5rem !important;
+    }
+    .ankurayan-detail .ankurayan-section-card p:last-child,
+    .ankurayan-detail .ankurayan-section-card .text-muted:last-child { margin-bottom: 0 !important; }
+    .ankurayan-detail .ankurayan-section-card .pillar-desc {
+        font-size: 0.9375rem !important;
+        line-height: 1.7 !important;
+        color: #334155 !important;
+        font-weight: 500 !important;
+    }
+    /* Description card: Lora for heading + body (all years); matches #modalDescription */
+    .ankurayan-detail .ankurayan-description-card .content-title {
+        font-family: 'Lora', Georgia, serif !important;
+    }
+    .ankurayan-detail .ankurayan-description-card .pillar-desc,
+    .ankurayan-detail .ankurayan-description-card .ankurayan-desc-full,
+    .ankurayan-detail .ankurayan-description-card .ankurayan-desc-preview,
+    .ankurayan-detail .ankurayan-description-card .ankurayan-desc-preview p,
+    .ankurayan-detail .ankurayan-description-card .ankurayan-desc-preview li,
+    .ankurayan-detail .ankurayan-description-card .ankurayan-desc-preview span {
+        font-family: 'Lora', Georgia, serif !important;
+    }
+    .ankurayan-detail .ankurayan-description-card .ankurayan-read-more-btn {
+        font-family: 'Lora', Georgia, serif !important;
+    }
+    /* Description card: 2 lines; "Read more" sits on line 2 (not a third row) */
+    .ankurayan-desc-preview-block {
+        position: relative;
+    }
+    .ankurayan-desc-preview {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+        word-break: break-word;
+        line-height: 1.65 !important;
+        font-size: 0.9375rem !important;
+        color: #334155 !important;
+        font-weight: 500 !important;
+        width: 100%;
+        margin-bottom: 0 !important;
+        /* No padding-right here — it shortened line 1; "Read more" overlays line 2 only */
+    }
+    .ankurayan-desc-preview p:last-child { margin-bottom: 0 !important; }
+    .ankurayan-desc-preview p { text-indent: 0 !important; }
+    .ankurayan-read-more-btn {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        z-index: 2;
+        margin: 0 !important;
+        padding: 0 0 0 0.75rem !important;
+        font-size: 0.875rem !important;
+        font-weight: 600 !important;
+        color: #005E66 !important;
+        text-decoration: none !important;
+        cursor: pointer;
+        line-height: 1.65 !important;
+        background: linear-gradient(90deg, rgba(248, 250, 252, 0) 0%, rgba(248, 250, 252, 0.75) 18%, #f8fafc 42%, #f8fafc 100%);
+        min-width: 5.25rem;
+        text-align: right;
+        border: none !important;
+        box-shadow: none !important;
+    }
+    .ankurayan-read-more-btn:hover,
+    .ankurayan-read-more-btn:focus {
+        color: #3d5c60 !important;
+        text-decoration: underline !important;
+    }
+    .ankurayan-detail .ankurayan-section-card .ankurayan-attachment-link {
+        color: #1e293b !important;
+        font-weight: 600;
+    }
+    .ankurayan-detail .ankurayan-section-card .ankurayan-attachment-link:hover {
+        color: #80b3ba !important;
+    }
+    /* Our Guests section: full-height card, no max-height so all guests show without scrollbar */
+    .ankurayan-guests-section {
+        border: none !important;
+        border-radius: 14px !important;
+        background: #fff !important;
+        box-shadow: none !important;
+        margin-top: 2.5rem !important;
+    }
+    .ankurayan-guests-section .content-title { font-weight: 700 !important; }
+    .ankurayan-guests-section .our-guests-heading { color: #1e293b !important; font-size: 1.5rem !important; text-transform: uppercase; letter-spacing: 0.02em; }
+    .ankurayan-guests-section .ankurayan-visitors-intro { font-size: 0.95rem; line-height: 1.6; color: #475569; }
+    .ankurayan-guests-section .ankurayan-visitors-intro ul { margin-bottom: 0; padding-left: 1.25rem; }
+    /* Guest cards row: equal-height columns + cards fill column */
+    .guest-cards-scroll {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 1rem;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 0.15rem 0 0;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        -ms-overflow-style: none;  /* IE/Edge */
+        scrollbar-width: none;     /* Firefox */
+    }
+    .guest-cards-scroll::-webkit-scrollbar {
+        display: none; /* Chrome/Safari */
+    }
+    .guest-cards-scroll .guest-card-col {
+        flex: 0 0 calc(50% - 0.5rem);
+        max-width: calc(50% - 0.5rem);
+        min-width: calc(50% - 0.5rem);
+        scroll-snap-align: start;
+        display: flex;
+    }
+    @media (max-width: 767px) {
+        .guest-cards-scroll .guest-card-col {
+            flex: 0 0 88%;
+            max-width: 88%;
+            min-width: 88%;
+        }
+    }
+    /* Guest profile cards: horizontal testimonial style like landing page */
+    .guest-profile-card {
+        transition: transform 0.2s ease;
+        border-radius: 16px !important;
+        overflow: hidden;
+        min-height: 250px;
+        flex: 1 1 auto;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        border: none !important;
+        background: #ffffff !important;
+        box-shadow: none !important;
+        cursor: pointer;
+    }
+    .guest-profile-card:hover {
+        transform: none;
+        box-shadow: none !important;
+    }
+    .guest-profile-card .card-body.guest-card-body {
+        border-radius: 16px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 1.3rem 1.25rem !important;
+    }
+    .guest-profile-card .guest-card-avatar {
+        width: 56px !important;
+        height: 56px !important;
+        object-fit: cover;
+        border: none !important;
+        box-shadow: none !important;
+        margin-bottom: 0 !important;
+        flex-shrink: 0;
+    }
+    .guest-profile-card .guest-card-name {
+        font-size: 1.05rem !important;
+        font-weight: 700 !important;
+        color: #2f6f77 !important;
+        line-height: 1.35;
+        margin-bottom: 0.15rem !important;
+    }
+    .guest-profile-card .guest-card-profession {
+        font-size: 0.96rem !important;
+        line-height: 1.4;
+        color: #1e293b !important;
+        margin-bottom: 0 !important;
+    }
+    .guest-profile-card .guest-card-quote {
+        font-size: 1.03rem;
+        line-height: 1.65;
+        color: #3d6a70;
+        font-style: italic;
+        margin-bottom: 1rem !important;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 4;
+        overflow: hidden;
+        min-height: 6.4em;
+    }
+    .guest-profile-card .guest-card-footer {
+        margin-top: auto;
+        border-top: 1px solid #eaf0f2;
+        padding-top: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 0.85rem;
+    }
+    .ankurayan-detail .ankurayan-guests-section,
+    .ankurayan-detail .ankurayan-detail-guests-inner {
+        background: #ffffff !important;
+        background-image: none !important;
+    }
+    .guest-quote-preview { font-size: 0.75rem; line-height: 1.35; color: #6b7280; font-style: italic; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 0.5rem; min-height: 2.7em; }
+    .guest-profile-modal .guest-quote-block { background: linear-gradient(135deg, #d7e9f2 0%, #b8dce5 100%); border-left: 4px solid #80b3ba; padding: 1rem 1.25rem 1rem 1.25rem; padding-right: 4rem; margin: 0; font-family: 'Lora', Georgia, serif; font-size: 1.35rem; line-height: 1.6; font-style: italic; font-weight: 700; color: #3d5c60; position: relative; letter-spacing: 0.02em; overflow: visible; }
+    .guest-profile-modal .guest-quote-open { font-size: 2.25rem; line-height: 1; color: #80b3ba; opacity: 0.6; margin-right: 0.15em; vertical-align: -0.15em; font-family: 'Lora', Georgia, serif; font-weight: 700; font-style: italic; }
+    .guest-profile-modal .guest-quote-close { font-size: 2.25rem; line-height: 1; color: #80b3ba; opacity: 0.6; margin-left: 0.15em; vertical-align: -0.15em; font-family: 'Lora', Georgia, serif; font-weight: 700; font-style: italic; }
+    .guest-profile-modal .guest-quote-inner { display: inline; }
+    /* When guest profile opens: hide Our Guests modal completely behind it; guest modal sizes to content */
+    #modalVisitors.visitors-content-dimmed .modal-dialog { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.2s ease, visibility 0.2s ease; }
+    .guest-profile-modal .modal-dialog { width: 56rem; max-width: 90vw; margin: 0.5rem auto !important; }
+    .guest-profile-modal .modal-content { width: 100%; }
+    /* Our Guests modal: font and styling */
+    #modalVisitors .modal-content { font-family: 'Lora', Georgia, serif; border-radius: 16px; overflow: hidden; border: none; box-shadow: 0 24px 48px -12px rgba(0,0,0,0.2); }
+    #modalVisitors .modal-header { background: linear-gradient(135deg, #3d5c60 0%, #80b3ba 100%); color: #fff; border-bottom: none; padding: 1.25rem 1.5rem; }
+    #modalVisitors .modal-title { font-weight: 700; font-size: 1.35rem; letter-spacing: -0.02em; }
+    #modalVisitors .modal-header .close { color: #fff; opacity: 0.9; text-shadow: none; font-size: 1.5rem; }
+    #modalVisitors .modal-header .close:hover { opacity: 1; }
+    #modalVisitors .modal-body { padding: 1.5rem 1.5rem 1.25rem; background: linear-gradient(180deg, #d7e9f2 0%, #80b3ba 100%) !important; }
+    #modalVisitors .modal-body .content-title { font-family: 'Lora', Georgia, serif; font-weight: 700; font-size: 1.1rem; color: #3d5c60; letter-spacing: -0.01em; margin-bottom: 0.25rem; }
+    #modalVisitors .modal-body > p.text-muted { font-size: 0.875rem; color: #64748b !important; line-height: 1.5; }
+    #modalVisitors .guest-profile-card { font-family: 'Lora', Georgia, serif; border-radius: 16px !important; border: none !important; background: #ffffff !important; box-shadow: none !important; transition: none; min-height: 280px; display: flex; flex-direction: column; }
+    #modalVisitors .guest-profile-card:hover { transform: none; box-shadow: none !important; border-color: transparent !important; }
+    #modalVisitors .guest-profile-card .card-body.guest-card-body { padding: 1.75rem 1.25rem !important; border-radius: 14px; flex: 1; display: flex; flex-direction: column; background: transparent !important; }
+    #modalVisitors .guest-profile-card h6 { font-weight: 700; font-size: 0.95rem; color: #3d5c60; letter-spacing: -0.01em; }
+    #modalVisitors .guest-profile-card .text-muted { font-size: 0.8rem; font-weight: 500; color: #64748b !important; }
+    #modalVisitors .guest-quote-preview { font-size: 0.8rem; line-height: 1.45; color: #64748b !important; font-style: italic; font-weight: 400; }
+    #modalVisitors .guest-profile-card .btn-outline-teal { font-weight: 600; font-size: 0.8rem; border-radius: 10px; padding: 0.5rem 0.75rem; }
+    #modalVisitors .modal-footer { background: #fff; border-top: 1px solid #e2e8f0; padding: 1rem 1.5rem; }
+    #modalVisitors .modal-footer .btn-secondary { font-family: 'Lora', Georgia, serif; font-weight: 600; border-radius: 10px; padding: 0.5rem 1.25rem; background: #475569; border-color: #475569; }
+    #modalVisitors .modal-footer .btn-secondary:hover { background: #334155; border-color: #334155; }
+    /* Description / Reports / Publications modals – force with ID + !important */
+    #modalDescription .modal-content,
+    #modalReports .modal-content,
+    #modalPublications .modal-content { font-family: 'Lora', Georgia, serif !important; border-radius: 16px !important; overflow: hidden; border: none !important; box-shadow: 0 24px 48px -12px rgba(0,0,0,0.18) !important; }
+    #modalDescription .modal-header {
+        background: #234e52 !important;
+        color: #fff !important;
+        border-bottom: none !important;
+        padding: 1.25rem 1.5rem !important;
+    }
+    #modalDescription .modal-title {
+        font-family: 'Lora', Georgia, serif !important;
+        font-weight: 700 !important;
+        font-size: 1.35rem !important;
+        letter-spacing: -0.02em;
+        color: #ffffff !important;
+    }
+    #modalDescription .modal-header .content-title {
+        color: #ffffff !important;
+    }
+    #modalDescription .modal-header .close {
+        color: #ffffff !important;
+        opacity: 0.95;
+        text-shadow: none;
+        font-size: 1.5rem;
+    }
+    #modalReports .modal-header,
+    #modalPublications .modal-header { background: linear-gradient(135deg, #3d5c60 0%, #80b3ba 100%) !important; color: #fff !important; border-bottom: none !important; padding: 1.25rem 1.5rem !important; }
+    #modalReports .modal-title,
+    #modalPublications .modal-title { font-family: 'Lora', Georgia, serif !important; font-weight: 700 !important; font-size: 1.35rem !important; letter-spacing: -0.02em; color: #fff !important; }
+    #modalReports .modal-header .close,
+    #modalPublications .modal-header .close { color: #fff !important; opacity: 0.95; text-shadow: none; font-size: 1.5rem; }
+    #modalDescription .modal-body,
+    #modalReports .modal-body,
+    #modalPublications .modal-body { font-family: 'Lora', Georgia, serif !important; padding: 1.5rem 1.75rem !important; background: #f8fafc !important; color: #334155 !important; line-height: 1.7 !important; }
+    #modalDescription .modal-body .content-title,
+    #modalReports .modal-body .content-title,
+    #modalPublications .modal-body .content-title { font-family: 'Lora', Georgia, serif !important; font-weight: 700 !important; font-size: 1.05rem !important; color: #3d5c60 !important; letter-spacing: -0.01em; margin-bottom: 0.75rem !important; }
+    #modalDescription .modal-body p,
+    #modalReports .modal-body p,
+    #modalPublications .modal-body p { margin-bottom: 0.75rem; font-size: 0.95rem !important; }
+    #modalDescription .modal-body p.text-muted,
+    #modalReports .modal-body p.text-muted,
+    #modalPublications .modal-body p.text-muted { color: #64748b !important; font-size: 0.95rem !important; font-weight: 500 !important; }
+    #modalDescription .modal-body hr,
+    #modalReports .modal-body hr,
+    #modalPublications .modal-body hr { border-color: #e2e8f0 !important; margin: 1.5rem 0; }
+    #modalDescription .modal-body .form-control,
+    #modalReports .modal-body .form-control,
+    #modalPublications .modal-body .form-control { font-family: 'Lora', Georgia, serif !important; border-radius: 10px !important; border-color: #e2e8f0 !important; padding: 0.6rem 0.85rem !important; }
+    #modalDescription .modal-body .form-control:focus,
+    #modalReports .modal-body .form-control:focus,
+    #modalPublications .modal-body .form-control:focus { border-color: #80b3ba !important; box-shadow: 0 0 0 3px rgba(128, 179, 186, 0.15) !important; }
+    #modalDescription .modal-body .form-group label,
+    #modalReports .modal-body .form-group label,
+    #modalPublications .modal-body .form-group label { font-family: 'Lora', Georgia, serif !important; font-weight: 600 !important; color: #3d5c60 !important; }
+    #modalDescription .modal-body .btn-teal,
+    #modalReports .modal-body .btn-teal,
+    #modalPublications .modal-body .btn-teal,
+    #modalVisitors .modal-body .btn-teal { font-family: 'Lora', Georgia, serif !important; border-radius: 10px !important; font-weight: 600 !important; padding: 0.55rem 1.25rem !important; background: #80b3ba !important; border-color: #80b3ba !important; color: #fff !important; }
+    #modalVisitors .modal-body .btn-teal:hover { background: #3d5c60 !important; border-color: #3d5c60 !important; color: #fff !important; }
+    #modalDescription .modal-body .btn-primary,
+    #modalReports .modal-body .btn-primary,
+    #modalPublications .modal-body .btn-primary { font-family: 'Lora', Georgia, serif !important; border-radius: 10px !important; font-weight: 600 !important; background: #80b3ba !important; border-color: #80b3ba !important; }
+    #modalDescription .modal-body .list-group-item,
+    #modalReports .modal-body .list-group-item,
+    #modalPublications .modal-body .list-group-item { font-family: 'Lora', Georgia, serif !important; font-size: 0.95rem !important; font-weight: 500 !important; color: #1e293b !important; border-radius: 12px !important; border: 1px solid #e2e8f0 !important; margin-bottom: 0.5rem; padding: 0.85rem 1.1rem !important; background: #fff !important; box-shadow: 0 1px 2px rgba(0,0,0,0.04) !important; }
+    #modalDescription .modal-body .list-group,
+    #modalReports .modal-body .list-group,
+    #modalPublications .modal-body .list-group { border: none !important; }
+    #modalDescription .modal-body .btn-outline-teal,
+    #modalReports .modal-body .btn-outline-teal,
+    #modalPublications .modal-body .btn-outline-teal { font-family: 'Lora', Georgia, serif !important; font-weight: 600 !important; font-size: 0.875rem !important; border-radius: 8px !important; }
+    #modalDescription .modal-footer,
+    #modalReports .modal-footer,
+    #modalPublications .modal-footer { background: #fff !important; border-top: 1px solid #e2e8f0 !important; padding: 1rem 1.5rem !important; }
+    #modalDescription .modal-footer .btn-outline-teal,
+    #modalReports .modal-footer .btn-outline-teal,
+    #modalPublications .modal-footer .btn-outline-teal { font-family: 'Lora', Georgia, serif !important; border-radius: 10px !important; font-weight: 600 !important; }
+    #modalDescription .modal-footer .btn-secondary,
+    #modalReports .modal-footer .btn-secondary,
+    #modalPublications .modal-footer .btn-secondary { font-family: 'Lora', Georgia, serif !important; border-radius: 10px !important; font-weight: 600 !important; background: #475569 !important; border-color: #475569 !important; color: #fff !important; }
+    #modalDescription .modal-footer .btn-secondary:hover,
+    #modalReports .modal-footer .btn-secondary:hover,
+    #modalPublications .modal-footer .btn-secondary:hover { background: #334155 !important; border-color: #334155 !important; color: #fff !important; }
+    /* Guest profile popup: Lora throughout */
+    .guest-profile-modal .guest-name, .guest-profile-modal .guest-profession, .guest-profile-modal .guest-detail-label, .guest-profile-modal .guest-detail-value { font-family: 'Lora', Georgia, serif; }
+    /* Reports/Publications attachment names under heading — dark color, click to download */
+    .ankurayan-attachment-link { text-decoration: none; cursor: pointer; transition: color 0.2s, text-decoration 0.2s; }
+    .ankurayan-attachment-link:hover { color: #80b3ba !important; text-decoration: underline; }
+    /* Gallery: delete button on each image (admin only) */
+    .gallery-figure { position: relative; }
+    .gallery-delete-form { position: absolute; top: 6px; right: 6px; z-index: 5; margin: 0; }
+    .gallery-delete-btn { padding: 0.25rem 0.4rem; font-size: 0.75rem; border-radius: 6px; opacity: 0.9; }
+    .gallery-delete-btn:hover { opacity: 1; }
+    /* Sidebar gallery: under schedule card, left column only */
+    .ankurayan-sidebar-gallery {
+        background: #f8fafc !important;
+        border-radius: 12px !important;
+        overflow: hidden;
+        padding: 0.75rem 0.65rem 0.85rem;
+        box-shadow: none !important;
+        border: none !important;
+    }
+    .ankurayan-sidebar-gallery .carousel-inner { border-radius: 8px; min-height: 5rem; }
+    .ankurayan-sidebar-gallery__link {
+        display: block;
+        position: relative;
+        aspect-ratio: 4 / 3;
+        overflow: hidden;
+        background: #e2e8f0;
+        border-radius: 8px;
+    }
+    .ankurayan-sidebar-gallery__img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+    .ankurayan-sidebar-gallery__link:hover .ankurayan-sidebar-gallery__img { transform: scale(1.02); }
+    .ankurayan-sidebar-gallery .carousel-indicators {
+        margin-bottom: 0.25rem;
+        position: relative;
+        bottom: auto;
+        margin-top: 0.35rem;
+    }
+    .ankurayan-sidebar-gallery .carousel-indicators li {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: rgba(0, 94, 102, 0.35);
+    }
+    .ankurayan-sidebar-gallery .carousel-indicators .active { background-color: #005E66; }
 </style>
 
 <!-- Semantic UI , Used only for Multiple Select in select Acharya Form -->
@@ -34,129 +580,212 @@
 <!-- <li class="nav-item">
     <a class="nav-link px-3 px-lg-2" href="#recent-activities">Recents</a>
 </li> -->
+{% if photos|length %}
 <li class="nav-item">
     <a class="nav-link px-3 px-lg-2" href="#gallery">Gallery</a>
 </li>
+{% endif %}
 <li class="nav-item">
     <a class="nav-link px-3 px-lg-2" href="#contact">Contact</a>
 </li>
 {% endblock %}
 
 {% block showcase-title-container %}
-<div class="slider-txt-container" style="padding: 200px 0 200px 0;">
-    <h2 class="bold-txt"> Ankurayan {{ ankurayan.year }} </h2>
+<div class="slider-txt-container page-showcase page-showcase-tall">
+    <h2 class="bold-txt page-showcase-title">Ankurayan {{ ankurayan.year }}</h2>
+    <div class="page-showcase-accent"></div>
+</div>
+{% endblock %}
+{% block angular %}
+<div class="angular page-angular angular-ankurayan">
+    <div class="top-angle"></div>
 </div>
 {% endblock %}
 
 {% block content %}
-<!-- About Section  -->
-<section id="about" style="margin-top: -250px;">
+<div class="ankurayan-detail">
+<!-- About: pillar layout — photo + schedule (left), title / description / reports / publications / guests (right) -->
+<section id="about" class="pillar-overlay-cards">
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-9 text-left px-0 py-0 py-lg-2 mx-auto" style="z-index: 10;">
-
-
-                <div class="card m-2 shadow-sm d-none d-lg-block">
-                    <div class="card-body p-4">
-                        <h1 class="mb-3 title">{{ ankurayan.title|safe }}</h1>
-                        <p class="m-0">
-                            {{ ankurayan.theme|safe }}
+        <div class="row align-items-start g-4">
+            <div class="col-lg-4 col-md-5">
+                <div class="pillar-overlay-card pillar-overlay-card--image ankurayan-detail-photo-card">
+                    <div class="ankurayan-detail-photo-wrap">
+                        <img src="{{ ankurayan.logo.url }}" alt="{{ ankurayan.title|striptags }}" loading="eager" class="ankurayan-detail-logo-img">
+                    </div>
+                    <div class="ankurayan-detail-schedule">
+                        <div class="ankurayan-detail-schedule-title">
+                            <i class="fas fa-clock pr-2" aria-hidden="true"></i>Schedule
+                        </div>
+                        <p class="ankurayan-detail-schedule-dates mb-0">
+                            <span>Starts on <strong>{{ ankurayan.start_date|date:"d M, o" }}</strong></span><br>
+                            <span>Ends on <strong>{{ ankurayan.end_date|date:"d M, o" }}</strong></span>
                         </p>
                     </div>
                 </div>
-                <!--   DESCRIPTON  -->
-                <div class="card m-2 shadow-sm">
-                    <div class="card-body p-4">
-                        <h2 class="content-title mb-2">Description</h1>
-                            <p>{{ ankurayan.description|safe }}</p>
+                {% if photos %}
+                <div class="mt-3 mt-md-4" id="gallery">
+                    <div class="ankurayan-sidebar-gallery">
+                        {% if photos|length > 1 %}
+                        <div id="ankurayanSidebarGalleryCarousel" class="carousel slide" data-ride="carousel" data-interval="5000">
+                            <ol class="carousel-indicators mb-0">
+                                {% for photo in photos %}
+                                <li data-target="#ankurayanSidebarGalleryCarousel" data-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %}></li>
+                                {% endfor %}
+                            </ol>
+                            <div class="carousel-inner">
+                                {% for photo in photos %}
+                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                    <div class="position-relative">
+                                        <a href="javascript:pswpInit({{ forloop.counter0 }})" class="ankurayan-sidebar-gallery__link" aria-label="Open photo {{ forloop.counter }} in lightbox">
+                                            <img src="{{ photo.picture.url }}" alt="" class="ankurayan-sidebar-gallery__img" width="{{ photo.picture.width }}" height="{{ photo.picture.height }}">
+                                        </a>
+                                        {% if check_admin %}
+                                        <form method="post" action="{% url 'ankurayan:ImageAdminApproval' %}" class="gallery-delete-form" onsubmit="return confirm('Remove this image from the gallery?');">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="ankurayan" value="{{ ankurayan.slug }}">
+                                            <input type="hidden" name="image" value="{{ photo.pk }}">
+                                            <input type="hidden" name="status" value="discard">
+                                            <button type="submit" class="btn btn-sm btn-danger gallery-delete-btn" title="Delete image" aria-label="Delete image"><i class="fas fa-trash-alt"></i></button>
+                                        </form>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% else %}
+                        {% for photo in photos %}
+                        <div class="position-relative">
+                            <a href="javascript:pswpInit(0)" class="ankurayan-sidebar-gallery__link" aria-label="Open photo in lightbox">
+                                <img src="{{ photo.picture.url }}" alt="" class="ankurayan-sidebar-gallery__img" width="{{ photo.picture.width }}" height="{{ photo.picture.height }}">
+                            </a>
+                            {% if check_admin %}
+                            <form method="post" action="{% url 'ankurayan:ImageAdminApproval' %}" class="gallery-delete-form" onsubmit="return confirm('Remove this image from the gallery?');">
+                                {% csrf_token %}
+                                <input type="hidden" name="ankurayan" value="{{ ankurayan.slug }}">
+                                <input type="hidden" name="image" value="{{ photo.pk }}">
+                                <input type="hidden" name="status" value="discard">
+                                <button type="submit" class="btn btn-sm btn-danger gallery-delete-btn" title="Delete image" aria-label="Delete image"><i class="fas fa-trash-alt"></i></button>
+                            </form>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                        {% if user.is_authenticated %}
+                        <div class="d-flex flex-wrap justify-content-center mt-2 pt-1">
+                            <button type="button" class="btn btn-sm btn-outline-secondary mr-2 mb-1" data-toggle="modal" data-target="#addToGallery">Upload images</button>
+                            {% if user|is_admin %}
+                            <button type="button" class="btn btn-sm btn-outline-secondary mb-1" data-toggle="modal" data-target="#approveGallery">Approve images</button>
+                            {% endif %}
+                        </div>
+                        {% endif %}
                     </div>
-                </div>
-
-
-                <!-- <div style="padding: 165px 25px 0;">
-                    <h3 class="content-title" style="font-size: 2rem; margin-bottom: 20px;">{{ankurayan.theme}} -
-                        {{ankurayan.year}}</h3>
-                    <p>
-                        <strong>
-                            {{ankurayan.start_date}} - {{ankurayan.end_date}}
-                        </strong>
-                    </p>
-                    <p>
-                        {{ankurayan.description}}
-                    </p>
-                    </h3>
-                </div> -->
-
-
-                <!-- ACTIVITIES -->
-                <!-- <div class="card m-2 mt-3 shadow-sm">
-                    <div class="card-body p-4">
-                        <h2 class="content-title mb-2">Activities</h1>
-                        <p>{{ ankurayan.description|safe }}</p>
-                    </div>
-                </div> -->
-            </div>
-
-            <div class="col-lg-3 text-left px-0 py-0 py-lg-2 mx-auto" style="z-index: 10;">
-                <!--   PIC CARD  -->
-                <div class="card m-2 shadow-sm">
-                    <div class="card-body p-1">
-                        <img src="{{ ankurayan.logo.url }}" alt="DP" class="img-fluid h-100 w-100"
-                            style="max-height: 300px;" />
-                    </div>
-                </div>
-                <!--  SCHEDULE  -->
-                <div class="card m-2 shadow-sm">
-                    <div class="card-header">
-                        <i class="fas fa-clock pr-2"></i>
-                        Schedule
-                    </div>
-                    <div class="card-body">
-                        <p class="font-weight-normal mb-1">
-
-                            <span>Starts on <b>{{ankurayan.start_date|date:"d M, o"}}</b></span>
-                            <br>
-                            <span>Ends on <b>{{ankurayan.end_date|date:"d M, o"}}</b></span>
-                        </p>
-                    </div>
-                </div>
-
-
-                {% if check_admin and user.is_authenticated %}
-                <!-- Add Guest to this Ankurayan -->
-                <div class="select-acharyas text-center my-2">
-                    <button type="button" class="btn btn-primary w-75" data-toggle="modal" data-target="#addGuest">
-                        Add Guest
-                    </button>
-                    
-                </div>
-
-                <!-- Add Participants to this Ankurayan -->
-                <div class="add-participants text-center my-2">
-                    <button type="button" class="btn btn-primary w-75" data-toggle="modal"
-                        data-target="#addParticipantsModal">
-                        Add Participants
-                    </button>
-                    
-                </div>
-
-                <!-- Add Activity Category -->
-                <div class="add-activity-category text-center my-2">
-                    <button type="button" class="btn btn-primary w-75" data-toggle="modal"
-                        data-target="#addActivityCategory">
-                        Add Category
-                    </button>
-                    
-                </div>
-
-                <!-- Add Activity -->
-                <div class="add-activity text-center my-2">
-                    <button type="button" class="btn btn-primary w-75" data-toggle="modal" data-target="#addActivity">
-                        Add Activity
-                    </button>
-                    
                 </div>
                 {% endif %}
+            </div>
+            <div class="col-lg-8 col-md-7">
+                <div class="pillar-overlay-card pillar-overlay-card--text ankurayan-detail-text-card">
+                    <div class="row ankurayan-cards-row gx-2 gx-md-3">
+                        <div class="col-12 mb-3">
+                            <div class="card border-0 ankurayan-section-card mb-0 ankurayan-description-card">
+                                <div class="card-body ankurayan-section-card-body">
+                                    <div class="d-flex align-items-center justify-content-between flex-wrap mb-1">
+                                        <h2 class="content-title mb-0 text-uppercase">Description</h2>
+                                        {% if check_admin and ankurayan.year != 2021 %}
+                                        <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#modalDescription" aria-label="Edit description">Edit</button>
+                                        {% endif %}
+                                    </div>
+                                    {% if ankurayan.description|striptags %}
+                                        {% if ankurayan.year == 2021 %}
+                                        <div class="ankurayan-desc-preview-block">
+                                            <div class="ankurayan-desc-preview">{{ ankurayan.description|safe }}</div>
+                                            <button type="button" class="btn btn-link ankurayan-read-more-btn" data-toggle="modal" data-target="#modalDescription" aria-label="Read full description">Read more</button>
+                                        </div>
+                                        {% else %}
+                                        <div class="pillar-desc ankurayan-desc-full">{{ ankurayan.description|safe }}</div>
+                                        {% endif %}
+                                    {% else %}
+                                    <p class="text-muted mb-0 small">No description yet.</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row ankurayan-cards-row gx-2 gx-md-3">
+                        <div class="col-md-6 mb-3">
+                            <div class="card border-0 ankurayan-section-card h-100 mb-0">
+                                <div class="card-body ankurayan-section-card-body">
+                                    <div class="d-flex align-items-center justify-content-between flex-wrap mb-1">
+                                        <h2 class="content-title mb-0 text-uppercase">Reports</h2>
+                                        {% if check_admin %}
+                                        <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#modalReports" aria-label="Upload or edit reports">Upload / Manage</button>
+                                        {% endif %}
+                                    </div>
+                                    {% if report_files %}
+                                    <ul class="ankurayan-file-list mb-0">
+                                        {% for rf in report_files %}
+                                        <li><a href="{{ rf.file.url }}" download class="ankurayan-file-link" title="Download"><span class="ankurayan-file-link-name">{{ rf.title|default:rf.file.name }}</span><i class="fas fa-download ankurayan-file-link-icon" aria-hidden="true"></i></a></li>
+                                        {% endfor %}
+                                    </ul>
+                                    {% else %}
+                                    <p class="text-muted mb-0">No reports uploaded yet.{% if check_admin %} Use <strong>Upload / Manage</strong> to add files.{% endif %}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="card border-0 ankurayan-section-card h-100 mb-0">
+                                <div class="card-body ankurayan-section-card-body">
+                                    <div class="d-flex align-items-center justify-content-between flex-wrap mb-1">
+                                        <h2 class="content-title mb-0 text-uppercase">Publications</h2>
+                                        {% if check_admin %}
+                                        <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#modalPublications" aria-label="Upload or edit publications">Upload / Manage</button>
+                                        {% endif %}
+                                    </div>
+                                    {% if publication_files %}
+                                    <ul class="ankurayan-file-list mb-0">
+                                        {% for pf in publication_files %}
+                                        <li><a href="{{ pf.file.url }}" download class="ankurayan-file-link" title="Download"><span class="ankurayan-file-link-name">{{ pf.title|default:pf.file.name }}</span><i class="fas fa-download ankurayan-file-link-icon" aria-hidden="true"></i></a></li>
+                                        {% endfor %}
+                                    </ul>
+                                    {% else %}
+                                    <p class="text-muted mb-0">No publications uploaded yet.{% if check_admin %} Use <strong>Upload / Manage</strong> to add files.{% endif %}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ankurayan-detail-guests-inner pt-3 mt-1">
+                        <h2 class="content-title mb-3 our-guests-heading">Our Guests</h2>
+                        {% if guests %}
+                        <div class="guest-cards-scroll">
+                            {% for guest in guests %}
+                            <div class="guest-card-col">
+                                <div class="card guest-profile-card h-100 w-100 border-0" role="button" data-toggle="modal" data-target="#guestProfileModal{{ guest.id }}" tabindex="0" aria-label="Open profile for {{ guest.name }}">
+                                    <div class="card-body d-flex flex-column guest-card-body">
+                                        <p class="guest-card-quote">
+                                            "{% if guest.quote %}{{ guest.quote|truncatewords:28 }}{% else %}Visiting Bandhu was a deeply moving experience. The warmth and dedication of everyone here reminded me what community truly means.{% endif %}"
+                                        </p>
+                                        <div class="guest-card-footer">
+                                            <img src="{% if forloop.counter0|divisibleby:2 %}{% static 'img/man.png' %}{% else %}{% static 'img/woman.png' %}{% endif %}" alt="{{ guest.name }}" class="rounded-circle guest-card-avatar">
+                                            <div class="min-w-0">
+                                                <h6 class="font-weight-bold guest-card-name mb-0">{{ guest.name }}</h6>
+                                                <p class="small guest-card-profession mb-0">{{ guest.profession }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <p class="text-muted mb-0">No guests added yet.{% if check_admin %} Use <strong>Add Guest</strong> in the sidebar to add guests.{% endif %}</p>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -164,9 +793,10 @@
 
 <!-- Activities Section -->
 {% if categories %}
-<section id="activities">
-    <h3 class="section-title mt-5 pt-3 pt-sm-0">Activities</h3>
-    <div class="container">
+<section id="activities" class="page-section">
+    <div class="container" style="padding: 3rem 0 4rem;">
+        <h2 class="section-title text-center">Activities</h2>
+        <div class="section-accent"></div>
         {% for category in categories %}
         <h3 class="title mt-5 mb-3">{{ category.name }}</h3>
         <div class="row">
@@ -175,7 +805,7 @@
                     <ul class="glide__slides">
                         {% for activity in category.activities.all %}
                         <li class="glide__slide">
-                            <div class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
+                            <div class="card w-100 page-card mx-auto my-2">
                                 <a class="" href="#" data-toggle="modal" data-target="#activity_modal{{ activity.id }}">
                                     <img src="{% static 'img/pimg6.jpg' %}" class="card-img-top home-card-img" alt=""
                                         width="300px">
@@ -226,7 +856,7 @@
 <!-- ACTIVITIES MODALS -->
 {% for category in categories %}
 {% for activity in category.activities.all %}
-<div class="modal fade" id="activity_modal{{ activity.id }}">
+<div class="modal fade ankurayan-modal" id="activity_modal{{ activity.id }}">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content shadow">
             <div class="modal-header">
@@ -277,7 +907,7 @@
     </div>
 </div>
 {% if check_admin and user.is_authenticated %}
-<div class="modal fade" tabindex="-1" id="selectWinners{{forloop.counter}}" role="dialog"
+<div class="modal fade ankurayan-modal" tabindex="-1" id="selectWinners{{forloop.counter}}" role="dialog"
     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content shadow">
@@ -343,53 +973,7 @@
 {% endfor %}
 {% endfor %}
 
-<!-- ANKURAYANS SECTION -->
-<section id="ankurayans" class="glide-carousel-custom mt-5">
-    <div class="bg-grey" style="padding: 50px 0;">
-        <h3 class="section-title">Ankurayans</h3>
-        <div class="container">
-            <div class="row">
-                <div class="glide ankurayans">
-                    <div class="glide__track" data-glide-el="track">
-                        <ul class="glide__slides">
-                            {% for ankur in ankurayans %}
-                            <li class="glide__slide">
-                                <div class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
-                                    <img src="{{ ankur.logo.url }}" class="card-img-top home-card-img" alt=""
-                                        width="300px">
-                                    <div class="card-body pb-0">
-                                        <h5 class="card-title font-weight-bold">{{ankur.title}}</h5>
-                                        <p class="mb-3">
-                                            {{ankur.theme|safe}}<br>
-                                        </p>
-                                        <a href="{% url 'ankurayan:AnkurayanDetail' ankur.slug %}"
-                                            class="stretched-link"></a>
-                                    </div>
-                                </div>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    <div class="glide__arrows disable_arrows d-none d-md-block" data-glide-el="controls">
-                        <button class="slider_arrow slider_arrow--prev glide__arrow glide__arrow--left"
-                            data-glide-dir="<">
-                            <i class="fas fa-arrow-circle-left"></i>
-                        </button>
-                        <button class="slider_arrow slider_arrow--next glide__arrow glide__arrow--right"
-                            data-glide-dir=">">
-                            <i class="fas fa-arrow-circle-right"></i>
-                        </button>
-                    </div>
-                    <div class="glide__bullets" data-glide-el="controls[nav]">
-                        {% for ankur in ankurayans %}
-                        <button class="glide__bullet" data-glide-dir="={{ forloop.counter0 }}"></button>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<!-- ANKURAYANS SECTION REMOVED for /ankurayan/detail/<year>/ pages -->
 
 
 <!-- Activities Section -->
@@ -521,8 +1105,8 @@
                         Do you like to work for a social cause? Yes. Here, you are
                         welcome to our team and you can work as a volunteer.
                     </p>
-                    <button type="button" class="btn btn-outline-light py-2 px-4 custom-btn angle-effect">
-                        <a href="{% url 'signup' %}" class="d-block text-decoration-none text-white">Join Now</a>
+                    <button type="button" class="btn btn-outline-light py-2 px-4 custom-btn angle-effect text-white" data-toggle="modal" data-target="#signupModal">
+                        Join Now
                     </button>
                 </div>
             </div>
@@ -531,184 +1115,513 @@
 </section>
 <!-- Volunteer Section End-->
 
-<section id="gallery">
-    <div class="bg-grey" style="padding: 80px 0 60px;">
-        <div class="container">
-            <div class="section-head">
-                <h2 class="section-title">
-                    Gallery
-                </h2>
-                <p class="section-description">
-                    {{ gallery.tagline }}
-                </p>
+{% if photos|length %}
+<!-- Gallery upload / approve modals (carousel lives in #about, left column under schedule) -->
+<div class="modal fade bd-example-modal-lg ankurayan-modal" tabindex="-1" id="addToGallery" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title bld" id="exampleModalLongTitle">Upload Images</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-
-            <div id="gallery-container" class="gallery-container">
-                <div class="galleryFilter">
-                    <a href="#" data-filter="" class="current">All</a>
-                    {% for category in categories %}
-                    {% if category.activities.count %}
-                    <a href="#" data-filter=".{{ category.name }}">{{ category.name }}</a>
-                    {% endif %}
-                    {% endfor %}
-                </div>
-
-                <div class="gallery-item element-from-bottom clearfix">
-                    {% for photo in photos %}
-                    <figure class="item {{ photo.activity.category.name }} photo-{{ photo.id }}">
-                        <img src='{{ photo.picture.url }}' data-rel="photoSwipe">
-                        <a href="javascript:pswpInit({{ forloop.counter0 }})" class="stretched-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </figure>
-                    {% endfor %}
-                    <figure id="load-more" class="item {% for category in categories %} {{ category.name }} {% endfor %}">
-                        <img alt="Photo">
-                        <a href="javascript:void(0);" class="stretched-link">
-                            <p class="text-center">Show More</p>
-                        </a>
-                    </figure>
-                </div>
-            </div>
-
-            {% if user.is_authenticated %}
-            <div class="row justify-content-center mt-2">
-                <div class="col col-sm-5 add-images text-center">
-                    <button type="button" class="btn btn-outline-primary" data-toggle="modal"
-                        data-target="#addToGallery">
-                        Upload Images
-                    </button>
-                    {% endif %}
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addToGallery" role="dialog"
-                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Upload Images</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST" enctype="multipart/form-data"
-                                        action="{% url 'ankurayan:AddToGallery' %}">{% csrf_token %}
-                                        <input type="text" hidden name="slug" value={{ankurayan.slug}}>
-                                        <div class="input-group">
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" multiple
-                                                    name="gallery_images" id="inputGroupFile04"
-                                                    aria-describedby="inputGroupFileAddon04">
-                                                <label class="custom-file-label" for="inputGroupFile04">Add
-                                                    Images</label>
-                                            </div>
-                                        </div><br>
-                                        <button class="btn btn-primary">Submit</button>
-                                    </form>
-                                </div>
-                            </div>
+            <div class="modal-body">
+                <form method="POST" enctype="multipart/form-data" action="{% url 'ankurayan:AddToGallery' %}">{% csrf_token %}
+                    <input type="text" hidden name="slug" value="{{ ankurayan.slug }}">
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" multiple name="gallery_images" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
+                            <label class="custom-file-label" for="inputGroupFile04">Add Images</label>
                         </div>
-                    </div>
-                </div>
-                {% if user|is_admin %}
-                <div class="col col-sm-5 approve-images text-center">
-                    <button type="button" class="btn btn-outline-primary" data-toggle="modal"
-                        data-target="#approveGallery">
-                        Approve Image
-                    </button>
-                    <div class="modal fade" id="approveGallery">
-                        <div class="modal-dialog modal-dialog-centered modal-lg">
-                            <div class="modal-content shadow">
-                                <div class="modal-header">
-                                    <h5 class="modal-title bld content-title">Approve Photos</h5>
-                                    <button type="button" class="close" style="padding: .5rem 1rem;"
-                                        data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true" style="font-size: 2.375rem;">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="row">
-                                        <div id="approve-images-carousel"
-                                            class="approve-images-carousel carousel slide m-auto" data-ride="carousel">
-                                            <!-- <ul class="carousel-indicators">
-                                                <li data-target="#approve-images-carousel" data-slide-to="0" class="active"></li>
-                                                <li data-target="#approve-images-carousel" data-slide-to="1" class=""></li>
-                                                <li data-target="#approve-images-carousel" data-slide-to="2" class=""></li>
-                                            </ul> -->
-                                            <div class="carousel-inner">
-                                                {% for photo in unapproved_photos %}
-                                                {% if forloop.counter == 1 %}
-                                                <div class="carousel-item active unapp-photo{{ photo.id }}">
-                                                    {% else %}
-                                                    <div class="carousel-item unapp-photo{{ photo.id }}">
-                                                        {% endif %}
-                                                        <img src="{{ photo.picture.url }}" alt="carousel image"
-                                                            class="w-100" style="height: 400px; width: 400px;">
-                                                        <br><br>
-                                                        <div class="row justify-content-center">
-                                                            <div class="col col-sm-5 text-center">
-                                                                <button type="button"
-                                                                    onclick="imageApproval('approve','{{photo.pk}}');"
-                                                                    class="btn btn-success">Approve</button>
-                                                            </div>
-                                                            <!-- <div class="col col-md-2"></div> -->
-                                                            <div class="col col-sm-5 text-center">
-                                                                <button type="button"
-                                                                    onclick="imageApproval('discard','{{photo.pk}}');"
-                                                                    class="btn btn-danger">Discard</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    {% endfor %}
-                                                </div>
-                                                <a class="carousel-control-prev" href="#approve-images-carousel"
-                                                    data-slide="prev">
-                                                    <span class="carousel-control-prev-icon"
-                                                        style="background-color: black; width:40px; height: 40px;"></span>
-                                                </a>
-                                                <a class="carousel-control-next" href="#approve-images-carousel"
-                                                    data-slide="next">
-                                                    <span class="carousel-control-next-icon"
-                                                        style="background-color: black; width:40px; height: 40px;"></span>
-                                                </a>
-                                            </div>
-                                            <p class="text-center"
-                                                style="font-size: 12px; padding:10px;">
-                                                Note: You need to Refresh Page for changes to take effect in Gallery.
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% endif %}
-
-                    <!-- <div class="gallery-item element-from-bottom clearfix">
-
-                    {% for photo in photos %}
-                    <figure class="item cat-3 cat-4">
-                        <img src='/media/{{photo.picture}}' alt="Item 3" data-rel="photoSwipe">
-                        <a href="" class="stretched-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </figure>
-                    {% if not photo.approved %}
-                    <button type="button" onclick="imageApproval('approve','{{photo.pk}}');">Approve</button>
-                    <button type="button" onclick="imageApproval('discard','{{photo.pk}}');">Discard</button>
-                    {% endif %}
-                    {% endfor %}        
-
-                </div> -->
-                </div>
+                    </div><br>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
             </div>
         </div>
-</section>
+    </div>
+</div>
+{% if user|is_admin %}
+<div class="modal fade ankurayan-modal" id="approveGallery" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content shadow">
+            <div class="modal-header">
+                <h5 class="modal-title bld content-title">Approve Photos</h5>
+                <button type="button" class="close" style="padding: .5rem 1rem;" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="font-size: 2.375rem;">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div id="approve-images-carousel" class="approve-images-carousel carousel slide m-auto w-100" data-ride="carousel">
+                        <div class="carousel-inner">
+                            {% for photo in unapproved_photos %}
+                            {% if forloop.counter == 1 %}
+                            <div class="carousel-item active unapp-photo{{ photo.id }}">
+                            {% else %}
+                            <div class="carousel-item unapp-photo{{ photo.id }}">
+                            {% endif %}
+                                <img src="{{ photo.picture.url }}" alt="" class="w-100" style="max-height: 400px; object-fit: contain;">
+                                <br><br>
+                                <div class="row justify-content-center">
+                                    <div class="col col-sm-5 text-center">
+                                        <button type="button" onclick="imageApproval('approve','{{ photo.pk }}');" class="btn btn-success">Approve</button>
+                                    </div>
+                                    <div class="col col-sm-5 text-center">
+                                        <button type="button" onclick="imageApproval('discard','{{ photo.pk }}');" class="btn btn-danger">Discard</button>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <a class="carousel-control-prev" href="#approve-images-carousel" data-slide="prev" role="button" aria-label="Previous">
+                            <span class="carousel-control-prev-icon" style="background-color: black; width:40px; height: 40px;"></span>
+                        </a>
+                        <a class="carousel-control-next" href="#approve-images-carousel" data-slide="next" role="button" aria-label="Next">
+                            <span class="carousel-control-next-icon" style="background-color: black; width:40px; height: 40px;"></span>
+                        </a>
+                        <p class="text-center small pt-3 mb-0">Refresh the page after approving or discarding to update the gallery.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endif %}
+
+<!-- Description / Reports / Publications / Our Guests modals -->
+<div class="modal fade ankurayan-section-modal" id="modalDescription" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content shadow border-0">
+            <div class="modal-header">
+                <h5 class="modal-title content-title">Description</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <div id="viewDescription">{{ ankurayan.description|safe }}</div>
+                {% if check_admin %}
+                <div id="editDescription" style="display:none;">
+                    <form method="post" action="{% url 'ankurayan:UpdateAnkurayanSection' ankurayan.slug %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="field" value="description">
+                        <textarea name="content" class="form-control" rows="10">{{ ankurayan.description }}</textarea>
+                        <div class="mt-2">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="button" class="btn btn-secondary" onclick="toggleEdit('Description')">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                {% if check_admin %}<button type="button" class="btn btn-outline-teal mr-auto" id="btnEditDescription" onclick="toggleEdit('Description')">Edit</button>{% endif %}
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade ankurayan-section-modal" id="modalReports" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content shadow border-0">
+            <div class="modal-header">
+                <h5 class="modal-title content-title">Reports</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                {% if report_files %}
+                <div class="mb-3 pb-2 border-bottom border-light">
+                    <p class="small font-weight-bold mb-2" style="color: #1e293b;">Attachments</p>
+                    <ul class="ankurayan-file-list">
+                        {% for rf in report_files %}
+                        <li><a href="{{ rf.file.url }}" download class="ankurayan-file-link" title="Download"><span class="ankurayan-file-link-name">{{ rf.title|default:rf.file.name }}</span><i class="fas fa-download ankurayan-file-link-icon" aria-hidden="true"></i></a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+                <div id="viewReports">{% if ankurayan.reports %}{{ ankurayan.reports|safe }}{% endif %}</div>
+                {% if check_admin %}
+                <div id="editReports" style="display:none;">
+                    <form method="post" action="{% url 'ankurayan:UpdateAnkurayanSection' ankurayan.slug %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="field" value="reports">
+                        <textarea name="content" class="form-control" rows="8">{{ ankurayan.reports|default:'' }}</textarea>
+                        <div class="mt-2">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="button" class="btn btn-secondary" onclick="toggleEdit('Reports')">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+                <hr class="my-4">
+                <h6 class="content-title">Upload file</h6>
+                <form method="post" action="{% url 'ankurayan:UploadAnkurayanReport' ankurayan.slug %}" enctype="multipart/form-data" class="mb-3">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input type="file" name="report_file" class="form-control-file" accept="*/*" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Title (optional)</label>
+                        <input type="text" name="title" class="form-control" placeholder="File title" maxlength="200">
+                    </div>
+                    <button type="submit" class="btn btn-teal">Upload</button>
+                </form>
+                {% endif %}
+                <!-- List of uploaded report files (all users see; delete only for admin below) -->
+                {% if report_files %}
+                <h6 class="content-title mt-3">Uploaded files</h6>
+                <ul class="list-group">
+                    {% for rf in report_files %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                        <a href="{{ rf.file.url }}" download class="ankurayan-file-link mb-1 mb-sm-0" title="Download"><span class="ankurayan-file-link-name">{{ rf.title|default:rf.file.name }}</span><i class="fas fa-download ankurayan-file-link-icon" aria-hidden="true"></i></a>
+                        {% if check_admin %}
+                        <form method="post" action="{% url 'ankurayan:DeleteAnkurayanReportFile' rf.pk %}" class="d-inline" onsubmit="return confirm('Remove this file?');">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                        </form>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                {% if check_admin %}<button type="button" class="btn btn-outline-teal mr-auto" id="btnEditReports" onclick="toggleEdit('Reports')">Edit</button>{% endif %}
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade ankurayan-section-modal" id="modalPublications" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content shadow border-0">
+            <div class="modal-header">
+                <h5 class="modal-title content-title">Publications</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                {% if publication_files %}
+                <div class="mb-3 pb-2 border-bottom border-light">
+                    <p class="small font-weight-bold mb-2" style="color: #1e293b;">Attachments</p>
+                    <ul class="ankurayan-file-list">
+                        {% for pf in publication_files %}
+                        <li><a href="{{ pf.file.url }}" download class="ankurayan-file-link" title="Download"><span class="ankurayan-file-link-name">{{ pf.title|default:pf.file.name }}</span><i class="fas fa-download ankurayan-file-link-icon" aria-hidden="true"></i></a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+                {% if check_admin %}
+                <h6 class="content-title mt-2">Upload file</h6>
+                <form method="post" action="{% url 'ankurayan:UploadAnkurayanPublication' ankurayan.slug %}" enctype="multipart/form-data" class="mb-3">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input type="file" name="publication_file" class="form-control-file" accept="*/*" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Title (optional)</label>
+                        <input type="text" name="title" class="form-control" placeholder="File title" maxlength="200">
+                    </div>
+                    <button type="submit" class="btn btn-teal">Upload</button>
+                </form>
+                {% endif %}
+                {% if publication_files %}
+                <h6 class="content-title mt-3">Uploaded files</h6>
+                <ul class="list-group">
+                    {% for pf in publication_files %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                        <a href="{{ pf.file.url }}" download class="ankurayan-file-link mb-1 mb-sm-0" title="Download"><span class="ankurayan-file-link-name">{{ pf.title|default:pf.file.name }}</span><i class="fas fa-download ankurayan-file-link-icon" aria-hidden="true"></i></a>
+                        {% if check_admin %}
+                        <form method="post" action="{% url 'ankurayan:DeleteAnkurayanPublicationFile' pf.pk %}" class="d-inline" onsubmit="return confirm('Remove this file?');">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                        </form>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalVisitors" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content shadow">
+            <div class="modal-header">
+                <h5 class="modal-title content-title">Our Guests</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <div id="viewVisitors" class="d-none">{% if ankurayan.visitors %}{{ ankurayan.visitors|safe }}{% endif %}</div>
+                {% if check_admin %}
+                <div id="editVisitors" style="display:none;">
+                    <form method="post" action="{% url 'ankurayan:UpdateAnkurayanSection' ankurayan.slug %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="field" value="visitors">
+                        <label class="font-weight-bold text-dark mb-2 d-block">Intro text for Our Guests</label>
+                        <p class="text-muted small mb-2">This optional text appears above the guest cards on the page. Use simple HTML:</p>
+                        <ul class="text-muted small mb-3 pl-3" style="font-size: 0.9rem;">
+                            <li><code>&lt;p&gt;</code> for a short intro paragraph</li>
+                            <li><code>&lt;ul&gt;&lt;li&gt;</code> for a bullet list of visitors with names and quotes</li>
+                            <li><code>&lt;strong&gt;</code> for guest names</li>
+                        </ul>
+                        <details class="mb-3">
+                            <summary class="font-weight-bold" style="cursor:pointer; color: #80b3ba;">Show example</summary>
+                            <pre class="bg-light p-3 rounded small mt-2 mb-0" style="font-size: 0.8rem; white-space: pre-wrap;"><code>&lt;p&gt;Visitors who attended shared their experiences:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Dr. Meera Patnaik&lt;/strong&gt; - Educationist: "The energy was inspiring."&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Shri Rajesh Kumar&lt;/strong&gt; - District official: "A well-organised event."&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+                        </details>
+                        <textarea name="content" class="form-control font-monospace" rows="12" placeholder="<p>Your intro text here...</p>&#10;<ul>&#10;<li><strong>Name</strong> - Role: &quot;Quote&quot;</li>&#10;</ul>" style="font-size: 0.9rem;">{{ ankurayan.visitors|default:'' }}</textarea>
+                        <div class="mt-3">
+                            <button type="submit" class="btn btn-teal">Save</button>
+                            <button type="button" class="btn btn-secondary" onclick="toggleEdit('Visitors')">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+                {% endif %}
+                {% if guests %}
+                <h5 class="content-title mb-2">Our Guests</h5>
+                <p class="text-muted small mb-4">Click <strong>View Profile</strong> to see their details and what they said.</p>
+                <div class="row guest-cards-row">
+                    {% for guest in guests %}
+                    <div class="col-6 col-lg-3 mb-4 guest-card-col d-flex">
+                        <div class="card guest-profile-card h-100 w-100 border shadow-sm">
+                            <div class="card-body text-center d-flex flex-column align-items-center guest-card-body">
+                                <img src="{% if forloop.counter0|divisibleby:2 %}{% static 'img/man.png' %}{% else %}{% static 'img/woman.png' %}{% endif %}" alt="{{ guest.name }}" class="rounded-circle shadow guest-card-avatar">
+                                <h6 class="font-weight-bold text-dark guest-card-name">{{ guest.name }}</h6>
+                                <p class="text-muted small text-center guest-card-profession">{{ guest.profession }}</p>
+                                {% if guest.quote %}<p class="guest-quote-preview text-left w-100">"{{ guest.quote|truncatewords:15 }}"</p>{% endif %}
+                                <button type="button" class="btn btn-sm btn-outline-teal mt-auto w-100 guest-card-btn" data-toggle="modal" data-target="#guestProfileModal{{ guest.id }}">View Profile</button>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-muted small mt-3">No guests added yet.{% if check_admin %} Use <strong>Add Guest</strong> in the sidebar to add guests; they will appear here and open in a profile popup when clicked.{% endif %}</p>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                {% if check_admin %}<button type="button" class="btn btn-outline-teal mr-auto" id="btnEditVisitors" onclick="toggleEdit('Visitors')">Edit</button>{% endif %}
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% for guest in guests %}
+<div class="modal fade guest-profile-modal" id="guestProfileModal{{ guest.id }}" tabindex="-1" role="dialog" data-guest-id="{{ guest.id }}">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content border-0 position-relative">
+            <button type="button" class="guest-close-btn guest-close-btn-visitor" data-dismiss="modal" aria-label="Close"><svg class="guest-close-x" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg></button>
+            <div class="modal-body p-0">
+                <div id="guestView{{ guest.id }}" class="guest-profile-view guest-profile-view-visitor">
+                    {% if guest.quote %}
+                    <div class="guest-quote-block guest-quote-display">
+                        <span class="guest-quote-open" aria-hidden="true">"</span><span class="guest-quote-inner">{{ guest.quote }}</span><span class="guest-quote-close" aria-hidden="true">"</span>
+                    </div>
+                    {% endif %}
+                    <div class="row no-gutters flex-column flex-md-row">
+                        <div class="col-12 col-md-5 guest-avatar-col guest-avatar-col-visitor">
+                            <img src="{% if forloop.counter0|divisibleby:2 %}{% static 'img/man.png' %}{% else %}{% static 'img/woman.png' %}{% endif %}" alt="{{ guest.name }}" class="guest-avatar-img">
+                        </div>
+                        <div class="col-12 col-md-7 guest-details-col guest-details-col-visitor">
+                            <h3 id="guest-modal-title-{{ guest.id }}" class="guest-name guest-name-visitor guest-name-display">{{ guest.name }}</h3>
+                            <dl class="guest-dl-visitor">
+                                <div class="guest-dl-item">
+                                    <dt>About</dt>
+                                    <dd class="guest-about-display">{{ guest.about|default:"—" }}</dd>
+                                </div>
+                                <div class="guest-dl-item">
+                                    <dt>Profession</dt>
+                                    <dd class="guest-profession-display">{{ guest.profession|default:"—" }}</dd>
+                                </div>
+                                <div class="guest-dl-item">
+                                    <dt>Profile</dt>
+                                    <dd class="d-flex flex-wrap align-items-center guest-socials-display">
+                                    {% if guest.facebook_url %}
+                                    <a href="{{ guest.facebook_url }}" target="_blank" rel="noopener noreferrer" class="guest-social-link guest-social-link-visitor mr-2 mb-1" title="Facebook"><svg class="guest-social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" style="display:block;flex-shrink:0" aria-hidden="true"><path fill="#ffffff" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+                                    {% else %}
+                                    <span class="guest-social-icon-wrap guest-social-icon-wrap-visitor mr-2 mb-1" title="Facebook"><svg class="guest-social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" style="display:block;flex-shrink:0" aria-hidden="true"><path fill="#ffffff" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></span>
+                                    {% endif %}
+                                    {% if guest.linkedin_url %}
+                                    <a href="{{ guest.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="guest-social-link guest-social-link-visitor mb-1" title="LinkedIn"><svg class="guest-social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" style="display:block;flex-shrink:0" aria-hidden="true"><path fill="#ffffff" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+                                    {% else %}
+                                    <span class="guest-social-icon-wrap guest-social-icon-wrap-visitor mb-1" title="LinkedIn"><svg class="guest-social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" style="display:block;flex-shrink:0" aria-hidden="true"><path fill="#ffffff" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></span>
+                                    {% endif %}
+                                    </dd>
+                                </div>
+                            </dl>
+                            {% if check_admin %}
+                            <div class="mt-4 pt-3 border-top border-light">
+                                <button type="button" class="guest-edit-btn btn btn-teal" onclick="toggleGuestEdit({{ guest.id }})" id="guestEditBtn{{ guest.id }}" aria-label="Edit guest">Edit profile</button>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% if check_admin %}
+                <div id="guestEditForm{{ guest.id }}" class="guest-profile-edit p-4 p-md-5" style="display:none;">
+                    <form class="guest-edit-form" data-guest-id="{{ guest.id }}" onsubmit="return saveGuestEdit(event, {{ guest.id }})">
+                        {% csrf_token %}
+                        <h4 class="guest-edit-form-title">Edit profile</h4>
+                        <div class="guest-edit-error alert alert-danger small py-2 mb-3" role="alert" style="display:none;"></div>
+                        <div class="form-group">
+                            <label class="guest-detail-label">Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="name" value="{{ guest.name }}" required maxlength="50">
+                        </div>
+                        <div class="form-group">
+                            <label class="guest-detail-label">Profession <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="profession" value="{{ guest.profession }}" required maxlength="100">
+                        </div>
+                        <div class="form-group">
+                            <label class="guest-detail-label">About <span class="text-danger">*</span></label>
+                            <textarea class="form-control" name="about" rows="3" maxlength="500" required>{{ guest.about|default:'' }}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="guest-detail-label">Quote</label>
+                            <textarea class="form-control" name="quote" rows="2" maxlength="500">{{ guest.quote|default:'' }}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="guest-detail-label">Facebook URL</label>
+                            <input type="url" class="form-control" name="facebook_url" value="{{ guest.facebook_url|default:'' }}" placeholder="https://">
+                        </div>
+                        <div class="form-group">
+                            <label class="guest-detail-label">LinkedIn URL</label>
+                            <input type="url" class="form-control" name="linkedin_url" value="{{ guest.linkedin_url|default:'' }}" placeholder="https://">
+                        </div>
+                        <div class="guest-edit-actions mt-4 pt-3 border-top border-light">
+                            <button type="submit" class="btn btn-teal mr-2">Save</button>
+                            <button type="button" class="btn btn-secondary" onclick="toggleGuestEdit({{ guest.id }})">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+<script>
+function toggleEdit(section) {
+    var view = document.getElementById('view' + section);
+    var edit = document.getElementById('edit' + section);
+    var btn = document.getElementById('btnEdit' + section);
+    if (!view || !edit || !btn) return;
+    if (edit.style.display === 'none') {
+        view.style.display = 'none';
+        edit.style.display = 'block';
+        btn.textContent = 'Cancel';
+    } else {
+        view.style.display = 'block';
+        edit.style.display = 'none';
+        btn.textContent = 'Edit';
+    }
+}
+function toggleEditInline(section) {
+    var view = document.getElementById('view' + section + 'Inline');
+    var edit = document.getElementById('edit' + section + 'Inline');
+    var btn = document.getElementById('btnEdit' + section + 'Inline');
+    if (!view || !edit || !btn) return;
+    if (edit.style.display === 'none') {
+        view.style.display = 'none';
+        edit.style.display = 'block';
+        btn.textContent = 'Cancel';
+    } else {
+        view.style.display = 'block';
+        edit.style.display = 'none';
+        btn.textContent = 'Edit';
+    }
+}
+function toggleGuestEdit(guestId) {
+    var view = document.getElementById('guestView' + guestId);
+    var form = document.getElementById('guestEditForm' + guestId);
+    var btn = document.getElementById('guestEditBtn' + guestId);
+    if (!view || !form || !btn) return;
+    if (form.style.display === 'none') {
+        view.style.display = 'none';
+        form.style.display = 'block';
+        btn.textContent = 'Cancel';
+    } else {
+        view.style.display = 'block';
+        form.style.display = 'none';
+        btn.textContent = 'Edit';
+    }
+}
+function saveGuestEdit(event, guestId) {
+    event.preventDefault();
+    var form = event.target;
+    var url = '/ankurayan/guest/' + guestId + '/update/';
+    var formData = new FormData(form);
+    var btn = document.getElementById('guestEditBtn' + guestId);
+    var view = document.getElementById('guestView' + guestId);
+    var csrfInput = form.querySelector('input[name="csrfmiddlewaretoken"]');
+    if (csrfInput) formData.append('csrfmiddlewaretoken', csrfInput.value);
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url);
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    xhr.setRequestHeader('X-CSRFToken', csrfInput ? csrfInput.value : '');
+    xhr.onload = function() {
+        var errEl = form.querySelector('.guest-edit-error');
+        if (errEl) { errEl.textContent = ''; errEl.style.display = 'none'; }
+        try {
+            var data = JSON.parse(xhr.responseText);
+            if (xhr.status >= 200 && xhr.status < 300 && data.success && data.guest) {
+                var g = data.guest;
+                var nameEl = view.querySelector('.guest-name-display');
+                var aboutEl = view.querySelector('.guest-about-display');
+                var professionEl = view.querySelector('.guest-profession-display');
+                var quoteBlock = view.querySelector('.guest-quote-display');
+                if (nameEl) nameEl.textContent = g.name;
+                if (aboutEl) aboutEl.textContent = g.about || '—';
+                if (professionEl) professionEl.textContent = g.profession || '—';
+                if (quoteBlock) { quoteBlock.textContent = g.quote || ''; quoteBlock.style.display = g.quote ? 'block' : 'none'; }
+                var socials = view.querySelector('.guest-socials-display');
+                if (socials) {
+                    var fb = socials.querySelector('a[title="Facebook"]') || socials.querySelector('span[title="Facebook"]');
+                    var li = socials.querySelector('a[title="LinkedIn"]') || socials.querySelector('span[title="LinkedIn"]');
+                    if (fb && fb.tagName === 'A') fb.href = g.facebook_url || '#';
+                    if (li && li.tagName === 'A') li.href = g.linkedin_url || '#';
+                }
+                toggleGuestEdit(guestId);
+            } else if (data.error && errEl) {
+                errEl.textContent = data.error;
+                errEl.style.display = 'block';
+            }
+        } catch (e) {
+            if (errEl) { errEl.textContent = 'Something went wrong. Please try again.'; errEl.style.display = 'block'; }
+        }
+    };
+    xhr.send(formData);
+    return false;
+}
+document.addEventListener('DOMContentLoaded', function() {
+    var hash = window.location.hash.replace('#', '');
+    if (hash && ['modalDescription','modalReports','modalPublications','modalVisitors'].indexOf(hash) !== -1) {
+        var el = document.getElementById(hash);
+        if (el && typeof $ !== 'undefined') $(el).modal('show');
+    }
+    // Dim the Our Guests modal when a guest profile popup opens
+    var modalVisitors = document.getElementById('modalVisitors');
+    if (modalVisitors && typeof $ !== 'undefined') {
+        $(document).on('show.bs.modal', '.guest-profile-modal', function() {
+            modalVisitors.classList.add('visitors-content-dimmed');
+        });
+        $(document).on('hidden.bs.modal', '.guest-profile-modal', function() {
+            modalVisitors.classList.remove('visitors-content-dimmed');
+        });
+    }
+});
+</script>
 
 <!-- MODALS -->
-<div class="modal fade bd-example-modal-lg" tabindex="-1" id="addGuest" role="dialog"
+<div class="modal fade bd-example-modal-lg ankurayan-modal" tabindex="-1" id="addGuest" role="dialog"
 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
@@ -754,7 +1667,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     </div>
 </div>
 </div>
-<div class="modal fade bd-example-modal-lg" tabindex="-1" id="addParticipantsModal" role="dialog"
+<div class="modal fade bd-example-modal-lg ankurayan-modal" tabindex="-1" id="addParticipantsModal" role="dialog"
 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
@@ -816,7 +1729,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     </div>
 </div>
 </div>
-<div class="modal fade bd-example-modal-lg" tabindex="-1" id="addActivityCategory" role="dialog"
+<div class="modal fade bd-example-modal-lg ankurayan-modal" tabindex="-1" id="addActivityCategory" role="dialog"
 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
@@ -838,7 +1751,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     </div>
 </div>
 </div>
-<div class="modal fade bd-example-modal-lg" tabindex="-1" id="addActivity" role="dialog"
+<div class="modal fade bd-example-modal-lg ankurayan-modal" tabindex="-1" id="addActivity" role="dialog"
 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
@@ -889,6 +1802,8 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 </div>
 </div>
 
+</div><!-- .ankurayan-detail -->
+
 <!-- Include PhotoSwipe -->
 {% include 'snippets/init_pswp.html' %}
 
@@ -899,10 +1814,19 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     </div>
 </div>
 
+{% include 'includes/signup_modal.html' %}
+
 {% endblock %}
 
 
 {% block scripts %}
+{% if open_signup_modal %}
+<script>
+    $(function () {
+        $('#signupModal').modal('show');
+    });
+</script>
+{% endif %}
 <!-- PHOTOSWIPE -->
 <script>
     // build the json album images collection 
@@ -915,50 +1839,6 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             },
         {% endfor %}
     ];
-
-    // Change album on filtering images
-    $('#gallery-container .galleryFilter a').on("click", function () {
-        let filter = $(this).data('filter');
-
-        if (filter == "") {
-            window.djangoAlbumImages = [
-                {% for photo in photos %}
-                    {
-                        src: '{{ photo.picture.url }}',
-                        w: {{ photo.picture.width }},
-                        h: {{ photo.picture.height }}
-                    },
-                {% endfor %}
-            ];
-
-            $('#gallery-container .gallery-item a').each(function (index, img) {
-                if ($(img).closest('#load-more').length == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
-            });
-        }
-        else {
-            category = filter.slice(1);
-
-            window.djangoAlbumImages = [];
-
-            {% for photo in photos %}
-            if ("{{ photo.activity.category.name }}" == category) {
-                window.djangoAlbumImages.push(
-                    {
-                        src: '{{ photo.picture.url }}',
-                        w: {{ photo.picture.width }},
-                        h: {{ photo.picture.height }}
-                    }
-                );
-            }
-            {% endfor %}
-
-            let selector = '#gallery-container ' + filter + ' a';
-            $(selector).each(function (index, img) {
-                if ($(img).closest('#load-more').length == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
-            });
-        }
-
-    });
 </script>
 <!-- Contact Scrollspy Problem -->
 <script>contact_scrollspy()</script>
@@ -1071,6 +1951,41 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         }
     })
     ankur_glide.mount()
+</script>
+<script>
+    // Our Guests: auto horizontal scroll (pauses on hover / touch / keyboard focus)
+    (function () {
+        var guestsTrack = document.querySelector('.ankurayan-detail .guest-cards-scroll');
+        if (!guestsTrack || guestsTrack.dataset.guestAutoScrollInit) return;
+        guestsTrack.dataset.guestAutoScrollInit = '1';
+
+        function canScroll() {
+            return guestsTrack.scrollWidth > guestsTrack.clientWidth + 2;
+        }
+
+        var paused = false;
+        var speed = 0.5;
+
+        function tick() {
+            if (!paused && canScroll()) {
+                guestsTrack.scrollLeft += speed;
+                var maxScroll = guestsTrack.scrollWidth - guestsTrack.clientWidth;
+                if (maxScroll > 0 && guestsTrack.scrollLeft >= maxScroll - 0.5) {
+                    guestsTrack.scrollLeft = 0;
+                }
+            }
+            window.requestAnimationFrame(tick);
+        }
+
+        guestsTrack.addEventListener('mouseenter', function () { paused = true; });
+        guestsTrack.addEventListener('mouseleave', function () { paused = false; });
+        guestsTrack.addEventListener('touchstart', function () { paused = true; }, { passive: true });
+        guestsTrack.addEventListener('touchend', function () { paused = false; }, { passive: true });
+        guestsTrack.addEventListener('focusin', function () { paused = true; });
+        guestsTrack.addEventListener('focusout', function () { paused = false; });
+
+        window.requestAnimationFrame(tick);
+    })();
 </script>
 <!-- Upload Detail in forms -->
 <script type="text/javascript">

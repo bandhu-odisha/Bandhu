@@ -9,6 +9,9 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<link rel="shortcut icon" href='{% static "img/bandhulogo.gif" %}'>
 	<title>{% block title %} Bandhu {% endblock %} </title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
 
 	<style>
 		.main{
@@ -31,6 +34,7 @@
 	<link rel="stylesheet" href="{% static 'vendor/photoswipe/default-skin/default-skin.css' %}">
 	<!-- Custom CSS -->
 	<link rel="stylesheet" href="{% static 'css/custom.css' %}">
+	<link rel="stylesheet" href="{% static 'css/accounts-auth-landing.css' %}">
 
 	{% block style %}
 	{% endblock %}
@@ -43,7 +47,7 @@
 			})(window,document,'script','dataLayer','GTM-N3TNGLVW');</script>
 	<!-- End Google Tag Manager -->
 </head>
-<body data-spy="scroll" data-target=".navbar" data-offset="10">
+<body class="{% block body_class %}{% endblock %}" data-spy="scroll" data-target=".navbar" data-offset="10">
 	<!-- Google Tag Manager (noscript) -->
 		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N3TNGLVW"
 			height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -51,58 +55,11 @@
 	<div class="main">
 
 		{% block header %}
-		<div id="main-menu" class="navbar navbar-expand-lg bg-transparent fixed-top navbar-dark navbar-scrolled"
-        		style="padding: 0;" role="navigation">
-			<div class="container">
-				<a class="navbar-brand" href="{% url 'home' %}" style="padding-bottom: 0;">
-					<img class="navbar-logo" src='{% static "img/bandhulogo.png" %}' alt="Logo">
-					<!-- <h4 class="navbar-title">Bandhu <br><span lang="or" style="font-family: oriya;">ବନ୍ଧୁ</span></h4> -->
-				</a>
-				<button type="button" class="navbar-toggler custom-toggler" data-toggle="collapse" data-target="#collapsibleNavbar"
-						aria-expanded="false">
-					<span class="sr-only">Toggle navigation</span>
-					<i class="fas fa-bars"></i>
-				</button>
-
-				<nav class="collapse navbar-collapse" id="collapsibleNavbar" style="justify-content: flex-end;">
-					<ul class="navbar-nav text-uppercase mb-3 mb-lg-0">
-						{% block navbar-links %}
-						<li class="nav-item">
-							<a class="nav-link" href="{% url 'home' %}">Home</a>
-						</li>
-						{% endblock %}
-						{% if user.is_authenticated %}
-							{% if user.is_admin %}
-							<li class="nav-item dropdown">
-								<a class="nav-link px-3 px-lg-2 dropdown-toggle" href="{% url 'profile_page' %}">
-								  Profile
-								</a>
-								<div class="dropdown-menu">
-								  <a class="dropdown-item" href="{% url 'admin:index' %}">Admin Portal</a>
-								  <a class="dropdown-item" href="{% url 'extract_user_data' %}">Download User Data</a>
-								</div>
-							</li>
-							{% else %}
-							<li class="nav-item">
-								<a class="nav-link px-3 px-lg-2" href="{% url 'profile_page' %}" style="/*white-space: nowrap;*/">Profile</a>
-							</li>
-							{% endif %}
-						<li class="nav-item align-self-center w-100 mt-2 mt-lg-0">
-							<a class="nav-button btn btn-danger px-3 ml-3" href="{% url 'logout' %}"> Logout</a>
-						</li>
-						{% else %}
-						<li class="nav-item align-self-center w-100 mt-2 mt-lg-0">
-							<a class="nav-button btn btn-danger px-3 ml-3" href="{% url 'login' %}"> Login</a>
-						</li>
-						{% endif %}
-					</ul>
-				</nav>
-			</div>
-		</div>
+		{% include 'snippets/navbar_landing.html' %}
 		{% endblock %}
 
 		{% block showcase %}
-		<section id="top-section" style="background-size: cover;">
+		<section id="top-section" {% block top-section-style %}style="background-size: cover;"{% endblock %}>
 			<div class="top-section parallax-style">
 				<div class="parallax-overlay">
 					{% block showcase-title-container %}
@@ -144,6 +101,10 @@
 
 	{% include 'snippets/footer.html' %}
 
+	{% if not user.is_authenticated %}
+	{% include 'includes/login_modal.html' %}
+	{% endif %}
+
 	<!-- Bootstrap JS -->
     <script src="{% static 'vendor/js/jquery-3.4.1.min.js' %}"></script>
 	<script src="{% static 'vendor/js/popper.min.js' %}"></script>
@@ -175,6 +136,30 @@
 
 	{% block scripts %}
 	{% endblock %}
+	{% if not user.is_authenticated %}
+	{% if open_login_modal %}
+	<script>
+		$(function () {
+			$('#loginModal').modal('show');
+		});
+	</script>
+	{% endif %}
+	<script>
+		$(document).on('click', '.auth-open-login-modal', function (e) {
+			e.preventDefault();
+			$('#signupModal').modal('hide');
+			setTimeout(function () { $('#loginModal').modal('show'); }, 350);
+		});
+		$(document).on('click', '.auth-open-signup-modal', function (e) {
+			e.preventDefault();
+			$('#loginModal').modal('hide');
+			setTimeout(function () {
+				if ($('#signupModal').length) { $('#signupModal').modal('show'); }
+				else { window.location.href = '{% url "signup" %}'; }
+			}, 350);
+		});
+	</script>
+	{% endif %}
 
 </body>
 </html>

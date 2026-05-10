@@ -1,0 +1,465 @@
+/**
+ * Login / Sign up — palette matches frontend landing (teal-deep, DM Sans + Outfit).
+ */
+.login-page .limiter,
+.signup-page .limiter {
+  margin-top: 0;
+}
+
+/* Login / Sign up: no navbar — full viewport */
+.login-page .container-login100,
+.signup-page .container-login100 {
+  background: #ffffff;
+  min-height: 100vh;
+  padding: 2rem 15px 3rem;
+}
+
+.login-page .wrap-login100,
+.signup-page .wrap-login100 {
+  width: 100%;
+  max-width: 440px;
+  background: #fff;
+  border-radius: 16px;
+  border: none;
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.14),
+    0 4px 16px rgba(0, 0, 0, 0.06),
+    0 4px 20px rgba(128, 179, 186, 0.1);
+  font-family: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.login-page .login100-form-title,
+.signup-page .login100-form-title {
+  font-family: "Outfit", "DM Sans", sans-serif;
+  color: #3d5c60;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.login-page .login100-form-title h1,
+.signup-page .login100-form-title h1 {
+  color: #3d5c60;
+  font-size: 1.75rem;
+  font-weight: 700;
+  font-family: "Outfit", "DM Sans", sans-serif;
+}
+
+.login-page .btn-face,
+.login-page .btn-google,
+.signup-page .btn-face,
+.signup-page .btn-google {
+  font-family: "DM Sans", sans-serif;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.login-page .btn-face:hover,
+.login-page .btn-google:hover,
+.signup-page .btn-face:hover,
+.signup-page .btn-google:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.login-page .btn-google,
+.signup-page .btn-google {
+  background: #fff;
+  color: #334155;
+  border: 2px solid #e2e8f0;
+}
+
+.login-page .btn-google:hover,
+.signup-page .btn-google:hover {
+  border-color: #80b3ba;
+  color: #3d5c60;
+}
+
+.login-page .w-full.text-center p,
+.signup-page .w-full.text-center p {
+  color: #64748b;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.9rem;
+}
+
+.login-page .w-full.text-center span,
+.signup-page .w-full.text-center span {
+  color: #3d5c60;
+  font-weight: 600;
+  font-family: "DM Sans", sans-serif;
+}
+
+.login-page .wrap-input100,
+.signup-page .wrap-input100 {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+}
+
+.login-page .input100,
+.signup-page .input100 {
+  font-family: "DM Sans", sans-serif;
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  color: #1e293b;
+}
+
+.login-page .input100:focus,
+.signup-page .input100:focus {
+  border-color: #80b3ba !important;
+  box-shadow: 0 0 0 3px rgba(128, 179, 186, 0.22);
+  outline: none;
+}
+
+.login-page .login100-form-btn,
+.signup-page .login100-form-btn {
+  background: #3d5c60 !important;
+  border: none !important;
+  color: #fff !important;
+  font-family: "DM Sans", sans-serif;
+  font-weight: 600;
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(61, 92, 96, 0.35);
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.login-page .login100-form-btn:hover,
+.signup-page .login100-form-btn:hover {
+  background: #4d7378 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(61, 92, 96, 0.28);
+}
+
+.login-page .login100-form-btn:focus,
+.signup-page .login100-form-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(128, 179, 186, 0.45);
+}
+
+/* Disable main.css skyblue ::before overlay on primary button */
+.login-page .login100-form-btn::before,
+.signup-page .login100-form-btn::before {
+  display: none !important;
+}
+
+.login-page .login100-form-btn h4,
+.signup-page .login100-form-btn h4 {
+  color: #fff !important;
+  margin: 0;
+}
+
+/* Links: sign up / sign in / forgot */
+.login-page .txt2,
+.signup-page .txt2 {
+  color: #5f8d93 !important;
+}
+
+.login-page .txt2.bo1,
+.signup-page .txt2.bo1 {
+  border-bottom-color: rgba(128, 179, 186, 0.35) !important;
+}
+
+.login-page .txt2.bo1 a,
+.login-page a.txt2,
+.login-page .w-full.text-center a[href="/accounts/signup/"],
+.signup-page .txt2.bo1 a,
+.signup-page a.txt2,
+.signup-page .w-full.text-center a[href="/accounts/login/"] {
+  color: #5f8d93 !important;
+  font-weight: 600;
+  font-family: "DM Sans", sans-serif;
+}
+
+.login-page .txt2.bo1 a:hover,
+.login-page a.txt2:hover,
+.login-page .w-full.text-center a[href="/accounts/signup/"]:hover,
+.signup-page .txt2.bo1 a:hover,
+.signup-page a.txt2:hover,
+.signup-page .w-full.text-center a[href="/accounts/login/"]:hover {
+  color: #3d5c60 !important;
+  text-decoration: underline;
+}
+
+.login-page .error_msg p,
+.signup-page .error_msg p {
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.9rem;
+}
+
+.signup-page .error_msg p {
+  color: #dc2626;
+}
+
+/* -----------------------------------------------------------------
+   Sign-up modal on detail pages (#signupModal) — no legacy ::before
+   bleed from css1/main.css; stacked OAuth; brand submit button
+   ----------------------------------------------------------------- */
+.signup-modal-root .modal-dialog.signup-modal-dialog {
+  max-width: 440px;
+}
+
+.signup-modal-sheet {
+  border-radius: 18px !important;
+  overflow: hidden;
+  box-shadow:
+    0 24px 48px rgba(0, 0, 0, 0.28),
+    0 8px 16px rgba(0, 0, 0, 0.08) !important;
+}
+
+.signup-modal-header {
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  padding-top: 0.5rem;
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+}
+
+.signup-modal-header .modal-title {
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: #005e66;
+}
+
+.signup-modal-header .close {
+  position: absolute;
+  right: 0.75rem;
+  top: 0.35rem;
+  margin: 0;
+  padding: 0.5rem;
+  z-index: 2;
+}
+
+.signup-modal-inner .limiter {
+  margin-top: 0;
+}
+
+.signup-modal-inner .container-login100 {
+  min-height: unset !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+.signup-modal-card {
+  margin: 0 auto;
+  max-width: 100%;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.signup-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+}
+
+.signup-modal-oauth {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  font-family: "DM Sans", sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 10px;
+  text-decoration: none !important;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.signup-modal-oauth--fb {
+  color: #fff !important;
+  background: #3b5998;
+  box-shadow: 0 2px 8px rgba(59, 89, 152, 0.35);
+}
+
+.signup-modal-oauth--fb i {
+  font-size: 1.5rem;
+  margin-right: 10px;
+}
+
+.signup-modal-oauth--google {
+  color: #334155 !important;
+  background: #fff;
+  border: 2px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.signup-modal-oauth--google img {
+  width: 28px;
+  height: auto;
+  margin-right: 10px;
+}
+
+.signup-modal-oauth:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  color: inherit;
+}
+
+.signup-modal-oauth--fb:hover {
+  color: #fff !important;
+}
+
+.signup-modal-oauth--google:hover {
+  border-color: #80b3ba;
+  color: #3d5c60 !important;
+}
+
+/* Defensive: kill any global .btn-face / .login100 ::before from main.css if loaded */
+#signupModal .btn-face::before,
+#signupModal .btn-google::before,
+#signupModal .login100-form-btn::before,
+#signupModal .login100-form-btn::after,
+#loginModal .btn-face::before,
+#loginModal .btn-google::before,
+#loginModal .login100-form-btn::before,
+#loginModal .login100-form-btn::after {
+  display: none !important;
+  content: none !important;
+}
+
+/*
+ * Single full-width fields: legacy .wrap-input100 + .input100 is two nested
+ * boxes (gray wrap + white input) and reads as a “split” field if widths clash.
+ */
+#signupModal .signup-modal-inner .wrap-input100,
+#loginModal .signup-modal-inner .wrap-input100 {
+  width: 100% !important;
+  margin: 0 0 1rem 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  position: relative;
+}
+
+#signupModal .signup-modal-inner .wrap-input100 input.input100,
+#signupModal .signup-modal-inner .wrap-input100 input,
+#loginModal .signup-modal-inner .wrap-input100 input.input100,
+#loginModal .signup-modal-inner .wrap-input100 input {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  display: block !important;
+  box-sizing: border-box !important;
+  height: auto !important;
+  min-height: 48px;
+  padding: 0.65rem 1rem !important;
+  font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+  font-size: 1rem !important;
+  line-height: 1.4 !important;
+  color: #1e293b !important;
+  background: #fff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 10px !important;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+#signupModal .signup-modal-inner .wrap-input100 input.input100:focus,
+#signupModal .signup-modal-inner .wrap-input100 input:focus,
+#loginModal .signup-modal-inner .wrap-input100 input.input100:focus,
+#loginModal .signup-modal-inner .wrap-input100 input:focus {
+  border-color: #80b3ba !important;
+  box-shadow: 0 0 0 3px rgba(128, 179, 186, 0.22) !important;
+  outline: none !important;
+}
+
+#signupModal .signup-modal-inner .wrap-input100.validate-input::before,
+#signupModal .signup-modal-inner .wrap-input100.validate-input::after,
+#loginModal .signup-modal-inner .wrap-input100.validate-input::before,
+#loginModal .signup-modal-inner .wrap-input100.validate-input::after {
+  display: none !important;
+  content: none !important;
+}
+
+.signup-modal-submit-wrap {
+  margin-top: 1.25rem;
+  width: 100%;
+}
+
+.signup-modal-submit {
+  display: block;
+  width: 100%;
+  padding: 0.9rem 1.25rem;
+  border: none;
+  border-radius: 12px;
+  background: #005e66;
+  color: #fff !important;
+  font-family: "DM Sans", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.25;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 94, 102, 0.38);
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.signup-modal-submit:hover {
+  background: #006a73;
+  color: #fff !important;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 22px rgba(0, 94, 102, 0.28);
+}
+
+.signup-modal-submit:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 94, 102, 0.35);
+}
+
+.signup-modal-or p,
+.signup-modal-or span {
+  font-family: "DM Sans", sans-serif;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.signup-modal-or span:last-of-type {
+  display: block;
+  margin-top: 0.25rem;
+  color: #3d5c60;
+  font-weight: 600;
+}
+
+.signup-modal-footer {
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.95rem;
+  color: #64748b;
+}
+
+.signup-modal-form .signup-modal-footer a[href="/accounts/login/"],
+.signup-modal-form .signup-modal-footer a.auth-open-login-modal {
+  color: #5f8d93 !important;
+  font-weight: 600;
+}
+
+.signup-modal-form .signup-modal-footer a[href="/accounts/login/"]:hover,
+.signup-modal-form .signup-modal-footer a.auth-open-login-modal:hover {
+  color: #005e66 !important;
+}
+
+.signup-modal-form .signup-modal-footer a.auth-open-signup-modal {
+  color: #5f8d93 !important;
+  font-weight: 600;
+}
+
+.signup-modal-form .signup-modal-footer a.auth-open-signup-modal:hover {
+  color: #005e66 !important;
+}

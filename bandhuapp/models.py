@@ -278,9 +278,37 @@ class StaffQualification(models.Model):
         Staff, on_delete=models.CASCADE, related_name="qualifications"
     )
 
+
+class StaffExperience(models.Model):
+    """User-submitted experience/review for a staff profile."""
+    staff = models.ForeignKey(Staff, on_delete=models.CASCADE, related_name="experiences")
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+
+class StaffExperiencePhoto(models.Model):
+    """Photo attached to a staff experience submission."""
+    experience = models.ForeignKey(
+        StaffExperience, on_delete=models.CASCADE, related_name="photos"
+    )
+    image = models.ImageField(upload_to="experience_photos/%Y/%m/")
+    caption = models.CharField(max_length=255, blank=True, help_text="Optional tag or caption for this photo")
+
+    class Meta:
+        verbose_name_plural = "Staff experience photos"
+
+
 class Video(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=100, blank=True)
     script = models.TextField(max_length=1000)
+    duration = models.CharField(
+        max_length=20,
+        blank=True,
+        help_text='Optional display length, e.g. 5:42 or 1:05:30 (from YouTube).',
+    )
     class Meta:
         ordering = ["-created_at"]

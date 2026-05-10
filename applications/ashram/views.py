@@ -52,6 +52,7 @@ def ashram_detail(request,slug):
     ashram = get_object_or_404(Ashram,slug=slug)
     categories = ActivityCategory.objects.filter(ashram=ashram)
     events = Event.objects.filter(ashram=ashram)
+    has_events = events.exists()
     meetings = Meeting.objects.filter(ashram=ashram)
     check_admin = is_admin(request.user)
 
@@ -64,6 +65,7 @@ def ashram_detail(request,slug):
     photos = Photo.objects.filter(ashram=ashram)
     unapproved_photos = photos.filter(approved=False)
     photos = photos.filter(approved=True)
+    has_activities = Activity.objects.filter(category__ashram=ashram).exists()
 
     context = {
         'ashram': ashram,
@@ -72,6 +74,8 @@ def ashram_detail(request,slug):
         'meetings':meetings,
         'photos':photos,
         'check_admin':check_admin,
+        'has_activities': has_activities,
+        'has_events': has_events,
         'content': HomePage.objects.all().first(),
     }
     return render(request,'ashram_detail.html', context)

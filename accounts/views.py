@@ -23,6 +23,65 @@ from .tokens import account_activation_token
 from .forms import CustomPasswordResetForm, RegisterForm
 from bandhuapp.models import Profile
 
+# Sign-up modal on Anandakendra / Ankurayan detail pages (POST returns to same page)
+_SIGNUP_MODAL_NEXT_PREFIXES = (
+    '/anandakendra/detail/',
+    '/ankurayan/detail/',
+)
+
+
+def _is_safe_signup_modal_next(path):
+    if not path or not isinstance(path, str):
+        return False
+    if not path.startswith('/') or path.startswith('//'):
+        return False
+    return any(path.startswith(p) for p in _SIGNUP_MODAL_NEXT_PREFIXES)
+
+
+def _redirect_signup_modal(request, next_path, form=None, duplicate_email=False):
+    if request.POST.get('signup_modal') != '1' or not _is_safe_signup_modal_next(next_path):
+        return None
+    if duplicate_email:
+        messages.error(request, 'This email has already been taken.')
+    elif form is not None:
+        for err in form.non_field_errors():
+            messages.error(request, err)
+        for field_name, errors in form.errors.items():
+            for err in errors:
+                label = field_name.replace('_', ' ')
+                messages.error(request, f'{label}: {err}')
+    email = (request.POST.get('email') or '').strip()
+    if email:
+        request.session['signup_modal_prefill_email'] = email
+    join = '&' if ('?' in next_path) else '?'
+    url = f'{next_path}{join}signup_modal=1'
+    return redirect(url)
+
+
+def _is_safe_login_modal_next(path):
+    if not path or not isinstance(path, str):
+        return False
+    if not path.startswith('/') or path.startswith('//'):
+        return False
+    if path.startswith('/accounts/login'):
+        return False
+    return True
+
+
+def _redirect_login_modal(request, next_path, err_code):
+    if request.POST.get('login_modal') != '1' or not _is_safe_login_modal_next(next_path):
+        return None
+    try:
+        request.session['login_modal_err_code'] = int(err_code)
+    except (TypeError, ValueError):
+        request.session['login_modal_err_code'] = 3
+    email = (request.POST.get('email') or '').strip()
+    if email:
+        request.session['login_modal_prefill_email'] = email
+    join = '&' if ('?' in next_path) else '?'
+    return redirect(f'{next_path}{join}login_modal=1')
+
+
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
@@ -76,6 +135,12 @@ def login_view(request):
                     # Password not correct
                     err_code = 3
 
+        next_path = (request.POST.get('next') or '').strip()
+        if err_code != 0:
+            redir = _redirect_login_modal(request, next_path, err_code)
+            if redir:
+                return redir
+
     context = {
         'err_code' : err_code,
     }
@@ -88,9 +153,13 @@ def signup_view(request):
 
     if request.method == 'POST':
         form = RegisterForm(request.POST)
+        next_path = (request.POST.get('next') or '').strip()
         email_check = request.POST.get('email')
         obj = User.objects.filter(email=email_check).first()
         if obj:
+            redir = _redirect_signup_modal(request, next_path, duplicate_email=True)
+            if redir:
+                return redir
             return render(request,'signup.html',{'form': form, 'message':'This Email has already been taken!!', 'done':0})
         if form.is_valid():
             user = form.save(commit=False)
@@ -134,6 +203,9 @@ def signup_view(request):
 
             return redirect('signup_success_page')
         else:
+            redir = _redirect_signup_modal(request, next_path, form=form)
+            if redir:
+                return redir
             return render(request,'signup.html',{'form':form,'done': 0})
     else:
         form = RegisterForm()

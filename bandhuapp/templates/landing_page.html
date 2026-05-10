@@ -13,7 +13,23 @@
 <!-- Custom Style -->
 <style>
     #top-section {
-        background: url("{{ content.banner_image.url }}") 50% center no-repeat fixed;
+        background: url("{% if content and content.banner_image %}{{ content.banner_image.url }}{% else %}{% static 'img/our_mission.jpg' %}{% endif %}") 50% center no-repeat fixed;
+        background-size: cover;
+    }
+    /* Landing-only heading boost for stronger visual prominence */
+    #about .section-title,
+    #mission > .section-title,
+    #recent-activities .section-title,
+    #gallery .gallery-section-head .section-title,
+    #volunteer .section-title.parallax-title {
+        font-size: clamp(2.25rem, 4.8vw, 3.2rem) !important;
+        line-height: 1.15 !important;
+        font-weight: 800 !important;
+    }
+    #mission .content-title {
+        font-size: clamp(1.9rem, 3.6vw, 2.6rem) !important;
+        line-height: 1.15 !important;
+        font-weight: 800 !important;
     }
 </style>
 {% endblock %}
@@ -65,8 +81,8 @@
     <p class="bold-txt mb-3" style="font-family: 'Libre Franklin', sans-serif;">
         BANDHU
     </p>
-    <p id="header-text" class="parallax-description font-weight-bold" style="color: #ff9800; ">
-        <span class="d-block" lang="or" style="font-family: oriya;">ସବାଶେଷ  ମଣିଷର </span>
+    <p id="header-text" class="parallax-description font-weight-bold" style="color: #ff9800;">
+        <span id="header-text-line" class="d-block" lang="or" style="font-family: oriya;">ସବାଶେଷ  ମଣିଷର </span>
     </p>
     <!-- <p class="parallax-description pt-3" style="font-weight:500; font-family:cursive; text-transform: capitalize ;">
         Sanskar, Swaraj and Swabalamban
@@ -77,86 +93,13 @@
 
 {% block content %}
 
-<!-- Recent Activities tab -->
-
-<!-- Modal to show activity -->
-<div class="modal" id="recent-activity-modal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content recent-activity-modal-content">
-        <div class="recent-activity-modal-header">Activity</div>
-        <a href="#" target="_blank" class="recent-activity-modal-title">Title</a>
-        <div class="recent-activity-modal-desc">Description..</div>
-      <img src="#" class="recent-activity-modal-image"/>
-    </div>
-  </div>
-</div>
-<div class="recent-activities">
-    <button class="btn btn-primary recent-activities-btn collapsed" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-        NOTICE BOARD
-        <i style="margin-left:10px !important;" class="fas fa-chevron-down"></i>
-    </button>
-    <div class="collapse recent-activities-collapse shadow-sm" id="collapseExample">
-        <div class="card card-body recent-activity-card">
-            <ol class="recent-activity-ol">
-                {% for act in recent_activities %}
-                    {% if act.end_date %}
-                        <!-- If it is an event. So, keep "New" until event is over -->
-                        {% if act.end_date|date:"Y-m-d" >= curr_date|date:"Y-m-d" %}
-                        <div class="ribbon-new">New</div>
-                        {% endif %}
-                    {% elif act.start_date %}
-                        {% if act.start_date|date:"Y-m-d" > act.date_created|date:"Y-m-d" and act.start_date|date:"Y-m-d" >= curr_date|date:"Y-m-d" %}
-                        <!-- If it is a one day event, keep "New" until event is over -->
-                        <div class="ribbon-new">New</div>
-                        {% elif act.start_date|date:"Y-m-d" == act.date_created|date:"Y-m-d" and act.start_date|date:"Y-m-d" >= seven_day_delta|date:"Y-m-d" %}
-                        <!-- If it is a notifiation, keep "New" for 7 days -->
-                        <div class="ribbon-new">New</div>
-                        {% endif %}
-                    {% else %}
-                        <!-- If no date is mentioned, keep "New" for 7 days -->
-                        {% if act.date_created|date:"Y-m-d" >= seven_day_delta|date:"Y-m-d" %}
-                        <div class="ribbon-new">New</div>
-                        {% endif %}
-                    {% endif %}
-
-                    <a href="{{ act.link }}" id="{{ act.id }}" class="recent-activity-bar" target="_blank" style="font-size: 20px; text-decoration: none;">
-                        <li class="recent-activity-li">
-                            {{ act.title }}
-                            <p style="font-size: 13px;">{{ act.description|truncatechars:135 }}</p>
-                            {% if act.start_date %}
-                            <p style="font-size: 12px; font-weight: bolder; float: right; margin-top:-18px; margin-right: -30px;">
-                                <i class="far fa-calendar-alt"></i>
-                                {% if act.end_date %}
-                                    {% if act.start_date|date:"Y" != act.end_date|date:"Y" %}
-                                        {{ act.start_date }} - {{ act.end_date }}
-                                    {% elif act.start_date|date:"M" != act.end_date|date:"M" %}
-                                        {{ act.start_date|date:"M d" }} - {{ act.end_date|date:"M d" }}, {{ act.start_date.year }}
-                                    {% elif act.start_date|date:"d" != act.end_date|date:"d" %}
-                                        {{ act.start_date|date:"M" }} {{ act.start_date|date:"d" }} - {{ act.end_date|date:"d" }}, {{ act.start_date.year }}
-                                    {% else %}
-                                        {{ act.start_date }}
-                                    {% endif %}
-                                {% else %}
-                                    {{ act.start_date }}
-                                {% endif %}
-                            </p>
-                            {% endif %}
-                        </li>
-                    </a>
-                {% endfor %}
-            </ol>
-        </div>
-    </div>
-
-</div>
-
-
 <!-- Initiatives Cards Section -->
+{% if initiatives %}
 <section id="initiatives" style="margin-top: -200px;">
     <div class="row justify-content-center initiatives mx-1">
         <div class="col-lg-20 col-md-4 col-sm-6 px-1">
             <div class="col-sm card mx-auto" >
-                <img src="{{ initiatives.ankurayan_thumb.url }}" class="rounded-top card-img-top">
+                <img src="{{ initiatives.ankurayan_thumb.url }}" class="rounded-top card-img-top" alt="Ankurayan">
                 <div class="card-body p-3">
                     <h5 class="card-title content-title font-weight-bolder" style="text-align: center;">Ankurayan</h5>
                     <p class="content-description">
@@ -216,15 +159,16 @@
         </div>
     </div>
 </section>
+{% endif %}
 <!-- Initiatives Cards Section Ends -->
 <section id="current-updates" class="current-updates">
     <div class="d-flex flex-row justify-content-center">
         <table style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;" width="97%">
             <tbody>
-                <tr style="border:thin #ff9800 inset;color:#ff9800;">
-                    <td style="color:black;padding-left: 10px;font-weight: bold;" width="15%" bgcolor="#ff9800">Current Updates:-</td>
-                    <td width="80%">
-                        <marquee behavior="scroll" scrollamount="4" direction="left" style="margin-top:2px;" onmouseover="this.stop();" onmouseout="this.start();" width="100%" class="current-updates-marquee">
+                <tr style="border:thin #005E66 inset;color:#ffffff;">
+                    <td style="color:#ffffff;padding-left: 10px;font-weight: bold;" width="15%" bgcolor="#005E66">Current Updates:-</td>
+                    <td width="80%" style="color:#ffffff;" bgcolor="#005E66">
+                        <marquee behavior="scroll" scrollamount="4" direction="left" style="margin-top:2px;color:#ffffff;" onmouseover="this.stop();" onmouseout="this.start();" width="100%" class="current-updates-marquee">
                             {% for update in current_updates %}
                                 {% if update.url %}
                                 <a href="{{ update.url }}" target="_blank">{{ update.desc | safe}}</a>
@@ -280,6 +224,7 @@
 {% endif %}
 
 <!-- About secion -->
+{% if about %}
 <section id="about" class="mb-4">
     <h3 class="section-title mt-5 pt-3">About Us</h3>
     <div class="container">
@@ -293,8 +238,10 @@
         </div>
     </div>
 </section>
+{% endif %}
 
 <!-- Mission Section -->
+{% if mission %}
 <section id="mission">
     <h3 class="section-title mt-5 pt-3 pt-sm-0">Our Mission</h3>
     <div class="container">
@@ -413,6 +360,7 @@
         </div>
     </div>
 </section>
+{% endif %}
 <!-- About Section Ends -->
 <!-- Recent Activities Section -->
 {% if recent_events %}
@@ -423,7 +371,7 @@
                 <div class="section-content w-100">
                     <div class="content-box from-bottom delay-200">
                         <h3 class="section-title">Recent Activities</h3>
-                        <div class="glide">
+                        <div class="glide recent-activities-glide">
                             <div class="glide__track" data-glide-el="track">
                                 <ul class="glide__slides">
                                     {% for event in recent_events %}
@@ -539,42 +487,44 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 <section id="gallery">
     <div class="bg-grey" style="padding: 80px 0 60px;">
         <div class="container">
-            <div class="section-head">
-                <h2 class="section-title">
-                    Gallery
-                </h2>
-                <p class="section-description">
+            <div class="section-head gallery-section-head">
+                <h2 class="section-title">Gallery</h2>
+                <div class="section-accent gallery-section-accent"></div>
+                <p class="section-description gallery-section-description">
                     {{ gallery.tagline }}
                 </p>
             </div>
 
             <div id="gallery-container" class="gallery-container">
-                <div class="galleryFilter">
-                    <a href="#" data-filter="" class="current">All</a>
-                    <a href="#" data-filter=".ankurayan">Ankurayan</a>
-                    <a href="#" data-filter=".anandakendra">Anandakendra</a>
-                    <a href="#" data-filter=".bandhughar">Bandhughar</a>
-                    <a href="#" data-filter=".other">Other Activities</a>
+            {% if photos.count %}
+                <div class="glide-carousel-custom mt-4">
+                    <div class="glide gallery_glide">
+                        <div class="glide__track" data-glide-el="track">
+                            <ul class="glide__slides">
+                                {% for photo in photos %}
+                                <li class="glide__slide">
+                                    <div class="gallery-slide-card position-relative rounded overflow-hidden">
+                                        <img src="{{ photo.picture.url }}" alt="Gallery" class="gallery-slide-img">
+                                        <a href="javascript:pswpInit({{ forloop.counter0 }})" class="stretched-link gallery-slide-link">
+                                            <i class="fas fa-search-plus"></i>
+                                        </a>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="glide__bullets" data-glide-el="controls[nav]">
+                            {% for photo in photos %}
+                            <button class="glide__bullet" data-glide-dir="={{ forloop.counter0 }}"></button>
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
-
-                <div class="gallery-item element-from-bottom clearfix">
-                    {% for photo in photos %}
-                    <figure class="item {{ photo.tags }}">
-                        <img src='{{ photo.picture.url }}' alt="Photo" data-rel="photoSwipe">
-                        <a href="javascript:pswpInit({{ forloop.counter0 }})" class="stretched-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </figure>
-                    {% endfor %}
-                    <figure id="load-more" class="item ankurayan anandakendra bandhughar other">
-                        <img alt="Photo">
-                        <a href="javascript:void(0);" class="stretched-link">
-                            <p class="text-center">Show More</p>
-                        </a>
-                    </figure>
-                </div>
+            {% else %}
+                <p class="text-center lead mt-4 mb-0"><em>Nothing to show here!</em></p>
+            {% endif %}
             </div>
-            {% if user.is_authenticated %}
+            {% if user.is_authenticated and user.is_admin %}
             <div class="row justify-content-center mt-4">
                 <div class="col col-sm-5 add-images text-center">
                     <button type="button" class="btn btn-outline-primary" data-toggle="modal"
@@ -723,38 +673,6 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
 {% block scripts %}
 
-<script>
-    function isImage(url) {
-         return /\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(url);
-    }
-    const recent_activity_data = {};
-    "{% for act in recent_activities %}"
-        recent_activity_data["{{ act.id }}"] = {title:"{{ act.title }}",description:"{{ act.description }}"}
-    "{% endfor %}"
-    document.querySelectorAll('.recent-activity-bar').forEach((element)=>{
-        element.addEventListener('click',(e)=>{
-            e.preventDefault();
-            const data = recent_activity_data[element.id];
-            if(isImage(element.href)){
-                const image = document.querySelector('.recent-activity-modal-image');
-                image.style.display = 'block';
-                image.src = element.href;
-                image.addEventListener('click',(e)=>{
-                    window.open(element.href)
-                })
-            }
-            else{
-                document.querySelector('.recent-activity-modal-image').style.display = 'none';
-            }
-            const title = document.querySelector('.recent-activity-modal-title');
-            const description = document.querySelector('.recent-activity-modal-desc')
-            title.innerText = data.title;
-            title.href = element.href;
-            description.innerText = data.description;
-            $("#recent-activity-modal").modal('toggle');
-        })
-    })
-</script>
 <!-- PHOTOSWIPE -->
 <script>
     // build the json album images collection
@@ -849,22 +767,76 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     }
 </script>
 
-<!-- RECENT ACTIVITIES CAROUSEL -->
+<!-- CAROUSELS: init after load, gallery auto-advance via setInterval -->
 <script>
-    var glide = new Glide('.glide',{
-        type: 'carousel',
-        focusAt: 'center',
-        perView: 2,
-        autoplay: 2000,
-        gap: 30,
-        hoverpause: true,
-        breakpoints: {
-            992: {
-                perView: 1,
-            },
-        }
+    window.addEventListener('load', function initCarousels() {
+        setTimeout(function() {
+            if (typeof Glide === 'undefined') return
+            var youtubeEl = document.querySelector('.youtube_glide');
+            if (youtubeEl && youtubeEl.querySelectorAll('.glide__slide').length > 0) {
+                var yt = new Glide('.youtube_glide', { type: 'carousel', focusAt: 'center', perView: 3, autoplay: 2500, gap: 20, breakpoints: { 991: { perView: 2 }, 767: { perView: 1 } } });
+                yt.mount();
+            }
+            var recentEl = document.querySelector('.recent-activities-glide');
+            if (recentEl && recentEl.querySelectorAll('.glide__slide').length > 0) {
+                var recent = new Glide('.recent-activities-glide', { type: 'carousel', focusAt: 'center', perView: 2, autoplay: 2000, gap: 30, hoverpause: true, breakpoints: { 992: { perView: 1 } } });
+                recent.mount();
+            }
+            var galleryEl = document.querySelector('.gallery_glide');
+            if (galleryEl && galleryEl.querySelectorAll('.glide__slide').length > 0) {
+                var gallery = new Glide('.gallery_glide', {
+                    type: 'carousel',
+                    focusAt: 'center',
+                    perView: 3,
+                    autoplay: 2500,
+                    hoverpause: true,
+                    animationDuration: 600,
+                    gap: 32,
+                    breakpoints: {
+                        991: { perView: 2, gap: 28 },
+                        767: { perView: 2, gap: 24 },
+                        480: { perView: 1, gap: 20 }
+                    }
+                });
+                gallery.mount();
+                window._galleryGlide = gallery
+                setInterval(function() {
+                    try {
+                        var g = window._galleryGlide
+                        if (g && g.go) g.go('>')
+                    } catch (e) {}
+                }, 2500)
+            }
+        }, 300)
     })
-    glide.mount()
+</script>
+
+<script>
+    (function initLandingHeaderAlternation() {
+        var lineEl = document.getElementById('header-text-line');
+        if (!lineEl) return;
+
+        var lines = [
+            { text: 'ସବାଶେଷ  ମଣିଷର', lang: 'or', fontFamily: 'oriya' },
+            { text: 'Sanskar · Swaraj · Swabalamban', lang: 'en', fontFamily: "'DM Sans', 'Raleway', sans-serif" }
+        ];
+
+        var current = 0;
+        lineEl.style.transition = 'opacity 0.35s ease';
+
+        setInterval(function() {
+            current = (current + 1) % lines.length;
+            var next = lines[current];
+            lineEl.style.opacity = '0';
+
+            setTimeout(function() {
+                lineEl.textContent = next.text;
+                lineEl.setAttribute('lang', next.lang);
+                lineEl.style.fontFamily = next.fontFamily;
+                lineEl.style.opacity = '1';
+            }, 180);
+        }, 2800);
+    })();
 </script>
 
 <script>

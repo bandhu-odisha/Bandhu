@@ -5,10 +5,42 @@
 {% block title %} Bandhu | Publications {% endblock %}
 
 {% block style %}
+<link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
+<link rel="stylesheet" href="{% static 'css/publications.css' %}">
 <!-- Custom Style -->
 <style>
     #top-section {
-        background: url("{{ content.banner_image.url }}") 50% center no-repeat fixed;
+        background:
+            radial-gradient(circle at 14% 22%, rgba(0, 94, 102, 0.06) 0 2px, transparent 3px),
+            radial-gradient(circle at 30% 70%, rgba(0, 94, 102, 0.04) 0 1.5px, transparent 2.5px),
+            radial-gradient(circle at 58% 28%, rgba(0, 94, 102, 0.05) 0 1.8px, transparent 2.8px),
+            radial-gradient(circle at 74% 62%, rgba(0, 94, 102, 0.04) 0 1.5px, transparent 2.6px),
+            radial-gradient(circle at 88% 24%, rgba(0, 94, 102, 0.045) 0 1.6px, transparent 2.8px),
+            linear-gradient(135deg, #e8f5f6 0%, #d6ecee 45%, #c5e4e8 100%) !important;
+        background-attachment: fixed !important;
+        background-size: cover !important;
+    }
+    #top-section .parallax-overlay {
+        position: relative;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(214, 236, 238, 0.28) 100%) !important;
+    }
+    #top-section .parallax-overlay::before {
+        content: "Publications";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #005E66;
+        font-family: 'Lora', Georgia, serif;
+        font-weight: 800;
+        font-size: clamp(2.2rem, 6vw, 4rem);
+        letter-spacing: 0.02em;
+        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.95), 0 2px 22px rgba(0, 94, 102, 0.14);
+        z-index: 9;
+        pointer-events: none;
+    }
+    #top-section .slider-txt-container.page-showcase {
+        display: none !important;
     }
 </style>
 {% endblock %}
@@ -23,27 +55,32 @@
 {% endblock %}
 
 {% block showcase-title-container %}
-<div class="slider-txt-container" style="padding: 150px 0 75px 0;">
-    <h2 class="bold-txt"> Publications </h2>
+<div class="slider-txt-container page-showcase page-showcase-tall">
+    <h2 class="bold-txt page-showcase-title">Publications</h2>
+    <div class="page-showcase-accent"></div>
+</div>
+{% endblock %}
+{% block angular %}
+<div class="angular page-angular angular-publications">
+    <div class="top-angle"></div>
 </div>
 {% endblock %}
 
-{% block angular %} {% endblock %}
-
 {% block content %}
-<section id="services" class="bg-dark p-1">
-</section>
-
-<section class="bg-white" id="about" style="padding: 5rem 0 3rem;">
-    <div class="container px-sm-0 px-md-4 px-xl-2 font-open-sans">
-        <div class="row w-100 mx-auto">
+<section id="publications-list" class="page-section page-hero page-hero-with-angular">
+    <div class="container" style="padding: 3rem 0 4rem;">
+        <div class="row w-100 mx-auto justify-content-center">
             {% for item in publications %}
             {% if item.is_visible %}
-            <div class="col-sm-6 col-lg-4 col-xl-3 d-flex justify-content-center mb-5 px-sm-2 px-md-4 px-lg-3 px-xl-2">
-                <div class="card dpg-album-card">
+            <div class="col-sm-6 col-lg-4 col-xl-3 publication-card-col d-flex justify-content-center mb-5 px-sm-2 px-md-4 px-lg-3 px-xl-2">
+                <div class="card page-card dpg-album-card w-100">
                     <img src="{{ item.thumb.url }}" alt="{{ item.title }}" class="card-image-top w-100" style="height: 225px;" />
                     <div class="card-body">
+                        {% if forloop.first %}
+                        <h5 class="card-title font-weight-bolder">Annual Report<br>24-25</h5>
+                        {% else %}
                         <h5 class="card-title font-weight-bolder">{{ item.title|safe }}</h5>
+                        {% endif %}
                         <span class=""><i class="far fa-calendar-check mr-1"></i>
                             <time datetime="{{ album.created|date:'Y-m-d' }}">{{ item.created|date:"d M, Y" }}</time>
                         </span>

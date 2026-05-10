@@ -1,0 +1,65 @@
+{% load static %}
+<div class="modal fade signup-modal-root" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable signup-modal-dialog" role="document">
+        <div class="modal-content border-0 signup-modal-sheet">
+            <div class="modal-header border-0 pb-2 signup-modal-header">
+                <h5 class="modal-title font-weight-bold" id="loginModalTitle">Sign In</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pt-0 px-4 pb-4">
+                <div class="signup-page signup-modal-inner">
+                    <div class="limiter">
+                        <div class="container-login100">
+                            <div class="wrap-login100 signup-modal-card">
+                                <form class="signup-modal-form" method="post" action="{% url 'login' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="login_modal" value="1">
+                                    <input type="hidden" name="next" value="{{ request.path }}">
+                                    <a href="/oauth/login/facebook/" class="signup-modal-oauth signup-modal-oauth--fb">
+                                        <i class="fab fa-facebook-square" aria-hidden="true"></i>
+                                        Facebook
+                                    </a>
+                                    <a href="/oauth/login/google-oauth2/" class="signup-modal-oauth signup-modal-oauth--google">
+                                        <img src="{% static 'img/icon/icon-google.png' %}" alt="Google">
+                                        Google
+                                    </a>
+                                    <div class="w-100 text-center pt-2 pb-2 signup-modal-or">
+                                        <p>— OR —</p>
+                                        <span>Sign In Using Email</span>
+                                        <div class="error_msg text-center w-100">
+                                            {% if login_modal_err_code == 1 %}
+                                            <p class="mt-2 mb-2" style="color: #dc2626;">Your account has not been activated. Please activate your account to continue.</p>
+                                            {% elif login_modal_err_code == 2 %}
+                                            <p class="mt-2 mb-2" style="color: #dc2626;">Your account is not yet authorised. Kindly contact admin.</p>
+                                            {% elif login_modal_err_code == 3 %}
+                                            <p class="mt-2 mb-2" style="color: #dc2626;">Please enter the correct email and password.</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="wrap-input100 validate-input mb-3">
+                                        <input class="input100" type="email" name="email" placeholder="Email" required autocomplete="username" value="{{ login_modal_prefill_email }}">
+                                    </div>
+                                    <div class="wrap-input100 validate-input mb-2">
+                                        <input class="input100" type="password" name="password" placeholder="Password" required autocomplete="current-password">
+                                    </div>
+                                    <div class="pt-1 pb-2">
+                                        <a href="/accounts/password_reset/" class="small" style="color: #5f8d93; font-weight: 600;">Forgot password?</a>
+                                    </div>
+                                    <div class="signup-modal-submit-wrap">
+                                        <button class="signup-modal-submit" type="submit">Sign In</button>
+                                    </div>
+                                    <div class="w-100 text-center pt-3 signup-modal-footer">
+                                        <span>Not a member?</span>
+                                        <a href="#" class="auth-open-signup-modal" role="button">Sign up now</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

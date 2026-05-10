@@ -5,15 +5,19 @@ from django.shortcuts import reverse
 from .models import (
     Ankurayan, Participant, Guest,
     ActivityCategory, Activity, Photo,
-    HomePage,
+    HomePage, AnkurayanReportFile, AnkurayanPublicationFile,
 )
 
 @admin.register(Ankurayan)
 class AnkurayanAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('year',)}
-    list_display = ('theme','year','start_date','end_date')
+    list_display = ('theme', 'year', 'start_date', 'end_date')
     ordering = ('year',)
-    search_fields = ('year','theme','locality')
+    search_fields = ('year', 'theme', 'locality')
+    fieldsets = (
+        (None, {'fields': ('year', 'title', 'theme', 'slug', 'logo', 'start_date', 'end_date')}),
+        ('Content', {'fields': ('description', 'reports', 'publications', 'visitors')}),
+    )
 
     def response_add(self, request, obj, post_url_continue=None):
         next_site = request.GET.get('next')
@@ -49,9 +53,17 @@ class ParticipantAdmin(admin.ModelAdmin):
 
 @admin.register(Guest)
 class GuestAdmin(admin.ModelAdmin):
-    list_display = ('name','ankurayan','profession','email','contact_no')
+    list_display = ('name', 'ankurayan', 'profession', 'quote_preview')
+    list_editable = ()
+    search_fields = ('name', 'ankurayan__year', 'ankurayan__theme', 'quote')
+
+    def quote_preview(self, obj):
+        if not obj.quote:
+            return '—'
+        return (obj.quote[:50] + '…') if len(obj.quote) > 50 else obj.quote
+    quote_preview.short_description = 'Quote'
     ordering = ('name',)
-    search_fields = ('name','ankurayan__year','ankurayan__theme',)
+    list_filter = ('ankurayan__year',)
 
 @admin.register(Photo)
 class PhotoAdmin(admin.ModelAdmin):
@@ -59,6 +71,20 @@ class PhotoAdmin(admin.ModelAdmin):
     ordering = ('ankurayan',)
     list_filter = ('approved',)
     search_fields = ('activity', 'ankurayan__year','ankurayan__theme',)
+
+
+@admin.register(AnkurayanReportFile)
+class AnkurayanReportFileAdmin(admin.ModelAdmin):
+    list_display = ('title', 'ankurayan', 'uploaded_at')
+    list_filter = ('ankurayan__year',)
+    search_fields = ('title', 'ankurayan__year')
+
+
+@admin.register(AnkurayanPublicationFile)
+class AnkurayanPublicationFileAdmin(admin.ModelAdmin):
+    list_display = ('title', 'ankurayan', 'uploaded_at')
+    list_filter = ('ankurayan__year',)
+    search_fields = ('title', 'ankurayan__year')
 
 
 admin.site.register(HomePage)

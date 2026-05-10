@@ -5,14 +5,87 @@
 
 {% block title %} Ankurayan {% endblock %}
 
+{% block body_class %}ankurayan-page{% endblock %}
+
 {% block style %}
 <!-- Custom CSS -->
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
 <link rel="stylesheet" href="{% static 'css/ankurayan.css' %}">
 <!-- Custom Style -->
 <style>
-    #top-section {
-        background: url("{{ content.banner_image.url }}") 50% center no-repeat fixed;
+    body #top-section {
+        background:
+            radial-gradient(circle at 14% 22%, rgba(0, 94, 102, 0.06) 0 2px, transparent 3px),
+            radial-gradient(circle at 30% 70%, rgba(0, 94, 102, 0.04) 0 1.5px, transparent 2.5px),
+            radial-gradient(circle at 58% 28%, rgba(0, 94, 102, 0.05) 0 1.8px, transparent 2.8px),
+            radial-gradient(circle at 74% 62%, rgba(0, 94, 102, 0.04) 0 1.5px, transparent 2.6px),
+            radial-gradient(circle at 88% 24%, rgba(0, 94, 102, 0.045) 0 1.6px, transparent 2.8px),
+            linear-gradient(135deg, #e8f5f6 0%, #d6ecee 45%, #c5e4e8 100%) !important;
+        background-attachment: fixed !important;
+        background-size: cover !important;
+    }
+    body #top-section .parallax-overlay {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(214, 236, 238, 0.28) 100%) !important;
+        background-color: transparent !important;
+    }
+    body #top-section .parallax-overlay::before {
+        content: "Ankurayan";
+        position: absolute;
+        top: 120px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #005E66;
+        font-family: 'Lora', Georgia, serif;
+        font-weight: 800;
+        font-size: clamp(2.2rem, 6vw, 4rem);
+        letter-spacing: 0.02em;
+        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.95), 0 2px 22px rgba(0, 94, 102, 0.14);
+        z-index: 5;
+        pointer-events: none;
+    }
+    body #top-section .slider-txt-container.page-showcase > * {
+        opacity: 0 !important;
+    }
+    #about .page-card { border: 2px solid rgba(13, 148, 136, 0.3); box-shadow: 0 12px 32px rgba(15, 118, 110, 0.2), 0 4px 12px rgba(0,0,0,0.08); border-radius: 16px; overflow: hidden; transition: box-shadow 0.3s ease, border-color 0.3s ease; }
+    #about .page-card:hover { box-shadow: 0 20px 48px rgba(15, 118, 110, 0.28), 0 8px 20px rgba(0,0,0,0.1); border-color: rgba(13, 148, 136, 0.5); }
+    /* Equal height for Ankurayan year cards in carousel */
+    #ankurayans .glide__slide {
+        align-items: stretch;
+    }
+    #ankurayans .glide__slide .card.ankurayan-year-card {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        min-height: 380px;
+    }
+    #ankurayans .glide__slide .card.ankurayan-year-card .card-img-top {
+        flex-shrink: 0;
+        object-fit: cover;
+    }
+    #ankurayans .glide__slide .card.ankurayan-year-card .card-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+    }
+    #ankurayans .glide__slide .card.ankurayan-year-card .ankurayan-year-theme {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        min-height: 2.8em;
+    }
+    #ankurayans .section-title {
+        font-size: 2.12rem;
+    }
+    #ankurayans .section-title:after,
+    #ankurayans .section-title::after,
+    #ankurayans .section-accent {
+        display: none !important;
+        content: none !important;
+    }
+    #ankurayans .glide.ankurayans {
+        margin-top: 2.2rem;
     }
 </style>
 {% endblock %}
@@ -33,60 +106,102 @@
 {% endblock %}
 
 {% block showcase-title-container %}
-<div class="slider-txt-container" style="padding: 200px 0 200px 0;">
-    <h2 class="bold-txt"> Ankurayan </h2>
+<div class="slider-txt-container page-showcase page-showcase-tall">
+    <h2 class="bold-txt page-showcase-title">Ankurayan</h2>
+    <div class="page-showcase-accent"></div>
+</div>
+{% endblock %}
+{% block angular %}
+<div class="angular page-angular angular-ankurayan">
+    <div class="top-angle"></div>
 </div>
 {% endblock %}
 
 {% block content %}
-<!-- ABOUT Section  -->
-<section id="about" style="margin-top: -220px;">
-    <div class="container pb-5 mb-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6" style="z-index: 10;">
-                <div style="padding: 135px 25px 0;">
-                    <!-- <h3 class="content-title" style="font-size: 2rem; margin-bottom: 20px;">Ankurayan</h3> -->
-                    <p style="font-size: 20px;">
-                        <strong>{{ content.tagline|safe }}</strong>
-                    </p>
-                    <p style="font-size: 17px;">
-                        {{ content.description|safe }}
-                    </p>
+<!-- Overlay cards: same design pattern as Anandakendra and other mission pillar pages -->
+<section id="about" class="pillar-overlay-cards">
+    <div class="container">
+        <div class="row align-items-start g-4">
+            <div class="col-lg-4 col-md-5">
+                <div class="pillar-overlay-card pillar-overlay-card--image">
+                    {% if content and content.picture %}
+                    <img src="{{ content.picture.url }}" alt="Ankurayan" loading="eager" class="pillar-overlay-single-image">
+                    {% else %}
+                    <img src="{% static 'img/our_mission1.jpg' %}" alt="Ankurayan" loading="eager" class="pillar-overlay-single-image">
+                    {% endif %}
                 </div>
             </div>
-            <div class="col-md-6" style="z-index: 10;">
-                <div class="card border text-center" style="width: 100%; padding-top: 100%; position: relative;">
-                    <img class="card-img-top" src='{{ content.picture.url }}' alt="Ankurayan"
-                        style="height: 100%; position: absolute; top: 0; bottom: 0; left: 0; right: 0;">
+            <div class="col-lg-8 col-md-7">
+                <div class="pillar-overlay-card pillar-overlay-card--text ankurayan-sync-text">
+                    {% if content %}
+                    {% if ankurayans %}
+                    <div class="ankurayan-explore-years">
+                        <p class="ankurayan-explore-label">Explore different years programs</p>
+                        <div class="ankurayan-years-marquee" aria-label="Explore different Ankurayan years">
+                            <div class="ankurayan-years-track">
+                                {% for ankur in ankurayans %}
+                                <a href="{% url 'ankurayan:AnkurayanDetail' ankur.slug %}" class="ankurayan-year-link">Ankurayan {{ ankur.year }}</a>
+                                {% if not forloop.last %}<span class="ankurayan-year-sep">|</span>{% endif %}
+                                {% endfor %}
+                            </div>
+                            <div class="ankurayan-years-track" aria-hidden="true">
+                                {% for ankur in ankurayans %}
+                                <a href="{% url 'ankurayan:AnkurayanDetail' ankur.slug %}" class="ankurayan-year-link">Ankurayan {{ ankur.year }}</a>
+                                {% if not forloop.last %}<span class="ankurayan-year-sep">|</span>{% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="pillar-desc">{{ content.description|safe }}</div>
+                    <div class="ankurayan-caption-row">
+                        <a href="{% url 'pillar_sanskar' %}" class="ankurayan-back-link">
+                            <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                            Back to Sanskar
+                        </a>
+                        <div class="ankurayan-image-caption" aria-label="Ankurayan caption">
+                            <p class="caption-line caption-en">"A festival of light and delight for children"</p>
+                            <p class="caption-line caption-or">"ଶିଶୁମାନଙ୍କ ପାଇଁ ଆଲୋକ ଓ ଆନନ୍ଦର ଏକ ଉତ୍ସବ"</p>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="pillar-desc">Our annual gathering for reflection and community.</div>
+                    <a href="{% url 'pillar_sanskar' %}" class="ankurayan-back-link">
+                        <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                        Back to Sanskar
+                    </a>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
 </section>
 
+<div class="ankurayan-list-page">
+
 <!-- ANKURAYANS SECTION -->
 {% if ankurayans.count or user|is_admin %}
-<section id="ankurayans" class="glide-carousel-custom">
-    <div class="bg-grey" style="padding: 50px 0;">
-        <h3 class="section-title">Ankurayans</h3>
-        <div class="container">
+<section id="ankurayans" class="glide-carousel-custom page-section">
+    <div class="container" style="padding: 2.15rem 0 4rem;">
+        <h2 class="section-title text-center">Running Ankurayans</h2>
+        <div>
             {% if ankurayans.count %}
             <div class="row">
                 <div class="glide ankurayans">
                     <div class="glide__track" data-glide-el="track">
                         <ul class="glide__slides">
                             {% for ankur in ankurayans %}
-                            <li class="glide__slide">
-                                <div class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
+                            <li class="glide__slide d-flex">
+                                <div class="card w-100 page-card mx-auto my-2 ankurayan-year-card">
                                     <img src="{{ ankur.logo.url }}" class="card-img-top home-card-img" alt=""
                                         width="300px">
-                                    <div class="card-body pb-0">
+                                    <div class="card-body pb-0 d-flex flex-column">
                                         <h5 class="card-title font-weight-bold">{{ankur.title}}</h5>
-                                        <p class="mb-3">
+                                        <p class="ankurayan-year-theme mb-3">
                                             {{ankur.theme}}<br>
                                         </p>
                                         <a href="{% url 'ankurayan:AnkurayanDetail' ankur.slug %}"
-                                            class="stretched-link"></a>
+                                            class="stretched-link mt-auto"></a>
                                     </div>
                                 </div>
                             </li>
@@ -197,6 +312,7 @@
     </div>
 </section>
 {% endif %}
+</div><!-- .ankurayan-list-page -->
 
 <!-- Scroll To Top Button -->
 <div id="scroll-to-top">
@@ -239,5 +355,6 @@
         }
     })
     ankur_glide.mount()
+
 </script>
 {% endblock %}

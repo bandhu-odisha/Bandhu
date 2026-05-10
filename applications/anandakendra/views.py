@@ -8,6 +8,7 @@ from django.template.defaultfilters import slugify
 
 from bandhuapp.models import Profile
 from bandhuapp.templatetags.permissions import is_admin
+from accounts.forms import RegisterForm
 from .models import (
     AnandaKendra, Activity, Photo, Acharya,
     Student, ActivityCategory, Event, HomePage,
@@ -64,21 +65,30 @@ def anandkendra_detail(request, slug):
     photos = photos.filter(approved=True)
 
     activities_list = []
+    has_activities = any(c.activity_set.exists() for c in categories)
 
     # activities = Activity.objects.filter(category__kendra=kendra)
     # for activity in activities:
     #     photos = Photo.objects.filter(activity=activity).filter(approved=True)
     #     activities_list.append([activity,photos])
 
+    signup_initial = {}
+    prefill_email = request.session.pop('signup_modal_prefill_email', None)
+    if prefill_email:
+        signup_initial['email'] = prefill_email
+
     context = {
         'kendra': kendra,
         'categories': categories,
         'activities': activities_list,
+        'has_activities': has_activities,
         'events': events,
         'students': students,
         'photos': photos,
         'check_admin': check_admin,
         'content': HomePage.objects.all().first(),
+        'signup_form': RegisterForm(initial=signup_initial),
+        'open_signup_modal': request.GET.get('signup_modal') == '1',
     }
 
     return render(request,'anandkendra_detail.html', context)
@@ -163,15 +173,14 @@ def add_to_gallery(request):
     if request.method == 'POST':
         slug = request.POST.get('slug')
         activity_images = request.FILES.getlist('gallery_images')
-        kendra = get_object_or_404(AnandaKendra,slug=slug)
-        print("image =",activity_images)
+        kendra = get_object_or_404(AnandaKendra, slug=slug)
         for i in activity_images:
-            if kendra.admin is not None and kendra.admin.user == request.user:
-                Photo.objects.create(kendra=kendra,picture=i,approved=True)
-            else:
-                Photo.objects.create(kendra=kendra,picture=i)
-
-        url = '/anandakendra/detail/' + slug +'/'
+            Photo.objects.create(
+                kendra=kendra,
+                picture=i,
+                approved=is_admin(request.user),
+            )
+        url = '/anandakendra/detail/' + slug + '/'
         return HttpResponseRedirect(url)
     return HttpResponseRedirect('/')
 
@@ -182,18 +191,21 @@ def admin_approval(request):
         image_pk = request.POST.get('image')
         status = request.POST.get('status')
 
-        kendra = get_object_or_404(AnandaKendra,slug=slug)
-        photo = get_object_or_404(Photo,pk=int(image_pk))
+        kendra = get_object_or_404(AnandaKendra, slug=slug)
+        photo = get_object_or_404(Photo, pk=int(image_pk))
         if status == "approve":
             photo.approved = True
             photo.save()
         else:
+            if photo.picture:
+                photo.picture.delete(save=False)
             photo.delete()
-        
-        photos = Photo.objects.filter(kendra=kendra)
 
+        if request.headers.get('X-Requested-With') != 'XMLHttpRequest':
+            return redirect('anandakendra:AnandkendraDetail', slug=slug)
+        photos = Photo.objects.filter(kendra=kendra)
         data = serializers.serialize('json', photos)
-        return JsonResponse(data,safe=False)
+        return JsonResponse(data, safe=False)
     return HttpResponseRedirect('/')
 
 @login_required

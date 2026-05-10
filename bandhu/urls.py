@@ -20,5 +20,11 @@ urlpatterns = [
     path('publications/', include('applications.publications.urls')),
 ]
 
+# Serve static and media files so CSS, JS, and images load (local development)
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
+else:
+    # When DEBUG=False (e.g. production-style run), still serve static/media for local testing
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
