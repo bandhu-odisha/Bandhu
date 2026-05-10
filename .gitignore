@@ -159,3 +159,12 @@ GitHub.sublime-settings
 .DS_store
 Pipfile
 Pipfile.lock
+
+# Vite / React (source lives in frontend/; install deps with npm ci)
+frontend/node_modules/
+frontend/dist/
+
+# Accidental local extracts (zip tooling)
+.tmp_people_extract2/
+.tmp_people_zip/
+.tmp_pillow/
