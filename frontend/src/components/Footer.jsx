@@ -12,6 +12,7 @@ export default function Footer({ data }) {
   return (
     <footer
       id="contact"
+      data-cta-surface="dark"
       className="relative overflow-hidden border-t border-[#005E66] bg-[#005E66] px-4 py-14 text-white sm:px-6"
     >
       <div className="relative z-10 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16">

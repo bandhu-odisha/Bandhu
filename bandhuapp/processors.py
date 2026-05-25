@@ -22,7 +22,7 @@ def userList(request):
     return {'users': rm_users,'all_users':users}
     
 def recent_activities(request):
-    recent_act = RecentActivity.objects.all().order_by('-date_created')
+    recent_act = RecentActivity.objects.all().order_by('-start_date', '-date_created')
     gallery = Gallery.objects.all().first()
     contact = Contact.objects.all().first()
     return {

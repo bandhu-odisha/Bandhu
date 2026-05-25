@@ -1,14 +1,12 @@
 import { useMemo, useEffect, useState, useCallback } from 'react'
 import Navbar from './components/Navbar'
-import { CTA_PILL_CLASS } from './cta'
+import BeABandhuFab from './components/BeABandhuFab'
 
 /** Past this scroll offset, navbar hides until user hovers the top strip or scrolls back to top. */
 const NAV_SCROLL_TOP_THRESHOLD = 10
-import LoginModal from './components/LoginModal'
 import Hero from './components/Hero'
 import About from './components/About'
 import Mission from './components/Mission'
-import RecentActivities from './components/RecentActivities'
 import Gallery from './components/Gallery'
 import OurVisitors from './components/OurVisitors'
 import Videos from './components/Videos'
@@ -35,21 +33,9 @@ function isInsidePortaledNavDropdown(node) {
 
 export default function App() {
   const data = useMemo(getLandingData, [])
-  const auth = data?.auth_modal
-  const isAuthed = data?.user?.is_authenticated
   const signupHref = data?.urls?.signup || '/accounts/signup/'
   const [scrollY, setScrollY] = useState(0)
   const [peekNav, setPeekNav] = useState(false)
-  const [loginOpen, setLoginOpen] = useState(
-    () =>
-      !!(
-        auth &&
-        (auth.open_from_url || (typeof auth.err_code === 'number' && auth.err_code > 0))
-      )
-  )
-
-  const openLogin = useCallback(() => setLoginOpen(true), [])
-  const closeLogin = useCallback(() => setLoginOpen(false), [])
 
   useEffect(() => {
     const onScroll = () => {
@@ -111,42 +97,25 @@ export default function App() {
         )}
         <div
           className={`w-full bg-white shadow-[0_1px_0_rgba(15,23,42,0.06)] transition-transform duration-300 ease-out motion-reduce:transition-none ${
-            showNav ? 'translate-y-0' : '-translate-y-full pointer-events-none'
+            showNav ? 'translate-y-0' : '-translate-y-full'
           }`}
           onMouseEnter={() => {
             if (navHiddenByScroll) setPeekNav(true)
           }}
           onMouseLeave={onNavBarMouseLeave}
         >
-          <Navbar data={data} onOpenLogin={openLogin} />
+          <Navbar data={data} />
         </div>
       </header>
-      {!isAuthed && (
-        <LoginModal
-          open={loginOpen}
-          onClose={closeLogin}
-          loginUrl={data.urls?.login || '/accounts/login/'}
-          signupUrl={data.urls?.signup || '/accounts/signup/'}
-          csrfToken={data.csrf_token}
-          authModal={auth}
-        />
-      )}
       <main className="pt-[5.25rem] sm:pt-20 flex flex-col">
-        <Hero />
+        <Hero data={data} />
         <Mission data={data} />
         {data.videos?.length > 0 && <Videos data={data} />}
-        {data.recent_events?.length > 0 && <RecentActivities data={data} />}
         <Gallery data={data} />
-        <OurVisitors />
+        <OurVisitors data={data} />
         {data.about && <About data={data} />}
       </main>
-      <a
-        href={signupHref}
-        className={`fixed bottom-5 right-5 z-[160] shadow-[0_12px_30px_rgba(0,94,102,0.32)] hover:shadow-[0_16px_36px_rgba(0,94,102,0.4)] sm:bottom-7 sm:right-7 ${CTA_PILL_CLASS}`}
-        style={{ marginBottom: 'max(0.25rem, env(safe-area-inset-bottom, 0px))' }}
-      >
-        Be a Bandhu
-      </a>
+      {!data?.user?.is_authenticated && <BeABandhuFab href={signupHref} />}
       <Footer data={data} />
     </div>
   )

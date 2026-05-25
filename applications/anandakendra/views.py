@@ -16,6 +16,14 @@ from .models import (
 
 # Create your views here.
 
+
+def _kendra_hero_locality_css(locality):
+    """Escape locality for CSS content; nbsp between words keeps the full line from wrapping."""
+    text = locality or ''
+    text = text.replace('\\', '\\\\').replace('"', '\\"')
+    return text.replace(' ', '\\0000a0 ')
+
+
 def index(request):
     context = {
         'kendras': AnandaKendra.objects.all(),
@@ -64,6 +72,13 @@ def anandkendra_detail(request, slug):
     unapproved_photos = photos.filter(approved=False)
     photos = photos.filter(approved=True)
 
+    assigned_profile_ids = Acharya.objects.filter(kendra=kendra).values_list(
+        'acharya_id_id', flat=True
+    )
+    acharya_choices = Profile.objects.exclude(first_name=None).exclude(
+        pk__in=assigned_profile_ids
+    )
+
     activities_list = []
     has_activities = any(c.activity_set.exists() for c in categories)
 
@@ -79,6 +94,7 @@ def anandkendra_detail(request, slug):
 
     context = {
         'kendra': kendra,
+        'kendra_hero_locality_css': _kendra_hero_locality_css(kendra.locality),
         'categories': categories,
         'activities': activities_list,
         'has_activities': has_activities,
@@ -86,6 +102,7 @@ def anandkendra_detail(request, slug):
         'students': students,
         'photos': photos,
         'check_admin': check_admin,
+        'acharya_choices': acharya_choices,
         'content': HomePage.objects.all().first(),
         'signup_form': RegisterForm(initial=signup_initial),
         'open_signup_modal': request.GET.get('signup_modal') == '1',
@@ -114,20 +131,36 @@ def enroll_student(request):
         return HttpResponseRedirect(url)
     return HttpResponseRedirect('/')
 
-@login_required       
+@login_required
 def add_acharya(request):
     if request.method == 'POST':
         slug = request.POST.get('slug')
-        kendra = get_object_or_404(AnandaKendra,slug=slug)
-        acharya = request.POST.get('acharyas')
-        acharyas = acharya.split(",")
+        kendra = get_object_or_404(AnandaKendra, slug=slug)
+        emails = []
+        for key in ('acharya_1', 'acharya_2'):
+            email = (request.POST.get(key) or '').strip()
+            if email and email not in emails:
+                emails.append(email)
 
-        for i in acharyas:
-            profile = Profile.objects.filter(user__email=i).first()
-            Acharya.objects.create(kendra=kendra,acharya_id=profile)
+        if not emails:
+            messages.warning(request, 'Select at least one acharya before submitting.')
+            return redirect('anandakendra:AnandkendraDetail', slug=slug)
 
-        url = '/anandakendra/detail/' + slug +'/'
-        return HttpResponseRedirect(url)
+        added = 0
+        for email in emails:
+            profile = Profile.objects.filter(user__email=email).first()
+            if profile and not Acharya.objects.filter(
+                kendra=kendra, acharya_id=profile
+            ).exists():
+                Acharya.objects.create(kendra=kendra, acharya_id=profile)
+                added += 1
+
+        if added:
+            messages.success(request, f'Added {added} acharya(s) to this Anandakendra.')
+        else:
+            messages.info(request, 'No new acharyas were added (they may already be assigned).')
+
+        return redirect('anandakendra:AnandkendraDetail', slug=slug)
     return HttpResponseRedirect('/')
 
 @login_required

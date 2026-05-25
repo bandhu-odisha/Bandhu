@@ -6,6 +6,33 @@ import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 
+def proper_case(value):
+    """Capitalise the first letter of each word; lowercase the rest."""
+    if value is None:
+        return value
+    if not isinstance(value, str):
+        return value
+    text = value.strip()
+    if not text:
+        return text
+
+    def _format_word(word):
+        if not word:
+            return word
+        leading, core, trailing = '', word, ''
+        while core and not core[0].isalnum():
+            leading += core[0]
+            core = core[1:]
+        while core and not core[-1].isalnum():
+            trailing = core[-1] + trailing
+            core = core[:-1]
+        if not core:
+            return word
+        return f'{leading}{core[:1].upper()}{core[1:].lower()}{trailing}'
+
+    return ' '.join(_format_word(part) for part in text.split())
+
+
 def _createHash():
     hash = hashlib.sha1()
     hash.update(str(time.time()).encode('utf-8'))
@@ -74,4 +101,77 @@ def enrich_video_durations(video_items, max_workers=4):
                     item['duration'] = d
             except Exception:
                 pass
+
+
+def people_card_from_assignments(assignments):
+    """
+    One people-page card from one or more PeoplesDesignation rows.
+    When a person is on Core Team and Office Bearers, show them once on the
+    All tab with their primary role plus a combined groups line.
+    """
+    from types import SimpleNamespace
+
+    assignments = list(assignments)
+    staff = assignments[0].staff
+
+    if len(assignments) == 1:
+        entries = []
+        for index, text in enumerate(assignments[0].display_lines):
+            kind = "position" if index == 0 else "occupation"
+            entries.append({"text": proper_case(text), "kind": kind})
+        return SimpleNamespace(staff=staff, display_entries=entries)
+
+    office_roles = []
+    group_names = []
+    for pd in assignments:
+        title = pd.designation.title
+        if title not in group_names:
+            group_names.append(title)
+        if pd.role_id:
+            office_roles.append(pd.role.title)
+
+    entries = []
+    if office_roles:
+        entries.append(
+            {
+                "text": " \u00b7 ".join(proper_case(r) for r in office_roles),
+                "kind": "position",
+            }
+        )
+    else:
+        for pd in assignments:
+            card_lines = pd.display_lines
+            if card_lines and card_lines[0]:
+                entries.append({"text": card_lines[0], "kind": "position"})
+                break
+
+    if len(group_names) > 1:
+        entries.append(
+            {"text": " \u00b7 ".join(group_names), "kind": "groups"}
+        )
+    elif len(assignments) > 1:
+        entries.append(
+            {
+                "text": " \u00b7 ".join(
+                    pd.role.title if pd.role_id else pd.designation.title
+                    for pd in assignments
+                ),
+                "kind": "groups",
+            }
+        )
+
+    shown = {entry["text"] for entry in entries}
+    for pd in assignments:
+        occupation = (pd.desc or "").strip()
+        if not occupation and pd.staff_id:
+            occupation = (pd.staff.profile.profession or "").strip()
+        occupation = proper_case(occupation)
+        if occupation and occupation not in shown:
+            entries.append({"text": occupation, "kind": "occupation"})
+            break
+
+    if not entries:
+        entries = [{"text": "", "kind": "position"}]
+
+    return SimpleNamespace(staff=staff, display_entries=entries)
 

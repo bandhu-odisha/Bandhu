@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth.forms import PasswordResetForm
+from django.core.exceptions import ValidationError
 
 from django.template import loader
 from django.conf import settings
@@ -39,8 +40,7 @@ class RegisterForm(forms.ModelForm):
 # NEEDED 
 
 class UserAdminCreationForm(forms.ModelForm):
-    """A form for creating new users. Includes all the required
-    fields, plus a repeated password."""
+    """Legacy admin user creation with password (unused; see AdminAddUserForm)."""
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
 
@@ -49,7 +49,6 @@ class UserAdminCreationForm(forms.ModelForm):
         fields = ('email',)
 
     def clean_password2(self):
-        # Check that the two password entries match
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
         if password1 and password2 and password1 != password2:
@@ -57,11 +56,85 @@ class UserAdminCreationForm(forms.ModelForm):
         return password2
 
     def save(self, commit=True):
-        # Save the provided password in hashed format
         user = super(UserAdminCreationForm, self).save(commit=False)
         user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()
+        return user
+
+
+class AdminAddUserForm(forms.Form):
+    """Django admin: add members with name and optional email (no password)."""
+    first_name = forms.CharField(max_length=150, label='First name')
+    last_name = forms.CharField(max_length=150, label='Last name')
+    email = forms.EmailField(
+        required=False,
+        label='Email (optional)',
+        help_text=(
+            'Leave blank if the member has no email. '
+            'If you enter your own admin email, confirm with your password below — '
+            'the member still gets a separate login and never admin access.'
+        ),
+    )
+    admin_password = forms.CharField(
+        required=False,
+        label='Your admin password',
+        widget=forms.PasswordInput,
+        help_text='Required only when you enter an email address that belongs to your admin account.',
+    )
+
+    def __init__(self, *args, admin_user=None, **kwargs):
+        self.admin_user = admin_user
+        super().__init__(*args, **kwargs)
+
+    def clean_first_name(self):
+        from bandhuapp.helpers import proper_case
+        return proper_case(self.cleaned_data['first_name'])
+
+    def clean_last_name(self):
+        from bandhuapp.helpers import proper_case
+        return proper_case(self.cleaned_data['last_name'])
+
+    def clean_email(self):
+        from accounts.admin_helpers import normalize_admin_add_email
+        return normalize_admin_add_email(self.cleaned_data.get('email', ''))
+
+    def clean(self):
+        from accounts.admin_helpers import resolve_admin_created_user_email
+
+        cleaned = super().clean()
+        if self.errors:
+            return cleaned
+
+        try:
+            cleaned['login_email'] = resolve_admin_created_user_email(
+                entered_email=cleaned.get('email', ''),
+                admin_user=self.admin_user,
+                admin_password=cleaned.get('admin_password', ''),
+                first_name=cleaned.get('first_name', ''),
+                last_name=cleaned.get('last_name', ''),
+            )
+        except ValidationError as exc:
+            message = exc.messages[0] if exc.messages else str(exc)
+            if exc.code in ('admin_password_required', 'admin_password_invalid'):
+                self.add_error('admin_password', message)
+            else:
+                self.add_error('email', message)
+        return cleaned
+
+    def save(self, commit=True):
+        from bandhuapp.admin_forms import create_profile_for_admin_user
+        from accounts.admin_helpers import apply_admin_created_user_defaults
+
+        user = User(email=self.cleaned_data['login_email'])
+        apply_admin_created_user_defaults(user)
+        if commit:
+            user.save()
+            create_profile_for_admin_user(
+                user,
+                self.cleaned_data['first_name'].strip(),
+                self.cleaned_data['last_name'].strip(),
+            )
         return user
 
 
@@ -74,7 +147,7 @@ class UserAdminChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('email', 'password', 'is_active', 'is_admin')
+        fields = ('email', 'password', 'is_active', 'is_admin', 'auth', 'is_staff')
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.

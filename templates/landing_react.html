@@ -7,10 +7,14 @@
     <title>Bandhu</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Lora:ital,wght@0,400..700;1,400..700&family=Satisfy&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
     {% load static %}
     <link rel="shortcut icon" href="{% static 'img/bandhulogo.gif' %}">
-    <link rel="stylesheet" href="{% static 'frontend/assets/index.css' %}?v=235">
+    {% if not user.is_authenticated %}
+    <link rel="stylesheet" href="{% static 'vendor/css/bootstrap.min.css' %}?v=255">
+    {% endif %}
+    <link rel="stylesheet" href="{% static 'frontend/assets/index.css' %}?v=269">
+    <link rel="stylesheet" href="{% static 'vendor/css/fontawesome-all.min.css' %}?v=255">
     <style>
       /* Our Visitors profile popup: wide like reference (teal left, details right) */
       .visitor-profile-modal {
@@ -44,12 +48,69 @@
         background-color: #005E66 !important;
         opacity: 1 !important;
       }
+      /* Gallery tagline: keep full sentence on one line (home React section) */
+      #gallery p {
+        white-space: nowrap !important;
+        max-width: none !important;
+        width: 100% !important;
+        font-size: clamp(0.95rem, 1.1vw, 1.2rem) !important;
+        line-height: 1.45 !important;
+      }
+      @media (max-width: 767px) {
+        #gallery p {
+          white-space: normal !important;
+          max-width: 22rem !important;
+          margin-left: auto !important;
+          margin-right: auto !important;
+        }
+      }
+      /* Gallery tabs: underline only — no rectangle box on selected tab */
+      #gallery [role='tablist'] [role='tab'] {
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        outline: none !important;
+      }
+      #gallery [role='tablist'] [role='tab']:focus,
+      #gallery [role='tablist'] [role='tab']:focus-visible {
+        outline: none !important;
+        box-shadow: none !important;
+      }
+      #gallery [role='tablist'] [role='tab'][aria-selected='true'] {
+        border-bottom: 2px solid #005E66 !important;
+      }
+      #gallery [role='tablist'] [role='tab'][aria-selected='false'] {
+        border-bottom: 2px solid transparent !important;
+      }
     </style>
 </head>
 <body class="landing">
     <div id="root"></div>
+    {% if not user.is_authenticated %}
+    {% include 'includes/login_modal.html' %}
+    {% endif %}
     {{ landing_data|json_script:"landing-data" }}
-    <script type="module" src="{% static 'frontend/assets/index.js' %}?v=235"></script>
+    {% if not user.is_authenticated %}
+    <script src="{% static 'vendor/js/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'vendor/js/popper.min.js' %}"></script>
+    <script src="{% static 'vendor/js/bootstrap.min.js' %}"></script>
+    <script>
+    $(function () {
+      $(document).on('click', '.auth-open-signup-modal', function (e) {
+        e.preventDefault();
+        $('#loginModal').modal('hide');
+        setTimeout(function () {
+          if ($('#signupModal').length) { $('#signupModal').modal('show'); }
+          else { window.location.href = '{% url "signup" %}'; }
+        }, 350);
+      });
+      {% if open_login_modal %}
+      if ($('#loginModal').length) { $('#loginModal').modal('show'); }
+      {% endif %}
+    });
+    </script>
+    {% endif %}
+    <script type="module" src="{% static 'frontend/assets/index.js' %}?v=268"></script>
     <!-- Gallery auto-scroll: runs after React mounts, no dependency on bundle -->
     <script>
 (function() {

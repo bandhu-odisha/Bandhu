@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect, JsonResponse
 from datetime import datetime
 from django.core import serializers
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.template.defaultfilters import slugify
 
 from bandhuapp.models import Profile
@@ -127,20 +127,17 @@ def create_activity(request):
     return HttpResponseRedirect('/')
 
 @login_required
+@user_passes_test(is_admin, redirect_field_name=None, login_url='/accounts/login/')
 def add_to_gallery(request):
     if request.method == 'POST':
         slug = request.POST.get('slug')
         activity_images = request.FILES.getlist('gallery_images')
-        charity = get_object_or_404(Charity,slug=slug)
-        print("image =",activity_images)
+        charity = get_object_or_404(Charity, slug=slug)
 
         for i in activity_images:
-            if charity.admin is not None and charity.admin.user == request.user:
-                Photo.objects.create(charity=charity,picture=i,approved=True)
-            else:
-                Photo.objects.create(charity=charity,picture=i)
+            Photo.objects.create(charity=charity, picture=i, approved=True)
 
-        url = '/other_activities/detail/' + slug +'/'
+        url = '/other_activities/detail/' + slug + '/'
         return HttpResponseRedirect(url)
     return HttpResponseRedirect('/')
 

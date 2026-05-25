@@ -1,8 +1,13 @@
-@tailwind base;
+﻿@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --letter-spacing-body: 0.015em;
+  --letter-spacing-heading: -0.02em;
+  --line-height-body: 1.65;
+  --line-height-heading: 1.25;
   --color-teal: #005e66;
   --color-teal-vivid: #006a73;
   --color-teal-dark: #00545b;
@@ -24,58 +29,93 @@
 
 html {
   scroll-behavior: smooth;
-  font-size: 18px;
+  font-size: 20px;
+  font-family: var(--font-sans);
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: clip;
 }
 
-/* Scrollbar – neutral on white page */
-html, body {
-  scrollbar-color: #94a3b8 #f1f5f9;
-  scrollbar-width: thin;
-}
-html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
-  width: 12px;
-  height: 12px;
-}
-html::-webkit-scrollbar-track, body::-webkit-scrollbar-track, *::-webkit-scrollbar-track {
-  background: #f1f5f9;
-}
-html::-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb, *::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 6px;
-  border: 3px solid #f1f5f9;
-}
-html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, *::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
-}
-html::-webkit-scrollbar-corner, body::-webkit-scrollbar-corner, *::-webkit-scrollbar-corner {
-  background: #f1f5f9;
-}
-
-/* Landing page: hide scrollbar but keep scroll working */
+/* Landing page: hide all scrollbars; scrolling still works (wheel, touch, keys) */
 html.landing,
 body.landing {
-  -ms-overflow-style: none; /* IE/Edge legacy */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 html.landing::-webkit-scrollbar,
 body.landing::-webkit-scrollbar {
+  display: none;
   width: 0 !important;
   height: 0 !important;
+}
+body.landing * {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+body.landing *::-webkit-scrollbar {
   display: none;
+  width: 0;
+  height: 0;
 }
 
 body {
   margin: 0;
-  font-family: 'Lora', Georgia, serif;
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+  font-family: var(--font-sans);
   font-size: 1rem;
+  line-height: var(--line-height-body);
+  letter-spacing: var(--letter-spacing-body);
   color: var(--color-teal-dark);
   background: #ffffff;
   min-height: 100vh;
   position: relative;
 }
 
+#root {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+  font-family: inherit;
+}
+
+#root button,
+#root input,
+#root select,
+#root textarea,
+#root a,
+#root p,
+#root li,
+#root h1,
+#root h2,
+#root h3,
+#root h4,
+#root h5,
+#root h6 {
+  font-family: inherit;
+}
+
+p, li, blockquote, label {
+  letter-spacing: var(--letter-spacing-body);
+  line-height: var(--line-height-body);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: var(--letter-spacing-heading);
+  line-height: var(--line-height-heading);
+}
+
+/* Bootstrap loads on the landing page for login/signup modals and underlines every <a> on hover */
+body.landing a[class]:hover,
+body.landing a[class]:focus {
+  text-decoration: none;
+}
+
 .font-heading {
-  font-family: 'Lora', Georgia, serif;
+  font-family: var(--font-sans);
 }
 
 /* Section containers – consistent spacing and visual rhythm */
@@ -98,7 +138,7 @@ body {
 }
 
 .section-title {
-  font-family: 'Lora', Georgia, serif;
+  font-family: var(--font-sans);
   font-weight: 900;
   font-size: clamp(2.45rem, 5.6vw, 3.8rem);
   line-height: 1.08;
@@ -170,4 +210,23 @@ body {
 }
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+/* Gallery category tabs: underline selection only (no rectangle box) */
+#gallery [role='tablist'] [role='tab'] {
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+#gallery [role='tablist'] [role='tab']:focus,
+#gallery [role='tablist'] [role='tab']:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+#gallery [role='tablist'] [role='tab'][aria-selected='true'] {
+  border-bottom: 2px solid var(--color-teal) !important;
+}
+#gallery [role='tablist'] [role='tab'][aria-selected='false'] {
+  border-bottom: 2px solid transparent !important;
 }

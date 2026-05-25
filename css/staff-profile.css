@@ -1,0 +1,1249 @@
+﻿/* Page shell only — profile card / experiences / modals unchanged below */
+
+body.staff-profile-page-site {
+    background: #ffffff;
+}
+
+/* No hero banner on staff profile — content starts below fixed navbar */
+body.staff-profile-page-site #top-section,
+body.staff-profile-page-site .angular.page-angular {
+    display: none !important;
+}
+
+.staff-profile-page-section {
+    background: #ffffff;
+    padding: 5.5rem 0 4rem;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.staff-profile-page-section .staff-profile-page {
+    padding: 0 1.5rem;
+    max-width: 1280px;
+    margin: 0 auto;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+@media (min-width: 576px) {
+    .staff-profile-page-section .staff-profile-page {
+        padding: 0 2rem;
+    }
+}
+
+@media (min-width: 992px) {
+    .staff-profile-page-section .staff-profile-page {
+        padding: 0 2.5rem;
+    }
+}
+
+.staff-profile-page {
+    padding: 0 0 2rem;
+    max-width: 1280px;
+    margin: 0 auto;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Profile card left, experiences right — card width unchanged (820px) */
+.staff-profile-layout {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 1.75rem 2rem;
+}
+
+.staff-profile-layout__card {
+    flex: 0 0 820px;
+    width: 820px;
+    max-width: 100%;
+}
+
+.staff-profile-layout__card .staff-profile-card {
+    width: 100%;
+}
+
+.staff-profile-layout__aside {
+    flex: 1 1 280px;
+    min-width: 0;
+}
+
+.staff-profile-layout__aside .staff-profile-experiences {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+}
+
+/* Site typography uses sans-serif (see site-typography.css). */
+.staff-profile-page h1,
+.staff-profile-page h2,
+.staff-profile-page h3,
+.staff-profile-page h4,
+.staff-profile-page h5,
+.staff-profile-page h6,
+.staff-profile-page p,
+.staff-profile-page a,
+.staff-profile-page dt,
+.staff-profile-page dd,
+.staff-profile-page label,
+.staff-profile-page button,
+.staff-profile-page input,
+.staff-profile-page textarea,
+.staff-profile-page section p,
+.staff-profile-experiences,
+.staff-profile-experiences p,
+.staff-profile-experiences time,
+.staff-profile-modal,
+.staff-profile-modal h2,
+.staff-profile-modal p,
+.staff-profile-modal label,
+.staff-profile-modal button,
+.staff-profile-modal input,
+.staff-profile-modal textarea,
+.staff-profile-modal span {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Back link — pillar style (card layout unchanged) */
+.staff-profile-page-site .staff-profile-back.pillar-back,
+.staff-profile-back.pillar-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+    color: #005E66;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    transition: color 0.2s ease;
+}
+.staff-profile-page-site .staff-profile-back.pillar-back:hover,
+.staff-profile-back.pillar-back:hover {
+    color: #3d5c60;
+    text-decoration: underline;
+}
+.staff-profile-back i {
+    font-size: 1rem;
+}
+
+/* Profile card – mint left / white right (reference layout) */
+.staff-profile-card {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 8px 28px rgba(15, 41, 66, 0.09);
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.staff-profile-card__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
+
+/* Left: light mint panel + photo with white frame */
+.staff-profile-card__image-wrap {
+    flex: 0 0 32%;
+    max-width: 260px;
+    min-width: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.2rem 1.05rem;
+    background: #e2f4f4;
+    position: relative;
+    align-self: stretch;
+}
+
+.staff-profile-card__photo-frame {
+    width: 100%;
+    max-width: 152px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #fff;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+    box-sizing: border-box;
+    background: #fff;
+    aspect-ratio: 1;
+}
+
+.staff-profile-card__photo {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    border-radius: 50%;
+}
+
+/* Right: content column */
+.staff-profile-card__content {
+    flex: 1 1 260px;
+    padding: 1.2rem 1.45rem 1.25rem 1.3rem;
+    min-width: 0;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.staff-profile-card__header {
+    margin: 0;
+}
+
+.staff-profile-card__name {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #0f2942;
+    margin: 0 0 0.25rem 0;
+    font-family: inherit;
+    line-height: 1.18;
+    letter-spacing: -0.02em;
+}
+
+.staff-profile-card__job-title {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #008080;
+    margin: 0;
+    line-height: 1.35;
+}
+
+.staff-profile-card__position-line {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #5a6b7d;
+    margin: 0.2rem 0 0 0;
+    line-height: 1.3;
+}
+
+.staff-profile-card__location {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #5a6b7d;
+    margin: 0.3rem 0 0 0;
+    line-height: 1.35;
+}
+
+.staff-profile-card__location i {
+    color: #008080;
+    margin-top: 0.12rem;
+    flex-shrink: 0;
+    font-size: 0.95rem;
+}
+
+.staff-profile-card__box-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #8b96a5;
+    margin: 0 0 0.45rem 0;
+}
+
+.staff-profile-card__about-box {
+    background: #f4f6f8;
+    border-radius: 10px;
+    padding: 0.65rem 0.85rem;
+}
+
+.staff-profile-card__about-text {
+    font-size: 0.88rem;
+    line-height: 1.42;
+    color: #4a5568;
+    margin: 0;
+}
+
+.staff-profile-card__qual-box {
+    background: #e2f4f4;
+    border-radius: 10px;
+    padding: 0.65rem 0.85rem 0.7rem;
+}
+
+.staff-profile-card__qual-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-bottom: 0.4rem;
+}
+
+.staff-profile-card__qual-pill {
+    display: inline-block;
+    background: #fff;
+    color: #5a6570;
+    font-size: 0.76rem;
+    font-weight: 500;
+    padding: 0.28rem 0.65rem;
+    border-radius: 999px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.staff-profile-card__qual-details {
+    margin: 0;
+    padding: 0 0 0 1rem;
+    font-size: 0.78rem;
+    line-height: 1.35;
+    color: #718096;
+    list-style: disc;
+}
+
+.staff-profile-card__qual-details li {
+    margin-bottom: 0.12rem;
+}
+
+.staff-profile-card__qual-details--placeholder {
+    list-style: none;
+    padding-left: 0;
+}
+
+.staff-profile-card__qual-details--text {
+    list-style: none;
+    padding-left: 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+.staff-profile-card__placeholder-text {
+    color: #718096;
+}
+
+.staff-profile-card__about-box--placeholder .staff-profile-card__placeholder-text {
+    display: inline;
+}
+
+.staff-profile-card__social-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.65rem 1rem;
+    margin-top: auto;
+    padding-top: 0.75rem;
+    border-top: 1px solid #e8eaed;
+}
+
+.staff-profile-card__social--icons {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.65rem 1.25rem;
+}
+
+.staff-profile-card__social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #0c8b77;
+    text-decoration: none;
+}
+
+.staff-profile-card__social-link:hover {
+    color: #066a62;
+}
+
+.staff-profile-card__social-icon {
+    font-size: 1.25rem;
+    color: #008080;
+    flex-shrink: 0;
+    transition: color 0.2s ease;
+}
+
+.staff-profile-card__social-link:hover .staff-profile-card__social-icon {
+    color: #066a62;
+}
+
+/* Non-link rows (URL not set yet): same base look, no link hover */
+.staff-profile-card__social-link:not([href]) {
+    cursor: default;
+}
+
+.staff-profile-card__social-link:not([href]):hover {
+    color: #0c8b77;
+}
+
+.staff-profile-card__social-link:not([href]):hover .staff-profile-card__social-icon {
+    color: #0c8b77;
+}
+
+/* Actions: Share my experience (text link, not button; same row as social icons) */
+.staff-profile-card__actions {
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+.staff-profile-card__share-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #707977;
+    text-decoration: none;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.staff-profile-card__share-link:hover {
+    color: #008080;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+}
+
+.staff-profile-card__share-link:focus-visible {
+    outline: 2px solid #0c8b77;
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+.staff-profile-card__share-link i {
+    font-size: 1rem;
+}
+
+.staff-profile-card__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.staff-profile-card__btn--primary {
+    background: var(--brand-primary, #005E66);
+    border: 1px solid var(--brand-primary, #005E66);
+    color: #fff;
+}
+
+.staff-profile-card__btn--primary:hover,
+.staff-profile-card__btn--primary:focus {
+    background: var(--brand-primary-hover, #006A73);
+    border-color: var(--brand-primary-hover, #006A73);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(0, 94, 102, 0.28);
+}
+
+.staff-profile-card__btn--secondary {
+    background: #f4f6f7;
+    color: #3d4550;
+    border: 1px solid #e2e6ea;
+}
+
+.staff-profile-card__btn--secondary:hover {
+    background: #e9ecef;
+    color: #152231;
+}
+
+/* Share experience modal */
+.staff-profile-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1050;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.staff-profile-modal[hidden] {
+    display: none;
+}
+
+.staff-profile-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(21, 34, 49, 0.45);
+    cursor: pointer;
+}
+
+.staff-profile-modal__box {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 12px 40px rgba(26, 41, 58, 0.18);
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.staff-profile-modal__box::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+    background: transparent;
+}
+
+.staff-profile-modal__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.35rem 1.5rem 1.1rem;
+    border-bottom: 1px solid #e9eaec;
+}
+
+.staff-profile-modal__title {
+    margin: 0;
+    font-size: 1.375rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #152231;
+    letter-spacing: 0.01em;
+}
+
+.staff-profile-modal__close {
+    flex-shrink: 0;
+    background: #f4f6f7;
+    border: none;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    font-size: 1.35rem;
+    line-height: 1;
+    color: #6f7680;
+    cursor: pointer;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.staff-profile-modal__close:hover {
+    background: #e9ecef;
+    color: #152231;
+}
+
+/* Full-size experience photo (lightbox, above other modals) */
+.staff-profile-photo-lightbox {
+    z-index: 1060;
+}
+
+.staff-profile-photo-lightbox__content {
+    position: relative;
+    z-index: 1;
+    max-width: min(90vw, 520px);
+    width: 100%;
+    max-height: min(85vh, 640px);
+    padding: 2.25rem 0.85rem 0.85rem;
+    box-sizing: border-box;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    overflow: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.staff-profile-photo-lightbox__content::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+.staff-profile-photo-lightbox__close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.65rem;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    font-size: 1.75rem;
+    line-height: 1;
+    color: #444;
+    cursor: pointer;
+    padding: 0.15rem 0.45rem;
+    border-radius: 8px;
+}
+
+.staff-profile-photo-lightbox__close:hover {
+    color: #111;
+    background: #f0f0f0;
+}
+
+.staff-profile-photo-lightbox__sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.staff-profile-photo-lightbox__img {
+    display: block;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    max-height: min(55vh, 420px);
+    margin: 0 auto;
+    border-radius: 8px;
+    object-fit: contain;
+}
+
+.staff-profile-photo-lightbox__caption {
+    margin: 0.65rem 0 0;
+    text-align: center;
+    font-size: 0.88rem;
+    color: #444;
+    line-height: 1.4;
+}
+
+.staff-profile-modal__form {
+    padding: 1.25rem 1.5rem 1.5rem;
+}
+
+.staff-profile-modal__intro {
+    margin: 0 0 1.15rem 0;
+    font-size: 0.9375rem;
+    color: #6f7680;
+    line-height: 1.55;
+}
+
+.staff-profile-modal__label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: #152231;
+    margin-bottom: 0.45rem;
+}
+
+.staff-profile-modal__label + .staff-profile-modal__photos,
+.staff-profile-modal__textarea + .staff-profile-modal__label {
+    margin-top: 1.15rem;
+}
+
+.staff-profile-modal__textarea {
+    width: 100%;
+    padding: 0.8rem 0.9rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    font-family: inherit;
+    color: #152231;
+    border: 1px solid #d8dee4;
+    border-radius: 12px;
+    resize: vertical;
+    min-height: 132px;
+    box-sizing: border-box;
+    background: #fff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.staff-profile-modal__textarea::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+.staff-profile-modal__textarea::placeholder {
+    color: #9aa3ad;
+}
+
+.staff-profile-modal__textarea:focus {
+    outline: none;
+    border-color: #0a7365;
+    box-shadow: 0 0 0 3px rgba(10, 115, 101, 0.14);
+}
+
+/* Add photos – below textarea, above buttons */
+.staff-profile-modal__photos {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.staff-profile-modal__upload-zone {
+    position: relative;
+}
+
+.staff-profile-modal__file {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.staff-profile-modal__photos-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    padding: 1.1rem 1rem;
+    border: 2px dashed #c5d5d2;
+    border-radius: 12px;
+    background: #f4faf9;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+    min-height: 88px;
+    position: relative;
+    pointer-events: none;
+    text-align: center;
+}
+
+.staff-profile-modal__photos-label:hover,
+.staff-profile-modal__file:focus + .staff-profile-modal__photos-label {
+    border-color: #0a7365;
+    background: #eaf6f4;
+}
+
+.staff-profile-modal__photos-label i {
+    font-size: 1.5rem;
+    color: #0a7365;
+}
+
+.staff-profile-modal__photos-text {
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: #152231;
+}
+
+.staff-profile-modal__photos-hint {
+    font-size: 0.8125rem;
+    color: #6f7680;
+    line-height: 1.4;
+    max-width: 22rem;
+}
+
+.staff-profile-modal__preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.85rem;
+    min-height: 0;
+    position: relative;
+    z-index: 3;
+}
+
+.staff-profile-modal__preview-item-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.35rem;
+    width: 9.5rem;
+    max-width: 100%;
+}
+
+.staff-profile-modal__preview-item {
+    width: 56px;
+    height: 56px;
+    border-radius: 6px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+}
+
+.staff-profile-modal__caption-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.45rem 0.55rem;
+    font-size: 0.8125rem;
+    color: #152231;
+    border: 1px solid #d8dee4;
+    border-radius: 8px;
+    background: #fff;
+    pointer-events: auto;
+}
+
+.staff-profile-modal__caption-input:focus {
+    outline: none;
+    border-color: #0a7365;
+    box-shadow: 0 0 0 2px rgba(10, 115, 101, 0.12);
+}
+
+.staff-profile-modal__current-photo-block {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.35rem;
+    width: 9.5rem;
+    max-width: 100%;
+}
+
+.staff-profile-modal__current-photo-block .staff-profile-modal__caption-input {
+    width: 100%;
+}
+
+/* Edit modal: current photos (with remove) */
+.staff-profile-modal__current-photos {
+    margin-bottom: 1rem;
+}
+
+.staff-profile-modal__current-photos-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.staff-profile-modal__current-photo {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    flex-shrink: 0;
+}
+
+.staff-profile-modal__current-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.staff-profile-modal__current-photo-remove {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: rgba(220, 53, 69, 0.9);
+    color: #fff;
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.staff-profile-modal__current-photo-remove:hover {
+    background: #dc3545;
+}
+
+.staff-profile-modal__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    justify-content: flex-end;
+    margin-top: 1.35rem;
+    padding-top: 1.15rem;
+    border-top: 1px solid #e9eaec;
+}
+
+.staff-profile-modal__actions .staff-profile-card__btn {
+    min-width: 6.5rem;
+    justify-content: center;
+}
+
+@media (max-width: 480px) {
+    .staff-profile-modal {
+        padding: 0.65rem;
+        align-items: flex-end;
+    }
+
+    .staff-profile-modal__box {
+        max-height: calc(100vh - 1.25rem);
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .staff-profile-modal__actions {
+        flex-direction: column-reverse;
+    }
+
+    .staff-profile-modal__actions .staff-profile-card__btn {
+        width: 100%;
+    }
+}
+
+/* Staff profile page: hide scrollbars while keeping scroll (modals, page) */
+body.staff-profile-page-site {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+body.staff-profile-page-site::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+body.staff-profile-page-site .staff-profile-experiences,
+body.staff-profile-page-site .staff-profile-modal__preview {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+body.staff-profile-page-site .staff-profile-experiences::-webkit-scrollbar,
+body.staff-profile-page-site .staff-profile-modal__preview::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+/* My experience – right column beside profile card */
+.staff-profile-experiences {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+}
+
+.staff-profile-experiences__title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 0.85rem 0;
+}
+
+/* One full-width card per row so each experience uses the full content width */
+.staff-profile-experiences__list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.15rem;
+}
+
+.staff-profile-experiences__item {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-radius: 16px;
+    padding: 0;
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.09);
+    border: 1px solid #eee;
+    min-height: 0;
+    position: relative;
+    width: 100%;
+}
+
+.staff-profile-experiences__item-body {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1rem 1.25rem;
+    padding: 2.2rem 1.5rem 1rem 1.5rem;
+    min-width: 0;
+}
+
+.staff-profile-experiences__item-text {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+.staff-profile-experiences__message {
+    margin: 0;
+    font-size: 0.98rem;
+    line-height: 1.42;
+    color: #333;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.staff-profile-experiences__photos {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin: 0;
+    max-width: 118px;
+}
+
+.staff-profile-experiences__photo-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+}
+
+.staff-profile-experiences__photo-link,
+.staff-profile-experiences__photo-trigger {
+    display: block;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    padding: 0;
+    margin: 0;
+    background: none;
+    font: inherit;
+    cursor: pointer;
+    line-height: 0;
+}
+
+.staff-profile-experiences__photo-trigger:focus {
+    outline: 2px solid #0c8b77;
+    outline-offset: 2px;
+}
+
+.staff-profile-experiences__photo-trigger:focus:not(:focus-visible) {
+    outline: none;
+}
+
+.staff-profile-experiences__photo-trigger:focus-visible {
+    outline: 2px solid #0c8b77;
+    outline-offset: 2px;
+}
+
+.staff-profile-experiences__photo-caption {
+    font-size: 0.78rem;
+    color: #555;
+    line-height: 1.25;
+    max-width: 118px;
+    word-break: break-word;
+}
+
+.staff-profile-experiences__photo {
+    display: block;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.staff-profile-experiences__date {
+    font-size: 0.88rem;
+    color: #666;
+    margin: 0;
+}
+
+/* Hidden source for edit modal (message text) */
+.staff-profile-experiences__message-source {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+}
+
+/* Edit + Delete: actions in top-right of card */
+.staff-profile-experiences__item-actions {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.staff-profile-experiences__edit-btn,
+.staff-profile-experiences__delete-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: none;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.06);
+    color: #666;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.staff-profile-experiences__edit-btn:hover {
+    background: rgba(13, 110, 253, 0.12);
+    color: #0d6efd;
+}
+
+.staff-profile-experiences__delete-form {
+    margin: 0;
+}
+
+.staff-profile-experiences__delete-btn:hover {
+    background: rgba(220, 53, 69, 0.15);
+    color: #dc3545;
+}
+
+.staff-profile-experiences__edit-btn i,
+.staff-profile-experiences__delete-btn i {
+    font-size: 0.9rem;
+}
+
+/* Responsive: stack card above experiences on narrow screens */
+@media (max-width: 991px) {
+    .staff-profile-layout {
+        flex-direction: column;
+    }
+
+    .staff-profile-layout__card {
+        flex: 0 0 auto;
+        width: 100%;
+        max-width: 820px;
+    }
+
+    .staff-profile-layout__aside {
+        flex: 1 1 auto;
+        width: 100%;
+        max-width: 820px;
+    }
+
+    .staff-profile-layout__aside .staff-profile-experiences {
+        margin-top: 1.5rem;
+        padding-top: 1.1rem;
+        border-top: 1px solid #eee;
+    }
+}
+
+@media (max-width: 767px) {
+    .staff-profile-page {
+        padding: 1.1rem 0.75rem 1.65rem;
+    }
+
+    .staff-profile-card {
+        border-radius: 20px;
+    }
+
+    .staff-profile-card__inner {
+        flex-direction: column;
+    }
+
+    .staff-profile-card__image-wrap {
+        flex: 0 0 auto;
+        max-width: none;
+        min-width: 0;
+        width: 100%;
+        padding: 1rem 1rem;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .staff-profile-card__photo-frame {
+        max-width: 152px;
+    }
+
+    .staff-profile-card__content {
+        padding: 1.15rem 1.2rem 1.3rem;
+        gap: 0.75rem;
+    }
+
+    .staff-profile-card__name {
+        font-size: 1.35rem;
+    }
+
+    .staff-profile-experiences {
+        margin-top: 1.35rem;
+        padding-top: 1rem;
+    }
+
+    .staff-profile-experiences__list {
+        grid-template-columns: 1fr;
+    }
+
+    .staff-profile-experiences__item-body {
+        flex-direction: column;
+        padding: 2rem 1rem 1rem 1rem;
+        gap: 0.7rem;
+    }
+
+    .staff-profile-experiences__photos {
+        flex-direction: row;
+        flex-wrap: wrap;
+        max-width: none;
+    }
+
+    .staff-profile-experiences__photo {
+        width: 72px;
+        height: 72px;
+    }
+}
+
+/* Dedicated “My experience” page (people/<id>/experiences/) */
+.staff-experiences-page {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 1.15rem 1.15rem 2.25rem;
+}
+
+.staff-experiences-page__profile-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0.25rem 0 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #0c8b77;
+    text-decoration: none;
+}
+
+.staff-experiences-page__profile-link:hover {
+    text-decoration: underline;
+    color: #066a62;
+}
+
+.staff-experiences-page__header {
+    margin-bottom: 0.85rem;
+}
+
+.staff-experiences-page__title {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 0.25rem 0;
+}
+
+.staff-experiences-page__subtitle {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.35;
+    color: #666;
+}
+
+.staff-experiences-page__empty {
+    color: #555;
+    margin: 0 0 0.5rem 0;
+}
+
+.staff-experiences-page__empty-hint {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.staff-experiences-page__empty-hint a {
+    color: #0c8b77;
+    font-weight: 600;
+}
+
+.staff-profile-experiences--standalone {
+    margin-top: 0;
+    border-top: none;
+    padding-top: 0;
+}
+
+.staff-experiences-page .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.staff-profile-experiences__empty {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.4;
+    color: #666;
+}

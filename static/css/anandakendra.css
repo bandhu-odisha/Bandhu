@@ -1,4 +1,4 @@
-/* Match Sanskar: same banner strip height (reinforce custom.css --inner-banner-height; anandakendra.css loads after bandhu) */
+﻿/* Match Sanskar: same banner strip height (reinforce custom.css --inner-banner-height; anandakendra.css loads after bandhu) */
 #top-section:has(.slider-txt-container.page-showcase) {
     height: var(--inner-banner-height) !important;
     min-height: var(--inner-banner-height) !important;
@@ -198,7 +198,7 @@
     color: #1e3a38;
     margin-bottom: 1rem;
     line-height: 1.5;
-    font-family: 'Lora', Georgia, serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 #about .page-desc-horizontal {
     font-size: 1.05rem;
@@ -207,7 +207,7 @@
     font-weight: 450;
     max-width: none;
     width: 100%;
-    font-family: 'Lora', Georgia, serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 #about .page-desc-horizontal p {
     margin-bottom: 1rem;
@@ -333,7 +333,7 @@ section#anandakendras.page-section {
     border-top: none !important;
     border-bottom: none !important;
     box-shadow: none !important;
-    background: linear-gradient(180deg, #d7e9f2 0%, #d7e9f2 20%, #b8dce5 50%, #9bc4c9 85%, #9bc4c9 100%) !important;
+    background: #ffffff !important;
 }
 .anandakendra-detail #activities.anandakendra-activities-section .container {
     padding-bottom: 0.5rem !important;
@@ -345,7 +345,93 @@ section#anandakendras.page-section {
     border-top: none !important;
     border-bottom: none !important;
     box-shadow: none !important;
-    background: linear-gradient(180deg, #9bc4c9 0%, #9bc4c9 15%, #d7e9f2 45%, #80b3ba 80%, #d7e9f2 100%) !important;
+    background: #ffffff !important;
+}
+/* Activity cards — match Other Activities (charity) design */
+.anandakendra-detail #activities .glide__slide {
+    display: flex;
+    align-items: stretch;
+}
+.anandakendra-detail #activities .glide__slide > .activity-card {
+    width: 100%;
+}
+.anandakendra-detail #activities .activity-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 400px;
+    min-height: 400px;
+    max-height: 400px;
+    background: #ffffff !important;
+    border: 2px solid rgba(128, 179, 186, 0.35) !important;
+    border-radius: 16px !important;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(61, 92, 96, 0.12) !important;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.anandakendra-detail #activities .activity-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px rgba(61, 92, 96, 0.2) !important;
+    border-color: rgba(128, 179, 186, 0.5) !important;
+}
+.anandakendra-detail #activities .activity-card-media {
+    flex: 0 0 260px;
+    width: 100%;
+    height: 260px;
+    min-height: 260px;
+    max-height: 260px;
+    background: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.anandakendra-detail #activities .glide .card img.activity-card-img,
+.anandakendra-detail #activities .activity-card-img {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    max-height: 100% !important;
+    max-width: 100% !important;
+    object-fit: contain;
+    object-position: center center;
+    background: #f1f5f9;
+    flex-shrink: 0;
+    border-radius: 0;
+    padding: 0.5rem;
+    box-sizing: border-box;
+}
+.anandakendra-detail #activities .activity-card .card-body {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 1.25rem 1.25rem 1rem !important;
+    overflow: hidden;
+    background: #ffffff !important;
+}
+.anandakendra-detail #activities .activity-card .card-title {
+    color: #005E66 !important;
+    font-weight: 700 !important;
+    font-size: 1.1rem;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.anandakendra-detail #activities .activity-card-subtitle,
+.anandakendra-detail #activities .activity-card .card-body p {
+    color: #475569 !important;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 .anandakendra-detail #events.anandakendra-events-section .container {
     padding-top: 0.5rem !important;
@@ -381,7 +467,7 @@ section#anandakendras.page-section {
 /* Detail pages: navbar Login/Logout pill — force teal hover (body class needed: navbar is outside .anandakendra-detail) */
 body.anandakendra-detail-page .navbar .navbar-nav .nav-button,
 body.anandakendra-detail-page .navbar .navbar-nav a.nav-button.btn {
-    background-color: #3d5c60 !important;
+    background-color: #005E66 !important;
     color: #fff !important;
     border-color: transparent !important;
 }
@@ -391,11 +477,10 @@ body.anandakendra-detail-page .navbar .navbar-nav .nav-button:active,
 body.anandakendra-detail-page .navbar .navbar-nav a.nav-button.btn:hover,
 body.anandakendra-detail-page .navbar .navbar-nav a.nav-button.btn:focus,
 body.anandakendra-detail-page .navbar .navbar-nav a.nav-button.btn:active {
-    background-color: #80b3ba !important;
+    background-color: #006A73 !important;
     color: #fff !important;
     border-color: transparent !important;
     outline: none !important;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(128, 179, 186, 0.35) !important;
 }
 
 /* Detail pages: replace legacy yellow hovers with teal */
@@ -416,7 +501,7 @@ body.anandakendra-detail-page .navbar .navbar-nav a.nav-button.btn:active {
 }
 .anandakendra-detail .navbar .navbar-nav .nav-button,
 .anandakendra-detail .navbar .navbar-nav a.nav-button.btn {
-    background-color: #3d5c60 !important;
+    background-color: #005E66 !important;
     color: #fff !important;
     border-color: transparent !important;
 }
@@ -424,7 +509,7 @@ body.anandakendra-detail-page .navbar .navbar-nav a.nav-button.btn:active {
 .anandakendra-detail .navbar .navbar-nav .nav-button:focus,
 .anandakendra-detail .navbar .navbar-nav a.nav-button.btn:hover,
 .anandakendra-detail .navbar .navbar-nav a.nav-button.btn:focus {
-    background-color: #80b3ba !important;
+    background-color: #006A73 !important;
     color: #fff !important;
     border-color: transparent !important;
     outline: none !important;
@@ -459,7 +544,7 @@ body.anandakendra-detail-page .navbar .navbar-nav a.nav-button.btn:active {
     font-weight: 700;
     line-height: 1.3;
     margin-bottom: 0.5rem;
-    font-family: 'Lora', Georgia, serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 .anandakendra-detail #about .page-content-card .title + p,
 .anandakendra-detail #about .page-content-card .card-body > p {
@@ -468,7 +553,7 @@ body.anandakendra-detail-page .navbar .navbar-nav a.nav-button.btn:active {
     line-height: 1.55;
     font-weight: 450;
     margin-bottom: 0;
-    font-family: 'Lora', Georgia, serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 .anandakendra-detail #about .page-content-card .content-title {
     color: #3d5c60 !important;
@@ -476,7 +561,7 @@ body.anandakendra-detail-page .navbar .navbar-nav a.nav-button.btn:active {
     font-weight: 700;
     letter-spacing: 0.02em;
     margin-bottom: 0.5rem;
-    font-family: 'Lora', Georgia, serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 .anandakendra-detail #about .page-content-card .content-title + p {
     color: #475569;
@@ -528,7 +613,97 @@ body.anandakendra-detail-page .navbar .navbar-nav a.nav-button.btn:active {
 
 /* Gallery masthead (title + accent + blurb): shared in bandhu.css for anandakendra / ankurayan / ashram detail */
 
-/* Gallery carousel – continuous sliding like home page */
+/* Gallery — home-page style horizontal strip (no scrollbar, auto-advance via JS) */
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+}
+body.anandakendra-detail-page #gallery .gallery-section-head .section-title {
+    font-size: clamp(2rem, 4.5vw, 2.75rem);
+}
+body.anandakendra-detail-page #gallery .gallery-tagline-text {
+    font-size: clamp(1.1rem, 1.35vw, 1.45rem);
+}
+#gallery .gallery-container--home-style {
+    width: 100%;
+    max-width: 1180px;
+    margin-left: auto;
+    margin-right: auto;
+}
+#gallery .gallery-scroll-track {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+}
+#gallery .gallery-scroll-row {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 32px;
+    width: max-content;
+    min-width: 100%;
+}
+#gallery .gallery-scroll-card {
+    flex: 0 0 auto;
+    width: 320px;
+    scroll-snap-align: start;
+}
+@media (min-width: 640px) {
+    #gallery .gallery-scroll-card {
+        width: 380px;
+    }
+}
+#gallery .gallery-scroll-card-link {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 1rem;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid rgba(0, 94, 102, 0.2);
+    box-shadow: 0 8px 24px rgba(61, 92, 96, 0.12);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+#gallery .gallery-scroll-card-link:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 36px rgba(61, 92, 96, 0.18);
+}
+#gallery .gallery-scroll-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+#gallery .gallery-scroll-card-link:hover .gallery-scroll-img {
+    transform: scale(1.05);
+}
+#gallery .gallery-scroll-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(11, 53, 64, 0.2);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    color: #fff;
+    font-size: 2rem;
+    pointer-events: none;
+}
+#gallery .gallery-scroll-card-link:hover .gallery-scroll-overlay {
+    opacity: 1;
+}
+/* Legacy Glide gallery (other pages) */
 #gallery .gallery_glide {
     width: 100%;
     position: relative;
@@ -543,82 +718,6 @@ body.anandakendra-detail-page .navbar .navbar-nav a.nav-button.btn:active {
 }
 #gallery .gallery_glide .glide__slide {
     flex-shrink: 0;
-}
-#gallery .gallery-glide-arrows {
-    display: flex !important;
-    align-items: center;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    pointer-events: none;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    padding: 0 0.5rem;
-    z-index: 3;
-}
-#gallery .gallery-glide-arrows .glide__arrow {
-    pointer-events: auto;
-    padding: 10px 14px !important;
-    position: static !important;
-    transform: none;
-}
-#gallery .gallery-glide-arrows .glide__arrow--left { left: 0; }
-#gallery .gallery-glide-arrows .glide__arrow--right { right: 0; }
-#gallery .gallery_glide .glide__bullets {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 1rem;
-}
-#gallery .gallery-slide-card {
-    background: #fff;
-    border-radius: 12px;
-    border: 2px solid rgba(128, 179, 186, 0.2);
-    box-shadow: 0 8px 24px rgba(61, 92, 96, 0.12);
-    overflow: hidden;
-    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-}
-#gallery .gallery-slide-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(61, 92, 96, 0.2);
-    border-color: rgba(128, 179, 186, 0.4);
-}
-#gallery .gallery-slide-img {
-    width: 100%;
-    height: 220px;
-    object-fit: cover;
-    display: block;
-}
-#gallery .gallery-slide-link {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(61, 92, 96, 0.15);
-    opacity: 0;
-    transition: opacity 0.25s ease;
-    color: #fff;
-    font-size: 2rem;
-    z-index: 2;
-}
-#gallery .gallery-slide-card:hover .gallery-slide-link {
-    opacity: 1;
-}
-#gallery .gallery_glide .glide__arrow i {
-    color: #80b3ba;
-}
-#gallery .gallery_glide .glide__arrow:hover i {
-    color: #3d5c60;
-    transform: scale(1.1);
-}
-#gallery .gallery_glide .glide__bullet {
-    background: rgba(128, 179, 186, 0.4);
-}
-#gallery .gallery_glide .glide__bullet--active {
-    background: #80b3ba;
 }
 
 /* Force exact Sanskar card geometry on Anandakendra about cards (list + detail) */
@@ -694,7 +793,7 @@ body.anandakendra-detail-page .navbar .navbar-nav a.nav-button.btn:active {
     border: none;
     padding: 0;
     color: #2f4d52;
-    font-family: 'Lora', Georgia, serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 0.96rem;
     font-style: italic;
     font-weight: 700;
@@ -717,7 +816,7 @@ body.anandakendra-detail-page .navbar .navbar-nav a.nav-button.btn:active {
     align-items: center;
     gap: 0.35rem;
     color: #3d5c60;
-    font-family: 'Lora', Georgia, serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 0.92rem;
     font-weight: 600;
     text-decoration: none;
@@ -748,7 +847,7 @@ body.anandakendra-detail-page .navbar .navbar-nav a.nav-button.btn:active {
 }
 #about.pillar-overlay-cards .anandakendra-image-caption .caption-en {
     color: #2f6f75;
-    font-family: 'Lora', Georgia, serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 1.05rem;
     font-weight: 600;
     font-style: italic;
@@ -757,7 +856,7 @@ body.anandakendra-detail-page .navbar .navbar-nav a.nav-button.btn:active {
 }
 #about.pillar-overlay-cards .anandakendra-image-caption .caption-or {
     color: #2f6f75;
-    font-family: 'Noto Sans Oriya', 'Noto Sans Odia', 'Kohinoor Odia', 'Lora', Georgia, serif;
+    font-family: 'Noto Sans Oriya', 'Noto Sans Odia', 'Kohinoor Odia', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 1.1rem;
     font-weight: 600;
     line-height: 1.18;
@@ -787,7 +886,7 @@ body.anandakendra-detail-page .navbar .navbar-nav a.nav-button.btn:active {
 }
 .anandakendra-readmore-modal .modal-title {
     color: #ffffff;
-    font-family: 'Lora', Georgia, serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 1.3rem;
     font-weight: 700;
     letter-spacing: 0.01em;
@@ -802,7 +901,7 @@ body.anandakendra-detail-page .navbar .navbar-nav a.nav-button.btn:active {
     background: linear-gradient(180deg, #f7fbfc 0%, #ffffff 22%, #fcfdfd 100%);
 }
 .anandakendra-readmore-modal .readmore-content {
-    font-family: 'Lora', Georgia, serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 1.01rem;
     line-height: 1.82;
     letter-spacing: 0.01em;
@@ -818,10 +917,413 @@ body.anandakendra-detail-page .navbar .navbar-nav a.nav-button.btn:active {
 /* Activity / event / admin modals on Anandakendra detail only (body class — modals are under <body>, not inside .anandakendra-detail).
    Same solid #005E66 as read-more modal + global header/footer teal family. Do not rely on shared `.anandakendra-modal` in bandhu.css alone — that class is reused on Bandhughar. */
 body.anandakendra-detail-page .anandakendra-modal .modal-header {
+    background: #0b3540 !important;
+    background-image: none !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.22) !important;
+    color: #fff;
+    padding: 1rem 1.25rem;
+}
+body.anandakendra-detail-page .anandakendra-modal .modal-header .modal-title {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #fff !important;
+}
+body.anandakendra-detail-page .anandakendra-modal .modal-body {
+    background: #fff;
+    padding: 1.5rem 1.25rem 1.75rem;
+}
+body.anandakendra-detail-page .anandakendra-modal .btn-primary {
+    background-color: #0b3540 !important;
+    border-color: transparent !important;
+    color: #fff !important;
+    opacity: 1 !important;
+    cursor: pointer !important;
+}
+body.anandakendra-detail-page .anandakendra-modal .btn-primary:hover,
+body.anandakendra-detail-page .anandakendra-modal .btn-primary:focus {
+    background-color: #005E66 !important;
+    border-color: transparent !important;
+    color: #fff !important;
+}
+body.anandakendra-detail-page .anandakendra-modal .custom-file-label::after {
+    background-color: #0b3540 !important;
+    border-color: #0b3540 !important;
+    color: #fff !important;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 700;
+    border-radius: 0 9999px 9999px 0 !important;
+}
+body.anandakendra-detail-page .anandakendra-modal .custom-file-label::after:hover {
+    background-color: #005E66 !important;
+    border-color: #005E66 !important;
+}
+body.anandakendra-detail-page .anandakendra-modal .custom-file-label,
+body.anandakendra-detail-page .anandakendra-modal .custom-file-input {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+body.anandakendra-detail-page .anandakendra-modal .anandakendra-custom-file .custom-file-label {
+    border-radius: 9999px;
+    border-color: rgba(11, 53, 64, 0.35);
+    padding-left: 1rem;
+    min-height: 2.75rem;
+    line-height: 1.6;
+}
+body.anandakendra-detail-page .anandakendra-upload-modal .anandakendra-upload-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #0b3540;
+}
+body.anandakendra-detail-page .anandakendra-modal .form-control:focus,
+body.anandakendra-detail-page .anandakendra-modal .custom-file-input:focus ~ .custom-file-label {
+    border-color: #005E66;
+    box-shadow: 0 0 0 0.2rem rgba(0, 94, 102, 0.18);
+}
+
+/* Shared admin pill — about card, gallery upload, modal actions */
+body.anandakendra-detail-page .anandakendra-admin-pill.btn.btn-primary {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    line-height: 1.25 !important;
+    padding: 0.55rem 1.15rem !important;
+    border: none !important;
+    border-radius: 9999px !important;
+    background-color: #0b3540 !important;
+    border-color: transparent !important;
+    color: #fff !important;
+    box-shadow: 0 4px 10px rgba(11, 53, 64, 0.35), 0 0 0 1px rgba(11, 53, 64, 0.15) !important;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease !important;
+}
+body.anandakendra-detail-page .anandakendra-admin-pill.btn.btn-primary:hover,
+body.anandakendra-detail-page .anandakendra-admin-pill.btn.btn-primary:focus,
+body.anandakendra-detail-page .anandakendra-admin-pill.btn.btn-primary:active {
+    background-color: #005E66 !important;
+    border-color: transparent !important;
+    color: #fff !important;
+    box-shadow: 0 8px 18px rgba(0, 94, 102, 0.35) !important;
+    outline: none !important;
+}
+body.anandakendra-detail-page .gallery-actions .anandakendra-admin-pill {
+    margin-top: 0.25rem;
+}
+
+/* Bandhughar detail: same modal header + primary buttons as Anandakendra (overrides bandhu.css gradient / #80b3ba) */
+body.bandhughar-detail-page .anandakendra-modal .modal-header,
+body.bandhughar-detail-page .anandakendra-readmore-modal .modal-header,
+body.bandhughar-detail-page .ashram-modal .modal-header {
     background: #005E66 !important;
     background-image: none !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.28) !important;
     color: #fff;
+}
+body.bandhughar-detail-page .anandakendra-modal .modal-header .modal-title,
+body.bandhughar-detail-page .anandakendra-readmore-modal .modal-header .modal-title,
+body.bandhughar-detail-page .ashram-modal .modal-header .modal-title {
+    color: #fff !important;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 700;
+}
+body.bandhughar-detail-page .anandakendra-modal .modal-body,
+body.bandhughar-detail-page .ashram-modal .modal-body {
+    background: linear-gradient(180deg, #f7fbfc 0%, #ffffff 22%, #fcfdfd 100%);
+}
+body.bandhughar-detail-page .anandakendra-modal .btn-primary,
+body.bandhughar-detail-page .ashram-modal .btn-primary {
+    background-color: #005E66 !important;
+    border-color: #005E66 !important;
+    color: #fff !important;
+    border-radius: 10px !important;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 600 !important;
+    opacity: 1 !important;
+    cursor: pointer !important;
+    box-shadow: none !important;
+}
+body.bandhughar-detail-page .anandakendra-modal .btn-primary:hover,
+body.bandhughar-detail-page .anandakendra-modal .btn-primary:focus,
+body.bandhughar-detail-page .anandakendra-modal .btn-primary:active,
+body.bandhughar-detail-page .ashram-modal .btn-primary:hover,
+body.bandhughar-detail-page .ashram-modal .btn-primary:focus,
+body.bandhughar-detail-page .ashram-modal .btn-primary:active {
+    background-color: #004a52 !important;
+    border-color: #004a52 !important;
+    color: #fff !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+body.bandhughar-detail-page .anandakendra-modal .custom-file-label::after,
+body.bandhughar-detail-page .ashram-modal .custom-file-label::after {
+    background-color: #005E66 !important;
+    border-color: #005E66 !important;
+    color: #fff !important;
+}
+body.bandhughar-detail-page .anandakendra-modal .form-control:focus,
+body.bandhughar-detail-page .ashram-modal .form-control:focus {
+    border-color: #005E66;
+    box-shadow: 0 0 0 0.2rem rgba(0, 94, 102, 0.2);
+    outline: 0;
+}
+/* Admin trigger pills on about card — match Anandakendra detail */
+body.bandhughar-detail-page .bandhughar-detail-admin-actions .btn.btn-primary {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    line-height: 1.25 !important;
+    padding: 0.5rem 1rem !important;
+    border: none !important;
+    border-radius: 9999px !important;
+    background-color: #3d5c60 !important;
+    border-color: transparent !important;
+    color: #fff !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(61, 92, 96, 0.28) !important;
+}
+body.bandhughar-detail-page .bandhughar-detail-admin-actions .btn.btn-primary:hover,
+body.bandhughar-detail-page .bandhughar-detail-admin-actions .btn.btn-primary:focus,
+body.bandhughar-detail-page .bandhughar-detail-admin-actions .btn.btn-primary:active {
+    background-color: #80b3ba !important;
+    border-color: transparent !important;
+    color: #fff !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.08) !important;
+    outline: none !important;
+}
+
+/* In-page primary buttons (gallery Upload Images, activity cards, etc.) — override bandhu.css #80b3ba */
+body.anandakendra-detail-page .anandakendra-detail .btn.btn-primary,
+body.bandhughar-detail-page .ashram-detail .btn.btn-primary {
+    background-color: #005E66 !important;
+    border-color: #005E66 !important;
+    color: #fff !important;
+    border-radius: 10px !important;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 600 !important;
+    box-shadow: none !important;
+    opacity: 1 !important;
+}
+body.anandakendra-detail-page .anandakendra-detail .btn.btn-primary:hover,
+body.anandakendra-detail-page .anandakendra-detail .btn.btn-primary:focus,
+body.anandakendra-detail-page .anandakendra-detail .btn.btn-primary:focus-visible,
+body.anandakendra-detail-page .anandakendra-detail .btn.btn-primary:active,
+body.bandhughar-detail-page .ashram-detail .btn.btn-primary:hover,
+body.bandhughar-detail-page .ashram-detail .btn.btn-primary:focus,
+body.bandhughar-detail-page .ashram-detail .btn.btn-primary:focus-visible,
+body.bandhughar-detail-page .ashram-detail .btn.btn-primary:active {
+    background-color: #004a52 !important;
+    border-color: #004a52 !important;
+    color: #fff !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+/* Pill buttons override generic rounded primary above */
+body.anandakendra-detail-page .anandakendra-detail .btn.btn-primary.anandakendra-admin-pill,
+body.anandakendra-detail-page .anandakendra-modal .btn.btn-primary.anandakendra-admin-pill {
+    border-radius: 9999px !important;
+    background-color: #0b3540 !important;
+    border-color: transparent !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 10px rgba(11, 53, 64, 0.35), 0 0 0 1px rgba(11, 53, 64, 0.15) !important;
+}
+body.anandakendra-detail-page .anandakendra-detail .btn.btn-primary.anandakendra-admin-pill:hover,
+body.anandakendra-detail-page .anandakendra-detail .btn.btn-primary.anandakendra-admin-pill:focus,
+body.anandakendra-detail-page .anandakendra-detail .btn.btn-primary.anandakendra-admin-pill:active,
+body.anandakendra-detail-page .anandakendra-modal .btn.btn-primary.anandakendra-admin-pill:hover,
+body.anandakendra-detail-page .anandakendra-modal .btn.btn-primary.anandakendra-admin-pill:focus,
+body.anandakendra-detail-page .anandakendra-modal .btn.btn-primary.anandakendra-admin-pill:active {
+    background-color: #005E66 !important;
+    border-color: transparent !important;
+    box-shadow: 0 8px 18px rgba(0, 94, 102, 0.35) !important;
+}
+
+body.anandakendra-detail-page .anandakendra-detail-admin-actions {
+    position: relative;
+    z-index: 2;
+    clear: both;
+    flex-shrink: 0;
+}
+/* Back link row: keep full line height above pill buttons (avoids overlap with flex row below) */
+body.anandakendra-detail-page .anandakendra-detail-admin-actions .anandakendra-admin-title-row {
+    display: block;
+    margin-bottom: 1.35rem;
+    padding-bottom: 0.2rem;
+}
+body.anandakendra-detail-page .anandakendra-detail-admin-actions .anandakendra-admin-back.pillar-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0;
+    position: relative;
+    z-index: 1;
+    line-height: 1.45;
+    font-weight: 600;
+}
+body.anandakendra-detail-page .anandakendra-detail-admin-actions .anandakendra-admin-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.65rem;
+    margin-top: 0;
+    position: relative;
+    z-index: 0;
+}
+/* Admin action pills — about card + gallery Upload Images (same as Select Acharyas) */
+body.anandakendra-detail-page .anandakendra-detail-admin-actions .anandakendra-admin-buttons .btn.btn-primary,
+body.anandakendra-detail-page .gallery-actions .anandakendra-admin-buttons .btn.btn-primary {
+    position: relative;
+    margin: 0 !important;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: none;
+    line-height: 1.25 !important;
+    min-height: auto;
+    padding: 0.55rem 1.15rem !important;
+    border: none !important;
+    border-radius: 9999px !important;
+    background-color: #0b3540 !important;
+    border-color: transparent !important;
+    color: #fff !important;
+    box-shadow: 0 4px 10px rgba(11, 53, 64, 0.35), 0 0 0 1px rgba(11, 53, 64, 0.15) !important;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease !important;
+}
+body.anandakendra-detail-page .anandakendra-detail-admin-actions .anandakendra-admin-buttons .btn.btn-primary:hover,
+body.anandakendra-detail-page .anandakendra-detail-admin-actions .anandakendra-admin-buttons .btn.btn-primary:focus,
+body.anandakendra-detail-page .anandakendra-detail-admin-actions .anandakendra-admin-buttons .btn.btn-primary:active,
+body.anandakendra-detail-page .gallery-actions .anandakendra-admin-buttons .btn.btn-primary:hover,
+body.anandakendra-detail-page .gallery-actions .anandakendra-admin-buttons .btn.btn-primary:focus,
+body.anandakendra-detail-page .gallery-actions .anandakendra-admin-buttons .btn.btn-primary:active {
+    background-color: #005E66 !important;
+    border-color: transparent !important;
+    color: #fff !important;
+    box-shadow: 0 8px 18px rgba(0, 94, 102, 0.35) !important;
+    outline: none !important;
+    transform: translateY(-1px);
+}
+body.anandakendra-detail-page .anandakendra-detail-admin-actions .anandakendra-admin-buttons .btn.btn-primary:active,
+body.anandakendra-detail-page .gallery-actions .anandakendra-admin-buttons .btn.btn-primary:active {
+    transform: translateY(0);
+}
+@media (min-width: 576px) {
+    body.anandakendra-detail-page .anandakendra-detail-admin-actions .anandakendra-admin-buttons .btn.btn-primary,
+    body.anandakendra-detail-page .gallery-actions .anandakendra-admin-buttons .btn.btn-primary {
+        font-size: 0.8rem;
+        padding: 0.55rem 1.15rem !important;
+    }
+}
+
+/* Gallery upload modal — override static custom.css #addToGallery (higher specificity on detail page) */
+body.anandakendra-detail-page #addToGallery.anandakendra-modal .modal-header,
+body.anandakendra-detail-page #addToGallery .modal-header {
+    background: #0b3540 !important;
+    background-image: none !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.22) !important;
+    color: #fff !important;
+}
+body.anandakendra-detail-page #addToGallery .modal-title {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 700 !important;
+    font-size: 1.1rem !important;
+    color: #fff !important;
+}
+body.anandakendra-detail-page #addToGallery .modal-body {
+    background: #fff !important;
+    padding: 1.5rem 1.25rem 1.75rem !important;
+}
+body.anandakendra-detail-page #addToGallery .modal-body .btn.btn-primary,
+body.anandakendra-detail-page #addToGallery .anandakendra-file-picker-browse.btn.btn-primary {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    line-height: 1.25 !important;
+    padding: 0.55rem 1.15rem !important;
+    border: none !important;
+    border-radius: 9999px !important;
+    background-color: #0b3540 !important;
+    border-color: transparent !important;
+    color: #fff !important;
+    box-shadow: 0 4px 10px rgba(11, 53, 64, 0.35), 0 0 0 1px rgba(11, 53, 64, 0.15) !important;
+}
+body.anandakendra-detail-page #addToGallery .modal-body .btn.btn-primary:hover,
+body.anandakendra-detail-page #addToGallery .modal-body .btn.btn-primary:focus,
+body.anandakendra-detail-page #addToGallery .modal-body .btn.btn-primary:active,
+body.anandakendra-detail-page #addToGallery .anandakendra-file-picker-browse.btn.btn-primary:hover,
+body.anandakendra-detail-page #addToGallery .anandakendra-file-picker-browse.btn.btn-primary:focus {
+    background-color: #005E66 !important;
+    border-color: transparent !important;
+    color: #fff !important;
+    box-shadow: 0 8px 18px rgba(0, 94, 102, 0.35) !important;
+    outline: none !important;
+}
+body.anandakendra-detail-page #addToGallery .anandakendra-file-picker-control {
+    display: flex;
+    align-items: stretch;
+    gap: 0.65rem;
+    width: 100%;
+}
+body.anandakendra-detail-page #addToGallery .anandakendra-file-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+body.anandakendra-detail-page #addToGallery .anandakendra-file-picker-text {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    min-height: 2.75rem;
+    padding: 0.55rem 1rem;
+    border: 1px solid rgba(11, 53, 64, 0.28);
+    border-radius: 0.5rem;
+    background: #fff;
+    color: #64748b;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+body.anandakendra-detail-page #addToGallery .anandakendra-file-picker-browse {
+    flex: 0 0 auto;
+    margin: 0 !important;
+    cursor: pointer;
+    align-self: center;
+}
+body.anandakendra-detail-page .gallery-actions .anandakendra-admin-buttons {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+}
+/* Allow scrolling to admin actions when description fills the synced text card */
+body.anandakendra-detail-page #about .pillar-overlay-card--text.anandakendra-sync-text.has-admin-actions {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+/* Ensure open modals sit above Bootstrap backdrop (1035) after appendTo(body) */
+body.anandakendra-detail-page.modal-open .anandakendra-modal.modal.show,
+body.anandakendra-detail-page.modal-open .anandakendra-readmore-modal.modal.show,
+body.bandhughar-detail-page.modal-open .anandakendra-modal.modal.show,
+body.bandhughar-detail-page.modal-open .anandakendra-readmore-modal.modal.show,
+body.bandhughar-detail-page.modal-open .ashram-modal.modal.show {
+    z-index: 1050 !important;
+}
+body.anandakendra-detail-page.modal-open .modal-backdrop.show,
+body.bandhughar-detail-page.modal-open .modal-backdrop.show {
+    z-index: 1040 !important;
 }
 
 /* Brand consistency: Anandakendra pages */

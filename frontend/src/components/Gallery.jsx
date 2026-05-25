@@ -1,10 +1,17 @@
-import { useState, useRef, useCallback, useEffect } from 'react'
+import { useState, useRef, useCallback, useEffect, useMemo } from 'react'
 import { createPortal } from 'react-dom'
 
 const GAP_PX = 32
 
 export default function Gallery({ data }) {
-  const photos = data?.photos || []
+  const photos = useMemo(() => {
+    const seen = new Set()
+    return (data?.photos || []).filter((photo) => {
+      if (!photo?.picture || seen.has(photo.picture)) return false
+      seen.add(photo.picture)
+      return true
+    })
+  }, [data?.photos])
   const tagline = data?.gallery_tagline || 'Moments from our journey.'
   const [filter, setFilter] = useState('all')
   const [lightboxIndex, setLightboxIndex] = useState(null)
@@ -42,6 +49,15 @@ export default function Gallery({ data }) {
   }
 
   const displayTagline = normalizeTagline(tagline)
+
+  /** One line for masthead blurb: strip DB line breaks and keep "social cause" on the first line. */
+  const displayTaglineOneLine = (() => {
+    const line = String(displayTagline || '')
+      .replace(/[\r\n]+/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+    return line.replace(/ a social/gi, ' a\u00a0social')
+  })()
 
   const normalizeTagsFromPhoto = (p) => (p.tags || []).map(normalizeTagKey).filter(Boolean)
 
@@ -84,8 +100,8 @@ export default function Gallery({ data }) {
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="mb-8 flex flex-col items-center gap-6">
           <h2 className="section-title text-center">Gallery</h2>
-          <p className="font-body text-slate-700 text-center text-lg font-medium max-w-3xl">
-            {displayTagline}
+          <p className="font-body text-slate-700 text-center font-medium w-full px-2 text-[clamp(0.95rem,1.1vw,1.2rem)] leading-snug md:whitespace-nowrap max-md:max-w-xl max-md:mx-auto">
+            {displayTaglineOneLine}
           </p>
           {tags.length > 1 && (
             <div
@@ -100,10 +116,10 @@ export default function Gallery({ data }) {
                   role="tab"
                   aria-selected={filter === tag}
                   onClick={() => setFilter(tag)}
-                  className={`font-body text-base px-4 py-2.5 transition-colors duration-200 border-b-2 bg-transparent ${
+                  className={`font-body text-base px-4 py-2.5 transition-colors duration-200 bg-transparent rounded-none outline-none shadow-none border-0 border-b-2 ${
                     filter === tag
-                      ? 'border-[#005E66] font-semibold text-[#0b3540]'
-                      : 'border-transparent text-slate-700 hover:text-slate-900'
+                      ? 'border-b-[#005E66] font-semibold text-[#0b3540]'
+                      : 'border-b-transparent text-slate-700 hover:text-slate-900'
                   }`}
                 >
                   {tag === 'all' ? 'All' : titleCase(tag)}
@@ -120,7 +136,7 @@ export default function Gallery({ data }) {
           <div className="flex w-max min-w-full box-border" style={{ gap: GAP_PX, paddingLeft: 16, paddingRight: 16 }}>
             {filtered.map((photo, i) => (
               <button
-                key={i}
+                key={photo.picture || String(i)}
                 type="button"
                 data-gallery-card
                 onClick={() => openLightbox(i)}

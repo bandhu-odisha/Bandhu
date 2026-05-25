@@ -16,7 +16,7 @@
                                 <form class="signup-modal-form" method="post" action="{% url 'login' %}">
                                     {% csrf_token %}
                                     <input type="hidden" name="login_modal" value="1">
-                                    <input type="hidden" name="next" value="{{ request.path }}">
+                                    <input type="hidden" name="next" value="{{ login_modal_next|default:request.path }}">
                                     <a href="/oauth/login/facebook/" class="signup-modal-oauth signup-modal-oauth--fb">
                                         <i class="fab fa-facebook-square" aria-hidden="true"></i>
                                         Facebook
@@ -45,7 +45,7 @@
                                         <input class="input100" type="password" name="password" placeholder="Password" required autocomplete="current-password">
                                     </div>
                                     <div class="pt-1 pb-2">
-                                        <a href="/accounts/password_reset/" class="small" style="color: #5f8d93; font-weight: 600;">Forgot password?</a>
+                                        <a href="/accounts/password_reset/" class="signup-modal-forgot">Forgot password?</a>
                                     </div>
                                     <div class="signup-modal-submit-wrap">
                                         <button class="signup-modal-submit" type="submit">Sign In</button>

@@ -5,6 +5,11 @@ import path from 'path'
 export default defineConfig({
   plugins: [react()],
   base: '/static/frontend/',
+  server: {
+    fs: {
+      allow: [path.resolve(__dirname, '..')],
+    },
+  },
   build: {
     outDir: path.resolve(__dirname, '../static/frontend'),
     emptyOutDir: true,

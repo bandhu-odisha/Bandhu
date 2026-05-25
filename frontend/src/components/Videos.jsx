@@ -1,11 +1,12 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
+import { createPortal } from 'react-dom'
 
 const AUTO_SCROLL_INTERVAL_MS = 5000
 /** Match Tailwind `gap-10` (2.5rem) for auto-scroll step. */
 const GAP_PX = 40
 const CARD_WIDTH_FALLBACK = 440
 
-function getYouTubeId(script) {
+export function getYouTubeId(script) {
   if (!script || typeof script !== 'string') return null
   let m = script.match(/(?:youtube\.com\/embed\/|youtube\.com\/v\/)([a-zA-Z0-9_-]{11})/)
   if (m) return m[1]
@@ -20,6 +21,16 @@ function getYouTubeId(script) {
 
 function thumbnailUrl(videoId) {
   return `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
+}
+
+function embedSrc(videoId, autoplay = true) {
+  const params = new URLSearchParams({
+    rel: '0',
+    modestbranding: '1',
+    playsinline: '1',
+  })
+  if (autoplay) params.set('autoplay', '1')
+  return `https://www.youtube-nocookie.com/embed/${videoId}?${params.toString()}`
 }
 
 function VideoCard({ video, onClick }) {
@@ -75,7 +86,7 @@ function VideoCard({ video, onClick }) {
 
 export default function Videos({ data }) {
   const videos = data?.videos || []
-  const [playing, setPlaying] = useState(null)
+  const [playingIndex, setPlayingIndex] = useState(null)
   const scrollRef = useRef(null)
   const n = videos.length
   if (n === 0) return null
@@ -86,10 +97,27 @@ export default function Videos({ data }) {
     duration: v.duration != null && v.duration !== '' ? String(v.duration).trim() : '',
   }))
 
+  const playing = playingIndex != null ? withIds[playingIndex] : null
+  const closePlayer = useCallback(() => setPlayingIndex(null), [])
+
   useEffect(() => {
-    if (n <= 1) return
+    if (playingIndex == null) return undefined
+    const onKey = (e) => {
+      if (e.key === 'Escape') closePlayer()
+    }
+    document.addEventListener('keydown', onKey)
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = prev
+    }
+  }, [playingIndex, closePlayer])
+
+  useEffect(() => {
+    if (n <= 1) return undefined
     const el = scrollRef.current
-    if (!el) return
+    if (!el) return undefined
     const id = setInterval(() => {
       const firstCard = el.querySelector('[data-video-card]')
       const cardWidth = firstCard ? firstCard.offsetWidth : CARD_WIDTH_FALLBACK
@@ -105,6 +133,50 @@ export default function Videos({ data }) {
     return () => clearInterval(id)
   }, [n])
 
+  const playerModal =
+    playing &&
+    playing.videoId &&
+    typeof document !== 'undefined' &&
+    createPortal(
+      <div
+        className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
+        onClick={closePlayer}
+        role="dialog"
+        aria-modal="true"
+        aria-label={playing.title || 'Video player'}
+      >
+        <div
+          className="relative aspect-video w-full max-w-4xl overflow-hidden rounded-2xl bg-black shadow-2xl"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button
+            type="button"
+            className="absolute right-3 top-3 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-teal-dark hover:bg-white sm:right-4 sm:top-4"
+            onClick={closePlayer}
+            aria-label="Close video"
+          >
+            <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+          <iframe
+            key={playing.videoId}
+            title={playing.title || 'YouTube video'}
+            src={embedSrc(playing.videoId, true)}
+            className="absolute inset-0 h-full w-full border-0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+          />
+          {playing.title ? (
+            <p className="pointer-events-none absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 pr-14 font-body text-sm font-semibold text-white sm:text-base">
+              {playing.title}
+            </p>
+          ) : null}
+        </div>
+      </div>,
+      document.body
+    )
+
   return (
     <section id="youtube" className="landing-section bg-white -mt-10 sm:-mt-12 lg:-mt-14">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -115,40 +187,18 @@ export default function Videos({ data }) {
         >
           <div className="flex w-max gap-4">
             {withIds.map((video, i) => (
-              <VideoCard key={i} video={video} onClick={() => setPlaying(playing === i ? null : i)} />
+              <VideoCard
+                key={video.videoId || video.title || String(i)}
+                video={video}
+                onClick={() => {
+                  if (video.videoId) setPlayingIndex(i)
+                }}
+              />
             ))}
           </div>
         </div>
-        {playing !== null && withIds[playing] && (
-          <div
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm"
-            onClick={() => setPlaying(null)}
-          >
-            <div
-              className="relative aspect-video w-full max-w-4xl overflow-hidden rounded-2xl bg-black shadow-2xl"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                type="button"
-                className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-teal-dark hover:bg-white"
-                onClick={() => setPlaying(null)}
-                aria-label="Close"
-              >
-                <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-              <div
-                className="h-full w-full [&>iframe]:h-full [&>iframe]:w-full"
-                dangerouslySetInnerHTML={{ __html: withIds[playing].script }}
-              />
-              <p className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 font-body font-semibold text-white">
-                {withIds[playing].title}
-              </p>
-            </div>
-          </div>
-        )}
       </div>
+      {playerModal}
     </section>
   )
 }

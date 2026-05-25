@@ -1,4 +1,5 @@
-{% extends 'base.html' %}
+﻿{% extends 'base.html' %}
+{% load ankurayan_tags %}
 
 {% load static %}
 {% load permissions %}
@@ -8,9 +9,10 @@
 {% block body_class %}ankurayan-detail{% endblock %}
 
 {% block style %}
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
 <!-- Custom CSS -->
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
-<link rel="stylesheet" href="{% static 'css/ankurayan.css' %}">
+<link rel="stylesheet" href="{% static 'css/ankurayan.css' %}?v=9">
 <!-- Custom Style -->
 <style>
     body #top-section {
@@ -35,7 +37,7 @@
         left: 50%;
         transform: translateX(-50%);
         color: #005E66;
-        font-family: 'Lora', Georgia, serif;
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         font-weight: 800;
         font-size: clamp(2.2rem, 6vw, 4rem);
         letter-spacing: 0.02em;
@@ -51,113 +53,359 @@
     .btn-teal:hover { background-color: #3d5c60; border-color: #3d5c60; color: #fff; }
     .btn-outline-teal { color: #80b3ba; border-color: #80b3ba; background: transparent; }
     .btn-outline-teal:hover { color: #fff; background-color: #80b3ba; border-color: #80b3ba; }
-    .guest-profile-modal .modal-content { max-width: 56rem; width: 90vw; margin: 0 auto; border-radius: 16px; overflow: hidden; border: 2px solid rgba(128, 179, 186, 0.35) !important; box-shadow: 0 8px 24px rgba(61, 92, 96, 0.12), 0 25px 50px -12px rgba(0,0,0,0.15); background: linear-gradient(135deg, #ffffff 0%, #d7e9f2 40%, #80b3ba 100%) !important; font-family: 'Lora', Georgia, serif; }
+    .guest-profile-modal .modal-content {
+        position: relative;
+        max-width: 56rem;
+        width: 90vw;
+        margin: 0 auto;
+        border-radius: 1rem !important;
+        overflow: hidden;
+        border: 1px solid #e2e8f0 !important;
+        box-shadow: 0 24px 48px rgba(15, 23, 42, 0.12) !important;
+        background: #ffffff !important;
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
     .guest-profile-modal .modal-body { padding: 0; }
     .guest-profile-modal .modal-dialog { max-width: 56rem; width: 90vw; margin: 0.5rem auto; }
-    .guest-profile-modal .modal-content { position: relative; }
     .guest-profile-modal .guest-close-btn { position: relative !important; width: 2.5rem; height: 2.5rem; min-width: 2.5rem; min-height: 2.5rem; border-radius: 50%; background: #3d5c60; color: #fff; border: none; padding: 0; margin: 0; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); cursor: pointer; transition: background 0.2s, transform 0.2s; text-decoration: none; line-height: 0; flex-shrink: 0; }
-    .guest-profile-modal .guest-close-btn.guest-close-btn-visitor { position: absolute !important; top: 0.75rem; right: 1rem; z-index: 30; width: 2.25rem; height: 2.25rem; min-width: 2.25rem; min-height: 2.25rem; padding: 0; margin: 0; background: #fff !important; color: #3d5c60 !important; border: 1px solid #e5e7eb; box-shadow: 0 1px 3px rgba(0,0,0,0.1); display: flex !important; align-items: center; justify-content: center; cursor: pointer; }
-    .guest-profile-modal .guest-close-btn.guest-close-btn-visitor:hover { background: #f3f4f6 !important; color: #0c5c56 !important; }
+    .guest-profile-modal .guest-close-btn.guest-close-btn-visitor {
+        position: absolute !important;
+        top: 0.85rem;
+        right: 1rem;
+        z-index: 30;
+        width: 2.5rem;
+        height: 2.5rem;
+        min-width: 2.5rem;
+        min-height: 2.5rem;
+        padding: 0;
+        margin: 0;
+        background: #ffffff !important;
+        color: #64748b !important;
+        border: 1px solid rgba(148, 163, 184, 0.45);
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+    .guest-profile-modal .guest-close-btn.guest-close-btn-visitor:hover {
+        background: #f8fafc !important;
+        color: #475569 !important;
+        border-color: rgba(148, 163, 184, 0.65);
+    }
     .guest-profile-modal .guest-close-btn.guest-close-btn-visitor .guest-close-x { display: block; flex-shrink: 0; width: 20px; height: 20px; }
     .guest-profile-modal .guest-close-btn .guest-close-icon { display: block !important; flex-shrink: 0; width: 20px; height: 20px; }
     .guest-profile-modal .guest-close-btn:hover { background: #80b3ba; color: #fff; transform: scale(1.05); box-shadow: 0 3px 12px rgba(128, 179, 186, 0.4); }
     .guest-profile-modal .guest-edit-btn {
-        border-radius: 8px;
-        font-weight: 700;
-        font-size: 0.85rem;
-        background-color: #80b3ba !important;
-        border-color: #80b3ba !important;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 1.05rem;
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        background: #005e66 !important;
+        border: none !important;
+        border-color: #005e66 !important;
         color: #fff !important;
-        padding: 0.4rem 0.75rem;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        padding: 0.65rem 1.35rem;
+        box-shadow: 0 4px 16px rgba(0, 94, 102, 0.38);
+        transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
     }
     .guest-profile-modal .guest-edit-btn:hover {
-        background-color: #3d5c60 !important;
-        border-color: #3d5c60 !important;
+        background: #006a73 !important;
+        border-color: #006a73 !important;
         color: #fff !important;
+        transform: translateY(-1px);
+        box-shadow: 0 8px 22px rgba(0, 94, 102, 0.28);
     }
-    .guest-profile-modal .guest-profile-edit .form-group label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #80b3ba; }
     .guest-profile-modal .guest-profile-edit {
-        background: linear-gradient(180deg, #d7e9f2 0%, #f8fafc 100%);
-        border-top: 4px solid #80b3ba;
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        background: #ffffff !important;
+        color: #334155 !important;
+        line-height: 1.6 !important;
+        padding: 0 !important;
+        border-top: none !important;
+    }
+    .guest-profile-modal .guest-profile-edit .guest-edit-form-header {
+        background: #ffffff !important;
+        color: #005e66 !important;
+        border-bottom: none !important;
+        padding: 0.75rem 3rem 0.75rem 1.5rem !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        position: relative !important;
+        text-align: left !important;
     }
     .guest-profile-modal .guest-profile-edit .guest-edit-form-title {
-        font-size: 1.1rem;
-        font-weight: 700;
-        color: #3d5c60;
-        margin-bottom: 1.25rem;
-        padding-bottom: 0.75rem;
-        border-bottom: 1px solid rgba(128, 179, 186, 0.2);
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        font-weight: 700 !important;
+        font-size: 1.25rem !important;
+        color: #1e293b !important;
+        width: auto !important;
+        margin: 0 !important;
+        text-align: left !important;
+        letter-spacing: -0.02em !important;
+        padding: 0 !important;
+        border-bottom: none !important;
+    }
+    .guest-profile-modal .guest-profile-edit .guest-edit-form-inner {
+        padding: 1.25rem 1.5rem 1.5rem !important;
+    }
+    @media (min-width: 768px) {
+        .guest-profile-modal .guest-profile-edit .guest-edit-form-inner {
+            padding: 1.25rem 2rem 1.75rem !important;
+        }
     }
     .guest-profile-modal .guest-profile-edit .form-group {
         margin-bottom: 1rem;
     }
+    .guest-profile-modal .guest-profile-edit .form-group label,
+    .guest-profile-modal .guest-profile-edit .guest-detail-label {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        font-weight: 600 !important;
+        color: #005e66 !important;
+        font-size: 0.95rem !important;
+        text-transform: none !important;
+        letter-spacing: -0.01em !important;
+    }
     .guest-profile-modal .guest-profile-edit .form-control {
-        border-radius: 10px;
-        border: 1px solid #b8dce5;
-        background: #fff;
-        font-size: 0.95rem;
-        padding: 0.5rem 0.75rem;
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        border-radius: 10px !important;
+        border: 1px solid #e2e8f0 !important;
+        padding: 0.65rem 1rem !important;
+        font-size: 1rem !important;
+        background: #fff !important;
+        color: #334155 !important;
     }
     .guest-profile-modal .guest-profile-edit .form-control:focus {
-        border-color: #80b3ba;
-        box-shadow: 0 0 0 3px rgba(128, 179, 186, 0.15);
-        outline: none;
+        border-color: #80b3ba !important;
+        box-shadow: 0 0 0 3px rgba(128, 179, 186, 0.22) !important;
+        outline: none !important;
     }
     .guest-profile-modal .guest-profile-edit .guest-edit-error {
-        border-radius: 10px;
-        border: 1px solid #fca5a5;
-        background: #fef2f2;
-        color: #b91c1c;
-        font-size: 0.875rem;
+        border-radius: 10px !important;
+        border: 1px solid #fca5a5 !important;
+        background: #fef2f2 !important;
+        color: #b91c1c !important;
+        font-size: 0.875rem !important;
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    }
+    .guest-profile-modal .guest-profile-edit .guest-edit-actions {
+        border-top: none !important;
+        margin-top: 1.25rem !important;
+        padding-top: 0 !important;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem;
     }
     .guest-profile-modal .guest-profile-edit .guest-edit-actions .btn-teal {
-        border-radius: 10px;
-        font-weight: 600;
-        padding: 0.5rem 1.25rem;
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        border: none !important;
+        border-radius: 12px !important;
+        background: #005e66 !important;
+        border-color: #005e66 !important;
+        color: #fff !important;
+        font-weight: 600 !important;
+        font-size: 1.05rem !important;
+        padding: 0.65rem 1.35rem !important;
+        box-shadow: 0 4px 16px rgba(0, 94, 102, 0.38) !important;
+        transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease !important;
+    }
+    .guest-profile-modal .guest-profile-edit .guest-edit-actions .btn-teal:hover {
+        background: #006a73 !important;
+        border-color: #006a73 !important;
+        color: #fff !important;
+        transform: translateY(-1px);
+        box-shadow: 0 8px 22px rgba(0, 94, 102, 0.28) !important;
     }
     .guest-profile-modal .guest-profile-edit .guest-edit-actions .btn-secondary {
-        border-radius: 10px;
-        font-weight: 600;
-        padding: 0.5rem 1.25rem;
-        background: #64748b;
-        border-color: #64748b;
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        border-radius: 10px !important;
+        font-weight: 600 !important;
+        padding: 0.65rem 1.25rem !important;
+        background: #64748b !important;
+        border-color: #64748b !important;
+        color: #fff !important;
     }
     .guest-profile-modal .guest-profile-edit .guest-edit-actions .btn-secondary:hover {
-        background: #475569;
-        border-color: #475569;
-        color: #fff;
+        background: #475569 !important;
+        border-color: #475569 !important;
+        color: #fff !important;
+    }
+    .guest-profile-modal .guest-profile-edit .guest-edit-actions .btn-outline-danger {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        border-radius: 10px !important;
+        font-weight: 600 !important;
+        margin-right: auto !important;
     }
     .bg-teal-dark { background: linear-gradient(160deg, #3d5c60 0%, #80b3ba 100%) !important; }
     .guest-profile-modal .guest-avatar-col { min-width: 0; padding: 1.25rem 1rem !important; }
-    .guest-profile-modal .guest-avatar-col-visitor { background: #3d5c60 !important; min-height: 200px; display: flex !important; align-items: center; justify-content: center; padding: 2rem 1.5rem !important; }
-    .guest-profile-modal .guest-avatar-img { width: 7rem; height: 7rem; object-fit: cover; border-radius: 50%; border: 4px solid #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    .guest-profile-modal .guest-avatar-col-visitor {
+        background: #f8fafc !important;
+        min-height: 200px;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem 1.5rem !important;
+        border-bottom: 1px solid #e2e8f0;
+    }
+    @media (min-width: 768px) {
+        .guest-profile-modal .guest-avatar-col-visitor {
+            border-bottom: none;
+            border-right: 1px solid #e2e8f0;
+            min-height: 0;
+            padding: 2rem 1.5rem !important;
+        }
+    }
+    .guest-profile-modal .guest-avatar-img {
+        width: 7rem;
+        height: 7rem;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 4px solid #ffffff;
+        box-shadow: 0 0 0 2px #e2e8f0, 0 4px 14px rgba(15, 23, 42, 0.08);
+    }
     @media (min-width: 768px) { .guest-profile-modal .guest-avatar-img { width: 8rem; height: 8rem; } }
-    .guest-profile-modal .guest-details-col { background: linear-gradient(135deg, #ffffff 0%, #d7e9f2 50%, #80b3ba 100%) !important; padding: 1.25rem 1.5rem !important; }
-    .guest-profile-modal .guest-details-col-visitor { background: linear-gradient(135deg, #ffffff 0%, #d7e9f2 50%, #80b3ba 100%) !important; padding: 1.5rem 2rem !important; }
-    .guest-profile-modal .guest-name { font-size: 1.35rem; letter-spacing: 0.02em; color: #3d5c60 !important; margin-bottom: 0.25rem; }
-    .guest-profile-modal .guest-name-visitor { font-size: 1.25rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #3d5c60 !important; margin-bottom: 1.5rem !important; }
+    .guest-profile-modal .guest-details-col { background: #ffffff !important; padding: 1.25rem 1.5rem !important; }
+    .guest-profile-modal .guest-details-col-visitor {
+        background: #ffffff !important;
+        padding: 1.5rem 1.5rem 2rem !important;
+    }
+    @media (min-width: 768px) {
+        .guest-profile-modal .guest-details-col-visitor {
+            padding: 2rem !important;
+        }
+    }
+    .guest-profile-modal .guest-name { font-size: 1.25rem; letter-spacing: 0.02em; color: #1e293b !important; margin-bottom: 0.25rem; }
+    .guest-profile-modal .guest-name-visitor {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        font-size: 1.25rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #1e293b !important;
+        margin-bottom: 1rem !important;
+        line-height: 1.3;
+    }
     @media (min-width: 576px) { .guest-profile-modal .guest-name-visitor { font-size: 1.5rem; } }
+    /* Full-width quote strip above avatar + details (Lora); blends into body — no hard divider */
+    .guest-profile-modal .guest-quote-block {
+        background: linear-gradient(180deg, #e8f4f8 0%, #f4fafc 50%, #f8fafc 100%);
+        border-bottom: none;
+        padding: 1.25rem 3.5rem 1.35rem 1.5rem;
+        margin: 0;
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        font-size: 1.15rem;
+        line-height: 1.65;
+        font-style: italic;
+        font-weight: 500;
+        color: #1e3a3a;
+        letter-spacing: 0.01em;
+    }
+    @media (min-width: 576px) {
+        .guest-profile-modal .guest-quote-block {
+            font-size: 1.28rem;
+            padding-left: 1.75rem;
+            padding-right: 3.75rem;
+        }
+    }
+    .guest-profile-modal .guest-quote-open {
+        font-size: 2.5rem;
+        line-height: 0.85;
+        color: #9cc9d4;
+        margin-right: 0.06em;
+        vertical-align: -0.1em;
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        font-weight: 400;
+        font-style: italic;
+    }
+    .guest-profile-modal .guest-quote-close {
+        font-size: 2.5rem;
+        line-height: 0.85;
+        color: #9cc9d4;
+        margin-left: 0.06em;
+        vertical-align: -0.1em;
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        font-weight: 400;
+        font-style: italic;
+    }
+    .guest-profile-modal .guest-quote-inner { display: inline; }
     .guest-profile-modal .guest-dl-visitor { margin: 0; }
     .guest-profile-modal .guest-dl-item { margin-bottom: 1rem; }
     .guest-profile-modal .guest-dl-item:last-of-type { margin-bottom: 0; }
-    .guest-profile-modal .guest-dl-item dt { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #3d5c60; margin-bottom: 0.25rem; }
-    .guest-profile-modal .guest-dl-item dd { font-size: 0.9rem; color: #64748b; line-height: 1.5; margin: 0; }
+    .guest-profile-modal .guest-dl-item dt {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #64748b;
+        margin-bottom: 0.25rem;
+    }
+    .guest-profile-modal .guest-dl-item dd {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        font-size: 0.9375rem;
+        color: #475569;
+        line-height: 1.65;
+        margin: 0;
+    }
     .guest-profile-modal .guest-quote-inline { border-left: 4px solid #80b3ba; }
     .guest-profile-modal .guest-profession { font-size: 0.9rem; color: #6b7280; margin-bottom: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px solid #e5e7eb; }
     .guest-profile-modal .guest-detail-row { padding: 0.4rem 0; border-bottom: 1px solid #f3f4f6; display: flex; align-items: flex-start; gap: 0.75rem; }
     .guest-profile-modal .guest-detail-row:last-of-type { border-bottom: none; }
     .guest-profile-modal .guest-detail-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #80b3ba; min-width: 5.5rem; flex-shrink: 0; }
     .guest-profile-modal .guest-detail-value { font-size: 0.9rem; color: #374151; line-height: 1.5; margin: 0; }
-    .guest-profile-modal .guest-social-link { color: #3d5c60; width: 2.25rem; height: 2.25rem; border-radius: 50%; background: #3d5c60 !important; background-color: #3d5c60 !important; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; transition: background 0.2s, transform 0.2s; }
-    .guest-profile-modal .guest-social-link:hover { background: #083d3a !important; background-color: #083d3a !important; transform: scale(1.08); }
+    .guest-profile-modal .guest-social-link {
+        color: #ffffff;
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: 50%;
+        background: #005e66 !important;
+        border: 1px solid #004d54 !important;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        transition: background 0.2s, transform 0.2s, opacity 0.2s;
+    }
+    .guest-profile-modal .guest-social-link:hover {
+        background: #006a73 !important;
+        border-color: #006a73 !important;
+        transform: scale(1.05);
+    }
     .guest-profile-modal .guest-social-link .guest-social-icon { display: block; flex-shrink: 0; }
-    .guest-profile-modal .guest-social-link .guest-social-icon path { fill: #ffffff !important; }
-    .guest-profile-modal .guest-social-link:hover .guest-social-icon path { fill: #ffffff !important; }
-    .guest-profile-modal .guest-social-icon-wrap { width: 2.25rem; height: 2.25rem; border-radius: 50%; background: #3d5c60 !important; background-color: #3d5c60 !important; display: inline-flex; align-items: center; justify-content: center; cursor: default; opacity: 1 !important; }
-    .guest-profile-modal .guest-social-icon-wrap .guest-social-icon path { fill: #ffffff !important; stroke: #ffffff !important; stroke-width: 0.5 !important; stroke-linejoin: round !important; paint-order: stroke fill !important; }
+    .guest-profile-modal .guest-social-link .guest-social-icon path {
+        fill: #ffffff !important;
+        stroke: #ffffff !important;
+        stroke-width: 0.5 !important;
+        stroke-linejoin: round !important;
+        paint-order: stroke fill !important;
+    }
+    .guest-profile-modal .guest-social-link:hover .guest-social-icon path {
+        fill: #ffffff !important;
+        stroke: #ffffff !important;
+    }
+    /* Match home Our Visitors: dark teal circles + solid white glyphs (links + empty placeholders) */
+    .guest-profile-modal .guest-social-icon-wrap {
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: 50%;
+        background: #005e66 !important;
+        border: 1px solid #004d54 !important;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: default;
+        opacity: 1;
+    }
+    .guest-profile-modal .guest-social-icon-wrap .guest-social-icon path {
+        fill: #ffffff !important;
+        stroke: #ffffff !important;
+        stroke-width: 0.5 !important;
+        stroke-linejoin: round !important;
+        paint-order: stroke fill !important;
+    }
     .guest-profile-modal .guest-social-icon-wrap .guest-social-icon { display: block; flex-shrink: 0; }
-    .guest-profile-modal .guest-social-link .guest-social-icon path { stroke: #ffffff !important; stroke-width: 0.5 !important; stroke-linejoin: round !important; paint-order: stroke fill !important; }
     .guest-profile-modal .btn-share-experience { padding: 0.6rem 1.25rem; border-radius: 9999px; font-weight: 600; font-size: 0.9rem; margin-top: 1rem; }
     /* Ankurayan section cards: uniform size + cohesive styling */
     .ankurayan-cards-wrap { padding-top: 0.5rem; }
@@ -219,7 +467,7 @@
     }
     /* Description card: Lora for heading + body (all years); matches #modalDescription */
     .ankurayan-detail .ankurayan-description-card .content-title {
-        font-family: 'Lora', Georgia, serif !important;
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
     }
     .ankurayan-detail .ankurayan-description-card .pillar-desc,
     .ankurayan-detail .ankurayan-description-card .ankurayan-desc-full,
@@ -227,10 +475,10 @@
     .ankurayan-detail .ankurayan-description-card .ankurayan-desc-preview p,
     .ankurayan-detail .ankurayan-description-card .ankurayan-desc-preview li,
     .ankurayan-detail .ankurayan-description-card .ankurayan-desc-preview span {
-        font-family: 'Lora', Georgia, serif !important;
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
     }
     .ankurayan-detail .ankurayan-description-card .ankurayan-read-more-btn {
-        font-family: 'Lora', Georgia, serif !important;
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
     }
     /* Description card: 2 lines; "Read more" sits on line 2 (not a third row) */
     .ankurayan-desc-preview-block {
@@ -400,37 +648,218 @@
         background-image: none !important;
     }
     .guest-quote-preview { font-size: 0.75rem; line-height: 1.35; color: #6b7280; font-style: italic; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 0.5rem; min-height: 2.7em; }
-    .guest-profile-modal .guest-quote-block { background: linear-gradient(135deg, #d7e9f2 0%, #b8dce5 100%); border-left: 4px solid #80b3ba; padding: 1rem 1.25rem 1rem 1.25rem; padding-right: 4rem; margin: 0; font-family: 'Lora', Georgia, serif; font-size: 1.35rem; line-height: 1.6; font-style: italic; font-weight: 700; color: #3d5c60; position: relative; letter-spacing: 0.02em; overflow: visible; }
-    .guest-profile-modal .guest-quote-open { font-size: 2.25rem; line-height: 1; color: #80b3ba; opacity: 0.6; margin-right: 0.15em; vertical-align: -0.15em; font-family: 'Lora', Georgia, serif; font-weight: 700; font-style: italic; }
-    .guest-profile-modal .guest-quote-close { font-size: 2.25rem; line-height: 1; color: #80b3ba; opacity: 0.6; margin-left: 0.15em; vertical-align: -0.15em; font-family: 'Lora', Georgia, serif; font-weight: 700; font-style: italic; }
-    .guest-profile-modal .guest-quote-inner { display: inline; }
     /* When guest profile opens: hide Our Guests modal completely behind it; guest modal sizes to content */
     #modalVisitors.visitors-content-dimmed .modal-dialog { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.2s ease, visibility 0.2s ease; }
     .guest-profile-modal .modal-dialog { width: 56rem; max-width: 90vw; margin: 0.5rem auto !important; }
     .guest-profile-modal .modal-content { width: 100%; }
-    /* Our Guests modal: font and styling */
-    #modalVisitors .modal-content { font-family: 'Lora', Georgia, serif; border-radius: 16px; overflow: hidden; border: none; box-shadow: 0 24px 48px -12px rgba(0,0,0,0.2); }
-    #modalVisitors .modal-header { background: linear-gradient(135deg, #3d5c60 0%, #80b3ba 100%); color: #fff; border-bottom: none; padding: 1.25rem 1.5rem; }
-    #modalVisitors .modal-title { font-weight: 700; font-size: 1.35rem; letter-spacing: -0.02em; }
-    #modalVisitors .modal-header .close { color: #fff; opacity: 0.9; text-shadow: none; font-size: 1.5rem; }
-    #modalVisitors .modal-header .close:hover { opacity: 1; }
-    #modalVisitors .modal-body { padding: 1.5rem 1.5rem 1.25rem; background: linear-gradient(180deg, #d7e9f2 0%, #80b3ba 100%) !important; }
-    #modalVisitors .modal-body .content-title { font-family: 'Lora', Georgia, serif; font-weight: 700; font-size: 1.1rem; color: #3d5c60; letter-spacing: -0.01em; margin-bottom: 0.25rem; }
-    #modalVisitors .modal-body > p.text-muted { font-size: 0.875rem; color: #64748b !important; line-height: 1.5; }
-    #modalVisitors .guest-profile-card { font-family: 'Lora', Georgia, serif; border-radius: 16px !important; border: none !important; background: #ffffff !important; box-shadow: none !important; transition: none; min-height: 280px; display: flex; flex-direction: column; }
-    #modalVisitors .guest-profile-card:hover { transform: none; box-shadow: none !important; border-color: transparent !important; }
-    #modalVisitors .guest-profile-card .card-body.guest-card-body { padding: 1.75rem 1.25rem !important; border-radius: 14px; flex: 1; display: flex; flex-direction: column; background: transparent !important; }
-    #modalVisitors .guest-profile-card h6 { font-weight: 700; font-size: 0.95rem; color: #3d5c60; letter-spacing: -0.01em; }
-    #modalVisitors .guest-profile-card .text-muted { font-size: 0.8rem; font-weight: 500; color: #64748b !important; }
-    #modalVisitors .guest-quote-preview { font-size: 0.8rem; line-height: 1.45; color: #64748b !important; font-style: italic; font-weight: 400; }
-    #modalVisitors .guest-profile-card .btn-outline-teal { font-weight: 600; font-size: 0.8rem; border-radius: 10px; padding: 0.5rem 0.75rem; }
-    #modalVisitors .modal-footer { background: #fff; border-top: 1px solid #e2e8f0; padding: 1rem 1.5rem; }
-    #modalVisitors .modal-footer .btn-secondary { font-family: 'Lora', Georgia, serif; font-weight: 600; border-radius: 10px; padding: 0.5rem 1.25rem; background: #475569; border-color: #475569; }
-    #modalVisitors .modal-footer .btn-secondary:hover { background: #334155; border-color: #334155; }
-    /* Description / Reports / Publications modals – force with ID + !important */
-    #modalDescription .modal-content,
-    #modalReports .modal-content,
-    #modalPublications .modal-content { font-family: 'Lora', Georgia, serif !important; border-radius: 16px !important; overflow: hidden; border: none !important; box-shadow: 0 24px 48px -12px rgba(0,0,0,0.18) !important; }
+    /* Our Guests modal — aligned with Reports & Add Guest (no footer divider) */
+    #modalVisitors .modal-content {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        border-radius: 18px !important;
+        overflow: hidden !important;
+        border: none !important;
+        box-shadow: 0 24px 48px rgba(0, 0, 0, 0.28), 0 8px 16px rgba(0, 0, 0, 0.08) !important;
+    }
+    #modalVisitors .modal-header {
+        background: #ffffff !important;
+        color: #005e66 !important;
+        border-bottom: 1px solid #e2e8f0 !important;
+        padding: 0.5rem 2.5rem 0.75rem !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        position: relative !important;
+    }
+    #modalVisitors .modal-title,
+    #modalVisitors .modal-header .content-title {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        font-weight: 700 !important;
+        font-size: 1.65rem !important;
+        color: #005e66 !important;
+        width: 100% !important;
+        margin: 0 auto !important;
+        text-align: center !important;
+        letter-spacing: -0.02em !important;
+    }
+    #modalVisitors .modal-header .close {
+        position: absolute !important;
+        right: 0.75rem !important;
+        top: 0.35rem !important;
+        margin: 0 !important;
+        padding: 0.5rem !important;
+        color: #64748b !important;
+        opacity: 0.85 !important;
+        text-shadow: none !important;
+        font-size: 1.75rem !important;
+        background: transparent !important;
+        border: none !important;
+        z-index: 2 !important;
+    }
+    #modalVisitors .modal-header .close:hover {
+        opacity: 1 !important;
+        color: #1e293b !important;
+    }
+    #modalVisitors .modal-body {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        padding: 1.25rem 1.5rem 1.5rem !important;
+        background: #ffffff !important;
+        color: #334155 !important;
+        line-height: 1.6 !important;
+    }
+    #modalVisitors .modal-body .content-title {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        font-weight: 600 !important;
+        font-size: 1rem !important;
+        color: #005e66 !important;
+        letter-spacing: -0.01em !important;
+        margin-bottom: 0.35rem !important;
+    }
+    #modalVisitors .modal-body > p.text-muted {
+        font-size: 0.875rem !important;
+        color: #64748b !important;
+        line-height: 1.5 !important;
+    }
+    #modalVisitors .ankurayan-visitors-intro {
+        font-size: 0.95rem !important;
+        line-height: 1.6 !important;
+        color: #475569 !important;
+    }
+    #modalVisitors .guest-profile-card {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        border-radius: 14px !important;
+        border: 1px solid #e2e8f0 !important;
+        background: #ffffff !important;
+        box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06) !important;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        min-height: 280px;
+        display: flex;
+        flex-direction: column;
+    }
+    #modalVisitors .guest-profile-card:hover {
+        transform: none;
+        border-color: #cbd5e1 !important;
+        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08) !important;
+    }
+    #modalVisitors .guest-profile-card .card-body.guest-card-body {
+        padding: 1.5rem 1.25rem !important;
+        border-radius: 13px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        background: #ffffff !important;
+    }
+    #modalVisitors .guest-profile-card h6 {
+        font-weight: 700 !important;
+        font-size: 0.95rem !important;
+        color: #1e293b !important;
+        letter-spacing: -0.01em !important;
+    }
+    #modalVisitors .guest-profile-card .text-muted {
+        font-size: 0.8rem !important;
+        font-weight: 500 !important;
+        color: #64748b !important;
+    }
+    #modalVisitors .guest-quote-preview {
+        font-size: 0.8rem !important;
+        line-height: 1.45 !important;
+        color: #64748b !important;
+        font-style: italic !important;
+        font-weight: 400 !important;
+    }
+    #modalVisitors .guest-profile-card .btn-outline-teal {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        font-weight: 600 !important;
+        font-size: 0.8rem !important;
+        border-radius: 10px !important;
+        padding: 0.5rem 0.75rem !important;
+        color: #005e66 !important;
+        border: 2px solid #005e66 !important;
+        background: #fff !important;
+    }
+    #modalVisitors .guest-profile-card .btn-outline-teal:hover {
+        background: rgba(0, 94, 102, 0.08) !important;
+        color: #004147 !important;
+        border-color: #004147 !important;
+    }
+    #modalVisitors .modal-footer {
+        background: #ffffff !important;
+        border-top: none !important;
+        padding: 1rem 1.5rem 1.25rem !important;
+    }
+    #modalVisitors .modal-footer .btn-outline-teal {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        border-radius: 10px !important;
+        font-weight: 600 !important;
+        background: #fff !important;
+        color: #005e66 !important;
+        border: 2px solid #005e66 !important;
+    }
+    #modalVisitors .modal-footer .btn-outline-teal:hover {
+        background: rgba(0, 94, 102, 0.08) !important;
+        color: #004147 !important;
+        border-color: #004147 !important;
+    }
+    #modalVisitors .modal-footer .btn-secondary {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        font-weight: 600 !important;
+        border-radius: 10px !important;
+        padding: 0.55rem 1.25rem !important;
+        background: #475569 !important;
+        border-color: #475569 !important;
+        color: #fff !important;
+    }
+    #modalVisitors .modal-footer .btn-secondary:hover {
+        background: #334155 !important;
+        border-color: #334155 !important;
+    }
+    #modalVisitors .modal-body .btn-sm.btn-teal {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        font-weight: 600 !important;
+        border-radius: 10px !important;
+        border: none !important;
+        background: #005e66 !important;
+        color: #fff !important;
+        box-shadow: 0 4px 12px rgba(0, 94, 102, 0.3) !important;
+    }
+    #modalVisitors .modal-body .btn-sm.btn-teal:hover {
+        background: #006a73 !important;
+        color: #fff !important;
+    }
+    #modalVisitors #editVisitors label,
+    #modalVisitors #editVisitors .font-weight-bold {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        color: #1e293b !important;
+    }
+    #modalVisitors #editVisitors .form-control {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+        border-radius: 10px !important;
+        border: 1px solid #e2e8f0 !important;
+    }
+    #modalVisitors #editVisitors .form-control:focus {
+        border-color: #80b3ba !important;
+        box-shadow: 0 0 0 3px rgba(128, 179, 186, 0.22) !important;
+    }
+    #modalVisitors #editVisitors .btn-teal {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        border-radius: 12px !important;
+        font-weight: 600 !important;
+        border: none !important;
+        background: #005e66 !important;
+        color: #fff !important;
+        padding: 0.65rem 1.35rem !important;
+        box-shadow: 0 4px 16px rgba(0, 94, 102, 0.38) !important;
+    }
+    #modalVisitors #editVisitors .btn-teal:hover {
+        background: #006a73 !important;
+        color: #fff !important;
+    }
+    #modalVisitors #editVisitors .btn-secondary {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        font-weight: 600 !important;
+        border-radius: 10px !important;
+    }
+    /* Description modal — Lora / dark header (Reports & Publications: signup-style block at end of <style>) */
+    #modalDescription .modal-content { font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important; border-radius: 16px !important; overflow: hidden; border: none !important; box-shadow: 0 24px 48px -12px rgba(0,0,0,0.18) !important; }
     #modalDescription .modal-header {
         background: #234e52 !important;
         color: #fff !important;
@@ -438,7 +867,7 @@
         padding: 1.25rem 1.5rem !important;
     }
     #modalDescription .modal-title {
-        font-family: 'Lora', Georgia, serif !important;
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
         font-weight: 700 !important;
         font-size: 1.35rem !important;
         letter-spacing: -0.02em;
@@ -453,67 +882,44 @@
         text-shadow: none;
         font-size: 1.5rem;
     }
-    #modalReports .modal-header,
-    #modalPublications .modal-header { background: linear-gradient(135deg, #3d5c60 0%, #80b3ba 100%) !important; color: #fff !important; border-bottom: none !important; padding: 1.25rem 1.5rem !important; }
-    #modalReports .modal-title,
-    #modalPublications .modal-title { font-family: 'Lora', Georgia, serif !important; font-weight: 700 !important; font-size: 1.35rem !important; letter-spacing: -0.02em; color: #fff !important; }
-    #modalReports .modal-header .close,
-    #modalPublications .modal-header .close { color: #fff !important; opacity: 0.95; text-shadow: none; font-size: 1.5rem; }
-    #modalDescription .modal-body,
-    #modalReports .modal-body,
-    #modalPublications .modal-body { font-family: 'Lora', Georgia, serif !important; padding: 1.5rem 1.75rem !important; background: #f8fafc !important; color: #334155 !important; line-height: 1.7 !important; }
-    #modalDescription .modal-body .content-title,
-    #modalReports .modal-body .content-title,
-    #modalPublications .modal-body .content-title { font-family: 'Lora', Georgia, serif !important; font-weight: 700 !important; font-size: 1.05rem !important; color: #3d5c60 !important; letter-spacing: -0.01em; margin-bottom: 0.75rem !important; }
-    #modalDescription .modal-body p,
-    #modalReports .modal-body p,
-    #modalPublications .modal-body p { margin-bottom: 0.75rem; font-size: 0.95rem !important; }
-    #modalDescription .modal-body p.text-muted,
-    #modalReports .modal-body p.text-muted,
-    #modalPublications .modal-body p.text-muted { color: #64748b !important; font-size: 0.95rem !important; font-weight: 500 !important; }
-    #modalDescription .modal-body hr,
-    #modalReports .modal-body hr,
-    #modalPublications .modal-body hr { border-color: #e2e8f0 !important; margin: 1.5rem 0; }
-    #modalDescription .modal-body .form-control,
-    #modalReports .modal-body .form-control,
-    #modalPublications .modal-body .form-control { font-family: 'Lora', Georgia, serif !important; border-radius: 10px !important; border-color: #e2e8f0 !important; padding: 0.6rem 0.85rem !important; }
-    #modalDescription .modal-body .form-control:focus,
-    #modalReports .modal-body .form-control:focus,
-    #modalPublications .modal-body .form-control:focus { border-color: #80b3ba !important; box-shadow: 0 0 0 3px rgba(128, 179, 186, 0.15) !important; }
-    #modalDescription .modal-body .form-group label,
-    #modalReports .modal-body .form-group label,
-    #modalPublications .modal-body .form-group label { font-family: 'Lora', Georgia, serif !important; font-weight: 600 !important; color: #3d5c60 !important; }
-    #modalDescription .modal-body .btn-teal,
-    #modalReports .modal-body .btn-teal,
-    #modalPublications .modal-body .btn-teal,
-    #modalVisitors .modal-body .btn-teal { font-family: 'Lora', Georgia, serif !important; border-radius: 10px !important; font-weight: 600 !important; padding: 0.55rem 1.25rem !important; background: #80b3ba !important; border-color: #80b3ba !important; color: #fff !important; }
-    #modalVisitors .modal-body .btn-teal:hover { background: #3d5c60 !important; border-color: #3d5c60 !important; color: #fff !important; }
-    #modalDescription .modal-body .btn-primary,
-    #modalReports .modal-body .btn-primary,
-    #modalPublications .modal-body .btn-primary { font-family: 'Lora', Georgia, serif !important; border-radius: 10px !important; font-weight: 600 !important; background: #80b3ba !important; border-color: #80b3ba !important; }
-    #modalDescription .modal-body .list-group-item,
-    #modalReports .modal-body .list-group-item,
-    #modalPublications .modal-body .list-group-item { font-family: 'Lora', Georgia, serif !important; font-size: 0.95rem !important; font-weight: 500 !important; color: #1e293b !important; border-radius: 12px !important; border: 1px solid #e2e8f0 !important; margin-bottom: 0.5rem; padding: 0.85rem 1.1rem !important; background: #fff !important; box-shadow: 0 1px 2px rgba(0,0,0,0.04) !important; }
-    #modalDescription .modal-body .list-group,
-    #modalReports .modal-body .list-group,
-    #modalPublications .modal-body .list-group { border: none !important; }
-    #modalDescription .modal-body .btn-outline-teal,
-    #modalReports .modal-body .btn-outline-teal,
-    #modalPublications .modal-body .btn-outline-teal { font-family: 'Lora', Georgia, serif !important; font-weight: 600 !important; font-size: 0.875rem !important; border-radius: 8px !important; }
-    #modalDescription .modal-footer,
-    #modalReports .modal-footer,
-    #modalPublications .modal-footer { background: #fff !important; border-top: 1px solid #e2e8f0 !important; padding: 1rem 1.5rem !important; }
-    #modalDescription .modal-footer .btn-outline-teal,
-    #modalReports .modal-footer .btn-outline-teal,
-    #modalPublications .modal-footer .btn-outline-teal { font-family: 'Lora', Georgia, serif !important; border-radius: 10px !important; font-weight: 600 !important; }
-    #modalDescription .modal-footer .btn-secondary,
-    #modalReports .modal-footer .btn-secondary,
-    #modalPublications .modal-footer .btn-secondary { font-family: 'Lora', Georgia, serif !important; border-radius: 10px !important; font-weight: 600 !important; background: #475569 !important; border-color: #475569 !important; color: #fff !important; }
-    #modalDescription .modal-footer .btn-secondary:hover,
-    #modalReports .modal-footer .btn-secondary:hover,
-    #modalPublications .modal-footer .btn-secondary:hover { background: #334155 !important; border-color: #334155 !important; color: #fff !important; }
-    /* Guest profile popup: Lora throughout */
-    .guest-profile-modal .guest-name, .guest-profile-modal .guest-profession, .guest-profile-modal .guest-detail-label, .guest-profile-modal .guest-detail-value { font-family: 'Lora', Georgia, serif; }
+    #modalDescription .modal-body { font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important; padding: 1.5rem 1.75rem !important; background: #f8fafc !important; color: #334155 !important; line-height: 1.7 !important; }
+    #modalDescription .modal-body .content-title { font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important; font-weight: 700 !important; font-size: 1.05rem !important; color: #3d5c60 !important; letter-spacing: -0.01em; margin-bottom: 0.75rem !important; }
+    #modalDescription .modal-body p { margin-bottom: 0.75rem; font-size: 0.95rem !important; }
+    #modalDescription .modal-body p.text-muted { color: #64748b !important; font-size: 0.95rem !important; font-weight: 500 !important; }
+    #modalDescription .modal-body hr { border-color: #e2e8f0 !important; margin: 1.5rem 0; }
+    #modalDescription .modal-body .form-control { font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important; border-radius: 10px !important; border-color: #e2e8f0 !important; padding: 0.6rem 0.85rem !important; }
+    #modalDescription .modal-body .form-control:focus { border-color: #80b3ba !important; box-shadow: 0 0 0 3px rgba(128, 179, 186, 0.15) !important; }
+    #modalDescription .modal-body .form-group label { font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important; font-weight: 600 !important; color: #3d5c60 !important; }
+    #modalDescription .modal-body .btn-teal { font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important; border-radius: 10px !important; font-weight: 600 !important; padding: 0.55rem 1.25rem !important; background: #80b3ba !important; border-color: #80b3ba !important; color: #fff !important; }
+    #modalDescription .modal-body .btn-primary { font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important; border-radius: 10px !important; font-weight: 600 !important; background: #80b3ba !important; border-color: #80b3ba !important; }
+    #modalDescription .modal-body .list-group-item { font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important; font-size: 0.95rem !important; font-weight: 500 !important; color: #1e293b !important; border-radius: 12px !important; border: 1px solid #e2e8f0 !important; margin-bottom: 0.5rem; padding: 0.85rem 1.1rem !important; background: #fff !important; box-shadow: 0 1px 2px rgba(0,0,0,0.04) !important; }
+    #modalDescription .modal-body .list-group { border: none !important; }
+    #modalDescription .modal-body .btn-outline-teal { font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important; font-weight: 600 !important; font-size: 0.875rem !important; border-radius: 8px !important; }
+    #modalDescription .modal-footer { background: #fff !important; border-top: 1px solid #e2e8f0 !important; padding: 1rem 1.5rem !important; }
+    #modalDescription .modal-footer .btn-outline-teal { font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important; border-radius: 10px !important; font-weight: 600 !important; }
+    #modalDescription .modal-footer .btn-secondary { font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important; border-radius: 10px !important; font-weight: 600 !important; background: #475569 !important; border-color: #475569 !important; color: #fff !important; }
+    #modalDescription .modal-footer .btn-secondary:hover { background: #334155 !important; border-color: #334155 !important; color: #fff !important; }
+    /* Guest profile view + edit: DM Sans (matches home Our Visitors modal) — override page modal Lora */
+    body.ankurayan-detail .guest-profile-modal .guest-name-visitor,
+    body.ankurayan-detail .guest-profile-modal .guest-dl-item dt,
+    body.ankurayan-detail .guest-profile-modal .guest-dl-item dd {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    }
+    body.ankurayan-detail .guest-profile-modal .guest-quote-block,
+    body.ankurayan-detail .guest-profile-modal .guest-quote-open,
+    body.ankurayan-detail .guest-profile-modal .guest-quote-close,
+    body.ankurayan-detail .guest-profile-modal .guest-quote-inner {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    }
+    /* Guest edit form: DM Sans (same as Reports modal) */
+    body.ankurayan-detail .guest-profile-modal .guest-profile-edit,
+    body.ankurayan-detail .guest-profile-modal .guest-profile-edit .guest-edit-form-title,
+    body.ankurayan-detail .guest-profile-modal .guest-profile-edit .form-control,
+    body.ankurayan-detail .guest-profile-modal .guest-profile-edit .guest-detail-label,
+    body.ankurayan-detail .guest-profile-modal .guest-profile-edit .guest-edit-error,
+    body.ankurayan-detail .guest-profile-modal .guest-profile-edit .guest-edit-actions .btn {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    }
     /* Reports/Publications attachment names under heading — dark color, click to download */
     .ankurayan-attachment-link { text-decoration: none; cursor: pointer; transition: color 0.2s, text-decoration 0.2s; }
     .ankurayan-attachment-link:hover { color: #80b3ba !important; text-decoration: underline; }
@@ -560,6 +966,305 @@
         background-color: rgba(0, 94, 102, 0.35);
     }
     .ankurayan-sidebar-gallery .carousel-indicators .active { background-color: #005E66; }
+
+    /* Reports & Publications modals — match login/signup modal (signup-modal-sheet + DM Sans + #005e66) */
+    #modalReports .modal-content,
+    #modalPublications .modal-content {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        border-radius: 18px !important;
+        overflow: hidden !important;
+        border: none !important;
+        box-shadow: 0 24px 48px rgba(0, 0, 0, 0.28), 0 8px 16px rgba(0, 0, 0, 0.08) !important;
+    }
+    #modalReports .modal-header,
+    #modalPublications .modal-header {
+        background: #ffffff !important;
+        color: #005e66 !important;
+        border-bottom: 1px solid #e2e8f0 !important;
+        padding: 0.5rem 2.5rem 0.75rem !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        position: relative !important;
+        text-align: center !important;
+    }
+    #modalReports .modal-title,
+    #modalPublications .modal-title {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        font-weight: 700 !important;
+        font-size: 1.65rem !important;
+        color: #005e66 !important;
+        width: 100% !important;
+        margin: 0 auto !important;
+        text-align: center !important;
+        letter-spacing: -0.02em !important;
+    }
+    #modalReports .modal-header .close,
+    #modalPublications .modal-header .close {
+        position: absolute !important;
+        right: 0.75rem !important;
+        top: 0.35rem !important;
+        margin: 0 !important;
+        padding: 0.5rem !important;
+        color: #64748b !important;
+        opacity: 0.85 !important;
+        text-shadow: none !important;
+        font-size: 1.75rem !important;
+        background: transparent !important;
+        border: none !important;
+        z-index: 2 !important;
+    }
+    #modalReports .modal-header .close:hover,
+    #modalPublications .modal-header .close:hover {
+        opacity: 1 !important;
+        color: #1e293b !important;
+    }
+    #modalReports .modal-body,
+    #modalPublications .modal-body {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        background: #ffffff !important;
+        color: #334155 !important;
+        line-height: 1.6 !important;
+        padding: 1.25rem 1.5rem 1.5rem !important;
+    }
+    #modalReports .modal-body .small.font-weight-bold,
+    #modalPublications .modal-body .small.font-weight-bold {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        color: #64748b !important;
+        font-weight: 600 !important;
+        font-size: 0.9rem !important;
+    }
+    #modalReports .modal-body .content-title,
+    #modalPublications .modal-body .content-title {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        font-weight: 600 !important;
+        font-size: 1rem !important;
+        color: #005e66 !important;
+        letter-spacing: -0.01em !important;
+    }
+    #modalReports .modal-body p,
+    #modalPublications .modal-body p {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    }
+    #modalReports .modal-body hr,
+    #modalPublications .modal-body hr {
+        display: none !important;
+    }
+    #modalReports .modal-body .form-control,
+    #modalPublications .modal-body .form-control {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        border-radius: 10px !important;
+        border: 1px solid #e2e8f0 !important;
+        padding: 0.65rem 1rem !important;
+        font-size: 1rem !important;
+    }
+    #modalReports .modal-body .form-control:focus,
+    #modalPublications .modal-body .form-control:focus {
+        border-color: #80b3ba !important;
+        box-shadow: 0 0 0 3px rgba(128, 179, 186, 0.22) !important;
+        outline: none !important;
+    }
+    #modalReports .modal-body .form-group label,
+    #modalPublications .modal-body .form-group label {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        font-weight: 600 !important;
+        color: #005e66 !important;
+        font-size: 0.95rem !important;
+    }
+    #modalReports .modal-body .form-control-file,
+    #modalPublications .modal-body .form-control-file {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        font-size: 0.95rem !important;
+    }
+    #modalReports .modal-body .btn-teal,
+    #modalReports .modal-body .btn-primary,
+    #modalPublications .modal-body .btn-teal,
+    #modalPublications .modal-body .btn-primary {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        border: none !important;
+        border-radius: 12px !important;
+        background: #005e66 !important;
+        color: #fff !important;
+        font-weight: 600 !important;
+        font-size: 1.05rem !important;
+        padding: 0.65rem 1.35rem !important;
+        box-shadow: 0 4px 16px rgba(0, 94, 102, 0.38) !important;
+        transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease !important;
+    }
+    #modalReports .modal-body .btn-teal:hover,
+    #modalReports .modal-body .btn-primary:hover,
+    #modalPublications .modal-body .btn-teal:hover,
+    #modalPublications .modal-body .btn-primary:hover {
+        background: #006a73 !important;
+        border-color: #006a73 !important;
+        color: #fff !important;
+        transform: translateY(-1px);
+        box-shadow: 0 8px 22px rgba(0, 94, 102, 0.28) !important;
+    }
+    #modalReports .modal-body .btn-secondary,
+    #modalPublications .modal-body .btn-secondary {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        border-radius: 10px !important;
+        font-weight: 600 !important;
+        background: #64748b !important;
+        border-color: #64748b !important;
+        color: #fff !important;
+    }
+    #modalReports .modal-body .btn-secondary:hover,
+    #modalPublications .modal-body .btn-secondary:hover {
+        background: #475569 !important;
+        border-color: #475569 !important;
+        color: #fff !important;
+    }
+    #modalReports .modal-body .list-group-item,
+    #modalPublications .modal-body .list-group-item {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        font-size: 0.95rem !important;
+        border-radius: 10px !important;
+        border: 1px solid #e2e8f0 !important;
+        background: #fff !important;
+    }
+    #modalReports .modal-body .btn-outline-danger,
+    #modalPublications .modal-body .btn-outline-danger {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        border-radius: 10px !important;
+        font-weight: 600 !important;
+    }
+    #modalReports .modal-footer,
+    #modalPublications .modal-footer {
+        background: #fff !important;
+        border-top: none !important;
+        padding: 1rem 1.5rem !important;
+    }
+    #modalReports .modal-footer .btn-outline-teal,
+    #modalPublications .modal-footer .btn-outline-teal {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        border-radius: 10px !important;
+        font-weight: 600 !important;
+        background: #fff !important;
+        color: #005e66 !important;
+        border: 2px solid #005e66 !important;
+    }
+    #modalReports .modal-footer .btn-outline-teal:hover,
+    #modalPublications .modal-footer .btn-outline-teal:hover {
+        background: rgba(0, 94, 102, 0.08) !important;
+        color: #004147 !important;
+        border-color: #004147 !important;
+    }
+    #modalReports .modal-footer .btn-secondary,
+    #modalPublications .modal-footer .btn-secondary {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        border-radius: 10px !important;
+        font-weight: 600 !important;
+        background: #475569 !important;
+        border-color: #475569 !important;
+        color: #fff !important;
+    }
+    #modalReports .modal-footer .btn-secondary:hover,
+    #modalPublications .modal-footer .btn-secondary:hover {
+        background: #334155 !important;
+        border-color: #334155 !important;
+        color: #fff !important;
+    }
+    /* Add Guest modal — same visual system as Reports / Publications */
+    #addGuest .modal-content {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        border-radius: 18px !important;
+        overflow: hidden !important;
+        border: none !important;
+        box-shadow: 0 24px 48px rgba(0, 0, 0, 0.28), 0 8px 16px rgba(0, 0, 0, 0.08) !important;
+    }
+    #addGuest .modal-header {
+        background: #ffffff !important;
+        color: #005e66 !important;
+        border-bottom: 1px solid #e2e8f0 !important;
+        padding: 0.5rem 2.5rem 0.75rem !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        position: relative !important;
+    }
+    #addGuest .modal-title {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        font-weight: 700 !important;
+        font-size: 1.65rem !important;
+        color: #005e66 !important;
+        width: 100% !important;
+        margin: 0 auto !important;
+        text-align: center !important;
+        letter-spacing: -0.02em !important;
+    }
+    #addGuest .modal-header .close {
+        position: absolute !important;
+        right: 0.75rem !important;
+        top: 0.35rem !important;
+        margin: 0 !important;
+        padding: 0.5rem !important;
+        color: #64748b !important;
+        opacity: 0.85 !important;
+        text-shadow: none !important;
+        font-size: 1.75rem !important;
+        background: transparent !important;
+        border: none !important;
+        z-index: 2 !important;
+    }
+    #addGuest .modal-header .close:hover {
+        opacity: 1 !important;
+        color: #1e293b !important;
+    }
+    #addGuest .modal-body {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        background: #ffffff !important;
+        color: #334155 !important;
+        padding: 1.25rem 1.5rem 1.5rem !important;
+        line-height: 1.6 !important;
+    }
+    #addGuest .modal-body label.left-label,
+    #addGuest .modal-body .left-label {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        font-weight: 600 !important;
+        color: #005e66 !important;
+        font-size: 0.95rem !important;
+        margin-bottom: 0.35rem !important;
+        display: block !important;
+    }
+    #addGuest .modal-body .form-control {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        border-radius: 10px !important;
+        border: 1px solid #e2e8f0 !important;
+        padding: 0.65rem 1rem !important;
+        font-size: 1rem !important;
+    }
+    #addGuest .modal-body .form-control:focus {
+        border-color: #80b3ba !important;
+        box-shadow: 0 0 0 3px rgba(128, 179, 186, 0.22) !important;
+        outline: none !important;
+    }
+    #addGuest .modal-body br {
+        display: none;
+    }
+    #addGuest .modal-body .row {
+        margin-bottom: 0.75rem;
+    }
+    #addGuest .modal-body .btn.btn-primary {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        border: none !important;
+        border-radius: 12px !important;
+        background: #005e66 !important;
+        color: #fff !important;
+        font-weight: 600 !important;
+        font-size: 1.05rem !important;
+        padding: 0.65rem 1.35rem !important;
+        margin-top: 0.75rem !important;
+        box-shadow: 0 4px 16px rgba(0, 94, 102, 0.38) !important;
+        transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease !important;
+    }
+    #addGuest .modal-body .btn.btn-primary:hover {
+        background: #006a73 !important;
+        color: #fff !important;
+        transform: translateY(-1px);
+        box-shadow: 0 8px 22px rgba(0, 94, 102, 0.28) !important;
+    }
 </style>
 
 <!-- Semantic UI , Used only for Multiple Select in select Acharya Form -->
@@ -759,7 +1464,14 @@
                     </div>
 
                     <div class="ankurayan-detail-guests-inner pt-3 mt-1">
-                        <h2 class="content-title mb-3 our-guests-heading">Our Guests</h2>
+                        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+                            <h2 class="content-title mb-0 our-guests-heading">Our Guests</h2>
+                            <div class="d-flex flex-wrap align-items-center">
+                                {% if check_admin %}
+                                <button type="button" class="btn btn-sm btn-outline-secondary mb-1" data-toggle="modal" data-target="#addGuest">Add Guest</button>
+                                {% endif %}
+                            </div>
+                        </div>
                         {% if guests %}
                         <div class="guest-cards-scroll">
                             {% for guest in guests %}
@@ -770,7 +1482,8 @@
                                             "{% if guest.quote %}{{ guest.quote|truncatewords:28 }}{% else %}Visiting Bandhu was a deeply moving experience. The warmth and dedication of everyone here reminded me what community truly means.{% endif %}"
                                         </p>
                                         <div class="guest-card-footer">
-                                            <img src="{% if forloop.counter0|divisibleby:2 %}{% static 'img/man.png' %}{% else %}{% static 'img/woman.png' %}{% endif %}" alt="{{ guest.name }}" class="rounded-circle guest-card-avatar">
+                                            {% guest_avatar_url guest as guest_avatar_src %}
+                                            <img src="{{ guest_avatar_src }}" alt="{{ guest.name }}" class="rounded-circle guest-card-avatar">
                                             <div class="min-w-0">
                                                 <h6 class="font-weight-bold guest-card-name mb-0">{{ guest.name }}</h6>
                                                 <p class="small guest-card-profession mb-0">{{ guest.profession }}</p>
@@ -782,7 +1495,7 @@
                             {% endfor %}
                         </div>
                         {% else %}
-                        <p class="text-muted mb-0">No guests added yet.{% if check_admin %} Use <strong>Add Guest</strong> in the sidebar to add guests.{% endif %}</p>
+                        <p class="text-muted mb-0">No guests added yet.{% if check_admin %} Use <strong>Add Guest</strong> above.{% endif %}</p>
                         {% endif %}
                     </div>
                 </div>
@@ -1088,33 +1801,6 @@
     </div>
 </section> -->
 <!-- Recent Activities Section Ends -->
-<!-- Volunteer Section -->
-<section id="volunteer">
-    <div class="parallax-style text-white text-center">
-        <div class="parallax-overlay dark-overlay section-padding" style="padding: 80px 0 70px;">
-            <div class="container">
-                <div class="section-head" style="margin-bottom:60px;">
-                    <h3 class="section-title parallax-title">
-                        Become a Volunteer
-                    </h3>
-                </div>
-
-                <div class="row justify-content-center">
-                    <p class="parallax-description w-100 px-3"
-                        style="font-size:1.7em; line-height:35px; margin-bottom: 30px;">
-                        Do you like to work for a social cause? Yes. Here, you are
-                        welcome to our team and you can work as a volunteer.
-                    </p>
-                    <button type="button" class="btn btn-outline-light py-2 px-4 custom-btn angle-effect text-white" data-toggle="modal" data-target="#signupModal">
-                        Join Now
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Volunteer Section End-->
-
 {% if photos|length %}
 <!-- Gallery upload / approve modals (carousel lives in #about, left column under schedule) -->
 <div class="modal fade bd-example-modal-lg ankurayan-modal" tabindex="-1" id="addToGallery" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -1232,32 +1918,9 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                {% if report_files %}
-                <div class="mb-3 pb-2 border-bottom border-light">
-                    <p class="small font-weight-bold mb-2" style="color: #1e293b;">Attachments</p>
-                    <ul class="ankurayan-file-list">
-                        {% for rf in report_files %}
-                        <li><a href="{{ rf.file.url }}" download class="ankurayan-file-link" title="Download"><span class="ankurayan-file-link-name">{{ rf.title|default:rf.file.name }}</span><i class="fas fa-download ankurayan-file-link-icon" aria-hidden="true"></i></a></li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                {% endif %}
-                <div id="viewReports">{% if ankurayan.reports %}{{ ankurayan.reports|safe }}{% endif %}</div>
                 {% if check_admin %}
-                <div id="editReports" style="display:none;">
-                    <form method="post" action="{% url 'ankurayan:UpdateAnkurayanSection' ankurayan.slug %}">
-                        {% csrf_token %}
-                        <input type="hidden" name="field" value="reports">
-                        <textarea name="content" class="form-control" rows="8">{{ ankurayan.reports|default:'' }}</textarea>
-                        <div class="mt-2">
-                            <button type="submit" class="btn btn-primary">Save</button>
-                            <button type="button" class="btn btn-secondary" onclick="toggleEdit('Reports')">Cancel</button>
-                        </div>
-                    </form>
-                </div>
-                <hr class="my-4">
                 <h6 class="content-title">Upload file</h6>
-                <form method="post" action="{% url 'ankurayan:UploadAnkurayanReport' ankurayan.slug %}" enctype="multipart/form-data" class="mb-3">
+                <form method="post" action="{% url 'ankurayan:UploadAnkurayanReport' ankurayan.slug %}" enctype="multipart/form-data" class="mb-4">
                     {% csrf_token %}
                     <div class="form-group">
                         <input type="file" name="report_file" class="form-control-file" accept="*/*" required>
@@ -1269,22 +1932,47 @@
                     <button type="submit" class="btn btn-teal">Upload</button>
                 </form>
                 {% endif %}
-                <!-- List of uploaded report files (all users see; delete only for admin below) -->
-                {% if report_files %}
-                <h6 class="content-title mt-3">Uploaded files</h6>
-                <ul class="list-group">
-                    {% for rf in report_files %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                        <a href="{{ rf.file.url }}" download class="ankurayan-file-link mb-1 mb-sm-0" title="Download"><span class="ankurayan-file-link-name">{{ rf.title|default:rf.file.name }}</span><i class="fas fa-download ankurayan-file-link-icon" aria-hidden="true"></i></a>
-                        {% if check_admin %}
-                        <form method="post" action="{% url 'ankurayan:DeleteAnkurayanReportFile' rf.pk %}" class="d-inline" onsubmit="return confirm('Remove this file?');">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                        </form>
-                        {% endif %}
-                    </li>
-                    {% endfor %}
-                </ul>
+                <div id="viewReports">
+                    {% if report_files %}
+                    <p class="small font-weight-bold mb-2" style="color: #1e293b;">Reports</p>
+                    <ul class="ankurayan-file-list mb-0">
+                        {% for rf in report_files %}
+                        <li><a href="{{ rf.file.url }}" download class="ankurayan-file-link" title="Download"><span class="ankurayan-file-link-name">{{ rf.title|default:rf.file.name }}</span><i class="fas fa-download ankurayan-file-link-icon" aria-hidden="true"></i></a></li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-muted mb-0">No reports uploaded yet.{% if check_admin %} Upload a file above.{% endif %}</p>
+                    {% endif %}
+                </div>
+                {% if check_admin %}
+                <div id="editReports" style="display:none;">
+                    <p class="small text-muted mb-3">Change the display title or remove a report file.</p>
+                    {% if report_files %}
+                    <ul class="list-group report-files-edit-list mb-0">
+                        {% for rf in report_files %}
+                        <li class="list-group-item report-file-edit-item">
+                            <form method="post" action="{% url 'ankurayan:UpdateAnkurayanReportFile' rf.pk %}" class="report-file-title-form mb-2">
+                                {% csrf_token %}
+                                <label class="small font-weight-bold mb-1" for="report-title-{{ rf.pk }}">Title</label>
+                                <div class="d-flex flex-wrap align-items-stretch">
+                                    <input type="text" id="report-title-{{ rf.pk }}" name="title" class="form-control flex-grow-1 mr-2 mb-2 mb-sm-0" value="{{ rf.title }}" placeholder="{{ rf.file.name }}" maxlength="200">
+                                    <button type="submit" class="btn btn-primary mb-2 mb-sm-0">Save title</button>
+                                </div>
+                            </form>
+                            <div class="d-flex flex-wrap align-items-center justify-content-between">
+                                <a href="{{ rf.file.url }}" download class="ankurayan-file-link" title="Download"><span class="ankurayan-file-link-name">{{ rf.title|default:rf.file.name }}</span><i class="fas fa-download ankurayan-file-link-icon" aria-hidden="true"></i></a>
+                                <form method="post" action="{% url 'ankurayan:DeleteAnkurayanReportFile' rf.pk %}" class="d-inline mb-0" onsubmit="return confirm('Remove this report file?');">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                </form>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-muted mb-0">No files to edit yet. Upload a report above.</p>
+                    {% endif %}
+                </div>
                 {% endif %}
             </div>
             <div class="modal-footer">
@@ -1302,19 +1990,9 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                {% if publication_files %}
-                <div class="mb-3 pb-2 border-bottom border-light">
-                    <p class="small font-weight-bold mb-2" style="color: #1e293b;">Attachments</p>
-                    <ul class="ankurayan-file-list">
-                        {% for pf in publication_files %}
-                        <li><a href="{{ pf.file.url }}" download class="ankurayan-file-link" title="Download"><span class="ankurayan-file-link-name">{{ pf.title|default:pf.file.name }}</span><i class="fas fa-download ankurayan-file-link-icon" aria-hidden="true"></i></a></li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                {% endif %}
                 {% if check_admin %}
-                <h6 class="content-title mt-2">Upload file</h6>
-                <form method="post" action="{% url 'ankurayan:UploadAnkurayanPublication' ankurayan.slug %}" enctype="multipart/form-data" class="mb-3">
+                <h6 class="content-title">Upload file</h6>
+                <form method="post" action="{% url 'ankurayan:UploadAnkurayanPublication' ankurayan.slug %}" enctype="multipart/form-data" class="mb-4">
                     {% csrf_token %}
                     <div class="form-group">
                         <input type="file" name="publication_file" class="form-control-file" accept="*/*" required>
@@ -1326,24 +2004,65 @@
                     <button type="submit" class="btn btn-teal">Upload</button>
                 </form>
                 {% endif %}
-                {% if publication_files %}
-                <h6 class="content-title mt-3">Uploaded files</h6>
-                <ul class="list-group">
-                    {% for pf in publication_files %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                        <a href="{{ pf.file.url }}" download class="ankurayan-file-link mb-1 mb-sm-0" title="Download"><span class="ankurayan-file-link-name">{{ pf.title|default:pf.file.name }}</span><i class="fas fa-download ankurayan-file-link-icon" aria-hidden="true"></i></a>
-                        {% if check_admin %}
-                        <form method="post" action="{% url 'ankurayan:DeleteAnkurayanPublicationFile' pf.pk %}" class="d-inline" onsubmit="return confirm('Remove this file?');">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                        </form>
-                        {% endif %}
-                    </li>
-                    {% endfor %}
-                </ul>
+                <div id="viewPublications">
+                    {% if publication_files %}
+                    <p class="small font-weight-bold mb-2" style="color: #1e293b;">Publications</p>
+                    <ul class="ankurayan-file-list mb-0">
+                        {% for pf in publication_files %}
+                        <li><a href="{{ pf.file.url }}" download class="ankurayan-file-link" title="Download"><span class="ankurayan-file-link-name">{{ pf.title|default:pf.file.name }}</span><i class="fas fa-download ankurayan-file-link-icon" aria-hidden="true"></i></a></li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-muted mb-0">No publications uploaded yet.{% if check_admin %} Upload a file above.{% endif %}</p>
+                    {% endif %}
+                    {% if ankurayan.publications %}
+                    <div class="mt-3 ankurayan-publications-intro">{{ ankurayan.publications|safe }}</div>
+                    {% endif %}
+                </div>
+                {% if check_admin %}
+                <div id="editPublications" style="display:none;">
+                    <p class="small text-muted mb-3">Change the display title or remove a publication file.</p>
+                    {% if publication_files %}
+                    <ul class="list-group publication-files-edit-list mb-0">
+                        {% for pf in publication_files %}
+                        <li class="list-group-item publication-file-edit-item">
+                            <form method="post" action="{% url 'ankurayan:UpdateAnkurayanPublicationFile' pf.pk %}" class="publication-file-title-form mb-2">
+                                {% csrf_token %}
+                                <label class="small font-weight-bold mb-1" for="publication-title-{{ pf.pk }}">Title</label>
+                                <div class="d-flex flex-wrap align-items-stretch">
+                                    <input type="text" id="publication-title-{{ pf.pk }}" name="title" class="form-control flex-grow-1 mr-2 mb-2 mb-sm-0" value="{{ pf.title }}" placeholder="{{ pf.file.name }}" maxlength="200">
+                                    <button type="submit" class="btn btn-primary mb-2 mb-sm-0">Save title</button>
+                                </div>
+                            </form>
+                            <div class="d-flex flex-wrap align-items-center justify-content-between">
+                                <a href="{{ pf.file.url }}" download class="ankurayan-file-link" title="Download"><span class="ankurayan-file-link-name">{{ pf.title|default:pf.file.name }}</span><i class="fas fa-download ankurayan-file-link-icon" aria-hidden="true"></i></a>
+                                <form method="post" action="{% url 'ankurayan:DeleteAnkurayanPublicationFile' pf.pk %}" class="d-inline mb-0" onsubmit="return confirm('Remove this publication file?');">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                </form>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-muted mb-0">No files to edit yet. Upload a publication above.</p>
+                    {% endif %}
+                    <hr class="my-3">
+                    <p class="small text-muted mb-2">Edit introductory publications text (optional).</p>
+                    <form method="post" action="{% url 'ankurayan:UpdateAnkurayanSection' ankurayan.slug %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="field" value="publications">
+                        <textarea name="content" class="form-control" rows="6">{{ ankurayan.publications|default:'' }}</textarea>
+                        <div class="mt-2">
+                            <button type="submit" class="btn btn-primary">Save text</button>
+                            <button type="button" class="btn btn-secondary" onclick="toggleEdit('Publications')">Cancel</button>
+                        </div>
+                    </form>
+                </div>
                 {% endif %}
             </div>
             <div class="modal-footer">
+                {% if check_admin %}<button type="button" class="btn btn-outline-teal mr-auto" id="btnEditPublications" onclick="toggleEdit('Publications')">Edit</button>{% endif %}
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -1351,13 +2070,22 @@
 </div>
 <div class="modal fade" id="modalVisitors" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content shadow">
+        <div class="modal-content shadow border-0">
             <div class="modal-header">
                 <h5 class="modal-title content-title">Our Guests</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <div id="viewVisitors" class="d-none">{% if ankurayan.visitors %}{{ ankurayan.visitors|safe }}{% endif %}</div>
+                {% if check_admin %}
+                <div class="mb-3">
+                    <button type="button" class="btn btn-sm btn-teal" id="btnAddGuestFromVisitors" onclick="if(typeof jQuery!==='undefined'){jQuery('#modalVisitors').modal('hide');setTimeout(function(){jQuery('#addGuest').modal('show');},400);}">Add Guest</button>
+                </div>
+                {% endif %}
+                <div id="viewVisitors">
+                    {% if ankurayan.visitors %}
+                    <div class="ankurayan-visitors-intro mb-4">{{ ankurayan.visitors|safe }}</div>
+                    {% endif %}
+                </div>
                 {% if check_admin %}
                 <div id="editVisitors" style="display:none;">
                     <form method="post" action="{% url 'ankurayan:UpdateAnkurayanSection' ankurayan.slug %}">
@@ -1394,7 +2122,8 @@
                     <div class="col-6 col-lg-3 mb-4 guest-card-col d-flex">
                         <div class="card guest-profile-card h-100 w-100 border shadow-sm">
                             <div class="card-body text-center d-flex flex-column align-items-center guest-card-body">
-                                <img src="{% if forloop.counter0|divisibleby:2 %}{% static 'img/man.png' %}{% else %}{% static 'img/woman.png' %}{% endif %}" alt="{{ guest.name }}" class="rounded-circle shadow guest-card-avatar">
+                                {% guest_avatar_url guest as guest_avatar_src %}
+                                <img src="{{ guest_avatar_src }}" alt="{{ guest.name }}" class="rounded-circle shadow guest-card-avatar">
                                 <h6 class="font-weight-bold text-dark guest-card-name">{{ guest.name }}</h6>
                                 <p class="text-muted small text-center guest-card-profession">{{ guest.profession }}</p>
                                 {% if guest.quote %}<p class="guest-quote-preview text-left w-100">"{{ guest.quote|truncatewords:15 }}"</p>{% endif %}
@@ -1405,7 +2134,7 @@
                     {% endfor %}
                 </div>
                 {% else %}
-                <p class="text-muted small mt-3">No guests added yet.{% if check_admin %} Use <strong>Add Guest</strong> in the sidebar to add guests; they will appear here and open in a profile popup when clicked.{% endif %}</p>
+                <p class="text-muted small mt-3">No guests added yet.{% if check_admin %} Use <strong>Add Guest</strong> in the Our Guests section; guests appear here and open in a profile popup when clicked.{% endif %}</p>
                 {% endif %}
             </div>
             <div class="modal-footer">
@@ -1426,10 +2155,15 @@
                     <div class="guest-quote-block guest-quote-display">
                         <span class="guest-quote-open" aria-hidden="true">"</span><span class="guest-quote-inner">{{ guest.quote }}</span><span class="guest-quote-close" aria-hidden="true">"</span>
                     </div>
+                    {% else %}
+                    <div class="guest-quote-block guest-quote-display" style="display: none;">
+                        <span class="guest-quote-open" aria-hidden="true">"</span><span class="guest-quote-inner"></span><span class="guest-quote-close" aria-hidden="true">"</span>
+                    </div>
                     {% endif %}
                     <div class="row no-gutters flex-column flex-md-row">
                         <div class="col-12 col-md-5 guest-avatar-col guest-avatar-col-visitor">
-                            <img src="{% if forloop.counter0|divisibleby:2 %}{% static 'img/man.png' %}{% else %}{% static 'img/woman.png' %}{% endif %}" alt="{{ guest.name }}" class="guest-avatar-img">
+                            {% guest_avatar_url guest as guest_avatar_src %}
+                            <img src="{{ guest_avatar_src }}" alt="{{ guest.name }}" class="guest-avatar-img guest-avatar-display">
                         </div>
                         <div class="col-12 col-md-7 guest-details-col guest-details-col-visitor">
                             <h3 id="guest-modal-title-{{ guest.id }}" class="guest-name guest-name-visitor guest-name-display">{{ guest.name }}</h3>
@@ -1444,7 +2178,7 @@
                                 </div>
                                 <div class="guest-dl-item">
                                     <dt>Profile</dt>
-                                    <dd class="d-flex flex-wrap align-items-center guest-socials-display">
+                                    <dd class="d-flex flex-wrap align-items-center guest-socials-display" style="gap: 0.5rem;">
                                     {% if guest.facebook_url %}
                                     <a href="{{ guest.facebook_url }}" target="_blank" rel="noopener noreferrer" class="guest-social-link guest-social-link-visitor mr-2 mb-1" title="Facebook"><svg class="guest-social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" style="display:block;flex-shrink:0" aria-hidden="true"><path fill="#ffffff" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
                                     {% else %}
@@ -1459,7 +2193,7 @@
                                 </div>
                             </dl>
                             {% if check_admin %}
-                            <div class="mt-4 pt-3 border-top border-light">
+                            <div class="mt-4 pt-1">
                                 <button type="button" class="guest-edit-btn btn btn-teal" onclick="toggleGuestEdit({{ guest.id }})" id="guestEditBtn{{ guest.id }}" aria-label="Edit guest">Edit profile</button>
                             </div>
                             {% endif %}
@@ -1467,10 +2201,13 @@
                     </div>
                 </div>
                 {% if check_admin %}
-                <div id="guestEditForm{{ guest.id }}" class="guest-profile-edit p-4 p-md-5" style="display:none;">
-                    <form class="guest-edit-form" data-guest-id="{{ guest.id }}" onsubmit="return saveGuestEdit(event, {{ guest.id }})">
-                        {% csrf_token %}
+                <div id="guestEditForm{{ guest.id }}" class="guest-profile-edit" style="display:none;">
+                    <div class="guest-edit-form-header">
                         <h4 class="guest-edit-form-title">Edit profile</h4>
+                    </div>
+                    <div class="guest-edit-form-inner">
+                    <form class="guest-edit-form" data-guest-id="{{ guest.id }}" data-delete-url="{% url 'ankurayan:DeleteGuest' guest.id %}" enctype="multipart/form-data" onsubmit="return saveGuestEdit(event, {{ guest.id }})">
+                        {% csrf_token %}
                         <div class="guest-edit-error alert alert-danger small py-2 mb-3" role="alert" style="display:none;"></div>
                         <div class="form-group">
                             <label class="guest-detail-label">Name <span class="text-danger">*</span></label>
@@ -1496,11 +2233,25 @@
                             <label class="guest-detail-label">LinkedIn URL</label>
                             <input type="url" class="form-control" name="linkedin_url" value="{{ guest.linkedin_url|default:'' }}" placeholder="https://">
                         </div>
-                        <div class="guest-edit-actions mt-4 pt-3 border-top border-light">
-                            <button type="submit" class="btn btn-teal mr-2">Save</button>
+                        <div class="form-group">
+                            <label class="guest-detail-label">Profile photo</label>
+                            {% if guest.photo %}<p class="small text-muted mb-1">Upload a new image to replace the current photo.</p>{% endif %}
+                            <input type="file" class="form-control-file" name="photo" accept="image/*">
+                        </div>
+                        <div class="form-group">
+                            <label class="guest-detail-label">Default illustration (if no photo)</label>
+                            <select class="form-control" name="avatar">
+                                <option value="man"{% if guest.avatar != 'woman' %} selected{% endif %}>Man</option>
+                                <option value="woman"{% if guest.avatar == 'woman' %} selected{% endif %}>Woman</option>
+                            </select>
+                        </div>
+                        <div class="guest-edit-actions mt-4">
+                            <button type="button" class="btn btn-outline-danger" onclick="deleteGuest({{ guest.id }})">Delete guest</button>
+                            <button type="submit" class="btn btn-teal">Save</button>
                             <button type="button" class="btn btn-secondary" onclick="toggleGuestEdit({{ guest.id }})">Cancel</button>
                         </div>
                     </form>
+                    </div>
                 </div>
                 {% endif %}
             </div>
@@ -1539,19 +2290,34 @@ function toggleEditInline(section) {
         btn.textContent = 'Edit';
     }
 }
+function resetGuestProfileModalView(guestId) {
+    var view = document.getElementById('guestView' + guestId);
+    var form = document.getElementById('guestEditForm' + guestId);
+    var btn = document.getElementById('guestEditBtn' + guestId);
+    if (view) {
+        view.style.removeProperty('display');
+    }
+    if (form) {
+        form.style.display = 'none';
+    }
+    if (btn) {
+        btn.textContent = 'Edit profile';
+    }
+}
 function toggleGuestEdit(guestId) {
     var view = document.getElementById('guestView' + guestId);
     var form = document.getElementById('guestEditForm' + guestId);
     var btn = document.getElementById('guestEditBtn' + guestId);
-    if (!view || !form || !btn) return;
-    if (form.style.display === 'none') {
+    if (!view || !form) return;
+    var formHidden = form.style.display === 'none';
+    if (formHidden) {
         view.style.display = 'none';
         form.style.display = 'block';
-        btn.textContent = 'Cancel';
+        if (btn) btn.textContent = 'Cancel';
     } else {
-        view.style.display = 'block';
+        view.style.removeProperty('display');
         form.style.display = 'none';
-        btn.textContent = 'Edit';
+        if (btn) btn.textContent = 'Edit profile';
     }
 }
 function saveGuestEdit(event, guestId) {
@@ -1577,17 +2343,40 @@ function saveGuestEdit(event, guestId) {
                 var nameEl = view.querySelector('.guest-name-display');
                 var aboutEl = view.querySelector('.guest-about-display');
                 var professionEl = view.querySelector('.guest-profession-display');
-                var quoteBlock = view.querySelector('.guest-quote-display');
+                var quoteWrap = view.querySelector('.guest-quote-block.guest-quote-display');
+                var quoteInner = view.querySelector('.guest-quote-inner');
                 if (nameEl) nameEl.textContent = g.name;
                 if (aboutEl) aboutEl.textContent = g.about || '—';
                 if (professionEl) professionEl.textContent = g.profession || '—';
-                if (quoteBlock) { quoteBlock.textContent = g.quote || ''; quoteBlock.style.display = g.quote ? 'block' : 'none'; }
+                if (g.quote && quoteInner && quoteWrap) {
+                    quoteInner.textContent = g.quote;
+                    quoteWrap.style.display = 'block';
+                } else if (quoteWrap) {
+                    if (quoteInner) quoteInner.textContent = '';
+                    quoteWrap.style.display = 'none';
+                } else if (g.quote) {
+                    window.location.reload();
+                    return;
+                }
                 var socials = view.querySelector('.guest-socials-display');
                 if (socials) {
                     var fb = socials.querySelector('a[title="Facebook"]') || socials.querySelector('span[title="Facebook"]');
                     var li = socials.querySelector('a[title="LinkedIn"]') || socials.querySelector('span[title="LinkedIn"]');
                     if (fb && fb.tagName === 'A') fb.href = g.facebook_url || '#';
                     if (li && li.tagName === 'A') li.href = g.linkedin_url || '#';
+                }
+                var photoInput = form.querySelector('input[name="photo"]');
+                if (photoInput && photoInput.files && photoInput.files.length) {
+                    window.location.reload();
+                    return;
+                }
+                var avatarImg = view.querySelector('.guest-avatar-display');
+                if (avatarImg) {
+                    if (g.photo_url) {
+                        avatarImg.src = g.photo_url;
+                    } else {
+                        avatarImg.src = (g.avatar === 'woman') ? '/static/img/woman.png' : '/static/img/man.png';
+                    }
                 }
                 toggleGuestEdit(guestId);
             } else if (data.error && errEl) {
@@ -1601,6 +2390,46 @@ function saveGuestEdit(event, guestId) {
     xhr.send(formData);
     return false;
 }
+function deleteGuest(guestId) {
+    if (!confirm('Delete this guest permanently? This cannot be undone.')) return;
+    var form = document.querySelector('.guest-edit-form[data-guest-id="' + guestId + '"]');
+    if (!form) return;
+    var deleteUrl = form.getAttribute('data-delete-url');
+    if (!deleteUrl) return;
+    var csrfInput = form.querySelector('input[name="csrfmiddlewaretoken"]');
+    var token = csrfInput ? csrfInput.value : '';
+    var errEl = form.querySelector('.guest-edit-error');
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', deleteUrl);
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    xhr.setRequestHeader('X-CSRFToken', token);
+    var fd = new FormData();
+    if (csrfInput) fd.append('csrfmiddlewaretoken', token);
+    xhr.onload = function() {
+        if (errEl) { errEl.textContent = ''; errEl.style.display = 'none'; }
+        try {
+            var data = JSON.parse(xhr.responseText);
+            if (xhr.status >= 200 && xhr.status < 300 && data.success) {
+                var modal = document.getElementById('guestProfileModal' + guestId);
+                if (modal && typeof $ !== 'undefined') $(modal).modal('hide');
+                window.location.reload();
+            } else if (errEl) {
+                errEl.textContent = (data && data.error) ? data.error : 'Could not delete guest.';
+                errEl.style.display = 'block';
+            } else {
+                alert((data && data.error) ? data.error : 'Could not delete guest.');
+            }
+        } catch (e) {
+            if (errEl) {
+                errEl.textContent = 'Could not delete guest.';
+                errEl.style.display = 'block';
+            } else {
+                alert('Could not delete guest.');
+            }
+        }
+    };
+    xhr.send(fd);
+}
 document.addEventListener('DOMContentLoaded', function() {
     var hash = window.location.hash.replace('#', '');
     if (hash && ['modalDescription','modalReports','modalPublications','modalVisitors'].indexOf(hash) !== -1) {
@@ -1612,9 +2441,13 @@ document.addEventListener('DOMContentLoaded', function() {
     if (modalVisitors && typeof $ !== 'undefined') {
         $(document).on('show.bs.modal', '.guest-profile-modal', function() {
             modalVisitors.classList.add('visitors-content-dimmed');
+            var gid = this.getAttribute('data-guest-id');
+            if (gid) resetGuestProfileModalView(gid);
         });
         $(document).on('hidden.bs.modal', '.guest-profile-modal', function() {
             modalVisitors.classList.remove('visitors-content-dimmed');
+            var gid = this.getAttribute('data-guest-id');
+            if (gid) resetGuestProfileModalView(gid);
         });
     }
 });
@@ -1622,46 +2455,56 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!-- MODALS -->
 <div class="modal fade bd-example-modal-lg ankurayan-modal" tabindex="-1" id="addGuest" role="dialog"
-aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+aria-labelledby="addGuestModalTitle" aria-hidden="true">
 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-    <div class="modal-content">
+    <div class="modal-content border-0 shadow">
         <div class="modal-header">
-            <h5 class="modal-title bld" id="exampleModalLongTitle">Add Guest</h5>
+            <h5 class="modal-title bld mb-0" id="addGuestModalTitle">Add Guest</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <div class="modal-body">
-            <form method="POST" action="{% url 'ankurayan:AddGuest' %}">{% csrf_token %}
-                <input type="text" hidden name="slug" value={{ankurayan.slug}}>
+        <div class="modal-body pt-0">
+            <form method="POST" action="{% url 'ankurayan:AddGuest' %}" enctype="multipart/form-data">{% csrf_token %}
+                <input type="hidden" name="slug" value="{{ ankurayan.slug }}">
                 <div class="row">
-                    <div class="col">
-                        <label class="left-label bld" for="">Name</label>
-                        <input type="text" class="form-control" name="name" placeholder="Guest Name"
-                            required="required"><br>
+                    <div class="col-md-6 mb-3">
+                        <label class="left-label bld" for="add-guest-name">Name</label>
+                        <input type="text" class="form-control" id="add-guest-name" name="name" placeholder="Guest Name" required="required">
                     </div>
-                    <div class="col">
-                        <label class="left-label bld" for="">Contact Number</label>
-                        <input type="text" class="form-control" name="contact_no"
-                            placeholder="Contact number" required="required"><br>
+                    <div class="col-md-6 mb-3">
+                        <label class="left-label bld" for="add-guest-contact">Contact Number</label>
+                        <input type="text" class="form-control" id="add-guest-contact" name="contact_no" placeholder="Contact number (optional)">
                     </div>
                 </div>
-
                 <div class="row">
-                    <div class="col">
-                        <label class="left-label bld" for="">Profession</label>
-                        <input type="text" class="form-control" name="profession"
-                            placeholder="Profession" required="required"><br>
+                    <div class="col-md-6 mb-3">
+                        <label class="left-label bld" for="add-guest-profession">Profession</label>
+                        <input type="text" class="form-control" id="add-guest-profession" name="profession" placeholder="Profession" required="required">
                     </div>
-                    <div class="col">
-                        <label class="left-label bld" for="">Email</label>
-                        <input type="text" class="form-control" name="email" placeholder="Email"><br>        
+                    <div class="col-md-6 mb-3">
+                        <label class="left-label bld" for="add-guest-email">Email</label>
+                        <input type="email" class="form-control" id="add-guest-email" name="email" placeholder="Email">
                     </div>
                 </div>
-                <label class="left-label bld" for="">About Guest</label>
-                <textarea name="about" cols="80" rows="4" class="form-control"
-                    placeholder="About Guest"></textarea><br>
-                <button class="btn btn-primary">Submit</button>
+                <div class="form-group mb-3">
+                    <label class="left-label bld" for="add-guest-about">About Guest</label>
+                    <textarea name="about" id="add-guest-about" rows="4" class="form-control" placeholder="About Guest"></textarea>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="left-label bld" for="add-guest-photo">Profile photo</label>
+                        <input type="file" class="form-control-file" id="add-guest-photo" name="photo" accept="image/*">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="left-label bld" for="add-guest-avatar">Default illustration (if no photo)</label>
+                        <select class="form-control" id="add-guest-avatar" name="avatar">
+                            <option value="man" selected>Man</option>
+                            <option value="woman">Woman</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
     </div>

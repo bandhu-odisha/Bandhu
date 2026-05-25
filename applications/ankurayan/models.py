@@ -43,18 +43,54 @@ class Participant(models.Model):
         return f'{self.ankurayan.year} - {self.name}'
 
 class Guest(models.Model):
-    ankurayan = models.ForeignKey(Ankurayan, on_delete=models.CASCADE)
+    AVATAR_CHOICES = (
+        ('man', 'Man (default illustration)'),
+        ('woman', 'Woman (default illustration)'),
+    )
+
+    ankurayan = models.ForeignKey(Ankurayan, on_delete=models.CASCADE, related_name='guests')
     name = models.CharField(max_length=50)
     profession = models.CharField(max_length=100)
+    avatar = models.CharField(max_length=10, choices=AVATAR_CHOICES, default='man')
+    photo = models.ImageField(
+        upload_to='ankurayan/guests',
+        blank=True,
+        null=True,
+        help_text='Optional. Leave empty to use the default man/woman illustration.',
+    )
     about = models.TextField(max_length=500, null=True, blank=True)
     quote = models.TextField(max_length=500, null=True, blank=True, verbose_name='Quote / What they said')
     email = models.EmailField(blank=True, default='')
     contact_no = models.CharField(verbose_name="Contact Number", max_length=13, blank=True, default='')
     facebook_url = models.URLField(max_length=255, blank=True, default='', verbose_name='Facebook profile URL')
     linkedin_url = models.URLField(max_length=255, blank=True, default='', verbose_name='LinkedIn profile URL')
+    sort_order = models.PositiveSmallIntegerField(
+        default=0,
+        db_index=True,
+        help_text='Lower numbers appear first in guest lists.',
+    )
+
+    class Meta:
+        ordering = ['sort_order', 'name']
 
     def __str__(self):
         return f'{self.ankurayan.year} - {self.name} ({self.profession})'
+
+
+class GuestNote(models.Model):
+    """Admin-only notes stored in DB per guest (separate from public profile fields)."""
+
+    guest = models.ForeignKey(Guest, on_delete=models.CASCADE, related_name='notes')
+    note = models.TextField(max_length=2000)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'Guest note'
+        verbose_name_plural = 'Guest notes'
+
+    def __str__(self):
+        return f'Note for {self.guest.name} ({self.created_at.date()})'
 
 
 class ActivityCategory(models.Model):

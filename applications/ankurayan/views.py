@@ -135,7 +135,8 @@ def upload_ankurayan_report(request, slug):
         messages.success(request, 'File uploaded.')
     else:
         messages.error(request, 'Please select a file.')
-    return redirect('ankurayan:AnkurayanDetail', slug=slug)
+    url = reverse('ankurayan:AnkurayanDetail', kwargs={'slug': slug}) + '#modalReports'
+    return HttpResponseRedirect(url)
 
 
 @login_required
@@ -153,7 +154,8 @@ def upload_ankurayan_publication(request, slug):
         messages.success(request, 'File uploaded.')
     else:
         messages.error(request, 'Please select a file.')
-    return redirect('ankurayan:AnkurayanDetail', slug=slug)
+    url = reverse('ankurayan:AnkurayanDetail', kwargs={'slug': slug}) + '#modalPublications'
+    return HttpResponseRedirect(url)
 
 
 @login_required
@@ -167,7 +169,24 @@ def delete_ankurayan_publication_file(request, pk):
     pub_file.file.delete(save=False)
     pub_file.delete()
     messages.success(request, 'File removed.')
-    return redirect('ankurayan:AnkurayanDetail', slug=slug)
+    url = reverse('ankurayan:AnkurayanDetail', kwargs={'slug': slug}) + '#modalPublications'
+    return HttpResponseRedirect(url)
+
+
+@login_required
+@user_passes_test(is_admin, redirect_field_name=None, login_url="/accounts/login/")
+def update_ankurayan_publication_file(request, pk):
+    """Update a publication file title (admin only). POST only."""
+    if request.method != 'POST':
+        return redirect('ankurayan:ankurayan')
+    pub_file = get_object_or_404(AnkurayanPublicationFile, pk=pk)
+    slug = pub_file.ankurayan.slug
+    title = (request.POST.get('title') or '').strip()
+    pub_file.title = title
+    pub_file.save(update_fields=['title'])
+    messages.success(request, 'Publication title updated.')
+    url = reverse('ankurayan:AnkurayanDetail', kwargs={'slug': slug}) + '#modalPublications'
+    return HttpResponseRedirect(url)
 
 
 @login_required
@@ -181,7 +200,24 @@ def delete_ankurayan_report_file(request, pk):
     report_file.file.delete(save=False)
     report_file.delete()
     messages.success(request, 'File removed.')
-    return redirect('ankurayan:AnkurayanDetail', slug=slug)
+    url = reverse('ankurayan:AnkurayanDetail', kwargs={'slug': slug}) + '#modalReports'
+    return HttpResponseRedirect(url)
+
+
+@login_required
+@user_passes_test(is_admin, redirect_field_name=None, login_url="/accounts/login/")
+def update_ankurayan_report_file(request, pk):
+    """Update a report file title (admin only). POST only."""
+    if request.method != 'POST':
+        return redirect('ankurayan:ankurayan')
+    report_file = get_object_or_404(AnkurayanReportFile, pk=pk)
+    slug = report_file.ankurayan.slug
+    title = (request.POST.get('title') or '').strip()
+    report_file.title = title
+    report_file.save(update_fields=['title'])
+    messages.success(request, 'Report title updated.')
+    url = reverse('ankurayan:AnkurayanDetail', kwargs={'slug': slug}) + '#modalReports'
+    return HttpResponseRedirect(url)
 
 
 @login_required
@@ -218,11 +254,23 @@ def add_guest(request):
         email = request.POST.get('email') or ''
         facebook_url = request.POST.get('facebook_url') or ''
         linkedin_url = request.POST.get('linkedin_url') or ''
+        avatar = request.POST.get('avatar') or 'man'
+        if avatar not in ('man', 'woman'):
+            avatar = 'man'
+        photo = request.FILES.get('photo')
 
-        Guest.objects.create(email=email, name=name, about=about,
-                                    profession=profession, contact_no=contact_no,
-                                    facebook_url=facebook_url, linkedin_url=linkedin_url,
-                                    ankurayan=ankurayan)
+        Guest.objects.create(
+            email=email,
+            name=name,
+            about=about,
+            profession=profession,
+            contact_no=contact_no,
+            facebook_url=facebook_url,
+            linkedin_url=linkedin_url,
+            avatar=avatar,
+            photo=photo,
+            ankurayan=ankurayan,
+        )
 
         url = '/ankurayan/detail/' + slug +'/'
         return HttpResponseRedirect(url)
@@ -263,7 +311,13 @@ def update_guest(request, pk):
     guest.quote = quote or ''
     guest.facebook_url = facebook_url or ''
     guest.linkedin_url = linkedin_url or ''
+    avatar = (request.POST.get('avatar') or guest.avatar or 'man').strip()
+    if avatar in ('man', 'woman'):
+        guest.avatar = avatar
+    if request.FILES.get('photo'):
+        guest.photo = request.FILES['photo']
     guest.save()
+    photo_url = guest.photo.url if guest.photo else ''
     if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
         return JsonResponse({
             'success': True,
@@ -274,9 +328,26 @@ def update_guest(request, pk):
                 'quote': guest.quote or '',
                 'facebook_url': guest.facebook_url or '',
                 'linkedin_url': guest.linkedin_url or '',
+                'avatar': guest.avatar,
+                'photo_url': photo_url,
             }
         })
     return redirect('ankurayan:AnkurayanDetail', slug=guest.ankurayan.slug)
+
+
+@login_required
+@user_passes_test(is_admin, redirect_field_name=None, login_url="/accounts/login/")
+def delete_guest(request, pk):
+    """Remove a guest (admin only). POST only. JSON for AJAX."""
+    guest = get_object_or_404(Guest, pk=pk)
+    slug = guest.ankurayan.slug
+    if request.method != 'POST':
+        return redirect('ankurayan:AnkurayanDetail', slug=slug)
+    guest.delete()
+    if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+        return JsonResponse({'success': True})
+    messages.success(request, 'Guest removed.')
+    return redirect('ankurayan:AnkurayanDetail', slug=slug)
 
 
 @login_required

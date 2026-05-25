@@ -1,9 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Raleway:300,400,600,700,800,900);
-@import url(https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap);
-@import url(https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap);
-@import url(https://fonts.googleapis.com/css2?family=Sriracha&display=swap);
-@import url(https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@600&display=swap);
-@import url(https://fonts.googleapis.com/css2?family=Satisfy&display=swap);
+﻿@import url(https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap);
 
 @font-face {
     font-family: oriya;
@@ -15,26 +10,64 @@
     --brand-primary-hover: #006A73;
     --brand-primary-dark: #004A52;
     --brand-primary-soft: #D6ECEE;
+    --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-size-base: 1rem;
+    --letter-spacing-body: 0.015em;
+    --letter-spacing-heading: -0.02em;
+    --line-height-body: 1.65;
+    --line-height-heading: 1.25;
 }
 
 /* GLOBAL */
 
 html {
-    overflow-x: hidden;
+    font-size: 20px;
+    font-family: var(--font-sans);
     width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: clip;
 }
+
 body {
-    font-family: 'Lora', Georgia, serif;
+    font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-size: 18px;
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-body);
+    letter-spacing: var(--letter-spacing-body);
     background-color: #ffffff;
-    overflow-x: hidden;
-    width: 100vw;
+    width: 100%;
     max-width: 100%;
     margin: 0;
     padding: 0;
+    overflow-x: clip;
     box-sizing: border-box;
+}
+
+/* Site-wide sans-serif — forms, Bootstrap, and UI inherit Inter stack */
+button,
+input,
+select,
+textarea,
+optgroup,
+.btn,
+.form-control,
+.navbar,
+.navbar-brand,
+.nav-link,
+.dropdown-menu,
+.dropdown-item,
+.modal,
+.modal-content,
+.card,
+.table,
+.badge,
+.alert,
+.toast,
+.list-group-item,
+.pagination {
+    font-family: inherit;
 }
 
 /* Ensure app wrapper stays white behind all sections and full width for banner */
@@ -42,7 +75,9 @@ body {
     background-color: #ffffff;
     width: 100%;
     max-width: 100%;
-    overflow-x: hidden;
+    margin-left: auto;
+    margin-right: auto;
+    overflow-x: clip;
 }
 
 /* Unified brand color pass (site-wide common UI) */
@@ -68,7 +103,9 @@ body {
 .navbar .navbar-nav .nav-button,
 .navbar .navbar-nav a.nav-button.btn,
 a.nav-button.btn {
-    background-color: var(--brand-primary) !important;
+    background-color: #0b3540 !important;
+    border: 1px solid rgba(0, 74, 82, 0.2) !important;
+    box-shadow: 0 6px 20px rgba(11, 53, 64, 0.28) !important;
 }
 
 .navbar .navbar-nav .nav-button:hover,
@@ -78,7 +115,7 @@ a.nav-button.btn {
 a.nav-button.btn:hover,
 a.nav-button.btn:focus,
 a.nav-button.btn:active {
-    background-color: var(--brand-primary-hover) !important;
+    background-color: var(--brand-primary, #005E66) !important;
 }
 
 .btn-primary,
@@ -111,11 +148,36 @@ a.nav-button.btn:active {
 }
 
 a, h1, h2, h3, h4, h5, h6, p {
-    font-family: 'Lora', Georgia, serif;
+    font-family: var(--font-sans);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    letter-spacing: var(--letter-spacing-heading);
+    line-height: var(--line-height-heading);
+}
+
+p, li, blockquote, figcaption, label, .form-control, textarea, select {
+    letter-spacing: var(--letter-spacing-body);
+    line-height: var(--line-height-body);
+}
+
+/* Block/card links: Bootstrap underlines all nested text on hover */
+#pillars a.group,
+#pillars a.group h4,
+#pillars a.group p {
+    text-decoration: none !important;
+}
+#pillars a.group:hover,
+#pillars a.group:focus,
+#pillars a.group:hover h4,
+#pillars a.group:hover p,
+#pillars a.group:focus h4,
+#pillars a.group:focus p {
+    text-decoration: none !important;
 }
 
 section p {
-    font-family: 'Lora', Georgia, serif;
+    font-family: var(--font-sans);
 }
 
 /* Page backgrounds (non-landing pages) — keep canvas white like landing */
@@ -137,6 +199,46 @@ section p {
 }
 
 /* NAVBAR STARTS - Light theme to match landing page (consistent on all pages) */
+
+/* Auto-hide on scroll — matches React landing (App.jsx) */
+.bandhu-nav-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    width: 100%;
+    pointer-events: none;
+}
+.bandhu-nav-header .bandhu-nav-shell,
+.bandhu-nav-header .bandhu-nav-peek-strip {
+    pointer-events: auto;
+}
+.bandhu-nav-peek-strip {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1040;
+    height: 3rem;
+    background: transparent;
+    display: none;
+}
+.bandhu-nav-header.bandhu-nav--hidden:not(.bandhu-nav--peek) .bandhu-nav-peek-strip {
+    display: block;
+}
+.bandhu-nav-shell {
+    width: 100%;
+    transition: transform 0.3s ease-out;
+}
+.bandhu-nav-header.bandhu-nav--hidden:not(.bandhu-nav--peek) .bandhu-nav-shell {
+    transform: translateY(-100%);
+}
+@media (prefers-reduced-motion: reduce) {
+    .bandhu-nav-shell {
+        transition: none;
+    }
+}
 
 /* Full-width light navbar bar - match homepage (React) */
 #main-menu.navbar,
@@ -209,7 +311,7 @@ section p {
 }
 
 .navbar .navbar-brand .navbar-title {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-sans);
     font-weight: 600;
     display: inline-block;
     margin: 0;
@@ -219,7 +321,7 @@ section p {
 
 /* Navbar Links - teal palette, same as homepage */
 .navbar .navbar-nav .nav-link {
-    font-family: 'Lora', Georgia, serif;
+    font-family: var(--font-sans);
     font-size: 0.75rem;
     font-weight: 700;
     line-height: 1.25;
@@ -255,41 +357,38 @@ section p {
     color: #80b3ba !important;
 }
 
-/* Login/Logout pill — matches React landing navbar (dark default → brighter on hover); never yellow */
-a.nav-button.btn:hover,
-a.nav-button.btn:focus,
-a.nav-button.btn:active {
-    background-color: #80b3ba !important;
-    color: #fff !important;
-    border-color: transparent !important;
-    outline: none !important;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(128, 179, 186, 0.35) !important;
-}
+/* Login/Logout/Updates pill — dark navy (#0b3540), matches React navbar Updates button */
+a.nav-button.btn,
 .navbar .navbar-nav .nav-button,
 .navbar .navbar-nav a.nav-button.btn {
-    font-family: 'Lora', Georgia, serif;
+    font-family: var(--font-sans);
     border-radius: 9999px;
-    text-transform: uppercase;
-    font-size: 0.6875rem;
+    text-transform: none;
+    font-size: 0.8125rem;
     font-weight: 700;
-    letter-spacing: 0.1em;
-    padding: 0.5rem 1rem !important;
+    letter-spacing: normal;
+    padding: 0.5rem 0.875rem !important;
     line-height: 1.25 !important;
-    background-color: #3d5c60 !important;
-    border: none !important;
+    background-color: #0b3540 !important;
+    border: 1px solid rgba(0, 74, 82, 0.2) !important;
     color: #fff !important;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(61, 92, 96, 0.28) !important;
-    transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease !important;
+    box-shadow: 0 6px 20px rgba(11, 53, 64, 0.28) !important;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease !important;
     text-decoration: none !important;
 }
+a.nav-button.btn:hover,
+a.nav-button.btn:focus,
+a.nav-button.btn:active,
 .navbar .navbar-nav .nav-button:hover,
 .navbar .navbar-nav .nav-button:focus,
 .navbar .navbar-nav a.nav-button.btn:hover,
-.navbar .navbar-nav a.nav-button.btn:focus {
-    background-color: #80b3ba !important;
+.navbar .navbar-nav a.nav-button.btn:focus,
+.navbar .navbar-nav .nav-button:active,
+.navbar .navbar-nav a.nav-button.btn:active {
+    background-color: var(--brand-primary, #005E66) !important;
     color: #fff !important;
-    border-color: transparent !important;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(128, 179, 186, 0.35) !important;
+    border-color: rgba(0, 74, 82, 0.2) !important;
+    box-shadow: 0 10px 28px rgba(11, 53, 64, 0.36) !important;
     transform: translateY(-2px);
     text-decoration: none !important;
     outline: none !important;
@@ -306,8 +405,8 @@ a.nav-button.btn:active {
 @media (min-width: 576px) {
     .navbar .navbar-nav .nav-button,
     .navbar .navbar-nav a.nav-button.btn {
-        font-size: 0.75rem;
-        padding: 0.625rem 1.25rem !important;
+        font-size: 0.875rem;
+        padding: 0.5rem 1rem !important;
     }
 }
 @media (min-width: 992px) {
@@ -595,6 +694,40 @@ a.nav-button.btn:active {
     pointer-events: none !important;
 }
 
+/* People / profile inner pages: show real showcase title, centered in banner (overrides sr-only hide above) */
+body.pillar-inner-page #top-section .slider-txt-container.pillar-showcase,
+body.pillar-inner-page #top-section .slider-txt-container.page-showcase.pillar-showcase {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    text-transform: none !important;
+}
+
+body.pillar-inner-page #top-section .slider-txt-container.pillar-showcase > *,
+body.pillar-inner-page #top-section .slider-txt-container.page-showcase.pillar-showcase > * {
+    position: static !important;
+    width: auto !important;
+    max-width: min(92vw, 48rem) !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin: 0 auto !important;
+    overflow: visible !important;
+    clip: auto !important;
+    clip-path: none !important;
+    white-space: normal !important;
+    border: 0 !important;
+    opacity: 1 !important;
+    pointer-events: none !important;
+}
+
+body.pillar-inner-page #top-section .parallax-overlay::before,
+body.pillar-inner-page #top-section .parallax-overlay::after {
+    content: none !important;
+    display: none !important;
+}
+
 
 /* FOOTER / CONTACT SECTION - Dark style to match landing (Our Initiatives + Contact Us) */
 
@@ -797,6 +930,58 @@ a.nav-button.btn:active {
 }
 
 
+/* Floating Be a Bandhu CTA — dark on light pages, inverts over dark footer */
+.bandhu-fab-cta {
+    position: fixed;
+    right: 1.25rem;
+    bottom: 5.5rem;
+    z-index: 160;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.625rem 1.75rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(0, 74, 82, 0.2);
+    background: #0b3540;
+    color: #fff !important;
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.25;
+    text-decoration: none !important;
+    white-space: nowrap;
+    box-shadow: 0 6px 20px rgba(11, 53, 64, 0.28);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease,
+        box-shadow 0.3s ease, transform 0.3s ease;
+}
+.bandhu-fab-cta:hover,
+.bandhu-fab-cta:focus {
+    background: var(--brand-primary, #005E66);
+    color: #fff !important;
+    text-decoration: none !important;
+    box-shadow: 0 10px 28px rgba(11, 53, 64, 0.36);
+    transform: translateY(-2px);
+}
+.bandhu-fab-cta.bandhu-fab-cta--on-dark {
+    border-color: rgba(255, 255, 255, 0.4);
+    background: #fff;
+    color: var(--brand-primary, #005E66) !important;
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.22);
+}
+.bandhu-fab-cta.bandhu-fab-cta--on-dark:hover,
+.bandhu-fab-cta.bandhu-fab-cta--on-dark:focus {
+    background: #f8fafc;
+    color: #004a52 !important;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.3);
+}
+@media (min-width: 640px) {
+    .bandhu-fab-cta {
+        right: 1.75rem;
+        bottom: 6rem;
+        padding: 0.625rem 2.25rem;
+    }
+}
+
 /* SCROLL TO TOP */
 
 #scroll-to-top {
@@ -927,40 +1112,50 @@ a.nav-button.btn:active {
     padding:0px!important;
 }
 
-/* Gallery Buttons */
-.add-images>.btn, .approve-images>.btn {
-    color: #80b3ba;
-    border-color: #80b3ba;
-    border-radius: 5px;
-    border-width: 2px;
-    font-weight: 700;
-}
-.add-images>.btn:hover, .approve-images>.btn:hover {
-    background-color: #80b3ba !important;
+/* Gallery trigger buttons (Upload Images / Approve) — solid #005E66 like Anandakendra */
+.add-images > .btn.btn-primary,
+.approve-images > .btn.btn-primary {
+    background-color: #005E66 !important;
+    border-color: #005E66 !important;
     color: #fff !important;
-}
-.add-images>.btn:focus, .add-images>.btn:active, .approve-images>.btn:focus, .approve-images>.btn:active {
+    border-radius: 10px !important;
+    border-width: 1px !important;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 600 !important;
     box-shadow: none !important;
-    border-color: #80b3ba !important;
+}
+.add-images > .btn.btn-primary:hover,
+.add-images > .btn.btn-primary:focus,
+.add-images > .btn.btn-primary:active,
+.approve-images > .btn.btn-primary:hover,
+.approve-images > .btn.btn-primary:focus,
+.approve-images > .btn.btn-primary:active {
+    background-color: #004a52 !important;
+    border-color: #004a52 !important;
+    color: #fff !important;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
-/* Upload Images & Approve Gallery modals – match teal theme */
+/* Upload Images & Approve Gallery modals – Anandakendra teal (#005E66); detail page overrides in anandakendra.css */
 #addToGallery .modal-content,
 #approveGallery .modal-content {
     border-radius: 16px !important;
     overflow: hidden;
-    border: none !important;
-    box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.18) !important;
+    border: 2px solid rgba(128, 179, 186, 0.3) !important;
+    box-shadow: 0 20px 60px rgba(61, 92, 96, 0.2) !important;
 }
 #addToGallery .modal-header,
 #approveGallery .modal-header {
-    background: linear-gradient(135deg, #3d5c60 0%, #80b3ba 100%) !important;
+    background: #005E66 !important;
+    background-image: none !important;
     color: #fff !important;
-    border-bottom: none !important;
-    padding: 1.25rem 1.5rem !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.28) !important;
+    padding: 1rem 1.25rem !important;
 }
 #addToGallery .modal-title,
 #approveGallery .modal-title {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 700 !important;
     font-size: 1.25rem !important;
     color: #fff !important;
@@ -974,41 +1169,130 @@ a.nav-button.btn:active {
 }
 #addToGallery .modal-body,
 #approveGallery .modal-body {
-    padding: 1.5rem 1.75rem !important;
-    background: #f8fafc !important;
+    padding: 1.25rem 1.5rem !important;
+    background: linear-gradient(180deg, #f7fbfc 0%, #ffffff 22%, #fcfdfd 100%) !important;
     color: #334155;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 #addToGallery .modal-body .form-control,
 #approveGallery .modal-body .form-control {
     border-radius: 0.5rem;
-    border-color: rgba(128, 179, 186, 0.25);
+    border-color: rgba(128, 179, 186, 0.35);
 }
 #addToGallery .modal-body .form-control:focus,
 #approveGallery .modal-body .form-control:focus {
-    border-color: #80b3ba;
-    box-shadow: 0 0 0 0.2rem rgba(128, 179, 186, 0.2);
+    border-color: #005E66;
+    box-shadow: 0 0 0 0.2rem rgba(0, 94, 102, 0.2);
+    outline: 0;
 }
 #addToGallery .modal-body .btn-primary,
 #approveGallery .modal-body .btn-primary {
-    background-color: #80b3ba !important;
-    border-color: #80b3ba !important;
+    background-color: #005E66 !important;
+    border-color: #005E66 !important;
     color: #fff !important;
-    font-weight: 600;
-    border-radius: 0.5rem;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 600 !important;
+    border-radius: 10px !important;
+    box-shadow: none !important;
 }
 #addToGallery .modal-body .btn-primary:hover,
-#approveGallery .modal-body .btn-primary:hover {
-    background-color: #3d5c60 !important;
-    border-color: #3d5c60 !important;
+#addToGallery .modal-body .btn-primary:focus,
+#addToGallery .modal-body .btn-primary:active,
+#approveGallery .modal-body .btn-primary:hover,
+#approveGallery .modal-body .btn-primary:focus,
+#approveGallery .modal-body .btn-primary:active {
+    background-color: #004a52 !important;
+    border-color: #004a52 !important;
+    color: #fff !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+#addToGallery .custom-file-label::after,
+#approveGallery .custom-file-label::after {
+    background-color: #005E66 !important;
+    border-color: #005E66 !important;
     color: #fff !important;
 }
 #addToGallery .custom-file-label,
 #approveGallery .custom-file-label {
     color: #64748b;
+    border-color: rgba(128, 179, 186, 0.35);
 }
 #addToGallery .custom-file-input:focus ~ .custom-file-label,
 #approveGallery .custom-file-input:focus ~ .custom-file-label {
-    border-color: rgba(128, 179, 186, 0.25);
+    border-color: #005E66;
+    box-shadow: 0 0 0 0.2rem rgba(0, 94, 102, 0.15);
+}
+/* Prevent Submit overlapping the file field */
+#addToGallery .modal-body form .upload-modal-file-group,
+#addToGallery .modal-body form .input-group,
+#approveGallery .modal-body form .input-group {
+    display: block;
+    width: 100%;
+    margin-bottom: 1.25rem !important;
+}
+#addToGallery .modal-body form .custom-file,
+#approveGallery .modal-body form .custom-file {
+    display: block;
+    width: 100%;
+    height: auto;
+    min-height: calc(1.5em + 0.75rem + 2px);
+}
+#addToGallery .modal-body form .upload-modal-submit,
+#addToGallery .modal-body form > .btn-primary,
+#approveGallery .modal-body form > .btn-primary {
+    display: inline-block !important;
+    position: relative !important;
+    margin-top: 0 !important;
+    clear: both;
+}
+
+/* Activity / event detail modals: full-width horizontal image above description */
+.anandakendra-modal .activity-detail-modal-body,
+.charity-modal .activity-detail-modal-body,
+.ashram-modal .activity-detail-modal-body {
+    display: block;
+}
+.anandakendra-modal .activity-detail-modal-media,
+.charity-modal .activity-detail-modal-media,
+.ashram-modal .activity-detail-modal-media {
+    width: 100%;
+    margin-bottom: 1.25rem;
+    background: #f1f5f9;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.anandakendra-modal .activity-detail-modal-media .carousel,
+.anandakendra-modal .activity-detail-modal-media .carousel-inner,
+.anandakendra-modal .activity-detail-modal-media .carousel-item,
+.charity-modal .activity-detail-modal-media .carousel,
+.charity-modal .activity-detail-modal-media .carousel-inner,
+.charity-modal .activity-detail-modal-media .carousel-item {
+    width: 100%;
+}
+.anandakendra-modal .activity-detail-modal-media img,
+.charity-modal .activity-detail-modal-media img,
+.ashram-modal .activity-detail-modal-media img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 320px;
+    object-fit: contain;
+    object-position: center;
+    margin: 0 auto;
+}
+.anandakendra-modal .activity-detail-modal-heading,
+.charity-modal .activity-detail-modal-heading,
+.ashram-modal .activity-detail-modal-heading {
+    color: #000000;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+.anandakendra-modal .activity-detail-modal-description,
+.charity-modal .activity-detail-modal-description,
+.ashram-modal .activity-detail-modal-description {
+    color: #1a1a1a;
+    line-height: 1.5;
 }
 
 /* ===== Scrollbar – hidden to remove vertical line on right (scrolling still works) ===== */

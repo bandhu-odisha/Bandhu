@@ -1,30 +1,30 @@
-/* Ankurayan – vibrant teal theme (no white gap bands) */
+﻿/* Ankurayan – vibrant teal theme (no white gap bands) */
 
 /*
- * Typography: match React landing (Lora). Body classes: `ankurayan-page` / `ankurayan-detail`.
+ * Typography: match React landing (Inter). Body classes: `ankurayan-page` / `ankurayan-detail`.
  * Use !important where Bootstrap or CMS rich text sets a sans/inline font.
  * Exclude Font Awesome / SVG so icons keep their glyph fonts.
  */
 body.ankurayan-page,
 body.ankurayan-detail {
-    font-family: 'Lora', Georgia, serif !important;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
 }
 body.ankurayan-page .page-showcase .bold-txt,
 body.ankurayan-page .page-showcase .page-showcase-title,
 body.ankurayan-detail .page-showcase .bold-txt,
 body.ankurayan-detail .page-showcase .page-showcase-title {
-    font-family: 'Lora', Georgia, serif !important;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
 }
 /* Navbar + login pill */
 body.ankurayan-page .navbar.navbar-landing-style,
 body.ankurayan-detail .navbar.navbar-landing-style {
-    font-family: 'Lora', Georgia, serif !important;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
 }
 body.ankurayan-page .navbar .navbar-nav .nav-link,
 body.ankurayan-page .navbar .navbar-nav a.nav-button.btn,
 body.ankurayan-detail .navbar .navbar-nav .nav-link,
 body.ankurayan-detail .navbar .navbar-nav a.nav-button.btn {
-    font-family: 'Lora', Georgia, serif !important;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
 }
 body.ankurayan-page .btn,
 body.ankurayan-detail .btn,
@@ -38,31 +38,31 @@ body.ankurayan-page .modal-content,
 body.ankurayan-detail .modal-content,
 body.ankurayan-page .list-group-item,
 body.ankurayan-detail .list-group-item {
-    font-family: 'Lora', Georgia, serif !important;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
 }
 body.ankurayan-page #about.pillar-overlay-cards,
 body.ankurayan-detail #about.pillar-overlay-cards,
 body.ankurayan-page .ankurayan-list-page,
 body.ankurayan-detail .ankurayan-detail {
-    font-family: 'Lora', Georgia, serif !important;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
 }
 /* Rich text in description + all copy in the white card (beat inline sans from CMS) */
 body.ankurayan-page #about.pillar-overlay-cards .pillar-overlay-card--text *:not(svg):not(path):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not([class*="fa-"]):not(code):not(pre):not(kbd):not(samp):not(.font-monospace),
 body.ankurayan-detail #about.pillar-overlay-cards .pillar-overlay-card--text *:not(svg):not(path):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not([class*="fa-"]):not(code):not(pre):not(kbd):not(samp):not(.font-monospace) {
-    font-family: 'Lora', Georgia, serif !important;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
 }
 /* Odia caption lines: prefer Noto when available */
 body.ankurayan-page .ankurayan-image-caption .caption-or,
 body.ankurayan-detail .ankurayan-image-caption .caption-or {
-    font-family: 'Noto Sans Oriya', 'Noto Sans Odia', 'Kohinoor Odia', 'Lora', Georgia, serif !important;
+    font-family: 'Noto Sans Oriya', 'Noto Sans Odia', 'Kohinoor Odia', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
 }
 /* Year cards carousel */
 body.ankurayan-page .ankurayan-list-page *:not(svg):not(path):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not([class*="fa-"]):not(code):not(pre):not(kbd):not(samp):not(.font-monospace),
 body.ankurayan-detail .ankurayan-detail *:not(svg):not(path):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not([class*="fa-"]):not(code):not(pre):not(kbd):not(samp):not(.font-monospace) {
-    font-family: 'Lora', Georgia, serif !important;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
 }
 body.ankurayan-detail .modal *:not(svg):not(path):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not([class*="fa-"]):not(code):not(pre):not(kbd):not(samp):not(.font-monospace) {
-    font-family: 'Lora', Georgia, serif !important;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
 }
 
 /* Blend diagonal below banner – no visible line (list & detail) */
@@ -234,7 +234,7 @@ body.ankurayan-detail .modal *:not(svg):not(path):not(.fa):not(.fas):not(.far):n
     border-top: 1px solid rgba(128, 179, 186, 0.28);
 }
 .ankurayan-detail .ankurayan-detail-schedule-title {
-    font-family: 'Lora', Georgia, serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 1rem;
     font-weight: 700;
     color: #3d5c60;
@@ -347,7 +347,7 @@ body.ankurayan-detail .modal *:not(svg):not(path):not(.fa):not(.fas):not(.far):n
     line-height: 1.2;
     text-transform: uppercase;
     margin-top: 0;
-    font-family: 'Lora', Georgia, serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 #about .content-title {
@@ -357,7 +357,7 @@ body.ankurayan-detail .modal *:not(svg):not(path):not(.fa):not(.fas):not(.far):n
     line-height: 1.2;
     text-transform: uppercase;
     margin-top: 0;
-    font-family: 'Lora', Georgia, serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 /* About: description horizontal + image on the side (reduced size) */
@@ -390,7 +390,7 @@ body.ankurayan-detail .modal *:not(svg):not(path):not(.fa):not(.fas):not(.far):n
     margin-bottom: 0;
     text-transform: none;
     letter-spacing: -0.02em;
-    font-family: 'Lora', Georgia, serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 #ankurayans .section-title:after {
     display: none;
@@ -628,7 +628,7 @@ body.ankurayan-detail .modal *:not(svg):not(path):not(.fa):not(.fas):not(.far):n
 /* Detail: description preview (2-line clamp in card); full text in modal */
 .ankurayan-detail .ankurayan-desc-preview,
 .ankurayan-detail .ankurayan-desc-preview p {
-    font-family: 'Lora', Georgia, serif !important;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
     font-weight: 500 !important;
     color: #334155 !important;
     letter-spacing: 0.01em;
@@ -642,7 +642,7 @@ body.ankurayan-detail .modal *:not(svg):not(path):not(.fa):not(.fas):not(.far):n
 }
 
 .ankurayan-detail #viewDescription {
-    font-family: 'Lora', Georgia, serif !important;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
     font-weight: 700 !important;
     color: #21474d !important;
     letter-spacing: 0.01em;
@@ -682,50 +682,86 @@ body.ankurayan-detail .modal *:not(svg):not(path):not(.fa):not(.fas):not(.far):n
     box-shadow: none !important;
 }
 
-/* Reports & Publications: file links with download icon (unique slate/indigo style, compact) */
-.ankurayan-file-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 0.28rem 0.55rem;
-    margin: 0.2rem 0.2rem 0.2rem 0;
-    font-size: 0.875rem;
-    color: #1e40af !important;
-    font-weight: 600;
-    text-decoration: none !important;
-    background: rgba(30, 64, 175, 0.06);
-    border: 1px solid rgba(30, 64, 175, 0.22);
-    border-radius: 6px;
-    transition: background 0.2s, border-color 0.2s, color 0.2s;
-    font-family: 'Lora', Georgia, serif;
-}
-.ankurayan-file-link:hover {
-    background: rgba(30, 64, 175, 0.12) !important;
-    border-color: rgba(30, 64, 175, 0.4) !important;
-    color: #1e3a8a !important;
-}
-.ankurayan-file-link .ankurayan-file-link-icon {
-    color: #3b82f6;
-    font-size: 0.75rem;
-    flex-shrink: 0;
-}
-.ankurayan-file-link:hover .ankurayan-file-link-icon {
-    color: #2563eb;
-}
-.ankurayan-file-link .ankurayan-file-link-name {
-    word-break: break-word;
-}
+/* Reports & Publications: stacked download rows (primary teal #005E66) */
 .ankurayan-file-list {
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin: 0.25rem 0 0;
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.35rem 0.5rem;
-    align-items: center;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
 }
 .ankurayan-file-list li {
     margin: 0;
+    width: 100%;
+}
+.ankurayan-file-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 0.6rem 0.85rem;
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.35;
+    color: #005E66 !important;
+    font-weight: 600;
+    text-decoration: none !important;
+    background: rgba(0, 94, 102, 0.06);
+    border: 1px solid rgba(0, 94, 102, 0.2);
+    border-radius: 8px;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+.ankurayan-file-link:hover,
+.ankurayan-file-link:focus {
+    background: rgba(0, 94, 102, 0.1) !important;
+    border-color: rgba(0, 94, 102, 0.38) !important;
+    color: #005E66 !important;
+    text-decoration: none !important;
+    box-shadow: 0 2px 8px rgba(0, 94, 102, 0.08);
+}
+.ankurayan-file-link .ankurayan-file-link-name {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: inherit;
+}
+.ankurayan-file-link .ankurayan-file-link-icon {
+    color: #005E66;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    opacity: 0.9;
+}
+.ankurayan-file-link:hover .ankurayan-file-link-icon,
+.ankurayan-file-link:focus .ankurayan-file-link-icon {
+    color: #006a73;
+    opacity: 1;
+}
+.ankurayan-detail .ankurayan-section-card .ankurayan-file-list .ankurayan-file-link,
+.ankurayan-section-card-body .ankurayan-file-list .ankurayan-file-link,
+#modalReports .ankurayan-file-list .ankurayan-file-link,
+#modalPublications .ankurayan-file-list .ankurayan-file-link {
+    width: 100%;
+    max-width: 100%;
+}
+.report-file-edit-item .ankurayan-file-link,
+.publication-file-edit-item .ankurayan-file-link {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin-right: 0.5rem;
+}
+.report-file-edit-item > .d-flex,
+.publication-file-edit-item > .d-flex {
+    align-items: center;
+    gap: 0.5rem;
 }
 
 /* Match Anandakendra overlay text-card polish on Ankurayan list about card */
@@ -763,11 +799,11 @@ body.ankurayan-detail .modal *:not(svg):not(path):not(.fa):not(.fas):not(.far):n
     flex-direction: column;
     justify-content: flex-start;
     overflow: hidden;
-    font-family: 'Lora', Georgia, serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     background: linear-gradient(180deg, #fffdf8 0%, #ffffff 58%, #fbfaf7 100%);
 }
 #about.pillar-overlay-cards .ankurayan-sync-text .pillar-desc {
-    font-family: 'Lora', Georgia, serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     color: #3d5c60;
     letter-spacing: 0.012em;
     line-height: 1.85;
@@ -792,7 +828,7 @@ body.ankurayan-detail .modal *:not(svg):not(path):not(.fa):not(.fas):not(.far):n
     border: none;
     padding: 0;
     color: #2f4d52;
-    font-family: 'Lora', Georgia, serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 0.96rem;
     font-style: italic;
     font-weight: 700;
@@ -811,7 +847,7 @@ body.ankurayan-detail .modal *:not(svg):not(path):not(.fa):not(.fas):not(.far):n
 #about.pillar-overlay-cards .ankurayan-explore-label {
     margin: 0 0 0.45rem;
     color: #2f6f75;
-    font-family: 'Lora', Georgia, serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 0.92rem;
     font-weight: 600;
 }
@@ -836,7 +872,7 @@ body.ankurayan-detail .modal *:not(svg):not(path):not(.fa):not(.fas):not(.far):n
 }
 #about.pillar-overlay-cards .ankurayan-year-link {
     color: #2f4d52;
-    font-family: 'Lora', Georgia, serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 0.92rem;
     font-weight: 600;
     text-decoration: none;
@@ -860,7 +896,7 @@ body.ankurayan-detail .modal *:not(svg):not(path):not(.fa):not(.fas):not(.far):n
     align-items: center;
     gap: 0.35rem;
     color: #3d5c60;
-    font-family: 'Lora', Georgia, serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 0.92rem;
     font-weight: 600;
     text-decoration: none;
@@ -899,7 +935,7 @@ body.ankurayan-detail .modal *:not(svg):not(path):not(.fa):not(.fas):not(.far):n
 }
 #about.pillar-overlay-cards .ankurayan-image-caption .caption-en {
     color: #2f6f75;
-    font-family: 'Lora', Georgia, serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 1.05rem;
     font-weight: 600;
     font-style: italic;
@@ -908,7 +944,7 @@ body.ankurayan-detail .modal *:not(svg):not(path):not(.fa):not(.fas):not(.far):n
 }
 #about.pillar-overlay-cards .ankurayan-image-caption .caption-or {
     color: #2f6f75;
-    font-family: 'Noto Sans Oriya', 'Noto Sans Odia', 'Kohinoor Odia', 'Lora', Georgia, serif;
+    font-family: 'Noto Sans Oriya', 'Noto Sans Odia', 'Kohinoor Odia', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 1.1rem;
     font-weight: 600;
     line-height: 1.18;
@@ -936,7 +972,7 @@ body.ankurayan-detail .modal *:not(svg):not(path):not(.fa):not(.fas):not(.far):n
 }
 .ankurayan-readmore-modal .modal-title {
     color: #ffffff;
-    font-family: 'Lora', Georgia, serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 1.3rem;
     font-weight: 700;
     letter-spacing: 0.01em;
@@ -951,7 +987,7 @@ body.ankurayan-detail .modal *:not(svg):not(path):not(.fa):not(.fas):not(.far):n
     background: linear-gradient(180deg, #f7fbfc 0%, #ffffff 22%, #fcfdfd 100%);
 }
 .ankurayan-readmore-modal .readmore-content {
-    font-family: 'Lora', Georgia, serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 1.01rem;
     line-height: 1.82;
     letter-spacing: 0.01em;
