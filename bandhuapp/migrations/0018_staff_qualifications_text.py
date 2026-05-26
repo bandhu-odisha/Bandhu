@@ -1,3 +1,4 @@
+import django.db.models.deletion
 from django.db import migrations, models
 
 
@@ -10,7 +11,8 @@ def copy_qualification_rows_to_staff_text(apps, schema_editor):
             continue
         lines = []
         for row in rows:
-            line = f"{row.degree}, {row.institute} ({row.since.year}"
+            since_year = row.since.year if row.since else "?"
+            line = f"{row.degree}, {row.institute} ({since_year}"
             if row.until:
                 line += f" – {row.until.year}"
             else:
@@ -29,6 +31,16 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        # StaffQualification used related_name='qualifications'; free the name for Staff.qualifications TextField.
+        migrations.AlterField(
+            model_name="staffqualification",
+            name="staff",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="qualification_rows",
+                to="bandhuapp.Staff",
+            ),
+        ),
         migrations.AddField(
             model_name="staff",
             name="qualifications",
