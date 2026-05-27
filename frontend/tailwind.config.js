@@ -21,9 +21,13 @@ export default {
         sage: '#334155',
       },
       fontFamily: {
-        heading: ['Lora', 'Georgia', 'serif'],
-        body: ['Lora', 'Georgia', 'serif'],
-        serif: ['Lora', 'Georgia', 'serif'],
+        heading: ['Inter', 'system-ui', 'sans-serif'],
+        body: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        serif: ['Inter', 'system-ui', 'sans-serif'],
+      },
+      letterSpacing: {
+        sentence: '0.015em',
       },
     },
   },

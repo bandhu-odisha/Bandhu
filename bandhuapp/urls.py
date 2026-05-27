@@ -29,5 +29,4 @@ urlpatterns = [
     ),
     path("sanskar/", views.pillar_sanskar, name="pillar_sanskar"),
     path("swaraj/", views.pillar_swaraj, name="pillar_swaraj"),
-    path("swabalamban/", views.pillar_swabalamban, name="pillar_swabalamban"),
 ]

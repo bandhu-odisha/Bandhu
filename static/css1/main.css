@@ -1,7 +1,7 @@
 /*//////////////////////////////////////////////////////////////////
 [ FONT ]*/
 
-@import url('https://fonts.googleapis.com/css?family=Montserrat|Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 /*//////////////////////////////////////////////////////////////////
 [ RESTYLE TAG ]*/
@@ -14,13 +14,13 @@
 
 body, html {
 	height: 100%;
-	font-family: Poppins, sans-serif;
+	font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 	font-size: 18px;
 }
 
 /*---------------------------------------------*/
 a {
-	font-family: Poppins;
+	font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 	/* font-size: 14px; */
 	line-height: 1.7;
 	/* color: #666666; */
@@ -46,7 +46,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 p {
-	font-family: Poppins;
+	font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 	font-size: 14px;
 	line-height: 1.7;
 	color: #666666;
@@ -118,14 +118,14 @@ iframe {
 /*//////////////////////////////////////////////////////////////////
 [ Utility ]*/
 .txt1 {
-  font-family: Montserrat;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 16px;
   color: #555555;
   line-height: 1.5;
 }
 
 .txt2 {
-  font-family: Poppins;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 14px;
   color: #999999;
   line-height: 1.5;
@@ -179,7 +179,7 @@ iframe {
 .login100-form-title {
   width: 100%;
   display: block;
-  font-family: Poppins-Medium;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 39px;
   color: #555555;
   line-height: 1.2;
@@ -190,7 +190,7 @@ iframe {
 [ Button sign in with ]*/
 .btn-face,
 .btn-google {
-  font-family: Montserrat;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 18px;
   line-height: 1.2;
 
@@ -291,7 +291,7 @@ iframe {
 
 /*---------------------------------------------*/
 .input100 {
-  font-family: Poppins;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   color: #333333;
   line-height: 1.2;
   font-size: 18px;
@@ -352,7 +352,7 @@ iframe {
   background-color: rgb(26, 115, 232);
   border-radius: 10px;
 
-  font-family: Poppins-Medium;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 16px;
   color: #fff;
   line-height: 1.2;
@@ -412,7 +412,7 @@ iframe {
   right: 12px;
   pointer-events: none;
 
-  font-family: Poppins;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   color: #c80000;
   font-size: 14px;
   line-height: 1.4;

@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+﻿{% extends 'base.html' %}
 
 {% load static %}
 
@@ -6,7 +6,7 @@
 
 {% block style %}
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
-<link rel="stylesheet" href="{% static 'css/publications.css' %}">
+<link rel="stylesheet" href="{% static 'css/publications.css' %}?v=2">
 <!-- Custom Style -->
 <style>
     #top-section {
@@ -38,7 +38,7 @@
     .publication-detail-showcase .publication-detail-title {
         margin: 0;
         color: #005E66;
-        font-family: 'Lora', Georgia, serif;
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         font-weight: 800;
         font-size: clamp(2rem, 5.2vw, 3.4rem);
         line-height: 1.1;
@@ -48,7 +48,7 @@
     }
     .publication-detail-showcase .publication-detail-meta {
         margin-top: 0.9rem;
-        font-family: 'Lora', Georgia, serif;
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         font-size: 0.92rem;
         font-weight: 500;
         color: rgba(11, 53, 64, 0.88);
@@ -64,7 +64,7 @@
     .publication-detail-showcase .publication-detail-desc {
         margin: 0.95rem auto 0;
         max-width: 920px;
-        font-family: 'Lora', Georgia, serif;
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         font-size: 1.02rem;
         line-height: 1.65;
         font-weight: 500;
@@ -89,7 +89,9 @@
         <span><i class="far fa-calendar-check"></i>
             <time datetime="{{ publication.created|date:'Y-m-d' }}">{{ publication.created|date:"d M, Y" }}</time>
         </span>
+        {% if publication.by %}
         <span><i class="fas fa-user"></i>{{ publication.by.first_name }} {{ publication.by.last_name }}</span>
+        {% endif %}
     </div>
     <p class="publication-detail-desc">{{ publication.description|safe }}</p>
 </div>
@@ -105,16 +107,23 @@
 <section id="about" class="page-hero page-hero-with-angular">
     <div class="container" style="padding: 2rem 0 3rem;">
         <div class="">
+            {% if publication.media %}
             <iframe src="{{ publication.media.url }}"
-                style="width: 100%; height: 90vh; min-height: 200px; max-height: 1000px; border: none; background: #f8fafc;"></iframe>
+                style="width: 100%; height: 90vh; min-height: 200px; max-height: 1000px; border: none; background: #f8fafc;"
+                title="Preview of {{ publication.title_stripped }}"></iframe>
+            {% else %}
+            <p class="text-center text-muted py-5">This publication file is not available for download yet.</p>
+            {% endif %}
+            {% if publication.media %}
             <div class="mt-3 mb-4 text-center">
-                <a class="btn btn-primary" href="{{publication.media.url}}" target="_blank">
+                <a class="btn btn-primary" href="{% url 'publications:download' publication.slug %}">
                 <span class="p-2">
                     <i class="fas fa-download text-white"></i>
-                    Download ({{publication.media.file.size|filesizeformat}})
+                    Download{% if publication.media.size %} ({{ publication.media.size|filesizeformat }}){% endif %}
                 </span>
                 </a>
             </div>
+            {% endif %}
         </div>
     </div>
 </section>

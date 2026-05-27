@@ -64,6 +64,13 @@ class Activity(models.Model):
     def __str__(self):
         return f'{self.category.kendra.name} - {self.name} ({self.category.name})'
 
+    @property
+    def cover_photo(self):
+        photo = self.photo_set.filter(approved=True).first()
+        if photo is None:
+            photo = self.photo_set.first()
+        return photo
+
 class Event(models.Model):
     kendra = models.ForeignKey(AnandaKendra, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'applications.sanskarbarga',
     'applications.madhmukti',
     'applications.publications',
+    'applications.swabalamban',
 ]
 
 MIDDLEWARE = [
@@ -85,26 +86,30 @@ WSGI_APPLICATION = 'bandhu.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
+DB_ENGINE = config('DB_ENGINE', default='mysql')
 
-DATABASES = {
-    'default': {
-        'NAME': config("DB_NAME"),
-        'ENGINE': 'django.db.backends.mysql',
-        'USER': config("DB_USER"),
-        'PASSWORD': config("DB_PASS"),
-        'HOST' : config("DB_HOST"),
-        'OPTIONS': {
-          'autocommit': True,
-          'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        },
+if DB_ENGINE == 'sqlite':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'NAME': config("DB_NAME"),
+            'ENGINE': 'django.db.backends.mysql',
+            'USER': config("DB_USER"),
+            'PASSWORD': config("DB_PASS"),
+            'HOST': config("DB_HOST"),
+            'PORT': config("DB_PORT", default='3306'),
+            'OPTIONS': {
+                'autocommit': True,
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            },
+        }
+    }
 
 
 # Password validation
@@ -190,4 +195,11 @@ STATIC_URL = config("STATIC_URL")
 MEDIA_ROOT = config("MEDIA_ROOT")
 MEDIA_URL = config("MEDIA_URL")
 
-STATICFILES_DIRS = [ BASE_DIR+"/static", ]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+    ('img', os.path.join(BASE_DIR, 'img')),
+    ('css', os.path.join(BASE_DIR, 'css')),
+    ('css1', os.path.join(BASE_DIR, 'css1')),
+    ('vendor', os.path.join(BASE_DIR, 'static', 'vendor')),
+    ('js', os.path.join(BASE_DIR, 'js')),
+]

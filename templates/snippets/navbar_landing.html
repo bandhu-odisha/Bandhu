@@ -1,6 +1,9 @@
 {% load static %}
-{% comment %}Navbar matching landing navbar on all pages.{% endcomment %}
-<div id="main-menu" class="navbar navbar-expand-lg navbar-landing-style fixed-top" role="navigation">
+{% comment %}Navbar matching landing navbar on all pages (auto-hides on scroll like React home).{% endcomment %}
+<header id="bandhu-nav-header" class="bandhu-nav-header">
+    <div id="bandhu-nav-peek-strip" class="bandhu-nav-peek-strip" aria-hidden="true"></div>
+    <div id="bandhu-nav-shell" class="bandhu-nav-shell">
+<div id="main-menu" class="navbar navbar-expand-lg navbar-landing-style" role="navigation">
     <div class="container navbar-container">
         <a class="navbar-brand navbar-brand-emblem" href="{% url 'home' %}" aria-label="Bandhu Home">
             <img class="navbar-logo" src="{% static 'img/bandhu-logo-navbar.png' %}" alt="">
@@ -17,7 +20,7 @@
                     <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
                     <li class="nav-item"><a class="nav-link" href="/bandhughar/">Bandhughar</a></li>
                     <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}#contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
                     {% if user.is_authenticated %}
                         <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
                         <li class="nav-item align-self-center mt-2 mt-lg-0 ml-2 ml-lg-3">
@@ -33,7 +36,7 @@
                     <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
                     <li class="nav-item"><a class="nav-link" href="/other_activities/">Other Activities</a></li>
                     <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}#contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
                     {% if user.is_authenticated %}
                         <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
                         <li class="nav-item align-self-center mt-2 mt-lg-0 ml-2 ml-lg-3">
@@ -49,7 +52,7 @@
                     <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'publications:index' %}">Publications</a></li>
                     <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}#contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
                     {% if user.is_authenticated %}
                         <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
                         <li class="nav-item align-self-center mt-2 mt-lg-0 ml-2 ml-lg-3">
@@ -65,7 +68,7 @@
                     <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'anandakendra:anandakendra' %}">Anandakendra</a></li>
                     <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}#contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
                     {% if user.is_authenticated %}
                         <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
                         <li class="nav-item align-self-center mt-2 mt-lg-0 ml-2 ml-lg-3">
@@ -81,7 +84,7 @@
                     <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'ankurayan:ankurayan' %}">Ankurayan</a></li>
                     <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}#contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
                     {% if user.is_authenticated %}
                         <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
                         <li class="nav-item align-self-center mt-2 mt-lg-0 ml-2 ml-lg-3">
@@ -128,6 +131,38 @@
                     <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
                     <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'pillar_swabalamban' %}">Swabalamban</a></li>
+                    <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
+                        <li class="nav-item align-self-center mt-2 mt-lg-0 ml-2 ml-lg-3">
+                            <a class="nav-button btn" href="{% url 'logout' %}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item align-self-center mt-2 mt-lg-0 ml-2 ml-lg-3">
+                            <a class="nav-button btn" href="#" data-toggle="modal" data-target="#loginModal" role="button">Login</a>
+                        </li>
+                    {% endif %}
+                {% elif page_title == 'People' %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                    <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'people_page' %}">People</a></li>
+                    <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
+                        <li class="nav-item align-self-center mt-2 mt-lg-0 ml-2 ml-lg-3">
+                            <a class="nav-button btn" href="{% url 'logout' %}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item align-self-center mt-2 mt-lg-0 ml-2 ml-lg-3">
+                            <a class="nav-button btn" href="#" data-toggle="modal" data-target="#loginModal" role="button">Login</a>
+                        </li>
+                    {% endif %}
+                {% elif page_title == 'Staff Profile' or request.resolver_match.url_name == 'staff_profile' %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                    <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'people_page' %}">People</a></li>
                     <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
                     {% if user.is_authenticated %}
@@ -188,6 +223,8 @@
         </nav>
     </div>
 </div>
+    </div>
+</header>
 <script>
 (function () {
   const itemsEl = document.getElementById('notice-board-items');

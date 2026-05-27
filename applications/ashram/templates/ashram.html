@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet">
 <!-- Custom CSS -->
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
-<link rel="stylesheet" href="{% static 'css/ashram.css' %}">
+<link rel="stylesheet" href="{% static 'css/ashram.css' %}?v=2">
 <!-- Custom Style -->
 <style>
     #top-section {
@@ -35,7 +35,7 @@
         left: 50%;
         transform: translateX(-50%);
         color: #005E66;
-        font-family: 'Lora', Georgia, serif;
+        font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         font-weight: 800;
         font-size: clamp(2.2rem, 6vw, 4rem);
         letter-spacing: 0.02em;
@@ -88,7 +88,13 @@
             <div class="col-lg-4 col-md-5">
                 <div class="pillar-overlay-card pillar-overlay-card--image">
                     {% if content and content.picture %}
-                    <img src="{{ content.picture.url }}" alt="Bandhughar" loading="eager" class="pillar-overlay-single-image">
+                    <img
+                        src="{{ content.picture.url }}"
+                        alt="Bandhughar"
+                        loading="eager"
+                        class="pillar-overlay-single-image"
+                        onerror="this.onerror=null;this.src='{% static 'img/our_mission1.jpg' %}';"
+                    >
                     {% else %}
                     <img src="{% static 'img/our_mission1.jpg' %}" alt="Bandhughar" loading="eager" class="pillar-overlay-single-image">
                     {% endif %}
@@ -127,17 +133,23 @@
                     <ul class="glide__slides">
                         {% for ashram in ashrams %}
                         <li class="glide__slide">
-                            <div class="card w-100 page-card bandhughar-list-card mx-auto my-2 border-0 overflow-hidden">
-                                <div class="bandhughar-card-media position-relative">
-                                    <img src="{{ ashram.image.url }}" class="bandhughar-card-img" alt="" loading="lazy">
-                                    <div class="bandhughar-card-caption">
-                                        <h5 class="bandhughar-card-title mb-1">{{ ashram.name }}</h5>
-                                        <p class="bandhughar-card-locality mb-0">{{ ashram.locality }}</p>
-                                    </div>
-                                    <a href="{% url 'ashram:AshramDetail' slug=ashram.slug %}"
-                                        class="stretched-link"
-                                        aria-label="{{ ashram.name }}, {{ ashram.locality }}"></a>
+                            <div class="card w-100 page-card bandhughar-list-card mx-auto my-2 border-0 overflow-hidden position-relative">
+                                <div class="bandhughar-card-media">
+                                    <img
+                                        src="{{ ashram.image.url }}"
+                                        class="bandhughar-card-img"
+                                        alt="{{ ashram.name }}"
+                                        loading="eager"
+                                        onerror="this.onerror=null;this.src='{% static 'img/pimg3.jpg' %}';"
+                                    >
                                 </div>
+                                <div class="card-body bandhughar-card-body">
+                                    <h5 class="bandhughar-card-title mb-1">{{ ashram.name }}</h5>
+                                    <p class="bandhughar-card-locality mb-0">{{ ashram.locality }}</p>
+                                </div>
+                                <a href="{% url 'ashram:AshramDetail' slug=ashram.slug %}"
+                                    class="stretched-link"
+                                    aria-label="{{ ashram.name }}, {{ ashram.locality }}"></a>
                             </div>
                         </li>
                         {% endfor %}
@@ -260,21 +272,33 @@
 
 <!-- AHSRAMS CAROUSEL -->
 <script>
-    var ashram_glide = new Glide('.ashrams', {
-        type: 'carousel',
-        focusAt: 'center',
-        perView: 3,
-        autoplay: 2000,
-        gap: 30,
-        breakpoints: {
-            991: {
-                perView: 2,
+    (function () {
+        var ashramRoot = document.querySelector('.ashrams');
+        if (!ashramRoot || typeof Glide === 'undefined') return;
+
+        var slideCount = ashramRoot.querySelectorAll('.glide__slide').length;
+        if (!slideCount) return;
+
+        var desktopPerView = Math.min(3, slideCount);
+        var tabletPerView = Math.min(2, slideCount);
+        var mobilePerView = 1;
+
+        var hasFewSlides = slideCount <= 2;
+        var ashramGlide = new Glide('.ashrams', {
+            // Keep small datasets static and fully visible.
+            type: hasFewSlides ? 'slider' : 'carousel',
+            focusAt: hasFewSlides ? 0 : 'center',
+            perView: desktopPerView,
+            autoplay: hasFewSlides ? false : 2000,
+            gap: 30,
+            bound: hasFewSlides || slideCount <= 3,
+            rewind: !hasFewSlides,
+            breakpoints: {
+                991: { perView: tabletPerView },
+                767: { perView: mobilePerView },
             },
-            767: {
-                perView: 1,
-            },
-        }
-    })
-    ashram_glide.mount()
+        });
+        ashramGlide.mount();
+    })();
 </script>
 {% endblock %}

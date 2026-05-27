@@ -1,16 +1,22 @@
-{% extends 'base.html' %}
+﻿{% extends 'base.html' %}
 
 {% load static %}
 
 {% block title %} Bandhu | User Profile {% endblock %}
 
+{% block body_class %}profile-page-site pillar-inner-page{% endblock %}
+
 {% block style %}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
+<link rel="stylesheet" href="{% static 'css/pillar-inner-banner.css' %}?v=2">
 <style>
+	.profile-page {
+		font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+	}
 	@media screen and (max-width: 600px) {
-		.profile-page .container { width: 85vw; }
+		.profile-page .container { width: 92%; max-width: 100%; }
 	}
 	.profile-page .imgCircle {
 		position: relative;
@@ -19,19 +25,127 @@
 	}
 	.profile-page label {
 		font-weight: 600;
+		font-size: 0.875rem;
 		letter-spacing: 0.02em;
-		color: #3d5c60;
-		font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+		color: #334155;
+		font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+		margin-bottom: 0.35rem;
 	}
-	.profile-page .form-control:focus {
+	.profile-page .text-muted {
+		font-weight: 500;
+		font-size: 0.8rem;
+	}
+	.profile-form-card {
+		position: relative;
+		overflow: hidden;
+		background: #ffffff !important;
+		border-radius: 16px !important;
+		border: 2px solid rgba(128, 179, 186, 0.45) !important;
+		box-shadow:
+			0 4px 6px rgba(15, 23, 42, 0.04),
+			0 12px 40px rgba(61, 92, 96, 0.1) !important;
+		font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+	}
+	.profile-form-card::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		height: 4px;
+		background: linear-gradient(90deg, #005e66 0%, #80b3ba 100%);
+		pointer-events: none;
+	}
+	.profile-page .form-control,
+	.profile-page .custom-select {
+		font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+		font-size: 0.9375rem;
+		border-radius: 10px;
+		border: 1px solid rgba(148, 163, 184, 0.55);
+		background: #fff;
+		color: #1e293b;
+		padding: 0.55rem 0.85rem;
+		transition: border-color 0.15s ease, box-shadow 0.15s ease;
+	}
+	.profile-page .form-control:focus,
+	.profile-page .custom-select:focus {
 		border-color: #80b3ba;
-		box-shadow: 0 0 0 0.2rem rgba(128, 179, 186, 0.25);
+		box-shadow: 0 0 0 3px rgba(128, 179, 186, 0.28);
 		outline: 0;
+	}
+	.profile-page input[type='file'].form-control-file {
+		font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+		font-size: 0.875rem;
+		color: #475569;
+		max-width: 100%;
+	}
+	.profile-page input[type='file'].form-control-file::file-selector-button {
+		font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+		font-weight: 600;
+		font-size: 0.8125rem;
+		margin-right: 0.85rem;
+		padding: 0.5rem 1rem;
+		border-radius: 10px;
+		border: 1px solid rgba(0, 94, 102, 0.35);
+		background: #fff;
+		color: #005e66;
+		cursor: pointer;
+		transition: background 0.15s ease, border-color 0.15s ease;
+	}
+	.profile-page input[type='file'].form-control-file::file-selector-button:hover {
+		background: #e8f5f6;
+		border-color: rgba(0, 94, 102, 0.5);
+	}
+	.profile-page input[type='file'].form-control-file::-webkit-file-upload-button {
+		font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+		font-weight: 600;
+		font-size: 0.8125rem;
+		margin-right: 0.85rem;
+		padding: 0.5rem 1rem;
+		border-radius: 10px;
+		border: 1px solid rgba(0, 94, 102, 0.35);
+		background: #fff;
+		color: #005e66;
+		cursor: pointer;
+	}
+	.profile-page .profile-form-divider {
+		border: 0;
+		border-top: 1px solid rgba(128, 179, 186, 0.35);
+		margin: 1.75rem 0 1.5rem;
+		opacity: 1;
+	}
+	.profile-page .profile-form-card .btn-primary {
+		font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+		font-weight: 600;
+		font-size: 1rem;
+		letter-spacing: 0.02em;
+		border-radius: 12px !important;
+		border: none !important;
+		padding: 0.75rem 1.25rem;
+		background: linear-gradient(90deg, #005e66 0%, #2a9aa8 100%) !important;
+		box-shadow: 0 4px 14px rgba(0, 94, 102, 0.28);
+		transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+	}
+	.profile-page .profile-form-card .btn-primary:hover {
+		transform: translateY(-1px);
+		box-shadow: 0 8px 22px rgba(0, 94, 102, 0.35);
+		filter: brightness(1.02);
+	}
+	.profile-page .profile-form-card .btn-primary:focus {
+		box-shadow: 0 0 0 3px rgba(128, 179, 186, 0.45), 0 8px 22px rgba(0, 94, 102, 0.3);
+	}
+	.profile-page h2.font-weight-bold {
+		font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+		font-weight: 700 !important;
+		letter-spacing: -0.02em;
+	}
+	/* Bootstrap underlines entire <a> on hover — keep profile body text clean */
+	.profile-page a:not(.btn):hover,
+	.profile-page a:not(.btn):focus {
+		text-decoration: none;
 	}
 </style>
 {% endblock %}
-
-{% block top-section-style %}style="background-size: cover; background: {% if content and content.banner_image %}url('{{ content.banner_image.url }}') 50% center no-repeat fixed{% else %}linear-gradient(135deg, #3d5c60 0%, #80b3ba 100%){% endif %};"{% endblock %}
 
 {% block navbar-links %}
 <li class="nav-item">
@@ -43,31 +157,31 @@
 {% endblock %}
 
 {% block showcase-title-container %}
-<div class="slider-txt-container page-showcase page-showcase-tall">
-	<h2 class="bold-txt page-showcase-title">Profile</h2>
-	<div class="page-showcase-accent"></div>
+<div class="slider-txt-container pillar-showcase page-showcase-tall">
+	<h2 class="bold-txt pillar-showcase-title page-showcase-title">Profile</h2>
+	<div class="pillar-showcase-accent page-showcase-accent"></div>
 </div>
 {% endblock %}
 {% block angular %}
-<div class="angular page-angular">
+<div class="angular page-angular pillar-angular">
 	<div class="top-angle"></div>
 </div>
 {% endblock %}
 
 {% block content %}
 <div class="profile-page">
-<section class="page-hero page-hero-with-angular">
-	<div class="container" style="padding: 2rem 0 3rem;">
+<section class="profile-page-section page-section">
+	<div class="container" style="padding: 2rem 0 3rem; max-width: 1400px;">
 		<div class="row justify-content-center">
 			<div class="col-lg-8">
-				<div class="page-content-card card border-0 shadow-sm px-5 py-4 mb-5"
-					style="border-radius: 16px; border: 2px solid rgba(128, 179, 186, 0.35) !important; box-shadow: 0 12px 40px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.06) !important; background: linear-gradient(135deg, #ffffff 0%, #d7e9f2 40%, #80b3ba 100%) !important;">
+				<div class="page-content-card profile-form-card card border-0 px-4 px-md-5 py-4 mb-5">
 
 			<form method="POST" enctype="multipart/form-data" id="profileForm" class="needs-validation" novalidate>
 				{% csrf_token %}
 				{% if first_time %}
 				<div class="mb-4 text-center">
-					<h2 class="font-weight-bold" style="color: #3d5c60; font-family: 'DM Sans', sans-serif;">Complete Your Profile</h2>
+					<h2 class="font-weight-bold" style="color: #005e66;">Complete Your Profile</h2>
+					<p class="text-muted small mb-0 mt-2">Fill in your details below. Fields marked <span class="text-danger">*</span> are required.</p>
 				</div>
 				{% else %}
 				<div class="row justify-content-center mb-4 imgCircle">
@@ -150,27 +264,27 @@
 					<input name="street_address2" type="text" class="form-control" id="address2" value="{{ profile.street_address2 }}" autocomplete="address-line2">
 				</div>
 			
-				<div class="row">
+				<div class="row align-items-end">
 					<div class="col-md-5 mb-3">
-					<label for="city">City <span class="text-danger">*</span></label>
-					<input name="city" type="text" class="form-control" id="city" value="{{ profile.city }}" required autocomplete="address-level2">
-					<div class="invalid-feedback">
-						Please enter a valid city.
-					</div>
+						<label for="city">City <span class="text-danger">*</span></label>
+						<input name="city" type="text" class="form-control" id="city" value="{{ profile.city }}" required autocomplete="address-level2">
+						<div class="invalid-feedback">
+							Please enter a valid city.
+						</div>
 					</div>
 					<div class="col-md-4 mb-3">
-					<label for="state">State <span class="text-danger">*</span></label>
-					<input name="state" type="text" class="form-control" id="state" value="{{ profile.state }}" required autocomplete="address-level1">
-					<div class="invalid-feedback">
-						Please provide a valid state.
-					</div>
+						<label for="state">State <span class="text-danger">*</span></label>
+						<input name="state" type="text" class="form-control" id="state" value="{{ profile.state }}" required autocomplete="address-level1">
+						<div class="invalid-feedback">
+							Please provide a valid state.
+						</div>
 					</div>
 					<div class="col-md-3 mb-3">
-					<label for="pinCode">PIN Code <span class="text-danger">*</span></label>
-					<input name="pincode" type="number" class="form-control" id="pinCode" value="{{ profile.pincode }}" required autocomplete="postal-code">
-					<div class="invalid-feedback">
-						PIN code required.
-					</div>
+						<label for="pinCode">PIN Code <span class="text-danger">*</span></label>
+						<input name="pincode" type="number" class="form-control" id="pinCode" value="{{ profile.pincode }}" required autocomplete="postal-code">
+						<div class="invalid-feedback">
+							PIN code required.
+						</div>
 					</div>
 				</div>
 				{% if first_time %}
@@ -180,9 +294,9 @@
 				</div>
 				{% endif %}
 
-				<hr class="mb-4">
-				<div class="row justify-content-center mb-4">
-					<div class="col-md-5">
+				<hr class="profile-form-divider mb-4">
+				<div class="row justify-content-center mb-2">
+					<div class="col-md-6 col-lg-5">
 						<button type="submit" class="btn btn-primary btn-lg btn-block">Save Profile</button>
 					</div>
 				</div>

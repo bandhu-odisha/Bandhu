@@ -27,7 +27,7 @@ export default function Initiatives({ data }) {
             <a
               key={card.key}
               href={card.href || '#'}
-              className="group block overflow-hidden rounded-2xl border border-gray-200/80 bg-white transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-xl hover:shadow-teal/10 hover:border-teal/30 focus:outline-none focus:ring-2 focus:ring-teal/40 focus:ring-offset-2"
+              className="group block overflow-hidden rounded-2xl border border-gray-200/80 bg-white no-underline transition-all duration-300 ease-out hover:-translate-y-2 hover:no-underline hover:shadow-xl hover:shadow-teal/10 hover:border-teal/30 focus:outline-none focus:no-underline focus:ring-2 focus:ring-teal/40 focus:ring-offset-2"
             >
               <div className="relative aspect-[4/3] min-h-[220px] overflow-hidden">
                 <img

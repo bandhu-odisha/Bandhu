@@ -51,19 +51,17 @@ function concisePillarText(tagline, desc) {
 
 export default function Mission({ data }) {
   const mission = data?.mission
-  const photos = data?.photos || []
   const urls = data?.urls || {}
 
   const pillars = useMemo(() => {
-    const getImage = (imgs, fallbackIndex = 0) =>
-      imgs?.length ? imgs[0].picture : (photos[fallbackIndex]?.picture || null)
+    const getImage = (imgs) => (imgs?.length ? imgs[0].picture : null)
     return [
       {
         id: 'sanskar',
         title: 'Sanskar',
         tagline: mission?.sanskar_tagline,
         desc: mission?.sanskar_desc,
-        image: getImage(mission?.sanskar_images, 0),
+        image: getImage(mission?.sanskar_images),
         href: urls.sanskar || '#',
       },
       {
@@ -71,7 +69,7 @@ export default function Mission({ data }) {
         title: 'Swaraj',
         tagline: mission?.swaraj_tagline,
         desc: mission?.swaraj_desc,
-        image: getImage(mission?.swaraj_images, 1),
+        image: getImage(mission?.swaraj_images),
         href: urls.swaraj || '#',
       },
       {
@@ -79,11 +77,11 @@ export default function Mission({ data }) {
         title: 'Swabalamban',
         tagline: mission?.swabalamban_tagline,
         desc: mission?.swabalamban_desc,
-        image: getImage(mission?.swabalamban_images, 2),
+        image: getImage(mission?.swabalamban_images),
         href: urls.swabalamban || '#',
       },
     ]
-  }, [mission, photos, urls])
+  }, [mission, urls])
 
   return (
     <section id="mission" className="landing-section bg-white">
@@ -126,25 +124,30 @@ export default function Mission({ data }) {
               const summaryLine = taglineText || cleanedCardText
               const detailsLine =
                 cleanedCardText && cleanedCardText !== summaryLine ? cleanedCardText : ''
-              const imageSrc = isSanskar ? '/static/img/pimg9.jpg' : (pillar.image || '/static/img/our_mission1.jpg')
+              const fallbackImages = {
+                sanskar: '/static/img/our_mission.jpg',
+                swaraj: '/static/img/our_mission1.jpg',
+                swabalamban: '/static/img/pimg2.jpg',
+              }
+              const imageSrc = pillar.image || fallbackImages[pillar.id] || null
 
               return (
                 <a
                   key={pillar.id}
                   href={pillar.href}
-                  className={`group grid grid-cols-1 md:grid-cols-[1.05fr_1fr] gap-6 md:gap-10 items-center py-10 md:py-14 ${
+                  className={`group grid grid-cols-1 md:grid-cols-[1.05fr_1fr] gap-6 md:gap-10 items-center py-10 md:py-14 no-underline hover:no-underline focus:no-underline ${
                     idx < pillars.length - 1 ? 'border-b border-slate-400/75' : ''
                   }`}
                 >
                   <div className={isSwaraj ? 'order-1 md:order-2' : 'order-2 md:order-1'}>
-                    <h4 className="font-heading font-bold text-3xl text-[#0b3540] mb-2">
+                    <h4 className="font-heading font-bold text-3xl text-[#0b3540] mb-2 no-underline">
                       {pillar.title}
                     </h4>
-                    <p className="font-body text-lg text-[#1c3f49] font-semibold leading-snug mb-1.5">
+                    <p className="font-body text-lg text-[#1c3f49] font-semibold leading-snug mb-1.5 no-underline">
                       {summaryLine}
                     </p>
                     {detailsLine && (
-                      <p className="font-body text-lg text-[#2d4c55] leading-relaxed max-w-[60ch] line-clamp-3">
+                      <p className="font-body text-lg text-[#2d4c55] leading-relaxed max-w-[60ch] line-clamp-3 no-underline">
                         {detailsLine}
                       </p>
                     )}
@@ -155,11 +158,13 @@ export default function Mission({ data }) {
 
                   <div className={isSwaraj ? 'order-2 md:order-1' : 'order-1 md:order-2'}>
                     <div className="aspect-[16/9] overflow-hidden rounded-2xl bg-white/80">
-                      <img
-                        src={imageSrc}
-                        alt={pillar.title}
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-                      />
+                      {imageSrc ? (
+                        <img
+                          src={imageSrc}
+                          alt={pillar.title}
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                        />
+                      ) : null}
                     </div>
                   </div>
                 </a>

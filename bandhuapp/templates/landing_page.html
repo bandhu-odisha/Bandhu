@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+﻿{% extends 'base.html' %}
 {% load custom_filters %}
 {% load static %}
 {% load permissions %}
@@ -7,7 +7,7 @@
 
 {% block style %}
 <!-- Custom CSS -->
-<link rel="stylesheet" href="{% static 'css/bandhu.css' %}" >
+<link rel="stylesheet" href="{% static 'css/bandhu.css' %}?v=5" >
 <link rel="stylesheet" href="{% static 'vendor/css/bootstrap-select.min.css' %}">
 
 <!-- Custom Style -->
@@ -20,8 +20,7 @@
     #about .section-title,
     #mission > .section-title,
     #recent-activities .section-title,
-    #gallery .gallery-section-head .section-title,
-    #volunteer .section-title.parallax-title {
+    #gallery .gallery-section-head .section-title {
         font-size: clamp(2.25rem, 4.8vw, 3.2rem) !important;
         line-height: 1.15 !important;
         font-weight: 800 !important;
@@ -30,6 +29,18 @@
         font-size: clamp(1.9rem, 3.6vw, 2.6rem) !important;
         line-height: 1.15 !important;
         font-weight: 800 !important;
+    }
+    #gallery .gallery-tagline-text {
+        white-space: nowrap !important;
+        display: inline-block !important;
+        font-size: clamp(0.95rem, 1.1vw, 1.2rem) !important;
+        line-height: 1.45 !important;
+        text-align: center !important;
+    }
+    #gallery p.gallery-section-description {
+        text-align: center !important;
+        width: 100% !important;
+        max-width: none !important;
     }
 </style>
 {% endblock %}
@@ -78,7 +89,7 @@
 
 {% block showcase-title-container %}
 <div class="slider-txt-container" style="padding: 210px 0 300px 0;">
-    <p class="bold-txt mb-3" style="font-family: 'Libre Franklin', sans-serif;">
+    <p class="bold-txt mb-3" style="font-family: 'Inter', system-ui, sans-serif;">
         BANDHU
     </p>
     <p id="header-text" class="parallax-description font-weight-bold" style="color: #ff9800;">
@@ -163,7 +174,7 @@
 <!-- Initiatives Cards Section Ends -->
 <section id="current-updates" class="current-updates">
     <div class="d-flex flex-row justify-content-center">
-        <table style="font-family:Verdana, Arial, Helvetica, sans-serif;font-size:14px;" width="97%">
+        <table style="font-family:'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;font-size:14px;" width="97%">
             <tbody>
                 <tr style="border:thin #005E66 inset;color:#ffffff;">
                     <td style="color:#ffffff;padding-left: 10px;font-weight: bold;" width="15%" bgcolor="#005E66">Current Updates:-</td>
@@ -459,39 +470,14 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 {% endfor %}
 {% endif %}
 <!-- Recent Activities Section Ends -->
-<!-- Volunteer Section -->
-<section id="volunteer">
-    <div class="parallax-style text-white text-center">
-        <div class="parallax-overlay dark-overlay section-padding" style="padding: 80px 0 70px;">
-            <div class="container">
-                <div class="section-head" style="margin-bottom:60px;">
-                    <h3 class="section-title parallax-title" style="word-spacing: 5px;">
-                        {{ volunteer.title }}
-                    </h3>
-                </div>
-
-                <div class="row justify-content-center">
-                    <p class="parallax-description w-100 px-3" style="font-size:1.7em; line-height:35px; margin-bottom: 30px;">
-                        {{ volunteer.tagline }}
-                    </p>
-                    <button type="button" class="btn btn-outline-light py-2 px-4 custom-btn angle-effect">
-                        <a href="{% url 'signup' %}" class="d-block text-decoration-none text-white">Join Now</a>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Volunteer Section End-->
-
 <section id="gallery">
     <div class="bg-grey" style="padding: 80px 0 60px;">
         <div class="container">
             <div class="section-head gallery-section-head">
                 <h2 class="section-title">Gallery</h2>
                 <div class="section-accent gallery-section-accent"></div>
-                <p class="section-description gallery-section-description">
-                    {{ gallery.tagline }}
+                <p class="section-description gallery-section-description gallery-tagline-single-line">
+                    <span class="gallery-tagline-text">{% if gallery and gallery.tagline %}{{ gallery.tagline|single_line }}{% else %}Take a look at our gallery to get a glimpse of what we do and what it feels like working for a&nbsp;social cause.{% endif %}</span>
                 </p>
             </div>
 
@@ -818,7 +804,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
         var lines = [
             { text: 'ସବାଶେଷ  ମଣିଷର', lang: 'or', fontFamily: 'oriya' },
-            { text: 'Sanskar · Swaraj · Swabalamban', lang: 'en', fontFamily: "'DM Sans', 'Raleway', sans-serif" }
+            { text: 'Sanskar · Swaraj · Swabalamban', lang: 'en', fontFamily: "'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }
         ];
 
         var current = 0;

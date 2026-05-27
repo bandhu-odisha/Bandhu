@@ -1,11 +1,11 @@
 import { useState, useRef, useEffect } from 'react'
 import { createPortal } from 'react-dom'
-import { CTA_PILL_CLASS } from '../cta'
+import { LANDING_NAVBAR_AUTH_BUTTON_CLASS } from '../cta'
 import CurrentUpdates from './CurrentUpdates'
 
 /** Links inside the floating nav pill — flat hover, no heavy chrome. */
 const NAV_LINK =
-  'font-body text-sm font-medium text-slate-700 hover:text-slate-900 whitespace-nowrap py-1.5 px-1 sm:px-1.5 inline-flex items-center gap-1 rounded-lg transition-colors duration-200 hover:bg-slate-100/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#005E66]/30 focus-visible:ring-offset-1'
+  'font-body text-sm font-medium text-slate-700 no-underline hover:text-slate-900 hover:no-underline focus:no-underline whitespace-nowrap py-1.5 px-1 sm:px-1.5 inline-flex items-center gap-1 rounded-lg transition-colors duration-200 hover:bg-slate-100/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#005E66]/30 focus-visible:ring-offset-1'
 
 const ChevronDown = ({ open }) => (
   <svg
@@ -20,7 +20,7 @@ const ChevronDown = ({ open }) => (
   </svg>
 )
 
-export default function Navbar({ data, onOpenLogin }) {
+export default function Navbar({ data }) {
   const urls = data?.urls || {}
   const user = data?.user || {}
   const initialNotices = data?.recent_activities ?? []
@@ -28,6 +28,7 @@ export default function Navbar({ data, onOpenLogin }) {
   const [noticesLoading, setNoticesLoading] = useState(initialNotices.length === 0)
   const [noticeOpen, setNoticeOpen] = useState(false)
   const noticeRef = useRef(null)
+  const noticeDropdownRef = useRef(null)
   const [dropdownRect, setDropdownRect] = useState(null)
   const [missionOpen, setMissionOpen] = useState(false)
   const missionRef = useRef(null)
@@ -93,12 +94,17 @@ export default function Navbar({ data, onOpenLogin }) {
       return
     }
     updateDropdownRect()
-    const onScrollOrResize = () => updateDropdownRect()
-    window.addEventListener('scroll', onScrollOrResize, true)
-    window.addEventListener('resize', onScrollOrResize)
+    const onResize = () => updateDropdownRect()
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [noticeOpen])
+
+  useEffect(() => {
+    if (!noticeOpen) return undefined
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
     return () => {
-      window.removeEventListener('scroll', onScrollOrResize, true)
-      window.removeEventListener('resize', onScrollOrResize)
+      document.body.style.overflow = prev
     }
   }, [noticeOpen])
 
@@ -168,6 +174,10 @@ export default function Navbar({ data, onOpenLogin }) {
   const truncate = (str, max = 135) =>
     str && str.length > max ? `${str.slice(0, max).trim()}…` : str || ''
 
+  const isolateNoticeWheel = (e) => {
+    e.stopPropagation()
+  }
+
   const NavLinks = () => (
     <>
       <a href={urls.home || '#top'} className={NAV_LINK}>
@@ -207,7 +217,7 @@ export default function Navbar({ data, onOpenLogin }) {
                   <li key={pillar.label}>
                     <a
                       href={pillar.href}
-                      className="block px-4 py-2.5 text-left text-sm font-body font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-colors"
+                      className="block px-4 py-2.5 text-left text-sm font-body font-medium text-slate-700 no-underline hover:bg-slate-50 hover:text-slate-900 hover:no-underline transition-colors"
                       onClick={() => setMissionOpen(false)}
                     >
                       {pillar.label}
@@ -249,7 +259,7 @@ export default function Navbar({ data, onOpenLogin }) {
                   <li key={link.label}>
                     <a
                       href={link.href}
-                      className="block px-4 py-2.5 text-left text-sm font-body font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-colors"
+                      className="block px-4 py-2.5 text-left text-sm font-body font-medium text-slate-700 no-underline hover:bg-slate-50 hover:text-slate-900 hover:no-underline transition-colors"
                       onClick={() => setSupportOpen(false)}
                     >
                       {link.label}
@@ -282,7 +292,8 @@ export default function Navbar({ data, onOpenLogin }) {
           createPortal(
             <div
               data-notice-dropdown
-              className="fixed max-h-[70vh] overflow-y-auto rounded-lg border border-black/10 bg-white shadow-xl py-1 z-[200]"
+              ref={noticeDropdownRef}
+              className="fixed z-[200] overflow-hidden rounded-lg border border-black/10 bg-white shadow-xl"
               style={{
                 top: dropdownRect.top,
                 left: dropdownRect.left,
@@ -295,7 +306,10 @@ export default function Navbar({ data, onOpenLogin }) {
               ) : notices.length === 0 ? (
                 <p className="px-4 py-3 text-sm opacity-70 font-body">No notices at the moment.</p>
               ) : (
-                <ul>
+                <ul
+                  className="max-h-[min(70vh,28rem)] overflow-y-auto overscroll-contain py-1 touch-pan-y scrollbar-hide"
+                  onWheel={isolateNoticeWheel}
+                >
                   {notices.map((notice) => (
                     <li key={notice.id} className="border-b border-black/5 last:border-0">
                       <a
@@ -362,13 +376,22 @@ export default function Navbar({ data, onOpenLogin }) {
 
           <div className="ml-auto shrink-0 md:ml-0">
             {user.is_authenticated ? (
-              <a href="/accounts/logout/" className={CTA_PILL_CLASS}>
+              <a
+                href="/accounts/logout/"
+                className={`${LANDING_NAVBAR_AUTH_BUTTON_CLASS} normal-case tracking-normal`}
+              >
                 Logout
               </a>
             ) : (
-              <button type="button" onClick={() => onOpenLogin?.()} className={CTA_PILL_CLASS}>
+              <a
+                href="#"
+                className={`${LANDING_NAVBAR_AUTH_BUTTON_CLASS} normal-case tracking-normal`}
+                role="button"
+                data-toggle="modal"
+                data-target="#loginModal"
+              >
                 Login
-              </button>
+              </a>
             )}
           </div>
         </div>

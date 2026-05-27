@@ -1,3 +1,4 @@
+from django.urls import reverse
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
@@ -69,8 +70,9 @@ def _is_safe_login_modal_next(path):
 
 
 def _redirect_login_modal(request, next_path, err_code):
-    if request.POST.get('login_modal') != '1' or not _is_safe_login_modal_next(next_path):
+    if request.POST.get('login_modal') != '1':
         return None
+    safe_next = next_path if _is_safe_login_modal_next(next_path) else '/'
     try:
         request.session['login_modal_err_code'] = int(err_code)
     except (TypeError, ValueError):
@@ -78,8 +80,13 @@ def _redirect_login_modal(request, next_path, err_code):
     email = (request.POST.get('email') or '').strip()
     if email:
         request.session['login_modal_prefill_email'] = email
-    join = '&' if ('?' in next_path) else '?'
-    return redirect(f'{next_path}{join}login_modal=1')
+    from urllib.parse import urlencode
+    # Stay on the same Django page when possible; React home handles `/` only.
+    if safe_next in ('/', ''):
+        query = urlencode({'login_modal': '1', 'next': '/'})
+        return redirect(f'{reverse("home")}?{query}')
+    join = '&' if ('?' in safe_next) else '?'
+    return redirect(f'{safe_next}{join}login_modal=1')
 
 
 from sendgrid import SendGridAPIClient
@@ -101,6 +108,7 @@ def login_view(request):
     err_code = 0
 
     if request.POST:
+        next_path = (request.POST.get('next') or '').strip()
         email = request.POST['email']
         password = request.POST['password']
         # Return the User object if credentials are correct AND USER IS ACTIVE
@@ -113,11 +121,12 @@ def login_view(request):
                 err_code = 2  # Not Authenticated
             else:
                 login(request, user)
-                
+
                 if not profile.exists():
                     return HttpResponseRedirect('/profile/')
-                else:
-                    return HttpResponseRedirect('/')
+                if _is_safe_login_modal_next(next_path):
+                    return HttpResponseRedirect(next_path)
+                return HttpResponseRedirect('/')
         else:
             # Either Email/Password is wrong or
             # user not activated
@@ -135,7 +144,6 @@ def login_view(request):
                     # Password not correct
                     err_code = 3
 
-        next_path = (request.POST.get('next') or '').strip()
         if err_code != 0:
             redir = _redirect_login_modal(request, next_path, err_code)
             if redir:

@@ -5,46 +5,12 @@
 
 {% block title %} Bandhu | Other Activities {% endblock %}
 
+{% block body_class %}other-activities-page pillar-inner-page{% endblock %}
+
 {% block style %}
-<!-- Custom CSS -->
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
-<link rel="stylesheet" href="{% static 'css/charity.css' %}">
-<!-- Custom Style -->
-<style>
-    #top-section {
-        background:
-            radial-gradient(circle at 14% 22%, rgba(0, 94, 102, 0.06) 0 2px, transparent 3px),
-            radial-gradient(circle at 30% 70%, rgba(0, 94, 102, 0.04) 0 1.5px, transparent 2.5px),
-            radial-gradient(circle at 58% 28%, rgba(0, 94, 102, 0.05) 0 1.8px, transparent 2.8px),
-            radial-gradient(circle at 74% 62%, rgba(0, 94, 102, 0.04) 0 1.5px, transparent 2.6px),
-            radial-gradient(circle at 88% 24%, rgba(0, 94, 102, 0.045) 0 1.6px, transparent 2.8px),
-            linear-gradient(135deg, #e8f5f6 0%, #d6ecee 45%, #c5e4e8 100%) !important;
-        background-attachment: fixed !important;
-        background-size: cover !important;
-    }
-    #top-section .parallax-overlay {
-        position: relative;
-        background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(214, 236, 238, 0.28) 100%) !important;
-    }
-    #top-section .parallax-overlay::before {
-        content: "Other Activities";
-        position: absolute;
-        top: 120px;
-        left: 50%;
-        transform: translateX(-50%);
-        color: #005E66;
-        font-family: 'Lora', Georgia, serif;
-        font-weight: 800;
-        font-size: clamp(2.2rem, 6vw, 4rem);
-        letter-spacing: 0.02em;
-        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.95), 0 2px 22px rgba(0, 94, 102, 0.14);
-        z-index: 9;
-        pointer-events: none;
-    }
-    #top-section .slider-txt-container.page-showcase {
-        display: none !important;
-    }
-</style>
+<link rel="stylesheet" href="{% static 'css/pillar-inner-banner.css' %}?v=2">
+<link rel="stylesheet" href="{% static 'css/charity.css' %}?v=10">
 {% endblock %}
 
 {% block navbar-links %}
@@ -63,9 +29,9 @@
 {% endblock %}
 
 {% block showcase-title-container %}
-<div class="slider-txt-container page-showcase page-showcase-tall">
-    <h2 class="bold-txt page-showcase-title">Other Activities</h2>
-    <div class="page-showcase-accent"></div>
+<div class="slider-txt-container pillar-showcase page-showcase page-showcase-tall">
+    <h2 class="bold-txt pillar-showcase-title page-showcase-title">Other Activities</h2>
+    <div class="pillar-showcase-accent page-showcase-accent"></div>
 </div>
 {% endblock %}
 {% block angular %}
@@ -82,7 +48,8 @@
             <div class="col-lg-4 col-md-5">
                 <div class="pillar-overlay-card pillar-overlay-card--image">
                     {% if content and content.picture %}
-                    <img src="{{ content.picture.url }}" alt="Other Activities" loading="eager" class="pillar-overlay-single-image">
+                    <img src="{{ content.picture.url }}" alt="Other Activities" loading="eager" class="pillar-overlay-single-image"
+                        onerror="this.onerror=null;this.src='{% static 'img/our_mission1.jpg' %}';">
                     {% else %}
                     <img src="{% static 'img/our_mission1.jpg' %}" alt="Other Activities" loading="eager" class="pillar-overlay-single-image">
                     {% endif %}
@@ -120,14 +87,17 @@
                     <ul class="glide__slides">
                         {% for charity in charity_works %}
                         <li class="glide__slide">
-                            <div class="card w-100 page-card activity-card mx-auto my-2 h-100">
-                                    <img src="{{ charity.image.url }}" class="card-img-top activity-card-img" alt="{{ charity.title }}">
+                            <div class="card w-100 page-card activity-card mx-auto my-2 h-100 position-relative">
+                                    <div class="activity-card-media">
+                                        <img src="{{ charity.image.url }}" class="activity-card-img" alt="{{ charity.title }}" loading="lazy">
+                                    </div>
                                     <div class="card-body d-flex flex-column pb-3">
                                         <h5 class="card-title font-weight-bold">{{ charity.title }}</h5>
                                         <p class="mb-0 mt-auto">{{ charity.purpose }}, {{ charity.location }}</p>
-                                        <a href="{% url 'charitywork:CharityDetail' slug=charity.slug %}"
-                                            class="stretched-link"></a>
                                     </div>
+                                    <a href="{% url 'charitywork:CharityDetail' slug=charity.slug %}"
+                                        class="stretched-link"
+                                        aria-label="{{ charity.title }}"></a>
                                 </div>
                             </li>
                             {% endfor %}
@@ -153,7 +123,7 @@
             {% endif %}
             <div class="row justify-content-center mt-4">
                 <div class="add-activity">
-                    {% if user.is_admin %}
+                    {% if user|is_admin %}
                     <a href="{% url 'admin:charitywork_charity_add' %}?next=activity_details" class="btn btn-primary">Create Activity</a>
                     {% endif %}
                     <div class="modal fade charity-modal" tabindex="-1" id="add_activity" role="dialog"
@@ -246,6 +216,24 @@
 
 
 {% block scripts %}
+<script>
+$(function () {
+    $(document).on('show.bs.modal', '.charity-modal', function () {
+        if (this.parentNode !== document.body) {
+            document.body.appendChild(this);
+        }
+    });
+    $(document).on('shown.bs.modal', '.charity-modal', function () {
+        $(this).css('z-index', 1060);
+        $('.modal-backdrop').last().css('z-index', 1055);
+    });
+    $(document).on('hidden.bs.modal', '.charity-modal', function () {
+        if (document.activeElement && document.activeElement.blur) {
+            document.activeElement.blur();
+        }
+    });
+});
+</script>
 <!-- Custom JS -->
 <script src="{% static 'js/bandhu.js' %}"></script>
 
@@ -260,23 +248,32 @@
 </script>
 
 <script>
-    // CHARITY CAROUSEL
-    var charity_glide = new Glide('.charity_works', {
-        type: 'carousel',
-        focusAt: 'center',
-        perView: 3,
-        autoplay: 2000,
-        gap: 30,
-        breakpoints: {
-            991: {
-                perView: 2,
+    (function () {
+        var root = document.querySelector('.charity_works');
+        if (!root || typeof Glide === 'undefined') return;
+
+        var slideCount = root.querySelectorAll('.glide__slide').length;
+        if (!slideCount) return;
+
+        var desktopPerView = Math.min(3, slideCount);
+        var tabletPerView = Math.min(2, slideCount);
+        var mobilePerView = 1;
+        var hasFewSlides = slideCount <= 2;
+
+        new Glide('.charity_works', {
+            type: hasFewSlides ? 'slider' : 'carousel',
+            focusAt: hasFewSlides ? 0 : 'center',
+            perView: desktopPerView,
+            autoplay: hasFewSlides ? false : 2000,
+            gap: 30,
+            bound: hasFewSlides || slideCount <= 3,
+            rewind: !hasFewSlides,
+            breakpoints: {
+                991: { perView: tabletPerView },
+                767: { perView: mobilePerView },
             },
-            767: {
-                perView: 1,
-            },
-        }
-    })
-    charity_glide.mount()
+        }).mount();
+    })();
 </script>
 <script>
     // Move "Registration Form" link next to "Patriotism in Action"

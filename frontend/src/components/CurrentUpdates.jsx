@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react'
 import { createPortal } from 'react-dom'
-import { CTA_PILL_CLASS } from '../cta'
+import { LANDING_NAVBAR_AUTH_BUTTON_CLASS } from '../cta'
 
 function stripHtml(html) {
   if (!html || typeof html !== 'string') return ''
@@ -52,8 +52,30 @@ function buildItems(data) {
  * Floating “Current updates” control: opens a vertical notice-board-style panel (slide-over).
  */
 export default function CurrentUpdates({ data, inline = false }) {
-  const items = useMemo(() => buildItems(data), [data])
+  const [landingData, setLandingData] = useState(data)
+  const items = useMemo(() => buildItems(landingData), [landingData])
   const [open, setOpen] = useState(false)
+
+  useEffect(() => {
+    setLandingData(data)
+  }, [data])
+
+  useEffect(() => {
+    const hasUpdates = (landingData?.current_updates || []).length > 0
+    const hasActivities = (landingData?.recent_activities || []).length > 0
+    if (hasUpdates || hasActivities) return undefined
+
+    let cancelled = false
+    fetch('/api/landing/')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((json) => {
+        if (!cancelled && json) setLandingData((prev) => ({ ...prev, ...json }))
+      })
+      .catch(() => {})
+    return () => {
+      cancelled = true
+    }
+  }, [landingData?.current_updates, landingData?.recent_activities])
 
   useEffect(() => {
     if (!open) return undefined
@@ -99,7 +121,7 @@ export default function CurrentUpdates({ data, inline = false }) {
               </svg>
             </button>
           </div>
-          <ul className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+          <ul className="min-h-0 flex-1 overflow-y-auto overscroll-contain scrollbar-hide">
             {items.map((item, i) => (
               <li key={i} className="border-b border-slate-100 last:border-0">
                 {item.url ? (
@@ -143,13 +165,23 @@ export default function CurrentUpdates({ data, inline = false }) {
         aria-haspopup="dialog"
         className={
           inline
-            ? `${CTA_PILL_CLASS} gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 whitespace-nowrap`
-            : `fixed bottom-5 right-5 z-[170] max-w-[calc(100vw-2.5rem)] gap-2 pl-4 shadow-[0_10px_30px_rgba(0,94,102,0.35)] transition-transform hover:scale-[1.02] sm:bottom-7 sm:right-7 ${CTA_PILL_CLASS}`
+            ? `${LANDING_NAVBAR_AUTH_BUTTON_CLASS} normal-case tracking-normal gap-2`
+            : `fixed bottom-5 right-5 z-[170] max-w-[calc(100%-2.5rem)] gap-2 pl-3.5 normal-case tracking-normal transition-transform hover:scale-[1.02] sm:bottom-7 sm:right-7 ${LANDING_NAVBAR_AUTH_BUTTON_CLASS}`
         }
         style={inline ? undefined : { marginBottom: 'max(0.25rem, env(safe-area-inset-bottom, 0px))' }}
       >
-        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/20">
-          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+        <span
+          className={`flex shrink-0 items-center justify-center rounded-full bg-white/20 ${
+            inline ? 'h-7 w-7' : 'h-8 w-8'
+          }`}
+        >
+          <svg
+            className={inline ? 'h-4 w-4' : 'h-4 w-4'}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden
+          >
             <path
               strokeLinecap="round"
               strokeLinejoin="round"

@@ -1,4 +1,4 @@
-/* Blend diagonal below banner – no visible line (uses .angular-publications on list & detail) */
+﻿/* Blend diagonal below banner – no visible line (uses .angular-publications on list & detail) */
 .angular-publications .top-angle:before {
     background: #ffffff !important;
     box-shadow: none !important;
@@ -120,7 +120,7 @@ body:has(#publications-list) .page-section {
 }
 #publications-list .page-card.dpg-album-card .card-body {
     text-align: center;
-    font-family: 'Lora', Georgia, serif !important;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
 }
 #publications-list .page-card.dpg-album-card .card-body > span {
     display: inline-flex;
@@ -128,11 +128,11 @@ body:has(#publications-list) .page-section {
     justify-content: center;
     width: 100%;
     text-align: center;
-    font-family: 'Lora', Georgia, serif !important;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
 }
 #publications-list .page-card.dpg-album-card .card-title,
 #publications-list .page-card.dpg-album-card time {
-    font-family: 'Lora', Georgia, serif !important;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
 }
 
 /* 5 cards per row on wide screens */

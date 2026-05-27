@@ -1,6 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
+import { createPortal } from 'react-dom'
 
-const ABOUT_SLIDES = [
+const SLIDE_MS = 5000
+
+const DEFAULT_ABOUT_SLIDES = [
   {
     src: '/static/img/about-slide-1-gardenia.png',
     caption:
@@ -28,21 +31,49 @@ const ABOUT_SLIDES = [
   },
 ]
 
-const SLIDE_MS = 5000
-
 export default function About({ data }) {
   const about = data?.about
+  const slides = useMemo(() => {
+    const imported = (data?.about_slides || []).filter((slide) => slide?.src)
+    if (imported.length) return imported
+    return DEFAULT_ABOUT_SLIDES
+  }, [data])
   const [slideIndex, setSlideIndex] = useState(0)
+  const [lightboxOpen, setLightboxOpen] = useState(false)
+
+  const openLightbox = useCallback(() => setLightboxOpen(true), [])
+  const closeLightbox = useCallback(() => setLightboxOpen(false), [])
 
   useEffect(() => {
-    if (ABOUT_SLIDES.length <= 1) return undefined
+    if (slides.length <= 1) return undefined
     const id = window.setInterval(() => {
-      setSlideIndex((i) => (i + 1) % ABOUT_SLIDES.length)
+      setSlideIndex((i) => (i + 1) % slides.length)
     }, SLIDE_MS)
     return () => window.clearInterval(id)
-  }, [])
+  }, [slides.length])
 
-  if (!about) return null
+  useEffect(() => {
+    if (!lightboxOpen) return undefined
+    const onKey = (e) => {
+      if (e.key === 'Escape') closeLightbox()
+      if (e.key === 'ArrowLeft') {
+        setSlideIndex((i) => (i <= 0 ? slides.length - 1 : i - 1))
+      }
+      if (e.key === 'ArrowRight') {
+        setSlideIndex((i) => (i >= slides.length - 1 ? 0 : i + 1))
+      }
+    }
+    document.addEventListener('keydown', onKey)
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = ''
+    }
+  }, [lightboxOpen, slides.length, closeLightbox])
+
+  if (!about || !slides.length) return null
+
+  const current = slides[slideIndex]
 
   return (
     <section id="about" className="landing-section bg-white">
@@ -65,33 +96,38 @@ export default function About({ data }) {
 
           <div className="order-1 lg:order-2 w-full min-h-0 flex flex-col lg:h-full">
             <figure className="m-0 flex flex-col flex-1 min-h-0 w-full">
-              <div
-                className="relative w-full aspect-[5/4] sm:aspect-[4/3] min-h-[13rem] lg:aspect-auto lg:flex-1 lg:min-h-[12rem] rounded-2xl overflow-hidden border border-black/[0.08] bg-slate-100"
+              <button
+                type="button"
+                className="relative w-full aspect-[5/4] sm:aspect-[4/3] min-h-[13rem] lg:aspect-auto lg:flex-1 lg:min-h-[12rem] rounded-2xl overflow-hidden border border-black/[0.08] bg-slate-100 cursor-pointer p-0 text-left"
                 aria-live="polite"
                 aria-atomic="true"
+                aria-label={`View photo: ${current.caption || 'About Bandhu'}`}
+                onClick={openLightbox}
               >
-                {ABOUT_SLIDES.map((slide, i) => (
+                {slides.map((slide, i) => (
                   <img
-                    key={slide.src}
+                    key={`${slide.src}-${String(i)}`}
                     src={slide.src}
-                    alt=""
+                    alt={slide.caption || 'About Bandhu'}
                     className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-out ${
-                      i === slideIndex ? 'opacity-100 z-[1]' : 'opacity-0 z-0'
+                      i === slideIndex
+                        ? 'opacity-100 z-[1] pointer-events-auto'
+                        : 'opacity-0 z-0 pointer-events-none'
                     }`}
                     loading={i === 0 ? 'eager' : 'lazy'}
                   />
                 ))}
-              </div>
+              </button>
               <figcaption className="mt-4 pl-0 pr-1 shrink-0">
                 <p className="font-body text-sm sm:text-base text-slate-600 leading-snug text-left min-h-[3rem] sm:min-h-[3.25rem]">
-                  {ABOUT_SLIDES[slideIndex].caption}
+                  {slides[slideIndex].caption}
                 </p>
                 <div
                   className="flex justify-start gap-1.5 mt-3"
                   role="tablist"
                   aria-label="Photo carousel position"
                 >
-                  {ABOUT_SLIDES.map((_, i) => (
+                  {slides.map((_, i) => (
                     <button
                       key={String(i)}
                       type="button"
@@ -112,6 +148,69 @@ export default function About({ data }) {
           </div>
         </div>
       </div>
+
+      {lightboxOpen &&
+        current &&
+        createPortal(
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-label="About photo full view"
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90"
+            onClick={closeLightbox}
+          >
+            <button
+              type="button"
+              onClick={closeLightbox}
+              className="absolute top-4 right-4 z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white/20 text-3xl leading-none text-white hover:bg-white/30"
+              aria-label="Close"
+            >
+              ×
+            </button>
+            {slides.length > 1 && (
+              <>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setSlideIndex((i) => (i <= 0 ? slides.length - 1 : i - 1))
+                  }}
+                  className="absolute left-4 top-1/2 z-10 flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-white/20 text-4xl text-white hover:bg-white/30"
+                  aria-label="Previous photo"
+                >
+                  ‹
+                </button>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setSlideIndex((i) => (i >= slides.length - 1 ? 0 : i + 1))
+                  }}
+                  className="absolute right-4 top-1/2 z-10 flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-white/20 text-4xl text-white hover:bg-white/30"
+                  aria-label="Next photo"
+                >
+                  ›
+                </button>
+              </>
+            )}
+            <div
+              className="flex max-h-[90vh] max-w-[90vw] items-center justify-center p-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img
+                src={current.src}
+                alt={current.caption || 'About Bandhu'}
+                className="max-h-[90vh] w-auto max-w-full rounded-2xl object-contain shadow-2xl"
+              />
+            </div>
+            {current.caption && (
+              <p className="absolute bottom-4 left-1/2 max-w-[90vw] -translate-x-1/2 px-4 text-center text-sm text-white/90">
+                {current.caption}
+              </p>
+            )}
+          </div>,
+          document.body
+        )}
     </section>
   )
 }

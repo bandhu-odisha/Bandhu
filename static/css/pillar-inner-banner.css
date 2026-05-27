@@ -1,0 +1,85 @@
+﻿/* Shared inner-page hero banner (Sanskar, People, staff profile, etc.) */
+
+body.pillar-inner-page {
+    background: #ffffff;
+}
+
+body.pillar-inner-page #top-section {
+    background:
+        radial-gradient(circle at 14% 22%, rgba(0, 94, 102, 0.06) 0 2px, transparent 3px),
+        radial-gradient(circle at 30% 70%, rgba(0, 94, 102, 0.04) 0 1.5px, transparent 2.5px),
+        radial-gradient(circle at 58% 28%, rgba(0, 94, 102, 0.05) 0 1.8px, transparent 2.8px),
+        radial-gradient(circle at 74% 62%, rgba(0, 94, 102, 0.04) 0 1.5px, transparent 2.6px),
+        radial-gradient(circle at 88% 24%, rgba(0, 94, 102, 0.045) 0 1.6px, transparent 2.8px),
+        linear-gradient(135deg, #e8f5f6 0%, #d6ecee 45%, #c5e4e8 100%) !important;
+    background-attachment: fixed !important;
+    background-size: cover !important;
+}
+
+body.pillar-inner-page #top-section .parallax-overlay {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(214, 236, 238, 0.28) 100%) !important;
+    background-color: transparent !important;
+}
+
+body.pillar-inner-page .parallax-overlay:has(.pillar-showcase) {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(214, 236, 238, 0.35) 55%, rgba(197, 228, 232, 0.4) 100%);
+}
+
+/* No ::before headline — use visible flex-centered title in markup */
+body.pillar-inner-page #top-section .parallax-overlay::before,
+body.pillar-inner-page #top-section .parallax-overlay::after {
+    content: none !important;
+    display: none !important;
+}
+
+body.pillar-inner-page #top-section .slider-txt-container.pillar-showcase,
+body.pillar-inner-page #top-section .slider-txt-container.page-showcase.pillar-showcase {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    text-transform: none !important;
+    width: 100% !important;
+    color: inherit !important;
+}
+
+body.pillar-inner-page #top-section .slider-txt-container.pillar-showcase > *,
+body.pillar-inner-page #top-section .slider-txt-container.page-showcase.pillar-showcase > * {
+    position: static !important;
+    width: auto !important;
+    max-width: min(92vw, 48rem) !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    clip: auto !important;
+    clip-path: none !important;
+    white-space: normal !important;
+    border: 0 !important;
+    opacity: 1 !important;
+    pointer-events: none !important;
+}
+
+body.pillar-inner-page .pillar-showcase .pillar-showcase-title,
+body.pillar-inner-page .pillar-showcase .page-showcase-title {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-weight: 800 !important;
+    font-size: clamp(2.2rem, 6vw, 4rem) !important;
+    letter-spacing: 0.02em !important;
+    color: #005E66 !important;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.95), 0 2px 22px rgba(0, 94, 102, 0.14) !important;
+    margin: 0 auto !important;
+    line-height: 1.15 !important;
+    text-align: center !important;
+    text-transform: none !important;
+}
+
+body.pillar-inner-page .pillar-showcase .pillar-showcase-accent,
+body.pillar-inner-page .pillar-showcase .page-showcase-accent {
+    margin: 1rem auto 0 !important;
+}
+
+body.pillar-inner-page .angular.pillar-angular .top-angle:before {
+    background: linear-gradient(180deg, #f0fafb 0%, #e8f5f6 100%);
+}

@@ -1,0 +1,1035 @@
+﻿/* Ankurayan – vibrant teal theme (no white gap bands) */
+
+/*
+ * Typography: match React landing (Inter). Body classes: `ankurayan-page` / `ankurayan-detail`.
+ * Use !important where Bootstrap or CMS rich text sets a sans/inline font.
+ * Exclude Font Awesome / SVG so icons keep their glyph fonts.
+ */
+body.ankurayan-page,
+body.ankurayan-detail {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+}
+body.ankurayan-page .page-showcase .bold-txt,
+body.ankurayan-page .page-showcase .page-showcase-title,
+body.ankurayan-detail .page-showcase .bold-txt,
+body.ankurayan-detail .page-showcase .page-showcase-title {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+}
+/* Navbar + login pill */
+body.ankurayan-page .navbar.navbar-landing-style,
+body.ankurayan-detail .navbar.navbar-landing-style {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+}
+body.ankurayan-page .navbar .navbar-nav .nav-link,
+body.ankurayan-page .navbar .navbar-nav a.nav-button.btn,
+body.ankurayan-detail .navbar .navbar-nav .nav-link,
+body.ankurayan-detail .navbar .navbar-nav a.nav-button.btn {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+}
+body.ankurayan-page .btn,
+body.ankurayan-detail .btn,
+body.ankurayan-page .form-control,
+body.ankurayan-detail .form-control,
+body.ankurayan-page .custom-file-label,
+body.ankurayan-detail .custom-file-label,
+body.ankurayan-page .input-group-text,
+body.ankurayan-detail .input-group-text,
+body.ankurayan-page .modal-content,
+body.ankurayan-detail .modal-content,
+body.ankurayan-page .list-group-item,
+body.ankurayan-detail .list-group-item {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+}
+body.ankurayan-page #about.pillar-overlay-cards,
+body.ankurayan-detail #about.pillar-overlay-cards,
+body.ankurayan-page .ankurayan-list-page,
+body.ankurayan-detail .ankurayan-detail {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+}
+/* Rich text in description + all copy in the white card (beat inline sans from CMS) */
+body.ankurayan-page #about.pillar-overlay-cards .pillar-overlay-card--text *:not(svg):not(path):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not([class*="fa-"]):not(code):not(pre):not(kbd):not(samp):not(.font-monospace),
+body.ankurayan-detail #about.pillar-overlay-cards .pillar-overlay-card--text *:not(svg):not(path):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not([class*="fa-"]):not(code):not(pre):not(kbd):not(samp):not(.font-monospace) {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+}
+/* Odia caption lines: prefer Noto when available */
+body.ankurayan-page .ankurayan-image-caption .caption-or,
+body.ankurayan-detail .ankurayan-image-caption .caption-or {
+    font-family: 'Noto Sans Oriya', 'Noto Sans Odia', 'Kohinoor Odia', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+}
+/* Year cards carousel */
+body.ankurayan-page .ankurayan-list-page *:not(svg):not(path):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not([class*="fa-"]):not(code):not(pre):not(kbd):not(samp):not(.font-monospace),
+body.ankurayan-detail .ankurayan-detail *:not(svg):not(path):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not([class*="fa-"]):not(code):not(pre):not(kbd):not(samp):not(.font-monospace) {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+}
+body.ankurayan-detail .modal *:not(svg):not(path):not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not([class*="fa-"]):not(code):not(pre):not(kbd):not(samp):not(.font-monospace) {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+}
+
+/* Blend diagonal below banner – no visible line (list & detail) */
+.angular.page-angular.angular-ankurayan .top-angle:before {
+    background: #d7e9f2 !important;
+    box-shadow: none !important;
+}
+.angular-ankurayan + .ankurayan-page,
+.angular-ankurayan + .ankurayan-detail {
+    margin-top: -24px !important;
+    padding-top: 24px !important;
+    border-top: none !important;
+    box-shadow: none !important;
+}
+.ankurayan-page #about.page-hero.page-hero-with-angular,
+.ankurayan-detail #about.page-hero.page-hero-with-angular,
+.ankurayan-detail #about.pillar-overlay-cards {
+    border-top: none !important;
+}
+
+/* List page overlay cards: match other mission pillar pages */
+.angular.page-angular.angular-ankurayan .top-angle:before {
+    background: #ffffff !important;
+}
+.angular-ankurayan + .pillar-overlay-cards {
+    margin-top: -280px !important;
+}
+.pillar-overlay-cards {
+    margin-top: -280px;
+    position: relative;
+    z-index: 3;
+    padding-bottom: 4rem;
+    background: linear-gradient(180deg, transparent 0, transparent 420px, #ffffff 420px);
+}
+.pillar-overlay-cards .row {
+    align-items: flex-start !important;
+}
+@media (min-width: 992px) {
+    .pillar-overlay-cards .row > .col-lg-4 { flex: 0 0 30%; max-width: 30%; }
+    .pillar-overlay-cards .row > .col-lg-8 { flex: 0 0 70%; max-width: 70%; }
+}
+/* Detail: narrower photo column, wider text card (25% / 75% at lg+); photo flush left */
+@media (min-width: 992px) {
+    .ankurayan-detail .pillar-overlay-cards .row > .col-lg-4 {
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+    .ankurayan-detail .pillar-overlay-cards .row > .col-lg-8 {
+        flex: 0 0 75%;
+        max-width: 75%;
+    }
+}
+.ankurayan-detail .pillar-overlay-cards .row > [class*="col-"]:first-child {
+    padding-left: 0;
+}
+.ankurayan-detail .pillar-overlay-cards .pillar-overlay-card--text {
+    width: 100%;
+    max-width: none;
+    box-sizing: border-box;
+    padding: 2.25rem 2.5rem;
+}
+@media (max-width: 767.98px) {
+    .ankurayan-detail .pillar-overlay-cards .pillar-overlay-card--text {
+        padding: 1.75rem 1.5rem;
+    }
+}
+.pillar-overlay-cards .pillar-overlay-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    padding: 1.5rem 1.75rem;
+}
+.pillar-overlay-cards .pillar-overlay-card--text {
+    min-height: 280px;
+    height: 100%;
+}
+.pillar-overlay-cards .pillar-overlay-card--image {
+    padding: 0;
+    aspect-ratio: 1 / 1;
+    width: 92%;
+    max-width: 92%;
+    min-height: 0;
+    margin-left: 0;
+    margin-right: auto;
+}
+.pillar-overlay-cards .pillar-overlay-card--image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.pillar-overlay-cards .pillar-overlay-card--text .pillar-hero-accent {
+    width: 4rem;
+    height: 5px;
+    background: linear-gradient(90deg, #80b3ba 0%, #5f8d93 100%);
+    border-radius: 3px;
+    margin: 0.5rem 0 1rem;
+    box-shadow: 0 2px 8px rgba(61, 92, 96, 0.35);
+}
+.pillar-overlay-cards .pillar-overlay-card--text h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #3d5c60;
+    margin-bottom: 0.25rem;
+}
+.pillar-overlay-cards .pillar-overlay-card--text .pillar-tagline {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+}
+.pillar-overlay-cards .pillar-overlay-card--text .pillar-desc {
+    font-size: 1rem;
+    line-height: 1.65;
+}
+.pillar-overlay-cards .pillar-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #3d5c60;
+    font-weight: 600;
+    text-decoration: none;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+.pillar-overlay-cards .pillar-back:hover {
+    color: #3d5c60;
+    text-decoration: underline;
+}
+@media (max-width: 768px) {
+    .pillar-overlay-cards {
+        margin-top: -100px !important;
+    }
+    .pillar-overlay-cards .pillar-overlay-card--image {
+        aspect-ratio: 1 / 1;
+    }
+    .ankurayan-detail .pillar-overlay-card--image.ankurayan-detail-photo-card {
+        aspect-ratio: unset;
+    }
+}
+
+/* Ankurayan detail: one left “photo” card = event logo + schedule; right text card = rest */
+.ankurayan-detail .pillar-overlay-card--image.ankurayan-detail-photo-card {
+    aspect-ratio: unset;
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    overflow: hidden;
+}
+.ankurayan-detail .ankurayan-detail-photo-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: #f1f5f9;
+}
+.ankurayan-detail .ankurayan-detail-logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.ankurayan-detail .ankurayan-detail-schedule {
+    padding: 1.25rem 1.5rem;
+    background: #fff;
+    border-top: 1px solid rgba(128, 179, 186, 0.28);
+}
+.ankurayan-detail .ankurayan-detail-schedule-title {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #3d5c60;
+    margin-bottom: 0.65rem;
+}
+.ankurayan-detail .ankurayan-detail-schedule-dates {
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: #475569;
+}
+.ankurayan-detail .pillar-overlay-card--text .ankurayan-detail-year {
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: #64748b;
+}
+.ankurayan-detail .pillar-overlay-card--text.ankurayan-detail-text-card {
+    min-height: 0;
+}
+.ankurayan-detail .ankurayan-detail-guests-inner {
+    border-top: none;
+    margin-top: 0.25rem;
+    padding-top: 1.25rem !important;
+}
+.ankurayan-detail .ankurayan-detail-text-card .our-guests-heading {
+    margin-top: 0;
+}
+
+.ankurayan-list-page {
+    background: #ffffff;
+}
+.pillar-overlay-cards + .ankurayan-list-page {
+    margin-top: 0;
+    padding-top: 0;
+}
+.pillar-overlay-cards + .ankurayan-list-page section#ankurayans {
+    padding-top: 1.5rem;
+}
+
+/* Running Ankurayans (list only): match Running Anandakendras — white section, border-only cards */
+.ankurayan-list-page section#ankurayans.glide-carousel-custom.page-section {
+    background: #ffffff !important;
+    background-image: none !important;
+    border-top: none !important;
+    border-bottom: none !important;
+}
+.ankurayan-list-page section#ankurayans .container {
+    background: #ffffff !important;
+}
+.ankurayan-list-page section#ankurayans .glide,
+.ankurayan-list-page section#ankurayans .glide__track,
+.ankurayan-list-page section#ankurayans .glide__slides {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+}
+.ankurayan-list-page section#ankurayans .glide__slide {
+    background: #ffffff !important;
+}
+.ankurayan-list-page section#ankurayans .row {
+    background: #ffffff !important;
+}
+.ankurayan-list-page #ankurayans.glide-carousel-custom .glide__slides {
+    background-color: #ffffff !important;
+}
+.ankurayan-list-page #ankurayans .page-card.ankurayan-year-card,
+.ankurayan-list-page #ankurayans .glide__slide .page-card.ankurayan-year-card {
+    box-shadow: none !important;
+    border: 1px solid rgba(0, 94, 102, 0.28) !important;
+    transition: border-color 0.2s ease !important;
+}
+.ankurayan-list-page #ankurayans .page-card.ankurayan-year-card:hover,
+.ankurayan-list-page #ankurayans .glide__slide .page-card.ankurayan-year-card:hover {
+    box-shadow: none !important;
+    transform: none !important;
+    border-color: rgba(0, 94, 102, 0.45) !important;
+}
+.ankurayan-list-page #ankurayans .page-card.ankurayan-year-card .card-title {
+    color: #005E66 !important;
+}
+
+/* List page: smooth gradients so no visible line above Ankurayan cards */
+.ankurayan-page #about.page-hero.page-hero-with-angular {
+    background: linear-gradient(180deg, #d7e9f2 0%, #d7e9f2 30%, #b8dce5 60%, #80b3ba 100%) !important;
+    border-bottom: none !important;
+}
+.ankurayan-page #ankurayans.page-section {
+    background: linear-gradient(180deg, #80b3ba 0%, #9bc4c9 28%, #b8dce5 55%, #d7e9f2 82%, #9bc4c9 100%) !important;
+    border-top: none !important;
+    padding-top: 2.5rem !important;
+}
+
+/* Detail page: replace grey bands with teal */
+.ankurayan-detail .bg-grey,
+.ankurayan-detail #gallery .bg-grey {
+    background: linear-gradient(180deg, #d7e9f2 0%, #f0fdfa 50%, #d4efee 100%) !important;
+    background-color: #d7e9f2 !important;
+}
+
+#about::before {
+    display: block;
+    content: "";
+    margin-top: -80px;
+    height: 80px;
+    visibility: hidden;
+}
+
+#about .title,
+#ankurayans .title {
+    color: #3d5c60;
+    font-weight: 800;
+    line-height: 1.2;
+    text-transform: uppercase;
+    margin-top: 0;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+#about .content-title {
+    color: #3d5c60;
+    font-size: 1.25rem;
+    font-weight: 800;
+    line-height: 1.2;
+    text-transform: uppercase;
+    margin-top: 0;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* About: description horizontal + image on the side (reduced size) */
+#about .ankurayan-side-image-wrap {
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+}
+#about .ankurayan-side-image {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    display: block;
+}
+#about .ankurayan-side-image-placeholder {
+    height: 280px;
+    width: 100%;
+    background: rgba(61, 92, 96, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+}
+
+/* Ankurayans section: heading and accent line */
+#ankurayans .section-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #3d5c60;
+    margin-bottom: 0;
+    text-transform: none;
+    letter-spacing: -0.02em;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+#ankurayans .section-title:after {
+    display: none;
+}
+#ankurayans .section-accent {
+    width: 4rem;
+    height: 5px;
+    background: linear-gradient(90deg, #80b3ba 0%, #5f8d93 100%);
+    border-radius: 3px;
+    margin: 0.5rem auto 1.5rem;
+    box-shadow: 0 2px 8px rgba(61, 92, 96, 0.35);
+}
+
+/* Ankurayans list: no grey – white cards with teal styling */
+#ankurayans.glide-carousel-custom .glide__slides {
+    background-color: transparent !important;
+    align-items: stretch !important;
+}
+#ankurayans .glide__slide {
+    display: flex !important;
+}
+#ankurayans .glide__slide .card.ankurayan-year-card,
+.ankurayan-detail #ankurayans .glide__slide .card.page-card {
+    height: 100% !important;
+    min-height: 380px;
+}
+#ankurayans .page-card.ankurayan-year-card,
+.ankurayan-detail #ankurayans .page-card.page-card {
+    background: #ffffff !important;
+    border: 2px solid rgba(128, 179, 186, 0.35);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(61, 92, 96, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    overflow: hidden;
+    display: flex !important;
+    flex-direction: column !important;
+}
+#ankurayans .page-card.ankurayan-year-card .card-body,
+.ankurayan-detail #ankurayans .page-card .card-body {
+    background: #ffffff !important;
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 0 !important;
+}
+
+#ankurayans .page-card.ankurayan-year-card:hover,
+.ankurayan-detail #ankurayans .page-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px rgba(61, 92, 96, 0.22), 0 6px 16px rgba(0, 0, 0, 0.08);
+    border-color: rgba(128, 179, 186, 0.6);
+}
+
+.ankurayan-detail #ankurayans .glide__slides {
+    align-items: stretch !important;
+}
+.ankurayan-detail #ankurayans .glide__slide {
+    display: flex !important;
+}
+
+#ankurayans .page-card.ankurayan-year-card .card-title {
+    color: #3d5c60;
+    font-weight: 700;
+    font-size: 1.15rem;
+}
+
+#ankurayans .page-card.ankurayan-year-card .ankurayan-year-theme {
+    color: #115e59;
+    font-weight: 500;
+    font-size: 0.95rem;
+    line-height: 1.45;
+}
+
+/* Carousel arrows – teal accent */
+#activities .glide__arrow i,
+#ankurayans .glide__arrow i {
+    font-size: 36px;
+    color: rgba(128, 179, 186, 0.6);
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+#activities .glide__arrow:hover i,
+#ankurayans .glide__arrow:hover i {
+    color: #80b3ba;
+    transform: scale(1.1);
+}
+
+/* Section background – vibrant teal wash */
+#ankurayans.page-section {
+    background: linear-gradient(180deg, #f0fdfa 0%, #d4efee 35%, #d7e9f2 65%, #d4efee 100%);
+    border-top: none;
+    border-bottom: none;
+}
+
+#ankurayans .section-title {
+    color: #3d5c60;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+#ankurayans .section-accent {
+    background: linear-gradient(90deg, #80b3ba 0%, #5f8d93 100%);
+    height: 5px;
+    width: 80px;
+    margin: 0.5rem auto 1.5rem;
+    border-radius: 3px;
+    box-shadow: 0 2px 8px rgba(61, 92, 96, 0.35);
+}
+
+/* Ankurayan detail page – match angular fill at top so no line under banner */
+.ankurayan-detail .page-hero-with-angular {
+    background: linear-gradient(180deg, #d7e9f2 0%, #d7e9f2 25%, #b8dce5 55%, #d7e9f2 100%) !important;
+    border-bottom: none !important;
+}
+
+.ankurayan-detail .page-back {
+    background: rgba(61, 92, 96, 0.12);
+    border: 2px solid rgba(128, 179, 186, 0.35);
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-weight: 700;
+    color: #3d5c60;
+}
+
+.ankurayan-detail .page-back:hover {
+    background: rgba(61, 92, 96, 0.2);
+    border-color: #80b3ba;
+    color: #3d5c60;
+}
+
+.ankurayan-detail .page-content-card {
+    border: 2px solid rgba(128, 179, 186, 0.25) !important;
+    box-shadow: 0 8px 24px rgba(61, 92, 96, 0.15), 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+    border-radius: 16px !important;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+}
+
+.ankurayan-detail .page-content-card:hover {
+    box-shadow: 0 14px 36px rgba(61, 92, 96, 0.22), 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+    border-color: rgba(128, 179, 186, 0.45) !important;
+}
+
+.ankurayan-detail #activities.page-section,
+.ankurayan-detail #ankurayans.page-section {
+    background: linear-gradient(180deg, #f0fdfa 0%, #d4efee 40%, #d7e9f2 70%, #d4efee 100%);
+    border-top: 2px solid rgba(128, 179, 186, 0.25);
+    border-bottom: 2px solid rgba(128, 179, 186, 0.25);
+}
+
+/* Remove white gap and all lines between Our Guests and Ankurayans section */
+.ankurayan-detail #about.page-hero.page-hero-with-angular {
+    padding-bottom: 1rem !important;
+    border-bottom: none !important;
+}
+.ankurayan-detail #ankurayans.page-section.ankurayan-detail-ankurayans-section,
+.ankurayan-detail section#ankurayans.page-section {
+    margin-top: 0 !important;
+    padding-top: 1.25rem !important;
+    padding-bottom: 3rem !important;
+    border-top: none !important;
+}
+.ankurayan-detail #ankurayans.page-section .container {
+    padding-top: 0.5rem !important;
+    padding-bottom: 2rem !important;
+}
+/* Detail page: equal-height Ankurayan year cards (align with main page) */
+.ankurayan-detail #ankurayans .glide__slides,
+.ankurayan-detail-ankurayans-section .glide__slides {
+    background-color: transparent !important;
+    display: flex !important;
+    align-items: stretch !important;
+}
+.ankurayan-detail #ankurayans .glide__slide,
+.ankurayan-detail-ankurayans-section .glide__slide {
+    display: flex !important;
+    height: auto !important;
+}
+.ankurayan-detail #ankurayans .glide__slide .card.page-card,
+.ankurayan-detail #ankurayans .glide__slide .card.ankurayan-year-card,
+.ankurayan-detail-ankurayans-section .glide__slide .card {
+    height: 100% !important;
+    min-height: 380px !important;
+    max-height: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+.ankurayan-detail #ankurayans .card.page-card .card-body,
+.ankurayan-detail #ankurayans .card.ankurayan-year-card .card-body,
+.ankurayan-detail-ankurayans-section .glide__slide .card .card-body {
+    background: #ffffff !important;
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 0 !important;
+}
+.ankurayan-detail #ankurayans .card.page-card,
+.ankurayan-detail #ankurayans .card.ankurayan-year-card {
+    background: #ffffff !important;
+    border: 2px solid rgba(128, 179, 186, 0.35);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(61, 92, 96, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+.ankurayan-detail #ankurayans .card .card-img-top,
+.ankurayan-detail-ankurayans-section .card .card-img-top {
+    flex-shrink: 0;
+    object-fit: cover;
+}
+
+.ankurayan-detail .section-title {
+    color: #3d5c60;
+    font-weight: 800;
+}
+
+.ankurayan-detail .section-accent {
+    background: linear-gradient(90deg, #80b3ba 0%, #5f8d93 100%);
+    height: 5px;
+    width: 80px;
+    margin: 0.5rem auto 1.5rem;
+    border-radius: 3px;
+    box-shadow: 0 2px 8px rgba(61, 92, 96, 0.35);
+}
+
+/* Detail: Description / Reports / Publications – flat panels (no heavy shadow) */
+.ankurayan-detail .ankurayan-section-card {
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 12px !important;
+    background: #f8fafc !important;
+}
+
+.ankurayan-detail .ankurayan-section-card:hover {
+    box-shadow: none !important;
+    background: #f1f5f9 !important;
+}
+
+/* Detail: description preview (2-line clamp in card); full text in modal */
+.ankurayan-detail .ankurayan-desc-preview,
+.ankurayan-detail .ankurayan-desc-preview p {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-weight: 500 !important;
+    color: #334155 !important;
+    letter-spacing: 0.01em;
+    line-height: 1.65 !important;
+}
+
+.ankurayan-detail .ankurayan-desc-preview strong,
+.ankurayan-detail .ankurayan-desc-preview b {
+    font-weight: 600 !important;
+    color: #21474d !important;
+}
+
+.ankurayan-detail #viewDescription {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-weight: 700 !important;
+    color: #21474d !important;
+    letter-spacing: 0.01em;
+    line-height: 1.85;
+}
+
+.ankurayan-detail #viewDescription strong,
+.ankurayan-detail #viewDescription b {
+    font-weight: 800 !important;
+    color: #17393f !important;
+}
+
+.ankurayan-detail .ankurayan-guests-section {
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 16px !important;
+}
+
+.ankurayan-detail .ankurayan-guests-section .our-guests-heading {
+    color: #3d5c60 !important;
+    font-weight: 800 !important;
+}
+
+.ankurayan-detail .guest-profile-card {
+    border: none !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+}
+
+.ankurayan-detail .guest-profile-card:hover {
+    box-shadow: none !important;
+    border-color: transparent !important;
+}
+
+.ankurayan-detail .guest-profile-card .guest-card-avatar {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Reports & Publications: stacked download rows (same layout + teal brand colors) */
+.ankurayan-file-list {
+    list-style: none;
+    padding: 0;
+    margin: 0.25rem 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+.ankurayan-file-list li {
+    margin: 0;
+    width: 100%;
+}
+.ankurayan-file-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 0.6rem 0.85rem;
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.35;
+    color: #005E66 !important;
+    font-weight: 600;
+    text-decoration: none !important;
+    background: rgba(0, 94, 102, 0.06);
+    border: 1px solid rgba(0, 94, 102, 0.2);
+    border-radius: 8px;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+.ankurayan-file-link:hover,
+.ankurayan-file-link:focus {
+    background: rgba(0, 94, 102, 0.1) !important;
+    border-color: rgba(0, 94, 102, 0.38) !important;
+    color: #005e66 !important;
+    text-decoration: none !important;
+    box-shadow: 0 2px 8px rgba(0, 94, 102, 0.08);
+}
+.ankurayan-file-link .ankurayan-file-link-name {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.ankurayan-file-link .ankurayan-file-link-icon {
+    color: #005e66;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    opacity: 0.9;
+}
+.ankurayan-file-link:hover .ankurayan-file-link-icon,
+.ankurayan-file-link:focus .ankurayan-file-link-icon {
+    color: #006a73;
+    opacity: 1;
+}
+.ankurayan-detail .ankurayan-section-card .ankurayan-file-list .ankurayan-file-link,
+.ankurayan-section-card-body .ankurayan-file-list .ankurayan-file-link,
+#modalReports .ankurayan-file-list .ankurayan-file-link,
+#modalPublications .ankurayan-file-list .ankurayan-file-link {
+    width: 100%;
+    max-width: 100%;
+}
+.report-file-edit-item .ankurayan-file-link,
+.publication-file-edit-item .ankurayan-file-link {
+    flex: 1 1 auto;
+    min-width: 0;
+    margin-right: 0.5rem;
+}
+.report-file-edit-item > .d-flex,
+.publication-file-edit-item > .d-flex {
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Match Anandakendra overlay text-card polish on Ankurayan list about card */
+#about.pillar-overlay-cards .container {
+    max-width: 1400px !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+    box-sizing: border-box !important;
+}
+@media (min-width: 576px) {
+    #about.pillar-overlay-cards .container {
+        padding-left: 2rem !important;
+        padding-right: 2rem !important;
+    }
+}
+@media (min-width: 992px) {
+    #about.pillar-overlay-cards .container {
+        padding-left: 2.5rem !important;
+        padding-right: 2.5rem !important;
+    }
+}
+#about.pillar-overlay-cards .pillar-overlay-card--image {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+#about.pillar-overlay-cards .pillar-overlay-card--text {
+    border: none !important;
+    box-shadow: 0 16px 26px -10px rgba(61, 92, 96, 0.36), 10px 4px 18px -10px rgba(61, 92, 96, 0.28), -10px 4px 18px -10px rgba(61, 92, 96, 0.24), 0 5px 12px -8px rgba(61, 92, 96, 0.22) !important;
+}
+#about.pillar-overlay-cards .pillar-overlay-card--text.ankurayan-sync-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow: hidden;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: linear-gradient(180deg, #fffdf8 0%, #ffffff 58%, #fbfaf7 100%);
+}
+#about.pillar-overlay-cards .ankurayan-sync-text .pillar-desc {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: #3d5c60;
+    letter-spacing: 0.012em;
+    line-height: 1.85;
+    font-weight: 600;
+}
+#about.pillar-overlay-cards .ankurayan-sync-text .pillar-desc strong,
+#about.pillar-overlay-cards .ankurayan-sync-text .pillar-desc b {
+    color: #3d5c60;
+    font-weight: 700;
+}
+#about.pillar-overlay-cards .ankurayan-sync-text .pillar-desc-preview {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 9;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+#about.pillar-overlay-cards .ankurayan-read-more {
+    margin-top: 0.75rem;
+    align-self: flex-start;
+    background: transparent;
+    border: none;
+    padding: 0;
+    color: #2f4d52;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.96rem;
+    font-style: italic;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+}
+#about.pillar-overlay-cards .ankurayan-read-more:hover {
+    color: #1f3f45;
+    text-decoration: underline;
+}
+#about.pillar-overlay-cards .ankurayan-explore-years {
+    margin-bottom: 0.9rem;
+    padding-bottom: 0.65rem;
+    border-bottom: 1px solid rgba(128, 179, 186, 0.22);
+}
+#about.pillar-overlay-cards .ankurayan-explore-label {
+    margin: 0 0 0.45rem;
+    color: #2f6f75;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+}
+#about.pillar-overlay-cards .ankurayan-years-marquee {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    gap: 2rem;
+    white-space: nowrap;
+    padding-left: 0.35rem;
+}
+#about.pillar-overlay-cards .ankurayan-years-track {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: max-content;
+    animation: ankurayanYearsScroll 34s linear infinite;
+}
+#about.pillar-overlay-cards .ankurayan-years-marquee:hover .ankurayan-years-track,
+#about.pillar-overlay-cards .ankurayan-years-marquee:focus-within .ankurayan-years-track {
+    animation-play-state: paused;
+}
+#about.pillar-overlay-cards .ankurayan-year-link {
+    color: #2f4d52;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+#about.pillar-overlay-cards .ankurayan-year-link:hover {
+    color: #1f3f45;
+    text-decoration: underline;
+}
+#about.pillar-overlay-cards .ankurayan-year-sep {
+    color: rgba(71, 85, 105, 0.65);
+    font-size: 0.9rem;
+}
+@keyframes ankurayanYearsScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-100% - 2rem)); }
+}
+#about.pillar-overlay-cards .ankurayan-back-link {
+    margin-top: 0.3rem;
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: #3d5c60;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+#about.pillar-overlay-cards .ankurayan-back-link:hover {
+    color: #1f3f45;
+    text-decoration: underline;
+}
+
+/* Caption below Ankurayan photo card (alternating) */
+#about.pillar-overlay-cards .ankurayan-image-caption {
+    margin-top: 0.35rem;
+    text-align: right;
+    min-height: 2.15rem;
+    position: relative;
+    flex: 1;
+}
+#about.pillar-overlay-cards .ankurayan-caption-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 0.3rem;
+}
+#about.pillar-overlay-cards .ankurayan-image-caption .caption-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    width: 100%;
+    text-align: right;
+    opacity: 0;
+    transform: translateY(6px);
+    animation: ankurayanCaptionSwap 8s ease-in-out infinite;
+}
+#about.pillar-overlay-cards .ankurayan-image-caption .caption-en {
+    color: #2f6f75;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    font-style: italic;
+    line-height: 1.22;
+    letter-spacing: 0.01em;
+}
+#about.pillar-overlay-cards .ankurayan-image-caption .caption-or {
+    color: #2f6f75;
+    font-family: 'Noto Sans Oriya', 'Noto Sans Odia', 'Kohinoor Odia', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.18;
+    animation-delay: 4s;
+}
+@keyframes ankurayanCaptionSwap {
+    0%, 44% { opacity: 1; transform: translateY(0); }
+    49%, 100% { opacity: 0; transform: translateY(6px); }
+}
+
+/* Read-more modal styling */
+.ankurayan-readmore-modal .modal-dialog {
+    max-width: 760px;
+}
+.ankurayan-readmore-modal .modal-content {
+    border: none;
+    border-radius: 18px;
+    box-shadow: 0 24px 72px rgba(18, 42, 46, 0.38), 0 10px 24px rgba(61, 92, 96, 0.24);
+    overflow: hidden;
+}
+.ankurayan-readmore-modal .modal-header {
+    border-bottom: 1px solid rgba(128, 179, 186, 0.32);
+    background: linear-gradient(135deg, #2f4d52 0%, #3d5c60 42%, #80b3ba 100%);
+    padding: 1rem 1.25rem;
+}
+.ankurayan-readmore-modal .modal-title {
+    color: #ffffff;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+}
+.ankurayan-readmore-modal .close {
+    color: #ffffff;
+    opacity: 0.95;
+    text-shadow: none;
+}
+.ankurayan-readmore-modal .modal-body {
+    padding: 1.35rem 1.4rem 1.5rem;
+    background: linear-gradient(180deg, #f7fbfc 0%, #ffffff 22%, #fcfdfd 100%);
+}
+.ankurayan-readmore-modal .readmore-content {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 1.01rem;
+    line-height: 1.82;
+    letter-spacing: 0.01em;
+    color: #2f4d52;
+    font-weight: 600;
+}
+.ankurayan-readmore-modal .readmore-content strong,
+.ankurayan-readmore-modal .readmore-content b {
+    color: #3d5c60;
+    font-weight: 700;
+}
+
+/* Brand consistency: Ankurayan pages */
+.pillar-overlay-cards .pillar-overlay-card--text h1,
+.pillar-overlay-cards .pillar-back,
+#ankurayans .section-title,
+#ankurayans .page-card.ankurayan-year-card .card-title,
+.ankurayan-detail .section-title,
+.ankurayan-detail .ankurayan-guests-section .our-guests-heading {
+    color: #005E66 !important;
+}
+.pillar-overlay-cards .pillar-overlay-card--text .pillar-hero-accent,
+#ankurayans .section-accent,
+.ankurayan-detail .section-accent {
+    background: linear-gradient(90deg, #005E66 0%, #006A73 100%) !important;
+}
+
+/* Detail page — Volunteer: hide dash under title; pill Join Now; teal hover (not yellow) */
+.ankurayan-detail #volunteer .section-title::after {
+    display: none !important;
+    content: none !important;
+}
+.ankurayan-detail #volunteer .section-title {
+    margin-bottom: 0.75rem;
+}
+.ankurayan-detail #volunteer .custom-btn {
+    border-radius: 9999px !important;
+    overflow: hidden !important; /* clip ::after hover fill to pill shape */
+}
+.ankurayan-detail #volunteer .custom-btn:hover {
+    border-color: #005E66 !important;
+}
+.ankurayan-detail #volunteer .custom-btn:after {
+    background-color: #005E66 !important;
+    border-radius: 9999px !important;
+}

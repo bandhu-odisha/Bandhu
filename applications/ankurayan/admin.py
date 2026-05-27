@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import reverse
 
 from .models import (
-    Ankurayan, Participant, Guest,
+    Ankurayan, Participant, Guest, GuestNote,
     ActivityCategory, Activity, Photo,
     HomePage, AnkurayanReportFile, AnkurayanPublicationFile,
 )
@@ -51,19 +51,51 @@ class ParticipantAdmin(admin.ModelAdmin):
     list_filter = ('school_class',)
     search_fields = ('name', 'ankurayan__year','ankurayan__theme',)
 
+class GuestNoteInline(admin.TabularInline):
+    model = GuestNote
+    extra = 0
+
+
 @admin.register(Guest)
 class GuestAdmin(admin.ModelAdmin):
-    list_display = ('name', 'ankurayan', 'profession', 'quote_preview')
-    list_editable = ()
+    list_display = ('name', 'sort_order', 'ankurayan', 'profession', 'quote_preview')
+    list_editable = ('sort_order',)
     search_fields = ('name', 'ankurayan__year', 'ankurayan__theme', 'quote')
+    inlines = (GuestNoteInline,)
+    fieldsets = (
+        (None, {
+            'fields': (
+                'ankurayan', 'name', 'profession', 'avatar', 'photo',
+                'sort_order', 'email', 'contact_no',
+            ),
+        }),
+        ('Profile', {'fields': ('about', 'quote')}),
+        ('Social links', {
+            'fields': ('facebook_url', 'linkedin_url'),
+            'classes': ('collapse',),
+        }),
+    )
 
     def quote_preview(self, obj):
         if not obj.quote:
             return '—'
         return (obj.quote[:50] + '…') if len(obj.quote) > 50 else obj.quote
     quote_preview.short_description = 'Quote'
-    ordering = ('name',)
+    ordering = ('ankurayan', 'sort_order', 'name')
     list_filter = ('ankurayan__year',)
+
+
+@admin.register(GuestNote)
+class GuestNoteAdmin(admin.ModelAdmin):
+    list_display = ('guest', 'note_preview', 'created_at')
+    list_filter = ('guest__ankurayan__year',)
+    search_fields = ('note', 'guest__name')
+    ordering = ('-created_at',)
+
+    def note_preview(self, obj):
+        t = (obj.note or '').strip()
+        return (t[:60] + '…') if len(t) > 60 else (t or '—')
+    note_preview.short_description = 'Note'
 
 @admin.register(Photo)
 class PhotoAdmin(admin.ModelAdmin):

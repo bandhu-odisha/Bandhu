@@ -1,25 +1,25 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load custom_filters %}
-{% block title %}Bandhu | People {% endblock %}
+{% block title %}Bandhu | {{ staff.profile.get_full_name|proper_case_filter }}{% endblock %}
+
+{% block body_class %}staff-profile-page-site{% endblock %}
 
 {% block style %}
-<link rel="stylesheet" href="{% static 'css/staff-profile.css' %}"/>
+<link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
+<link rel="stylesheet" href="{% static 'css/staff-profile.css' %}?v=7"/>
 {% endblock %}
 
-{% block navbar-links %}
-    <li class="nav-item">
-        <a class="nav-link px-3" href="{% url 'home' %}">Home</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link px-3" href="#contact">Contact</a>
-    </li>
-{% endblock %}
+{% block showcase %}{% endblock %}
+
 {% block content %}
+<section class="staff-profile-page-section page-section">
 <div class="staff-profile-page">
-	<a href="{% url 'people_page' %}" class="staff-profile-back" aria-label="Back to People">
+	<a href="{{ people_back_url }}" class="staff-profile-back pillar-back" aria-label="Back to People">
 		<i class="fas fa-arrow-left" aria-hidden="true"></i> Back
 	</a>
+	<div class="staff-profile-layout">
+	<div class="staff-profile-layout__card">
 	<div class="staff-profile-card">
 		<div class="staff-profile-card__inner">
 			<!-- Profile image - left -->
@@ -42,48 +42,41 @@
 			<!-- Info - right -->
 			<div class="staff-profile-card__content">
 				<header class="staff-profile-card__header">
-					<h1 class="staff-profile-card__name">{{ staff.profile.get_full_name }}</h1>
+					<h1 class="staff-profile-card__name">{{ staff.profile.get_full_name|proper_case_filter }}</h1>
 					<p class="staff-profile-card__job-title">
-						{% if is_office_bearer %}{{ staff_occupation }}{% else %}{{ staff.profile.profession }}{% endif %}{% if staff.desg.designation.title and not is_office_bearer %} ({{ staff.desg.designation.title }}){% endif %}
+						{% if is_office_bearer %}{{ staff_occupation|proper_case_filter }}{% else %}{{ staff.profile.profession|proper_case_filter }}{% endif %}{% if designation_titles %} ({% for t in designation_titles %}{{ t|proper_case_filter }}{% if not forloop.last %}, {% endif %}{% endfor %}){% endif %}
 					</p>
 					{% if is_office_bearer and staff_position %}
-					<p class="staff-profile-card__position-line">{{ staff_position }}</p>
+					<p class="staff-profile-card__position-line">{{ staff_position|proper_case_filter }}</p>
 					{% endif %}
 					{% if staff.profile.city or staff.profile.state or staff.profile.pincode %}
 					<p class="staff-profile-card__location">
 						<i class="fas fa-map-marker-alt" aria-hidden="true"></i>
 						<span>
-							{% if staff.profile.city %}{{ staff.profile.city }}{% endif %}{% if staff.profile.city and staff.profile.state %}, {% endif %}{% if staff.profile.state %}{{ staff.profile.state }}{% endif %}{% if staff.profile.pincode %}{% if staff.profile.city or staff.profile.state %} - {% endif %}{{ staff.profile.pincode }}{% endif %}
+							{% if staff.profile.city %}{{ staff.profile.city|proper_case_filter }}{% endif %}{% if staff.profile.city and staff.profile.state %}, {% endif %}{% if staff.profile.state %}{{ staff.profile.state|proper_case_filter }}{% endif %}{% if staff.profile.pincode %}{% if staff.profile.city or staff.profile.state %} - {% endif %}{{ staff.profile.pincode }}{% endif %}
 						</span>
 					</p>
 					{% endif %}
 				</header>
 
-				<div class="staff-profile-card__about-box{% if not staff.desg.desc and not staff.about %} staff-profile-card__about-box--placeholder{% endif %}">
+				<div class="staff-profile-card__about-box{% if not designation_desc and not staff.about %} staff-profile-card__about-box--placeholder{% endif %}">
 					<h2 class="staff-profile-card__box-label">About</h2>
 					<div class="staff-profile-card__about-text">
-						{% if staff.desg.desc or staff.about %}
-							{% if staff.desg.desc %}{{ staff.desg.desc }}{% endif %}
-							{% if staff.about %}{% if staff.desg.desc %} {{ staff.about }}{% else %}{{ staff.about }}{% endif %}{% endif %}
+						{% if designation_desc or staff.about %}
+							{% if designation_desc %}{{ designation_desc|proper_case_lines|linebreaksbr }}{% endif %}
+							{% if staff.about %}{% if designation_desc %}<br><br>{% endif %}{{ staff.about|proper_case_lines|linebreaksbr }}{% endif %}
 						{% else %}
 							<span class="staff-profile-card__placeholder-text">A valued member of our team. A personal introduction will appear here when it has been added.</span>
 						{% endif %}
 					</div>
 				</div>
 
-				<div class="staff-profile-card__qual-box{% if not qualifications %} staff-profile-card__qual-box--placeholder{% endif %}">
+				<div class="staff-profile-card__qual-box{% if not staff.qualifications %} staff-profile-card__qual-box--placeholder{% endif %}">
 					<h2 class="staff-profile-card__box-label">Qualifications</h2>
-					{% if qualifications %}
-					<div class="staff-profile-card__qual-pills">
-						{% for qual in qualifications %}
-						<span class="staff-profile-card__qual-pill">{{ qual.degree }}</span>
-						{% endfor %}
+					{% if staff.qualifications %}
+					<div class="staff-profile-card__qual-details staff-profile-card__qual-details--text">
+						{{ staff.qualifications|proper_case_lines|linebreaksbr }}
 					</div>
-					<ul class="staff-profile-card__qual-details">
-						{% for qual in qualifications %}
-						<li>{{ qual.institute }}, {{ qual.since.year }}{% if qual.until %} - {{ qual.until.year }}{% else %} - Current{% endif %}</li>
-						{% endfor %}
-					</ul>
 					{% else %}
 					<div class="staff-profile-card__qual-pills">
 						<span class="staff-profile-card__qual-pill">Professional background</span>
@@ -117,18 +110,22 @@
 						</span>
 						{% endif %}
 					</div>
+					{% if can_manage_staff_experiences %}
 					<div class="staff-profile-card__actions">
 						<a href="#share-experience" class="staff-profile-card__share-link" data-modal-open="shareExperienceModal" aria-label="Share your experience">
 							<i class="fas fa-pen-fancy" aria-hidden="true"></i> Share my experience
 						</a>
 					</div>
+					{% endif %}
 				</div>
 			</div>
 		</div>
 	</div>
+	</div>
 
+	<div class="staff-profile-layout__aside">
 	<section class="staff-profile-experiences" aria-labelledby="experiences-heading">
-		<h2 id="experiences-heading" class="staff-profile-experiences__title">My experience</h2>
+		<h2 id="experiences-heading" class="staff-profile-experiences__title">{% if can_manage_staff_experiences %}My experience{% else %}Experiences{% endif %}</h2>
 		{% if experiences %}
 		<div class="staff-profile-experiences__list">
 			{% for exp in experiences %}
@@ -140,18 +137,19 @@
 						{% for photo in exp.photos.all %}
 						<div class="staff-profile-experiences__photo-wrap" data-photo-id="{{ photo.id }}" data-caption="{{ photo.caption|escape }}">
 							<button type="button" class="staff-profile-experiences__photo-trigger" data-lightbox-src="{{ photo.image.url }}" aria-label="View photo full size">
-								<img src="{{ photo.image.url }}" alt="{% if photo.caption %}{{ photo.caption }}{% else %}Experience photo{% endif %}" class="staff-profile-experiences__photo" loading="lazy">
+								<img src="{{ photo.image.url }}" alt="{% if photo.caption %}{{ photo.caption|proper_case_filter }}{% else %}Experience photo{% endif %}" class="staff-profile-experiences__photo" loading="lazy">
 							</button>
-							{% if photo.caption %}<span class="staff-profile-experiences__photo-caption">{{ photo.caption }}</span>{% endif %}
+							{% if photo.caption %}<span class="staff-profile-experiences__photo-caption">{{ photo.caption|proper_case_filter }}</span>{% endif %}
 						</div>
 						{% endfor %}
 					</div>
 					{% endif %}
 					<div class="staff-profile-experiences__item-text">
-						<p class="staff-profile-experiences__message">{{ exp.message }}</p>
+						<p class="staff-profile-experiences__message">{{ exp.message|proper_case_lines|linebreaksbr }}</p>
 						<time class="staff-profile-experiences__date" datetime="{{ exp.created_at|date:'c' }}">{{ exp.created_at|date:"F j, Y" }}</time>
 					</div>
 				</div>
+				{% if can_manage_staff_experiences %}
 				<div class="staff-profile-experiences__item-actions">
 					<button type="button" class="staff-profile-experiences__edit-btn" data-edit-experience="{{ exp.id }}" data-staff-id="{{ staff.id }}" data-edit-url="{% url 'staff_edit_experience' staff.id exp.id %}" aria-label="Edit this experience"><i class="fas fa-edit" aria-hidden="true"></i></button>
 					<form method="post" action="{% url 'staff_delete_experience' staff.id exp.id %}" class="staff-profile-experiences__delete-form" onsubmit="return confirm('Delete this experience?');">
@@ -159,15 +157,20 @@
 						<button type="submit" class="staff-profile-experiences__delete-btn" aria-label="Delete this experience"><i class="fas fa-trash-alt" aria-hidden="true"></i></button>
 					</form>
 				</div>
+				{% endif %}
 			</article>
 			{% endfor %}
 		</div>
 		{% else %}
-		<p class="staff-profile-experiences__empty">No experiences have been shared yet. Use <strong>Share my experience</strong> above to add one.</p>
+		<p class="staff-profile-experiences__empty">No experiences have been shared yet.{% if can_manage_staff_experiences %} Use <strong>Share my experience</strong> on the profile card to add one.{% endif %}</p>
 		{% endif %}
 	</section>
+	</div>
+	</div>
 </div>
+</section>
 
+{% if can_manage_staff_experiences %}
 <!-- Share experience modal -->
 <div id="shareExperienceModal" class="staff-profile-modal" role="dialog" aria-labelledby="shareExperienceModalTitle" aria-modal="true" hidden>
 	<div class="staff-profile-modal__backdrop" data-modal-close="shareExperienceModal"></div>
@@ -183,12 +186,14 @@
 			<textarea id="id_experience" name="experience" class="staff-profile-modal__textarea" rows="5" placeholder="Write your experience, review or thoughts here..." required></textarea>
 			<label class="staff-profile-modal__label">Add photos (optional)</label>
 			<div class="staff-profile-modal__photos">
-				<input type="file" id="id_photos" name="photos" class="staff-profile-modal__file" accept="image/*" multiple aria-label="Choose photos to upload">
-				<label for="id_photos" class="staff-profile-modal__photos-label">
-					<i class="fas fa-camera" aria-hidden="true"></i>
-					<span class="staff-profile-modal__photos-text">Choose photos</span>
-					<span class="staff-profile-modal__photos-hint">Select one or more, or click again to add more photos</span>
-				</label>
+				<div class="staff-profile-modal__upload-zone">
+					<input type="file" id="id_photos" name="photos" class="staff-profile-modal__file" accept="image/*" multiple aria-label="Choose photos to upload">
+					<label for="id_photos" class="staff-profile-modal__photos-label">
+						<i class="fas fa-camera" aria-hidden="true"></i>
+						<span class="staff-profile-modal__photos-text">Choose photos</span>
+						<span class="staff-profile-modal__photos-hint">Select one or more, or click again to add more photos</span>
+					</label>
+				</div>
 				<div id="photosPreview" class="staff-profile-modal__preview" aria-live="polite"></div>
 			</div>
 			<div class="staff-profile-modal__actions">
@@ -218,12 +223,14 @@
 			</div>
 			<label class="staff-profile-modal__label">Add more photos (optional)</label>
 			<div class="staff-profile-modal__photos">
-				<input type="file" id="id_edit_photos" name="photos" class="staff-profile-modal__file" accept="image/*" multiple aria-label="Choose more photos">
-				<label for="id_edit_photos" class="staff-profile-modal__photos-label">
-					<i class="fas fa-camera" aria-hidden="true"></i>
-					<span class="staff-profile-modal__photos-text">Choose photos</span>
-					<span class="staff-profile-modal__photos-hint">Select some, then click again to add more. New images will be added.</span>
-				</label>
+				<div class="staff-profile-modal__upload-zone">
+					<input type="file" id="id_edit_photos" name="photos" class="staff-profile-modal__file" accept="image/*" multiple aria-label="Choose more photos">
+					<label for="id_edit_photos" class="staff-profile-modal__photos-label">
+						<i class="fas fa-camera" aria-hidden="true"></i>
+						<span class="staff-profile-modal__photos-text">Choose photos</span>
+						<span class="staff-profile-modal__photos-hint">Select some, then click again to add more. New images will be added.</span>
+					</label>
+				</div>
 				<div id="editPhotosPreview" class="staff-profile-modal__preview" aria-live="polite"></div>
 			</div>
 			<div class="staff-profile-modal__actions">
@@ -233,6 +240,7 @@
 		</form>
 	</div>
 </div>
+{% endif %}
 
 <!-- Experience photo lightbox (same overlay pattern as share/edit modals) -->
 <div id="experiencePhotoLightbox" class="staff-profile-modal staff-profile-photo-lightbox" role="dialog" aria-modal="true" aria-labelledby="experiencePhotoLightboxTitle" hidden>
@@ -340,10 +348,18 @@
 			inp.className = 'staff-profile-modal__caption-input';
 			inp.placeholder = 'Tag or caption';
 			inp.maxLength = 255;
+			inp.setAttribute('aria-label', 'Caption for photo ' + (i + 1));
 			inp.value = item.caption || '';
 			wrap.appendChild(img);
 			wrap.appendChild(inp);
 			preview.appendChild(wrap);
+		});
+	}
+	if (preview) {
+		preview.addEventListener('input', function(e) {
+			if (e.target.classList.contains('staff-profile-modal__caption-input')) {
+				syncShareCaptionsFromDom();
+			}
 		});
 	}
 	if (fileInput && preview) {
@@ -467,10 +483,18 @@
 			inp.className = 'staff-profile-modal__caption-input';
 			inp.placeholder = 'Tag or caption';
 			inp.maxLength = 255;
+			inp.setAttribute('aria-label', 'Caption for photo ' + (i + 1));
 			inp.value = item.caption || '';
 			wrap.appendChild(img);
 			wrap.appendChild(inp);
 			editPreview.appendChild(wrap);
+		});
+	}
+	if (editPreview) {
+		editPreview.addEventListener('input', function(e) {
+			if (e.target.classList.contains('staff-profile-modal__caption-input')) {
+				syncEditCaptionsFromDom();
+			}
 		});
 	}
 	if (editFileInput && editPreview) {
