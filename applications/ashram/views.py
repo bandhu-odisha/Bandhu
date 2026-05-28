@@ -2,11 +2,9 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect, JsonResponse
-from datetime import datetime
 from django.core import serializers
 from django.contrib.auth.decorators import login_required
 from django.template.defaultfilters import slugify
-
 from accounts.models import User
 from bandhuapp.models import Profile
 from bandhuapp.templatetags.permissions import is_admin
@@ -48,10 +46,11 @@ def create_ashram(request):
 
     return redirect('ashram:ashram')
 
-def ashram_detail(request,slug):
-    ashram = get_object_or_404(Ashram,slug=slug)
+def ashram_detail(request, slug):
+    ashram = get_object_or_404(Ashram, slug=slug)
     categories = ActivityCategory.objects.filter(ashram=ashram)
     events = Event.objects.filter(ashram=ashram)
+    has_events = events.exists()
     meetings = Meeting.objects.filter(ashram=ashram)
     check_admin = is_admin(request.user)
 
@@ -61,9 +60,11 @@ def ashram_detail(request,slug):
     # else:
     #     photos = Photo.objects.filter(ashram=ashram).filter(approved=True)
 
-    photos = Photo.objects.filter(ashram=ashram)
-    unapproved_photos = photos.filter(approved=False)
-    photos = photos.filter(approved=True)
+    # Gallery: all approved Bandhughar photos (includes activity images for this ashram)
+    photos = Photo.objects.filter(ashram=ashram, approved=True).order_by('-id')
+    unapproved_photos = Photo.objects.filter(ashram=ashram, approved=False)
+    has_activities = Activity.objects.filter(category__ashram=ashram).exists()
+    show_gallery = photos.exists() or (check_admin and request.user.is_authenticated)
 
     context = {
         'ashram': ashram,
@@ -71,7 +72,11 @@ def ashram_detail(request,slug):
         'events': events,
         'meetings':meetings,
         'photos':photos,
+        'unapproved_photos': unapproved_photos,
         'check_admin':check_admin,
+        'has_activities': has_activities,
+        'has_events': has_events,
+        'show_gallery': show_gallery,
         'content': HomePage.objects.all().first(),
     }
     return render(request,'ashram_detail.html', context)
@@ -159,9 +164,10 @@ def create_activity(request):
         for i in activity_images:
             Photo.objects.create(ashram=ashram,picture=i,activity=activity,approved=True)
 
-        url = '/bandhughar/detail/' + slug +'/'
+        url = '/bandhughar/detail/' + slug + '/'
         return HttpResponseRedirect(url)
     return HttpResponseRedirect('/')
+
 
 @login_required
 def add_to_gallery(request):

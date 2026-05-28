@@ -5,16 +5,12 @@
 
 {% block title %} Bandhu | Other Activities {% endblock %}
 
+{% block body_class %}other-activities-page pillar-inner-page{% endblock %}
+
 {% block style %}
-<!-- Custom CSS -->
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
-<link rel="stylesheet" href="{% static 'css/charity.css' %}">
-<!-- Custom Style -->
-<style>
-    #top-section {
-        background: url("{{ content.banner_image.url }}") 50% center no-repeat fixed;
-    }
-</style>
+<link rel="stylesheet" href="{% static 'css/pillar-inner-banner.css' %}?v=2">
+<link rel="stylesheet" href="{% static 'css/charity.css' %}?v=10">
 {% endblock %}
 
 {% block navbar-links %}
@@ -33,59 +29,75 @@
 {% endblock %}
 
 {% block showcase-title-container %}
-<div class="slider-txt-container" style="padding: 200px 0 200px 0;">
-    <h2 class="bold-txt"> Other Activities </h2>
+<div class="slider-txt-container pillar-showcase page-showcase page-showcase-tall">
+    <h2 class="bold-txt pillar-showcase-title page-showcase-title">Other Activities</h2>
+    <div class="pillar-showcase-accent page-showcase-accent"></div>
+</div>
+{% endblock %}
+{% block angular %}
+<div class="angular page-angular angular-charity">
+    <div class="top-angle"></div>
 </div>
 {% endblock %}
 
 {% block content %}
-<!-- Cause Section  -->
-<div id="about" style="margin-top: -220px;">
-    <div class="container pb-5 mb-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6" style="z-index: 10;">
-                <div style="padding: 135px 25px 0;">
-                    <!-- <h3 class="content-title" style="font-size: 2rem; margin-bottom: 20px;">Charity</h3> -->
-                    <p style="font-size: 20px;">
-                        <strong>{{ content.tagline|safe }}</strong>
-                    </p>
-                    <p style="font-size: 17px;">
-                        {{ content.description|safe }}
-                    </p>
+<!-- Overlay cards (same as Sanskar/Swabalamban): photo card = gallery, text card = about -->
+<section id="about" class="pillar-overlay-cards">
+    <div class="container">
+        <div class="row align-items-start g-4">
+            <div class="col-lg-4 col-md-5">
+                <div class="pillar-overlay-card pillar-overlay-card--image">
+                    {% if content and content.picture %}
+                    <img src="{{ content.picture.url }}" alt="Other Activities" loading="eager" class="pillar-overlay-single-image"
+                        onerror="this.onerror=null;this.src='{% static 'img/our_mission1.jpg' %}';">
+                    {% else %}
+                    <img src="{% static 'img/our_mission1.jpg' %}" alt="Other Activities" loading="eager" class="pillar-overlay-single-image">
+                    {% endif %}
                 </div>
             </div>
-            <div class="col-md-6" style="z-index: 10;">
-                <div class="card border text-center">
-                    <img class="card-img-top" src='{{ content.picture.url }}' alt="Other Activities"
-                        style="height: 500px; width: 100%; object-fit: cover;">
+            <div class="col-lg-8 col-md-7">
+                <div class="pillar-overlay-card pillar-overlay-card--text">
+                    {% if content %}
+                    <p class="pillar-tagline">{{ content.tagline|safe }}</p>
+                    <div class="pillar-desc">{{ content.description|safe }}</div>
+                    {% else %}
+                    <p class="pillar-tagline">Other Activities</p>
+                    <div class="pillar-desc">Our charitable initiatives and community support.</div>
+                    {% endif %}
+                    <div class="pillar-text-quote" aria-label="Other Activities quote">
+                        <p class="quote-line quote-en">"Service grows brighter when many hands and hearts come together."</p>
+                        <p class="quote-line quote-or">"ଅନେକ ହାତ ଓ ହୃଦୟ ଏକାତ୍ମ ହେଲେ ସେବା ଅଧିକ ଉଜ୍ଜ୍ୱଳ ହୁଏ।"</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
 <!-- ACTIVITIES SECTION -->
 {% if charity_works.count or user|is_admin %}
-<section id="activities" class="glide-carousel-custom">
-    <div class="bg-grey" style="padding: 50px 0;">
-        <h3 class="section-title">Activities</h3>
-        <div class="container">
-            {% if charity_works.count %}
-            <div class="row">
-                <div class="glide charity_works">
-                    <div class="glide__track" data-glide-el="track">
-                        <ul class="glide__slides">
-                            {% for charity in charity_works %}
-                            <li class="glide__slide">
-                                <div class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
-                                    <img src="{{ charity.image.url }}" class="card-img-top home-card-img" alt=""
-                                        width="300px">
-                                    <div class="card-body pb-0">
-                                        <h5 class="card-title font-weight-bold">{{ charity.title }}</h5>
-                                        <p class="mb-3">{{ charity.purpose }}, {{ charity.location }}</p>
-                                        <a href="{% url 'charitywork:CharityDetail' slug=charity.slug %}"
-                                            class="stretched-link"></a>
+<section id="activities" class="glide-carousel-custom page-section charity-activities-section">
+        <div class="container charity-activities-container">
+        <h2 class="section-title text-center">Activities</h2>
+        <div class="section-accent"></div>
+        {% if charity_works.count %}
+        <div class="row">
+            <div class="glide charity_works">
+                <div class="glide__track" data-glide-el="track">
+                    <ul class="glide__slides">
+                        {% for charity in charity_works %}
+                        <li class="glide__slide">
+                            <div class="card w-100 page-card activity-card mx-auto my-2 h-100 position-relative">
+                                    <div class="activity-card-media">
+                                        <img src="{{ charity.image.url }}" class="activity-card-img" alt="{{ charity.title }}" loading="lazy">
                                     </div>
+                                    <div class="card-body d-flex flex-column pb-3">
+                                        <h5 class="card-title font-weight-bold">{{ charity.title }}</h5>
+                                        <p class="mb-0 mt-auto">{{ charity.purpose }}, {{ charity.location }}</p>
+                                    </div>
+                                    <a href="{% url 'charitywork:CharityDetail' slug=charity.slug %}"
+                                        class="stretched-link"
+                                        aria-label="{{ charity.title }}"></a>
                                 </div>
                             </li>
                             {% endfor %}
@@ -111,14 +123,10 @@
             {% endif %}
             <div class="row justify-content-center mt-4">
                 <div class="add-activity">
-                    {% if user.is_admin %}
-                    <!-- <button type="button" class="btn btn-primary" data-toggle="modal"
-                        data-target="#add_activity">
-                        Create Activity
-                    </button> -->
+                    {% if user|is_admin %}
                     <a href="{% url 'admin:charitywork_charity_add' %}?next=activity_details" class="btn btn-primary">Create Activity</a>
                     {% endif %}
-                    <div class="modal fade" tabindex="-1" id="add_activity" role="dialog"
+                    <div class="modal fade charity-modal" tabindex="-1" id="add_activity" role="dialog"
                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
@@ -195,7 +203,6 @@
                 </div>
             </div>
         </div>
-    </div>
 </section>
 {% endif %}
 
@@ -209,6 +216,24 @@
 
 
 {% block scripts %}
+<script>
+$(function () {
+    $(document).on('show.bs.modal', '.charity-modal', function () {
+        if (this.parentNode !== document.body) {
+            document.body.appendChild(this);
+        }
+    });
+    $(document).on('shown.bs.modal', '.charity-modal', function () {
+        $(this).css('z-index', 1060);
+        $('.modal-backdrop').last().css('z-index', 1055);
+    });
+    $(document).on('hidden.bs.modal', '.charity-modal', function () {
+        if (document.activeElement && document.activeElement.blur) {
+            document.activeElement.blur();
+        }
+    });
+});
+</script>
 <!-- Custom JS -->
 <script src="{% static 'js/bandhu.js' %}"></script>
 
@@ -223,22 +248,74 @@
 </script>
 
 <script>
-    // CHARITY CAROUSEL
-    var charity_glide = new Glide('.charity_works', {
-        type: 'carousel',
-        focusAt: 'center',
-        perView: 3,
-        autoplay: 2000,
-        gap: 30,
-        breakpoints: {
-            991: {
-                perView: 2,
+    (function () {
+        var root = document.querySelector('.charity_works');
+        if (!root || typeof Glide === 'undefined') return;
+
+        var slideCount = root.querySelectorAll('.glide__slide').length;
+        if (!slideCount) return;
+
+        var desktopPerView = Math.min(3, slideCount);
+        var tabletPerView = Math.min(2, slideCount);
+        var mobilePerView = 1;
+        var hasFewSlides = slideCount <= 2;
+
+        new Glide('.charity_works', {
+            type: hasFewSlides ? 'slider' : 'carousel',
+            focusAt: hasFewSlides ? 0 : 'center',
+            perView: desktopPerView,
+            autoplay: hasFewSlides ? false : 2000,
+            gap: 30,
+            bound: hasFewSlides || slideCount <= 3,
+            rewind: !hasFewSlides,
+            breakpoints: {
+                991: { perView: tabletPerView },
+                767: { perView: mobilePerView },
             },
-            767: {
-                perView: 1,
-            },
+        }).mount();
+    })();
+</script>
+<script>
+    // Move "Registration Form" link next to "Patriotism in Action"
+    (function() {
+        var tagline = document.querySelector('.pillar-overlay-card--text .pillar-tagline');
+        var desc = document.querySelector('.pillar-overlay-card--text .pillar-desc');
+        if (!tagline || !desc) return;
+        var sourceEl = null;
+        var clickable = desc.querySelectorAll('a, button, span, strong, b, em, i, p, div');
+        for (var i = 0; i < clickable.length; i++) {
+            var text = (clickable[i].textContent || '').trim().toLowerCase();
+            if (text === 'registration form') {
+                sourceEl = clickable[i];
+                break;
+            }
         }
-    })
-    charity_glide.mount()
+        if (!sourceEl) return;
+
+        var linkUrl = '#';
+        if (sourceEl.tagName.toLowerCase() === 'a' && sourceEl.getAttribute('href')) {
+            linkUrl = sourceEl.getAttribute('href');
+        } else {
+            var parentLink = sourceEl.closest('a');
+            if (parentLink && parentLink.getAttribute('href')) {
+                linkUrl = parentLink.getAttribute('href');
+            }
+        }
+
+        var pill = document.createElement('a');
+        pill.className = 'registration-form-inline-btn';
+        pill.textContent = 'Registration Form';
+        pill.setAttribute('href', linkUrl);
+
+        var sourceAnchor = sourceEl.closest('a');
+        if (sourceAnchor) {
+            sourceAnchor.remove();
+        } else {
+            sourceEl.remove();
+        }
+
+        tagline.classList.add('tagline-with-registration-btn');
+        tagline.appendChild(pill);
+    })();
 </script>
 {% endblock %}

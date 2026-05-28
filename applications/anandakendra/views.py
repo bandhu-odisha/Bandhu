@@ -8,12 +8,21 @@ from django.template.defaultfilters import slugify
 
 from bandhuapp.models import Profile
 from bandhuapp.templatetags.permissions import is_admin
+from accounts.forms import RegisterForm
 from .models import (
     AnandaKendra, Activity, Photo, Acharya,
     Student, ActivityCategory, Event, HomePage,
 )
 
 # Create your views here.
+
+
+def _kendra_hero_locality_css(locality):
+    """Escape locality for CSS content; nbsp between words keeps the full line from wrapping."""
+    text = locality or ''
+    text = text.replace('\\', '\\\\').replace('"', '\\"')
+    return text.replace(' ', '\\0000a0 ')
+
 
 def index(request):
     context = {
@@ -63,22 +72,40 @@ def anandkendra_detail(request, slug):
     unapproved_photos = photos.filter(approved=False)
     photos = photos.filter(approved=True)
 
+    assigned_profile_ids = Acharya.objects.filter(kendra=kendra).values_list(
+        'acharya_id_id', flat=True
+    )
+    acharya_choices = Profile.objects.exclude(first_name=None).exclude(
+        pk__in=assigned_profile_ids
+    )
+
     activities_list = []
+    has_activities = any(c.activity_set.exists() for c in categories)
 
     # activities = Activity.objects.filter(category__kendra=kendra)
     # for activity in activities:
     #     photos = Photo.objects.filter(activity=activity).filter(approved=True)
     #     activities_list.append([activity,photos])
 
+    signup_initial = {}
+    prefill_email = request.session.pop('signup_modal_prefill_email', None)
+    if prefill_email:
+        signup_initial['email'] = prefill_email
+
     context = {
         'kendra': kendra,
+        'kendra_hero_locality_css': _kendra_hero_locality_css(kendra.locality),
         'categories': categories,
         'activities': activities_list,
+        'has_activities': has_activities,
         'events': events,
         'students': students,
         'photos': photos,
         'check_admin': check_admin,
+        'acharya_choices': acharya_choices,
         'content': HomePage.objects.all().first(),
+        'signup_form': RegisterForm(initial=signup_initial),
+        'open_signup_modal': request.GET.get('signup_modal') == '1',
     }
 
     return render(request,'anandkendra_detail.html', context)
@@ -104,20 +131,36 @@ def enroll_student(request):
         return HttpResponseRedirect(url)
     return HttpResponseRedirect('/')
 
-@login_required       
+@login_required
 def add_acharya(request):
     if request.method == 'POST':
         slug = request.POST.get('slug')
-        kendra = get_object_or_404(AnandaKendra,slug=slug)
-        acharya = request.POST.get('acharyas')
-        acharyas = acharya.split(",")
+        kendra = get_object_or_404(AnandaKendra, slug=slug)
+        emails = []
+        for key in ('acharya_1', 'acharya_2'):
+            email = (request.POST.get(key) or '').strip()
+            if email and email not in emails:
+                emails.append(email)
 
-        for i in acharyas:
-            profile = Profile.objects.filter(user__email=i).first()
-            Acharya.objects.create(kendra=kendra,acharya_id=profile)
+        if not emails:
+            messages.warning(request, 'Select at least one acharya before submitting.')
+            return redirect('anandakendra:AnandkendraDetail', slug=slug)
 
-        url = '/anandakendra/detail/' + slug +'/'
-        return HttpResponseRedirect(url)
+        added = 0
+        for email in emails:
+            profile = Profile.objects.filter(user__email=email).first()
+            if profile and not Acharya.objects.filter(
+                kendra=kendra, acharya_id=profile
+            ).exists():
+                Acharya.objects.create(kendra=kendra, acharya_id=profile)
+                added += 1
+
+        if added:
+            messages.success(request, f'Added {added} acharya(s) to this Anandakendra.')
+        else:
+            messages.info(request, 'No new acharyas were added (they may already be assigned).')
+
+        return redirect('anandakendra:AnandkendraDetail', slug=slug)
     return HttpResponseRedirect('/')
 
 @login_required
@@ -163,15 +206,14 @@ def add_to_gallery(request):
     if request.method == 'POST':
         slug = request.POST.get('slug')
         activity_images = request.FILES.getlist('gallery_images')
-        kendra = get_object_or_404(AnandaKendra,slug=slug)
-        print("image =",activity_images)
+        kendra = get_object_or_404(AnandaKendra, slug=slug)
         for i in activity_images:
-            if kendra.admin is not None and kendra.admin.user == request.user:
-                Photo.objects.create(kendra=kendra,picture=i,approved=True)
-            else:
-                Photo.objects.create(kendra=kendra,picture=i)
-
-        url = '/anandakendra/detail/' + slug +'/'
+            Photo.objects.create(
+                kendra=kendra,
+                picture=i,
+                approved=is_admin(request.user),
+            )
+        url = '/anandakendra/detail/' + slug + '/'
         return HttpResponseRedirect(url)
     return HttpResponseRedirect('/')
 
@@ -182,18 +224,21 @@ def admin_approval(request):
         image_pk = request.POST.get('image')
         status = request.POST.get('status')
 
-        kendra = get_object_or_404(AnandaKendra,slug=slug)
-        photo = get_object_or_404(Photo,pk=int(image_pk))
+        kendra = get_object_or_404(AnandaKendra, slug=slug)
+        photo = get_object_or_404(Photo, pk=int(image_pk))
         if status == "approve":
             photo.approved = True
             photo.save()
         else:
+            if photo.picture:
+                photo.picture.delete(save=False)
             photo.delete()
-        
-        photos = Photo.objects.filter(kendra=kendra)
 
+        if request.headers.get('X-Requested-With') != 'XMLHttpRequest':
+            return redirect('anandakendra:AnandkendraDetail', slug=slug)
+        photos = Photo.objects.filter(kendra=kendra)
         data = serializers.serialize('json', photos)
-        return JsonResponse(data,safe=False)
+        return JsonResponse(data, safe=False)
     return HttpResponseRedirect('/')
 
 @login_required

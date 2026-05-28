@@ -1,9 +1,10 @@
+from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
-from .helpers import _createHash
+from .helpers import _createHash, proper_case
 from accounts.models import User
 
 # Create your models here.
@@ -34,7 +35,19 @@ class Profile(models.Model):
 
     @property
     def get_full_name(self):
-        return f'{self.first_name} {self.last_name}'
+        return f'{self.first_name} {self.last_name}'.strip()
+
+    PROFILE_PROPER_CASE_FIELDS = (
+        'first_name', 'last_name', 'profession', 'city', 'state',
+        'street_address1', 'street_address2',
+    )
+
+    def save(self, *args, **kwargs):
+        for field in self.PROFILE_PROPER_CASE_FIELDS:
+            value = getattr(self, field, None)
+            if isinstance(value, str) and value.strip():
+                setattr(self, field, proper_case(value))
+        super().save(*args, **kwargs)
 
     @property
     def get_complete_address(self):
@@ -207,6 +220,46 @@ class HomePage(models.Model):
     def __str__(self):
         return 'Bandhu Home Page Content'
 
+
+class HomeVisitor(models.Model):
+    """Testimonial shown in the homepage Our Visitors carousel."""
+
+    AVATAR_CHOICES = (
+        ('man', 'Man (default illustration)'),
+        ('woman', 'Woman (default illustration)'),
+    )
+
+    name = models.CharField(max_length=100)
+    occupation = models.CharField(max_length=100, help_text='Shown as profession in the profile popup.')
+    place = models.CharField(max_length=100, help_text='City or region, e.g. Bhubaneswar.')
+    avatar = models.CharField(max_length=10, choices=AVATAR_CHOICES, default='man')
+    about = models.TextField(max_length=1000, blank=True, default='')
+    quote = models.TextField(max_length=500)
+    facebook_url = models.URLField(max_length=255, blank=True, default='')
+    linkedin_url = models.URLField(max_length=255, blank=True, default='')
+    photo = models.ImageField(
+        upload_to='bandhuapp/visitors',
+        blank=True,
+        null=True,
+        help_text='Optional. Leave empty to use the default man/woman illustration.',
+    )
+    sort_order = models.PositiveSmallIntegerField(
+        default=0,
+        db_index=True,
+        help_text='Lower numbers appear first in the carousel.',
+    )
+    is_published = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['sort_order', 'name']
+        verbose_name = 'Homepage visitor'
+        verbose_name_plural = 'Homepage visitors'
+
+    def __str__(self):
+        return self.name
+
 class UrlData(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     url = models.CharField(max_length=255,validators=[URLValidator()])
@@ -239,6 +292,35 @@ class Designation(models.Model):
     def __str__(self):
         return f"{self.rank} - {self.title}"
 
+    def save(self, *args, **kwargs):
+        if isinstance(self.title, str) and self.title.strip():
+            self.title = proper_case(self.title)
+        super().save(*args, **kwargs)
+
+
+class DesignationRole(models.Model):
+    """Specific position within a designation (e.g. President under Office Bearers)."""
+    created_at = models.DateTimeField(auto_now_add=True)
+    designation = models.ForeignKey(
+        Designation, on_delete=models.CASCADE, related_name="roles"
+    )
+    title = models.CharField(max_length=255)
+    rank = models.IntegerField(default=9999)
+
+    class Meta:
+        ordering = ["rank", "title"]
+        unique_together = [["designation", "title"]]
+        verbose_name = "designation role"
+        verbose_name_plural = "designation roles"
+
+    def __str__(self):
+        return f"{self.designation.title}: {self.title}"
+
+    def save(self, *args, **kwargs):
+        if isinstance(self.title, str) and self.title.strip():
+            self.title = proper_case(self.title)
+        super().save(*args, **kwargs)
+
 
 class Staff(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -247,6 +329,12 @@ class Staff(models.Model):
     )
     webpage = models.URLField(blank=True)
     about = models.TextField(max_length=1000)
+    qualifications = models.TextField(
+        max_length=2000,
+        blank=True,
+        default="",
+        help_text="Education and qualifications (one per line). Shown on the staff profile only.",
+    )
 
     facebook = models.URLField(blank=True)
     twitter = models.URLField(blank=True)
@@ -259,28 +347,112 @@ class Staff(models.Model):
 
 class PeoplesDesignation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
-    staff = models.OneToOneField(Staff, on_delete=models.CASCADE, related_name="desg")
+    staff = models.ForeignKey(
+        Staff, on_delete=models.CASCADE, related_name="designations"
+    )
     designation = models.ForeignKey(Designation, on_delete=models.CASCADE)
-    desc = models.TextField(max_length=1000)
+    role = models.ForeignKey(
+        DesignationRole,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="assignments",
+        help_text="Office bearer position (only for designations that define roles).",
+    )
+    desc = models.TextField(
+        max_length=1000,
+        blank=True,
+        help_text="Optional occupation or short note shown under the role.",
+    )
     rank = models.IntegerField(default=9999)
 
+    class Meta:
+        unique_together = [["staff", "designation", "role"]]
+        ordering = ["designation__rank", "rank"]
+        verbose_name = "people designation"
+        verbose_name_plural = "people designations"
+
+    def clean(self):
+        if self.role_id and self.role.designation_id != self.designation_id:
+            raise ValidationError(
+                {"role": "Role must belong to the selected designation."}
+            )
+        if not self.designation_id:
+            return
+        title = self.designation.title
+        if title == "Core Team":
+            if self.role_id:
+                raise ValidationError(
+                    {"role": "Core Team does not use a position; leave Role empty."}
+                )
+            duplicate = PeoplesDesignation.objects.filter(
+                staff_id=self.staff_id, designation_id=self.designation_id
+            )
+            if self.pk:
+                duplicate = duplicate.exclude(pk=self.pk)
+            if duplicate.exists():
+                raise ValidationError("This person is already on Core Team.")
+        elif title in ("Office Bearers", "Other"):
+            if not self.role_id:
+                raise ValidationError(
+                    {"role": "Office Bearers requires a position (President, Secretary, etc.)."}
+                )
+
     def __str__(self):
-        return f"{self.staff.profile.get_full_name} - {self.rank} - {self.designation.rank}"
+        role = f" ({self.role.title})" if self.role_id else ""
+        return f"{self.staff.profile.get_full_name} — {self.designation.title}{role}"
+
+    def save(self, *args, **kwargs):
+        if isinstance(self.desc, str) and self.desc.strip():
+            self.desc = proper_case(self.desc.strip())
+        super().save(*args, **kwargs)
+
+    @property
+    def display_lines(self):
+        """Lines for people cards: [position, occupation] or [profession]."""
+        occupation = (self.desc or "").strip()
+        if not occupation and self.staff_id:
+            occupation = (self.staff.profile.profession or "").strip()
+        if self.role_id:
+            lines = [proper_case(self.role.title)]
+            if occupation:
+                lines.append(proper_case(occupation))
+            return lines
+        if occupation:
+            return [proper_case(occupation)]
+        return [""]
 
 
-class StaffQualification(models.Model):
+class StaffExperience(models.Model):
+    """User-submitted experience/review for a staff profile."""
+    staff = models.ForeignKey(Staff, on_delete=models.CASCADE, related_name="experiences")
+    message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    degree = models.CharField(max_length=100)
-    institute = models.CharField(max_length=255)
-    since = models.DateField()
-    until = models.DateField(blank=True, null=True)
-    staff = models.ForeignKey(
-        Staff, on_delete=models.CASCADE, related_name="qualifications"
+
+    class Meta:
+        ordering = ["-created_at"]
+
+
+class StaffExperiencePhoto(models.Model):
+    """Photo attached to a staff experience submission."""
+    experience = models.ForeignKey(
+        StaffExperience, on_delete=models.CASCADE, related_name="photos"
     )
+    image = models.ImageField(upload_to="experience_photos/%Y/%m/")
+    caption = models.CharField(max_length=255, blank=True, help_text="Optional tag or caption for this photo")
+
+    class Meta:
+        verbose_name_plural = "Staff experience photos"
+
 
 class Video(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=100, blank=True)
     script = models.TextField(max_length=1000)
+    duration = models.CharField(
+        max_length=20,
+        blank=True,
+        help_text='Optional display length, e.g. 5:42 or 1:05:30 (from YouTube).',
+    )
     class Meta:
         ordering = ["-created_at"]

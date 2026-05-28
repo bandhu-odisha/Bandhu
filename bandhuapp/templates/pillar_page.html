@@ -1,0 +1,898 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Bandhu | {{ page_title }}{% endblock %}
+
+{% block body_class %}pillar-inner-page{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
+<link rel="stylesheet" href="{% static 'css/pillar-inner-banner.css' %}?v=2">
+<style>
+  /* Page-wide typography */
+  .pillar-hero, .pillar-products, .pillar-gallery { font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+  /* Hero section – no border so description and gallery blend */
+  .pillar-hero { padding: 4rem 0 3rem; background: #ffffff; border-bottom: none; }
+  .pillar-hero h1 { font-size: 2.35rem; font-weight: 700; color: #3d5c60; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .pillar-hero .pillar-hero-accent { width: 4rem; height: 5px; background: linear-gradient(90deg, #80b3ba 0%, #5f8d93 100%); border-radius: 3px; margin-bottom: 1.25rem; box-shadow: 0 2px 8px rgba(61, 92, 96, 0.35); }
+  .pillar-tagline { font-size: 1.2rem; font-weight: 600; color: #1e3a38; margin-bottom: 1rem; line-height: 1.5; }
+  .pillar-desc { font-size: 1.05rem; color: #234340; line-height: 1.75; font-weight: 450; max-width: none; width: 100%; }
+  .pillar-back { display: inline-flex; align-items: center; gap: 0.5rem; color: #3d5c60; font-weight: 600; text-decoration: none; margin-bottom: 1.5rem; transition: color 0.2s; }
+  .pillar-back:hover { color: #3d5c60; text-decoration: underline; }
+  .pillar-related { margin-bottom: 1.5rem; padding: 0.75rem 0; border-bottom: 1px solid rgba(128, 179, 186, 0.2); }
+  .pillar-related-label { font-size: 0.9rem; color: #475569; margin-right: 0.75rem; font-weight: 500; }
+  .pillar-related a { color: #3d5c60; font-weight: 600; text-decoration: none; margin-right: 1rem; }
+  .pillar-related a:hover { color: #3d5c60; text-decoration: underline; }
+  /* Gallery section – white like landing */
+  .pillar-gallery { padding: 3rem 0 4rem; background: #ffffff; border-top: none; }
+  .pillar-gallery h2 { font-size: clamp(2.25rem, 4.8vw, 3.2rem); font-weight: 800; color: #3d5c60; margin-bottom: 0.5rem; text-align: center; letter-spacing: -0.02em; line-height: 1.15; }
+  .pillar-gallery .gallery-accent { width: 5.5rem; height: 6px; background: linear-gradient(90deg, #80b3ba 0%, #5f8d93 100%); border-radius: 4px; margin: 0 auto 2rem; box-shadow: 0 2px 8px rgba(61, 92, 96, 0.35); }
+  .pillar-img-card { border-radius: 16px; overflow: hidden; box-shadow: 0 8px 24px rgba(61, 92, 96, 0.12); background: #fff; border: 2px solid rgba(128, 179, 186, 0.2); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+  .pillar-img-card:hover { transform: translateY(-4px); box-shadow: 0 14px 36px rgba(61, 92, 96, 0.18); border-color: rgba(128, 179, 186, 0.35); }
+  .pillar-img-card img { width: 100%; height: 260px; object-fit: cover; display: block; }
+  /* Banner / showcase — light teal wash (primary-aligned, not dark scrim) */
+  .parallax-overlay:has(.pillar-showcase) {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(214, 236, 238, 0.35) 55%, rgba(197, 228, 232, 0.4) 100%);
+  }
+  .pillar-showcase { position: relative; }
+  .pillar-showcase .pillar-showcase-title {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.25rem, 6vw, 4rem);
+    letter-spacing: 0.02em;
+    color: #005E66;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9), 0 2px 18px rgba(0, 94, 102, 0.12);
+    margin: 0;
+    line-height: 1.1;
+  }
+  @media (max-width: 576px) {
+    .pillar-showcase .pillar-showcase-title { font-size: 2rem; }
+  }
+  .pillar-showcase .pillar-showcase-accent {
+    width: 5rem;
+    height: 5px;
+    background: linear-gradient(90deg, #005E66 0%, #3d9ca8 100%);
+    border-radius: 3px;
+    margin: 1rem auto 0;
+    box-shadow: 0 2px 10px rgba(0, 94, 102, 0.18);
+  }
+  .angular.pillar-angular .top-angle:before { background: linear-gradient(180deg, #f0fafb 0%, #e8f5f6 100%); }
+  /* Sanskar / Swabalamban overlay cards: slight overlap on banner, clear gap below title */
+  .pillar-overlay-cards {
+    margin-top: -110px;
+    position: relative;
+    z-index: 3;
+    padding-top: 2.75rem;
+    padding-bottom: 4rem;
+    /* Overlap zone transparent (banner shows); rest solid white — no grey band */
+    background: linear-gradient(180deg, transparent 0, transparent 480px, #ffffff 480px);
+  }
+  @media (max-width: 991px) {
+    .pillar-overlay-cards {
+      margin-top: -70px;
+      padding-top: 2rem;
+    }
+  }
+  @media (max-width: 575px) {
+    .pillar-overlay-cards {
+      margin-top: -40px;
+      padding-top: 1.5rem;
+    }
+  }
+  /* Slightly wider text card to even out empty space (padding) on large screens */
+  @media (min-width: 992px) {
+    .pillar-overlay-cards .row > .col-lg-4 { flex: 0 0 30%; max-width: 30%; }
+    .pillar-overlay-cards .row > .col-lg-8 { flex: 0 0 70%; max-width: 70%; }
+  }
+  /* Even empty space: center the card block and use equal left/right padding */
+  .pillar-overlay-cards .container {
+    max-width: 1400px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    box-sizing: border-box;
+  }
+  @media (min-width: 576px) {
+    .pillar-overlay-cards .container { padding-left: 2rem; padding-right: 2rem; }
+  }
+  @media (min-width: 992px) {
+    .pillar-overlay-cards .container { padding-left: 2.5rem; padding-right: 2.5rem; }
+  }
+  .pillar-overlay-cards .pillar-overlay-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    padding: 1.5rem 1.75rem;
+  }
+  .pillar-overlay-cards .pillar-overlay-card--text {
+    min-height: 280px;
+    height: 100%;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: linear-gradient(180deg, #fffdf8 0%, #ffffff 58%, #fbfaf7 100%);
+    border: none;
+    box-shadow: 0 16px 26px -10px rgba(61, 92, 96, 0.36), 10px 4px 18px -10px rgba(61, 92, 96, 0.28), -10px 4px 18px -10px rgba(61, 92, 96, 0.24), 0 5px 12px -8px rgba(61, 92, 96, 0.22);
+  }
+  .pillar-overlay-cards .pillar-overlay-card--text h1,
+  .pillar-overlay-cards .pillar-overlay-card--text .pillar-tagline,
+  .pillar-overlay-cards .pillar-overlay-card--text .pillar-desc,
+  .pillar-overlay-cards .pillar-overlay-card--text .pillar-related,
+  .pillar-overlay-cards .pillar-overlay-card--text .pillar-back {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  .pillar-overlay-cards .pillar-overlay-card--text .pillar-desc {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.012em;
+    line-height: 1.9;
+    color: #3d5c60;
+  }
+  .pillar-overlay-cards .pillar-overlay-card--text .pillar-desc strong,
+  .pillar-overlay-cards .pillar-overlay-card--text .pillar-desc b {
+    color: #3d5c60;
+    font-weight: 700;
+  }
+  /* Photo card: square; slightly larger, nudged a little left */
+  .pillar-overlay-cards .pillar-overlay-card--image {
+    padding: 0;
+    aspect-ratio: 1 / 1;
+    width: 92%;
+    max-width: 92%;
+    min-height: 0;
+    margin-left: 0;
+    margin-right: auto;
+  }
+  .pillar-overlay-cards .pillar-overlay-card--image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  /* Sanskar: EN/Odia caption under the image card */
+  .sanskar-image-caption {
+    margin-top: 1rem;
+    min-height: 4.25rem;
+    position: relative;
+    text-align: center;
+  }
+  .sanskar-image-caption .caption-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    line-height: 1.45;
+    opacity: 0;
+    transform: translateY(6px);
+    animation: sanskarCaptionSwap 8s ease-in-out infinite;
+  }
+  .sanskar-image-caption .caption-en {
+    color: #2f6f75;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 1.18rem;
+    font-weight: 700;
+    font-style: italic;
+    letter-spacing: 0.01em;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.22);
+  }
+  .sanskar-image-caption .caption-or {
+    color: #2f6f75;
+    font-family: 'Noto Sans Oriya', 'Noto Sans Odia', 'Kohinoor Odia', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 1.24rem;
+    font-weight: 700;
+    font-style: italic;
+    animation-delay: 4s;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  }
+  @keyframes sanskarCaptionSwap {
+    0%, 44% { opacity: 1; transform: translateY(0); }
+    49%, 100% { opacity: 0; transform: translateY(6px); }
+  }
+  /* Swaraj: EN/Odia caption inside the text card only */
+  .swaraj-text-caption {
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(128, 179, 186, 0.22);
+    min-height: 4.25rem;
+    position: relative;
+    text-align: center;
+  }
+  .swaraj-text-caption .caption-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding-top: 0.25rem;
+    line-height: 1.45;
+    opacity: 0;
+    transform: translateY(6px);
+    animation: sanskarCaptionSwap 8s ease-in-out infinite;
+  }
+  .swaraj-text-caption .caption-en {
+    color: #2f6f75;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 1.18rem;
+    font-weight: 700;
+    font-style: italic;
+    letter-spacing: 0.01em;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.22);
+  }
+  .swaraj-text-caption .caption-or {
+    color: #2f6f75;
+    font-family: 'Noto Sans Oriya', 'Noto Sans Odia', 'Kohinoor Odia', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 1.24rem;
+    font-weight: 700;
+    animation-delay: 4s;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  }
+  /* Swabalamban animated quote inside text card */
+  .swabalamban-text-caption {
+    margin: 0.45rem 0 0;
+    min-height: 2.35rem;
+    position: relative;
+  }
+  .swabalamban-text-caption .caption-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    line-height: 1.45;
+    opacity: 0;
+    transform: translateY(4px);
+    animation: swabalambanCaptionSwap 8s ease-in-out infinite;
+  }
+  .swabalamban-text-caption .caption-en {
+    color: #2f4d52;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 1.03rem;
+    font-weight: 600;
+    font-style: italic;
+    letter-spacing: 0.01em;
+  }
+  .swabalamban-text-caption .caption-or {
+    color: #0e777a;
+    font-family: 'Noto Sans Oriya', 'Noto Sans Odia', 'Kohinoor Odia', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 1.01rem;
+    font-weight: 600;
+    animation-delay: 4s;
+  }
+  @keyframes swabalambanCaptionSwap {
+    0%, 44% { opacity: 1; transform: translateY(0); }
+    49%, 100% { opacity: 0; transform: translateY(4px); }
+  }
+  .swabalamban-text-card {
+    min-height: 430px;
+  }
+  .swabalamban-order-note {
+    margin-top: 0.45rem;
+    margin-bottom: 0.35rem;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.98rem;
+    line-height: 1.65;
+    color: #2f6f75;
+    font-weight: 600;
+    letter-spacing: 0.005em;
+  }
+  /* Left card: only one image (hide any extra) */
+  .pillar-overlay-cards .pillar-overlay-card--image img:not(:first-of-type) {
+    display: none !important;
+  }
+  .pillar-overlay-cards .pillar-overlay-card--text .pillar-hero-accent {
+    width: 4rem;
+    height: 5px;
+    background: linear-gradient(90deg, #80b3ba 0%, #5f8d93 100%);
+    border-radius: 3px;
+    margin: 0.5rem 0 1rem;
+    box-shadow: 0 2px 8px rgba(61, 92, 96, 0.35);
+  }
+  .pillar-overlay-cards .pillar-overlay-card--text h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #3d5c60;
+    margin-bottom: 0.25rem;
+  }
+  .pillar-overlay-cards .pillar-overlay-card--text .pillar-tagline {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+  }
+  .pillar-overlay-cards .pillar-overlay-card--text .pillar-desc {
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+  .pillar-overlay-cards .pillar-overlay-card--text .sanskar-pillar-desc p {
+    margin: 0 0 1.15rem;
+  }
+  .pillar-overlay-cards .pillar-overlay-card--text .sanskar-pillar-desc p:last-child {
+    margin-bottom: 0;
+  }
+  .pillar-overlay-cards .pillar-overlay-card--text .sanskar-pillar-desc strong {
+    color: #3d5c60;
+    font-weight: 700;
+  }
+  .pillar-overlay-cards .pillar-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #3d5c60;
+    font-weight: 600;
+    text-decoration: none;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+  }
+  .pillar-overlay-cards .pillar-back:hover { color: #3d5c60; text-decoration: underline; }
+  .pillar-overlay-cards .pillar-related { margin-bottom: 1rem; padding: 0.5rem 0; border-bottom: 1px solid rgba(128, 179, 186, 0.2); font-size: 0.9rem; }
+  .pillar-overlay-cards .pillar-related-label { color: #475569; margin-right: 0.5rem; }
+  .pillar-overlay-cards .pillar-related a { color: #3d5c60; font-weight: 600; text-decoration: none; margin-right: 0.75rem; }
+  .pillar-overlay-cards .pillar-related a:hover { color: #3d5c60; text-decoration: underline; }
+  @media (max-width: 768px) {
+    .pillar-overlay-cards { margin-top: -100px; }
+    .pillar-overlay-cards .pillar-overlay-card--image { aspect-ratio: 1 / 1; }
+  }
+  .pillar-hero .pillar-back {
+    padding: 0.6rem 1rem;
+    border-radius: 9999px;
+    background: rgba(61, 92, 96, 0.08);
+    border: 1px solid rgba(61, 92, 96, 0.25);
+  }
+  .pillar-hero .pillar-back:hover { background: rgba(61, 92, 96, 0.14); text-decoration: none; border-color: rgba(61, 92, 96, 0.4); }
+  .pillar-products .text-muted { color: #475569 !important; font-weight: 500; }
+  .pillar-products .pillar-order-contact { font-size: 1rem; color: #334155; font-weight: 500; }
+  .pillar-products .pillar-order-contact strong { color: #3d5c60; font-weight: 600; }
+  .pillar-products .pillar-products-tagline { color: #3d5c60; font-weight: 600; }
+  /* Our Products (Swabalamban) – white like landing */
+  .pillar-products { padding: 3rem 0 4rem; background: #ffffff; border-top: none; border-bottom: none; }
+  /* Swabalamban: pull Our Products section up without moving overlay photo/text cards */
+  .pillar-overlay-cards + .pillar-products { margin-top: -2.5rem; }
+  .pillar-products h2 { font-size: 2rem; font-weight: 700; color: #3d5c60; margin-top: -0.8rem; margin-bottom: 0.5rem; }
+  .pillar-products .products-accent { width: 4rem; height: 5px; background: linear-gradient(90deg, #80b3ba 0%, #5f8d93 100%); border-radius: 3px; margin: 0 auto 2rem; box-shadow: 0 2px 8px rgba(61, 92, 96, 0.35); }
+  .pillar-products .product-card { position: relative; border-radius: 0 0 16px 16px; overflow: visible; box-shadow: 0 14px 30px -10px rgba(61, 92, 96, 0.38), 0 6px 14px -8px rgba(61, 92, 96, 0.26); background: #fff; border: none; transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer; }
+  .pillar-products .product-card:hover { transform: translateY(-6px); box-shadow: 0 24px 48px -14px rgba(61, 92, 96, 0.48), 0 10px 22px -10px rgba(61, 92, 96, 0.34); border-color: transparent; }
+  .pillar-products .product-card .product-toggle.stretched-link {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+  }
+  /* Swabalamban products — auto-rotating carousel (like home Stories in Motion) */
+  .pillar-products .swabalamban-products-wrap { margin-top: 1.25rem; max-width: 1140px; margin-left: auto; margin-right: auto; }
+  .pillar-products .glide.swabalamban-products { padding: 0 2.5rem 0; }
+  .pillar-products .glide.swabalamban-products .glide__track { overflow: hidden; }
+  .pillar-products .glide.swabalamban-products .glide__slides {
+    align-items: stretch;
+    background: transparent;
+  }
+  .pillar-products .glide.swabalamban-products .glide__slide {
+    display: flex;
+    align-items: stretch;
+    height: auto;
+    padding: 0.5rem 0;
+  }
+  .pillar-products .glide.swabalamban-products .product-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 280px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 12px 12px 16px 16px;
+  }
+  .pillar-products .glide__arrow {
+    border: none;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 4px 14px rgba(61, 92, 96, 0.2);
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    top: 42%;
+  }
+  .pillar-products .glide__arrow i { color: #3d5c60; font-size: 1.35rem; }
+  .pillar-products .glide__arrow:hover i { color: #005E66; }
+  /* Override site-wide rule that hides carousel dots (custom.css) */
+  .pillar-products .swabalamban-products-dots {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    position: relative;
+    bottom: auto;
+    left: auto;
+    transform: none;
+    width: 100%;
+    margin: 1.25rem auto 0;
+    padding: 0 0 1.5rem;
+    list-style: none;
+  }
+  .pillar-products .swabalamban-products-dots .glide__bullet {
+    display: block !important;
+    width: 10px;
+    height: 10px;
+    padding: 0;
+    margin: 0;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    background-color: rgba(61, 92, 96, 0.3) !important;
+    box-shadow: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+  }
+  .pillar-products .swabalamban-products-dots .glide__bullet:hover,
+  .pillar-products .swabalamban-products-dots .glide__bullet:focus {
+    background-color: rgba(61, 92, 96, 0.55) !important;
+    border-color: #80b3ba;
+    outline: none;
+  }
+  .pillar-products .swabalamban-products-dots .glide__bullet--active {
+    background-color: #3d5c60 !important;
+    transform: scale(1.15);
+  }
+  .pillar-products .product-card { display: flex; flex-direction: column; min-height: 0; width: 100%; }
+  .pillar-products .product-card img {
+    width: 100%;
+    height: 280px;
+    min-height: 280px;
+    max-height: 280px;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    border-radius: 0;
+    flex-shrink: 0;
+  }
+  .pillar-products .product-card .product-label {
+    padding: 1rem 1.25rem;
+    color: #3d5c60;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 700;
+    font-size: 1.14rem;
+    letter-spacing: 0.01em;
+    line-height: 1.35;
+    text-align: center;
+    background: #fff;
+    height: 4.75em;
+    min-height: 4.75em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+  }
+  .pillar-products .product-card { overflow: visible; transition: box-shadow 0.3s ease, border-color 0.3s ease; }
+  .pillar-products .product-card .product-toggle {
+    display: inline-block;
+    padding: 0.5rem 0 0.75rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #3d5c60;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .pillar-products .product-card .product-toggle:hover { color: #3d5c60; text-decoration: none; }
+  /* Make the product name behave like a clear link (pointer + teal link underline) */
+  .pillar-products .product-card:hover .product-label,
+  .pillar-products .product-card:focus-within .product-label {
+    color: #0f3f43 !important;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+  }
+  .pillar-products .product-card .product-toggle-wrap { flex-shrink: 0; height: 0; overflow: visible; }
+  /* Product detail modals - vibrant */
+  .product-modal .modal-dialog { max-width: 560px; }
+  .product-modal .modal-content {
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0 34px 90px rgba(18, 42, 46, 0.45), 0 14px 34px rgba(61, 92, 96, 0.3);
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    overflow: hidden;
+  }
+  /* Same solid brand teal as Anandakendra read-more modal header (#005E66) */
+  .product-modal .modal-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.28);
+    background: #005E66;
+    background-image: none;
+    color: #fff;
+    padding: 1.25rem 1.5rem;
+    position: relative;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    overflow: hidden;
+  }
+  .product-modal .modal-header .modal-title {
+    font-weight: 800;
+    font-size: 1.35rem;
+    letter-spacing: 0.02em;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    padding-left: 4px;
+  }
+  .product-modal .modal-header .close {
+    color: #fff;
+    opacity: 0.95;
+    font-size: 1.75rem;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    font-weight: 300;
+  }
+  .product-modal .modal-header .close:hover { opacity: 1; color: #d7e9f2; }
+  .product-modal .modal-body {
+    padding: 1.5rem 1.75rem 1.75rem;
+    color: #1e3a38;
+    font-size: 1.02rem;
+    line-height: 1.7;
+    /* Solid fill — no top teal wash above the lead line (all product modals share this class) */
+    background: #ffffff;
+  }
+  .product-modal .modal-body p { margin: 0 0 1rem; color: #1a2f2e; font-weight: 650; }
+  .product-modal .modal-body p strong { color: #3d5c60; font-weight: 700; }
+  .product-modal .modal-body h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #3d5c60;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 1.25rem 0 0.5rem;
+    padding-bottom: 0.35rem;
+    border-bottom: 3px solid #80b3ba;
+    display: inline-block;
+  }
+  .product-modal .modal-body h4:first-child { margin-top: 0; }
+  .product-modal .modal-body ul { margin: 0 0 1rem; padding-left: 1.4rem; list-style: none; }
+  .product-modal .modal-body ul li {
+    position: relative;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: #1e3a38;
+    font-weight: 500;
+    padding-left: 0.5rem;
+  }
+  .product-modal .modal-body ul li::before {
+    content: '';
+    position: absolute;
+    left: -1rem;
+    top: 0.55em;
+    width: 6px;
+    height: 6px;
+    background: linear-gradient(135deg, #80b3ba, #80b3ba);
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px rgba(128, 179, 186, 0.2);
+  }
+  .product-modal .modal-body .quality-promise-content {
+    margin: 1rem 0 0;
+    padding: 1rem 1.15rem;
+    font-size: 1rem;
+    color: #1e3a38;
+    font-weight: 650;
+    line-height: 1.65;
+    background: linear-gradient(135deg, rgba(128, 179, 186, 0.12) 0%, rgba(128, 179, 186, 0.12) 100%);
+    border-left: 4px solid #80b3ba;
+    border-radius: 0 12px 12px 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 0.15rem;
+  }
+  .product-modal .modal-body .quality-promise-content .qp-item {
+    display: inline;
+  }
+  .product-modal .modal-body .quality-promise-content .qp-sep {
+    color: #005E66;
+    font-weight: 800;
+    padding: 0 0.2rem;
+    user-select: none;
+  }
+  /* Brand alignment for Sanskar / Swaraj / Swabalamban */
+  .pillar-overlay-cards .pillar-back,
+  .pillar-overlay-cards .pillar-overlay-card--text h1,
+  .pillar-products h2,
+  .pillar-products .pillar-products-tagline,
+  .pillar-products .pillar-order-contact strong,
+  .pillar-gallery h2 {
+    color: #005E66 !important;
+  }
+  .pillar-overlay-cards .pillar-overlay-card--text .pillar-hero-accent,
+  .pillar-products .products-accent,
+  .pillar-gallery .gallery-accent {
+    background: linear-gradient(90deg, #005E66 0%, #006A73 100%) !important;
+  }
+</style>
+{% if page_title == 'Sanskar' or page_title == 'Swaraj' or page_title == 'Swabalamban' %}
+<style>
+  /* Pillar pages: soft primary-tint fill + subtle texture (no dark forest band) */
+  #top-section {
+    background:
+      radial-gradient(circle at 14% 22%, rgba(0, 94, 102, 0.06) 0 2px, transparent 3px),
+      radial-gradient(circle at 30% 70%, rgba(0, 94, 102, 0.04) 0 1.5px, transparent 2.5px),
+      radial-gradient(circle at 58% 28%, rgba(0, 94, 102, 0.05) 0 1.8px, transparent 2.8px),
+      radial-gradient(circle at 74% 62%, rgba(0, 94, 102, 0.04) 0 1.5px, transparent 2.6px),
+      radial-gradient(circle at 88% 24%, rgba(0, 94, 102, 0.045) 0 1.6px, transparent 2.8px),
+      linear-gradient(135deg, #e8f5f6 0%, #d6ecee 45%, #c5e4e8 100%);
+    background-attachment: fixed;
+    background-size: cover;
+  }
+  #top-section .parallax-overlay {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(214, 236, 238, 0.28) 100%);
+    background-color: transparent;
+  }
+  /* Title shown via pillar-inner-banner.css + visible markup (not ::before pseudo) */
+  .pillar-overlay-cards {
+    position: relative;
+    z-index: 5;
+  }
+  .pillar-overlay-cards .pillar-overlay-card--text .pillar-tagline,
+  .pillar-overlay-cards .pillar-overlay-card--text .pillar-desc {
+    color: #3d5c60 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+</style>
+{% elif content and content.banner_image %}
+<style>
+  #top-section { background: url("{{ content.banner_image.url }}") 50% center no-repeat fixed; background-size: cover; }
+  #top-section .parallax-overlay {
+    background: linear-gradient(180deg, rgba(248, 252, 252, 0.88) 0%, rgba(230, 244, 245, 0.82) 55%, rgba(214, 236, 238, 0.78) 100%) !important;
+  }
+</style>
+{% endif %}
+{% endblock %}
+
+{% block navbar-links %}
+<li class="nav-item"><a class="nav-link px-3 px-lg-2" href="{% url 'home' %}">Home</a></li>
+<li class="nav-item"><a class="nav-link px-3 px-lg-2" href="{% url 'home' %}#mission">Our Mission</a></li>
+<li class="nav-item"><a class="nav-link px-3 px-lg-2" href="#contact">Contact</a></li>
+{% endblock %}
+
+{% block showcase-title-container %}
+<div class="slider-txt-container pillar-showcase">
+  <h2 class="bold-txt pillar-showcase-title">{{ page_title }}</h2>
+  <div class="pillar-showcase-accent"></div>
+</div>
+{% endblock %}
+{% block angular %}
+<div class="angular pillar-angular">
+  <div class="top-angle"></div>
+</div>
+{% endblock %}
+
+{% block content %}
+{% if page_title == 'Sanskar' or page_title == 'Swaraj' or page_title == 'Swabalamban' %}
+<section class="pillar-overlay-cards">
+  <div class="container">
+    <div class="row align-items-start g-4">
+      <div class="col-lg-4 col-md-5">
+        <div class="pillar-overlay-card pillar-overlay-card--image">
+          {% if pillar_hero_url %}
+          <img src="{{ pillar_hero_url }}" alt="{{ page_title }}" loading="eager" class="pillar-overlay-single-image">
+          {% elif pillar_hero_image %}
+          <img src="{{ pillar_hero_image.url }}" alt="{{ page_title }}" loading="eager" class="pillar-overlay-single-image">
+          {% else %}
+          <img src="{% static 'img/our_mission1.jpg' %}" alt="{{ page_title }}" loading="eager" class="pillar-overlay-single-image">
+          {% endif %}
+        </div>
+        {% if page_title == 'Sanskar' %}
+        <div class="sanskar-image-caption" aria-label="Sanskar caption">
+          <p class="caption-line caption-en">"Learning with values lights every life and builds a brighter tomorrow."</p>
+          <p class="caption-line caption-or">"ମୂଲ୍ୟ ସହିତ ଶିକ୍ଷା ପ୍ରତ୍ୟେକ ଜୀବନକୁ ଆଲୋକିତ କରେ ଏବଂ ଏକ ଉଜ୍ଜ୍ୱଳ ଭବିଷ୍ୟତ ଗଢେ।"</p>
+        </div>
+        {% endif %}
+      </div>
+      <div class="col-lg-8 col-md-7">
+        <div class="pillar-overlay-card pillar-overlay-card--text{% if page_title == 'Swabalamban' %} swabalamban-text-card{% endif %}">
+          {% if page_title != 'Sanskar' and page_title != 'Swaraj' and page_title != 'Swabalamban' %}
+          <a href="{% url 'home' %}#mission" class="pillar-back">
+            <i class="fas fa-arrow-left"></i> Back to Our Mission
+          </a>
+          {% endif %}
+          {% if related_links %}
+          <div class="pillar-related">
+            <span class="pillar-related-label">Explore:</span>
+            {% for link in related_links %}
+            <a href="{{ link.url }}">{{ link.name }}</a>
+            {% endfor %}
+          </div>
+          {% elif page_title == 'Swabalamban' %}
+          <div class="pillar-related">
+            <span class="pillar-related-label">Explore:</span>
+            <a href="/sanskar/">Sanskar</a>
+            <a href="/swaraj/">Swaraj</a>
+          </div>
+          {% endif %}
+          {% if page_title != 'Sanskar' and page_title != 'Swaraj' and page_title != 'Swabalamban' %}
+          <h1>{{ page_title }}</h1>
+          {% endif %}
+          {% if page_title == 'Sanskar' %}
+          {% if desc %}
+          <div class="pillar-desc sanskar-pillar-desc">{{ desc|safe }}</div>
+          {% endif %}
+          {% else %}
+          {% if tagline %}
+          <p class="pillar-tagline">{{ tagline|safe }}</p>
+          {% endif %}
+          {% if desc %}
+          <div class="pillar-desc">{{ desc|safe }}</div>
+          {% endif %}
+          {% endif %}
+          {% if page_title == 'Swaraj' %}
+          <div class="swaraj-text-caption" aria-label="Swaraj caption">
+            <p class="caption-line caption-en">"Empowered communities shape their own future with dignity and voice."</p>
+            <p class="caption-line caption-or">"ସଶକ୍ତ ସମୁଦାୟ ଗରିମା ଏବଂ ନିଜ ଅଧିକାର ସହ ନିଜ ଭବିଷ୍ୟତ ଗଢେ।"</p>
+          </div>
+          {% endif %}
+          {% if page_title == 'Swabalamban' %}
+          {% if order_note %}
+          <p class="swabalamban-order-note">{{ order_note|safe }}</p>
+          {% elif whatsapp_number %}
+          <p class="swabalamban-order-note">
+            Explore our products below for quality produce. If you want to place an order, contact us on WhatsApp at <strong>{{ whatsapp_number }}</strong>.
+          </p>
+          {% endif %}
+          <div class="swabalamban-text-caption" aria-label="Swabalamban caption">
+            <p class="caption-line caption-en">{{ caption_en|safe }}</p>
+            <p class="caption-line caption-or">{{ caption_or|safe }}</p>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% else %}
+<section class="pillar-hero">
+  <div class="container">
+    <a href="{% url 'home' %}#mission" class="pillar-back">
+      <i class="fas fa-arrow-left"></i> Back to Our Mission
+    </a>
+    {% if related_links %}
+    <div class="pillar-related">
+      <span class="pillar-related-label">Explore:</span>
+      {% for link in related_links %}
+      <a href="{{ link.url }}">{{ link.name }}</a>
+      {% endfor %}
+    </div>
+    {% endif %}
+    <h1>{{ page_title }}</h1>
+    <div class="pillar-hero-accent"></div>
+    {% if tagline %}
+    <p class="pillar-tagline">{{ tagline|safe }}</p>
+    {% endif %}
+    {% if desc %}
+    <div class="pillar-desc">{{ desc|safe }}</div>
+    {% endif %}
+  </div>
+</section>
+{% endif %}
+
+{% if page_title == 'Swabalamban' %}
+<section class="pillar-products" id="our-products">
+  <div class="container">
+    <h2 class="text-center">{{ products_heading|default:"Quality produce from our Swabalamban initiative." }}</h2>
+    <div class="products-accent"></div>
+    {% if products %}
+    <div class="swabalamban-products-wrap">
+    <div class="glide swabalamban-products">
+      <div class="glide__track" data-glide-el="track">
+        <ul class="glide__slides">
+          {% for product in products %}
+          <li class="glide__slide d-flex">
+            <div class="product-card">
+              <img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy">
+              <div class="product-label">{{ product.label }}</div>
+              <div class="product-toggle-wrap"><a href="#" class="product-toggle stretched-link" data-toggle="modal" data-target="#{{ product.modal_id }}" aria-label="View {{ product.name }} details"></a></div>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="glide__arrows disable_arrows d-none d-md-block" data-glide-el="controls">
+        <button type="button" class="slider_arrow slider_arrow--prev glide__arrow glide__arrow--left" data-glide-dir="<" aria-label="Previous product">
+          <i class="fas fa-arrow-circle-left"></i>
+        </button>
+        <button type="button" class="slider_arrow slider_arrow--next glide__arrow glide__arrow--right" data-glide-dir=">" aria-label="Next product">
+          <i class="fas fa-arrow-circle-right"></i>
+        </button>
+      </div>
+      <div class="glide__bullets swabalamban-products-dots" data-glide-el="controls[nav]">
+        {% for product in products %}
+        <button type="button" class="glide__bullet" data-glide-dir="={{ forloop.counter0 }}" aria-label="Go to {{ product.label }}"></button>
+        {% endfor %}
+      </div>
+    </div>
+    </div>
+    {% else %}
+    <p class="text-center text-muted py-4 mb-0">Products will appear here once added in the admin.</p>
+    {% endif %}
+
+    {% for product in products %}
+    <div class="modal product-modal fade" id="{{ product.modal_id }}" tabindex="-1" role="dialog" aria-labelledby="{{ product.modal_id }}Title" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="{{ product.modal_id }}Title">{{ product.name }}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body">
+            <p class="product-intro">{% if product.intro_lead %}<strong>{{ product.intro_lead }}</strong> {% endif %}{{ product.intro_text }}</p>
+            <h4>Nutritional highlights</h4>
+            <ul>
+              {% for item in product.highlight_list %}
+              <li>{{ item }}</li>
+              {% endfor %}
+            </ul>
+            <h4>Quality promise</h4>
+            <p class="quality-promise-content">
+              {% for item in product.quality_promise_list %}
+              {% if not forloop.first %}<span class="qp-sep" aria-hidden="true">·</span>{% endif %}
+              <span class="qp-item">{{ item }}</span>
+              {% endfor %}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if images and page_title != 'Sanskar' and page_title != 'Swabalamban' %}
+<section class="pillar-gallery">
+  <div class="container">
+    <h2 class="text-center">Gallery</h2>
+    <div class="gallery-accent"></div>
+    <div class="row">
+      {% for img in images %}
+      <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+        <div class="pillar-img-card">
+          <img src="{{ img.url }}" alt="{{ page_title }} gallery" loading="lazy">
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{% if page_title == 'Swabalamban' %}
+<script>
+$(function () {
+  $('.pillar-products .product-toggle').on('click', function (e) {
+    e.preventDefault();
+    var target = $(this).data('target');
+    if (target) {
+      $(target).modal('show');
+    }
+  });
+  if ($('.swabalamban-products').length && typeof Glide !== 'undefined') {
+    var productsGlide = new Glide('.swabalamban-products', {
+      type: 'carousel',
+      startAt: 0,
+      perView: 4,
+      gap: 24,
+      autoplay: 5000,
+      hoverpause: true,
+      rewind: true,
+      animationDuration: 700,
+      breakpoints: {
+        1200: { perView: 3 },
+        991: { perView: 2 },
+        767: { perView: 1 }
+      }
+    });
+    productsGlide.mount();
+  }
+});
+</script>
+{% endif %}
+{% endblock %}

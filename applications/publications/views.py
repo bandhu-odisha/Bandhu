@@ -1,5 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+import os
+
 from django.contrib.sites.shortcuts import get_current_site
+from django.http import FileResponse, Http404
+from django.shortcuts import get_object_or_404, render
 
 from .models import Publication, HomePage
 
@@ -22,3 +25,16 @@ def publication_detail(request, slug):
     }
 
     return render(request, "publication_detail.html", context)
+
+
+def download_publication(request, slug):
+    """Serve publication file as an attachment so browsers save it instead of only previewing."""
+    publication = get_object_or_404(Publication, slug=slug, is_visible=True)
+    if not publication.media:
+        raise Http404
+    try:
+        file_handle = publication.media.open('rb')
+    except (FileNotFoundError, OSError):
+        raise Http404
+    filename = os.path.basename(publication.media.name)
+    return FileResponse(file_handle, as_attachment=True, filename=filename)

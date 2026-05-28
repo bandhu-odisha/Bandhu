@@ -2,16 +2,28 @@
 
 {% load static %}
 
-{% block title %} Charity Work {% endblock %}
+{% block title %} Bandhu | {{ charity.title }} {% endblock %}
+
+{% block body_class %}charity-detail-page charity-hero-two-line{% endblock %}
 
 {% block style %}
-<!-- Custom CSS -->
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
-<link rel="stylesheet" href="{% static 'css/charity.css' %}">
-<!-- Custom Style -->
+<link rel="stylesheet" href="{% static 'css/charity.css' %}?v=7">
 <style>
-    #top-section {
-        background: url("{{ content.banner_image.url }}") 50% center no-repeat fixed;
+    body.charity-detail-page #top-section {
+        background:
+            radial-gradient(circle at 14% 22%, rgba(0, 94, 102, 0.06) 0 2px, transparent 3px),
+            radial-gradient(circle at 30% 70%, rgba(0, 94, 102, 0.04) 0 1.5px, transparent 2.5px),
+            radial-gradient(circle at 58% 28%, rgba(0, 94, 102, 0.05) 0 1.8px, transparent 2.8px),
+            radial-gradient(circle at 74% 62%, rgba(0, 94, 102, 0.04) 0 1.5px, transparent 2.6px),
+            radial-gradient(circle at 88% 24%, rgba(0, 94, 102, 0.045) 0 1.6px, transparent 2.8px),
+            linear-gradient(135deg, #e8f5f6 0%, #d6ecee 45%, #c5e4e8 100%) !important;
+        background-attachment: fixed !important;
+        background-size: cover !important;
+    }
+    body.charity-detail-page #top-section .parallax-overlay {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(214, 236, 238, 0.28) 100%) !important;
+        background-color: transparent !important;
     }
 </style>
 
@@ -42,74 +54,57 @@
 {% endblock %}
 
 {% block showcase-title-container %}
-<div class="slider-txt-container" style="padding: 200px 0 200px 0;">
-    <h2 class="bold-txt mb-3"> CHARITY WORK </h2>
-    <p class="showcase-description mb-5">{{ charity.title }}</p>
+<div class="slider-txt-container page-showcase page-showcase-tall charity-detail-hero">
+    <h1 class="charity-detail-hero-title">{{ charity.title }}</h1>
+    <p class="charity-detail-hero-subtitle">{{ charity.purpose }}, {{ charity.location }}</p>
+</div>
+{% endblock %}
+{% block angular %}
+<div class="angular page-angular angular-charity">
+    <div class="top-angle"></div>
 </div>
 {% endblock %}
 
 {% block content %}
-<!-- About Section -->
-<section id="about" style="margin-top: -250px;">
-    <div class="container pb-3 mb-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-8 text-left px-0 py-0 py-lg-2 mx-auto" style="z-index: 10;">
-                <div class="card m-2 shadow-sm d-none d-lg-block">
-                    <div class="card-body p-4">
-                        <h1 class="mb-3 title">{{ charity.title }}</h1>
-                        <p class="m-0 font-weight-bold">
-                            {{ charity.purpose }}, {{ charity.location }}
-                        </p>
-                        
-                    </div>
+<div class="charity-detail">
+<!-- About: pillar overlay cards (same pattern as Sanskar / Bandhughar / Anandakendra) -->
+<section id="about" class="pillar-overlay-cards">
+    <div class="container">
+        <div class="row align-items-start g-4">
+            <div class="col-lg-4 col-md-5">
+                <div class="pillar-overlay-card pillar-overlay-card--image">
+                    <img src="{{ charity.image.url }}" alt="{{ charity.title }}" loading="eager" class="pillar-overlay-single-image">
                 </div>
-                <!--   DESCRIPTON  -->
-                <div class="card m-2 shadow-sm">
-                    <div class="card-body p-4">
-                        <h2 class="content-title mb-2">Description</h1>
-                        <p class="mt-3 mb-2 font-weight-bold">
-                            {{ charity.start_date }} - {{ charity.end_date }}
-                        </p>
-                        <p>{{ charity.description|safe }}</p>
-                    </div>
+                <div class="charity-image-caption" aria-label="Activity caption">
+                    <p class="caption-line caption-en">"Service grows brighter when many hands and hearts come together."</p>
+                    <p class="caption-line caption-or">"ଅନେକ ହାତ ଓ ହୃଦୟ ଏକାତ୍ମ ହେଲେ ସେବା ଅଧିକ ଉଜ୍ଜ୍ୱଳ ହୁଏ।"</p>
                 </div>
             </div>
-            <div class="col-lg-4 text-left px-0 py-0 py-lg-2 mx-auto" style="z-index: 10;">
-				<!--   PIC CARD  -->
-				<div class="card m-2 shadow-sm mb-4">
-					<div class="card-body p-1">
-						<img src="{{ charity.image.url }}" alt="DP" class="img-fluid h-100 w-100" style="max-height: 300px;" />
-					</div>
+            <div class="col-lg-8 col-md-7">
+                <div class="pillar-overlay-card pillar-overlay-card--text">
+                    <a href="{% url 'charitywork:charity_work' %}" class="pillar-back">
+                        <i class="fas fa-arrow-left"></i> Back to Other Activities
+                    </a>
+                    <p class="pillar-tagline">{{ charity.purpose }}, {{ charity.location }}</p>
+                    <div class="pillar-hero-accent" aria-hidden="true"></div>
+                    <p class="charity-detail-dates mb-2"><strong>{{ charity.start_date }}</strong> – <strong>{{ charity.end_date }}</strong></p>
+                    <div class="pillar-desc">{{ charity.description|safe }}</div>
+                    {% if check_admin and user.is_authenticated %}
+                    <div class="charity-detail-admin-actions mt-4 pt-3">
+                        <button type="button" class="btn btn-primary btn-sm mr-2 mb-2" data-toggle="modal" data-target="#addActivity">Add Activity</button>
+                        <button type="button" class="btn btn-primary btn-sm mb-2" data-toggle="modal" data-target="#selectVolunteers">Add Volunteers</button>
+                    </div>
+                    {% endif %}
                 </div>
-
-                {% if check_admin and user.is_authenticated %}
-
-                <!-- Add Activity -->
-                <div class="add-activity text-center my-2">
-                    <button type="button" class="btn btn-primary w-75" data-toggle="modal" data-target="#addActivity">
-                        Add Activity
-                    </button>
-                    
-                </div>
-
-                <div class="add-volunteers text-center my-2" >
-                    <button type="button" class="btn btn-primary w-75" data-toggle="modal" data-target="#selectVolunteers">
-                        Add Volunteers
-                    </button>
-                    
-                </div>
-                {% endif %}
             </div>
         </div>
     </div>
 </section>
 
-
 <!-- Activities Section -->
-<section id="activities">
-    <div class="bg-grey" style="padding: 50px 0;">
-        <h3 class="section-title">Activities</h3>
-        <div class="container">
+<section id="activities" class="page-section charity-detail-activities-section">
+    <div class="container charity-detail-activities-container">
+        <h2 class="section-title text-center">Activities</h2>
             {% if activities.count %}
             <div class="row">
                 <div class="glide charity_activities">
@@ -117,8 +112,8 @@
                         <ul class="glide__slides">
                             {% for activity in activities %}
                             <li class="glide__slide">
-                                <div class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
-                                    <img src="{% static 'img/pimg6.jpg' %}" class="card-img-top home-card-img" alt="" width="300px">
+                                <div class="card w-100 page-card activity-card mx-auto my-2 h-100">
+                                    <img src="{% static 'img/pimg6.jpg' %}" class="card-img-top activity-card-img" alt="" width="300px">
                                     <div class="card-body pb-0">
                                         <h5 class="card-title font-weight-bold">{{ activity.name }}</h5>
                                         <p class="mb-3">
@@ -150,13 +145,12 @@
             {% else %}
             <p class="text-center lead pt-2 mb-n1"><em>Nothing to show here!</em></p>
             {% endif %}
-        </div>
     </div>
 </section>
 
 <!-- ACTIVITIES MODALS -->
 {% for activity in activities %}
-<div class="modal fade" id="activity_modal{{ activity.id }}">
+<div class="modal fade charity-modal" id="activity_modal{{ activity.id }}">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content shadow">
             <div class="modal-header">
@@ -165,32 +159,30 @@
                     <span aria-hidden="true" style="font-size: 2.375rem;">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-6 col-lg-6 align-self-center">
-                        <div id="mission-carousel" class="mission-carousel carousel slide m-auto" data-ride="carousel">
-                            <ul class="carousel-indicators">
-                                <li data-target="#mission-carousel" data-slide-to="0" class=""></li>
-                                <li data-target="#mission-carousel" data-slide-to="1" class=""></li>
-                                <li data-target="#mission-carousel" data-slide-to="2" class="active"></li>
-                            </ul>
-                            <div class="carousel-inner">
-                                <div class="carousel-item">
-                                    <img src="/static/img/pimg6.jpg" alt="carousel image">
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="/static/img/pimg2.jpg" alt="carousel image">
-                                </div>
-                                <div class="carousel-item active">
-                                    <img src="/static/img/pimg3.jpg" alt="carousel image">
-                                </div>
+            <div class="modal-body activity-detail-modal-body">
+                <div class="activity-detail-modal-media">
+                    <div id="activity-carousel-{{ activity.id }}" class="carousel slide activity-detail-carousel" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li data-target="#activity-carousel-{{ activity.id }}" data-slide-to="0"></li>
+                            <li data-target="#activity-carousel-{{ activity.id }}" data-slide-to="1"></li>
+                            <li data-target="#activity-carousel-{{ activity.id }}" data-slide-to="2" class="active"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="carousel-item">
+                                <img src="{% static 'img/pimg6.jpg' %}" alt="{{ activity.name }}">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="{% static 'img/pimg2.jpg' %}" alt="{{ activity.name }}">
+                            </div>
+                            <div class="carousel-item active">
+                                <img src="{% static 'img/pimg3.jpg' %}" alt="{{ activity.name }}">
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <h3 class="font-weight-bolder">Description</h3>
-                        {{ activity.description|safe }}
-                    </div>
+                </div>
+                <div class="activity-detail-modal-text">
+                    <h3 class="font-weight-bolder activity-detail-modal-heading">Description</h3>
+                    <div class="activity-detail-modal-description">{{ activity.description|safe }}</div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -259,44 +251,10 @@
 <!-- Recent Activities Section Ends -->
 {% endcomment %}
 
-<!-- Volunteer Section -->
-<section id="volunteer">
-    <div class="parallax-style text-white text-center">
-        <div class="parallax-overlay dark-overlay section-padding" style="padding: 80px 0 70px;">
-            <div class="container">
-                <div class="section-head" style="margin-bottom:60px;">
-                    <h3 class="section-title parallax-title">
-                        Become a Volunteer
-                    </h3>
-                </div>
-
-                <div class="row justify-content-center">
-                    <p class="parallax-description w-100 px-3"
-                        style="font-size:1.7em; line-height:35px; margin-bottom: 30px;">
-                        Do you like to work for a social cause? Yes. Here, you are
-                        welcome to our team and you can work as a volunteer.
-                    </p>
-                    <button type="button" class="btn btn-outline-light py-2 px-4 custom-btn angle-effect">
-                        <a href="{% url 'signup' %}" class="d-block text-decoration-none text-white">Join Now</a>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Volunteer Section End-->
-
-<section id="gallery">
-    <div class="bg-grey" style="padding: 80px 0 60px;">
-        <div class="container">
-            <div class="section-head">
-                <h2 class="section-title">
-                    Gallery
-                </h2>
-                <p class="section-description">
-                    {{ gallery.tagline }}
-                </p>
-            </div>
+<section id="gallery" class="pillar-gallery charity-detail-gallery">
+    <div class="container">
+        <h2 class="section-title text-center">Gallery</h2>
+        <p class="charity-gallery-intro text-center">Photos from {{ charity.title }}</p>
 
             {% if photos.count %}
             <div id="gallery-container" class="gallery-container">
@@ -325,15 +283,15 @@
                 </div>
             </div>
             {% else %}
-            <p class="text-center lead mt-n2 mb-n1"><em>Nothing to show here!</em></p>
+            <p class="text-center lead mt-n2 mb-3"><em>Nothing to show here!</em></p>
             {% endif %}
 
-            <div id="gallery-container" class="gallery-container">
-                <div class="add-images">
+            {% if check_admin %}
+            <div class="add-images text-center mt-3">
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addToGallery">
                         Upload Images
                     </button>
-                    <div class="modal fade bd-example-modal-lg" tabindex="-1" id="addToGallery" role="dialog"
+                    <div class="modal fade bd-example-modal-lg charity-modal" tabindex="-1" id="addToGallery" role="dialog"
                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                             <div class="modal-content">
@@ -347,20 +305,21 @@
                                     <form method="POST" enctype="multipart/form-data" action="{% url 'charitywork:AddToGallery' %}">
                                         {% csrf_token %}
                                         <input type="text" hidden name="slug" value="{{charity.slug}}">
-                                        <div class="input-group">
+                                        <div class="input-group upload-modal-file-group">
                                             <div class="custom-file">
                                                 <input type="file" class="custom-file-input" multiple name="gallery_images" id="inputGroupFile04" 
                                                     aria-describedby="inputGroupFileAddon04">
                                                 <label class="custom-file-label" for="inputGroupFile04">Upload Images</label>
                                             </div>
                                         </div>
-                                        <button class="btn btn-primary">Submit</button>
+                                        <button type="submit" class="btn btn-primary upload-modal-submit">Submit</button>
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            {% endif %}
 
                 <!-- <div class="gallery-item element-from-bottom clearfix">
 
@@ -378,13 +337,11 @@
                     {% endfor %}
 
                 </div> -->
-            </div>
-        </div>
     </div>
 </section>
 
 <!-- MODALS -->
-<div class="modal fade bd-example-modal-lg" tabindex="-1" id="addActivity" role="dialog"
+<div class="modal fade bd-example-modal-lg charity-modal" tabindex="-1" id="addActivity" role="dialog"
 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
@@ -420,7 +377,7 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     </div>
 </div>
 </div>
-<div class="modal fade bd-example-modal-lg" tabindex="-1"
+<div class="modal fade bd-example-modal-lg charity-modal" tabindex="-1"
 id="selectVolunteers" role="dialog"
 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -464,6 +421,8 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 </div>
 </div>
 
+</div><!-- .charity-detail -->
+
 <!-- Include PhotoSwipe -->
 {% include 'snippets/init_pswp.html' %}
 
@@ -478,6 +437,25 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
 
 {% block scripts %}
+<script>
+/* Keep modals at body level so backdrop never blocks controls (same as Anandakendra/Bandhughar). */
+$(function () {
+    $(document).on('show.bs.modal', '.charity-modal', function () {
+        if (this.parentNode !== document.body) {
+            document.body.appendChild(this);
+        }
+    });
+    $(document).on('shown.bs.modal', '.charity-modal', function () {
+        $(this).css('z-index', 1060);
+        $('.modal-backdrop').last().css('z-index', 1055);
+    });
+    $(document).on('hidden.bs.modal', '.charity-modal', function () {
+        if (document.activeElement && document.activeElement.blur) {
+            document.activeElement.blur();
+        }
+    });
+});
+</script>
 <!-- PHOTOSWIPE -->
 <script>
     // build the json album images collection 

@@ -1,152 +1,528 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load custom_filters %}
-{% block title %}Bandhu | People {% endblock %}
+{% block title %}Bandhu | {{ staff.profile.get_full_name|proper_case_filter }}{% endblock %}
 
-<!-- Custom CSS -->
+{% block body_class %}staff-profile-page-site{% endblock %}
+
+{% block style %}
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
-<link rel="stylesheet" href="{% static 'css/fontawesome-all.min.css' %}">
-<!-- Custom Style -->
-
-{% block navbar-links %}
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'css/staff-profile.css' %}"/>
-    <!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="{% static 'vendor/css/bootstrap.min.css' %}"/>
-	<!-- Font Awesome CSS -->
-	<link rel="stylesheet" href="{% static 'vendor/css/fontawesome-all.min.css' %}"/>
-	<!-- Custom CSS -->
-	<link rel="stylesheet" href="{% static 'css/custom.css' %}"/>
-    <script src="https://kit.fontawesome.com/ab875af372.js"></script>
-
-    <li class="nav-item">
-        <a class="nav-link px-3" href="{% url 'home' %}">Home</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link px-3" href="#contact">Contact</a>
-    </li>
+<link rel="stylesheet" href="{% static 'css/staff-profile.css' %}?v=7"/>
 {% endblock %}
+
+{% block showcase %}{% endblock %}
+
 {% block content %}
-<div class="container">
-	<div class="row justify-content-center my-5">
-		<div class="col-lg-12 border rounded shadow px-5 py-4 mb-5 bg-white"
-			style="margin-top: -280px; z-index: 3;">
-            <div class="row">
-                <aside class="col-md-3" style="padding-top: 50px;padding-right: 20px;">
-                    <div class="profile">
-                        <p class="text-center">
-                            <img src="/media/{{ staff.profile.profile_pic }}" alt="avatar"
-                                                    class="rounded-circle img-fluid" style="width: 250px;height: 250px;border: 2px solid rgb(207, 207, 207);">
-                        </p>
-                        <ul>
-                            <li>Name <strong class="pull-right">{{ staff.profile.get_full_name }}</strong> </li>
-                            <li>Profession <strong class="pull-right">{{ staff.profile.profession }}</strong> </li>
-                            <li>Designation  <strong class="pull-right">{{ staff.desg.designation.title }}</strong></li>
-                            <li>Email <strong class="pull-right">{{ staff.profile.user.email }}</strong></li>
-                            <li>Contact No.  <strong class="pull-right">{{ staff.profile.contact_no }}</strong></li>
-                            <li>Address Line<strong class="pull-right">{{ staff.profile.street_address1 }}</strong></li>
-                            <li>City<strong class="pull-right">{{ staff.profile.city }}</strong></li>
-                            <li>State<strong class="pull-right">{{ staff.profile.state }}</strong></li>
-                            <li>Pin Code<strong class="pull-right">{{ staff.profile.pincode }}</strong></li>
-                        </ul>
-                    </div>
-                    <!-- End box-sidebar -->
-                </aside>
-                <div class="col-md-9" style="padding-left: 30px;">
-                    <ul class="nav nav-tabs" id="staff-profile" role="tablist">
-                        <li class="nav-item" style="cursor: pointer;">
-                            <a class="nav-link active" id="about-tab" data-toggle="tab" data-target="#about" role="tab" aria-controls="about" aria-selected="true">About</a>
-                        </li>
-                        <li class="nav-item" style="cursor: pointer;">
-                            <a class="nav-link" id="social-tab" data-toggle="tab" data-target="#social" role="tab" aria-controls="social" aria-selected="true">Contacts</a>
-                        </li>
-                    </ul>
-                    <div class="tab-content" id="staff-profileContent">
-                        <div class="tab-pane fade show active" id="about" role="tabpanel" aria-labelledby="about-tab">
-                            <div class="box_style_1  animated fadeIn">
-                                <div class="indent_title_in">
-                                    <span>
-                                        <i class="far fa-user-circle" style="font-size: 30px;"></i>
-                                        <h2 style="display: inline;font-weight: 600;">Profile</h2>
-                                    </span>
-                                    <p>{{ staff.desg.desc }}</p>
-                                </div>
-                                <div class="wrapper_indent">
-                                    <div class="mb-4">
-                                        {{ staff.about }}
-                                    </div>
-                                    <div id="accordion">
-                                        <div class="card">
-                                            <div class="card-header panel-header" data-toggle="collapse" data-target="#qualifications" aria-expanded="true" aria-controls="qualifications" id="headingOne">
-                                                Qualifications
-                                            </div>
-                                            <div id="qualifications" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                                            <div class="card-body">
-                                                {% for qual in qualifications %}
-                                                <ul class="list_3">
-                                                    <li>
-                                                        <strong>{{ qual.degree }}
-                                                        </strong>
-                                                        <p>{{ qual.institute }}<br>{{qual.since.year}} -{% if qual.until %} {{ qual.until.year }} {% else %} Current {% endif %}</p>
-                                                    </li>
-                                                </ul>
-                                                {% endfor %}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade " id="social" role="tabpanel" aria-labelledby="social-tab">
-                            <div class="social-contacts-container">
-                                <div class="indent_title_in mb-4">
-                                    <i class="iconcustom-know_how"></i>
-                                    <h3>Contact me</h3>
-                                    <p>Feel free to contact</p>
-                                </div>
-                                <p style="font-size:20px;">
-                                    <i class="fas fa-phone-alt">
-                                    </i>
-                                    <a class="ml-4"">{{staff.profile.contact_no}}</a>
-                                </p>
-                                {% if staff.facebook %}
-                                <p style="font-size:20px;">
-                                    <i class="fab fa-facebook-square">
-                                    </i>
-                                    <a class="ml-4" href="{{staff.facebook}}">{{staff.facebook}}</a>
-                                </p>
-                                {% endif %}
-                                {% if staff.twitter %}
-                                <p style="font-size:20px;">
-                                    <i class="fab fa-twitter-square">
-                                    </i>
-                                    <a class="ml-4" href="{{staff.twitter}}">{{staff.twitter}}</a>
-                                </p>
-                                {% endif %}
-                                {% if staff.linkedin %}
-                                <p style="font-size:20px;">
-                                    <i class="fab fa-linkedin">
-                                    </i>
-                                    <a class="ml-4" href="{{staff.linkedin}}">{{staff.linkedin}}</a>
-                                </p>
-                                {% endif %}
-                                {% if staff.youtube %}
-                                <p style="font-size:20px;">
-                                    <i class="fab fa-youtube-square">
-                                    </i>
-                                    <a class="ml-4" href="{{staff.youtube}}">{{staff.youtube}}</a>
-                                </p>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<section class="staff-profile-page-section page-section">
+<div class="staff-profile-page">
+	<a href="{{ people_back_url }}" class="staff-profile-back pillar-back" aria-label="Back to People">
+		<i class="fas fa-arrow-left" aria-hidden="true"></i> Back
+	</a>
+	<div class="staff-profile-layout">
+	<div class="staff-profile-layout__card">
+	<div class="staff-profile-card">
+		<div class="staff-profile-card__inner">
+			<!-- Profile image - left -->
+			<div class="staff-profile-card__image-wrap">
+				<div class="staff-profile-card__photo-frame">
+					{% if staff.profile.profile_pic %}
+					<img src="{{ staff.profile.profile_pic.url }}" alt="{{ staff.profile.get_full_name }}"
+						 data-fallback="{% if staff.profile.gender == 'F' %}{% static 'img/woman.png' %}{% else %}{% static 'img/man.png' %}{% endif %}"
+						 onerror="this.onerror=null; this.src=this.dataset.fallback;"
+						 class="staff-profile-card__photo">
+					{% elif staff.profile.gender == 'F' %}
+					<img src="{% static 'img/woman.png' %}" alt="{{ staff.profile.get_full_name }}"
+						 class="staff-profile-card__photo">
+					{% else %}
+					<img src="{% static 'img/man.png' %}" alt="{{ staff.profile.get_full_name }}"
+						 class="staff-profile-card__photo">
+					{% endif %}
+				</div>
+			</div>
+			<!-- Info - right -->
+			<div class="staff-profile-card__content">
+				<header class="staff-profile-card__header">
+					<h1 class="staff-profile-card__name">{{ staff.profile.get_full_name|proper_case_filter }}</h1>
+					<p class="staff-profile-card__job-title">
+						{% if is_office_bearer %}{{ staff_occupation|proper_case_filter }}{% else %}{{ staff.profile.profession|proper_case_filter }}{% endif %}{% if designation_titles %} ({% for t in designation_titles %}{{ t|proper_case_filter }}{% if not forloop.last %}, {% endif %}{% endfor %}){% endif %}
+					</p>
+					{% if is_office_bearer and staff_position %}
+					<p class="staff-profile-card__position-line">{{ staff_position|proper_case_filter }}</p>
+					{% endif %}
+					{% if staff.profile.city or staff.profile.state or staff.profile.pincode %}
+					<p class="staff-profile-card__location">
+						<i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+						<span>
+							{% if staff.profile.city %}{{ staff.profile.city|proper_case_filter }}{% endif %}{% if staff.profile.city and staff.profile.state %}, {% endif %}{% if staff.profile.state %}{{ staff.profile.state|proper_case_filter }}{% endif %}{% if staff.profile.pincode %}{% if staff.profile.city or staff.profile.state %} - {% endif %}{{ staff.profile.pincode }}{% endif %}
+						</span>
+					</p>
+					{% endif %}
+				</header>
+
+				<div class="staff-profile-card__about-box{% if not designation_desc and not staff.about %} staff-profile-card__about-box--placeholder{% endif %}">
+					<h2 class="staff-profile-card__box-label">About</h2>
+					<div class="staff-profile-card__about-text">
+						{% if designation_desc or staff.about %}
+							{% if designation_desc %}{{ designation_desc|proper_case_lines|linebreaksbr }}{% endif %}
+							{% if staff.about %}{% if designation_desc %}<br><br>{% endif %}{{ staff.about|proper_case_lines|linebreaksbr }}{% endif %}
+						{% else %}
+							<span class="staff-profile-card__placeholder-text">A valued member of our team. A personal introduction will appear here when it has been added.</span>
+						{% endif %}
+					</div>
+				</div>
+
+				<div class="staff-profile-card__qual-box{% if not staff.qualifications %} staff-profile-card__qual-box--placeholder{% endif %}">
+					<h2 class="staff-profile-card__box-label">Qualifications</h2>
+					{% if staff.qualifications %}
+					<div class="staff-profile-card__qual-details staff-profile-card__qual-details--text">
+						{{ staff.qualifications|proper_case_lines|linebreaksbr }}
+					</div>
+					{% else %}
+					<div class="staff-profile-card__qual-pills">
+						<span class="staff-profile-card__qual-pill">Professional background</span>
+						<span class="staff-profile-card__qual-pill">Team &amp; collaboration</span>
+						<span class="staff-profile-card__qual-pill">Domain expertise</span>
+					</div>
+					<ul class="staff-profile-card__qual-details staff-profile-card__qual-details--placeholder">
+						<li><span class="staff-profile-card__placeholder-text">Qualification details (institution, year, etc.) will appear here once they have been added to this profile.</span></li>
+					</ul>
+					{% endif %}
+				</div>
+
+				<div class="staff-profile-card__social-row">
+					<div class="staff-profile-card__social staff-profile-card__social--icons">
+						{% if staff.linkedin %}
+						<a href="{{ staff.linkedin }}" class="staff-profile-card__social-link staff-profile-card__social-link--linkedin" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+							<i class="fab fa-linkedin-in staff-profile-card__social-icon" aria-hidden="true"></i>
+						</a>
+						{% else %}
+						<span class="staff-profile-card__social-link staff-profile-card__social-link--linkedin" aria-disabled="true" aria-label="LinkedIn">
+							<i class="fab fa-linkedin-in staff-profile-card__social-icon" aria-hidden="true"></i>
+						</span>
+						{% endif %}
+						{% if staff.twitter %}
+						<a href="{{ staff.twitter }}" class="staff-profile-card__social-link staff-profile-card__social-link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+							<i class="fab fa-twitter staff-profile-card__social-icon" aria-hidden="true"></i>
+						</a>
+						{% else %}
+						<span class="staff-profile-card__social-link staff-profile-card__social-link--twitter" aria-disabled="true" aria-label="Twitter">
+							<i class="fab fa-twitter staff-profile-card__social-icon" aria-hidden="true"></i>
+						</span>
+						{% endif %}
+					</div>
+					{% if can_manage_staff_experiences %}
+					<div class="staff-profile-card__actions">
+						<a href="#share-experience" class="staff-profile-card__share-link" data-modal-open="shareExperienceModal" aria-label="Share your experience">
+							<i class="fas fa-pen-fancy" aria-hidden="true"></i> Share my experience
+						</a>
+					</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+
+	<div class="staff-profile-layout__aside">
+	<section class="staff-profile-experiences" aria-labelledby="experiences-heading">
+		<h2 id="experiences-heading" class="staff-profile-experiences__title">{% if can_manage_staff_experiences %}My experience{% else %}Experiences{% endif %}</h2>
+		{% if experiences %}
+		<div class="staff-profile-experiences__list">
+			{% for exp in experiences %}
+			<article class="staff-profile-experiences__item" data-experience-id="{{ exp.id }}">
+				<div class="staff-profile-experiences__message-source" hidden>{{ exp.message|escape }}</div>
+				<div class="staff-profile-experiences__item-body">
+					{% if exp.photos.exists %}
+					<div class="staff-profile-experiences__photos" data-photos-container>
+						{% for photo in exp.photos.all %}
+						<div class="staff-profile-experiences__photo-wrap" data-photo-id="{{ photo.id }}" data-caption="{{ photo.caption|escape }}">
+							<button type="button" class="staff-profile-experiences__photo-trigger" data-lightbox-src="{{ photo.image.url }}" aria-label="View photo full size">
+								<img src="{{ photo.image.url }}" alt="{% if photo.caption %}{{ photo.caption|proper_case_filter }}{% else %}Experience photo{% endif %}" class="staff-profile-experiences__photo" loading="lazy">
+							</button>
+							{% if photo.caption %}<span class="staff-profile-experiences__photo-caption">{{ photo.caption|proper_case_filter }}</span>{% endif %}
+						</div>
+						{% endfor %}
+					</div>
+					{% endif %}
+					<div class="staff-profile-experiences__item-text">
+						<p class="staff-profile-experiences__message">{{ exp.message|proper_case_lines|linebreaksbr }}</p>
+						<time class="staff-profile-experiences__date" datetime="{{ exp.created_at|date:'c' }}">{{ exp.created_at|date:"F j, Y" }}</time>
+					</div>
+				</div>
+				{% if can_manage_staff_experiences %}
+				<div class="staff-profile-experiences__item-actions">
+					<button type="button" class="staff-profile-experiences__edit-btn" data-edit-experience="{{ exp.id }}" data-staff-id="{{ staff.id }}" data-edit-url="{% url 'staff_edit_experience' staff.id exp.id %}" aria-label="Edit this experience"><i class="fas fa-edit" aria-hidden="true"></i></button>
+					<form method="post" action="{% url 'staff_delete_experience' staff.id exp.id %}" class="staff-profile-experiences__delete-form" onsubmit="return confirm('Delete this experience?');">
+						{% csrf_token %}
+						<button type="submit" class="staff-profile-experiences__delete-btn" aria-label="Delete this experience"><i class="fas fa-trash-alt" aria-hidden="true"></i></button>
+					</form>
+				</div>
+				{% endif %}
+			</article>
+			{% endfor %}
+		</div>
+		{% else %}
+		<p class="staff-profile-experiences__empty">No experiences have been shared yet.{% if can_manage_staff_experiences %} Use <strong>Share my experience</strong> on the profile card to add one.{% endif %}</p>
+		{% endif %}
+	</section>
+	</div>
+	</div>
 </div>
+</section>
+
+{% if can_manage_staff_experiences %}
+<!-- Share experience modal -->
+<div id="shareExperienceModal" class="staff-profile-modal" role="dialog" aria-labelledby="shareExperienceModalTitle" aria-modal="true" hidden>
+	<div class="staff-profile-modal__backdrop" data-modal-close="shareExperienceModal"></div>
+	<div class="staff-profile-modal__box">
+		<div class="staff-profile-modal__header">
+			<h2 id="shareExperienceModalTitle" class="staff-profile-modal__title">Share your experience</h2>
+			<button type="button" class="staff-profile-modal__close" data-modal-close="shareExperienceModal" aria-label="Close">&times;</button>
+		</div>
+		<form id="shareExperienceForm" method="post" action="{% url 'staff_share_experience' staff.id %}" class="staff-profile-modal__form" enctype="multipart/form-data">
+			{% csrf_token %}
+			<p class="staff-profile-modal__intro">Share your review and thoughts. Your experience helps others learn more about our team and work.</p>
+			<label for="id_experience" class="staff-profile-modal__label">Your experience / thoughts</label>
+			<textarea id="id_experience" name="experience" class="staff-profile-modal__textarea" rows="5" placeholder="Write your experience, review or thoughts here..." required></textarea>
+			<label class="staff-profile-modal__label">Add photos (optional)</label>
+			<div class="staff-profile-modal__photos">
+				<div class="staff-profile-modal__upload-zone">
+					<input type="file" id="id_photos" name="photos" class="staff-profile-modal__file" accept="image/*" multiple aria-label="Choose photos to upload">
+					<label for="id_photos" class="staff-profile-modal__photos-label">
+						<i class="fas fa-camera" aria-hidden="true"></i>
+						<span class="staff-profile-modal__photos-text">Choose photos</span>
+						<span class="staff-profile-modal__photos-hint">Select one or more, or click again to add more photos</span>
+					</label>
+				</div>
+				<div id="photosPreview" class="staff-profile-modal__preview" aria-live="polite"></div>
+			</div>
+			<div class="staff-profile-modal__actions">
+				<button type="button" class="staff-profile-card__btn staff-profile-card__btn--secondary" data-modal-close="shareExperienceModal">Cancel</button>
+				<button type="submit" class="staff-profile-card__btn staff-profile-card__btn--primary">Submit</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+<!-- Edit experience modal -->
+<div id="editExperienceModal" class="staff-profile-modal" role="dialog" aria-labelledby="editExperienceModalTitle" aria-modal="true" hidden>
+	<div class="staff-profile-modal__backdrop" data-modal-close="editExperienceModal"></div>
+	<div class="staff-profile-modal__box">
+		<div class="staff-profile-modal__header">
+			<h2 id="editExperienceModalTitle" class="staff-profile-modal__title">Edit experience</h2>
+			<button type="button" class="staff-profile-modal__close" data-modal-close="editExperienceModal" aria-label="Close">&times;</button>
+		</div>
+		<form id="editExperienceForm" method="post" action="" class="staff-profile-modal__form" enctype="multipart/form-data">
+			{% csrf_token %}
+			<label for="id_edit_experience" class="staff-profile-modal__label">Your experience / thoughts</label>
+			<textarea id="id_edit_experience" name="experience" class="staff-profile-modal__textarea" rows="5" required></textarea>
+			<div class="staff-profile-modal__current-photos" id="editCurrentPhotosWrap" style="display: none;">
+				<span class="staff-profile-modal__label">Current photos (click × to remove)</span>
+				<div id="editCurrentPhotosList" class="staff-profile-modal__current-photos-list"></div>
+				<div id="editPhotosToRemoveContainer"></div>
+			</div>
+			<label class="staff-profile-modal__label">Add more photos (optional)</label>
+			<div class="staff-profile-modal__photos">
+				<div class="staff-profile-modal__upload-zone">
+					<input type="file" id="id_edit_photos" name="photos" class="staff-profile-modal__file" accept="image/*" multiple aria-label="Choose more photos">
+					<label for="id_edit_photos" class="staff-profile-modal__photos-label">
+						<i class="fas fa-camera" aria-hidden="true"></i>
+						<span class="staff-profile-modal__photos-text">Choose photos</span>
+						<span class="staff-profile-modal__photos-hint">Select some, then click again to add more. New images will be added.</span>
+					</label>
+				</div>
+				<div id="editPhotosPreview" class="staff-profile-modal__preview" aria-live="polite"></div>
+			</div>
+			<div class="staff-profile-modal__actions">
+				<button type="button" class="staff-profile-card__btn staff-profile-card__btn--secondary" data-modal-close="editExperienceModal">Cancel</button>
+				<button type="submit" class="staff-profile-card__btn staff-profile-card__btn--primary">Save</button>
+			</div>
+		</form>
+	</div>
+</div>
+{% endif %}
+
+<!-- Experience photo lightbox (same overlay pattern as share/edit modals) -->
+<div id="experiencePhotoLightbox" class="staff-profile-modal staff-profile-photo-lightbox" role="dialog" aria-modal="true" aria-labelledby="experiencePhotoLightboxTitle" hidden>
+	<div class="staff-profile-modal__backdrop" data-modal-close="experiencePhotoLightbox"></div>
+	<div class="staff-profile-photo-lightbox__content">
+		<button type="button" class="staff-profile-photo-lightbox__close" data-modal-close="experiencePhotoLightbox" aria-label="Close">&times;</button>
+		<h2 id="experiencePhotoLightboxTitle" class="staff-profile-photo-lightbox__sr-only">Photo</h2>
+		<img src="" alt="" class="staff-profile-photo-lightbox__img" id="experiencePhotoLightboxImg" decoding="async">
+		<p class="staff-profile-photo-lightbox__caption" id="experiencePhotoLightboxCaption" hidden></p>
+	</div>
+</div>
+
 <script src="{% static 'vendor/js/jquery-3.4.1.min.js' %}"></script>
+<script>
+(function() {
+	var photoLightbox = document.getElementById('experiencePhotoLightbox');
+	var photoLightboxImg = document.getElementById('experiencePhotoLightboxImg');
+	var photoLightboxCaption = document.getElementById('experiencePhotoLightboxCaption');
+	function openPhotoLightbox(src, caption) {
+		if (!photoLightbox || !photoLightboxImg || !src) return;
+		photoLightboxImg.src = src;
+		photoLightboxImg.alt = caption || 'Experience photo';
+		if (photoLightboxCaption) {
+			if (caption) {
+				photoLightboxCaption.textContent = caption;
+				photoLightboxCaption.removeAttribute('hidden');
+			} else {
+				photoLightboxCaption.textContent = '';
+				photoLightboxCaption.setAttribute('hidden', '');
+			}
+		}
+		photoLightbox.removeAttribute('hidden');
+		document.body.style.overflow = 'hidden';
+	}
+	function closePhotoLightbox() {
+		if (!photoLightbox) return;
+		photoLightbox.setAttribute('hidden', '');
+		if (photoLightboxImg) photoLightboxImg.src = '';
+		document.body.style.overflow = '';
+	}
+	document.addEventListener('click', function(e) {
+		var btn = e.target.closest('.staff-profile-experiences__photo-trigger');
+		if (!btn) return;
+		e.preventDefault();
+		var src = btn.getAttribute('data-lightbox-src');
+		var wrap = btn.closest('.staff-profile-experiences__photo-wrap');
+		var caption = wrap && wrap.getAttribute('data-caption') ? wrap.getAttribute('data-caption') : '';
+		openPhotoLightbox(src, caption);
+	});
+	document.querySelectorAll('[data-modal-close="experiencePhotoLightbox"]').forEach(function(el) {
+		el.addEventListener('click', closePhotoLightbox);
+	});
+	document.addEventListener('keydown', function(e) {
+		if (e.key !== 'Escape' || !photoLightbox || photoLightbox.hasAttribute('hidden')) return;
+		closePhotoLightbox();
+	});
+
+	var openBtn = document.querySelector('[data-modal-open="shareExperienceModal"]');
+	var modal = document.getElementById('shareExperienceModal');
+	var closeBtns = document.querySelectorAll('[data-modal-close="shareExperienceModal"]');
+	var sharePendingPhotos = [];
+	function openModal() {
+		sharePendingPhotos = [];
+		if (preview) preview.innerHTML = '';
+		if (fileInput) fileInput.value = '';
+		if (modal) modal.removeAttribute('hidden');
+		document.body.style.overflow = 'hidden';
+	}
+	function closeModal() { if (modal) { modal.setAttribute('hidden', ''); document.body.style.overflow = ''; } }
+	if (openBtn) {
+		openBtn.addEventListener('click', function(e) {
+			e.preventDefault();
+			openModal();
+		});
+	}
+	closeBtns.forEach(function(btn) { btn.addEventListener('click', closeModal); });
+	if (modal) {
+		modal.querySelector('.staff-profile-modal__backdrop').addEventListener('click', closeModal);
+	}
+	// Share modal: accumulate photos; each has { file, caption } so captions survive re-render
+	var fileInput = document.getElementById('id_photos');
+	var preview = document.getElementById('photosPreview');
+	var shareForm = document.getElementById('shareExperienceForm');
+	function syncShareCaptionsFromDom() {
+		if (!preview) return;
+		var inputs = preview.querySelectorAll('.staff-profile-modal__caption-input');
+		for (var i = 0; i < sharePendingPhotos.length && i < inputs.length; i++) {
+			sharePendingPhotos[i].caption = inputs[i].value;
+		}
+	}
+	function renderSharePreview() {
+		if (!preview) return;
+		preview.innerHTML = '';
+		sharePendingPhotos.forEach(function(item, i) {
+			var file = item.file;
+			if (!file.type.startsWith('image/')) return;
+			var wrap = document.createElement('div');
+			wrap.className = 'staff-profile-modal__preview-item-wrap';
+			var img = document.createElement('img');
+			img.className = 'staff-profile-modal__preview-item';
+			img.alt = 'Preview ' + (i + 1);
+			img.src = URL.createObjectURL(file);
+			var inp = document.createElement('input');
+			inp.type = 'text';
+			inp.className = 'staff-profile-modal__caption-input';
+			inp.placeholder = 'Tag or caption';
+			inp.maxLength = 255;
+			inp.setAttribute('aria-label', 'Caption for photo ' + (i + 1));
+			inp.value = item.caption || '';
+			wrap.appendChild(img);
+			wrap.appendChild(inp);
+			preview.appendChild(wrap);
+		});
+	}
+	if (preview) {
+		preview.addEventListener('input', function(e) {
+			if (e.target.classList.contains('staff-profile-modal__caption-input')) {
+				syncShareCaptionsFromDom();
+			}
+		});
+	}
+	if (fileInput && preview) {
+		fileInput.addEventListener('change', function() {
+			syncShareCaptionsFromDom();
+			var files = this.files;
+			for (var i = 0; i < files.length; i++) sharePendingPhotos.push({ file: files[i], caption: '' });
+			renderSharePreview();
+			this.value = '';
+		});
+	}
+	if (shareForm) {
+		shareForm.addEventListener('submit', function(e) {
+			if (sharePendingPhotos.length === 0) return;
+			e.preventDefault();
+			syncShareCaptionsFromDom();
+			var formData = new FormData();
+			var csrf = shareForm.querySelector('input[name=csrfmiddlewaretoken]');
+			if (csrf) formData.append('csrfmiddlewaretoken', csrf.value);
+			formData.append('experience', shareForm.querySelector('#id_experience').value);
+			sharePendingPhotos.forEach(function(item, i) {
+				if (item.file.type.startsWith('image/')) {
+					formData.append('photos', item.file);
+					formData.append('photos_captions', (item.caption || '').trim());
+				}
+			});
+			fetch(shareForm.action, { method: 'POST', body: formData, redirect: 'follow' })
+				.then(function(res) { window.location.href = res.url; })
+				.catch(function() { shareForm.submit(); });
+		});
+	}
+
+	// Edit experience modal
+	var editModal = document.getElementById('editExperienceModal');
+	var editForm = document.getElementById('editExperienceForm');
+	var editTextarea = document.getElementById('id_edit_experience');
+	var editCloseBtns = document.querySelectorAll('[data-modal-close="editExperienceModal"]');
+	function openEditModal() { if (editModal) { editModal.removeAttribute('hidden'); document.body.style.overflow = 'hidden'; } }
+	var editPendingPhotos = [];
+	function closeEditModal() {
+		editPendingPhotos = [];
+		if (editModal) { editModal.setAttribute('hidden', ''); document.body.style.overflow = ''; }
+		if (editForm) { editForm.reset(); }
+		var editPreview = document.getElementById('editPhotosPreview'); if (editPreview) editPreview.innerHTML = '';
+	}
+	document.querySelectorAll('.staff-profile-experiences__edit-btn').forEach(function(btn) {
+		btn.addEventListener('click', function(e) {
+			e.preventDefault();
+			var action = this.getAttribute('data-edit-url');
+			var card = this.closest('.staff-profile-experiences__item');
+			var msgEl = card ? card.querySelector('.staff-profile-experiences__message-source') : null;
+			if (editForm) editForm.action = action;
+			if (editTextarea) editTextarea.value = msgEl ? msgEl.textContent.trim() : '';
+			// Populate current photos so user can remove them
+			var listEl = document.getElementById('editCurrentPhotosList');
+			var wrapEl = document.getElementById('editCurrentPhotosWrap');
+			var removeContainer = document.getElementById('editPhotosToRemoveContainer');
+			if (listEl) listEl.innerHTML = '';
+			if (removeContainer) removeContainer.innerHTML = '';
+			var photosContainer = card ? card.querySelector('[data-photos-container]') : null;
+			if (photosContainer) {
+				var wraps = photosContainer.querySelectorAll('.staff-profile-experiences__photo-wrap[data-photo-id]');
+				wraps.forEach(function(wrap) {
+					var photoId = wrap.getAttribute('data-photo-id');
+					var caption = wrap.getAttribute('data-caption') || '';
+					var img = wrap.querySelector('img');
+					var src = img ? img.src : '';
+					var thumb = document.createElement('div');
+					thumb.className = 'staff-profile-modal__current-photo-block';
+					thumb.setAttribute('data-photo-id', photoId);
+					thumb.innerHTML = '<div class="staff-profile-modal__current-photo"><img src="' + src + '" alt=""><button type="button" class="staff-profile-modal__current-photo-remove" aria-label="Remove photo">&times;</button></div><input type="text" name="caption_' + photoId + '" class="staff-profile-modal__caption-input" placeholder="Tag or caption" maxlength="255">';
+					thumb.querySelector('input').value = caption;
+					var removeBtn = thumb.querySelector('.staff-profile-modal__current-photo-remove');
+					removeBtn.addEventListener('click', function() {
+						var hid = document.createElement('input');
+						hid.type = 'hidden';
+						hid.name = 'photos_to_remove';
+						hid.value = photoId;
+						if (removeContainer) removeContainer.appendChild(hid);
+						thumb.remove();
+						if (listEl && listEl.children.length === 0 && wrapEl) wrapEl.style.display = 'none';
+					});
+					listEl.appendChild(thumb);
+				});
+			}
+			if (wrapEl) wrapEl.style.display = (listEl && listEl.children.length > 0) ? 'block' : 'none';
+			editPendingPhotos = [];
+			if (editPreview) editPreview.innerHTML = '';
+			if (editFileInput) editFileInput.value = '';
+			openEditModal();
+		});
+	});
+	editCloseBtns.forEach(function(btn) { btn.addEventListener('click', closeEditModal); });
+	if (editModal) {
+		editModal.querySelector('.staff-profile-modal__backdrop').addEventListener('click', closeEditModal);
+	}
+	// Edit modal: accumulate new photos so choosing again doesn't replace
+	var editFileInput = document.getElementById('id_edit_photos');
+	var editPreview = document.getElementById('editPhotosPreview');
+	function syncEditCaptionsFromDom() {
+		if (!editPreview) return;
+		var inputs = editPreview.querySelectorAll('.staff-profile-modal__caption-input');
+		for (var i = 0; i < editPendingPhotos.length && i < inputs.length; i++) {
+			editPendingPhotos[i].caption = inputs[i].value;
+		}
+	}
+	function renderEditPreview() {
+		if (!editPreview) return;
+		editPreview.innerHTML = '';
+		editPendingPhotos.forEach(function(item, i) {
+			var file = item.file;
+			if (!file.type.startsWith('image/')) return;
+			var wrap = document.createElement('div');
+			wrap.className = 'staff-profile-modal__preview-item-wrap';
+			var img = document.createElement('img');
+			img.className = 'staff-profile-modal__preview-item';
+			img.alt = 'Preview ' + (i + 1);
+			img.src = URL.createObjectURL(file);
+			var inp = document.createElement('input');
+			inp.type = 'text';
+			inp.className = 'staff-profile-modal__caption-input';
+			inp.placeholder = 'Tag or caption';
+			inp.maxLength = 255;
+			inp.setAttribute('aria-label', 'Caption for photo ' + (i + 1));
+			inp.value = item.caption || '';
+			wrap.appendChild(img);
+			wrap.appendChild(inp);
+			editPreview.appendChild(wrap);
+		});
+	}
+	if (editPreview) {
+		editPreview.addEventListener('input', function(e) {
+			if (e.target.classList.contains('staff-profile-modal__caption-input')) {
+				syncEditCaptionsFromDom();
+			}
+		});
+	}
+	if (editFileInput && editPreview) {
+		editFileInput.addEventListener('change', function() {
+			syncEditCaptionsFromDom();
+			var files = this.files;
+			for (var i = 0; i < files.length; i++) editPendingPhotos.push({ file: files[i], caption: '' });
+			renderEditPreview();
+			this.value = '';
+		});
+	}
+	if (editForm) {
+		editForm.addEventListener('submit', function(e) {
+			if (editPendingPhotos.length === 0) return;
+			e.preventDefault();
+			syncEditCaptionsFromDom();
+			var formData = new FormData(editForm);
+			editPendingPhotos.forEach(function(item, i) {
+				if (item.file.type.startsWith('image/')) {
+					formData.append('photos', item.file);
+					formData.append('photos_captions', (item.caption || '').trim());
+				}
+			});
+			fetch(editForm.action, { method: 'POST', body: formData, redirect: 'follow' })
+				.then(function(res) { window.location.href = res.url; })
+				.catch(function() { editForm.submit(); });
+		});
+	}
+})();
+</script>
 {% endblock %}
-<!-- Custom JS -->
-<script src="{% static 'js/bandhu.js' %}"></script>

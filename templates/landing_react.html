@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" class="landing">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bandhu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    {% load static %}
+    <link rel="shortcut icon" href="{% static 'img/bandhulogo.gif' %}">
+    {% if not user.is_authenticated %}
+    <link rel="stylesheet" href="{% static 'vendor/css/bootstrap.min.css' %}?v=255">
+    {% endif %}
+    <link rel="stylesheet" href="{% static 'frontend/assets/index.css' %}?v=277">
+    <link rel="stylesheet" href="{% static 'vendor/css/fontawesome-all.min.css' %}?v=255">
+    <style>
+      /* Our Visitors profile popup: wide like reference (teal left, details right) */
+      .visitor-profile-modal {
+        max-width: 56rem !important;
+        width: 90vw !important;
+      }
+      @media (min-width: 640px) {
+        .visitor-profile-modal {
+          width: 85vw !important;
+          max-width: 56rem !important;
+        }
+      }
+      /* Force Facebook & LinkedIn icons solid white and thick in visitor profile */
+      .visitor-profile-modal a[title="Facebook"] svg path,
+      .visitor-profile-modal a[title="LinkedIn"] svg path,
+      .visitor-profile-modal span[title="Facebook"] svg path,
+      .visitor-profile-modal span[title="LinkedIn"] svg path,
+      .visitor-profile-modal .visitor-social-svg path {
+        fill: #ffffff !important;
+        stroke: #ffffff !important;
+        stroke-width: 0.5 !important;
+        stroke-linejoin: round !important;
+        paint-order: stroke fill !important;
+      }
+      /* Dark teal circles for all profile links (same thick look) */
+      .visitor-profile-modal a[title="Facebook"],
+      .visitor-profile-modal a[title="LinkedIn"],
+      .visitor-profile-modal span[title="Facebook"],
+      .visitor-profile-modal span[title="LinkedIn"],
+      .visitor-profile-modal .visitor-social-icon-placeholder {
+        background-color: #005E66 !important;
+        opacity: 1 !important;
+      }
+      /* Gallery tagline: keep full sentence on one line (home React section) */
+      #gallery p {
+        white-space: nowrap !important;
+        max-width: none !important;
+        width: 100% !important;
+        font-size: clamp(0.95rem, 1.1vw, 1.2rem) !important;
+        line-height: 1.45 !important;
+      }
+      @media (max-width: 767px) {
+        #gallery p {
+          white-space: normal !important;
+          max-width: 22rem !important;
+          margin-left: auto !important;
+          margin-right: auto !important;
+        }
+      }
+      /* Gallery tabs: underline only — no rectangle box on selected tab */
+      #gallery [role='tablist'] [role='tab'] {
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        outline: none !important;
+      }
+      #gallery [role='tablist'] [role='tab']:focus,
+      #gallery [role='tablist'] [role='tab']:focus-visible {
+        outline: none !important;
+        box-shadow: none !important;
+      }
+      #gallery [role='tablist'] [role='tab'][aria-selected='true'] {
+        border-bottom: 2px solid #005E66 !important;
+      }
+      #gallery [role='tablist'] [role='tab'][aria-selected='false'] {
+        border-bottom: 2px solid transparent !important;
+      }
+    </style>
+</head>
+<body class="landing">
+    <div id="root"></div>
+    {% if not user.is_authenticated %}
+    {% include 'includes/login_modal.html' %}
+    {% endif %}
+    {{ landing_data|json_script:"landing-data" }}
+    {% if not user.is_authenticated %}
+    <script src="{% static 'vendor/js/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'vendor/js/popper.min.js' %}"></script>
+    <script src="{% static 'vendor/js/bootstrap.min.js' %}"></script>
+    <script>
+    $(function () {
+      $(document).on('click', '.auth-open-signup-modal', function (e) {
+        e.preventDefault();
+        $('#loginModal').modal('hide');
+        setTimeout(function () {
+          if ($('#signupModal').length) { $('#signupModal').modal('show'); }
+          else { window.location.href = '{% url "signup" %}'; }
+        }, 350);
+      });
+      {% if open_login_modal %}
+      if ($('#loginModal').length) { $('#loginModal').modal('show'); }
+      {% endif %}
+    });
+    </script>
+    {% endif %}
+    <script type="module" src="{% static 'frontend/assets/index.js' %}?v=277"></script>
+    <!-- Gallery auto-scroll: runs after React mounts, no dependency on bundle -->
+    <script>
+(function() {
+  var INTERVAL_MS = 3000;
+  var GAP_PX = 32;
+  function run() {
+    var el = document.querySelector('#gallery [data-gallery-scroll]');
+    if (!el) return;
+    var max = el.scrollWidth - el.clientWidth;
+    if (max <= 0) return;
+    var card = el.querySelector('[data-gallery-card]');
+    var step = card ? card.offsetWidth + GAP_PX : 412;
+    el.scrollLeft += step;
+    if (el.scrollLeft >= max) el.scrollLeft = 0;
+  }
+  function start() {
+    var el = document.querySelector('#gallery [data-gallery-scroll]');
+    if (!el || (el.scrollWidth - el.clientWidth) <= 0) return false;
+    setInterval(run, INTERVAL_MS);
+    return true;
+  }
+  function poll(attempt) {
+    if (attempt > 40) return;
+    if (start()) return;
+    setTimeout(function() { poll(attempt + 1); }, 400);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() { setTimeout(function() { poll(0); }, 800); });
+  } else {
+    setTimeout(function() { poll(0); }, 800);
+  }
+})();
+    </script>
+</body>
+</html>

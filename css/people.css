@@ -1,0 +1,262 @@
+﻿/* People page — aligned with Sanskar / pillar inner pages */
+
+body.people-page-site {
+    background: #ffffff;
+}
+
+.people-page-section {
+    background: #ffffff;
+    padding: 2.5rem 0 4rem;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.people-page-section .container.people-page {
+    max-width: 1400px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+@media (min-width: 576px) {
+    .people-page-section .container.people-page {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}
+
+@media (min-width: 992px) {
+    .people-page-section .container.people-page {
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+    }
+}
+
+/* Tabs — match home Gallery filter (underline only, no rectangle box) */
+.people-page #people.people-tabs.nav-tabs,
+.people-page .people-tabs.nav-tabs {
+    border-bottom: none !important;
+    margin-bottom: 0;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 0.125rem;
+}
+
+.people-page #people.people-tabs .nav-item,
+.people-page .people-tabs .nav-item {
+    margin-bottom: 0;
+}
+
+.people-page #people.people-tabs .nav-link,
+.people-page .people-tabs .nav-link {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: #334155;
+    font-weight: 400;
+    font-size: 1rem;
+    cursor: pointer !important;
+    border: none !important;
+    border-bottom: 2px solid transparent !important;
+    border-radius: 0 !important;
+    padding: 0.625rem 1rem;
+    margin-bottom: 0 !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.people-page #people.people-tabs .nav-link:hover,
+.people-page #people.people-tabs .nav-link:focus,
+.people-page .people-tabs .nav-link:hover,
+.people-page .people-tabs .nav-link:focus {
+    color: #0f172a !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    border-bottom: 2px solid transparent !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.people-page #people.people-tabs .nav-link.active,
+.people-page #people.people-tabs .nav-item.show .nav-link,
+.people-page .people-tabs .nav-link.active,
+.people-page .people-tabs .nav-item.show .nav-link {
+    color: #0b3540 !important;
+    font-weight: 600;
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    border-bottom: 2px solid #005E66 !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.people-tab-content .tab-pane {
+    padding: 2rem 0 1rem;
+}
+
+/* Profile cards — match mission / Anandakendra page-card */
+.people-profile-row [class*="col-"] {
+    display: flex;
+}
+
+.people-card.page-card {
+    width: 100%;
+    max-width: 350px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px solid rgba(128, 179, 186, 0.35);
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(61, 92, 96, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.people-card.page-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 36px rgba(61, 92, 96, 0.16);
+    border-color: rgba(128, 179, 186, 0.5);
+}
+
+.people-card .card-body {
+    padding: 1.5rem 1.35rem 1.25rem;
+    background: #ffffff;
+}
+
+.people-card-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-height: 280px;
+}
+
+.people-card .profile-photo-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.9rem;
+}
+
+.people-card .profile-photo-wrap img {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(128, 179, 186, 0.45);
+    display: block;
+}
+
+.people-card-main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.people-card .people-name,
+.people-card .card-title.people-name {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 700;
+    font-size: 1.35rem;
+    line-height: 1.3;
+    color: #005E66;
+    margin: 0;
+    letter-spacing: 0.01em;
+}
+
+.people-card .people-profession {
+    margin: 0;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 1rem;
+    line-height: 1.45;
+    color: #3d5c60;
+}
+
+.people-card .people-profession--position {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(128, 179, 186, 0.28);
+    width: 100%;
+    color: #005E66;
+    font-weight: 600;
+}
+
+.people-card .people-profession--occupation {
+    margin-top: 0.25rem;
+    color: #3d5c60;
+    font-weight: 500;
+}
+
+.people-card .people-profession--groups {
+    margin-top: 0.5rem;
+    font-size: 0.9375rem;
+    color: #005E66;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+.people-card-footer {
+    margin-top: auto;
+    padding-top: 1rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* View Profile — same pill as navbar Login */
+.people-card .people-view-profile-btn.btn-primary {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 0.5rem 1.15rem !important;
+    border: none !important;
+    border-radius: 9999px !important;
+    background-color: #3d5c60 !important;
+    border-color: transparent !important;
+    color: #fff !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(61, 92, 96, 0.28) !important;
+    text-decoration: none !important;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease !important;
+}
+
+.people-card .people-view-profile-btn.btn-primary:hover,
+.people-card .people-view-profile-btn.btn-primary:focus {
+    background-color: #80b3ba !important;
+    color: #fff !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(128, 179, 186, 0.35) !important;
+    outline: none !important;
+    transform: translateY(-1px);
+}
+
+@media (max-width: 991px) {
+    .people-page .people-tabs .nav-link {
+        font-size: 0.95rem;
+    }
+
+    .people-card .people-name {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .people-page-section {
+        padding: 1.75rem 0 3rem;
+    }
+
+    .people-page .people-tabs .nav-link {
+        font-size: 0.9rem;
+        padding: 0.6rem 0.85rem;
+    }
+
+    .people-card.page-card {
+        max-width: 100%;
+    }
+
+    .people-card .profile-photo-wrap img {
+        width: 88px;
+        height: 88px;
+    }
+}

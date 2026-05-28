@@ -1,119 +1,554 @@
-@import url(http://fonts.googleapis.com/css?family=Raleway:300,400,600,700,800,900);
-@import url(https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap);
-@import url(https://fonts.googleapis.com/css2?family=Sriracha&display=swap);
-@import url(https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@600&display=swap);
-@import url(https://fonts.googleapis.com/css2?family=Satisfy&display=swap);
+﻿@import url(https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap);
 
 @font-face {
     font-family: oriya;
     src: url(../fonts/OR51_Ananta.ttf);
 }
 
+:root {
+    --brand-primary: #005E66;
+    --brand-primary-hover: #006A73;
+    --brand-primary-dark: #004A52;
+    --brand-primary-soft: #D6ECEE;
+    --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-size-base: 1rem;
+    --letter-spacing-body: 0.015em;
+    --letter-spacing-heading: -0.02em;
+    --line-height-body: 1.65;
+    --line-height-heading: 1.25;
+}
+
 /* GLOBAL */
 
-html, body {
-    font-family: 'Raleway', sans-serif;
-    /* color: #737373; */
+html {
+    font-size: 20px;
+    font-family: var(--font-sans);
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: clip;
+}
+
+body {
+    font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-size: 16px;
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-body);
+    letter-spacing: var(--letter-spacing-body);
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: clip;
+    box-sizing: border-box;
+}
+
+/* Site-wide sans-serif — forms, Bootstrap, and UI inherit Inter stack */
+button,
+input,
+select,
+textarea,
+optgroup,
+.btn,
+.form-control,
+.navbar,
+.navbar-brand,
+.nav-link,
+.dropdown-menu,
+.dropdown-item,
+.modal,
+.modal-content,
+.card,
+.table,
+.badge,
+.alert,
+.toast,
+.list-group-item,
+.pagination {
+    font-family: inherit;
+}
+
+/* Ensure app wrapper stays white behind all sections and full width for banner */
+.main {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    overflow-x: clip;
+}
+
+/* Unified brand color pass (site-wide common UI) */
+.section-title,
+.content-title,
+.page-hero h1,
+.page-hero .page-hero-title,
+.page-hero .page-about-heading,
+.navbar .navbar-nav .nav-link,
+.navbar .custom-toggler.navbar-toggler {
+    color: var(--brand-primary) !important;
+}
+
+.section-title:after,
+.section-accent,
+.page-hero .page-hero-accent,
+.products-accent,
+.gallery-accent {
+    background: linear-gradient(90deg, var(--brand-primary) 0%, var(--brand-primary-hover) 100%) !important;
+}
+
+/* Do not style .navbar-brand here — logo must stay on a clear background (no teal tile). */
+.navbar .navbar-nav .nav-button,
+.navbar .navbar-nav a.nav-button.btn,
+a.nav-button.btn {
+    background-color: #0b3540 !important;
+    border: 1px solid rgba(0, 74, 82, 0.2) !important;
+    box-shadow: 0 6px 20px rgba(11, 53, 64, 0.28) !important;
+}
+
+.navbar .navbar-nav .nav-button:hover,
+.navbar .navbar-nav .nav-button:focus,
+.navbar .navbar-nav a.nav-button.btn:hover,
+.navbar .navbar-nav a.nav-button.btn:focus,
+a.nav-button.btn:hover,
+a.nav-button.btn:focus,
+a.nav-button.btn:active {
+    background-color: var(--brand-primary, #005E66) !important;
+}
+
+.btn-primary,
+.btn.btn-primary {
+    background-color: var(--brand-primary) !important;
+    border-color: var(--brand-primary) !important;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn.btn-primary:hover,
+.btn.btn-primary:focus,
+.btn.btn-primary:active {
+    background-color: var(--brand-primary-hover) !important;
+    border-color: var(--brand-primary-hover) !important;
+}
+
+.btn-outline-primary,
+.btn.btn-outline-primary {
+    color: var(--brand-primary) !important;
+    border-color: var(--brand-primary) !important;
+}
+.btn-outline-primary:hover,
+.btn-outline-primary:focus,
+.btn.btn-outline-primary:hover,
+.btn.btn-outline-primary:focus {
+    color: #fff !important;
+    background-color: var(--brand-primary) !important;
+    border-color: var(--brand-primary) !important;
 }
 
 a, h1, h2, h3, h4, h5, h6, p {
-    font-family: 'Raleway', sans-serif;
+    font-family: var(--font-sans);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    letter-spacing: var(--letter-spacing-heading);
+    line-height: var(--line-height-heading);
+}
+
+p, li, blockquote, figcaption, label, .form-control, textarea, select {
+    letter-spacing: var(--letter-spacing-body);
+    line-height: var(--line-height-body);
+}
+
+/* Block/card links: Bootstrap underlines all nested text on hover */
+#pillars a.group,
+#pillars a.group h4,
+#pillars a.group p {
+    text-decoration: none !important;
+}
+#pillars a.group:hover,
+#pillars a.group:focus,
+#pillars a.group:hover h4,
+#pillars a.group:hover p,
+#pillars a.group:focus h4,
+#pillars a.group:focus p {
+    text-decoration: none !important;
 }
 
 section p {
-    font-family: 'Open Sans';
+    font-family: var(--font-sans);
+}
+
+/* Page backgrounds (non-landing pages) — keep canvas white like landing */
+.page-hero,
+.page-hero-with-angular,
+.page-hero-with-wave,
+.page-section {
+    background: #ffffff !important;
+}
+.page-wave path {
+    fill: #ffffff !important;
+}
+.page-angular .top-angle:before {
+    background: #ffffff !important;
 }
 
 .bg-grey {
-    background-color: #ecf0f1;
+    background-color: #ffffff;
 }
 
-/* NAVBAR STARTS */
+/* NAVBAR STARTS - Light theme to match landing page (consistent on all pages) */
 
-/* Navbar Brand */
-.navbar .navbar-brand .navbar-logo {
-    height: 70px;
-    width: 70px;
+/* Auto-hide on scroll — matches React landing (App.jsx) */
+.bandhu-nav-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    width: 100%;
+    pointer-events: none;
 }
+.bandhu-nav-header .bandhu-nav-shell,
+.bandhu-nav-header .bandhu-nav-peek-strip {
+    pointer-events: auto;
+}
+.bandhu-nav-peek-strip {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1040;
+    height: 3rem;
+    background: transparent;
+    display: none;
+}
+.bandhu-nav-header.bandhu-nav--hidden:not(.bandhu-nav--peek) .bandhu-nav-peek-strip {
+    display: block;
+}
+.bandhu-nav-shell {
+    width: 100%;
+    transition: transform 0.3s ease-out;
+}
+.bandhu-nav-header.bandhu-nav--hidden:not(.bandhu-nav--peek) .bandhu-nav-shell {
+    transform: translateY(-100%);
+}
+@media (prefers-reduced-motion: reduce) {
+    .bandhu-nav-shell {
+        transition: none;
+    }
+}
+
+/* Full-width light navbar bar - match homepage (React) */
+#main-menu.navbar,
+.navbar.navbar-landing-style {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(128, 179, 186, 0.25);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    min-height: 3.5rem;
+}
+
+/* Full-width inner row, content right-aligned */
+#main-menu.navbar .container,
+#main-menu.navbar .navbar-container,
+.navbar.navbar-landing-style .navbar-container {
+    max-width: none !important;
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    display: flex !important;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+#main-menu.navbar .navbar-collapse,
+.navbar.navbar-landing-style .navbar-collapse {
+    flex-grow: 0;
+}
+
+/* Navbar brand: no colored box */
+.navbar .navbar-brand {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+/* Emblem home link: zero “container” — link hugs logo only */
+.navbar .navbar-brand.navbar-brand-emblem {
+    padding: 0 !important;
+    margin: 0 !important;
+    margin-right: 0 !important;
+    display: inline-block !important;
+    line-height: 0 !important;
+    vertical-align: middle;
+}
+.navbar .navbar-brand.navbar-brand-emblem .navbar-logo {
+    height: auto !important;
+    width: auto !important;
+    max-height: 3.5rem !important;
+    max-width: min(5.25rem, 28vw) !important;
+    object-fit: contain;
+    display: block;
+    margin: 0 !important;
+    padding: 0 !important;
+    vertical-align: top;
+}
+@media (min-width: 640px) {
+    .navbar .navbar-brand.navbar-brand-emblem .navbar-logo {
+        max-height: 4.5rem !important;
+    }
+}
+@media (min-width: 768px) {
+    .navbar .navbar-brand.navbar-brand-emblem .navbar-logo {
+        max-height: 4.75rem !important;
+    }
+}
+
 .navbar .navbar-brand .navbar-title {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-sans);
     font-weight: 600;
     display: inline-block;
     margin: 0;
     vertical-align: middle;
+    color: #fff;
 }
 
-/* Navbar Links and Link-Buttons */
+/* Navbar Links - teal palette, same as homepage */
 .navbar .navbar-nav .nav-link {
-    font-size: 1em;
-    font-weight: 600;
-    line-height: 45px;
-    padding: 0 20px;
-    color: #ffffff;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1.25;
+    padding: 0.5rem 0.5rem;
+    color: #3d5c60 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
-.navbar .navbar-nav .nav-link:hover, .navbar .navbar-nav .nav-link:focus, .navbar .navbar-nav .nav-link:active {
-    color: #ffb307;
+.navbar .navbar-nav .nav-link:hover,
+.navbar .navbar-nav .nav-link:focus,
+.navbar .navbar-nav .nav-link:active {
+    color: #80b3ba !important;
 }
-.navbar .navbar-nav>.active>a, .navbar .navbar-nav>.active>a:hover, .navbar .navbar-nav>.active>a:focus {
-    color: #ffb307;
-    /* background-color: transparent; */
+/* Pipe separators between nav items (match homepage) */
+.navbar .nav-sep {
+    padding: 0 0.25rem;
+    pointer-events: none;
+}
+.navbar .nav-sep .nav-sep-char {
+    color: rgba(15, 118, 110, 0.4);
+    font-weight: 400;
+    user-select: none;
+}
+@media (min-width: 992px) {
+    .navbar .navbar-nav .nav-link { padding: 0.5rem 0.75rem; font-size: 0.8rem; }
+}
+.navbar .navbar-nav>.active>a,
+.navbar .navbar-nav>.active>a:hover,
+.navbar .navbar-nav>.active>a:focus {
+    color: #80b3ba !important;
 }
 .navbar .navbar-nav .nav-link.active {
-    color: #ffb307;
+    color: #80b3ba !important;
 }
-/* Link-Buttons */
-.navbar .navbar-nav .nav-button {
-    border-radius: 3px;
+
+/* Login/Logout/Updates pill — dark navy (#0b3540), matches React navbar Updates button */
+a.nav-button.btn,
+.navbar .navbar-nav .nav-button,
+.navbar .navbar-nav a.nav-button.btn {
+    font-family: var(--font-sans);
+    border-radius: 9999px;
     text-transform: none;
-    font-weight: 600;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: normal;
+    padding: 0.5rem 0.875rem !important;
+    line-height: 1.25 !important;
+    background-color: #0b3540 !important;
+    border: 1px solid rgba(0, 74, 82, 0.2) !important;
+    color: #fff !important;
+    box-shadow: 0 6px 20px rgba(11, 53, 64, 0.28) !important;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease !important;
+    text-decoration: none !important;
 }
-
-/* Navbar Toggle Button */
-.custom-toggler.navbar-toggler {
-    font-size: 28px;
-    color: #fff;
-    border-color: transparent;
-    outline: transparent;
+a.nav-button.btn:hover,
+a.nav-button.btn:focus,
+a.nav-button.btn:active,
+.navbar .navbar-nav .nav-button:hover,
+.navbar .navbar-nav .nav-button:focus,
+.navbar .navbar-nav a.nav-button.btn:hover,
+.navbar .navbar-nav a.nav-button.btn:focus,
+.navbar .navbar-nav .nav-button:active,
+.navbar .navbar-nav a.nav-button.btn:active {
+    background-color: var(--brand-primary, #005E66) !important;
+    color: #fff !important;
+    border-color: rgba(0, 74, 82, 0.2) !important;
+    box-shadow: 0 10px 28px rgba(11, 53, 64, 0.36) !important;
+    transform: translateY(-2px);
+    text-decoration: none !important;
+    outline: none !important;
 }
-.custom-toggler.navbar-toggler[aria-expanded="true"], .custom-toggler.navbar-toggler:hover { 
-    color: #ffb307;
-} 
-
-/* Navbar Scroll Behaviour */
-.navbar.navbar-dark.navbar-scrolled {
-    background-color: rgba(0,0,0,.5) !important;
+.navbar .navbar-nav .nav-button:focus,
+.navbar .navbar-nav a.nav-button.btn:focus {
+    outline: none !important;
+    outline-offset: 0 !important;
 }
-.navbar.navbar-dark.navbar-scrolled-again {
-    background-color: rgba(0,0,0,.85) !important;
+.navbar .navbar-nav .nav-button:active,
+.navbar .navbar-nav a.nav-button.btn:active {
+    transform: translateY(0);
 }
-
-/* Navbar non-transparent on small screens */
-@media screen and (max-width: 991px){
-    .navbar.bg-transparent.navbar-dark {
-        background-color: rgba(0,0,0,.85) !important;
+@media (min-width: 576px) {
+    .navbar .navbar-nav .nav-button,
+    .navbar .navbar-nav a.nav-button.btn {
+        font-size: 0.875rem;
+        padding: 0.5rem 1rem !important;
+    }
+}
+@media (min-width: 992px) {
+    .navbar .navbar-nav .nav-button,
+    .navbar .navbar-nav a.nav-button.btn { font-size: 0.8rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .navbar .navbar-nav .nav-button,
+    .navbar .navbar-nav a.nav-button.btn {
+        transition: background-color 0.2s ease, box-shadow 0.2s ease !important;
+    }
+    .navbar .navbar-nav .nav-button:hover,
+    .navbar .navbar-nav a.nav-button.btn:hover {
+        transform: none;
     }
 }
 
-/* Navbar Dropdown */
+/* Navbar Toggle Button - teal on light bg */
+.custom-toggler.navbar-toggler {
+    font-size: 28px;
+    color: #3d5c60;
+    border-color: transparent;
+    outline: transparent;
+}
+.custom-toggler.navbar-toggler[aria-expanded="true"],
+.custom-toggler.navbar-toggler:hover {
+    color: #80b3ba;
+}
+
+/* Navbar scroll - keep light with subtle shadow */
+.navbar.navbar-dark.navbar-scrolled,
+.navbar.navbar-scrolled {
+    background-color: rgba(255, 255, 255, 0.98) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+.navbar.navbar-dark.navbar-scrolled-again {
+    background-color: rgba(255, 255, 255, 0.98) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Navbar on small screens - light */
+@media screen and (max-width: 991px) {
+    .navbar.bg-transparent.navbar-dark,
+    #main-menu.navbar {
+        background-color: rgba(255, 255, 255, 0.98) !important;
+    }
+    .navbar .navbar-nav .nav-link {
+        color: #3d5c60 !important;
+    }
+}
+
+/* Navbar Dropdown - show on hover and when opened */
 .dropdown:hover>.dropdown-menu {
     display: block;
 }
 
+/* Dropdown menu styling to match landing page */
+.dropdown-menu-landing,
+.navbar .dropdown-menu {
+    border-radius: 0.75rem;
+    border: 1px solid rgba(128, 179, 186, 0.2);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    padding: 0.25rem 0;
+    min-width: 12rem;
+}
+.dropdown-menu-landing .dropdown-item,
+.navbar .dropdown-menu .dropdown-item {
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    color: #3d5c60;
+    font-size: 0.875rem;
+}
+.dropdown-menu-landing .dropdown-item:hover,
+.dropdown-menu-landing .dropdown-item:focus,
+.navbar .dropdown-menu .dropdown-item:hover,
+.navbar .dropdown-menu .dropdown-item:focus {
+    background-color: rgba(240, 253, 250, 0.8);
+    color: #80b3ba;
+}
+.dropdown-menu-notice {
+    max-height: 70vh;
+    overflow-y: auto;
+    min-width: 20rem;
+    max-width: 28rem;
+}
+.dropdown-menu-notice .dropdown-item {
+    white-space: normal;
+    word-wrap: break-word;
+    line-height: 1.4;
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid rgba(128, 179, 186, 0.08);
+}
+.dropdown-menu-notice .dropdown-item:last-child {
+    border-bottom: none;
+}
+
+/* Carousels / sliders: auto-scroll only, no arrows or dots (match landing page) */
+.glide__arrows,
+.glide__bullets {
+    display: none !important;
+}
+.carousel-indicators {
+    display: none !important;
+}
+.carousel-control-prev,
+.carousel-control-next {
+    display: none !important;
+}
 
 /* SHOWCASE STARTS */
 
 #top-section {
     background: url(../img/our_mission.jpg) 50% center no-repeat fixed;
-    margin: 0 auto;
+    margin: 0;
     background-repeat: no-repeat;
-    background-size: 100vw 120vh;
+    background-size: cover;
+    background-position: center center;
     padding: 0;
+    width: 100%;
+    min-width: 100%;
+    max-width: none;
+    box-sizing: border-box;
+    display: block;
 }
-.top-section {
+/* One rule for all inner-page banners (Bandhughar, Swabalamban, Publications, etc.): full width, no gaps */
+#top-section:has(.page-showcase-tall),
+#top-section:has(.page-showcase),
+#top-section:has(.pillar-showcase) {
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+.top-section,
+.top-section.parallax-style,
+.parallax-overlay {
     position: relative;
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: none !important;
+    box-sizing: border-box;
 }
 .parallax-style, .no-parallax-style {
     background-repeat: no-repeat;
@@ -126,6 +561,57 @@ section p {
 }
 .parallax-overlay {
     background-color: rgba(0,0,0,.6);
+}
+
+/* Inner pages: remove overlay "cast" on banner images (keep landing styling intact) */
+.parallax-overlay:has(.slider-txt-container.page-showcase),
+.parallax-overlay:has(.slider-txt-container.pillar-showcase) {
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+/* Unified fixed height for every inner showcase banner (pillars, Bandhughar, activities, publications, Ankurayan, Anandakendra, profiles, etc.) */
+:root {
+    --inner-banner-height: 460px;
+}
+#top-section:has(.slider-txt-container.page-showcase),
+#top-section:has(.slider-txt-container.pillar-showcase) {
+    height: var(--inner-banner-height) !important;
+    min-height: var(--inner-banner-height) !important;
+    max-height: var(--inner-banner-height) !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+}
+#top-section:has(.slider-txt-container.page-showcase) .top-section,
+#top-section:has(.slider-txt-container.pillar-showcase) .top-section,
+#top-section:has(.slider-txt-container.page-showcase) .parallax-overlay,
+#top-section:has(.slider-txt-container.pillar-showcase) .parallax-overlay {
+    min-height: 100% !important;
+    height: 100% !important;
+}
+#top-section:has(.slider-txt-container.page-showcase) .slider-txt-container,
+#top-section:has(.slider-txt-container.pillar-showcase) .slider-txt-container {
+    position: relative;
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+}
+#top-section,
+#top-section .top-section,
+#top-section .parallax-overlay {
+    border: none !important;
+    box-shadow: none !important;
+}
+.page-hero-with-angular,
+.main > section.page-hero,
+.main > section.page-section.page-hero {
+    border-top: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
 }
 .slider-txt-container {
     color: #ffffff;
@@ -182,10 +668,192 @@ section p {
     top: 75px;
 }
 
+/* ===== Straight separator + no banner text on inner pages =====
+   Pages like Sanskar/Swaraj/Swabalamban/Bandhughar/Other Activities/Publications render a banner image
+   after the navbar. We want a straight edge (no slant) and no text on the banner. */
+
+/* Remove the slanted cut entirely so the edge is straight */
+.angular {
+    display: none !important;
+}
+
+/* Hide inner-page banner title/accent without affecting fixed banner height (sr-only pattern) */
+.slider-txt-container.page-showcase > *,
+.slider-txt-container.pillar-showcase > * {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* People / profile inner pages: show real showcase title, centered in banner (overrides sr-only hide above) */
+body.pillar-inner-page #top-section .slider-txt-container.pillar-showcase,
+body.pillar-inner-page #top-section .slider-txt-container.page-showcase.pillar-showcase {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    text-transform: none !important;
+}
+
+body.pillar-inner-page #top-section .slider-txt-container.pillar-showcase > *,
+body.pillar-inner-page #top-section .slider-txt-container.page-showcase.pillar-showcase > * {
+    position: static !important;
+    width: auto !important;
+    max-width: min(92vw, 48rem) !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin: 0 auto !important;
+    overflow: visible !important;
+    clip: auto !important;
+    clip-path: none !important;
+    white-space: normal !important;
+    border: 0 !important;
+    opacity: 1 !important;
+    pointer-events: none !important;
+}
+
+body.pillar-inner-page #top-section .parallax-overlay::before,
+body.pillar-inner-page #top-section .parallax-overlay::after {
+    content: none !important;
+    display: none !important;
+}
 
 
-/* FOOTER */
+/* FOOTER / CONTACT SECTION - Dark style to match landing (Our Initiatives + Contact Us) */
 
+.contact-footer-section {
+    background-color: #005a5e;
+    color: #fff;
+    padding: 3.5rem 1rem 2rem;
+}
+.contact-footer-heading {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #fff;
+    margin-bottom: 0;
+}
+.contact-footer-underline {
+    width: 48px;
+    height: 2px;
+    background-color: rgba(255, 255, 255, 0.6);
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+.contact-footer-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1rem;
+}
+.contact-footer-list li {
+    padding-bottom: 0.5rem;
+}
+.contact-footer-list a {
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.contact-footer-list a:hover {
+    color: #2dd4bf;
+}
+.contact-footer-org-name {
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+.contact-footer-address {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+.contact-footer-contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+.contact-footer-contact-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.2s;
+}
+.contact-footer-contact-item:hover {
+    color: #2dd4bf;
+}
+.contact-footer-icon-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.contact-footer-icon-wrap i {
+    font-size: 0.875rem;
+}
+.contact-footer-social {
+    display: flex;
+    gap: 0.75rem;
+}
+.contact-footer-social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    color: #fff;
+    text-decoration: none;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+.contact-footer-social-link:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: #2dd4bf;
+    color: #fff;
+}
+.contact-footer-divider {
+    border-color: rgba(255, 255, 255, 0.2);
+    margin: 2rem 0 1rem;
+}
+.contact-footer-bottom {
+    padding-bottom: 0.5rem;
+}
+.contact-footer-copy,
+.contact-footer-credits {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+.contact-footer-bottom a {
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+}
+.contact-footer-bottom a:hover {
+    color: #2dd4bf;
+}
+.contact-footer-visitors {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+}
+
+/* Legacy #contact (for pages that still use old classes) */
 #contact .nav .nav-link {
     font-size: 1em;
     font-weight: 600;
@@ -193,28 +861,24 @@ section p {
     color: #ffffff;
 }
 #contact .nav .nav-link:hover, #contact .nav .nav-link:focus {
-    color: #ffb307;
+    color: #2dd4bf;
 }
-#contact .nav>.active>a, #contact .nav>.active>a:hover, #contact .nav>.active>a:focus {
-    color: #ffb307;
-    /* background-color: transparent; */
-}
-
 #contact .social-icons a {
     font-size: 32px;
     margin-right: 12px;
     text-decoration: none;
 }
-/* #contact .social-icons .fa-facebook-square:hover {
-    color: #1877f2 !important;
-}
-#contact .social-icons .fa-twitter:hover {
-    color: #00acee !important;
-} */
-
 #contact .footer a {
     color: white;
     font-weight: 600;
+}
+
+/* Carousel / slider dots – teal palette (Bootstrap indicators) */
+.carousel-indicators li {
+    background-color: rgba(128, 179, 186, 0.35);
+}
+.carousel-indicators li.active {
+    background-color: #80b3ba;
 }
 
 
@@ -265,6 +929,58 @@ section p {
     margin-bottom: 60px;
 }
 
+
+/* Floating Be a Bandhu CTA — dark on light pages, inverts over dark footer */
+.bandhu-fab-cta {
+    position: fixed;
+    right: 1.25rem;
+    bottom: 5.5rem;
+    z-index: 160;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.625rem 1.75rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(0, 74, 82, 0.2);
+    background: #0b3540;
+    color: #fff !important;
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.25;
+    text-decoration: none !important;
+    white-space: nowrap;
+    box-shadow: 0 6px 20px rgba(11, 53, 64, 0.28);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease,
+        box-shadow 0.3s ease, transform 0.3s ease;
+}
+.bandhu-fab-cta:hover,
+.bandhu-fab-cta:focus {
+    background: var(--brand-primary, #005E66);
+    color: #fff !important;
+    text-decoration: none !important;
+    box-shadow: 0 10px 28px rgba(11, 53, 64, 0.36);
+    transform: translateY(-2px);
+}
+.bandhu-fab-cta.bandhu-fab-cta--on-dark {
+    border-color: rgba(255, 255, 255, 0.4);
+    background: #fff;
+    color: var(--brand-primary, #005E66) !important;
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.22);
+}
+.bandhu-fab-cta.bandhu-fab-cta--on-dark:hover,
+.bandhu-fab-cta.bandhu-fab-cta--on-dark:focus {
+    background: #f8fafc;
+    color: #004a52 !important;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.3);
+}
+@media (min-width: 640px) {
+    .bandhu-fab-cta {
+        right: 1.75rem;
+        bottom: 6rem;
+        padding: 0.625rem 2.25rem;
+    }
+}
 
 /* SCROLL TO TOP */
 
@@ -396,19 +1112,200 @@ section p {
     padding:0px!important;
 }
 
-/* Gallery Buttons */
-.add-images>.btn, .approve-images>.btn {
-    color: #ffb307;
-    border-color: #ffb307;
-    border-radius: 5px;
-    border-width: 2px;
-    font-weight: 700;
-}
-.add-images>.btn:hover, .approve-images>.btn:hover {
-    background-color: #ffb307 !important;
-    color: #ecf0f1 !important;
-}
-.add-images>.btn:focus, .add-images>.btn:active, .approve-images>.btn:focus, .approve-images>.btn:active {
+/* Gallery trigger buttons (Upload Images / Approve) — solid #005E66 like Anandakendra */
+.add-images > .btn.btn-primary,
+.approve-images > .btn.btn-primary {
+    background-color: #005E66 !important;
+    border-color: #005E66 !important;
+    color: #fff !important;
+    border-radius: 10px !important;
+    border-width: 1px !important;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 600 !important;
     box-shadow: none !important;
-    border-color: #ffb307 !important;
+}
+.add-images > .btn.btn-primary:hover,
+.add-images > .btn.btn-primary:focus,
+.add-images > .btn.btn-primary:active,
+.approve-images > .btn.btn-primary:hover,
+.approve-images > .btn.btn-primary:focus,
+.approve-images > .btn.btn-primary:active {
+    background-color: #004a52 !important;
+    border-color: #004a52 !important;
+    color: #fff !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Upload Images & Approve Gallery modals – Anandakendra teal (#005E66); detail page overrides in anandakendra.css */
+#addToGallery .modal-content,
+#approveGallery .modal-content {
+    border-radius: 16px !important;
+    overflow: hidden;
+    border: 2px solid rgba(128, 179, 186, 0.3) !important;
+    box-shadow: 0 20px 60px rgba(61, 92, 96, 0.2) !important;
+}
+#addToGallery .modal-header,
+#approveGallery .modal-header {
+    background: #005E66 !important;
+    background-image: none !important;
+    color: #fff !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.28) !important;
+    padding: 1rem 1.25rem !important;
+}
+#addToGallery .modal-title,
+#approveGallery .modal-title {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 700 !important;
+    font-size: 1.25rem !important;
+    color: #fff !important;
+}
+#addToGallery .modal-header .close,
+#approveGallery .modal-header .close {
+    color: #fff !important;
+    opacity: 0.95;
+    text-shadow: none;
+    font-size: 1.5rem;
+}
+#addToGallery .modal-body,
+#approveGallery .modal-body {
+    padding: 1.25rem 1.5rem !important;
+    background: linear-gradient(180deg, #f7fbfc 0%, #ffffff 22%, #fcfdfd 100%) !important;
+    color: #334155;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+#addToGallery .modal-body .form-control,
+#approveGallery .modal-body .form-control {
+    border-radius: 0.5rem;
+    border-color: rgba(128, 179, 186, 0.35);
+}
+#addToGallery .modal-body .form-control:focus,
+#approveGallery .modal-body .form-control:focus {
+    border-color: #005E66;
+    box-shadow: 0 0 0 0.2rem rgba(0, 94, 102, 0.2);
+    outline: 0;
+}
+#addToGallery .modal-body .btn-primary,
+#approveGallery .modal-body .btn-primary {
+    background-color: #005E66 !important;
+    border-color: #005E66 !important;
+    color: #fff !important;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 600 !important;
+    border-radius: 10px !important;
+    box-shadow: none !important;
+}
+#addToGallery .modal-body .btn-primary:hover,
+#addToGallery .modal-body .btn-primary:focus,
+#addToGallery .modal-body .btn-primary:active,
+#approveGallery .modal-body .btn-primary:hover,
+#approveGallery .modal-body .btn-primary:focus,
+#approveGallery .modal-body .btn-primary:active {
+    background-color: #004a52 !important;
+    border-color: #004a52 !important;
+    color: #fff !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+#addToGallery .custom-file-label::after,
+#approveGallery .custom-file-label::after {
+    background-color: #005E66 !important;
+    border-color: #005E66 !important;
+    color: #fff !important;
+}
+#addToGallery .custom-file-label,
+#approveGallery .custom-file-label {
+    color: #64748b;
+    border-color: rgba(128, 179, 186, 0.35);
+}
+#addToGallery .custom-file-input:focus ~ .custom-file-label,
+#approveGallery .custom-file-input:focus ~ .custom-file-label {
+    border-color: #005E66;
+    box-shadow: 0 0 0 0.2rem rgba(0, 94, 102, 0.15);
+}
+/* Prevent Submit overlapping the file field */
+#addToGallery .modal-body form .upload-modal-file-group,
+#addToGallery .modal-body form .input-group,
+#approveGallery .modal-body form .input-group {
+    display: block;
+    width: 100%;
+    margin-bottom: 1.25rem !important;
+}
+#addToGallery .modal-body form .custom-file,
+#approveGallery .modal-body form .custom-file {
+    display: block;
+    width: 100%;
+    height: auto;
+    min-height: calc(1.5em + 0.75rem + 2px);
+}
+#addToGallery .modal-body form .upload-modal-submit,
+#addToGallery .modal-body form > .btn-primary,
+#approveGallery .modal-body form > .btn-primary {
+    display: inline-block !important;
+    position: relative !important;
+    margin-top: 0 !important;
+    clear: both;
+}
+
+/* Activity / event detail modals: full-width horizontal image above description */
+.anandakendra-modal .activity-detail-modal-body,
+.charity-modal .activity-detail-modal-body,
+.ashram-modal .activity-detail-modal-body {
+    display: block;
+}
+.anandakendra-modal .activity-detail-modal-media,
+.charity-modal .activity-detail-modal-media,
+.ashram-modal .activity-detail-modal-media {
+    width: 100%;
+    margin-bottom: 1.25rem;
+    background: #f1f5f9;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.anandakendra-modal .activity-detail-modal-media .carousel,
+.anandakendra-modal .activity-detail-modal-media .carousel-inner,
+.anandakendra-modal .activity-detail-modal-media .carousel-item,
+.charity-modal .activity-detail-modal-media .carousel,
+.charity-modal .activity-detail-modal-media .carousel-inner,
+.charity-modal .activity-detail-modal-media .carousel-item {
+    width: 100%;
+}
+.anandakendra-modal .activity-detail-modal-media img,
+.charity-modal .activity-detail-modal-media img,
+.ashram-modal .activity-detail-modal-media img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 320px;
+    object-fit: contain;
+    object-position: center;
+    margin: 0 auto;
+}
+.anandakendra-modal .activity-detail-modal-heading,
+.charity-modal .activity-detail-modal-heading,
+.ashram-modal .activity-detail-modal-heading {
+    color: #000000;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+.anandakendra-modal .activity-detail-modal-description,
+.charity-modal .activity-detail-modal-description,
+.ashram-modal .activity-detail-modal-description {
+    color: #1a1a1a;
+    line-height: 1.5;
+}
+
+/* ===== Scrollbar – hidden to remove vertical line on right (scrolling still works) ===== */
+html,
+body {
+    scrollbar-width: none !important; /* Firefox: hide scrollbar */
+    -ms-overflow-style: none !important; /* IE/Edge: hide scrollbar */
+}
+
+/* WebKit (Chrome, Safari, Edge): hide viewport scrollbar so no vertical line */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
 }

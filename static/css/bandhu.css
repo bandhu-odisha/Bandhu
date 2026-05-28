@@ -1,7 +1,19 @@
 /* GLOBAL */
 
+html, body {
+    font-size: 18px;
+}
+
+html, body { font-size: 18px; }
+
+/* Unified brand color overrides for legacy/static pages */
+:root {
+    --brand-primary: #005E66;
+    --brand-primary-hover: #006A73;
+}
+
 .section-title {
-    color: #0d0d0d;
+    color: var(--brand-primary);
     font-size: 2.25em;
     font-weight: 900;
     line-height: 54px;
@@ -13,13 +25,15 @@
 }
 .section-title:after {
     content: "";
-    background-color: #ffb307;
+    background: linear-gradient(90deg, var(--brand-primary) 0%, var(--brand-primary-hover) 100%);
     position: absolute;
     bottom: -15px;
     left: 50%;
     transform: translateX(-50%);
-    height: 4px;
+    height: 5px;
     width: 70px;
+    border-radius: 3px;
+    box-shadow: 0 2px 8px rgba(61, 92, 96, 0.35);
 }
 
 
@@ -215,8 +229,17 @@
 .glide__bullets {
     bottom: 0rem;
 }
+/* Carousel dots – match site teal palette */
+.glide__bullet {
+    background-color: rgba(128, 179, 186, 0.35) !important;
+}
+.glide__bullet:hover,
+.glide__bullet:focus {
+    border-color: #80b3ba !important;
+    background-color: rgba(128, 179, 186, 0.5) !important;
+}
 .glide__bullet--active {
-    background-color: #ffb307;
+    background-color: #80b3ba !important;
 }
 
 
@@ -301,29 +324,44 @@
     -webkit-text-stroke: 0.1px;
 }
 
-@media screen and (min-width: 992px) {
+/* Landing + detail masthead: sentence case (not global gallery uppercase) */
+#gallery .gallery-section-head .section-description,
+#gallery .section-description.gallery-section-description {
+    text-transform: none !important;
+    font-weight: 400 !important;
+    font-size: 1.05rem;
+    color: #2c3e50;
+    line-height: 1.65 !important;
+    max-width: 40rem;
+    margin-left: auto;
+    margin-right: auto;
+    -webkit-text-stroke: 0 !important;
+    font-variant: normal !important;
+}
 
-    #gallery .section-title {
+/* Legacy split layout: only when not using landing-style .gallery-section-head */
+@media screen and (min-width: 992px) {
+    #gallery .section-head:not(.gallery-section-head) .section-title {
         text-align: right;
         width: 320px;
         float: left;
         margin: 0;
         padding-right: 35px;
     }
-    
-    #gallery .section-title:after {
+
+    #gallery .section-head:not(.gallery-section-head) .section-title:after {
         content: "";
         position: absolute;
         width: 20px;
         height: 40px;
-        background-color: #ffb307;
+        background: linear-gradient(180deg, #80b3ba 0%, #5f8d93 100%);
         top: 6px;
         right: 0px;
         left: unset;
         margin-left: 0px;
     }
-    
-    #gallery .section-description {
+
+    #gallery .section-head:not(.gallery-section-head) .section-description {
         margin-left: 340px;
         text-align: left;
     }
@@ -426,25 +464,30 @@
 }
 
 .galleryFilter a {
-    border: 2px solid transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
     color: #0d0d0d;
     display: inline-block;
     font-weight: 700;
     font-size: 0.875em;
     text-transform: uppercase;
     margin: 0 5px;
-    padding: 10px;
+    padding: 10px 12px 8px;
     cursor: pointer;
-    border-radius: 7px;
+    border-radius: 0;
+    box-shadow: none;
+    outline: none;
 }
 
 .galleryFilter a:focus, .galleryFilter a:hover, .galleryFilter .current {
-    color: #ffb307;
+    color: #005E66;
     text-decoration: none;
 }
 
 .galleryFilter .current {
-    border: 2px solid #ffb307;
+    border: none;
+    border-bottom: 2px solid #005E66;
+    font-weight: 700;
 }
 
 .gallery-item figure {
@@ -513,7 +556,186 @@
     display: block;
 }
 
+/* Gallery carousel (landing page) – larger cards, more gap, no arrows */
+#gallery .gallery_glide {
+    width: 100%;
+    position: relative;
+    min-height: 240px;
+    max-width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+}
+#gallery .gallery_glide .glide__track {
+    overflow: hidden;
+}
+#gallery .gallery_glide .glide__slides {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+}
+#gallery .gallery_glide .glide__slide {
+    flex-shrink: 0;
+    max-width: 280px;
+    margin-right: 32px;
+}
+#gallery .gallery_glide .glide__slide:last-child {
+    margin-right: 0;
+}
+#gallery .gallery-glide-arrows,
+#gallery .glide__arrows,
+#gallery .glide__arrow {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+#gallery .gallery_glide .glide__bullets {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 1rem;
+}
+#gallery .gallery-slide-card {
+    max-width: 280px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    border: 2px solid rgba(128, 179, 186, 0.2);
+    box-shadow: 0 8px 24px rgba(61, 92, 96, 0.12);
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+#gallery .gallery-slide-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(61, 92, 96, 0.2);
+    border-color: rgba(128, 179, 186, 0.4);
+}
+#gallery .gallery-slide-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+}
+#gallery .gallery-slide-link {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(61, 92, 96, 0.15);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    color: #fff;
+    font-size: 2rem;
+    z-index: 2;
+}
+#gallery .gallery-slide-card:hover .gallery-slide-link {
+    opacity: 1;
+}
+#gallery .gallery_glide .glide__arrow i {
+    color: #80b3ba;
+}
+#gallery .gallery_glide .glide__arrow:hover i {
+    color: #3d5c60;
+    transform: scale(1.1);
+}
+#gallery .gallery_glide .glide__bullet {
+    background: rgba(128, 179, 186, 0.4);
+}
+#gallery .gallery_glide .glide__bullet--active {
+    background: #80b3ba;
+}
+/* Landing + all pages using .gallery-section-head: centered masthead like home */
+#gallery .gallery-section-head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    clear: both;
+}
+#gallery .gallery-section-head .section-title {
+    float: none !important;
+    width: auto !important;
+    max-width: 100%;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    text-align: center !important;
+    position: relative;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    font-weight: 700;
+    color: #3d5c60;
+    text-transform: none;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+#gallery .gallery-section-head .section-title::after {
+    content: none !important;
+    display: none !important;
+}
+#gallery .gallery-section-accent {
+    width: 3.25rem;
+    height: 6px;
+    margin: 0.85rem auto 1.25rem;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, #005E66 0%, #2a9aa8 55%, #4fb3bf 100%);
+    box-shadow: 0 3px 12px rgba(0, 94, 102, 0.45);
+}
+#gallery .gallery-section-description {
+    margin-top: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
 
+@media screen and (min-width: 992px) {
+    #gallery .gallery-section-head .section-title {
+        float: none !important;
+        width: auto !important;
+        text-align: center !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
+    }
+    #gallery .gallery-section-head .section-description,
+    #gallery .gallery-section-head p.section-description {
+        margin-left: auto !important;
+        margin-right: auto !important;
+        text-align: center !important;
+    }
+}
+
+/* Ankurayan / Bandhughar detail: category chips — rounded pills, sentence case, teal like masthead */
+.ankurayan-detail #gallery .galleryFilter,
+.ashram-detail #gallery .galleryFilter {
+    padding-bottom: 2.25rem;
+}
+.ankurayan-detail #gallery .galleryFilter a,
+.ashram-detail #gallery .galleryFilter a {
+    text-transform: none !important;
+    font-weight: 600 !important;
+    font-size: 0.9rem !important;
+    letter-spacing: 0.02em;
+    border-radius: 9999px !important;
+    padding: 0.5rem 1.25rem !important;
+    margin: 0.35rem !important;
+    border: 2px solid rgba(128, 179, 186, 0.4) !important;
+    color: #3d5c60 !important;
+    background: #ffffff;
+    box-shadow: 0 1px 4px rgba(61, 92, 96, 0.08);
+}
+.ankurayan-detail #gallery .galleryFilter a:hover,
+.ankurayan-detail #gallery .galleryFilter a:focus,
+.ashram-detail #gallery .galleryFilter a:hover,
+.ashram-detail #gallery .galleryFilter a:focus {
+    color: #1e3a38 !important;
+    border-color: #80b3ba !important;
+    background: rgba(128, 179, 186, 0.12) !important;
+    text-decoration: none !important;
+}
+.ankurayan-detail #gallery .galleryFilter .current,
+.ashram-detail #gallery .galleryFilter .current {
+    border-color: #80b3ba !important;
+    color: #134e4a !important;
+    background: linear-gradient(180deg, rgba(155, 196, 201, 0.35) 0%, rgba(128, 179, 186, 0.2) 100%) !important;
+}
 
 
 
@@ -561,7 +783,6 @@
 }
 
 .recent-activities-btn:hover {
-    /* width:350px !important; */
     outline:none;
     background-color: #d37e00 !important;
     color:white;
@@ -585,8 +806,8 @@
     font-size: 1rem;
     padding: 5px;
     width: 100%;
-    border-bottom: 1px solid black;
-    background-color: #ff9800;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    background-color: #80b3ba;
     border-radius:4px  4px 0 0;
     color: white;
 }
@@ -769,23 +990,21 @@
     border-bottom-right-radius: 0px !important;
 }
 
+.current-updates-marquee a,
+.current-updates-marquee a * {
+  color: #ffffff !important;
+}
+.current-updates-marquee a:hover,
+.current-updates-marquee a:hover * {
+  color: #d7e9f2 !important;
+}
 .current-updates-marquee a:not(:last-child)::after{
   content: ' |';
-  color: black;
+  color: #ffffff !important;
 }
 
 
-body::-webkit-scrollbar {
-    width: 12px !important;
-}
-
-body::-webkit-scrollbar-thumb {
-    background-color: rgba(0,0,0,.3) !important;
-}
-
-body::-webkit-scrollbar-track {
-    background-color: rgba(255, 255, 255, 0);
-} 
+/* Viewport scrollbar hidden globally – see end of file */ 
 
   
 
@@ -830,3 +1049,396 @@ body::-webkit-scrollbar-track {
         height: 270px;
     }
 }
+
+/* Initiative pages: light primary-tint hero (aligned with #005E66 / #d6ecee) */
+.parallax-overlay:has(.page-showcase) {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(214, 236, 238, 0.35) 55%, rgba(197, 228, 232, 0.4) 100%);
+}
+.page-showcase { position: relative; }
+.page-showcase .page-showcase-title {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.25rem, 6vw, 4rem);
+    letter-spacing: 0.02em;
+    color: #005E66;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9), 0 2px 18px rgba(0, 94, 102, 0.12);
+    margin: 0;
+    line-height: 1.1;
+}
+@media (max-width: 576px) {
+    .page-showcase .page-showcase-title { font-size: 2rem; }
+}
+.page-showcase .page-showcase-accent {
+    width: 5rem;
+    height: 5px;
+    background: linear-gradient(90deg, #005E66 0%, #3d9ca8 100%);
+    border-radius: 3px;
+    margin: 1rem auto 0;
+    box-shadow: 0 2px 10px rgba(0, 94, 102, 0.18);
+}
+/* Match Sanskar: diagonal cut uses very pale gradient so no visible teal band */
+.angular.page-angular .top-angle:before {
+    background: linear-gradient(180deg, #d7e9f2 0%, #f8fffe 25%, #d7e9f2 60%, #d7e9f2 100%);
+}
+/* Wave transition for Ankurayan/Anandakendra – visible wavy divider, not a flat bar */
+.page-wave {
+    display: block;
+    width: 100%;
+    line-height: 0;
+    margin-bottom: 0;
+    margin-top: -1px;
+    position: relative;
+    z-index: 2;
+    height: 88px;
+}
+.page-wave svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    vertical-align: middle;
+}
+.page-wave path {
+    fill: #d7e9f2;
+}
+.page-hero {
+    padding: 4rem 0 3rem;
+    background: linear-gradient(180deg, #d7e9f2 0%, #d7e9f2 35%, #d7e9f2 100%);
+    border-bottom: 1px solid rgba(128, 179, 186, 0.12);
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+.page-hero h1, .page-hero .page-hero-title, .page-hero .page-about-heading { font-size: 2.35rem; font-weight: 700; color: #3d5c60; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+.page-hero .page-about-heading { margin-top: 0; }
+.page-hero .page-hero-accent {
+    width: 4rem;
+    height: 5px;
+    background: linear-gradient(90deg, #80b3ba 0%, #5f8d93 100%);
+    border-radius: 3px;
+    margin-bottom: 1.25rem;
+    box-shadow: 0 2px 8px rgba(61, 92, 96, 0.35);
+}
+.page-hero .page-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #3d5c60;
+    font-weight: 600;
+    text-decoration: none;
+    margin-bottom: 1.5rem;
+    padding: 0.6rem 1rem;
+    border-radius: 9999px;
+    background: rgba(61, 92, 96, 0.08);
+    border: 1px solid rgba(61, 92, 96, 0.25);
+    transition: color 0.2s, background 0.2s;
+}
+.page-hero .page-back:hover { color: #3d5c60; background: rgba(61, 92, 96, 0.14); text-decoration: none; border-color: rgba(61, 92, 96, 0.4); }
+.page-hero .page-tagline { font-size: 1.2rem; font-weight: 600; color: #1e3a38; line-height: 1.5; margin-bottom: 1rem; }
+.page-hero .page-desc { font-size: 1.05rem; color: #234340; line-height: 1.75; font-weight: 450; }
+
+/* Sanskar-style horizontal description helpers (used on Anandakendra/Ankurayan) */
+.page-hero .page-tagline-sanskar-style {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #1e3a38;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+.page-hero .page-desc-horizontal {
+    font-size: 1.05rem;
+    color: #234340;
+    line-height: 1.75;
+    font-weight: 450;
+    max-width: 52rem;
+    width: 100%;
+}
+.page-hero .page-desc-horizontal p { margin-bottom: 1rem; }
+.page-hero .page-desc-horizontal p:last-child { margin-bottom: 0; }
+.page-hero .page-desc-horizontal b { font-weight: 700; color: #3d5c60; }
+/* When hero follows angular (Ankurayan/Anandakendra): match Sanskar – gradient like pillar-hero, less gap to button */
+.page-hero-with-angular {
+    position: relative;
+    z-index: 3;
+    background: linear-gradient(180deg, #d7e9f2 0%, #d7e9f2 35%, #d7e9f2 100%);
+    border-bottom: 1px solid rgba(128, 179, 186, 0.12);
+    padding-top: 2rem;
+}
+.page-hero-with-angular .container { padding-top: 1rem; }
+/* When hero follows wave (Ankurayan/Anandakendra): content area light teal, no white gap */
+.page-hero-with-wave {
+    position: relative;
+    z-index: 3;
+    margin-top: -1px;
+    background: #d7e9f2;
+}
+.page-hero-with-wave .container { padding-top: 2.5rem; }
+.page-section {
+    padding: 3rem 0 4rem;
+    background: linear-gradient(180deg, #d7e9f2 0%, #d7e9f2 40%, #b8dce5 70%, #80b3ba 100%);
+    border-top: 1px solid rgba(128, 179, 186, 0.2);
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+.page-section .section-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #3d5c60;
+    margin-bottom: 0;
+    text-transform: none;
+    -webkit-text-stroke: 0;
+}
+.page-section .section-accent {
+    width: 4rem;
+    height: 5px;
+    background: linear-gradient(90deg, #80b3ba 0%, #5f8d93 100%);
+    border-radius: 3px;
+    margin: 0.5rem auto 1.5rem;
+    box-shadow: 0 2px 8px rgba(61, 92, 96, 0.35);
+}
+.page-card {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(0, 0, 0, 0.06);
+    background: #fff;
+    border: 2px solid rgba(128, 179, 186, 0.25);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.page-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 28px 60px rgba(0, 0, 0, 0.15), 0 8px 24px rgba(128, 179, 186, 0.12);
+    border-color: rgba(128, 179, 186, 0.4);
+}
+.page-card .card-title { color: #3d5c60; font-weight: 700; }
+.page-content-card {
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(0, 0, 0, 0.06);
+    border: 2px solid rgba(128, 179, 186, 0.25);
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+.page-content-card .content-title, .page-content-card h1, .page-content-card h2 { color: #3d5c60; font-weight: 700; }
+
+/* Ankurayan / Anandakendra: primary buttons in teal to match page theme */
+#ankurayans .btn-primary,
+#anandakendras .btn-primary,
+#ashrams .btn-primary,
+#activities .btn-primary,
+.add-ankurayan .btn-primary,
+.add-anandakendra .btn-primary,
+.add-bandhughar .btn-primary,
+.add-activity .btn-primary {
+    background-color: #80b3ba;
+    border-color: #80b3ba;
+    color: #fff;
+}
+#ankurayans .btn-primary:hover,
+#ankurayans .btn-primary:focus,
+#ankurayans .btn-primary:active,
+#anandakendras .btn-primary:hover,
+#anandakendras .btn-primary:focus,
+#anandakendras .btn-primary:active,
+#ashrams .btn-primary:hover,
+#ashrams .btn-primary:focus,
+#ashrams .btn-primary:active,
+#activities .btn-primary:hover,
+#activities .btn-primary:focus,
+#activities .btn-primary:active,
+.add-ankurayan .btn-primary:hover,
+.add-ankurayan .btn-primary:focus,
+.add-ankurayan .btn-primary:active,
+.add-anandakendra .btn-primary:hover,
+.add-anandakendra .btn-primary:focus,
+.add-anandakendra .btn-primary:active,
+.add-bandhughar .btn-primary:hover,
+.add-bandhughar .btn-primary:focus,
+.add-bandhughar .btn-primary:active,
+.add-activity .btn-primary:hover,
+.add-activity .btn-primary:focus,
+.add-activity .btn-primary:active {
+    background-color: #3d5c60 !important;
+    border-color: #3d5c60 !important;
+    color: #fff !important;
+    box-shadow: 0 0 0 0.2rem rgba(128, 179, 186, 0.4);
+    outline: none;
+}
+/* Anandakendra / Ashram / Charity detail pages: all primary buttons in teal */
+.anandakendra-detail .btn-primary,
+.ashram-detail .btn-primary,
+.charity-detail .btn-primary,
+.ankurayan-detail .btn-primary,
+.publication-detail .btn-primary,
+.profile-page .btn-primary,
+.gallery-container .add-activity .btn-primary,
+.gallery-container .add-images .btn-primary {
+    background-color: #80b3ba !important;
+    border-color: #80b3ba !important;
+    color: #fff !important;
+}
+.anandakendra-detail .btn-primary:hover,
+.anandakendra-detail .btn-primary:focus,
+.anandakendra-detail .btn-primary:active,
+.anandakendra-detail .btn-primary.active,
+.ashram-detail .btn-primary:hover,
+.ashram-detail .btn-primary:focus,
+.ashram-detail .btn-primary:active,
+.ashram-detail .btn-primary.active,
+.charity-detail .btn-primary:hover,
+.charity-detail .btn-primary:focus,
+.charity-detail .btn-primary:active,
+.charity-detail .btn-primary.active,
+.ankurayan-detail .btn-primary:hover,
+.ankurayan-detail .btn-primary:focus,
+.ankurayan-detail .btn-primary:active,
+.ankurayan-detail .btn-primary.active,
+.publication-detail .btn-primary:hover,
+.publication-detail .btn-primary:focus,
+.publication-detail .btn-primary:active,
+.publication-detail .btn-primary.active,
+.profile-page .btn-primary:hover,
+.profile-page .btn-primary:focus,
+.profile-page .btn-primary:active,
+.profile-page .btn-primary.active {
+    background-color: #3d5c60 !important;
+    border-color: #3d5c60 !important;
+    color: #fff !important;
+    box-shadow: 0 0 0 0.2rem rgba(128, 179, 186, 0.4) !important;
+    outline: none !important;
+}
+/* Anandakendra detail: style modals to match teal theme */
+.anandakendra-detail .modal-content {
+    border-radius: 16px;
+    border: 2px solid rgba(128, 179, 186, 0.3);
+    box-shadow: 0 20px 60px rgba(61, 92, 96, 0.2);
+    overflow: hidden;
+}
+.anandakendra-detail .modal-header {
+    background: linear-gradient(135deg, #3d5c60 0%, #80b3ba 50%, #80b3ba 100%);
+    color: #fff;
+    border-bottom: 2px solid #80b3ba;
+    padding: 1rem 1.25rem;
+}
+.anandakendra-detail .modal-header .modal-title {
+    font-weight: 700;
+    color: #fff;
+}
+.anandakendra-detail .modal-header .close {
+    color: #fff;
+    opacity: 0.9;
+    text-shadow: none;
+}
+.anandakendra-detail .modal-header .close:hover {
+    opacity: 1;
+    color: #fff;
+}
+.anandakendra-detail .modal-body {
+    padding: 1.25rem 1.5rem;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+.anandakendra-detail .modal-footer {
+    border-top: 1px solid rgba(128, 179, 186, 0.2);
+    padding: 1rem 1.25rem;
+    background: #f8fffe;
+}
+
+/* Anandakendra / Bandhughar (ashram) / Charity / Ankurayan modals: teal styling when modal is moved to body (Bootstrap) */
+.anandakendra-modal .modal-content,
+.ashram-modal .modal-content,
+.charity-modal .modal-content,
+.ankurayan-modal .modal-content {
+    border-radius: 16px;
+    border: 2px solid rgba(128, 179, 186, 0.3);
+    box-shadow: 0 20px 60px rgba(61, 92, 96, 0.2);
+    overflow: hidden;
+}
+.anandakendra-modal .modal-header,
+.ashram-modal .modal-header,
+.charity-modal .modal-header,
+.ankurayan-modal .modal-header {
+    background: linear-gradient(135deg, #3d5c60 0%, #80b3ba 50%, #80b3ba 100%);
+    color: #fff;
+    border-bottom: 2px solid #80b3ba;
+    padding: 1rem 1.25rem;
+}
+.anandakendra-modal .modal-header .modal-title,
+.ashram-modal .modal-header .modal-title,
+.charity-modal .modal-header .modal-title,
+.ankurayan-modal .modal-header .modal-title {
+    font-weight: 700;
+    color: #fff;
+}
+.anandakendra-modal .modal-header .close,
+.ashram-modal .modal-header .close,
+.charity-modal .modal-header .close,
+.ankurayan-modal .modal-header .close {
+    color: #fff;
+    opacity: 0.9;
+    text-shadow: none;
+}
+.anandakendra-modal .modal-header .close:hover,
+.ashram-modal .modal-header .close:hover,
+.charity-modal .modal-header .close:hover,
+.ankurayan-modal .modal-header .close:hover {
+    opacity: 1;
+    color: #fff;
+}
+.anandakendra-modal .modal-body,
+.ashram-modal .modal-body,
+.charity-modal .modal-body,
+.ankurayan-modal .modal-body {
+    padding: 1.25rem 1.5rem;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+.anandakendra-modal .modal-footer,
+.ashram-modal .modal-footer,
+.charity-modal .modal-footer,
+.ankurayan-modal .modal-footer {
+    border-top: 1px solid rgba(128, 179, 186, 0.2);
+    padding: 1rem 1.25rem;
+    background: #f8fffe;
+}
+/* Teal primary buttons inside Anandakendra / Bandhughar / Charity / Ankurayan modals */
+.anandakendra-modal .btn-primary,
+.ashram-modal .btn-primary,
+.charity-modal .btn-primary,
+.ankurayan-modal .btn-primary {
+    background-color: #80b3ba;
+    border-color: #80b3ba;
+    color: #fff;
+}
+.anandakendra-modal .btn-primary:hover,
+.anandakendra-modal .btn-primary:focus,
+.anandakendra-modal .btn-primary:active,
+.anandakendra-modal .btn-primary.active,
+.ashram-modal .btn-primary:hover,
+.ashram-modal .btn-primary:focus,
+.ashram-modal .btn-primary:active,
+.ashram-modal .btn-primary.active,
+.charity-modal .btn-primary:hover,
+.charity-modal .btn-primary:focus,
+.charity-modal .btn-primary:active,
+.charity-modal .btn-primary.active,
+.ankurayan-modal .btn-primary:hover,
+.ankurayan-modal .btn-primary:focus,
+.ankurayan-modal .btn-primary:active,
+.ankurayan-modal .btn-primary.active {
+    background-color: #3d5c60 !important;
+    border-color: #3d5c60 !important;
+    color: #fff !important;
+    box-shadow: 0 0 0 0.2rem rgba(128, 179, 186, 0.4) !important;
+    outline: none !important;
+}
+/* Form inputs in Anandakendra / Charity / Ankurayan modals: teal focus ring */
+.anandakendra-modal .form-control:focus,
+.charity-modal .form-control:focus,
+.ankurayan-modal .form-control:focus {
+    border-color: #80b3ba;
+    box-shadow: 0 0 0 0.2rem rgba(128, 179, 186, 0.2);
+    outline: 0;
+}
+.anandakendra-modal .custom-file-label::after,
+.charity-modal .custom-file-label::after,
+.ankurayan-modal .custom-file-label::after {
+    background-color: #80b3ba;
+    border-color: #80b3ba;
+    color: #fff;
+}
+
+/* ===== Scrollbar – hidden on viewport to remove vertical line on right ===== */
+html, body { scrollbar-width: none !important; -ms-overflow-style: none !important; }
+html::-webkit-scrollbar, body::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }

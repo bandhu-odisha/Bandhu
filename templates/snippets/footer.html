@@ -1,73 +1,66 @@
-<section id="contact" class="p-4 pt-5 text-white" style="background-color: #212529">
+<section id="contact" class="contact-footer-section" data-cta-surface="dark">
     <div class="container">
         <div class="row">
-            <div class="col-md-6">
-                <h3 class="font-weight-bolder border-bottom" >
-                    Our Initiatives
-                </h3>
-                <ul class="nav flex-column py-4" style="font-size: 18px;">
-                    <li class="nav-item pb-1">
-                        <a href="{% url 'ankurayan:ankurayan' %}" class="nav-link">Ankurayan</a>
-                    </li>
-                    <li class="nav-item pb-1">
-                        <a href="{% url 'anandakendra:anandakendra' %}" class="nav-link">Anandakendra</a>
-                    </li>
-                    <li class="nav-item pb-1">
-                        <a href="{% url 'ashram:ashram' %}" class="nav-link">Bandhughar</a>
-                    </li>
-                    <li class="nav-item pb-1">
-                        <a href="{% url 'charitywork:charity_work' %}" class="nav-link">Other Activities</a>
-                    </li>
+            <div class="col-md-6 mb-5 mb-md-0">
+                <h3 class="contact-footer-heading">Our Initiatives</h3>
+                <div class="contact-footer-underline"></div>
+                <ul class="contact-footer-list">
+                    <li><a href="{% url 'ankurayan:ankurayan' %}">Ankurayan</a></li>
+                    <li><a href="{% url 'anandakendra:anandakendra' %}">Anandakendra</a></li>
+                    <li><a href="{% url 'ashram:ashram' %}">Bandhughar</a></li>
+                    <li><a href="{% url 'charitywork:charity_work' %}">Other Activities</a></li>
                 </ul>
-                {% if content.visitors_count and user.is_admin %}
-                <h5 class="font-weight-bolder">Visitors Count</h5>
-                <p>{{ content.visitors_count }}</p>
+                {% if content and content.visitors_count and user.is_admin %}
+                <p class="contact-footer-visitors mt-3 mb-0">Visitors Count: {{ content.visitors_count }}</p>
                 {% endif %}
             </div>
 
             <div class="col-md-6">
-                <h3 class="font-weight-bolder border-bottom">
-                    Contact Us
-                </h3>
-                <div class="pt-4 pb-3">
-                    <h5 class="font-weight-bolder mb-3">Bandhu</h5>
-                    <h6>{{ contact.address }}</h6>
-                </div>
-                <ul class="nav flex-column">
-                    <li class="nav-item pb-1">
-                        <a href="tel:{{ contact.contact_no }}" class="nav-link">
-                            <i class="fas fa-phone-alt border rounded-circle p-2"></i>
-                            {{ contact.contact_no }}
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="mailto:{{ contact.email }}" class="nav-link">
-                            <i class="fas fa-envelope border rounded-circle p-2"></i>
-                            {{ contact.email }}
-                        </a>
-                    </li>
-                </ul>
-                <div class="social-icons my-3 ml-2">
-                    <a href="{{ contact.facebook_link }}" target="_blank">
-                        <i class="fab fa-facebook-square text-white"></i>
+                <h3 class="contact-footer-heading">Contact Us</h3>
+                <div class="contact-footer-underline"></div>
+                {% if contact %}
+                <p class="contact-footer-org-name">Bandhu</p>
+                <p class="contact-footer-address">{{ contact.address }}</p>
+                <div class="contact-footer-contact-list">
+                    {% if contact.contact_no %}
+                    <a href="tel:{{ contact.contact_no }}" class="contact-footer-contact-item">
+                        <span class="contact-footer-icon-wrap"><i class="fas fa-phone-alt"></i></span>
+                        {{ contact.contact_no }}
                     </a>
-                    <a href="{{ contact.twitter_link }}">
-                        <i class="fab fa-twitter text-white"></i>
+                    {% endif %}
+                    {% if contact.email %}
+                    <a href="mailto:{{ contact.email }}" class="contact-footer-contact-item">
+                        <span class="contact-footer-icon-wrap"><i class="fas fa-envelope"></i></span>
+                        {{ contact.email }}
                     </a>
+                    {% endif %}
                 </div>
+                <div class="contact-footer-social mt-4">
+                    {% if contact.facebook_link %}
+                    <a href="{{ contact.facebook_link }}" target="_blank" rel="noopener noreferrer" class="contact-footer-social-link" aria-label="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    {% endif %}
+                    {% if contact.twitter_link %}
+                    <a href="{{ contact.twitter_link }}" target="_blank" rel="noopener noreferrer" class="contact-footer-social-link" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    {% endif %}
+                </div>
+                {% endif %}
             </div>
         </div>
 
-        <hr class="bg-white">
+        <hr class="contact-footer-divider">
         {% now 'Y' as current_year %}
-        <div class="footer text-white text-center clearfix">
-            <div class="float-lg-left pt-1 pb-2 py-lg-0">
+        <div class="contact-footer-bottom text-center">
+            <div class="contact-footer-copy">
                 &copy; <a href="{% url 'home' %}">Bandhu</a> {{ current_year }}, All Rights Reserved.
             </div>
-            <div class="float-lg-right">
-                Designed and Developed by 
-                <a href="https://www.linkedin.com/in/priyansh3133/">Priyansh</a>, 
-                <a href="https://www.linkedin.com/in/heet-gupta-07366b177/">Heet</a> and 
+            <div class="contact-footer-credits">
+                Designed and Developed by
+                <a href="https://www.linkedin.com/in/priyansh3133/">Priyansh</a>,
+                <a href="https://www.linkedin.com/in/heet-gupta-07366b177/">Heet</a> and
                 <a href="https://www.linkedin.com/in/aman-chande-544666170/">Aman</a>.
             </div>
         </div>
