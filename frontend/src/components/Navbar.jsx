@@ -36,6 +36,17 @@ export default function Navbar({ data }) {
   const [supportOpen, setSupportOpen] = useState(false)
   const supportRef = useRef(null)
   const [supportDropdownRect, setSupportDropdownRect] = useState(null)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [drawerMissionOpen, setDrawerMissionOpen] = useState(false)
+  const [drawerSupportOpen, setDrawerSupportOpen] = useState(false)
+  const [drawerNoticeOpen, setDrawerNoticeOpen] = useState(false)
+
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false)
+    setDrawerMissionOpen(false)
+    setDrawerSupportOpen(false)
+    setDrawerNoticeOpen(false)
+  }
 
   useEffect(() => {
     if (initialNotices.length > 0) {
@@ -139,6 +150,20 @@ export default function Navbar({ data }) {
   }, [supportOpen])
 
   useEffect(() => {
+    if (!mobileMenuOpen) return undefined
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    const onKey = (e) => {
+      if (e.key === 'Escape') closeMobileMenu()
+    }
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = prev
+    }
+  }, [mobileMenuOpen])
+
+  useEffect(() => {
     function handleClickOutside(e) {
       const inNoticeTrigger = noticeRef.current?.contains(e.target)
       const inNoticeDropdown = document.querySelector('[data-notice-dropdown]')?.contains(e.target)
@@ -177,6 +202,12 @@ export default function Navbar({ data }) {
   const isolateNoticeWheel = (e) => {
     e.stopPropagation()
   }
+
+  const MOBILE_DRAWER_LINK =
+    'block w-full text-left font-body text-base font-medium text-slate-800 no-underline py-3 px-4 rounded-lg transition-colors hover:bg-slate-50 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#005E66]/30'
+
+  const MOBILE_DRAWER_SUBLINK =
+    'block w-full text-left font-body text-sm font-medium text-slate-600 no-underline py-2.5 pl-8 pr-4 rounded-lg hover:bg-slate-50 hover:text-slate-900'
 
   const NavLinks = () => (
     <>
@@ -360,21 +391,178 @@ export default function Navbar({ data }) {
     </>
   )
 
+  const mobileMenuPanel =
+    mobileMenuOpen &&
+    typeof document !== 'undefined' &&
+    createPortal(
+      <div
+        className="fixed inset-0 z-[190] md:hidden"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Site menu"
+      >
+        <button
+          type="button"
+          className="absolute inset-0 bg-slate-900/40 backdrop-blur-[1px]"
+          aria-label="Close menu"
+          onClick={closeMobileMenu}
+        />
+        <aside
+          id="landing-mobile-menu"
+          className="absolute top-0 left-0 flex h-full w-[min(100%,20rem)] flex-col bg-white shadow-[12px_0_40px_rgba(15,23,42,0.12)] animate-[bandhu-slide-in-left_0.25s_ease-out]"
+        >
+          <div className="flex shrink-0 items-center justify-between gap-3 border-b border-slate-100 px-4 py-3.5">
+            <span className="font-heading text-lg font-bold text-[#005E66]">Menu</span>
+            <button
+              type="button"
+              onClick={closeMobileMenu}
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-600 hover:bg-slate-50"
+              aria-label="Close menu"
+            >
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <nav className="min-h-0 flex-1 overflow-y-auto overscroll-contain py-2">
+            <a href={urls.home || '#top'} className={MOBILE_DRAWER_LINK} onClick={closeMobileMenu}>
+              Home
+            </a>
+            <a href={urls.people || '/people/'} className={MOBILE_DRAWER_LINK} onClick={closeMobileMenu}>
+              People
+            </a>
+            <button
+              type="button"
+              className={`${MOBILE_DRAWER_LINK} flex items-center justify-between border-0 bg-transparent cursor-pointer`}
+              aria-expanded={drawerMissionOpen}
+              onClick={() => setDrawerMissionOpen((o) => !o)}
+            >
+              Our Mission
+              <ChevronDown open={drawerMissionOpen} />
+            </button>
+            {drawerMissionOpen && (
+              <ul className="pb-1">
+                {missionPillars.map((pillar) => (
+                  <li key={pillar.label}>
+                    <a href={pillar.href} className={MOBILE_DRAWER_SUBLINK} onClick={closeMobileMenu}>
+                      {pillar.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <button
+              type="button"
+              className={`${MOBILE_DRAWER_LINK} flex items-center justify-between border-0 bg-transparent cursor-pointer`}
+              aria-expanded={drawerSupportOpen}
+              onClick={() => setDrawerSupportOpen((o) => !o)}
+            >
+              Initiatives
+              <ChevronDown open={drawerSupportOpen} />
+            </button>
+            {drawerSupportOpen && (
+              <ul className="pb-1">
+                {initiativesLinks.map((link) => (
+                  <li key={link.label}>
+                    <a href={link.href} className={MOBILE_DRAWER_SUBLINK} onClick={closeMobileMenu}>
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <a href="#contact" className={MOBILE_DRAWER_LINK} onClick={closeMobileMenu}>
+              Contact
+            </a>
+            <button
+              type="button"
+              className={`${MOBILE_DRAWER_LINK} flex items-center justify-between border-0 bg-transparent cursor-pointer`}
+              aria-expanded={drawerNoticeOpen}
+              onClick={() => setDrawerNoticeOpen((o) => !o)}
+            >
+              Notice Board
+              <ChevronDown open={drawerNoticeOpen} />
+            </button>
+            {drawerNoticeOpen && (
+              <div className="px-2 pb-2">
+                {noticesLoading ? (
+                  <p className="px-4 py-2 text-sm text-slate-500 font-body">Loading…</p>
+                ) : notices.length === 0 ? (
+                  <p className="px-4 py-2 text-sm text-slate-500 font-body">No notices at the moment.</p>
+                ) : (
+                  <ul className="max-h-64 overflow-y-auto overscroll-contain rounded-lg border border-slate-100">
+                    {notices.map((notice) => (
+                      <li key={notice.id} className="border-b border-slate-100 last:border-0">
+                        <a
+                          href={notice.link || '#'}
+                          className="block px-4 py-3 text-left hover:bg-slate-50"
+                          onClick={closeMobileMenu}
+                          target={notice.link && notice.link !== '#' ? '_blank' : undefined}
+                          rel={notice.link && notice.link !== '#' ? 'noopener noreferrer' : undefined}
+                        >
+                          <span className="font-body font-semibold text-sm text-slate-800">{notice.title}</span>
+                          {notice.description && (
+                            <p className="text-xs text-slate-500 mt-1 line-clamp-2 font-body">
+                              {truncate(notice.description, 100)}
+                            </p>
+                          )}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
+            {user.is_authenticated && (
+              <a href="/profile/" className={MOBILE_DRAWER_LINK} onClick={closeMobileMenu}>
+                Profile
+              </a>
+            )}
+          </nav>
+        </aside>
+        <style>{`
+          @keyframes bandhu-slide-in-left {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+          }
+        `}</style>
+      </div>,
+      document.body
+    )
+
   return (
     <nav className="w-full bg-white">
       <div className="max-w-7xl mx-auto w-full px-3 sm:px-5 lg:px-8 py-2.5 sm:py-3">
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 md:flex-nowrap md:gap-6">
+        <div className="flex items-center gap-2 sm:gap-3 md:gap-6">
           <CurrentUpdates data={data} inline />
 
-          <div className="order-3 w-full min-w-0 md:order-none md:flex-1 md:flex md:justify-center">
-            <div className="inline-flex max-w-full items-center rounded-full border border-slate-200/90 bg-white px-3 sm:px-4 py-1.5 sm:py-2">
-              <div className="flex min-w-0 items-center justify-start gap-1.5 overflow-x-auto scrollbar-hide sm:justify-center sm:gap-3 md:gap-4 lg:gap-5 xl:gap-6">
+          <div className="hidden md:flex flex-1 min-w-0 justify-center">
+            <div className="inline-flex max-w-full items-center rounded-full border border-slate-200/90 bg-white px-4 py-2">
+              <div className="flex min-w-0 items-center justify-center gap-4 lg:gap-5 xl:gap-6">
                 <NavLinks />
               </div>
             </div>
           </div>
 
-          <div className="ml-auto shrink-0 md:ml-0">
+          <div className="ml-auto flex shrink-0 items-center gap-2">
+            <button
+              type="button"
+              className="md:hidden flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#005E66]/30"
+              aria-expanded={mobileMenuOpen}
+              aria-controls="landing-mobile-menu"
+              aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+              onClick={() => (mobileMenuOpen ? closeMobileMenu() : setMobileMenuOpen(true))}
+            >
+              {mobileMenuOpen ? (
+                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
+            </button>
             {user.is_authenticated ? (
               <a
                 href="/accounts/logout/"
@@ -396,6 +584,7 @@ export default function Navbar({ data }) {
           </div>
         </div>
       </div>
+      {mobileMenuPanel}
     </nav>
   )
 }

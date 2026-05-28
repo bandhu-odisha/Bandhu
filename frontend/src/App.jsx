@@ -89,10 +89,13 @@ export default function App() {
     <div className="min-h-screen bg-white">
       <header className="fixed top-0 left-0 right-0 z-50 w-full">
         {navHiddenByScroll && !showNav && (
-          <div
-            className="fixed top-0 left-0 right-0 z-[60] h-12 bg-transparent"
-            aria-hidden
+          <button
+            type="button"
+            className="fixed top-0 left-0 right-0 z-[60] h-14 sm:h-12 bg-transparent touch-manipulation cursor-pointer"
+            aria-label="Show navigation"
             onMouseEnter={() => setPeekNav(true)}
+            onFocus={() => setPeekNav(true)}
+            onClick={() => setPeekNav(true)}
           />
         )}
         <div

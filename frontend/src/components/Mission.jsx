@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { CTA_PILL_CLASS } from '../cta'
+import { useMediaQuery } from '../useMediaQuery'
 
 const MISSION_STATEMENT = 'We work to strengthen the self-worth and dignity of people across villages and cities in India, and to support them as equal partners, so they can draw on their own strengths and potential to meet the challenges they face.'
 
@@ -49,7 +50,15 @@ function concisePillarText(tagline, desc) {
   return normalized.slice(0, PILLAR_TEXT_MAX_LENGTH).trim().replace(/\s+\S*$/, '')
 }
 
+/** Sanskar mobile excerpt — end at “…successfully.” */
+function truncateAfterSuccessfully(text) {
+  if (!text || typeof text !== 'string') return text
+  const match = text.match(/^(.*?\bsuccessfully\.)/is)
+  return match ? match[1].trim() : text
+}
+
 export default function Mission({ data }) {
+  const isMobile = useMediaQuery('(max-width: 767px)')
   const mission = data?.mission
   const urls = data?.urls || {}
 
@@ -130,6 +139,13 @@ export default function Mission({ data }) {
                 swabalamban: '/static/img/pimg2.jpg',
               }
               const imageSrc = pillar.image || fallbackImages[pillar.id] || null
+              const sanskarFullText = isSanskar
+                ? [summaryLine, detailsLine].filter(Boolean).join(' ').trim()
+                : ''
+              const sanskarMobileText =
+                isSanskar && sanskarFullText
+                  ? truncateAfterSuccessfully(sanskarFullText)
+                  : ''
 
               return (
                 <a
@@ -139,24 +155,38 @@ export default function Mission({ data }) {
                     idx < pillars.length - 1 ? 'border-b border-slate-400/75' : ''
                   }`}
                 >
-                  <div className={isSwaraj ? 'order-1 md:order-2' : 'order-2 md:order-1'}>
+                  <div className={isSwaraj ? 'order-2 md:order-2' : 'order-2 md:order-1'}>
                     <h4 className="font-heading font-bold text-3xl text-[#0b3540] mb-2 no-underline">
                       {pillar.title}
                     </h4>
-                    <p className="font-body text-lg text-[#1c3f49] font-semibold leading-snug mb-1.5 no-underline">
-                      {summaryLine}
-                    </p>
-                    {detailsLine && (
-                      <p className="font-body text-lg text-[#2d4c55] leading-relaxed max-w-[60ch] line-clamp-3 no-underline">
-                        {detailsLine}
+                    {isSanskar && isMobile ? (
+                      <p className="font-body text-lg font-normal text-[#2d4c55] leading-snug mb-1.5 no-underline">
+                        {sanskarMobileText}
                       </p>
+                    ) : (
+                      <>
+                        <p
+                          className={`font-body text-lg leading-snug mb-1.5 no-underline ${
+                            isSanskar
+                              ? 'font-normal text-[#2d4c55]'
+                              : 'font-semibold text-[#1c3f49]'
+                          }`}
+                        >
+                          {summaryLine}
+                        </p>
+                        {detailsLine && (
+                          <p className="font-body text-lg font-normal text-[#2d4c55] leading-relaxed max-w-[60ch] line-clamp-3 no-underline">
+                            {detailsLine}
+                          </p>
+                        )}
+                      </>
                     )}
                     <span className="mt-3 inline-block font-body text-sm font-semibold tracking-wide uppercase text-[#0b3540] underline underline-offset-[3px] decoration-[#0b3540]/80 group-hover:text-[#005E66] group-hover:decoration-[#005E66]">
                       Explore →
                     </span>
                   </div>
 
-                  <div className={isSwaraj ? 'order-2 md:order-1' : 'order-1 md:order-2'}>
+                  <div className={isSwaraj ? 'order-1 md:order-1' : 'order-1 md:order-2'}>
                     <div className="aspect-[16/9] overflow-hidden rounded-2xl bg-white/80">
                       {imageSrc ? (
                         <img

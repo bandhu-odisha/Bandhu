@@ -1,17 +1,25 @@
+import { createPortal } from 'react-dom'
 import { useCtaSurfaceContrast } from '../useCtaSurfaceContrast'
 import { ctaPillClass } from '../cta'
 
 export default function BeABandhuFab({ href, className = '' }) {
   const onDarkSurface = useCtaSurfaceContrast()
 
-  return (
-    <a
-      href={href}
-      className={`fixed bottom-5 right-5 z-[160] sm:bottom-7 sm:right-7 ${ctaPillClass(onDarkSurface)} ${className}`.trim()}
-      style={{ marginBottom: 'max(0.25rem, env(safe-area-inset-bottom, 0px))' }}
-      aria-label="Be a Bandhu — sign up"
+  const fab = (
+    <div
+      className="fixed z-[185] bottom-0 left-0 right-0 flex justify-center px-4 pb-4 pointer-events-none sm:left-auto sm:right-7 sm:bottom-7 sm:block sm:px-0 sm:pb-0"
+      style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom, 0px))' }}
     >
-      Be a Bandhu
-    </a>
+      <a
+        href={href}
+        className={`pointer-events-auto touch-manipulation max-sm:w-full max-sm:max-w-sm max-sm:justify-center ${ctaPillClass(onDarkSurface)} ${className}`.trim()}
+        aria-label="Be a Bandhu — sign up"
+      >
+        Be a Bandhu
+      </a>
+    </div>
   )
+
+  if (typeof document === 'undefined') return fab
+  return createPortal(fab, document.body)
 }

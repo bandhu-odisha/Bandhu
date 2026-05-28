@@ -80,22 +80,22 @@ export default function About({ data }) {
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <h2 className="section-title text-center mb-8 sm:mb-10">About Us</h2>
 
-        <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 xl:gap-10 items-stretch">
-          <div className="order-2 lg:order-1 flex min-h-0 lg:-ml-2 xl:-ml-4 2xl:-ml-5">
-            <div className="rounded-2xl bg-white w-full py-8 sm:py-12 pl-0 pr-4 sm:pr-6 lg:pr-8 text-left lg:h-full lg:flex lg:flex-col lg:justify-center">
+        <div className="grid grid-cols-1 justify-items-center gap-6 lg:grid-cols-2 lg:justify-items-stretch lg:gap-8 xl:gap-10 items-stretch">
+          <div className="order-2 flex w-full flex-col items-center lg:order-1 lg:items-start lg:-ml-2 xl:-ml-4 2xl:-ml-5">
+            <div className="rounded-2xl bg-white w-full py-8 sm:py-12 px-4 sm:px-5 max-lg:text-center lg:h-full lg:flex lg:flex-col lg:justify-center lg:px-0 lg:pl-0 lg:pr-8 lg:text-left lg:items-start">
               <p
-                className="font-body font-bold text-[#0b3540] text-lg sm:text-xl md:text-[1.28rem] lg:text-[1.34rem] leading-snug tracking-tight mb-6 sm:mb-7 [&_a]:text-[#005E66] [&_a]:underline"
+                className="w-full font-body font-bold text-[#0b3540] text-lg sm:text-xl md:text-[1.28rem] lg:text-[1.34rem] leading-snug tracking-tight mb-6 sm:mb-7 max-lg:text-balance max-lg:leading-[1.45] lg:text-left [&_a]:text-[#005E66] [&_a]:underline"
                 dangerouslySetInnerHTML={{ __html: about.tagline }}
               />
               <p
-                className="font-body font-normal text-[#3d5c66] text-base sm:text-lg md:text-[1.2rem] lg:text-[1.26rem] leading-relaxed w-full [&_a]:text-[#005E66] [&_a]:underline"
+                className="w-full font-body font-normal text-[#3d5c66] text-base sm:text-lg md:text-[1.2rem] lg:text-[1.26rem] max-lg:text-justify max-lg:leading-[1.85] max-lg:[text-align-last:center] lg:text-left lg:leading-relaxed [&_a]:text-[#005E66] [&_a]:underline"
                 dangerouslySetInnerHTML={{ __html: about.desc }}
               />
             </div>
           </div>
 
-          <div className="order-1 lg:order-2 w-full min-h-0 flex flex-col lg:h-full">
-            <figure className="m-0 flex flex-col flex-1 min-h-0 w-full">
+          <div className="order-1 flex w-full max-w-lg flex-col items-center min-h-0 lg:order-2 lg:max-w-none lg:items-stretch lg:h-full">
+            <figure className="m-0 flex w-full flex-col flex-1 min-h-0">
               <button
                 type="button"
                 className="relative w-full aspect-[5/4] sm:aspect-[4/3] min-h-[13rem] lg:aspect-auto lg:flex-1 lg:min-h-[12rem] rounded-2xl overflow-hidden border border-black/[0.08] bg-slate-100 cursor-pointer p-0 text-left"
@@ -118,12 +118,12 @@ export default function About({ data }) {
                   />
                 ))}
               </button>
-              <figcaption className="mt-4 pl-0 pr-1 shrink-0">
-                <p className="font-body text-sm sm:text-base text-slate-600 leading-snug text-left min-h-[3rem] sm:min-h-[3.25rem]">
+              <figcaption className="mt-4 w-full shrink-0 text-center lg:text-left">
+                <p className="font-body text-sm sm:text-base text-slate-600 leading-snug min-h-[3rem] sm:min-h-[3.25rem] mx-auto max-w-md lg:mx-0 lg:max-w-none">
                   {slides[slideIndex].caption}
                 </p>
                 <div
-                  className="flex justify-start gap-1.5 mt-3"
+                  className="flex justify-center gap-1.5 mt-3 lg:justify-start"
                   role="tablist"
                   aria-label="Photo carousel position"
                 >

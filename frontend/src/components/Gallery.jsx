@@ -104,27 +104,29 @@ export default function Gallery({ data }) {
             {displayTaglineOneLine}
           </p>
           {tags.length > 1 && (
-            <div
-              className="flex flex-wrap justify-center gap-x-0.5 gap-y-0"
-              role="tablist"
-              aria-label="Gallery categories"
-            >
-              {tags.map((tag) => (
-                <button
-                  key={tag}
-                  type="button"
-                  role="tab"
-                  aria-selected={filter === tag}
-                  onClick={() => setFilter(tag)}
-                  className={`font-body text-base px-4 py-2.5 transition-colors duration-200 bg-transparent rounded-none outline-none shadow-none border-0 border-b-2 ${
-                    filter === tag
-                      ? 'border-b-[#005E66] font-semibold text-[#0b3540]'
-                      : 'border-b-transparent text-slate-700 hover:text-slate-900'
-                  }`}
-                >
-                  {tag === 'all' ? 'All' : titleCase(tag)}
-                </button>
-              ))}
+            <div className="w-full max-w-full -mx-4 px-4 sm:mx-0 sm:px-0">
+              <div
+                className="flex flex-nowrap items-center justify-start gap-x-0 overflow-x-auto scrollbar-hide scroll-smooth sm:justify-center sm:overflow-visible"
+                role="tablist"
+                aria-label="Gallery categories"
+              >
+                {tags.map((tag) => (
+                  <button
+                    key={tag}
+                    type="button"
+                    role="tab"
+                    aria-selected={filter === tag}
+                    onClick={() => setFilter(tag)}
+                    className={`shrink-0 font-body text-sm sm:text-base px-3 sm:px-4 py-2.5 transition-colors duration-200 bg-transparent rounded-none outline-none shadow-none border-0 border-b-2 whitespace-nowrap touch-manipulation ${
+                      filter === tag
+                        ? 'border-b-[#005E66] font-semibold text-[#0b3540]'
+                        : 'border-b-transparent text-slate-700 hover:text-slate-900'
+                    }`}
+                  >
+                    {tag === 'all' ? 'All' : titleCase(tag)}
+                  </button>
+                ))}
+              </div>
             </div>
           )}
         </div>

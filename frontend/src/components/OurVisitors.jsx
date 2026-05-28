@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect, useCallback } from 'react'
 import { createPortal } from 'react-dom'
+import { useMediaQuery } from '../useMediaQuery'
 
-const CARDS_PER_VIEW = 2
 const AUTO_INTERVAL_MS = 5000
 
 function chunkVisitors(list, size) {
@@ -57,8 +57,13 @@ export default function OurVisitors({ data }) {
   const [selected, setSelected] = useState(null)
   const [page, setPage] = useState(0)
   const [paused, setPaused] = useState(false)
+  const isWide = useMediaQuery('(min-width: 640px)')
+  const cardsPerView = isWide ? 2 : 1
 
-  const pages = useMemo(() => chunkVisitors(visitors, CARDS_PER_VIEW), [visitors])
+  const pages = useMemo(
+    () => chunkVisitors(visitors, cardsPerView),
+    [visitors, cardsPerView]
+  )
   const pageCount = pages.length
   const slidePercent = pageCount > 0 ? 100 / pageCount : 100
 
@@ -68,7 +73,7 @@ export default function OurVisitors({ data }) {
 
   useEffect(() => {
     setPage(0)
-  }, [visitors.length])
+  }, [visitors.length, cardsPerView])
 
   useEffect(() => {
     if (pageCount <= 1 || paused) return undefined
@@ -111,7 +116,7 @@ export default function OurVisitors({ data }) {
             {pages.map((pair, pageIndex) => (
               <div
                 key={pageIndex}
-                className="grid grid-cols-2 gap-3 sm:gap-6 box-border bg-white"
+                className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 box-border bg-white"
                 style={{
                   flex: `0 0 ${slidePercent}%`,
                   width: `${slidePercent}%`,
