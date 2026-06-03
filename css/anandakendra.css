@@ -61,7 +61,9 @@
 .angular.page-angular.angular-anandakendra .top-angle:before {
     background: #ffffff !important;
 }
-.angular-anandakendra + .pillar-overlay-cards {
+.angular-anandakendra + .pillar-overlay-cards,
+.angular-anandakendra + .anandakendra-detail #about.pillar-overlay-cards,
+body.anandakendra-detail-page #about.pillar-overlay-cards {
     margin-top: -280px !important;
 }
 .pillar-overlay-cards {
@@ -79,35 +81,7 @@
     .pillar-overlay-cards .row > .col-lg-4 { flex: 0 0 30%; max-width: 30%; }
     .pillar-overlay-cards .row > .col-lg-8 { flex: 0 0 70%; max-width: 70%; }
 }
-/* Detail: narrower photo column, wider text card (25% / 75% at lg+); photo flush left */
-@media (min-width: 992px) {
-    .anandakendra-detail .pillar-overlay-cards .row > .col-lg-4 {
-        flex: 0 0 25%;
-        max-width: 25%;
-    }
-    .anandakendra-detail .pillar-overlay-cards .row > .col-lg-8 {
-        flex: 0 0 75%;
-        max-width: 75%;
-    }
-}
-.anandakendra-detail .pillar-overlay-cards .row > [class*="col-"]:first-child {
-    padding-left: 0;
-}
-.anandakendra-detail .pillar-overlay-cards .pillar-overlay-card--text {
-    width: 100%;
-    max-width: none;
-    box-sizing: border-box;
-    padding: 2.25rem 2.5rem;
-}
-@media (max-width: 767.98px) {
-    .anandakendra-detail .pillar-overlay-cards .pillar-overlay-card--text {
-        padding: 1.75rem 1.5rem;
-    }
-}
-.anandakendra-detail .pillar-overlay-cards .pillar-overlay-card--image {
-    width: 100% !important;
-    max-width: 100% !important;
-}
+/* Detail about cards use same #about geometry as list (30/70, 92% image) — see rules below */
 .pillar-overlay-cards .pillar-overlay-card {
     background: #ffffff;
     border-radius: 12px;
@@ -198,7 +172,7 @@
     color: #1e3a38;
     margin-bottom: 1rem;
     line-height: 1.5;
-    font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 #about .page-desc-horizontal {
     font-size: 1.05rem;
@@ -207,7 +181,7 @@
     font-weight: 450;
     max-width: none;
     width: 100%;
-    font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 #about .page-desc-horizontal p {
     margin-bottom: 1rem;
@@ -367,7 +341,7 @@ section#anandakendras.page-section {
     border-radius: 16px !important;
     overflow: hidden;
     box-shadow: 0 8px 24px rgba(61, 92, 96, 0.12) !important;
-    font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 .anandakendra-detail #activities .activity-card:hover {
@@ -527,7 +501,7 @@ body.anandakendra-detail-page .navbar .navbar-nav a.nav-button.btn:active {
     font-weight: 700;
     line-height: 1.3;
     margin-bottom: 0.5rem;
-    font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 .anandakendra-detail #about .page-content-card .title + p,
 .anandakendra-detail #about .page-content-card .card-body > p {
@@ -536,7 +510,7 @@ body.anandakendra-detail-page .navbar .navbar-nav a.nav-button.btn:active {
     line-height: 1.55;
     font-weight: 450;
     margin-bottom: 0;
-    font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 .anandakendra-detail #about .page-content-card .content-title {
     color: #3d5c60 !important;
@@ -544,7 +518,7 @@ body.anandakendra-detail-page .navbar .navbar-nav a.nav-button.btn:active {
     font-weight: 700;
     letter-spacing: 0.02em;
     margin-bottom: 0.5rem;
-    font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 .anandakendra-detail #about .page-content-card .content-title + p {
     color: #475569;
@@ -760,7 +734,7 @@ body.anandakendra-detail-page #gallery .gallery-tagline-text {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    overflow: hidden;
+    overflow: visible;
 }
 #about.pillar-overlay-cards .pillar-desc-preview {
     display: -webkit-box;
@@ -776,7 +750,7 @@ body.anandakendra-detail-page #gallery .gallery-tagline-text {
     border: none;
     padding: 0;
     color: #2f4d52;
-    font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 0.96rem;
     font-style: italic;
     font-weight: 700;
@@ -790,16 +764,122 @@ body.anandakendra-detail-page #gallery .gallery-tagline-text {
 #about.pillar-overlay-cards .anandakendra-card-actions {
     margin-top: 0.75rem;
     display: flex;
+    flex-wrap: nowrap;
     align-items: center;
     justify-content: space-between;
     gap: 0.75rem;
+}
+#about.pillar-overlay-cards .anandakendra-card-footer {
+    margin-top: auto;
+    width: 100%;
+    overflow: visible;
+}
+#about.pillar-overlay-cards .anandakendra-card-actions-end {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+/* Caption in text-card footer (detail pages; list page uses .anandakendra-image-caption under photo) */
+#about.pillar-overlay-cards .anandakendra-card-footer .anandakendra-text-caption,
+body.anandakendra-detail-page #about.pillar-overlay-cards .anandakendra-card-footer .anandakendra-text-caption {
+    display: inline-grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    justify-items: end;
+    align-items: center;
+    margin-left: auto;
+    flex: 0 0 auto;
+    max-width: none;
+    text-align: right;
+}
+#about.pillar-overlay-cards .anandakendra-card-footer .anandakendra-text-caption .caption-line,
+body.anandakendra-detail-page #about.pillar-overlay-cards .anandakendra-card-footer .anandakendra-text-caption .caption-line {
+    grid-area: 1 / 1;
+    position: relative;
+    margin: 0;
+    width: max-content;
+    max-width: none;
+    text-align: right;
+    white-space: nowrap;
+    overflow: visible;
+    opacity: 0;
+    animation: anandakendraCaptionSwap 8s ease-in-out infinite;
+}
+#about.pillar-overlay-cards .anandakendra-card-footer .anandakendra-text-caption .caption-en,
+body.anandakendra-detail-page #about.pillar-overlay-cards .anandakendra-card-footer .anandakendra-text-caption .caption-en {
+    color: #2f6f75;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    font-style: italic;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+}
+#about.pillar-overlay-cards .anandakendra-card-footer .anandakendra-text-caption .caption-or,
+body.anandakendra-detail-page #about.pillar-overlay-cards .anandakendra-card-footer .anandakendra-text-caption .caption-or {
+    color: #2f6f75;
+    font-family: 'Noto Sans Oriya', 'Noto Sans Odia', 'Kohinoor Odia', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    line-height: 1.2;
+    animation-delay: 4s;
+}
+
+/* List page only: rotating caption under image card */
+body.anandakendra-list-page #about.pillar-overlay-cards .anandakendra-image-caption {
+    display: inline-grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    justify-items: center;
+    align-items: center;
+    width: 92%;
+    max-width: 92%;
+    margin: 0.75rem auto 0;
+    text-align: center;
+}
+body.anandakendra-list-page #about.pillar-overlay-cards .anandakendra-image-caption .caption-line {
+    grid-area: 1 / 1;
+    position: relative;
+    margin: 0 auto;
+    width: max-content;
+    max-width: 100%;
+    text-align: center;
+    white-space: normal;
+    overflow: visible;
+    opacity: 0;
+    animation: anandakendraCaptionSwap 8s ease-in-out infinite;
+}
+body.anandakendra-list-page #about.pillar-overlay-cards .anandakendra-image-caption .caption-en {
+    color: #2f6f75;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    font-style: italic;
+    line-height: 1.35;
+    letter-spacing: 0.01em;
+}
+body.anandakendra-list-page #about.pillar-overlay-cards .anandakendra-image-caption .caption-or {
+    color: #2f6f75;
+    font-family: 'Noto Sans Oriya', 'Noto Sans Odia', 'Kohinoor Odia', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    line-height: 1.35;
+    animation-delay: 4s;
+}
+#about.pillar-overlay-cards .anandakendra-card-actions-end .anandakendra-read-more {
+    margin-top: 0;
+    align-self: flex-end;
+    flex-shrink: 0;
 }
 #about.pillar-overlay-cards .anandakendra-back-link {
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
     color: #3d5c60;
-    font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 0.92rem;
     font-weight: 600;
     text-decoration: none;
@@ -809,45 +889,9 @@ body.anandakendra-detail-page #gallery .gallery-tagline-text {
     text-decoration: underline;
 }
 
-/* Caption below Anandakendra photo card (styled similar to Sanskar treatment) */
-#about.pillar-overlay-cards .anandakendra-image-caption {
-    margin-top: 0.95rem;
-    text-align: center;
-    min-height: 4.2rem;
-    position: relative;
-}
-#about.pillar-overlay-cards .anandakendra-image-caption .caption-line {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    margin: 0;
-    width: 100%;
-    text-align: center;
-    opacity: 0;
-    transform: translateY(6px);
-    animation: anandakendraCaptionSwap 8s ease-in-out infinite;
-}
-#about.pillar-overlay-cards .anandakendra-image-caption .caption-en {
-    color: #2f6f75;
-    font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    font-size: 1.05rem;
-    font-weight: 600;
-    font-style: italic;
-    line-height: 1.22;
-    letter-spacing: 0.01em;
-}
-#about.pillar-overlay-cards .anandakendra-image-caption .caption-or {
-    color: #2f6f75;
-    font-family: 'Noto Sans Oriya', 'Noto Sans Odia', 'Kohinoor Odia', 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    font-size: 1.1rem;
-    font-weight: 600;
-    line-height: 1.18;
-    animation-delay: 4s;
-}
 @keyframes anandakendraCaptionSwap {
-    0%, 44% { opacity: 1; transform: translateY(0); }
-    49%, 100% { opacity: 0; transform: translateY(6px); }
+    0%, 44% { opacity: 1; }
+    49%, 100% { opacity: 0; }
 }
 /* Read-more modal styling (original layout / typography — no custom alignment or full-bleed rules) */
 .anandakendra-readmore-modal .modal-dialog {
@@ -869,7 +913,7 @@ body.anandakendra-detail-page #gallery .gallery-tagline-text {
 }
 .anandakendra-readmore-modal .modal-title {
     color: #ffffff;
-    font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 1.3rem;
     font-weight: 700;
     letter-spacing: 0.01em;
@@ -884,7 +928,7 @@ body.anandakendra-detail-page #gallery .gallery-tagline-text {
     background: linear-gradient(180deg, #f7fbfc 0%, #ffffff 22%, #fcfdfd 100%);
 }
 .anandakendra-readmore-modal .readmore-content {
-    font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 1.01rem;
     line-height: 1.82;
     letter-spacing: 0.01em;
@@ -907,7 +951,7 @@ body.anandakendra-detail-page .anandakendra-modal .modal-header {
     padding: 1rem 1.25rem;
 }
 body.anandakendra-detail-page .anandakendra-modal .modal-header .modal-title {
-    font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 700;
     font-size: 1.1rem;
     color: #fff !important;
@@ -933,7 +977,7 @@ body.anandakendra-detail-page .anandakendra-modal .custom-file-label::after {
     background-color: #0b3540 !important;
     border-color: #0b3540 !important;
     color: #fff !important;
-    font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 700;
     border-radius: 0 9999px 9999px 0 !important;
 }
@@ -943,7 +987,7 @@ body.anandakendra-detail-page .anandakendra-modal .custom-file-label::after:hove
 }
 body.anandakendra-detail-page .anandakendra-modal .custom-file-label,
 body.anandakendra-detail-page .anandakendra-modal .custom-file-input {
-    font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 body.anandakendra-detail-page .anandakendra-modal .anandakendra-custom-file .custom-file-label {
     border-radius: 9999px;
@@ -955,7 +999,7 @@ body.anandakendra-detail-page .anandakendra-modal .anandakendra-custom-file .cus
 body.anandakendra-detail-page .anandakendra-upload-modal .anandakendra-upload-label {
     display: block;
     margin-bottom: 0.5rem;
-    font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 0.875rem;
     font-weight: 600;
     color: #0b3540;
@@ -968,7 +1012,7 @@ body.anandakendra-detail-page .anandakendra-modal .custom-file-input:focus ~ .cu
 
 /* Shared admin pill — about card, gallery upload, modal actions */
 body.anandakendra-detail-page .anandakendra-admin-pill.btn.btn-primary {
-    font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.04em;
@@ -1008,7 +1052,7 @@ body.bandhughar-detail-page .anandakendra-modal .modal-header .modal-title,
 body.bandhughar-detail-page .anandakendra-readmore-modal .modal-header .modal-title,
 body.bandhughar-detail-page .ashram-modal .modal-header .modal-title {
     color: #fff !important;
-    font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 700;
 }
 body.bandhughar-detail-page .anandakendra-modal .modal-body,
@@ -1021,7 +1065,7 @@ body.bandhughar-detail-page .ashram-modal .btn-primary {
     border-color: #005E66 !important;
     color: #fff !important;
     border-radius: 10px !important;
-    font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 600 !important;
     opacity: 1 !important;
     cursor: pointer !important;
@@ -1053,7 +1097,7 @@ body.bandhughar-detail-page .ashram-modal .form-control:focus {
 }
 /* Admin trigger pills on about card — match Anandakendra detail */
 body.bandhughar-detail-page .bandhughar-detail-admin-actions .btn.btn-primary {
-    font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.06em;
@@ -1083,7 +1127,7 @@ body.bandhughar-detail-page .ashram-detail .btn.btn-primary {
     border-color: #005E66 !important;
     color: #fff !important;
     border-radius: 10px !important;
-    font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 600 !important;
     box-shadow: none !important;
     opacity: 1 !important;
@@ -1158,7 +1202,7 @@ body.anandakendra-detail-page .anandakendra-detail-admin-actions .anandakendra-a
 body.anandakendra-detail-page .gallery-actions .anandakendra-admin-buttons .btn.btn-primary {
     position: relative;
     margin: 0 !important;
-    font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.04em;
@@ -1208,7 +1252,7 @@ body.anandakendra-detail-page #addToGallery .modal-header {
     color: #fff !important;
 }
 body.anandakendra-detail-page #addToGallery .modal-title {
-    font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 700 !important;
     font-size: 1.1rem !important;
     color: #fff !important;
@@ -1219,7 +1263,7 @@ body.anandakendra-detail-page #addToGallery .modal-body {
 }
 body.anandakendra-detail-page #addToGallery .modal-body .btn.btn-primary,
 body.anandakendra-detail-page #addToGallery .anandakendra-file-picker-browse.btn.btn-primary {
-    font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.04em;
@@ -1271,7 +1315,7 @@ body.anandakendra-detail-page #addToGallery .anandakendra-file-picker-text {
     border-radius: 0.5rem;
     background: #fff;
     color: #64748b;
-    font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 0.875rem;
     line-height: 1.4;
     overflow: hidden;
@@ -1323,4 +1367,156 @@ body.bandhughar-detail-page.modal-open .modal-backdrop.show {
 .anandakendra-detail #activities .section-accent,
 .anandakendra-detail #events .section-accent {
     background: linear-gradient(90deg, #005E66 0%, #006A73 100%) !important;
+}
+
+/* Detail page: pull gallery closer to about / activities */
+body.anandakendra-detail-page .anandakendra-detail-gallery {
+    margin-top: -2.5rem;
+    position: relative;
+    z-index: 2;
+    background: #ffffff !important;
+}
+body.anandakendra-detail-page .anandakendra-detail-gallery__inner {
+    padding: 2.5rem 0 3.75rem;
+    background: #ffffff !important;
+}
+body.anandakendra-detail-page #gallery,
+body.anandakendra-detail-page #gallery .container,
+body.anandakendra-detail-page #gallery .gallery-container,
+body.anandakendra-detail-page #gallery .gallery-scroll-track,
+body.anandakendra-detail-page #gallery .gallery-scroll-row,
+body.anandakendra-detail-page #gallery .gallery-scroll-card,
+body.anandakendra-detail-page #gallery .gallery-scroll-card-link {
+    background: #ffffff !important;
+    background-image: none !important;
+}
+body.anandakendra-detail-page #gallery .gallery-scroll-track {
+    padding: 0 !important;
+    border-radius: 0 !important;
+}
+body.anandakendra-detail-page #gallery .gallery-scroll-card-link {
+    box-shadow: none !important;
+}
+body.anandakendra-detail-page #gallery .gallery-scroll-card-link:hover {
+    box-shadow: none !important;
+    transform: translateY(-2px);
+}
+body.anandakendra-detail-page #gallery .gallery-scroll-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    background: #ffffff;
+}
+/* Detail gallery: centre a single photo */
+body.anandakendra-detail-page #gallery .gallery-scroll-track--single {
+    display: flex;
+    justify-content: center;
+    overflow-x: hidden;
+}
+body.anandakendra-detail-page #gallery .gallery-scroll-row--single {
+    width: auto;
+    min-width: 0;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+.anandakendra-gallery-lightbox-body {
+    background: #ffffff;
+}
+
+/* Gallery lightbox: centered popup instead of fullscreen PhotoSwipe */
+.anandakendra-gallery-lightbox .modal-dialog {
+    max-width: min(920px, 92vw);
+}
+.anandakendra-gallery-lightbox-content {
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.28);
+}
+.anandakendra-gallery-lightbox-header {
+    align-items: center;
+    padding: 0.65rem 1.25rem;
+    background: #0b3540 !important;
+    background-image: none !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.22) !important;
+    color: #fff;
+}
+.anandakendra-gallery-lightbox-counter {
+    color: #fff !important;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+.anandakendra-gallery-lightbox-header .close {
+    font-size: 1.75rem;
+    line-height: 1;
+    color: #fff !important;
+    opacity: 0.95;
+    text-shadow: none;
+}
+.anandakendra-gallery-lightbox.is-single-photo .anandakendra-gallery-lightbox-nav {
+    display: none !important;
+}
+.anandakendra-gallery-lightbox-stage {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 280px;
+    padding: 0.75rem 3rem 1.25rem;
+}
+.anandakendra-gallery-lightbox-img {
+    display: block;
+    max-width: 100%;
+    max-height: min(72vh, 640px);
+    width: auto;
+    height: auto;
+    margin: 0 auto;
+    border-radius: 6px;
+    object-fit: contain;
+}
+.anandakendra-gallery-lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: none;
+    border-radius: 50%;
+    background: rgba(0, 94, 102, 0.92);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+.anandakendra-gallery-lightbox-nav:hover {
+    background: #004a52;
+    transform: translateY(-50%) scale(1.05);
+}
+.anandakendra-gallery-lightbox-prev {
+    left: 0.5rem;
+}
+.anandakendra-gallery-lightbox-next {
+    right: 0.5rem;
+}
+body.anandakendra-detail-page.modal-open .anandakendra-gallery-lightbox.modal.show,
+body.pillar-inner-page.modal-open .anandakendra-gallery-lightbox.modal.show {
+    z-index: 1060 !important;
+}
+@media (max-width: 575px) {
+    .anandakendra-gallery-lightbox-stage {
+        padding-left: 2.25rem;
+        padding-right: 2.25rem;
+    }
+    .anandakendra-gallery-lightbox-nav {
+        width: 2rem;
+        height: 2rem;
+        font-size: 0.85rem;
+    }
 }

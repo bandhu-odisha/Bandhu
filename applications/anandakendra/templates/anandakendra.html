@@ -1,4 +1,4 @@
-﻿
+
 {% extends 'base.html' %}
 
 {% load static %}
@@ -6,10 +6,12 @@
 
 {% block title %} Anandakendra {% endblock %}
 
+{% block body_class %}anandakendra-list-page{% endblock %}
+
 {% block style %}
 <!-- Custom CSS -->
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
-<link rel="stylesheet" href="{% static 'css/anandakendra.css' %}">
+<link rel="stylesheet" href="{% static 'css/anandakendra.css' %}?v=20">
 <!-- Custom Style -->
 <style>
     /* Force pillar-style gradient banner on Anandakendra list page */
@@ -112,7 +114,7 @@
 <section id="about" class="pillar-overlay-cards">
     <div class="container">
         <div class="row align-items-start g-4">
-            <div class="col-lg-4 col-md-5">
+            <div class="col-lg-4 col-md-5 anandakendra-about-image-col">
                 <div class="pillar-overlay-card pillar-overlay-card--image">
                     {% if content and content.picture %}
                     <img src="{{ content.picture.url }}" alt="Anandakendra" loading="eager" class="pillar-overlay-single-image">
@@ -120,28 +122,32 @@
                     <img src="{% static 'img/our_mission1.jpg' %}" alt="Anandakendra" loading="eager" class="pillar-overlay-single-image">
                     {% endif %}
                 </div>
-                <div class="anandakendra-image-caption" aria-label="Anandakendra image caption">
+                {% if content %}
+                <div class="anandakendra-image-caption anandakendra-text-caption" aria-label="Anandakendra caption">
                     <p class="caption-line caption-en">"Man making initiative of Bandhu"</p>
                     <p class="caption-line caption-or">"ଏକ ପ୍ରେରେଣାଶୀଳ ନୂଆପିଢୀର ନିର୍ମାଣେ"</p>
                 </div>
+                {% endif %}
             </div>
             <div class="col-lg-8 col-md-7">
                 <div class="pillar-overlay-card pillar-overlay-card--text anandakendra-sync-text">
                     {% if content %}
                     <div class="pillar-desc pillar-desc-preview">{{ content.description|safe }}</div>
-                    <div class="anandakendra-card-actions">
+                    <div class="anandakendra-card-actions anandakendra-card-footer">
                         <a href="{% url 'pillar_sanskar' %}" class="anandakendra-back-link">
                             <i class="fas fa-arrow-left" aria-hidden="true"></i>
                             Back to Sanskar
                         </a>
-                        <button
-                            type="button"
-                            class="anandakendra-read-more"
-                            data-toggle="modal"
-                            data-target="#anandakendraReadMoreModal"
-                        >
-                            Read more
-                        </button>
+                        <div class="anandakendra-card-actions-end">
+                            <button
+                                type="button"
+                                class="anandakendra-read-more"
+                                data-toggle="modal"
+                                data-target="#anandakendraReadMoreModal"
+                            >
+                                Read more
+                            </button>
+                        </div>
                     </div>
                     {% else %}
                     <div class="pillar-desc">Our centres for holistic development and community engagement.</div>

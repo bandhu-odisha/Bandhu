@@ -7,19 +7,26 @@
     <title>Bandhu</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     {% load static %}
     <link rel="shortcut icon" href="{% static 'img/bandhulogo.gif' %}">
     {% if not user.is_authenticated %}
     <link rel="stylesheet" href="{% static 'vendor/css/bootstrap.min.css' %}?v=255">
     {% endif %}
-    <link rel="stylesheet" href="{% static 'frontend/assets/index.css' %}?v=277">
+    <link rel="stylesheet" href="{% static 'frontend/assets/index.css' %}?v=299">
     <link rel="stylesheet" href="{% static 'vendor/css/fontawesome-all.min.css' %}?v=255">
     <style>
       /* Our Visitors profile popup: wide like reference (teal left, details right) */
       .visitor-profile-modal {
         max-width: 56rem !important;
-        width: 90vw !important;
+        width: min(90vw, calc(100% - 0.75rem)) !important;
+      }
+      @media (max-width: 639px) {
+        .visitor-profile-modal {
+          width: calc(100% - 0.75rem) !important;
+          max-width: none !important;
+          max-height: min(92dvh, 720px) !important;
+        }
       }
       @media (min-width: 640px) {
         .visitor-profile-modal {
@@ -82,12 +89,24 @@
       #gallery [role='tablist'] [role='tab'][aria-selected='false'] {
         border-bottom: 2px solid transparent !important;
       }
+      /* Sign-up / sign-in modals: keep landing visible behind (not a white full-page jump) */
+      body.landing.modal-open {
+        overflow: hidden;
+        background: #ffffff;
+      }
+      body.landing .modal-backdrop {
+        background-color: rgba(15, 23, 42, 0.52);
+      }
+      body.landing .signup-modal-root .modal-dialog {
+        z-index: 1060;
+      }
     </style>
 </head>
 <body class="landing">
     <div id="root"></div>
     {% if not user.is_authenticated %}
     {% include 'includes/login_modal.html' %}
+    {% include 'includes/signup_modal.html' %}
     {% endif %}
     {{ landing_data|json_script:"landing-data" }}
     {% if not user.is_authenticated %}
@@ -104,13 +123,29 @@
           else { window.location.href = '{% url "signup" %}'; }
         }, 350);
       });
+      $(document).on('click', '.auth-open-login-modal', function (e) {
+        e.preventDefault();
+        $('#signupModal').modal('hide');
+        setTimeout(function () {
+          if ($('#loginModal').length) { $('#loginModal').modal('show'); }
+          else { window.location.href = '{% url "home" %}?login_modal=1'; }
+        }, 350);
+      });
+      $(document).on('hidden.bs.modal', '#loginModal, #signupModal', function () {
+        if (document.activeElement && document.activeElement.blur) {
+          document.activeElement.blur();
+        }
+      });
       {% if open_login_modal %}
       if ($('#loginModal').length) { $('#loginModal').modal('show'); }
+      {% endif %}
+      {% if open_signup_modal %}
+      if ($('#signupModal').length) { $('#signupModal').modal('show'); }
       {% endif %}
     });
     </script>
     {% endif %}
-    <script type="module" src="{% static 'frontend/assets/index.js' %}?v=277"></script>
+    <script type="module" src="{% static 'frontend/assets/index.js' %}?v=299"></script>
     <!-- Gallery auto-scroll: runs after React mounts, no dependency on bundle -->
     <script>
 (function() {

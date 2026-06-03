@@ -4,7 +4,7 @@
  */
 /** Navbar Login / Logout / Updates — dark navy pill (same palette as Updates CTA). */
 export const LANDING_NAVBAR_AUTH_BUTTON_CLASS =
-  'inline-flex cursor-pointer items-center justify-center rounded-full border border-[#004a52]/20 bg-[#0b3540] px-3.5 py-2 text-xs font-heading font-bold leading-tight text-white no-underline whitespace-nowrap ' +
+  'inline-flex cursor-pointer items-center justify-center rounded-full border border-[#004a52]/20 bg-[#0b3540] px-3 py-1.5 text-[0.6875rem] font-heading font-bold leading-tight text-white no-underline whitespace-nowrap ' +
   'shadow-[0_5px_16px_rgba(11,53,64,0.26)] ' +
   'transition-[background-color,box-shadow,transform] duration-300 ease-out ' +
   'hover:bg-[#005E66] hover:text-white hover:shadow-[0_8px_22px_rgba(11,53,64,0.34)] hover:-translate-y-0.5 ' +
@@ -13,7 +13,7 @@ export const LANDING_NAVBAR_AUTH_BUTTON_CLASS =
   'sm:px-4 sm:py-2 sm:text-sm'
 
 const CTA_PILL_BASE =
-  'inline-flex items-center justify-center rounded-full px-8 py-2.5 text-base font-heading font-bold leading-tight no-underline whitespace-nowrap sm:px-10 ' +
+  'inline-flex items-center justify-center rounded-full px-6 py-2 text-sm font-heading font-bold leading-tight no-underline whitespace-nowrap sm:px-8 sm:py-2.5 sm:text-base md:px-10 ' +
   'transition-[background-color,color,box-shadow,transform,border-color] duration-300 ease-out ' +
   'hover:no-underline focus:no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ' +
   'hover:-translate-y-0.5 active:translate-y-0 motion-reduce:hover:translate-y-0'

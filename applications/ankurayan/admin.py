@@ -6,6 +6,7 @@ from .models import (
     Ankurayan, Participant, Guest, GuestNote,
     ActivityCategory, Activity, Photo,
     HomePage, AnkurayanReportFile, AnkurayanPublicationFile,
+    AnkurayanInvitationLetter,
 )
 
 @admin.register(Ankurayan)
@@ -117,6 +118,14 @@ class AnkurayanPublicationFileAdmin(admin.ModelAdmin):
     list_display = ('title', 'ankurayan', 'uploaded_at')
     list_filter = ('ankurayan__year',)
     search_fields = ('title', 'ankurayan__year')
+
+
+@admin.register(AnkurayanInvitationLetter)
+class AnkurayanInvitationLetterAdmin(admin.ModelAdmin):
+    list_display = ('ankurayan', 'uploaded_at')
+    list_filter = ('ankurayan__year',)
+    search_fields = ('ankurayan__year', 'ankurayan__title')
+    autocomplete_fields = ('ankurayan',)
 
 
 admin.site.register(HomePage)

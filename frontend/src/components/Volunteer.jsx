@@ -5,7 +5,6 @@ export default function Volunteer({ data }) {
     title: 'Be a Bandhu',
     tagline: 'Do you like to work for a social cause? You are welcome to join our team as a volunteer.',
   }
-  const urls = data?.urls || {}
   return (
     <section id="volunteer" className="landing-section relative overflow-hidden bg-slate-100/95">
       <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 text-center">
@@ -15,7 +14,7 @@ export default function Volunteer({ data }) {
         <p className="font-body text-lg sm:text-xl text-slate-600 leading-relaxed mb-10">
           {volunteer.tagline}
         </p>
-        <a href={urls.signup || '/accounts/signup/'} className={CTA_PILL_CLASS}>
+        <a href="#" role="button" className={`auth-open-signup-modal ${CTA_PILL_CLASS}`}>
           Be a Bandhu
         </a>
       </div>

@@ -1,12 +1,73 @@
 /**
  * Login / Sign up — palette matches frontend landing (teal-deep, Inter).
  */
+
+/* Minimal auth header (signup / login full pages) */
+.auth-nav-header {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.98);
+  border-bottom: 1px solid rgba(128, 179, 186, 0.25);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.auth-nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0.65rem 1rem;
+}
+
+.auth-nav-brand {
+  display: inline-flex;
+  flex-shrink: 0;
+  line-height: 0;
+}
+
+.auth-nav-brand img {
+  display: block;
+  height: auto;
+  max-height: 3.25rem;
+  max-width: min(5rem, 28vw);
+  object-fit: contain;
+}
+
+.auth-nav-home {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #005e66;
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 0.5rem 0.85rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(0, 94, 102, 0.2);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.auth-nav-home:hover,
+.auth-nav-home:focus {
+  color: #004147;
+  background: rgba(214, 236, 238, 0.55);
+  text-decoration: none;
+}
+
+body.auth-page #contact.contact-footer-section,
+body.auth-page #scroll-to-top {
+  display: none !important;
+}
+
 .login-page .limiter,
 .signup-page .limiter {
   margin-top: 0;
 }
 
-/* Login / Sign up: no navbar — full viewport */
+/* Login / Sign up: full viewport form area */
 .login-page .container-login100,
 .signup-page .container-login100 {
   background: #ffffff;
@@ -26,6 +87,8 @@
     0 4px 16px rgba(0, 0, 0, 0.06),
     0 4px 20px rgba(128, 179, 186, 0.1);
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  letter-spacing: 0.015em;
+  line-height: 1.65;
 }
 
 .login-page .login100-form-title,
@@ -197,6 +260,14 @@
    ----------------------------------------------------------------- */
 .signup-modal-root .modal-dialog.signup-modal-dialog {
   max-width: 440px;
+  width: calc(100% - 2rem);
+  margin: 1.75rem auto;
+}
+
+#loginModal.signup-modal-root .modal-dialog.signup-modal-dialog,
+#signupModal.signup-modal-root .modal-dialog.signup-modal-dialog {
+  max-width: 440px;
+  width: calc(100% - 2rem);
 }
 
 .signup-modal-sheet {
@@ -208,6 +279,8 @@
 }
 
 .signup-modal-header {
+  display: flex;
+  align-items: center;
   justify-content: center;
   text-align: center;
   position: relative;
@@ -233,6 +306,18 @@
   margin: 0;
   padding: 0.5rem;
   z-index: 2;
+  background: transparent;
+  border: none;
+  font-size: 1.75rem;
+  line-height: 1;
+  color: #64748b;
+  cursor: pointer;
+  opacity: 0.85;
+}
+
+.signup-modal-header .close:hover {
+  opacity: 1;
+  color: #1e293b;
 }
 
 .signup-modal-inner .limiter {
@@ -257,15 +342,43 @@
 .signup-modal-form {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 0;
   width: 100%;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: #334155;
+}
+
+/* OAuth + primary CTA: narrower than full modal width */
+.signup-modal-oauth,
+.signup-modal-submit-wrap {
+  width: 100%;
+  max-width: 17.5rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.signup-modal-or,
+.signup-modal-email-fields,
+.signup-modal-footer {
+  width: 100%;
+  max-width: 17.5rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#loginModal .signup-modal-form > .wrap-input100,
+#loginModal .signup-modal-form > .pt-1.pb-2 {
+  width: 100%;
+  max-width: 17.5rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .signup-modal-oauth {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
   min-height: 48px;
   padding: 12px 16px;
   margin-bottom: 12px;
@@ -327,7 +440,11 @@
 #loginModal .btn-face::before,
 #loginModal .btn-google::before,
 #loginModal .login100-form-btn::before,
-#loginModal .login100-form-btn::after {
+#loginModal .login100-form-btn::after,
+#reactLoginModal .btn-face::before,
+#reactLoginModal .btn-google::before,
+#reactLoginModal .login100-form-btn::before,
+#reactLoginModal .login100-form-btn::after {
   display: none !important;
   content: none !important;
 }
@@ -337,7 +454,8 @@
  * boxes (gray wrap + white input) and reads as a “split” field if widths clash.
  */
 #signupModal .signup-modal-inner .wrap-input100,
-#loginModal .signup-modal-inner .wrap-input100 {
+#loginModal .signup-modal-inner .wrap-input100,
+#reactLoginModal .signup-modal-inner .wrap-input100 {
   width: 100% !important;
   margin: 0 0 1rem 0 !important;
   padding: 0 !important;
@@ -350,7 +468,9 @@
 #signupModal .signup-modal-inner .wrap-input100 input.input100,
 #signupModal .signup-modal-inner .wrap-input100 input,
 #loginModal .signup-modal-inner .wrap-input100 input.input100,
-#loginModal .signup-modal-inner .wrap-input100 input {
+#loginModal .signup-modal-inner .wrap-input100 input,
+#reactLoginModal .signup-modal-inner .wrap-input100 input.input100,
+#reactLoginModal .signup-modal-inner .wrap-input100 input {
   width: 100% !important;
   max-width: 100% !important;
   min-width: 0 !important;
@@ -374,7 +494,9 @@
 #signupModal .signup-modal-inner .wrap-input100 input.input100:focus,
 #signupModal .signup-modal-inner .wrap-input100 input:focus,
 #loginModal .signup-modal-inner .wrap-input100 input.input100:focus,
-#loginModal .signup-modal-inner .wrap-input100 input:focus {
+#loginModal .signup-modal-inner .wrap-input100 input:focus,
+#reactLoginModal .signup-modal-inner .wrap-input100 input.input100:focus,
+#reactLoginModal .signup-modal-inner .wrap-input100 input:focus {
   border-color: #80b3ba !important;
   box-shadow: 0 0 0 3px rgba(128, 179, 186, 0.22) !important;
   outline: none !important;
@@ -383,7 +505,9 @@
 #signupModal .signup-modal-inner .wrap-input100.validate-input::before,
 #signupModal .signup-modal-inner .wrap-input100.validate-input::after,
 #loginModal .signup-modal-inner .wrap-input100.validate-input::before,
-#loginModal .signup-modal-inner .wrap-input100.validate-input::after {
+#loginModal .signup-modal-inner .wrap-input100.validate-input::after,
+#reactLoginModal .signup-modal-inner .wrap-input100.validate-input::before,
+#reactLoginModal .signup-modal-inner .wrap-input100.validate-input::after {
   display: none !important;
   content: none !important;
 }
@@ -424,18 +548,43 @@
   box-shadow: 0 0 0 3px rgba(0, 94, 102, 0.35);
 }
 
-.signup-modal-or p,
-.signup-modal-or span {
+/* — OR — = neutral grey; “Sign In Using Email” = same primary teal as title (ref. subpages modal). */
+.signup-modal-or > p {
+  margin: 0;
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   color: #64748b;
   font-size: 0.9rem;
 }
 
-.signup-modal-or span:last-of-type {
+.signup-modal-or > span {
   display: block;
-  margin-top: 0.25rem;
-  color: #3d5c60;
+  margin-top: 0.15rem;
+  margin-bottom: 0;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: #005e66;
   font-weight: 600;
+  font-size: 0.95rem;
+}
+
+#signupModal .signup-modal-or {
+  padding-top: 0.35rem !important;
+  padding-bottom: 0.35rem !important;
+}
+
+#signupModal .signup-modal-email-fields {
+  margin-top: 0.15rem;
+}
+
+#signupModal .signup-modal-email-fields .wrap-input100 {
+  margin-bottom: 0.5rem !important;
+}
+
+#signupModal .signup-modal-email-fields .wrap-input100:last-child {
+  margin-bottom: 0.35rem !important;
+}
+
+#signupModal .signup-modal-submit-wrap--signup {
+  margin-top: 0.35rem !important;
 }
 
 .signup-modal-footer {
@@ -444,22 +593,236 @@
   color: #64748b;
 }
 
+.signup-modal-form a.signup-modal-forgot {
+  color: #005e66 !important;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+
+.signup-modal-form a.signup-modal-forgot:hover {
+  color: #004147 !important;
+  text-decoration: underline;
+}
+
 .signup-modal-form .signup-modal-footer a[href="/accounts/login/"],
 .signup-modal-form .signup-modal-footer a.auth-open-login-modal {
-  color: #5f8d93 !important;
+  color: #005e66 !important;
   font-weight: 600;
 }
 
 .signup-modal-form .signup-modal-footer a[href="/accounts/login/"]:hover,
 .signup-modal-form .signup-modal-footer a.auth-open-login-modal:hover {
-  color: #005e66 !important;
+  color: #004147 !important;
 }
 
 .signup-modal-form .signup-modal-footer a.auth-open-signup-modal {
-  color: #5f8d93 !important;
+  color: #005e66 !important;
   font-weight: 600;
 }
 
 .signup-modal-form .signup-modal-footer a.auth-open-signup-modal:hover {
-  color: #005e66 !important;
+  color: #004147 !important;
+}
+
+/* Sign Up: keep email fields visible and stacked like Sign In (landing bundles Tailwind). */
+#signupModal .signup-modal-email-fields {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+#signupModal .signup-modal-email-fields .wrap-input100 {
+  display: block !important;
+  visibility: visible !important;
+}
+
+#signupModal .signup-modal-email-fields input {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* React home login modal — same sheet + fields as #loginModal (shell has no Bootstrap). */
+.react-login-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+#reactLoginModal.signup-modal-root {
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  max-height: 90vh;
+  overflow: auto;
+  outline: none;
+}
+
+#reactLoginModal .signup-modal-react-body {
+  padding: 0 1rem 1rem;
+}
+
+/* React shell: body uses Inter + teal tint — keep modal typography matching Django. */
+#reactLoginModal .signup-modal-sheet {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: #334155;
+}
+
+/* -----------------------------------------------------------------
+   Phones (iOS / Android): modals + auth pages scale with viewport
+   ----------------------------------------------------------------- */
+@media (max-width: 639px) {
+  .auth-nav-bar {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .auth-nav-brand img {
+    max-height: 2.75rem;
+  }
+
+  .auth-nav-home {
+    font-size: 0.8125rem;
+    padding: 0.4rem 0.7rem;
+  }
+
+  .login-page .container-login100,
+  .signup-page .container-login100 {
+    min-height: 100dvh;
+    padding: 1rem 0.75rem 1.5rem;
+    align-items: flex-start;
+    padding-top: max(1rem, env(safe-area-inset-top, 0px));
+  }
+
+  .login-page .wrap-login100,
+  .signup-page .wrap-login100 {
+    max-width: 100%;
+    padding: 1.25rem 1rem 1.5rem !important;
+    border-radius: 14px;
+  }
+
+  .login-page .login100-form-title,
+  .signup-page .login100-form-title,
+  .login-page .login100-form-title h1,
+  .signup-page .login100-form-title h1 {
+    font-size: 1.45rem;
+  }
+
+  .login-page .btn-face,
+  .login-page .btn-google,
+  .signup-page .btn-face,
+  .signup-page .btn-google {
+    font-size: 0.9375rem;
+    min-height: 44px;
+    width: 100%;
+  }
+
+  .login-page .input100,
+  .signup-page .input100 {
+    font-size: 16px !important;
+    min-height: 44px;
+  }
+
+  .login-page .login100-form-btn,
+  .signup-page .login100-form-btn {
+    min-height: 48px;
+    font-size: 1rem;
+  }
+
+  .signup-modal-root .modal-dialog.signup-modal-dialog,
+  #loginModal.signup-modal-root .modal-dialog.signup-modal-dialog,
+  #signupModal.signup-modal-root .modal-dialog.signup-modal-dialog {
+    width: calc(100% - 0.75rem) !important;
+    max-width: none !important;
+    margin: 0.5rem auto !important;
+  }
+
+  .signup-modal-sheet {
+    border-radius: 14px !important;
+  }
+
+  .signup-modal-header {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  .signup-modal-header .modal-title {
+    font-size: 1.35rem;
+  }
+
+  .signup-modal-root .modal-body {
+    padding-left: 0.85rem !important;
+    padding-right: 0.85rem !important;
+    padding-bottom: 1rem !important;
+  }
+
+  .signup-modal-oauth,
+  .signup-modal-submit-wrap,
+  .signup-modal-or,
+  .signup-modal-email-fields,
+  .signup-modal-footer,
+  #loginModal .signup-modal-form > .wrap-input100,
+  #loginModal .signup-modal-form > .pt-1.pb-2 {
+    max-width: 100%;
+  }
+
+  .signup-modal-oauth {
+    font-size: 0.9375rem;
+    min-height: 44px;
+    padding: 10px 14px;
+    margin-bottom: 10px;
+  }
+
+  .signup-modal-oauth--fb i {
+    font-size: 1.25rem;
+  }
+
+  .signup-modal-oauth--google img {
+    width: 24px;
+  }
+
+  #signupModal .signup-modal-inner .wrap-input100 input,
+  #signupModal .signup-modal-inner .wrap-input100 input.input100,
+  #loginModal .signup-modal-inner .wrap-input100 input,
+  #loginModal .signup-modal-inner .wrap-input100 input.input100 {
+    font-size: 16px !important;
+    min-height: 44px;
+    padding: 0.6rem 0.85rem !important;
+  }
+
+  .signup-modal-submit {
+    font-size: 1rem;
+    padding: 0.8rem 1rem;
+    min-height: 48px;
+  }
+
+  .signup-modal-or > p {
+    font-size: 0.85rem;
+  }
+
+  .signup-modal-or > span {
+    font-size: 0.9rem;
+  }
+
+  .signup-modal-footer {
+    font-size: 0.875rem;
+  }
+
+  .react-login-modal-backdrop {
+    padding: 0.5rem;
+    align-items: flex-end;
+  }
+
+  #reactLoginModal.signup-modal-root {
+    max-width: 100%;
+    max-height: min(92dvh, 640px);
+    border-radius: 14px 14px 0 0;
+  }
 }

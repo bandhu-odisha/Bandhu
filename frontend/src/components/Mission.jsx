@@ -101,7 +101,7 @@ export default function Mission({ data }) {
             <span className="text-[#005E66]">Our</span>{' '}
             <span className="text-[#0b3540]">Mission</span>
           </h2>
-          <p className="font-body text-[#3d5c66] text-lg sm:text-xl md:text-[1.35rem] leading-relaxed max-w-3xl mx-auto mb-8 sm:mb-10">
+          <p className="font-body text-[#3d5c66] text-base sm:text-lg md:text-xl leading-relaxed max-w-3xl mx-auto mb-8 sm:mb-10 px-1">
             {MISSION_STATEMENT}
           </p>
           <div className="flex justify-center">
@@ -156,17 +156,17 @@ export default function Mission({ data }) {
                   }`}
                 >
                   <div className={isSwaraj ? 'order-2 md:order-2' : 'order-2 md:order-1'}>
-                    <h4 className="font-heading font-bold text-3xl text-[#0b3540] mb-2 no-underline">
+                    <h4 className="font-heading font-bold text-2xl sm:text-3xl text-[#0b3540] mb-2 no-underline">
                       {pillar.title}
                     </h4>
                     {isSanskar && isMobile ? (
-                      <p className="font-body text-lg font-normal text-[#2d4c55] leading-snug mb-1.5 no-underline">
+                      <p className="font-body text-base sm:text-lg font-normal text-[#2d4c55] leading-snug mb-1.5 no-underline">
                         {sanskarMobileText}
                       </p>
                     ) : (
                       <>
                         <p
-                          className={`font-body text-lg leading-snug mb-1.5 no-underline ${
+                          className={`font-body text-base sm:text-lg leading-snug mb-1.5 no-underline ${
                             isSanskar
                               ? 'font-normal text-[#2d4c55]'
                               : 'font-semibold text-[#1c3f49]'
@@ -175,7 +175,7 @@ export default function Mission({ data }) {
                           {summaryLine}
                         </p>
                         {detailsLine && (
-                          <p className="font-body text-lg font-normal text-[#2d4c55] leading-relaxed max-w-[60ch] line-clamp-3 no-underline">
+                          <p className="font-body text-base sm:text-lg font-normal text-[#2d4c55] leading-relaxed max-w-[60ch] line-clamp-3 no-underline">
                             {detailsLine}
                           </p>
                         )}

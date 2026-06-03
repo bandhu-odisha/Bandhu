@@ -396,7 +396,7 @@ export default function Navbar({ data }) {
     typeof document !== 'undefined' &&
     createPortal(
       <div
-        className="fixed inset-0 z-[190] md:hidden"
+        className="fixed inset-0 z-[190] xl:hidden"
         role="dialog"
         aria-modal="true"
         aria-label="Site menu"
@@ -533,10 +533,10 @@ export default function Navbar({ data }) {
   return (
     <nav className="w-full bg-white">
       <div className="max-w-7xl mx-auto w-full px-3 sm:px-5 lg:px-8 py-2.5 sm:py-3">
-        <div className="flex items-center gap-2 sm:gap-3 md:gap-6">
+        <div className="flex items-center gap-2 sm:gap-3 xl:gap-6">
           <CurrentUpdates data={data} inline />
 
-          <div className="hidden md:flex flex-1 min-w-0 justify-center">
+          <div className="hidden xl:flex flex-1 min-w-0 justify-center">
             <div className="inline-flex max-w-full items-center rounded-full border border-slate-200/90 bg-white px-4 py-2">
               <div className="flex min-w-0 items-center justify-center gap-4 lg:gap-5 xl:gap-6">
                 <NavLinks />
@@ -547,7 +547,7 @@ export default function Navbar({ data }) {
           <div className="ml-auto flex shrink-0 items-center gap-2">
             <button
               type="button"
-              className="md:hidden flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#005E66]/30"
+              className="xl:hidden flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#005E66]/30"
               aria-expanded={mobileMenuOpen}
               aria-controls="landing-mobile-menu"
               aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}

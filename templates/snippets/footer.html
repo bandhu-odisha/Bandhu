@@ -1,7 +1,8 @@
+{% load permissions %}
 <section id="contact" class="contact-footer-section" data-cta-surface="dark">
     <div class="container">
         <div class="row">
-            <div class="col-md-6 mb-5 mb-md-0">
+            <div class="col-md-6 mb-5 mb-lg-0">
                 <h3 class="contact-footer-heading">Our Initiatives</h3>
                 <div class="contact-footer-underline"></div>
                 <ul class="contact-footer-list">
@@ -10,12 +11,38 @@
                     <li><a href="{% url 'ashram:ashram' %}">Bandhughar</a></li>
                     <li><a href="{% url 'charitywork:charity_work' %}">Other Activities</a></li>
                 </ul>
+
+                {% if user|is_admin or annual_reports %}
+                <div class="contact-footer-annual mt-4">
+                    <h3 class="contact-footer-heading">Annual Reports</h3>
+                    <div class="contact-footer-underline"></div>
+                    <ul class="contact-footer-list mb-0">
+                        {% if user|is_admin %}
+                        <li>
+                            <button type="button" class="btn btn-link p-0 border-0 align-baseline text-white contact-footer-upload-btn" data-toggle="modal" data-target="#annualReportUploadModal">
+                                <i class="fas fa-cloud-upload-alt mr-1" aria-hidden="true"></i>
+                                Upload annual report
+                            </button>
+                        </li>
+                        {% endif %}
+                        {% for report in annual_reports %}
+                        <li>
+                            <a href="{{ report.url }}" target="_blank" rel="noopener noreferrer">
+                                {{ report.title }}
+                                <i class="fas fa-external-link-alt ml-1" style="font-size:0.75em;opacity:0.85;" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
                 {% if content and content.visitors_count and user.is_admin %}
                 <p class="contact-footer-visitors mt-3 mb-0">Visitors Count: {{ content.visitors_count }}</p>
                 {% endif %}
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-6 mb-5 mb-md-0">
                 <h3 class="contact-footer-heading">Contact Us</h3>
                 <div class="contact-footer-underline"></div>
                 {% if contact %}
@@ -66,3 +93,6 @@
         </div>
     </div>
 </section>
+{% if user|is_admin %}
+{% include 'snippets/annual_report_upload_modal.html' %}
+{% endif %}

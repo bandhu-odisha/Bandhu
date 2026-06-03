@@ -1,4 +1,4 @@
-﻿{% extends 'base.html' %}
+{% extends 'base.html' %}
 {% load custom_filters %}
 {% load static %}
 {% load permissions %}
@@ -244,7 +244,7 @@
                 <strong>{{ about.tagline|safe }}</strong>
             </p>
             <p style="font-size: 18px;">
-                {{ about.desc|safe }}
+                {{ about.desc|avoid_orphan_sincerity|safe }}
             </p>
         </div>
     </div>

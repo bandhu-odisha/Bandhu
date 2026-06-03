@@ -1,4 +1,4 @@
-﻿/* Ankurayan – vibrant teal theme (no white gap bands) */
+/* Ankurayan – vibrant teal theme (no white gap bands) */
 
 /*
  * Typography: match React landing (Inter). Body classes: `ankurayan-page` / `ankurayan-detail`.
@@ -748,7 +748,8 @@ body.ankurayan-detail .modal *:not(svg):not(path):not(.fa):not(.fas):not(.far):n
 .ankurayan-detail .ankurayan-section-card .ankurayan-file-list .ankurayan-file-link,
 .ankurayan-section-card-body .ankurayan-file-list .ankurayan-file-link,
 #modalReports .ankurayan-file-list .ankurayan-file-link,
-#modalPublications .ankurayan-file-list .ankurayan-file-link {
+#modalPublications .ankurayan-file-list .ankurayan-file-link,
+#modalInvitationLetter .ankurayan-file-list .ankurayan-file-link {
     width: 100%;
     max-width: 100%;
 }

@@ -36,12 +36,18 @@
                                             {% endfor %}
                                         </div>
                                     </div>
-                                    {% for field in signup_form %}
-                                        <div class="wrap-input100 validate-input mb-3" data-validate="Required">
-                                            {{ field }}
+                                    <div class="signup-modal-email-fields">
+                                        <div class="wrap-input100 validate-input mb-2">
+                                            <input class="input100" type="email" name="email" placeholder="Email" required autocomplete="email" value="{{ signup_form.email.value|default_if_none:'' }}">
                                         </div>
-                                    {% endfor %}
-                                    <div class="signup-modal-submit-wrap">
+                                        <div class="wrap-input100 validate-input mb-2">
+                                            <input class="input100" type="password" name="password" placeholder="Password" required autocomplete="new-password">
+                                        </div>
+                                        <div class="wrap-input100 validate-input mb-2">
+                                            <input class="input100" type="password" name="password2" placeholder="Confirm Password" required autocomplete="new-password">
+                                        </div>
+                                    </div>
+                                    <div class="signup-modal-submit-wrap signup-modal-submit-wrap--signup">
                                         <button class="signup-modal-submit" type="submit">
                                             Create Account
                                         </button>

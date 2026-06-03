@@ -7,6 +7,7 @@ from applications.charitywork.models import Activity as charitywork_activity
 from applications.ashram.models import Activity as ashram_activity
 # from applications.madhmukti.models import Activity as madhmukti_activity
 from bandhuapp.models import RecentActivity, Gallery, Contact
+from bandhuapp.annual_reports import annual_reports_upload_url, serialize_annual_reports
 
 # Create your views here.
 def userList(request):
@@ -29,4 +30,6 @@ def recent_activities(request):
         'recent_activities':  recent_act,
         'gallery': gallery,
         'contact': contact,
+        'annual_reports': serialize_annual_reports(request),
+        'annual_reports_upload_url': annual_reports_upload_url(),
     }

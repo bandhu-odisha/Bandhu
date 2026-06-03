@@ -22,6 +22,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from social_django.models import UserSocialAuth
 from accounts.context_processors import pop_login_modal_flash
+from accounts.forms import RegisterForm
 from accounts.models import User
 from accounts.tokens import account_activation_token
 from applications.anandakendra.models import Event as KendraEvent
@@ -32,10 +33,17 @@ from .models import (
     Designation, PeoplesDesignation, Profile, Photo, Initiatives, AboutUs,
     Mission, Staff, StaffExperience, StaffExperiencePhoto, Video, Volunteer,
     Gallery, Contact, HomePage, HomeVisitor, UrlData, CurrentUpdates, RecentActivity,
+    AnnualReport,
 )
 from .templatetags import permissions as temp_perms  # Template permissions
-from .helpers import enrich_video_durations, people_card_from_assignments, proper_case
+from .helpers import (
+    dedupe_peoples_designations,
+    enrich_video_durations,
+    people_card_from_assignments,
+    proper_case,
+)
 from .notice_links import resolve_notice_url
+from .annual_reports import annual_reports_upload_url
 
 from openpyxl import Workbook
 from openpyxl.styles import Font
@@ -242,6 +250,7 @@ def _build_landing_data(request):
         'people_designations': list(Designation.objects.all().values_list('title', flat=True)),
         'videos': [],
         'contact': None,
+        'annual_reports': [],
         'recent_activities': [],
         'urls': {
             'login': reverse('login'),
@@ -256,6 +265,7 @@ def _build_landing_data(request):
             'sanskar': reverse('pillar_sanskar'),
             'swaraj': reverse('pillar_swaraj'),
             'swabalamban': reverse('pillar_swabalamban'),
+            'annual_reports_upload': annual_reports_upload_url(),
         },
         'user': {
             'is_authenticated': request.user.is_authenticated,
@@ -422,6 +432,8 @@ def _build_landing_data(request):
             'address': contact.address, 'contact_no': contact.contact_no, 'email': contact.email,
             'facebook_link': contact.facebook_link, 'twitter_link': contact.twitter_link,
         }
+    from .annual_reports import serialize_annual_reports
+    data['annual_reports'] = serialize_annual_reports(request)
     for a in RecentActivity.objects.all().order_by('-start_date', '-date_created'):
         data['recent_activities'].append({
             'id': a.id, 'title': a.title, 'description': a.description,
@@ -461,12 +473,18 @@ def index_react(request):
         'next': _safe_login_next(request.GET.get('next')),
     }
     data['csrf_token'] = get_token(request)
+    signup_initial = {}
+    prefill_email = request.session.pop('signup_modal_prefill_email', None)
+    if prefill_email:
+        signup_initial['email'] = prefill_email
     return render(
         request,
         'landing_react.html',
         {
             'landing_data': data,
             'login_modal_next': _safe_login_next(request.GET.get('next')),
+            'signup_form': RegisterForm(initial=signup_initial),
+            'open_signup_modal': request.GET.get('signup_modal') == '1',
         },
     )
 
@@ -513,10 +531,13 @@ def pillar_sanskar(request):
 
 def pillar_swaraj(request):
     mission = Mission.objects.all().first()
+    carousel = list(mission.swarajcarousel_set.all()) if mission else []
     ctx = _pillar_context(
         mission, 'swaraj_tagline', 'swaraj_desc',
-        mission.swarajcarousel_set.all() if mission else [])
+        carousel)
     ctx['page_title'] = 'Swaraj'
+    if carousel:
+        ctx['pillar_hero_image'] = carousel[0].picture
     return render(request, 'pillar_page.html', ctx)
 
 
@@ -742,26 +763,39 @@ def external_link(request,hash):
 
 def people(request):
     if request.method == "GET":
-        query_set = (
+        query_set = dedupe_peoples_designations(
             PeoplesDesignation.objects.select_related(
                 "staff", "staff__profile", "designation", "role"
             )
-            .order_by("designation__rank", "rank")
-            .all()
+            .order_by("designation__rank", "rank", "pk")
         )
         dict = {"All": []}
         all_by_staff = {}
+        seen_staff_per_tab = {}
         for i in query_set:
-            if dict.get(i.designation.title, None) is None:
-                dict[i.designation.title] = []
-            dict[i.designation.title].append(people_card_from_assignments([i]))
+            title = i.designation.title
+            if dict.get(title) is None:
+                dict[title] = []
+                seen_staff_per_tab[title] = set()
+            if i.staff_id in seen_staff_per_tab[title]:
+                continue
+            seen_staff_per_tab[title].add(i.staff_id)
+            dict[title].append(people_card_from_assignments([i]))
             all_by_staff.setdefault(i.staff_id, []).append(i)
         dict["All"] = [
             people_card_from_assignments(assignments)
             for assignments in all_by_staff.values()
         ]
-        # "Office Bearers" tab: use existing data or fall back to legacy "Other" designation
-        if "Office Bearers" not in dict and "Other" in dict:
+        if "Office Bearers" in dict and "Other" in dict:
+            merged = []
+            seen_all = set()
+            for card in dict["Office Bearers"] + dict.pop("Other"):
+                if card.staff_id in seen_all:
+                    continue
+                seen_all.add(card.staff_id)
+                merged.append(card)
+            dict["Office Bearers"] = merged
+        elif "Office Bearers" not in dict and "Other" in dict:
             dict["Office Bearers"] = dict.pop("Other")
         for key in list(dict.keys()):
             if key != "All" and not dict[key]:
@@ -932,3 +966,70 @@ def staff_delete_experience(request, id, experience_id):
     experience.delete()
     messages.success(request, "Experience deleted.")
     return redirect("staff_profile", id=id)
+
+
+def _annual_report_json_errors(form):
+    errors = {}
+    if form.non_field_errors():
+        errors['__all__'] = [str(e) for e in form.non_field_errors()]
+    for field, field_errors in form.errors.items():
+        if field != '__all__':
+            errors[field] = [str(e) for e in field_errors]
+    return errors
+
+
+@login_required(login_url='/accounts/login/')
+@user_passes_test(temp_perms.is_admin, redirect_field_name=None, login_url='/accounts/login/')
+def annual_reports_upload(request):
+    """Upload or update year-wise Bandhu annual reports (admin only, modal via AJAX)."""
+    from .annual_report_forms import AnnualReportUploadForm
+    from .annual_reports import is_annual_report_ajax, serialize_annual_reports_admin
+
+    ajax = is_annual_report_ajax(request)
+
+    if request.method == 'GET':
+        if ajax:
+            return JsonResponse({'reports': serialize_annual_reports_admin(request)})
+        return redirect(reverse('home') + '#contact')
+
+    if request.method == 'POST':
+        if request.POST.get('action') == 'delete':
+            report = get_object_or_404(AnnualReport, pk=request.POST.get('report_id'))
+            label = report.display_title()
+            report.delete()
+            if ajax:
+                return JsonResponse({
+                    'ok': True,
+                    'message': f'Deleted {label}.',
+                    'reports': serialize_annual_reports_admin(request),
+                })
+            messages.success(request, f'Deleted {label}.')
+            return redirect(reverse('home') + '#contact')
+
+        instance = None
+        post_report_id = request.POST.get('report_id')
+        if post_report_id:
+            instance = get_object_or_404(AnnualReport, pk=post_report_id)
+        form = AnnualReportUploadForm(request.POST, request.FILES, instance=instance)
+        if form.is_valid():
+            report = form.save()
+            msg = f'Saved {report.display_title()}.'
+            if ajax:
+                return JsonResponse({
+                    'ok': True,
+                    'message': msg,
+                    'reports': serialize_annual_reports_admin(request),
+                })
+            messages.success(request, msg)
+            return redirect(reverse('home') + '#contact')
+
+        if ajax:
+            return JsonResponse({
+                'ok': False,
+                'errors': _annual_report_json_errors(form),
+            }, status=400)
+
+        messages.error(request, 'Could not save the report. Please check the form.')
+        return redirect(reverse('home') + '#contact')
+
+    return redirect(reverse('home') + '#contact')

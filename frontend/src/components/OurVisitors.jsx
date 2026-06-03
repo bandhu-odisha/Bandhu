@@ -93,7 +93,7 @@ export default function OurVisitors({ data }) {
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6" style={{ backgroundColor: '#ffffff' }}>
         <h2 className="section-title text-center mb-4">Our Visitors</h2>
-        <p className="font-body text-slate-600 text-center max-w-2xl mx-auto mb-10 text-lg font-medium">
+        <p className="font-body text-slate-600 text-center max-w-2xl mx-auto mb-8 sm:mb-10 text-base sm:text-lg font-medium px-1">
           People who visited Bandhu share their experience.
         </p>
 
@@ -159,18 +159,21 @@ export default function OurVisitors({ data }) {
         createPortal(
           <>
             <style>{`
-            .visitor-profile-modal-wrap { width: 90vw !important; max-width: 56rem !important; }
+            .visitor-profile-modal-wrap { width: min(90vw, calc(100% - 0.75rem)) !important; max-width: 56rem !important; }
+            @media (max-width: 639px) {
+              .visitor-profile-modal-wrap { width: calc(100% - 0.75rem) !important; max-width: none !important; max-height: min(92dvh, 720px) !important; overflow-y: auto !important; }
+            }
             .visitor-profile-modal-close { position: absolute !important; top: 0.75rem !important; right: 1rem !important; z-index: 30 !important; }
           `}</style>
             <div
-              className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/50"
+              className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center p-2 sm:p-4 bg-black/50"
               onClick={() => setSelected(null)}
               role="dialog"
               aria-modal="true"
               aria-labelledby="visitor-modal-title"
             >
               <div
-                className="visitor-profile-modal visitor-profile-modal-wrap bg-white rounded-2xl w-full overflow-hidden flex flex-col sm:flex-row relative border border-slate-200"
+                className="visitor-profile-modal visitor-profile-modal-wrap bg-white rounded-t-2xl sm:rounded-2xl w-full overflow-hidden flex flex-col sm:flex-row relative border border-slate-200"
                 style={{ width: '90vw', maxWidth: '56rem', boxShadow: '0 24px 48px rgba(15, 23, 42, 0.12)' }}
                 onClick={(e) => e.stopPropagation()}
               >

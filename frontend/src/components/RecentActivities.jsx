@@ -44,16 +44,16 @@ export default function RecentActivities({ data }) {
 
       {selected && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60"
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-2 sm:p-4 bg-black/60"
           onClick={() => setSelected(null)}
         >
 <div
-          className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-[var(--card-shadow-hover)] border border-teal/20"
+          className="bg-white rounded-t-2xl sm:rounded-2xl max-w-lg w-full max-h-[min(92dvh,640px)] sm:max-h-[90vh] overflow-y-auto shadow-[var(--card-shadow-hover)] border border-teal/20"
           onClick={(e) => e.stopPropagation()}
         >
-            <div className="p-6">
-              <div className="flex justify-between items-start mb-4">
-                <h3 className="font-heading font-bold text-xl text-teal-deep">{selected.name}</h3>
+            <div className="p-4 sm:p-6">
+              <div className="flex justify-between items-start mb-4 gap-3">
+                <h3 className="font-heading font-bold text-lg sm:text-xl text-teal-deep">{selected.name}</h3>
                 <button
                   type="button"
                   className="text-slate-600 hover:text-teal-deep"

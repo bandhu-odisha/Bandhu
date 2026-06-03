@@ -9,20 +9,44 @@
 {% block style %}
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
 <link rel="stylesheet" href="{% static 'css/pillar-inner-banner.css' %}?v=2">
-<link rel="stylesheet" href="{% static 'css/people.css' %}?v=6">
+<link rel="stylesheet" href="{% static 'css/people.css' %}?v=11">
 <style>
-  .people-page #people.people-tabs.nav-tabs {
+  /* Profession line — must stay visible (not hidden by global card styles) */
+  .people-page .people-card .people-card-job {
+    display: block !important;
+    visibility: visible !important;
+    margin: 0.35rem 0 0;
+    padding: 0;
+    width: 100%;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 1rem;
+    line-height: 1.45;
+    font-weight: 500;
+    color: #3d5c60 !important;
+  }
+  .people-page .people-card-details {
+    width: 100%;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(128, 179, 186, 0.28);
+  }
+  .people-page .people-card-details .people-profession--position {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+  }
+  .people-page #peopleTabs.people-tabs.nav-tabs {
     justify-content: flex-start !important;
   }
-  .people-page #people.people-tabs .nav-link {
+  .people-page #peopleTabs.people-tabs .nav-link {
     cursor: pointer !important;
   }
   /* People tabs: underline only — no teal rectangle on active tab */
-  .people-page #people.people-tabs .nav-link,
-  .people-page #people.people-tabs .nav-link:hover,
-  .people-page #people.people-tabs .nav-link:focus,
-  .people-page #people.people-tabs .nav-link.active,
-  .people-page #people.people-tabs .nav-item.show .nav-link {
+  .people-page #peopleTabs.people-tabs .nav-link,
+  .people-page #peopleTabs.people-tabs .nav-link:hover,
+  .people-page #peopleTabs.people-tabs .nav-link:focus,
+  .people-page #peopleTabs.people-tabs .nav-link.active,
+  .people-page #peopleTabs.people-tabs .nav-item.show .nav-link {
     border: none !important;
     border-radius: 0 !important;
     background: transparent !important;
@@ -30,13 +54,13 @@
     box-shadow: none !important;
     outline: none !important;
   }
-  .people-page #people.people-tabs .nav-link.active,
-  .people-page #people.people-tabs .nav-item.show .nav-link {
+  .people-page #peopleTabs.people-tabs .nav-link.active,
+  .people-page #peopleTabs.people-tabs .nav-item.show .nav-link {
     border-bottom: 2px solid #005E66 !important;
     font-weight: 600;
     color: #0b3540 !important;
   }
-  .people-page #people.people-tabs .nav-link:not(.active) {
+  .people-page #peopleTabs.people-tabs .nav-link:not(.active) {
     border-bottom: 2px solid transparent !important;
   }
 </style>
@@ -56,9 +80,9 @@
 {% endblock %}
 
 {% block content %}
-<section id="people" class="people-page-section page-section">
+<section id="people-section" class="people-page-section page-section">
     <div class="container people-page">
-        <ul class="nav nav-tabs people-tabs" id="people" role="tablist">
+        <ul class="nav nav-tabs people-tabs" id="peopleTabs" role="tablist">
             {% for desg in data %}
             <li class="nav-item">
                 <a class="nav-link" id="{{ desg|to_snake_case }}-tab" data-toggle="tab" data-target="#{{ desg|to_snake_case }}" role="tab" aria-controls="{{ desg|to_snake_case }}" aria-selected="false">{{ desg }}</a>
@@ -76,26 +100,28 @@
                                 <div class="people-card-layout">
                                     <div class="profile-photo-wrap">
                                         {% if assignment.staff.profile.profile_pic %}
-                                        <img src="{{ assignment.staff.profile.profile_pic.url }}" alt="{{ assignment.staff.profile.get_full_name|proper_case_filter }}"
+                                        <img src="{{ assignment.staff.profile.profile_pic.url }}" alt=""
                                             data-fallback="{% if assignment.staff.profile.gender == 'F' %}{% static 'img/woman.png' %}{% else %}{% static 'img/man.png' %}{% endif %}"
                                             onerror="this.onerror=null; this.src=this.dataset.fallback;"
                                             class="img-fluid"/>
                                         {% elif assignment.staff.profile.gender == 'F' %}
-                                        <img src="{% static 'img/woman.png' %}" alt="avatar" class="img-fluid"/>
+                                        <img src="{% static 'img/woman.png' %}" alt="" class="img-fluid"/>
                                         {% else %}
-                                        <img src="{% static 'img/man.png' %}" alt="avatar" class="img-fluid"/>
+                                        <img src="{% static 'img/man.png' %}" alt="" class="img-fluid"/>
                                         {% endif %}
                                     </div>
                                     <div class="people-card-main">
                                         <h5 class="people-name card-title">{{ assignment.staff.profile.get_full_name|proper_case_filter }}</h5>
-                                        {% if assignment.display_entries %}
-                                        {% for entry in assignment.display_entries %}
-                                        <p class="people-profession people-profession--{{ entry.kind }}">{{ entry.text|proper_case_filter }}</p>
-                                        {% endfor %}
-                                        {% else %}
-                                        {% for line in assignment.display_lines %}
-                                        <p class="people-profession {% if forloop.first %}people-profession--position{% else %}people-profession--occupation{% endif %}">{{ line|proper_case_filter }}</p>
-                                        {% endfor %}
+                                        <div class="people-card-details">
+                                        {% if assignment.position_line %}
+                                        <p class="people-profession people-profession--position">{{ assignment.position_line }}</p>
+                                        {% endif %}
+                                        {% if assignment.occupation_line %}
+                                        <p class="people-card-job">{{ assignment.occupation_line }}</p>
+                                        {% endif %}
+                                        </div>
+                                        {% if assignment.groups_line %}
+                                        <p class="people-profession people-profession--groups">{{ assignment.groups_line }}</p>
                                         {% endif %}
                                         <div class="people-card-footer">
                                             <a href="{% url 'staff_profile' assignment.staff.id %}?from={{ desg|to_snake_case }}" class="people-view-profile-btn btn btn-primary btn-sm">View Profile</a>

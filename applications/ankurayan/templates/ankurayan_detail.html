@@ -1,4 +1,4 @@
-﻿{% extends 'base.html' %}
+{% extends 'base.html' %}
 {% load ankurayan_tags %}
 
 {% load static %}
@@ -9,10 +9,9 @@
 {% block body_class %}ankurayan-detail{% endblock %}
 
 {% block style %}
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
 <!-- Custom CSS -->
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
-<link rel="stylesheet" href="{% static 'css/ankurayan.css' %}?v=9">
+<link rel="stylesheet" href="{% static 'css/ankurayan.css' %}?v=10">
 <!-- Custom Style -->
 <style>
     body #top-section {
@@ -411,6 +410,111 @@
     .ankurayan-cards-wrap { padding-top: 0.5rem; }
     .ankurayan-cards-row { margin-bottom: 0.5rem; }
     .ankurayan-cards-row + .ankurayan-cards-row { margin-top: 1rem; }
+    /* Reports / Publications / Invitation — equal thirds, full row width */
+    .ankurayan-files-cards-row {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        align-items: stretch;
+    }
+    @media (min-width: 768px) {
+        .ankurayan-files-cards-row {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+    }
+    .ankurayan-files-cards-row > .ankurayan-files-card-col {
+        min-width: 0;
+        display: flex;
+        padding: 0;
+        margin-bottom: 0 !important;
+    }
+    .ankurayan-files-cards-row > .ankurayan-files-card-col > .ankurayan-section-card {
+        width: 100%;
+        min-height: 10.5rem;
+    }
+    .ankurayan-files-cards-row .ankurayan-section-card-body {
+        padding: 1.15rem 1.25rem !important;
+    }
+    .ankurayan-file-card-header {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+        margin-bottom: 0.85rem;
+        flex-shrink: 0;
+    }
+    .ankurayan-file-card-title {
+        color: #005E66 !important;
+        font-weight: 700 !important;
+        font-size: 0.8125rem !important;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin: 0 !important;
+        padding-bottom: 0.65rem;
+        border-bottom: 1px solid #e2e8f0;
+        line-height: 1.3;
+        width: 100%;
+    }
+    .ankurayan-file-card-action {
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 100% !important;
+        min-height: 2.125rem;
+        padding: 0.4rem 0.65rem !important;
+        font-size: 0.8125rem !important;
+        font-weight: 600 !important;
+        line-height: 1.25 !important;
+        white-space: nowrap;
+        border: 1px solid #94a3b8 !important;
+        border-radius: 8px !important;
+        color: #334155 !important;
+        background: #fff !important;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+        transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+    .ankurayan-file-card-action:hover,
+    .ankurayan-file-card-action:focus {
+        color: #005E66 !important;
+        border-color: #005E66 !important;
+        background: #f0fdfa !important;
+    }
+    .ankurayan-file-card-content {
+        flex: 1 1 auto;
+        min-height: 0;
+    }
+    .ankurayan-file-card-content .text-muted {
+        font-size: 0.875rem !important;
+        line-height: 1.55 !important;
+        margin-bottom: 0 !important;
+    }
+    .ankurayan-file-card-content .ankurayan-file-list {
+        margin: 0;
+        padding: 0;
+    }
+    .ankurayan-desc-card-header {
+        margin-bottom: 1rem;
+    }
+    .ankurayan-desc-card-header-row {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 0.75rem 1rem;
+        flex-wrap: wrap;
+    }
+    .ankurayan-desc-card-header-row .ankurayan-file-card-title {
+        flex: 1 1 auto;
+        min-width: 8rem;
+        margin-bottom: 0 !important;
+    }
+    .ankurayan-desc-edit-btn {
+        flex: 0 0 auto;
+        min-width: 5.5rem;
+        width: auto !important;
+    }
     .ankurayan-detail .ankurayan-section-card {
         min-height: 0;
         max-height: none;
@@ -1395,11 +1499,13 @@
                         <div class="col-12 mb-3">
                             <div class="card border-0 ankurayan-section-card mb-0 ankurayan-description-card">
                                 <div class="card-body ankurayan-section-card-body">
-                                    <div class="d-flex align-items-center justify-content-between flex-wrap mb-1">
-                                        <h2 class="content-title mb-0 text-uppercase">Description</h2>
-                                        {% if check_admin and ankurayan.year != 2021 %}
-                                        <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#modalDescription" aria-label="Edit description">Edit</button>
-                                        {% endif %}
+                                    <div class="ankurayan-desc-card-header">
+                                        <div class="ankurayan-desc-card-header-row">
+                                            <h2 class="ankurayan-file-card-title">Description</h2>
+                                            {% if check_admin and ankurayan.year != 2021 %}
+                                            <button type="button" class="btn ankurayan-file-card-action ankurayan-desc-edit-btn" data-toggle="modal" data-target="#modalDescription" aria-label="Edit description">Edit</button>
+                                            {% endif %}
+                                        </div>
                                     </div>
                                     {% if ankurayan.description|striptags %}
                                         {% if ankurayan.year == 2021 %}
@@ -1418,46 +1524,76 @@
                         </div>
                     </div>
 
-                    <div class="row ankurayan-cards-row gx-2 gx-md-3">
-                        <div class="col-md-6 mb-3">
-                            <div class="card border-0 ankurayan-section-card h-100 mb-0">
+                    <div class="ankurayan-cards-row ankurayan-files-cards-row">
+                        <div class="ankurayan-files-card-col">
+                            <div class="card border-0 ankurayan-section-card ankurayan-file-section-card h-100 mb-0">
                                 <div class="card-body ankurayan-section-card-body">
-                                    <div class="d-flex align-items-center justify-content-between flex-wrap mb-1">
-                                        <h2 class="content-title mb-0 text-uppercase">Reports</h2>
+                                    <div class="ankurayan-file-card-header">
+                                        <h2 class="ankurayan-file-card-title">Reports</h2>
                                         {% if check_admin %}
-                                        <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#modalReports" aria-label="Upload or edit reports">Upload / Manage</button>
+                                        <button type="button" class="btn ankurayan-file-card-action" data-toggle="modal" data-target="#modalReports" aria-label="Upload or edit reports">Upload / Manage</button>
                                         {% endif %}
                                     </div>
-                                    {% if report_files %}
-                                    <ul class="ankurayan-file-list mb-0">
-                                        {% for rf in report_files %}
-                                        <li><a href="{{ rf.file.url }}" download class="ankurayan-file-link" title="Download"><span class="ankurayan-file-link-name">{{ rf.title|default:rf.file.name }}</span><i class="fas fa-download ankurayan-file-link-icon" aria-hidden="true"></i></a></li>
-                                        {% endfor %}
-                                    </ul>
-                                    {% else %}
-                                    <p class="text-muted mb-0">No reports uploaded yet.{% if check_admin %} Use <strong>Upload / Manage</strong> to add files.{% endif %}</p>
-                                    {% endif %}
+                                    <div class="ankurayan-file-card-content">
+                                        {% if report_files %}
+                                        <ul class="ankurayan-file-list mb-0">
+                                            {% for rf in report_files %}
+                                            <li><a href="{{ rf.file.url }}" download class="ankurayan-file-link" title="Download"><span class="ankurayan-file-link-name">{{ rf.title|default:rf.file.name }}</span><i class="fas fa-download ankurayan-file-link-icon" aria-hidden="true"></i></a></li>
+                                            {% endfor %}
+                                        </ul>
+                                        {% else %}
+                                        <p class="text-muted mb-0">No reports yet.{% if check_admin %} Use the button above to add files.{% endif %}</p>
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <div class="card border-0 ankurayan-section-card h-100 mb-0">
+                        <div class="ankurayan-files-card-col">
+                            <div class="card border-0 ankurayan-section-card ankurayan-file-section-card h-100 mb-0">
                                 <div class="card-body ankurayan-section-card-body">
-                                    <div class="d-flex align-items-center justify-content-between flex-wrap mb-1">
-                                        <h2 class="content-title mb-0 text-uppercase">Publications</h2>
+                                    <div class="ankurayan-file-card-header">
+                                        <h2 class="ankurayan-file-card-title">Publications</h2>
                                         {% if check_admin %}
-                                        <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#modalPublications" aria-label="Upload or edit publications">Upload / Manage</button>
+                                        <button type="button" class="btn ankurayan-file-card-action" data-toggle="modal" data-target="#modalPublications" aria-label="Upload or edit publications">Upload / Manage</button>
                                         {% endif %}
                                     </div>
-                                    {% if publication_files %}
-                                    <ul class="ankurayan-file-list mb-0">
-                                        {% for pf in publication_files %}
-                                        <li><a href="{{ pf.file.url }}" download class="ankurayan-file-link" title="Download"><span class="ankurayan-file-link-name">{{ pf.title|default:pf.file.name }}</span><i class="fas fa-download ankurayan-file-link-icon" aria-hidden="true"></i></a></li>
-                                        {% endfor %}
-                                    </ul>
-                                    {% else %}
-                                    <p class="text-muted mb-0">No publications uploaded yet.{% if check_admin %} Use <strong>Upload / Manage</strong> to add files.{% endif %}</p>
-                                    {% endif %}
+                                    <div class="ankurayan-file-card-content">
+                                        {% if publication_files %}
+                                        <ul class="ankurayan-file-list mb-0">
+                                            {% for pf in publication_files %}
+                                            <li><a href="{{ pf.file.url }}" download class="ankurayan-file-link" title="Download"><span class="ankurayan-file-link-name">{{ pf.title|default:pf.file.name }}</span><i class="fas fa-download ankurayan-file-link-icon" aria-hidden="true"></i></a></li>
+                                            {% endfor %}
+                                        </ul>
+                                        {% else %}
+                                        <p class="text-muted mb-0">No publications yet.{% if check_admin %} Use the button above to add files.{% endif %}</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ankurayan-files-card-col">
+                            <div class="card border-0 ankurayan-section-card ankurayan-file-section-card h-100 mb-0">
+                                <div class="card-body ankurayan-section-card-body">
+                                    <div class="ankurayan-file-card-header">
+                                        <h2 class="ankurayan-file-card-title">Invitation letter</h2>
+                                        {% if check_admin %}
+                                        <button type="button" class="btn ankurayan-file-card-action" data-toggle="modal" data-target="#modalInvitationLetter" aria-label="Upload invitation letter">Upload / Manage</button>
+                                        {% endif %}
+                                    </div>
+                                    <div class="ankurayan-file-card-content">
+                                        {% if invitation_letter %}
+                                        <ul class="ankurayan-file-list mb-0">
+                                            <li>
+                                                <a href="{{ invitation_letter.file.url }}" target="_blank" rel="noopener noreferrer" class="ankurayan-file-link" title="View invitation letter">
+                                                    <span class="ankurayan-file-link-name">Invitation letter ({{ ankurayan.year }})</span>
+                                                    <i class="fas fa-external-link-alt ankurayan-file-link-icon" aria-hidden="true"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        {% else %}
+                                        <p class="text-muted mb-0">No invitation letter yet.{% if check_admin %} Use the button above to add a one-page PDF or image.{% endif %}</p>
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1977,6 +2113,54 @@
             </div>
             <div class="modal-footer">
                 {% if check_admin %}<button type="button" class="btn btn-outline-teal mr-auto" id="btnEditReports" onclick="toggleEdit('Reports')">Edit</button>{% endif %}
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade ankurayan-section-modal" id="modalInvitationLetter" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content shadow border-0">
+            <div class="modal-header">
+                <h5 class="modal-title content-title">Invitation letter</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                {% if check_admin %}
+                <h6 class="content-title">Upload one-page letter</h6>
+                <p class="small text-muted mb-3">PDF or image (JPG, PNG). Uploading again replaces the current file.</p>
+                <form method="post" action="{% url 'ankurayan:UploadAnkurayanInvitation' ankurayan.slug %}" enctype="multipart/form-data" class="mb-4">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input type="file" name="invitation_file" class="form-control-file" accept=".pdf,application/pdf,image/jpeg,image/png,image/webp" required>
+                    </div>
+                    <button type="submit" class="btn btn-teal">Upload</button>
+                </form>
+                {% endif %}
+                <div id="viewInvitationLetter">
+                    {% if invitation_letter %}
+                    <p class="small font-weight-bold mb-2" style="color: #1e293b;">Current file</p>
+                    <ul class="ankurayan-file-list mb-0">
+                        <li>
+                            <a href="{{ invitation_letter.file.url }}" target="_blank" rel="noopener noreferrer" class="ankurayan-file-link" title="View">
+                                <span class="ankurayan-file-link-name">Invitation letter — Ankurayan {{ ankurayan.year }}</span>
+                                <i class="fas fa-external-link-alt ankurayan-file-link-icon" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <p class="small text-muted mt-2 mb-0">Uploaded {{ invitation_letter.uploaded_at|date:"j M Y" }}.</p>
+                    {% else %}
+                    <p class="text-muted mb-0">No invitation letter uploaded yet.{% if check_admin %} Upload a file above.{% endif %}</p>
+                    {% endif %}
+                </div>
+                {% if check_admin and invitation_letter %}
+                <form method="post" action="{% url 'ankurayan:DeleteAnkurayanInvitation' ankurayan.slug %}" class="mt-4 mb-0" onsubmit="return confirm('Remove this invitation letter?');">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Remove invitation letter</button>
+                </form>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>

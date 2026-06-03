@@ -5,12 +5,12 @@
 
 {% block title %} Anandakendra - {{ kendra.locality }} {% endblock %}
 
-{% block body_class %}anandakendra-detail-page anandakendra-hero-two-line{% endblock %}
+{% block body_class %}anandakendra-detail-page{% endblock %}
 
 {% block style %}
 <!-- Custom CSS -->
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}?v=5">
-<link rel="stylesheet" href="{% static 'css/anandakendra.css' %}?v=9">
+<link rel="stylesheet" href="{% static 'css/anandakendra.css' %}?v=21">
 <!-- Custom Style (after anandakendra.css — must win over !important rules in that file) -->
 <style>
     /* Pillar-style banner: override custom.css #top-section photo + match Sanskar gradient */
@@ -26,122 +26,61 @@
         background-size: cover !important;
     }
     body.anandakendra-detail-page #top-section .parallax-overlay {
+        position: relative !important;
         background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(214, 236, 238, 0.28) 100%) !important;
         background-color: transparent !important;
     }
-    /* Hero title: line 1 = name, line 2 = full locality (keeps "Odisha" with "Bandhu Ashram,") */
-    body.anandakendra-detail-page.anandakendra-hero-two-line #top-section .parallax-overlay::before,
+    /* Hero title: detail pages only — smaller than list, centered in the banner band */
     body.anandakendra-detail-page #top-section .parallax-overlay::before {
-        content: "{{ kendra.name|addslashes }} -";
+        content: "{{ kendra.name|addslashes }} - {{ kendra.locality|addslashes }}";
         position: absolute;
-        top: 96px;
+        top: 40%;
         left: 50%;
-        transform: translateX(-50%);
+        transform: translate(-50%, -50%);
         color: #005E66;
-        font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         font-weight: 800;
-        font-size: clamp(2rem, 5.5vw, 3.75rem);
+        font-size: clamp(1.35rem, 3.2vw, 2.15rem);
         letter-spacing: 0.02em;
         text-shadow: 0 1px 0 rgba(255, 255, 255, 0.95), 0 2px 22px rgba(0, 94, 102, 0.14);
         z-index: 5;
         pointer-events: none;
-        max-width: min(98vw, 52rem);
+        max-width: min(92vw, 48rem);
         text-align: center;
         line-height: 1.2;
-        white-space: nowrap;
     }
-    body.anandakendra-detail-page.anandakendra-hero-two-line #top-section .parallax-overlay::after,
     body.anandakendra-detail-page #top-section .parallax-overlay::after {
-        content: "{{ kendra.locality|addslashes }}";
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        top: clamp(9.5rem, 18vw, 11.25rem);
-        white-space: nowrap;
-        color: #005E66;
-        font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        font-weight: 800;
-        font-size: clamp(1.75rem, 4.5vw, 3.25rem);
-        letter-spacing: 0.02em;
-        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.95), 0 2px 22px rgba(0, 94, 102, 0.14);
-        z-index: 5;
-        pointer-events: none;
-        max-width: 98vw;
-        text-align: center;
-        line-height: 1.25;
+        content: none !important;
+        display: none !important;
     }
     body.anandakendra-detail-page #top-section .slider-txt-container.page-showcase > * {
         opacity: 0 !important;
     }
-
-    /* Match Sanskar/Swabalamban overlay card geometry (override anandakendra.css 25/75 + 100% image width) */
-    .anandakendra-detail .pillar-overlay-cards {
-        margin-top: -200px !important;
-        position: relative;
-        z-index: 3;
-        padding-bottom: 4rem;
-        background: linear-gradient(180deg, transparent 0, transparent 420px, #ffffff 420px);
+    /* About cards: same colors as list (geometry from anandakendra.css #about rules) */
+    body.anandakendra-detail-page #about.pillar-overlay-cards .pillar-overlay-card--text {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        background: linear-gradient(180deg, #fffdf8 0%, #ffffff 58%, #fbfaf7 100%) !important;
     }
-    @media (min-width: 992px) {
-        .anandakendra-detail .pillar-overlay-cards .row > .col-lg-4 { flex: 0 0 30% !important; max-width: 30% !important; }
-        .anandakendra-detail .pillar-overlay-cards .row > .col-lg-8 { flex: 0 0 70% !important; max-width: 70% !important; }
-    }
-    .anandakendra-detail .pillar-overlay-cards .container {
-        max-width: 1400px;
-        width: 100%;
-        margin-left: auto;
-        margin-right: auto;
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
-        box-sizing: border-box;
-    }
-    @media (min-width: 576px) {
-        .anandakendra-detail .pillar-overlay-cards .container { padding-left: 2rem; padding-right: 2rem; }
-    }
-    @media (min-width: 992px) {
-        .anandakendra-detail .pillar-overlay-cards .container { padding-left: 2.5rem; padding-right: 2.5rem; }
-    }
-    .anandakendra-detail .pillar-overlay-cards .pillar-overlay-card {
-        background: #ffffff;
-        border-radius: 12px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.06);
-        overflow: hidden;
-        padding: 1.5rem 1.75rem;
-    }
-    .anandakendra-detail .pillar-overlay-cards .pillar-overlay-card--image {
-        padding: 0;
-        aspect-ratio: 1 / 1;
-        width: 92% !important;
-        max-width: 92% !important;
-        min-height: 0;
-        margin-left: 0;
-        margin-right: auto;
-    }
-    .anandakendra-detail .pillar-overlay-cards .pillar-overlay-card--image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-    }
-    .anandakendra-detail .pillar-overlay-cards .pillar-overlay-card--text {
-        min-height: 280px;
-        height: 100%;
-        padding: 1.5rem 1.75rem !important;
-        font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        background: linear-gradient(180deg, #fffdf8 0%, #ffffff 58%, #fbfaf7 100%);
-        border: none;
-        box-shadow: 0 16px 26px -10px rgba(61, 92, 96, 0.36), 10px 4px 18px -10px rgba(61, 92, 96, 0.28), -10px 4px 18px -10px rgba(61, 92, 96, 0.24), 0 5px 12px -8px rgba(61, 92, 96, 0.22) !important;
-    }
-    .anandakendra-detail .pillar-overlay-cards .pillar-overlay-card--text .pillar-desc {
-        font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        font-weight: 600;
+    body.anandakendra-detail-page #about.pillar-overlay-cards .pillar-overlay-card--text .pillar-desc {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        color: #005E66 !important;
         letter-spacing: 0.012em;
-        line-height: 1.9;
-        color: #005E66;
+        line-height: 1.85 !important;
+        font-weight: 600 !important;
     }
-    @media (max-width: 768px) {
-        .anandakendra-detail .pillar-overlay-cards { margin-top: -100px; }
-        .anandakendra-detail .pillar-overlay-cards .pillar-overlay-card--image { aspect-ratio: 1 / 1; }
+    body.anandakendra-detail-page #about.pillar-overlay-cards .pillar-overlay-card--text .pillar-desc strong,
+    body.anandakendra-detail-page #about.pillar-overlay-cards .pillar-overlay-card--text .pillar-desc b {
+        color: #005E66 !important;
+        font-weight: 700 !important;
+    }
+    /* Pin back link to bottom of text card (same row as list page “Back to Sanskar”) */
+    body.anandakendra-detail-page #about .pillar-overlay-card--text.anandakendra-sync-text {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    body.anandakendra-detail-page #about .anandakendra-card-actions {
+        margin-top: auto !important;
+        width: 100%;
     }
 </style>
 
@@ -156,6 +95,38 @@
     }
     body.anandakendra-detail-page #gallery .gallery-section-head .gallery-section-accent {
         margin-bottom: 0 !important;
+    }
+    /* Gallery strip: pure white — no teal band or grey gaps between/below cards */
+    body.anandakendra-detail-page #gallery,
+    body.anandakendra-detail-page #gallery .anandakendra-detail-gallery__inner,
+    body.anandakendra-detail-page #gallery .container,
+    body.anandakendra-detail-page #gallery .gallery-container,
+    body.anandakendra-detail-page #gallery .gallery-scroll-track,
+    body.anandakendra-detail-page #gallery .gallery-scroll-row,
+    body.anandakendra-detail-page #gallery .gallery-scroll-card,
+    body.anandakendra-detail-page #gallery .gallery-scroll-card-link {
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        background-image: none !important;
+    }
+    body.anandakendra-detail-page #gallery .gallery-scroll-track {
+        padding: 0 !important;
+        border-radius: 0 !important;
+    }
+    body.anandakendra-detail-page #gallery .gallery-scroll-card-link {
+        box-shadow: none !important;
+        border: 1px solid rgba(0, 94, 102, 0.12) !important;
+    }
+    body.anandakendra-detail-page #gallery .gallery-scroll-card-link:hover {
+        box-shadow: none !important;
+    }
+    body.anandakendra-detail-page #gallery .gallery-scroll-img {
+        position: absolute !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        background: #ffffff !important;
     }
 </style>
 
@@ -201,22 +172,28 @@
                 <div class="pillar-overlay-card pillar-overlay-card--image">
                     <img src="{{ kendra.image.url }}" alt="{{ kendra.name }}" loading="eager" class="pillar-overlay-single-image">
                 </div>
-                <div class="anandakendra-image-caption" aria-label="Anandakendra image caption">
-                    <p class="caption-line caption-en">"Man making initiative of Bandhu"</p>
-                    <p class="caption-line caption-or">"ଏକ ପ୍ରେରେଣାଶୀଳ ନୂଆପିଢୀର ନିର୍ମାଣେ"</p>
-                </div>
             </div>
             <div class="col-lg-8 col-md-7">
                 <div class="pillar-overlay-card pillar-overlay-card--text anandakendra-sync-text{% if check_admin and user.is_authenticated %} has-admin-actions{% endif %}">
-                    <div class="pillar-desc pillar-desc-preview">{{ kendra.description|safe }}</div>
-                    <button
-                        type="button"
-                        class="anandakendra-read-more"
-                        data-toggle="modal"
-                        data-target="#anandakendraDetailReadMoreModal"
-                    >
-                        Read more
-                    </button>
+                    {% with desc_plain=kendra.description|striptags %}
+                    <div class="pillar-desc">
+                        {% if not desc_plain or desc_plain == kendra.locality|striptags or desc_plain|length < 30 %}
+                        To be updated soon...
+                        {% else %}
+                        {{ kendra.description|safe }}
+                        {% endif %}
+                    </div>
+                    {% endwith %}
+                    <div class="anandakendra-card-actions anandakendra-card-footer">
+                        <a href="{% url 'anandakendra:anandakendra' %}" class="anandakendra-back-link">
+                            <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                            Back to Anandakendras
+                        </a>
+                        <div class="anandakendra-text-caption" aria-label="Anandakendra caption">
+                            <p class="caption-line caption-en">"Man making initiative of Bandhu"</p>
+                            <p class="caption-line caption-or">"ଏକ ପ୍ରେରେଣାଶୀଳ ନୂଆପିଢୀର ନିର୍ମାଣେ"</p>
+                        </div>
+                    </div>
                     {% if check_admin and user.is_authenticated %}
                     <div class="anandakendra-detail-admin-actions mt-4 pt-3 border-top border-secondary">
                         <div class="anandakendra-admin-title-row">
@@ -236,22 +213,6 @@
         </div>
     </div>
 </section>
-
-<div class="modal fade anandakendra-readmore-modal" id="anandakendraDetailReadMoreModal" tabindex="-1" role="dialog" aria-labelledby="anandakendraDetailReadMoreTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="anandakendraDetailReadMoreTitle">{{ kendra.name|safe }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="readmore-content">{{ kendra.description|safe }}</div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- Activities Section (only when there are activities) -->
 {% if has_activities %}
@@ -494,24 +455,24 @@
 {% endcomment %}
 
 {% if photos.count %}
-<section id="gallery">
-    <div class="bg-grey" style="padding: 80px 0 60px;">
+<section id="gallery" class="anandakendra-detail-gallery">
+    <div class="anandakendra-detail-gallery__inner">
         <div class="container">
             <div class="section-head gallery-section-head">
                 <h2 class="section-title">Gallery</h2>
                 <div class="section-accent gallery-section-accent"></div>
             </div>
 
-            <div id="gallery-container" class="gallery-container gallery-container--home-style mt-4">
+            <div id="gallery-container" class="gallery-container gallery-container--home-style mt-2{% if photos.count == 1 %} gallery-container--single{% endif %}">
                 <div
-                    class="gallery-scroll-track scrollbar-hide"
+                    class="gallery-scroll-track scrollbar-hide{% if photos.count == 1 %} gallery-scroll-track--single{% endif %}"
                     data-gallery-scroll
                     aria-label="Gallery photos"
                 >
-                    <div class="gallery-scroll-row">
+                    <div class="gallery-scroll-row{% if photos.count == 1 %} gallery-scroll-row--single{% endif %}">
                         {% for photo in photos %}
                         <div class="gallery-scroll-card" data-gallery-card>
-                            <a href="javascript:pswpInit({{ forloop.counter0 }})" class="gallery-scroll-card-link" aria-label="View gallery image {{ forloop.counter }}">
+                            <a href="#" class="gallery-scroll-card-link" data-gallery-lightbox data-gallery-index="{{ forloop.counter0 }}" role="button" aria-label="View gallery image {{ forloop.counter }}">
                                 <img src="{{ photo.picture.url }}" alt="Gallery" class="gallery-scroll-img" loading="lazy">
                                 <span class="gallery-scroll-overlay" aria-hidden="true"><i class="fab fa-instagram"></i></span>
                             </a>
@@ -577,6 +538,30 @@
         </div>
     </div>
 </section>
+
+<div class="modal fade anandakendra-modal anandakendra-gallery-lightbox" id="anandakendraGalleryLightbox" tabindex="-1" role="dialog" aria-labelledby="anandakendraGalleryLightboxTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg anandakendra-gallery-lightbox-dialog" role="document">
+        <div class="modal-content anandakendra-gallery-lightbox-content">
+            <div class="modal-header anandakendra-gallery-lightbox-header border-0 py-2">
+                <span class="anandakendra-gallery-lightbox-counter small mb-0" id="anandakendraGalleryCounter" aria-live="polite"></span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body anandakendra-gallery-lightbox-body p-0">
+                <div class="anandakendra-gallery-lightbox-stage">
+                    <button type="button" class="anandakendra-gallery-lightbox-nav anandakendra-gallery-lightbox-prev" id="anandakendraGalleryPrev" aria-label="Previous photo">
+                        <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                    </button>
+                    <img src="" alt="Gallery photo" class="anandakendra-gallery-lightbox-img" id="anandakendraGalleryImage">
+                    <button type="button" class="anandakendra-gallery-lightbox-nav anandakendra-gallery-lightbox-next" id="anandakendraGalleryNext" aria-label="Next photo">
+                        <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endif %}
 
 <!-- MODALS  -->
@@ -808,9 +793,6 @@
     </div>
 </div>
 
-<!-- Include PhotoSwipe -->
-{% include 'snippets/init_pswp.html' %}
-
 <!-- Scroll To Top Button -->
 <div id="scroll-to-top">
     <div class="hex scroll-top">
@@ -834,11 +816,11 @@ $(function () {
         }
     });
 
-    $(document).on('shown.bs.modal', '.anandakendra-modal, .anandakendra-readmore-modal', function () {
+    $(document).on('shown.bs.modal', '.anandakendra-modal, .anandakendra-readmore-modal, .anandakendra-gallery-lightbox', function () {
         $(this).css('z-index', 1060);
         $('.modal-backdrop').last().css('z-index', 1055);
     });
-    $(document).on('hidden.bs.modal', '.anandakendra-modal, .anandakendra-readmore-modal', function () {
+    $(document).on('hidden.bs.modal', '.anandakendra-modal, .anandakendra-readmore-modal, .anandakendra-gallery-lightbox', function () {
         if (document.activeElement && document.activeElement.blur) {
             document.activeElement.blur();
         }
@@ -852,63 +834,66 @@ $(function () {
     });
 </script>
 {% endif %}
-<!-- PHOTOSWIPE -->
+{% if photos.count %}
 <script>
-    // build the json album images collection 
-    window.djangoAlbumImages = [
+(function () {
+    var photos = [
         {% for photo in photos %}
-            {
-                src: '{{ photo.picture.url }}',
-                w:  {{ photo.picture.width }},
-                h:  {{ photo.picture.height }}
-            },
+        '{{ photo.picture.url|escapejs }}'{% if not forloop.last %},{% endif %}
         {% endfor %}
     ];
+    if (!photos.length) return;
 
-    // Change album on filtering images
-    $('#gallery-container .galleryFilter a').on("click", function () {
-        let filter = $(this).data('filter');
+    var index = 0;
+    var $modal = $('#anandakendraGalleryLightbox');
+    var imgEl = document.getElementById('anandakendraGalleryImage');
+    var counterEl = document.getElementById('anandakendraGalleryCounter');
 
-        if (filter == "") {
-            window.djangoAlbumImages = [
-                {% for photo in photos %}
-                    {
-                        src: '{{ photo.picture.url }}',
-                        w: {{ photo.picture.width }},
-                        h: {{ photo.picture.height }}
-                    },
-                {% endfor %}
-            ];
+    if (photos.length <= 1) {
+        $modal.addClass('is-single-photo');
+    }
 
-            $('#gallery-container .gallery-item a').each(function (index, img) {
-                if ($(img).closest('#load-more').length == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
-            });
+    function showAt(i) {
+        index = (i + photos.length) % photos.length;
+        if (imgEl) {
+            imgEl.src = photos[index];
+            imgEl.alt = 'Gallery photo ' + (index + 1);
         }
-        else {
-            category = filter.slice(1);
-
-            window.djangoAlbumImages = [];
-
-            {% for photo in photos %}
-            if ("{{ photo.activity.category.name }}" == category) {
-                window.djangoAlbumImages.push(
-                    {
-                        src: '{{ photo.picture.url }}',
-                        w: {{ photo.picture.width }},
-                        h: {{ photo.picture.height }}
-                    }
-                );
-            }
-            {% endfor %}
-
-            let selector = '#gallery-container ' + filter + ' a';
-            $(selector).each(function (index, img) {
-                if ($(img).closest('#load-more').length == 0) $(img).attr("href", 'javascript:pswpInit(' + index + ')');
-            });
+        if (counterEl) {
+            counterEl.textContent = (index + 1) + ' / ' + photos.length;
         }
+    }
 
+    $(document).on('click', '[data-gallery-lightbox]', function (e) {
+        e.preventDefault();
+        var i = parseInt(this.getAttribute('data-gallery-index'), 10);
+        if (isNaN(i)) i = 0;
+        showAt(i);
+        $modal.modal('show');
     });
+
+    $('#anandakendraGalleryPrev').on('click', function (e) {
+        e.stopPropagation();
+        showAt(index - 1);
+    });
+    $('#anandakendraGalleryNext').on('click', function (e) {
+        e.stopPropagation();
+        showAt(index + 1);
+    });
+
+    $(document).on('keydown.anandakendraGallery', function (e) {
+        if (!$modal.hasClass('show') || photos.length <= 1) return;
+        if (e.key === 'ArrowLeft') {
+            showAt(index - 1);
+            e.preventDefault();
+        } else if (e.key === 'ArrowRight') {
+            showAt(index + 1);
+            e.preventDefault();
+        }
+    });
+})();
 </script>
+{% endif %}
 <!-- Contact Scrollspy Problem -->
 <script>contact_scrollspy()</script>
 
@@ -1043,6 +1028,7 @@ $(function () {
         var GAP_PX = 32;
         var scrollEl = document.querySelector('#gallery-container [data-gallery-scroll]');
         if (!scrollEl) return;
+        if (scrollEl.querySelectorAll('[data-gallery-card]').length <= 1) return;
         var paused = false;
         scrollEl.addEventListener('mouseenter', function() { paused = true; });
         scrollEl.addEventListener('mouseleave', function() { paused = false; });

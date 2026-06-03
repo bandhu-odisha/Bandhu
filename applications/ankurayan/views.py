@@ -13,6 +13,7 @@ from accounts.forms import RegisterForm
 from .models import (
     Ankurayan, Activity, Photo, Guest, Participant,
     ActivityCategory, HomePage, AnkurayanReportFile, AnkurayanPublicationFile,
+    AnkurayanInvitationLetter,
 )
 
 # Create your views here.
@@ -95,6 +96,7 @@ def ankurayan_detail(request, slug):
         'guests': guests,
         'signup_form': RegisterForm(initial=signup_initial),
         'open_signup_modal': request.GET.get('signup_modal') == '1',
+        'invitation_letter': AnkurayanInvitationLetter.objects.filter(ankurayan=ankurayan).first(),
     }
     return render(request,'ankurayan_detail.html', context)
 
@@ -155,6 +157,43 @@ def upload_ankurayan_publication(request, slug):
     else:
         messages.error(request, 'Please select a file.')
     url = reverse('ankurayan:AnkurayanDetail', kwargs={'slug': slug}) + '#modalPublications'
+    return HttpResponseRedirect(url)
+
+
+@login_required
+@user_passes_test(is_admin, redirect_field_name=None, login_url="/accounts/login/")
+def upload_ankurayan_invitation(request, slug):
+    """Upload or replace the one-page invitation letter for this Ankurayan (admin only)."""
+    ankurayan = get_object_or_404(Ankurayan, slug=slug)
+    if request.method != 'POST':
+        return redirect('ankurayan:AnkurayanDetail', slug=slug)
+    f = request.FILES.get('invitation_file')
+    if not f:
+        messages.error(request, 'Please select a file.')
+    else:
+        letter, _created = AnkurayanInvitationLetter.objects.get_or_create(ankurayan=ankurayan)
+        if letter.file:
+            letter.file.delete(save=False)
+        letter.file = f
+        letter.save()
+        messages.success(request, 'Invitation letter uploaded.')
+    url = reverse('ankurayan:AnkurayanDetail', kwargs={'slug': slug}) + '#modalInvitationLetter'
+    return HttpResponseRedirect(url)
+
+
+@login_required
+@user_passes_test(is_admin, redirect_field_name=None, login_url="/accounts/login/")
+def delete_ankurayan_invitation(request, slug):
+    """Remove the invitation letter for this Ankurayan (admin only). POST only."""
+    if request.method != 'POST':
+        return redirect('ankurayan:AnkurayanDetail', slug=slug)
+    ankurayan = get_object_or_404(Ankurayan, slug=slug)
+    letter = AnkurayanInvitationLetter.objects.filter(ankurayan=ankurayan).first()
+    if letter:
+        letter.file.delete(save=False)
+        letter.delete()
+        messages.success(request, 'Invitation letter removed.')
+    url = reverse('ankurayan:AnkurayanDetail', kwargs={'slug': slug}) + '#modalInvitationLetter'
     return HttpResponseRedirect(url)
 
 

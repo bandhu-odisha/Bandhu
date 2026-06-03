@@ -4,17 +4,17 @@
 	Bandhu | Sign Up
 {% endblock %}
 
+{% block body_class %}auth-page{% endblock %}
+{% block body_attrs %}{% endblock %}
+
 {% block style %}
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css1/util.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'css1/main.css' %}">
-<link rel="stylesheet" href="{% static 'css/accounts-auth-landing.css' %}">
+<link rel="stylesheet" href="{% static 'css/accounts-auth-landing.css' %}?v=285">
 {% endblock %}
 
-{% block navbar %}{% endblock %}
+{% block navbar %}{% include 'snippets/navbar_auth.html' %}{% endblock %}
 
 {% block content %}
 <div class="signup-page">
