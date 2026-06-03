@@ -4,7 +4,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
-from .helpers import _createHash, proper_case
+from .helpers import _createHash, core_team_card_lines, proper_case
 from accounts.models import User
 
 # Create your models here.
@@ -209,6 +209,73 @@ class Contact(models.Model):
     def __str__(self):
         return 'Contact Us Section Details'
 
+
+class AnnualReport(models.Model):
+    """Year-wise annual report — PDF upload or external link (e.g. Google Drive)."""
+
+    year = models.PositiveIntegerField(
+        unique=True,
+        help_text='Financial / report year (e.g. 2024 for FY 2023–24).',
+    )
+    title = models.CharField(
+        max_length=200,
+        blank=True,
+        help_text='Optional label shown in the footer. Defaults to “Annual Report {year}”.',
+    )
+    pdf_file = models.FileField(
+        upload_to='bandhuapp/annual_reports/',
+        blank=True,
+        null=True,
+        help_text='Upload a PDF. Leave empty if you only use an external link.',
+    )
+    external_url = models.URLField(
+        max_length=500,
+        blank=True,
+        help_text='Google Drive or other public link to the PDF.',
+    )
+    is_published = models.BooleanField(
+        default=True,
+        help_text='Show this report in the site footer.',
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-year']
+        verbose_name = 'Annual report'
+        verbose_name_plural = 'Annual reports'
+
+    def __str__(self):
+        label = (self.title or '').strip() or f'Annual Report {self.year}'
+        return f'{label} ({self.year})'
+
+    def clean(self):
+        super().clean()
+        has_pdf = bool(self.pdf_file)
+        has_url = bool((self.external_url or '').strip())
+        if not has_pdf and not has_url:
+            raise ValidationError(
+                'Provide either a PDF file or an external link (e.g. Google Drive).'
+            )
+
+    def display_title(self):
+        return (self.title or '').strip() or f'Annual Report {self.year}'
+
+    def get_public_url(self, request=None):
+        """Prefer uploaded PDF; otherwise use external URL."""
+        if self.pdf_file:
+            try:
+                url = self.pdf_file.url
+            except ValueError:
+                url = None
+            if url:
+                if request and url.startswith('/'):
+                    return request.build_absolute_uri(url)
+                return url
+        external = (self.external_url or '').strip()
+        return external or None
+
+
 class HomePage(models.Model):
     banner_image = models.ImageField(upload_to='bandhuapp/banner')
     visitors_count = models.IntegerField(default=0)
@@ -409,15 +476,24 @@ class PeoplesDesignation(models.Model):
 
     @property
     def display_lines(self):
-        """Lines for people cards: [position, occupation] or [profession]."""
-        occupation = (self.desc or "").strip()
-        if not occupation and self.staff_id:
-            occupation = (self.staff.profile.profession or "").strip()
+        """People cards: office bearer [role, profession]; core team [profession] only."""
         if self.role_id:
+            occupation = (self.desc or "").strip()
+            if not occupation and self.staff_id:
+                occupation = (self.staff.profile.profession or "").strip()
             lines = [proper_case(self.role.title)]
             if occupation:
                 lines.append(proper_case(occupation))
             return lines
+        if self.designation_id and self.designation.title == "Core Team":
+            return core_team_card_lines(
+                self.staff.profile.profession if self.staff_id else "",
+                self.desc,
+                self.staff.about if self.staff_id else "",
+            )
+        occupation = (self.desc or "").strip()
+        if not occupation and self.staff_id:
+            occupation = (self.staff.profile.profession or "").strip()
         if occupation:
             return [proper_case(occupation)]
         return [""]

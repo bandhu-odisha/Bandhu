@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
+import { CTA_PILL_CLASS } from '../cta'
 
 const TEAL = '#005E66'
 
@@ -79,20 +80,20 @@ export default function LoginModal({
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[300] flex items-center justify-center p-4 bg-black/45 backdrop-blur-[2px]"
+      className="fixed inset-0 z-[300] flex items-end sm:items-center justify-center p-2 sm:p-4 bg-black/45 backdrop-blur-[2px]"
       role="presentation"
       onMouseDown={handleBackdrop}
     >
       <div
         ref={panelRef}
-        className="relative w-full max-w-md rounded-2xl bg-white shadow-2xl ring-1 ring-black/10 overflow-hidden max-h-[90vh] overflow-y-auto"
+        className="relative w-full max-w-md rounded-t-2xl sm:rounded-2xl bg-white shadow-2xl ring-1 ring-black/10 overflow-hidden max-h-[min(92dvh,640px)] sm:max-h-[90vh] overflow-y-auto"
         role="dialog"
         aria-modal="true"
         aria-labelledby="login-modal-title"
         onMouseDown={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between px-5 pt-4 pb-2 border-b border-black/[0.06]">
-          <h2 id="login-modal-title" className="font-heading text-lg font-bold text-slate-800">
+        <div className="flex items-center justify-between px-4 sm:px-5 pt-3 sm:pt-4 pb-2 border-b border-black/[0.06]">
+          <h2 id="login-modal-title" className="font-heading text-base sm:text-lg font-bold text-slate-800">
             Sign In
           </h2>
           <button
@@ -107,11 +108,11 @@ export default function LoginModal({
           </button>
         </div>
 
-        <div className="px-5 py-5">
-          <div className="flex gap-2 mb-4">
+        <div className="px-4 sm:px-5 py-4 sm:py-5">
+          <div className="flex flex-col sm:flex-row gap-2 mb-4">
             <a
               href="/oauth/login/facebook/"
-              className="flex-1 flex items-center justify-center gap-2 rounded-full py-2.5 px-4 text-base font-heading font-bold text-white bg-[#1877f2] hover:bg-[#166fe5] transition-colors"
+              className="flex-1 flex items-center justify-center gap-2 rounded-full py-2.5 px-4 text-sm sm:text-base font-heading font-bold text-white bg-[#1877f2] hover:bg-[#166fe5] transition-colors min-h-[44px]"
             >
               <span className="text-lg leading-none" aria-hidden>
                 f
@@ -120,7 +121,7 @@ export default function LoginModal({
             </a>
             <a
               href="/oauth/login/google-oauth2/"
-              className="flex-1 flex items-center justify-center gap-2 rounded-full border-2 border-slate-200 bg-white py-2.5 px-4 text-base font-heading font-bold text-slate-700 hover:bg-slate-50 transition-colors"
+              className="flex-1 flex items-center justify-center gap-2 rounded-full border-2 border-slate-200 bg-white py-2.5 px-4 text-sm sm:text-base font-heading font-bold text-slate-700 hover:bg-slate-50 transition-colors min-h-[44px]"
             >
               <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24" aria-hidden>
                 <path
@@ -164,7 +165,7 @@ export default function LoginModal({
               autoComplete="username"
               placeholder="Email"
               defaultValue={prefill}
-              className="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#005E66]/30 focus:border-[#005E66]"
+              className="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-base sm:text-sm min-h-[44px] focus:outline-none focus:ring-2 focus:ring-[#005E66]/30 focus:border-[#005E66]"
             />
             <input
               name="password"
@@ -172,7 +173,7 @@ export default function LoginModal({
               required
               autoComplete="current-password"
               placeholder="Password"
-              className="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#005E66]/30 focus:border-[#005E66]"
+              className="w-full rounded-lg border border-slate-200 px-3 py-2.5 text-base sm:text-sm min-h-[44px] focus:outline-none focus:ring-2 focus:ring-[#005E66]/30 focus:border-[#005E66]"
             />
             <div className="text-right">
               <a href="/accounts/password_reset/" className="text-sm font-semibold hover:underline" style={{ color: TEAL }}>

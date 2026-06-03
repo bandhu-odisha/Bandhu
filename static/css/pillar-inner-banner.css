@@ -1,4 +1,4 @@
-﻿/* Shared inner-page hero banner (Sanskar, People, staff profile, etc.) */
+/* Shared inner-page hero banner (Sanskar, People, staff profile, etc.) */
 
 body.pillar-inner-page {
     background: #ffffff;
@@ -81,5 +81,5 @@ body.pillar-inner-page .pillar-showcase .page-showcase-accent {
 }
 
 body.pillar-inner-page .angular.pillar-angular .top-angle:before {
-    background: linear-gradient(180deg, #f0fafb 0%, #e8f5f6 100%);
+    background: #ffffff;
 }

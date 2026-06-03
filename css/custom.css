@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..700;1,400..700&display=swap);
+/* Inter loaded via templates/base.html — match React landing */
 
 @font-face {
     font-family: oriya;
@@ -10,7 +10,7 @@
     --brand-primary-hover: #006A73;
     --brand-primary-dark: #004A52;
     --brand-primary-soft: #D6ECEE;
-    --font-sans: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     --font-size-base: 1rem;
     --letter-spacing-body: 0.015em;
     --letter-spacing-heading: -0.02em;
@@ -21,7 +21,7 @@
 /* GLOBAL */
 
 html {
-    font-size: 20px;
+    font-size: clamp(15px, 13px + 0.45vw, 20px);
     font-family: var(--font-sans);
     width: 100%;
     margin: 0;
@@ -45,7 +45,21 @@ body {
     box-sizing: border-box;
 }
 
-/* Site-wide sans-serif — forms, Bootstrap, and UI inherit Inter Tight stack */
+/* Site-wide sans-serif — forms, Bootstrap, and UI use Inter (same as landing) */
+.main,
+.main h1,
+.main h2,
+.main h3,
+.main h4,
+.main h5,
+.main h6,
+.main p,
+.main a,
+.main li,
+.main label,
+.main small,
+.main .btn,
+.main .form-control,
 button,
 input,
 select,
@@ -60,6 +74,7 @@ optgroup,
 .dropdown-item,
 .modal,
 .modal-content,
+.modal-title,
 .card,
 .table,
 .badge,
@@ -67,7 +82,7 @@ optgroup,
 .toast,
 .list-group-item,
 .pagination {
-    font-family: inherit;
+    font-family: var(--font-sans);
 }
 
 /* Ensure app wrapper stays white behind all sections and full width for banner */
@@ -622,18 +637,23 @@ a.nav-button.btn:active,
     overflow: hidden;
 }
 .slider-txt-container .bold-txt {
-    font-size: 3.875em;
+    font-size: clamp(1.75rem, 8vw, 3.875em);
     font-weight: 800;
-    line-height: 70px;
+    line-height: 1.15;
 }
 .slider-txt-container .parallax-description {
     color: #ffffff;
     text-align: center;
-    font-size: 1.7em;
+    font-size: clamp(1rem, 3.5vw, 1.7em);
     font-weight: 600;
-    line-height: 40px;
-    width: 70%;
+    line-height: 1.45;
+    width: min(92%, 70%);
     margin: auto;
+}
+@media screen and (max-width: 575px) {
+    .slider-txt-container {
+        padding: 5rem 0 6rem;
+    }
 }
 
 /* Angular Cut on Showcase */
@@ -765,6 +785,16 @@ body.pillar-inner-page #top-section .parallax-overlay::after {
 }
 .contact-footer-list a:hover {
     color: #2dd4bf;
+}
+.contact-footer-upload-btn {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+.contact-footer-upload-btn:hover {
+    color: #2dd4bf;
+    text-decoration: underline;
 }
 .contact-footer-org-name {
     font-weight: 700;
@@ -1120,7 +1150,7 @@ body.pillar-inner-page #top-section .parallax-overlay::after {
     color: #fff !important;
     border-radius: 10px !important;
     border-width: 1px !important;
-    font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 600 !important;
     box-shadow: none !important;
 }
@@ -1155,7 +1185,7 @@ body.pillar-inner-page #top-section .parallax-overlay::after {
 }
 #addToGallery .modal-title,
 #approveGallery .modal-title {
-    font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 700 !important;
     font-size: 1.25rem !important;
     color: #fff !important;
@@ -1172,7 +1202,7 @@ body.pillar-inner-page #top-section .parallax-overlay::after {
     padding: 1.25rem 1.5rem !important;
     background: linear-gradient(180deg, #f7fbfc 0%, #ffffff 22%, #fcfdfd 100%) !important;
     color: #334155;
-    font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 #addToGallery .modal-body .form-control,
 #approveGallery .modal-body .form-control {
@@ -1190,7 +1220,7 @@ body.pillar-inner-page #top-section .parallax-overlay::after {
     background-color: #005E66 !important;
     border-color: #005E66 !important;
     color: #fff !important;
-    font-family: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 600 !important;
     border-radius: 10px !important;
     box-shadow: none !important;

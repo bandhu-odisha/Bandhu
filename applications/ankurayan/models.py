@@ -138,6 +138,29 @@ class AnkurayanReportFile(models.Model):
         return self.title or self.file.name
 
 
+class AnkurayanInvitationLetter(models.Model):
+    """One-page invitation letter per Ankurayan year (PDF or image)."""
+
+    ankurayan = models.OneToOneField(
+        Ankurayan,
+        on_delete=models.CASCADE,
+        related_name='invitation_letter',
+        db_constraint=False,
+    )
+    file = models.FileField(
+        upload_to='ankurayan/invitation_letters/',
+        help_text='Single-page invitation letter (PDF or image).',
+    )
+    uploaded_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Invitation letter'
+        verbose_name_plural = 'Invitation letters'
+
+    def __str__(self):
+        return f'Invitation letter — Ankurayan {self.ankurayan.year}'
+
+
 class AnkurayanPublicationFile(models.Model):
     """Uploaded file for Publications tab (any file type)."""
     ankurayan = models.ForeignKey(

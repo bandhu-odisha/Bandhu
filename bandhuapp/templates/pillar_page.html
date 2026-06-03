@@ -7,7 +7,10 @@
 
 {% block style %}
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
-<link rel="stylesheet" href="{% static 'css/pillar-inner-banner.css' %}?v=2">
+<link rel="stylesheet" href="{% static 'css/pillar-inner-banner.css' %}?v=3">
+{% if page_title == 'Sanskar' or page_title == 'Swaraj' or page_title == 'Swabalamban' %}
+<link rel="stylesheet" href="{% static 'css/anandakendra.css' %}?v=22">
+{% endif %}
 <style>
   /* Page-wide typography */
   .pillar-hero, .pillar-products, .pillar-gallery { font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
@@ -56,28 +59,19 @@
     margin: 1rem auto 0;
     box-shadow: 0 2px 10px rgba(0, 94, 102, 0.18);
   }
-  .angular.pillar-angular .top-angle:before { background: linear-gradient(180deg, #f0fafb 0%, #e8f5f6 100%); }
-  /* Sanskar / Swabalamban overlay cards: slight overlap on banner, clear gap below title */
-  .pillar-overlay-cards {
-    margin-top: -110px;
+  .angular.pillar-angular .top-angle:before { background: #ffffff !important; }
+  /* Match Anandakendra list page: cards overlap banner, photo left / text right */
+  .angular.pillar-angular + #about.pillar-overlay-cards,
+  #about.pillar-overlay-cards {
+    margin-top: -280px;
     position: relative;
     z-index: 3;
-    padding-top: 2.75rem;
+    padding-top: 0;
     padding-bottom: 4rem;
-    /* Overlap zone transparent (banner shows); rest solid white — no grey band */
-    background: linear-gradient(180deg, transparent 0, transparent 480px, #ffffff 480px);
+    background: linear-gradient(180deg, transparent 0, transparent 420px, #ffffff 420px);
   }
-  @media (max-width: 991px) {
-    .pillar-overlay-cards {
-      margin-top: -70px;
-      padding-top: 2rem;
-    }
-  }
-  @media (max-width: 575px) {
-    .pillar-overlay-cards {
-      margin-top: -40px;
-      padding-top: 1.5rem;
-    }
+  #about.pillar-overlay-cards .row {
+    align-items: flex-start !important;
   }
   /* Slightly wider text card to even out empty space (padding) on large screens */
   @media (min-width: 992px) {
@@ -150,13 +144,15 @@
     object-fit: cover;
     display: block;
   }
-  /* Sanskar: EN/Odia caption under the image card */
+  /* EN/Odia caption under photo card (same placement as Anandakendra) */
+  .pillar-image-caption,
   .sanskar-image-caption {
     margin-top: 1rem;
     min-height: 4.25rem;
     position: relative;
     text-align: center;
   }
+  .pillar-image-caption .caption-line,
   .sanskar-image-caption .caption-line {
     position: absolute;
     top: 0;
@@ -168,6 +164,7 @@
     transform: translateY(6px);
     animation: sanskarCaptionSwap 8s ease-in-out infinite;
   }
+  .pillar-image-caption .caption-en,
   .sanskar-image-caption .caption-en {
     color: #2f6f75;
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -177,6 +174,7 @@
     letter-spacing: 0.01em;
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.22);
   }
+  .pillar-image-caption .caption-or,
   .sanskar-image-caption .caption-or {
     color: #2f6f75;
     font-family: 'Noto Sans Oriya', 'Noto Sans Odia', 'Kohinoor Odia', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -190,72 +188,77 @@
     0%, 44% { opacity: 1; transform: translateY(0); }
     49%, 100% { opacity: 0; transform: translateY(6px); }
   }
-  /* Swaraj: EN/Odia caption inside the text card only */
-  .swaraj-text-caption {
-    margin-top: 1.25rem;
-    padding-top: 1rem;
-    border-top: 1px solid rgba(128, 179, 186, 0.22);
-    min-height: 4.25rem;
-    position: relative;
-    text-align: center;
+  /* Swaraj: rotating caption in bottom-right of text card */
+  .pillar-overlay-card--text.swaraj-text-card {
+    display: flex;
+    flex-direction: column;
   }
-  .swaraj-text-caption .caption-line {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+  .pillar-overlay-card--text.swaraj-text-card .swaraj-card-footer {
+    margin-top: auto;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 1rem;
+  }
+  .pillar-text-caption.swaraj-text-caption {
+    display: inline-grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    justify-items: end;
+    align-items: center;
+    text-align: right;
+    max-width: 100%;
+    min-height: 3.5rem;
+  }
+  .pillar-text-caption.swaraj-text-caption .caption-line {
+    grid-area: 1 / 1;
+    position: relative;
     margin: 0;
-    padding-top: 0.25rem;
+    width: max-content;
+    max-width: 100%;
+    text-align: right;
     line-height: 1.45;
     opacity: 0;
     transform: translateY(6px);
-    animation: sanskarCaptionSwap 8s ease-in-out infinite;
+    animation: swarajCaptionSwap 8s ease-in-out infinite;
   }
-  .swaraj-text-caption .caption-en {
+  .pillar-text-caption.swaraj-text-caption .caption-en {
     color: #2f6f75;
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    font-size: 1.18rem;
-    font-weight: 700;
-    font-style: italic;
-    letter-spacing: 0.01em;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.22);
-  }
-  .swaraj-text-caption .caption-or {
-    color: #2f6f75;
-    font-family: 'Noto Sans Oriya', 'Noto Sans Odia', 'Kohinoor Odia', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    font-size: 1.24rem;
-    font-weight: 700;
-    animation-delay: 4s;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-  }
-  /* Swabalamban animated quote inside text card */
-  .swabalamban-text-caption {
-    margin: 0.45rem 0 0;
-    min-height: 2.35rem;
-    position: relative;
-  }
-  .swabalamban-text-caption .caption-line {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    margin: 0;
-    line-height: 1.45;
-    opacity: 0;
-    transform: translateY(4px);
-    animation: swabalambanCaptionSwap 8s ease-in-out infinite;
-  }
-  .swabalamban-text-caption .caption-en {
-    color: #2f4d52;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    font-size: 1.03rem;
+    font-size: 1.05rem;
     font-weight: 600;
     font-style: italic;
     letter-spacing: 0.01em;
   }
-  .swabalamban-text-caption .caption-or {
-    color: #0e777a;
+  .pillar-text-caption.swaraj-text-caption .caption-or {
+    color: #2f6f75;
     font-family: 'Noto Sans Oriya', 'Noto Sans Odia', 'Kohinoor Odia', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    font-style: italic;
+    animation-delay: 4s;
+  }
+  @keyframes swarajCaptionSwap {
+    0%, 44% { opacity: 1; transform: translateY(0); }
+    49%, 100% { opacity: 0; transform: translateY(6px); }
+  }
+  /* Swabalamban: shorter rotating quote under photo (overrides default caption animation) */
+  .pillar-image-caption.swabalamban-image-caption {
+    margin-top: 0.95rem;
+    min-height: 2.35rem;
+  }
+  .pillar-image-caption.swabalamban-image-caption .caption-line {
+    animation: swabalambanCaptionSwap 8s ease-in-out infinite;
+    transform: translateY(4px);
+  }
+  .pillar-image-caption.swabalamban-image-caption .caption-en {
+    color: #2f4d52;
+    font-size: 1.03rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+  .pillar-image-caption.swabalamban-image-caption .caption-or {
+    color: #0e777a;
     font-size: 1.01rem;
     font-weight: 600;
     animation-delay: 4s;
@@ -265,7 +268,7 @@
     49%, 100% { opacity: 0; transform: translateY(4px); }
   }
   .swabalamban-text-card {
-    min-height: 430px;
+    min-height: 280px;
   }
   .swabalamban-order-note {
     margin-top: 0.45rem;
@@ -329,8 +332,9 @@
   .pillar-overlay-cards .pillar-related a { color: #3d5c60; font-weight: 600; text-decoration: none; margin-right: 0.75rem; }
   .pillar-overlay-cards .pillar-related a:hover { color: #3d5c60; text-decoration: underline; }
   @media (max-width: 768px) {
-    .pillar-overlay-cards { margin-top: -100px; }
-    .pillar-overlay-cards .pillar-overlay-card--image { aspect-ratio: 1 / 1; }
+    .angular.pillar-angular + #about.pillar-overlay-cards,
+    #about.pillar-overlay-cards { margin-top: -100px !important; }
+    #about.pillar-overlay-cards .pillar-overlay-card--image { aspect-ratio: 1 / 1; }
   }
   .pillar-hero .pillar-back {
     padding: 0.6rem 1rem;
@@ -349,8 +353,21 @@
   .pillar-overlay-cards + .pillar-products { margin-top: -2.5rem; }
   .pillar-products h2 { font-size: 2rem; font-weight: 700; color: #3d5c60; margin-top: -0.8rem; margin-bottom: 0.5rem; }
   .pillar-products .products-accent { width: 4rem; height: 5px; background: linear-gradient(90deg, #80b3ba 0%, #5f8d93 100%); border-radius: 3px; margin: 0 auto 2rem; box-shadow: 0 2px 8px rgba(61, 92, 96, 0.35); }
-  .pillar-products .product-card { position: relative; border-radius: 0 0 16px 16px; overflow: visible; box-shadow: 0 14px 30px -10px rgba(61, 92, 96, 0.38), 0 6px 14px -8px rgba(61, 92, 96, 0.26); background: #fff; border: none; transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer; }
-  .pillar-products .product-card:hover { transform: translateY(-6px); box-shadow: 0 24px 48px -14px rgba(61, 92, 96, 0.48), 0 10px 22px -10px rgba(61, 92, 96, 0.34); border-color: transparent; }
+  .pillar-products .product-card {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: none;
+    background: #fff;
+    border: 1px solid rgba(0, 94, 102, 0.12);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    cursor: pointer;
+  }
+  .pillar-products .product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: none;
+    border-color: rgba(0, 94, 102, 0.22);
+  }
   .pillar-products .product-card .product-toggle.stretched-link {
     position: absolute;
     top: 0;
@@ -359,78 +376,23 @@
     left: 0;
     z-index: 1;
   }
-  /* Swabalamban products — auto-rotating carousel (like home Stories in Motion) */
-  .pillar-products .swabalamban-products-wrap { margin-top: 1.25rem; max-width: 1140px; margin-left: auto; margin-right: auto; }
-  .pillar-products .glide.swabalamban-products { padding: 0 2.5rem 0; }
-  .pillar-products .glide.swabalamban-products .glide__track { overflow: hidden; }
-  .pillar-products .glide.swabalamban-products .glide__slides {
-    align-items: stretch;
-    background: transparent;
+  /* Swabalamban products — static grid (no carousel dots / scroll) */
+  .pillar-products .swabalamban-products-wrap {
+    margin-top: 1.25rem;
+    max-width: 1140px;
+    margin-left: auto;
+    margin-right: auto;
+    background: #ffffff;
   }
-  .pillar-products .glide.swabalamban-products .glide__slide {
-    display: flex;
-    align-items: stretch;
-    height: auto;
-    padding: 0.5rem 0;
+  .pillar-products .swabalamban-products-grid {
+    background: #ffffff;
   }
-  .pillar-products .glide.swabalamban-products .product-card {
+  .pillar-products .swabalamban-products-grid .product-card {
     display: flex;
     flex-direction: column;
-    width: 100%;
     max-width: 280px;
-    margin: 0 auto;
-    overflow: hidden;
-    border-radius: 12px 12px 16px 16px;
-  }
-  .pillar-products .glide__arrow {
-    border: none;
-    background: rgba(255, 255, 255, 0.92);
-    box-shadow: 0 4px 14px rgba(61, 92, 96, 0.2);
-    border-radius: 50%;
-    width: 2.5rem;
-    height: 2.5rem;
-    top: 42%;
-  }
-  .pillar-products .glide__arrow i { color: #3d5c60; font-size: 1.35rem; }
-  .pillar-products .glide__arrow:hover i { color: #005E66; }
-  /* Override site-wide rule that hides carousel dots (custom.css) */
-  .pillar-products .swabalamban-products-dots {
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    position: relative;
-    bottom: auto;
-    left: auto;
-    transform: none;
-    width: 100%;
-    margin: 1.25rem auto 0;
-    padding: 0 0 1.5rem;
-    list-style: none;
-  }
-  .pillar-products .swabalamban-products-dots .glide__bullet {
-    display: block !important;
-    width: 10px;
-    height: 10px;
-    padding: 0;
-    margin: 0;
-    border-radius: 50%;
-    border: 2px solid transparent;
-    background-color: rgba(61, 92, 96, 0.3) !important;
-    box-shadow: none;
-    cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.2s ease;
-  }
-  .pillar-products .swabalamban-products-dots .glide__bullet:hover,
-  .pillar-products .swabalamban-products-dots .glide__bullet:focus {
-    background-color: rgba(61, 92, 96, 0.55) !important;
-    border-color: #80b3ba;
-    outline: none;
-  }
-  .pillar-products .swabalamban-products-dots .glide__bullet--active {
-    background-color: #3d5c60 !important;
-    transform: scale(1.15);
+    margin-left: auto;
+    margin-right: auto;
   }
   .pillar-products .product-card { display: flex; flex-direction: column; min-height: 0; width: 100%; }
   .pillar-products .product-card img {
@@ -465,7 +427,6 @@
     text-decoration: none;
     transition: color 0.2s ease, text-decoration-color 0.2s ease;
   }
-  .pillar-products .product-card { overflow: visible; transition: box-shadow 0.3s ease, border-color 0.3s ease; }
   .pillar-products .product-card .product-toggle {
     display: inline-block;
     padding: 0.5rem 0 0.75rem;
@@ -605,6 +566,35 @@
   .pillar-gallery .gallery-accent {
     background: linear-gradient(90deg, #005E66 0%, #006A73 100%) !important;
   }
+  /* Pillar page scroll gallery (Swaraj): match Anandakendra detail */
+  body.pillar-inner-page #gallery.pillar-gallery-strip,
+  body.pillar-inner-page #gallery.pillar-gallery-strip .gallery-container,
+  body.pillar-inner-page #gallery.pillar-gallery-strip .gallery-scroll-track,
+  body.pillar-inner-page #gallery.pillar-gallery-strip .gallery-scroll-row,
+  body.pillar-inner-page #gallery.pillar-gallery-strip .gallery-scroll-card,
+  body.pillar-inner-page #gallery.pillar-gallery-strip .gallery-scroll-card-link {
+    background: #ffffff !important;
+    background-image: none !important;
+  }
+  body.pillar-inner-page #gallery.pillar-gallery-strip .gallery-scroll-track {
+    padding: 0 !important;
+    border-radius: 0 !important;
+  }
+  body.pillar-inner-page #gallery.pillar-gallery-strip .gallery-scroll-card-link {
+    box-shadow: none !important;
+  }
+  body.pillar-inner-page #gallery.pillar-gallery-strip .gallery-scroll-track--single {
+    display: flex;
+    justify-content: center;
+    overflow-x: hidden;
+  }
+  body.pillar-inner-page #gallery.pillar-gallery-strip .gallery-scroll-row--single {
+    width: auto;
+    min-width: 0;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
 </style>
 {% if page_title == 'Sanskar' or page_title == 'Swaraj' or page_title == 'Swabalamban' %}
 <style>
@@ -621,16 +611,42 @@
     background-size: cover;
   }
   #top-section .parallax-overlay {
+    position: relative !important;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(214, 236, 238, 0.28) 100%);
     background-color: transparent;
   }
-  /* Title shown via pillar-inner-banner.css + visible markup (not ::before pseudo) */
-  .pillar-overlay-cards {
-    position: relative;
-    z-index: 5;
+  /* Same as Anandakendra: pseudo headline stays above overlapping cards */
+  body.pillar-inner-page #top-section .parallax-overlay::before {
+    content: "{{ page_title }}" !important;
+    display: block !important;
+    position: absolute;
+    top: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #005E66;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    letter-spacing: 0.02em;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.95), 0 2px 22px rgba(0, 94, 102, 0.14);
+    z-index: 6;
+    pointer-events: none;
+    white-space: nowrap;
   }
-  .pillar-overlay-cards .pillar-overlay-card--text .pillar-tagline,
-  .pillar-overlay-cards .pillar-overlay-card--text .pillar-desc {
+  body.pillar-inner-page #top-section .parallax-overlay::after {
+    content: none !important;
+    display: none !important;
+  }
+  body.pillar-inner-page #top-section .slider-txt-container.pillar-showcase > * {
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+  #about.pillar-overlay-cards {
+    position: relative;
+    z-index: 3;
+  }
+  #about.pillar-overlay-cards .pillar-overlay-card--text .pillar-tagline,
+  #about.pillar-overlay-cards .pillar-overlay-card--text .pillar-desc {
     color: #3d5c60 !important;
     opacity: 1 !important;
     visibility: visible !important;
@@ -653,7 +669,7 @@
 {% endblock %}
 
 {% block showcase-title-container %}
-<div class="slider-txt-container pillar-showcase">
+<div class="slider-txt-container pillar-showcase page-showcase page-showcase-tall">
   <h2 class="bold-txt pillar-showcase-title">{{ page_title }}</h2>
   <div class="pillar-showcase-accent"></div>
 </div>
@@ -666,7 +682,7 @@
 
 {% block content %}
 {% if page_title == 'Sanskar' or page_title == 'Swaraj' or page_title == 'Swabalamban' %}
-<section class="pillar-overlay-cards">
+<section id="about" class="pillar-overlay-cards">
   <div class="container">
     <div class="row align-items-start g-4">
       <div class="col-lg-4 col-md-5">
@@ -680,14 +696,19 @@
           {% endif %}
         </div>
         {% if page_title == 'Sanskar' %}
-        <div class="sanskar-image-caption" aria-label="Sanskar caption">
+        <div class="pillar-image-caption sanskar-image-caption" aria-label="Sanskar caption">
           <p class="caption-line caption-en">"Learning with values lights every life and builds a brighter tomorrow."</p>
           <p class="caption-line caption-or">"ମୂଲ୍ୟ ସହିତ ଶିକ୍ଷା ପ୍ରତ୍ୟେକ ଜୀବନକୁ ଆଲୋକିତ କରେ ଏବଂ ଏକ ଉଜ୍ଜ୍ୱଳ ଭବିଷ୍ୟତ ଗଢେ।"</p>
+        </div>
+        {% elif page_title == 'Swabalamban' %}
+        <div class="pillar-image-caption swabalamban-image-caption" aria-label="Swabalamban caption">
+          <p class="caption-line caption-en">{{ caption_en|safe }}</p>
+          <p class="caption-line caption-or">{{ caption_or|safe }}</p>
         </div>
         {% endif %}
       </div>
       <div class="col-lg-8 col-md-7">
-        <div class="pillar-overlay-card pillar-overlay-card--text{% if page_title == 'Swabalamban' %} swabalamban-text-card{% endif %}">
+        <div class="pillar-overlay-card pillar-overlay-card--text{% if page_title == 'Swabalamban' %} swabalamban-text-card{% elif page_title == 'Swaraj' %} swaraj-text-card{% endif %}">
           {% if page_title != 'Sanskar' and page_title != 'Swaraj' and page_title != 'Swabalamban' %}
           <a href="{% url 'home' %}#mission" class="pillar-back">
             <i class="fas fa-arrow-left"></i> Back to Our Mission
@@ -723,9 +744,11 @@
           {% endif %}
           {% endif %}
           {% if page_title == 'Swaraj' %}
-          <div class="swaraj-text-caption" aria-label="Swaraj caption">
-            <p class="caption-line caption-en">"Empowered communities shape their own future with dignity and voice."</p>
-            <p class="caption-line caption-or">"ସଶକ୍ତ ସମୁଦାୟ ଗରିମା ଏବଂ ନିଜ ଅଧିକାର ସହ ନିଜ ଭବିଷ୍ୟତ ଗଢେ।"</p>
+          <div class="swaraj-card-footer">
+            <div class="pillar-text-caption swaraj-text-caption" aria-label="Swaraj caption">
+              <p class="caption-line caption-en">"Empowered communities shape their own future with dignity and voice."</p>
+              <p class="caption-line caption-or">"ସଶକ୍ତ ସମୁଦାୟ ଗରିମା ଏବଂ ନିଜ ଅଧିକାର ସହ ନିଜ ଭବିଷ୍ୟତ ଗଢେ।"</p>
+            </div>
           </div>
           {% endif %}
           {% if page_title == 'Swabalamban' %}
@@ -736,10 +759,6 @@
             Explore our products below for quality produce. If you want to place an order, contact us on WhatsApp at <strong>{{ whatsapp_number }}</strong>.
           </p>
           {% endif %}
-          <div class="swabalamban-text-caption" aria-label="Swabalamban caption">
-            <p class="caption-line caption-en">{{ caption_en|safe }}</p>
-            <p class="caption-line caption-or">{{ caption_or|safe }}</p>
-          </div>
           {% endif %}
         </div>
       </div>
@@ -779,34 +798,17 @@
     <div class="products-accent"></div>
     {% if products %}
     <div class="swabalamban-products-wrap">
-    <div class="glide swabalamban-products">
-      <div class="glide__track" data-glide-el="track">
-        <ul class="glide__slides">
-          {% for product in products %}
-          <li class="glide__slide d-flex">
-            <div class="product-card">
-              <img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy">
-              <div class="product-label">{{ product.label }}</div>
-              <div class="product-toggle-wrap"><a href="#" class="product-toggle stretched-link" data-toggle="modal" data-target="#{{ product.modal_id }}" aria-label="View {{ product.name }} details"></a></div>
-            </div>
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
-      <div class="glide__arrows disable_arrows d-none d-md-block" data-glide-el="controls">
-        <button type="button" class="slider_arrow slider_arrow--prev glide__arrow glide__arrow--left" data-glide-dir="<" aria-label="Previous product">
-          <i class="fas fa-arrow-circle-left"></i>
-        </button>
-        <button type="button" class="slider_arrow slider_arrow--next glide__arrow glide__arrow--right" data-glide-dir=">" aria-label="Next product">
-          <i class="fas fa-arrow-circle-right"></i>
-        </button>
-      </div>
-      <div class="glide__bullets swabalamban-products-dots" data-glide-el="controls[nav]">
+      <div class="swabalamban-products-grid row justify-content-center">
         {% for product in products %}
-        <button type="button" class="glide__bullet" data-glide-dir="={{ forloop.counter0 }}" aria-label="Go to {{ product.label }}"></button>
+        <div class="col-6 col-lg-3 col-md-6 mb-4 d-flex">
+          <div class="product-card w-100">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy">
+            <div class="product-label">{{ product.label }}</div>
+            <div class="product-toggle-wrap"><a href="#" class="product-toggle stretched-link" data-toggle="modal" data-target="#{{ product.modal_id }}" aria-label="View {{ product.name }} details"></a></div>
+          </div>
+        </div>
         {% endfor %}
       </div>
-    </div>
     </div>
     {% else %}
     <p class="text-center text-muted py-4 mb-0">Products will appear here once added in the admin.</p>
@@ -845,25 +847,125 @@
 {% endif %}
 
 {% if images and page_title != 'Sanskar' and page_title != 'Swabalamban' %}
-<section class="pillar-gallery">
+<section id="gallery" class="pillar-gallery pillar-gallery-strip">
   <div class="container">
-    <h2 class="text-center">Gallery</h2>
-    <div class="gallery-accent"></div>
-    <div class="row">
-      {% for img in images %}
-      <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-        <div class="pillar-img-card">
-          <img src="{{ img.url }}" alt="{{ page_title }} gallery" loading="lazy">
+    <div class="section-head gallery-section-head text-center">
+      <h2 class="section-title">Gallery</h2>
+      <div class="section-accent gallery-section-accent gallery-accent"></div>
+    </div>
+    <div id="pillar-gallery-container" class="gallery-container gallery-container--home-style mt-2{% if images|length == 1 %} gallery-container--single{% endif %}">
+      <div
+        class="gallery-scroll-track scrollbar-hide{% if images|length == 1 %} gallery-scroll-track--single{% endif %}"
+        data-gallery-scroll
+        aria-label="Gallery photos"
+      >
+        <div class="gallery-scroll-row{% if images|length == 1 %} gallery-scroll-row--single{% endif %}">
+          {% for img in images %}
+          <div class="gallery-scroll-card" data-gallery-card>
+            <a href="#" class="gallery-scroll-card-link" data-pillar-gallery-lightbox data-gallery-index="{{ forloop.counter0 }}" role="button" aria-label="View gallery image {{ forloop.counter }}">
+              <img src="{{ img.url }}" alt="{{ page_title }} gallery" class="gallery-scroll-img" loading="lazy">
+              <span class="gallery-scroll-overlay" aria-hidden="true"><i class="fab fa-instagram"></i></span>
+            </a>
+          </div>
+          {% endfor %}
         </div>
       </div>
-      {% endfor %}
     </div>
   </div>
 </section>
+
+<div class="modal fade anandakendra-modal anandakendra-gallery-lightbox" id="pillarGalleryLightbox" tabindex="-1" role="dialog" aria-labelledby="pillarGalleryLightboxTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg anandakendra-gallery-lightbox-dialog" role="document">
+    <div class="modal-content anandakendra-gallery-lightbox-content">
+      <div class="modal-header anandakendra-gallery-lightbox-header border-0 py-2">
+        <span class="anandakendra-gallery-lightbox-counter small mb-0" id="pillarGalleryCounter" aria-live="polite"></span>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body anandakendra-gallery-lightbox-body p-0">
+        <div class="anandakendra-gallery-lightbox-stage">
+          <button type="button" class="anandakendra-gallery-lightbox-nav anandakendra-gallery-lightbox-prev" id="pillarGalleryPrev" aria-label="Previous photo">
+            <i class="fas fa-chevron-left" aria-hidden="true"></i>
+          </button>
+          <img src="" alt="Gallery photo" class="anandakendra-gallery-lightbox-img" id="pillarGalleryImage">
+          <button type="button" class="anandakendra-gallery-lightbox-nav anandakendra-gallery-lightbox-next" id="pillarGalleryNext" aria-label="Next photo">
+            <i class="fas fa-chevron-right" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endif %}
 {% endblock %}
 
 {% block scripts %}
+{% if images and page_title != 'Sanskar' and page_title != 'Swabalamban' %}
+<script>
+(function () {
+    var photos = [
+        {% for img in images %}
+        '{{ img.url|escapejs }}'{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ];
+    if (!photos.length) return;
+
+    var index = 0;
+    var $modal = $('#pillarGalleryLightbox');
+    var imgEl = document.getElementById('pillarGalleryImage');
+    var counterEl = document.getElementById('pillarGalleryCounter');
+
+    if (photos.length <= 1) {
+        $modal.addClass('is-single-photo');
+    }
+
+    function showAt(i) {
+        index = (i + photos.length) % photos.length;
+        if (imgEl) {
+            imgEl.src = photos[index];
+            imgEl.alt = 'Gallery photo ' + (index + 1);
+        }
+        if (counterEl) {
+            counterEl.textContent = (index + 1) + ' / ' + photos.length;
+        }
+    }
+
+    $(document).on('click', '[data-pillar-gallery-lightbox]', function (e) {
+        e.preventDefault();
+        var i = parseInt(this.getAttribute('data-gallery-index'), 10);
+        if (isNaN(i)) i = 0;
+        showAt(i);
+        $modal.modal('show');
+    });
+
+    $('#pillarGalleryPrev').on('click', function (e) {
+        e.stopPropagation();
+        showAt(index - 1);
+    });
+    $('#pillarGalleryNext').on('click', function (e) {
+        e.stopPropagation();
+        showAt(index + 1);
+    });
+
+    $(document).on('keydown.pillarGallery', function (e) {
+        if (!$modal.hasClass('show') || photos.length <= 1) return;
+        if (e.key === 'ArrowLeft') {
+            showAt(index - 1);
+            e.preventDefault();
+        } else if (e.key === 'ArrowRight') {
+            showAt(index + 1);
+            e.preventDefault();
+        }
+    });
+
+    $modal.on('shown.bs.modal', function () {
+        $(this).css('z-index', 1060);
+        $('.modal-backdrop').last().css('z-index', 1055);
+    });
+})();
+</script>
+{% endif %}
 {% if page_title == 'Swabalamban' %}
 <script>
 $(function () {
@@ -874,24 +976,6 @@ $(function () {
       $(target).modal('show');
     }
   });
-  if ($('.swabalamban-products').length && typeof Glide !== 'undefined') {
-    var productsGlide = new Glide('.swabalamban-products', {
-      type: 'carousel',
-      startAt: 0,
-      perView: 4,
-      gap: 24,
-      autoplay: 5000,
-      hoverpause: true,
-      rewind: true,
-      animationDuration: 700,
-      breakpoints: {
-        1200: { perView: 3 },
-        991: { perView: 2 },
-        767: { perView: 1 }
-      }
-    });
-    productsGlide.mount();
-  }
 });
 </script>
 {% endif %}

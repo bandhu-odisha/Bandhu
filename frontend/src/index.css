@@ -1,4 +1,4 @@
-﻿@tailwind base;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -29,7 +29,8 @@
 
 html {
   scroll-behavior: smooth;
-  font-size: 20px;
+  /* Scale root type: ~15px on phones → 20px on desktop */
+  font-size: clamp(15px, 13px + 0.45vw, 20px);
   font-family: var(--font-sans);
   width: 100%;
   margin: 0;
@@ -229,4 +230,71 @@ body.landing a[class]:focus {
 }
 #gallery [role='tablist'] [role='tab'][aria-selected='false'] {
   border-bottom: 2px solid transparent !important;
+}
+
+/* Phones: tighter sections, modals, and visitor profile */
+@media (max-width: 639px) {
+  .landing-section {
+    padding-top: 2.25rem;
+    padding-bottom: 2.25rem;
+  }
+
+  .section-title {
+    font-size: clamp(1.85rem, 7.5vw, 2.35rem);
+    line-height: 1.12;
+  }
+
+  body.landing .signup-modal-root .modal-dialog.signup-modal-dialog {
+    width: calc(100% - 0.75rem) !important;
+    max-width: none !important;
+    margin: 0.5rem auto !important;
+  }
+
+  body.landing .signup-modal-root .modal-content.signup-modal-sheet {
+    border-radius: 14px !important;
+  }
+
+  body.landing .signup-modal-root .modal-body {
+    padding-left: 0.85rem !important;
+    padding-right: 0.85rem !important;
+    padding-bottom: 1rem !important;
+  }
+
+  .visitor-profile-modal-wrap,
+  .visitor-profile-modal {
+    width: calc(100% - 0.75rem) !important;
+    max-width: none !important;
+    max-height: min(92dvh, 720px) !important;
+    overflow-y: auto !important;
+  }
+
+  #about .about-us-copy {
+    align-items: center;
+    width: 100%;
+  }
+
+  #about .about-us-desc,
+  #about .about-desc-closing {
+    text-align: center !important;
+    text-wrap: pretty;
+  }
+
+  /* Line 5: one centered line — scale type so it fits without hanging left */
+  #about .about-desc-closing {
+    white-space: nowrap;
+    width: fit-content;
+    max-width: calc(100vw - 2.5rem);
+    margin-left: auto !important;
+    margin-right: auto !important;
+    font-size: clamp(0.8125rem, 3.15vw, 1.05rem);
+    line-height: 1.45;
+    letter-spacing: -0.01em;
+  }
+}
+
+@media (max-width: 1023px) {
+  #about .about-desc-closing {
+    display: block;
+    margin-top: 0;
+  }
 }

@@ -16,6 +16,7 @@ from .models import (
     Initiatives, AboutUs, Mission, SanskarCarousel, Staff, StaffExperience,
     StaffExperiencePhoto, SwarajCarousel, SwabalambanCarousel,
     UrlData, Video, Volunteer, Gallery, Contact, HomePage, HomeVisitor, CurrentUpdates,
+    AnnualReport,
 )
 
 # Register your models here.
@@ -170,6 +171,65 @@ class UrlDataAdmin(admin.ModelAdmin):
 @admin.register(CurrentUpdates)
 class CurrentUpdatesAdmin(admin.ModelAdmin):
     list_display = ('created_at','desc','url')
+
+
+@admin.register(AnnualReport)
+class AnnualReportAdmin(admin.ModelAdmin):
+    list_display = ('year', 'display_title', 'link_type', 'is_published', 'updated_at')
+    list_filter = ('is_published',)
+    list_editable = ('is_published',)
+    search_fields = ('title', 'year', 'external_url')
+    ordering = ('-year',)
+    readonly_fields = ('pdf_preview', 'created_at', 'updated_at')
+    fieldsets = (
+        (None, {
+            'fields': (
+                'year',
+                'title',
+                'is_published',
+            ),
+            'description': (
+                'Add one row per year. Upload a PDF <strong>or</strong> paste a public '
+                'Google Drive link (Share → anyone with the link). If both are set, '
+                'the uploaded PDF is used in the footer.'
+            ),
+        }),
+        ('Report file', {
+            'fields': ('pdf_file', 'pdf_preview', 'external_url'),
+        }),
+        ('Timestamps', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',),
+        }),
+    )
+
+    def display_title(self, obj):
+        return obj.display_title()
+
+    display_title.short_description = 'Title'
+
+    def link_type(self, obj):
+        if obj.pdf_file:
+            return 'PDF upload'
+        if (obj.external_url or '').strip():
+            return 'External link'
+        return '—'
+
+    link_type.short_description = 'Source'
+
+    def pdf_preview(self, obj):
+        if obj.pk and obj.pdf_file:
+            return format_html(
+                '<a href="{}" target="_blank" rel="noopener noreferrer">Open PDF</a>',
+                obj.pdf_file.url,
+            )
+        return '—'
+
+    pdf_preview.short_description = 'Preview'
+
+    def save_model(self, request, obj, form, change):
+        obj.full_clean()
+        super().save_model(request, obj, form, change)
 
 class DesignationRoleInline(admin.TabularInline):
     model = DesignationRole

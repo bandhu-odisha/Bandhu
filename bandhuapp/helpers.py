@@ -103,23 +103,212 @@ def enrich_video_durations(video_items, max_workers=4):
                 pass
 
 
+# Old live-site Core Team subtitles (org labels), not real occupations.
+CORE_TEAM_LEGACY_SUBTITLES = frozenset({
+    'upadestha',
+    'upadeshta',
+    'core team',
+    'core team member',
+    'sampadaka',
+    'sampark pramukh',
+})
+
+
+def clean_core_team_profession_text(raw):
+    if not raw:
+        return ''
+    text = raw.strip()
+    text = re.sub(
+        r'\s*\(\s*core\s+team(\s+member)?\s*\)\s*$',
+        '',
+        text,
+        flags=re.I,
+    ).strip()
+    return text
+
+
+def is_core_team_legacy_subtitle(text):
+    cleaned = clean_core_team_profession_text(text)
+    return cleaned.lower() in CORE_TEAM_LEGACY_SUBTITLES if cleaned else False
+
+
+def core_team_card_lines(profile_profession, desc, staff_about=''):
+    """
+    Core Team cards: line 2 = org role (Upadestha, Sampadaka, …),
+    line 3 = real profession. Role in desc; job in profile.profession or staff.about.
+    """
+    profile_p = clean_core_team_profession_text(profile_profession or '')
+    desc_p = clean_core_team_profession_text(desc or '')
+    about_p = clean_core_team_profession_text(staff_about or '')
+    position = ''
+    occupation = ''
+
+    if is_core_team_legacy_subtitle(desc_p):
+        position = desc_p
+        if profile_p and not is_core_team_legacy_subtitle(profile_p):
+            if profile_p.lower() != desc_p.lower():
+                occupation = profile_p
+    elif is_core_team_legacy_subtitle(profile_p):
+        position = profile_p
+        if desc_p and not is_core_team_legacy_subtitle(desc_p):
+            if desc_p.lower() != profile_p.lower():
+                occupation = desc_p
+    elif desc_p and profile_p:
+        if desc_p.lower() != profile_p.lower():
+            position = desc_p
+            occupation = profile_p
+        else:
+            occupation = profile_p
+    elif desc_p:
+        if is_core_team_legacy_subtitle(desc_p):
+            position = desc_p
+        else:
+            occupation = desc_p
+    elif profile_p:
+        if is_core_team_legacy_subtitle(profile_p):
+            position = profile_p
+        else:
+            occupation = profile_p
+
+    if position and not occupation and about_p:
+        if not is_core_team_legacy_subtitle(about_p):
+            if about_p.lower() != position.lower():
+                occupation = about_p
+
+    lines = []
+    if position:
+        lines.append(proper_case(position))
+    if occupation:
+        occ = proper_case(occupation)
+        if not lines or occ.lower() != lines[0].lower():
+            lines.append(occ)
+    return lines
+
+
+def peoples_designation_dedupe_key(pd):
+    """One row per staff+designation when role is empty (Core Team duplicates)."""
+    if pd.role_id is None:
+        return (pd.staff_id, pd.designation_id)
+    return (pd.staff_id, pd.designation_id, pd.role_id)
+
+
+def dedupe_peoples_designations(assignments):
+    """
+    Drop duplicate PeoplesDesignation rows.
+    NULL role breaks SQL unique constraints, so Core Team rows dedupe by staff+designation.
+    """
+    best = {}
+    for pd in assignments:
+        key = peoples_designation_dedupe_key(pd)
+        if key not in best:
+            best[key] = pd
+            continue
+        current = best[key]
+        if pd.rank < current.rank or (
+            pd.rank == current.rank and pd.pk < current.pk
+        ):
+            best[key] = pd
+    return sorted(
+        best.values(),
+        key=lambda pd: (pd.designation.rank, pd.rank, pd.pk),
+    )
+
+
+def remove_duplicate_peoples_designations():
+    """Delete duplicate PeoplesDesignation rows from the database."""
+    from django.db.models import Count, Min
+
+    from bandhuapp.models import PeoplesDesignation
+
+    removed = 0
+
+    null_role_groups = (
+        PeoplesDesignation.objects.filter(role__isnull=True)
+        .values('staff_id', 'designation_id')
+        .annotate(cnt=Count('id'), keep_pk=Min('id'))
+        .filter(cnt__gt=1)
+    )
+    for group in null_role_groups:
+        qs = PeoplesDesignation.objects.filter(
+            staff_id=group['staff_id'],
+            designation_id=group['designation_id'],
+            role__isnull=True,
+        ).exclude(pk=group['keep_pk'])
+        removed += qs.count()
+        qs.delete()
+
+    duplicate_groups = (
+        PeoplesDesignation.objects.filter(role__isnull=False)
+        .values('staff_id', 'designation_id', 'role_id')
+        .annotate(cnt=Count('id'), keep_pk=Min('id'))
+        .filter(cnt__gt=1)
+    )
+    for group in duplicate_groups:
+        qs = PeoplesDesignation.objects.filter(
+            staff_id=group['staff_id'],
+            designation_id=group['designation_id'],
+            role_id=group['role_id'],
+        ).exclude(pk=group['keep_pk'])
+        removed += qs.count()
+        qs.delete()
+
+    for staff_id, designation_id in (
+        PeoplesDesignation.objects.filter(role__isnull=False)
+        .values_list('staff_id', 'designation_id')
+        .distinct()
+    ):
+        orphans = PeoplesDesignation.objects.filter(
+            staff_id=staff_id,
+            designation_id=designation_id,
+            role__isnull=True,
+        )
+        if orphans.exists():
+            removed += orphans.count()
+            orphans.delete()
+
+    return removed
+
+
+def _people_card_namespace(staff, position_line='', occupation_line='', groups_line=''):
+    from types import SimpleNamespace
+
+    return SimpleNamespace(
+        staff=staff,
+        position_line=proper_case(position_line) if position_line else '',
+        occupation_line=proper_case(occupation_line) if occupation_line else '',
+        groups_line=proper_case(groups_line) if groups_line else '',
+    )
+
+
+def _lines_to_position_occupation(lines):
+    """Map display_lines to line 2 (position) and line 3 (occupation)."""
+    cleaned = [ln for ln in lines if (ln or '').strip()]
+    if len(cleaned) >= 2:
+        return cleaned[0], cleaned[1]
+    if len(cleaned) == 1:
+        if is_core_team_legacy_subtitle(cleaned[0]):
+            return cleaned[0], ''
+        return '', cleaned[0]
+    return '', ''
+
+
 def people_card_from_assignments(assignments):
     """
     One people-page card from one or more PeoplesDesignation rows.
     When a person is on Core Team and Office Bearers, show them once on the
     All tab with their primary role plus a combined groups line.
     """
-    from types import SimpleNamespace
-
     assignments = list(assignments)
     staff = assignments[0].staff
 
     if len(assignments) == 1:
-        entries = []
-        for index, text in enumerate(assignments[0].display_lines):
-            kind = "position" if index == 0 else "occupation"
-            entries.append({"text": proper_case(text), "kind": kind})
-        return SimpleNamespace(staff=staff, display_entries=entries)
+        pd = assignments[0]
+        position_line, occupation_line = _lines_to_position_occupation(
+            pd.display_lines
+        )
+        return _people_card_namespace(
+            staff, position_line, occupation_line
+        )
 
     office_roles = []
     group_names = []
@@ -130,48 +319,55 @@ def people_card_from_assignments(assignments):
         if pd.role_id:
             office_roles.append(pd.role.title)
 
-    entries = []
+    position_line = ''
+    occupation_line = ''
+    groups_line = ''
+
     if office_roles:
-        entries.append(
-            {
-                "text": " \u00b7 ".join(proper_case(r) for r in office_roles),
-                "kind": "position",
-            }
-        )
+        position_line = ' \u00b7 '.join(proper_case(r) for r in office_roles)
     else:
         for pd in assignments:
             card_lines = pd.display_lines
             if card_lines and card_lines[0]:
-                entries.append({"text": card_lines[0], "kind": "position"})
+                position_line = card_lines[0]
                 break
 
     if len(group_names) > 1:
-        entries.append(
-            {"text": " \u00b7 ".join(group_names), "kind": "groups"}
-        )
+        groups_line = ' \u00b7 '.join(group_names)
     elif len(assignments) > 1:
-        entries.append(
-            {
-                "text": " \u00b7 ".join(
-                    pd.role.title if pd.role_id else pd.designation.title
-                    for pd in assignments
-                ),
-                "kind": "groups",
-            }
+        groups_line = ' \u00b7 '.join(
+            pd.role.title if pd.role_id else pd.designation.title
+            for pd in assignments
         )
 
-    shown = {entry["text"] for entry in entries}
+    shown_position = {position_line} if position_line else set()
+    shown_occupation = set()
+
     for pd in assignments:
-        occupation = (pd.desc or "").strip()
-        if not occupation and pd.staff_id:
-            occupation = (pd.staff.profile.profession or "").strip()
-        occupation = proper_case(occupation)
-        if occupation and occupation not in shown:
-            entries.append({"text": occupation, "kind": "occupation"})
+        if pd.designation.title == 'Core Team' and not pd.role_id:
+            ct_pos, ct_occ = _lines_to_position_occupation(
+                core_team_card_lines(
+                    pd.staff.profile.profession if pd.staff_id else '',
+                    pd.desc,
+                    pd.staff.about if pd.staff_id else '',
+                )
+            )
+            if ct_pos and ct_pos not in shown_position:
+                position_line = ct_pos
+                shown_position.add(ct_pos)
+            if ct_occ and ct_occ not in shown_occupation:
+                occupation_line = ct_occ
+                shown_occupation.add(ct_occ)
+            continue
+        occ = (pd.desc or '').strip()
+        if not occ and pd.staff_id:
+            occ = (pd.staff.profile.profession or '').strip()
+        occ = proper_case(occ)
+        if occ and occ not in shown_occupation and occ not in shown_position:
+            occupation_line = occ
             break
 
-    if not entries:
-        entries = [{"text": "", "kind": "position"}]
-
-    return SimpleNamespace(staff=staff, display_entries=entries)
+    return _people_card_namespace(
+        staff, position_line, occupation_line, groups_line
+    )
 

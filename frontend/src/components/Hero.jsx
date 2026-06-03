@@ -141,14 +141,14 @@ export default function Hero({ data }) {
                     aria-hidden
                   />
                 )}
-                <h2 className="font-sans text-5xl font-black leading-[0.92] tracking-[-0.03em] text-[#004f57] sm:text-6xl lg:text-[4.35rem] xl:text-[4.85rem]">
+                <h2 className="font-sans text-4xl font-black leading-[0.92] tracking-[-0.03em] text-[#004f57] sm:text-5xl md:text-6xl lg:text-[4.35rem] xl:text-[4.85rem]">
                   Bandhu
                 </h2>
               </div>
-              <h1 className="mb-4 w-full font-sans text-2xl font-bold leading-tight tracking-tight text-slate-900 max-lg:text-center sm:mb-5 sm:text-3xl lg:text-left lg:text-[clamp(1.625rem,0.35rem+2.35vw,2.125rem)] xl:text-[clamp(1.75rem,0.5rem+2.1vw,2.35rem)]">
+              <h1 className="mb-4 w-full font-sans text-xl font-bold leading-tight tracking-tight text-slate-900 max-lg:text-center sm:mb-5 sm:text-2xl md:text-3xl lg:text-left lg:text-[clamp(1.625rem,0.35rem+2.35vw,2.125rem)] xl:text-[clamp(1.75rem,0.5rem+2.1vw,2.35rem)]">
                 {slide.title}
               </h1>
-              <p className="w-full max-w-xl max-lg:mx-auto max-lg:text-center font-sans text-base leading-relaxed text-slate-700 sm:text-lg lg:mx-0 lg:text-left">
+              <p className="w-full max-w-xl max-lg:mx-auto max-lg:text-center font-sans text-[0.9375rem] leading-relaxed text-slate-700 sm:text-base md:text-lg lg:mx-0 lg:text-left">
                 {slide.subtitle}
               </p>
             </div>

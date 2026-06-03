@@ -2,7 +2,7 @@ import { createPortal } from 'react-dom'
 import { useCtaSurfaceContrast } from '../useCtaSurfaceContrast'
 import { ctaPillClass } from '../cta'
 
-export default function BeABandhuFab({ href, className = '' }) {
+export default function BeABandhuFab({ className = '' }) {
   const onDarkSurface = useCtaSurfaceContrast()
 
   const fab = (
@@ -11,8 +11,9 @@ export default function BeABandhuFab({ href, className = '' }) {
       style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom, 0px))' }}
     >
       <a
-        href={href}
-        className={`pointer-events-auto touch-manipulation max-sm:w-full max-sm:max-w-sm max-sm:justify-center ${ctaPillClass(onDarkSurface)} ${className}`.trim()}
+        href="#"
+        role="button"
+        className={`auth-open-signup-modal pointer-events-auto touch-manipulation max-sm:w-full max-sm:max-w-sm max-sm:justify-center ${ctaPillClass(onDarkSurface)} ${className}`.trim()}
         aria-label="Be a Bandhu — sign up"
       >
         Be a Bandhu

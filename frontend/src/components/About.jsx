@@ -3,6 +3,17 @@ import { createPortal } from 'react-dom'
 
 const SLIDE_MS = 5000
 
+/** Split closing sentence so line 5 can be centered on its own on phones. */
+function splitAboutDesc(html) {
+  if (!html) return { leadHtml: '', closing: null }
+  const normalized = String(html).replace(/\u00a0/g, ' ').trim()
+  const match = normalized.match(
+    /^([\s\S]*?\bBandhu)\s+(does\s+small\s+things\s+with\s+the\s+highest\s+possible\s+sincerity\.?)\s*$/i
+  )
+  if (!match) return { leadHtml: normalized, closing: null }
+  return { leadHtml: match[1], closing: match[2].trim() }
+}
+
 const DEFAULT_ABOUT_SLIDES = [
   {
     src: '/static/img/about-slide-1-gardenia.png',
@@ -33,6 +44,7 @@ const DEFAULT_ABOUT_SLIDES = [
 
 export default function About({ data }) {
   const about = data?.about
+  const aboutDescParts = useMemo(() => splitAboutDesc(about?.desc), [about?.desc])
   const slides = useMemo(() => {
     const imported = (data?.about_slides || []).filter((slide) => slide?.src)
     if (imported.length) return imported
@@ -82,15 +94,26 @@ export default function About({ data }) {
 
         <div className="grid grid-cols-1 justify-items-center gap-6 lg:grid-cols-2 lg:justify-items-stretch lg:gap-8 xl:gap-10 items-stretch">
           <div className="order-2 flex w-full flex-col items-center lg:order-1 lg:items-start lg:-ml-2 xl:-ml-4 2xl:-ml-5">
-            <div className="rounded-2xl bg-white w-full py-8 sm:py-12 px-4 sm:px-5 max-lg:text-center lg:h-full lg:flex lg:flex-col lg:justify-center lg:px-0 lg:pl-0 lg:pr-8 lg:text-left lg:items-start">
+            <div className="rounded-2xl bg-white w-full py-8 sm:py-12 px-4 sm:px-5 lg:h-full lg:flex lg:flex-col lg:justify-center lg:px-0 lg:pl-0 lg:pr-8 lg:text-left lg:items-start">
               <p
-                className="w-full font-body font-bold text-[#0b3540] text-lg sm:text-xl md:text-[1.28rem] lg:text-[1.34rem] leading-snug tracking-tight mb-6 sm:mb-7 max-lg:text-balance max-lg:leading-[1.45] lg:text-left [&_a]:text-[#005E66] [&_a]:underline"
+                className="w-full font-body font-bold text-[#0b3540] text-lg sm:text-xl md:text-[1.28rem] lg:text-[1.34rem] leading-snug tracking-tight mb-6 sm:mb-7 max-lg:mx-auto max-lg:max-w-[36rem] max-lg:text-center max-lg:text-balance max-lg:leading-[1.45] lg:text-left [&_a]:text-[#005E66] [&_a]:underline"
                 dangerouslySetInnerHTML={{ __html: about.tagline }}
               />
-              <p
-                className="w-full font-body font-normal text-[#3d5c66] text-base sm:text-lg md:text-[1.2rem] lg:text-[1.26rem] max-lg:text-justify max-lg:leading-[1.85] max-lg:[text-align-last:center] lg:text-left lg:leading-relaxed [&_a]:text-[#005E66] [&_a]:underline"
-                dangerouslySetInnerHTML={{ __html: about.desc }}
-              />
+              <div className="about-us-copy w-full max-lg:flex max-lg:flex-col max-lg:items-center">
+                <p
+                  className="about-us-desc hidden w-full font-body font-normal text-[#3d5c66] text-base sm:text-lg md:text-[1.2rem] lg:text-[1.26rem] lg:block lg:text-left lg:leading-relaxed [&_a]:text-[#005E66] [&_a]:underline"
+                  dangerouslySetInnerHTML={{ __html: about.desc }}
+                />
+                <p
+                  className="about-us-desc w-full font-body font-normal text-[#3d5c66] text-base sm:text-lg md:text-[1.2rem] max-lg:max-w-[36rem] max-lg:text-center max-lg:leading-[1.85] lg:hidden [&_a]:text-[#005E66] [&_a]:underline"
+                  dangerouslySetInnerHTML={{ __html: aboutDescParts.leadHtml }}
+                />
+                {aboutDescParts.closing ? (
+                  <p className="about-desc-closing m-0 w-full font-body font-normal text-[#3d5c66] max-lg:max-w-[36rem] max-lg:text-center lg:hidden">
+                    {aboutDescParts.closing}
+                  </p>
+                ) : null}
+              </div>
             </div>
           </div>
 

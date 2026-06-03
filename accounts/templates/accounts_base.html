@@ -7,6 +7,9 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<link rel="shortcut icon" href='{% static "img/bandhulogo.gif" %}'>
 	<title>{% block title %}  {% endblock %} </title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 
 	<style>
 		.main{
@@ -61,7 +64,7 @@
     {% endblock %}
 
 </head>
-<body data-spy="scroll" data-target=".navbar" data-offset="10">
+<body class="{% block body_class %}{% endblock %}" {% block body_attrs %}data-spy="scroll" data-target=".navbar" data-offset="10"{% endblock %}>
 	<div class="main">
 		{% block navbar %}{% include 'snippets/navbar_landing.html' %}{% endblock %}
 

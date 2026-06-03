@@ -29,4 +29,9 @@ urlpatterns = [
     ),
     path("sanskar/", views.pillar_sanskar, name="pillar_sanskar"),
     path("swaraj/", views.pillar_swaraj, name="pillar_swaraj"),
+    path(
+        "annual-reports/upload/",
+        views.annual_reports_upload,
+        name="annual_reports_upload",
+    ),
 ]

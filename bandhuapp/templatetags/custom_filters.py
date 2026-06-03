@@ -24,6 +24,28 @@ def proper_case_lines(value):
 
 
 @register.filter
+def avoid_orphan_sincerity(value):
+    """Phone: closing sentence in centered block (legacy landing template)."""
+    if value is None:
+        return ""
+    if not isinstance(value, str):
+        value = str(value)
+    text = value.replace("\u00a0", " ").strip()
+    match = re.match(
+        r"^([\s\S]*?\bBandhu)\s+(does\s+small\s+things\s+with\s+the\s+highest\s+possible\s+sincerity\.?)\s*$",
+        text,
+        flags=re.IGNORECASE,
+    )
+    if not match:
+        return value
+    lead, closing = match.group(1), match.group(2).strip()
+    return (
+        f'{lead}<p class="about-desc-closing" style="text-align:center;margin:0;">'
+        f"{closing}</p>"
+    )
+
+
+@register.filter
 def single_line(value):
     """Collapse line breaks and repeated spaces so taglines stay on one line."""
     if value is None:

@@ -1,9 +1,11 @@
-import { useMemo, useEffect, useState, useCallback } from 'react'
+import { useMemo, useEffect, useState, useCallback, useRef } from 'react'
 import Navbar from './components/Navbar'
 import BeABandhuFab from './components/BeABandhuFab'
 
-/** Past this scroll offset, navbar hides until user hovers the top strip or scrolls back to top. */
+/** At top of page, nav is always visible. */
 const NAV_SCROLL_TOP_THRESHOLD = 10
+/** Minimum scroll delta before toggling hide/show (reduces jitter). */
+const NAV_SCROLL_DIR_THRESHOLD = 6
 import Hero from './components/Hero'
 import About from './components/About'
 import Mission from './components/Mission'
@@ -33,14 +35,33 @@ function isInsidePortaledNavDropdown(node) {
 
 export default function App() {
   const data = useMemo(getLandingData, [])
-  const signupHref = data?.urls?.signup || '/accounts/signup/'
   const [scrollY, setScrollY] = useState(0)
+  const [scrollingUp, setScrollingUp] = useState(true)
   const [peekNav, setPeekNav] = useState(false)
+  const lastScrollYRef = useRef(0)
 
   useEffect(() => {
+    let ticking = false
+    const updateScroll = () => {
+      const y = window.scrollY || document.documentElement.scrollTop
+      const diff = y - lastScrollYRef.current
+
+      if (y <= NAV_SCROLL_TOP_THRESHOLD) {
+        setScrollingUp(true)
+      } else if (Math.abs(diff) >= NAV_SCROLL_DIR_THRESHOLD) {
+        setScrollingUp(diff < 0)
+        if (diff > 0) setPeekNav(false)
+      }
+
+      lastScrollYRef.current = y
+      setScrollY(y)
+      ticking = false
+    }
     const onScroll = () => {
-      setScrollY(window.scrollY || document.documentElement.scrollTop)
-      setPeekNav(false)
+      if (!ticking) {
+        ticking = true
+        requestAnimationFrame(updateScroll)
+      }
     }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
@@ -48,8 +69,8 @@ export default function App() {
   }, [])
 
   const atTop = scrollY <= NAV_SCROLL_TOP_THRESHOLD
-  const navHiddenByScroll = !atTop
-  const showNav = atTop || peekNav
+  const navHiddenByScroll = !atTop && !scrollingUp
+  const showNav = atTop || scrollingUp || peekNav
 
   const onNavBarMouseLeave = useCallback(
     (e) => {
@@ -118,7 +139,7 @@ export default function App() {
         <OurVisitors data={data} />
         {data.about && <About data={data} />}
       </main>
-      {!data?.user?.is_authenticated && <BeABandhuFab href={signupHref} />}
+      {!data?.user?.is_authenticated && <BeABandhuFab />}
       <Footer data={data} />
     </div>
   )

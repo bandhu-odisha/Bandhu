@@ -1,4 +1,4 @@
-﻿@import url(https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap);
+/* Inter loaded via templates/base.html — match React landing */
 
 @font-face {
     font-family: oriya;
@@ -21,7 +21,7 @@
 /* GLOBAL */
 
 html {
-    font-size: 20px;
+    font-size: clamp(15px, 13px + 0.45vw, 20px);
     font-family: var(--font-sans);
     width: 100%;
     margin: 0;
@@ -45,7 +45,21 @@ body {
     box-sizing: border-box;
 }
 
-/* Site-wide sans-serif — forms, Bootstrap, and UI inherit Inter stack */
+/* Site-wide sans-serif — forms, Bootstrap, and UI use Inter (same as landing) */
+.main,
+.main h1,
+.main h2,
+.main h3,
+.main h4,
+.main h5,
+.main h6,
+.main p,
+.main a,
+.main li,
+.main label,
+.main small,
+.main .btn,
+.main .form-control,
 button,
 input,
 select,
@@ -60,6 +74,7 @@ optgroup,
 .dropdown-item,
 .modal,
 .modal-content,
+.modal-title,
 .card,
 .table,
 .badge,
@@ -67,7 +82,7 @@ optgroup,
 .toast,
 .list-group-item,
 .pagination {
-    font-family: inherit;
+    font-family: var(--font-sans);
 }
 
 /* Ensure app wrapper stays white behind all sections and full width for banner */
@@ -622,18 +637,23 @@ a.nav-button.btn:active,
     overflow: hidden;
 }
 .slider-txt-container .bold-txt {
-    font-size: 3.875em;
+    font-size: clamp(1.75rem, 8vw, 3.875em);
     font-weight: 800;
-    line-height: 70px;
+    line-height: 1.15;
 }
 .slider-txt-container .parallax-description {
     color: #ffffff;
     text-align: center;
-    font-size: 1.7em;
+    font-size: clamp(1rem, 3.5vw, 1.7em);
     font-weight: 600;
-    line-height: 40px;
-    width: 70%;
+    line-height: 1.45;
+    width: min(92%, 70%);
     margin: auto;
+}
+@media screen and (max-width: 575px) {
+    .slider-txt-container {
+        padding: 5rem 0 6rem;
+    }
 }
 
 /* Angular Cut on Showcase */

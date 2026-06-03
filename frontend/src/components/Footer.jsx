@@ -1,6 +1,15 @@
+import { useState } from 'react'
+import AnnualReportUploadModal from './AnnualReportUploadModal'
+
 export default function Footer({ data }) {
   const urls = data?.urls || {}
   const contact = data?.contact || {}
+  const annualReports = data?.annual_reports || []
+  const isAdmin = Boolean(data?.user?.is_admin)
+  const uploadAnnualReportUrl =
+    data?.urls?.annual_reports_upload || '/annual-reports/upload/'
+  const showAnnualSection = isAdmin || annualReports.length > 0
+  const [uploadModalOpen, setUploadModalOpen] = useState(false)
 
   const initiatives = [
     { label: 'Ankurayan', href: urls.ankurayan || '#' },
@@ -15,7 +24,7 @@ export default function Footer({ data }) {
       data-cta-surface="dark"
       className="relative overflow-hidden border-t border-[#005E66] bg-[#005E66] px-4 py-14 text-white sm:px-6"
     >
-      <div className="relative z-10 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16">
+      <div className="relative z-10 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-10 lg:gap-12">
         <div>
           <h3 className="mb-2 font-heading text-xl font-bold text-white">Our Initiatives</h3>
           <div className="mb-6 h-1 w-14 rounded-full bg-white/70" />
@@ -31,6 +40,66 @@ export default function Footer({ data }) {
               </li>
             ))}
           </ul>
+
+          {showAnnualSection && (
+            <div className="mt-8">
+              <h3 className="mb-2 font-heading text-xl font-bold text-white">Annual Reports</h3>
+              <div className="mb-6 h-1 w-14 rounded-full bg-white/70" />
+              <ul className="space-y-2 font-body text-sm text-white/85">
+                {isAdmin && (
+                  <li>
+                    <button
+                      type="button"
+                      onClick={() => setUploadModalOpen(true)}
+                      className="inline-flex items-center gap-2 text-white/90 transition hover:text-white underline-offset-2 hover:underline bg-transparent border-0 p-0 cursor-pointer font-inherit text-left"
+                    >
+                      <svg
+                        className="h-4 w-4 shrink-0 opacity-90"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
+                        />
+                      </svg>
+                      Upload annual report
+                    </button>
+                  </li>
+                )}
+                {annualReports.map((report) => (
+                  <li key={report.id ?? report.year}>
+                    <a
+                      href={report.url}
+                      className="inline-flex items-center gap-2 text-white/90 transition hover:text-white underline-offset-2 hover:underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <span>{report.title}</span>
+                      <svg
+                        className="h-3.5 w-3.5 shrink-0 opacity-80"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                        />
+                      </svg>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
 
         <div>
@@ -100,6 +169,15 @@ export default function Footer({ data }) {
           </div>
         </div>
       </div>
+
+      {isAdmin && (
+        <AnnualReportUploadModal
+          open={uploadModalOpen}
+          onClose={() => setUploadModalOpen(false)}
+          uploadUrl={uploadAnnualReportUrl}
+          csrfToken={data?.csrf_token}
+        />
+      )}
     </footer>
   )
 }

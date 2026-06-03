@@ -1,0 +1,232 @@
+<div class="modal fade" id="annualReportUploadModal" tabindex="-1" role="dialog" aria-labelledby="annualReportUploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title font-weight-bold" id="annualReportUploadModalLabel" style="color:#005E66;">Upload annual report</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted small mb-3">Add a PDF or Google Drive link for each year. Published reports appear in the footer for visitors.</p>
+                <div id="annual-report-modal-alert" class="alert d-none" role="alert"></div>
+
+                <form id="annual-report-upload-form" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="report_id" id="annual-report-report-id" value="">
+                    <div class="form-group">
+                        <label for="annual-report-year-dj">Year</label>
+                        <input type="number" class="form-control" id="annual-report-year-dj" name="year" min="2000" max="2100" required placeholder="e.g. 2024">
+                        <div class="invalid-feedback d-block" data-error-for="year"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="annual-report-title-dj">Title (optional)</label>
+                        <input type="text" class="form-control" id="annual-report-title-dj" name="title" placeholder="Annual Report 2024">
+                    </div>
+                    <div class="form-group">
+                        <label for="annual-report-pdf-dj">PDF file</label>
+                        <input type="file" class="form-control-file" id="annual-report-pdf-dj" name="pdf_file" accept="application/pdf,.pdf">
+                        <small class="form-text text-muted">Leave empty if you only use a Drive link.</small>
+                        <div class="invalid-feedback d-block" data-error-for="pdf_file"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="annual-report-url-dj">Google Drive / link</label>
+                        <input type="url" class="form-control" id="annual-report-url-dj" name="external_url" placeholder="https://drive.google.com/...">
+                        <div class="invalid-feedback d-block" data-error-for="external_url"></div>
+                    </div>
+                    <div class="invalid-feedback d-block mb-2" data-error-for="__all__"></div>
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="annual-report-published-dj" name="is_published" checked>
+                        <label class="form-check-label" for="annual-report-published-dj">Published (show in footer)</label>
+                    </div>
+                    <button type="submit" class="btn text-white" id="annual-report-submit-btn" style="background:#005E66;border-color:#005E66;">Upload report</button>
+                    <button type="button" class="btn btn-outline-secondary ml-2 d-none" id="annual-report-cancel-edit">Cancel edit</button>
+                </form>
+
+                <hr class="my-4">
+                <h6 class="font-weight-bold mb-2">Uploaded reports</h6>
+                <div id="annual-report-list-loading" class="text-muted small">Loading…</div>
+                <ul id="annual-report-list" class="list-unstyled mb-0 d-none"></ul>
+                <p id="annual-report-list-empty" class="text-muted small mb-0 d-none">No reports yet.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function () {
+    var uploadUrl = '{{ annual_reports_upload_url|escapejs }}';
+    var modal = document.getElementById('annualReportUploadModal');
+    if (!modal || !uploadUrl) return;
+
+    var form = document.getElementById('annual-report-upload-form');
+    var alertEl = document.getElementById('annual-report-modal-alert');
+    var listEl = document.getElementById('annual-report-list');
+    var listLoading = document.getElementById('annual-report-list-loading');
+    var listEmpty = document.getElementById('annual-report-list-empty');
+    var submitBtn = document.getElementById('annual-report-submit-btn');
+    var cancelEditBtn = document.getElementById('annual-report-cancel-edit');
+    var reportIdInput = document.getElementById('annual-report-report-id');
+
+    function getCsrf() {
+        var input = form.querySelector('[name=csrfmiddlewaretoken]');
+        return input ? input.value : '';
+    }
+
+    function showAlert(type, text) {
+        alertEl.className = 'alert alert-' + (type === 'success' ? 'success' : 'danger');
+        alertEl.textContent = text;
+        alertEl.classList.remove('d-none');
+    }
+
+    function hideAlert() {
+        alertEl.classList.add('d-none');
+    }
+
+    function clearFieldErrors() {
+        modal.querySelectorAll('[data-error-for]').forEach(function (el) {
+            el.textContent = '';
+        });
+    }
+
+    function showFieldErrors(errors) {
+        clearFieldErrors();
+        Object.keys(errors || {}).forEach(function (key) {
+            var el = modal.querySelector('[data-error-for="' + key + '"]');
+            if (el && errors[key] && errors[key].length) {
+                el.textContent = errors[key].join(' ');
+            }
+        });
+    }
+
+    function resetForm() {
+        form.reset();
+        reportIdInput.value = '';
+        document.getElementById('annual-report-published-dj').checked = true;
+        submitBtn.textContent = 'Upload report';
+        cancelEditBtn.classList.add('d-none');
+        clearFieldErrors();
+        hideAlert();
+    }
+
+    function renderReports(reports) {
+        listLoading.classList.add('d-none');
+        if (!reports || !reports.length) {
+            listEl.classList.add('d-none');
+            listEmpty.classList.remove('d-none');
+            return;
+        }
+        listEmpty.classList.add('d-none');
+        listEl.classList.remove('d-none');
+        listEl.innerHTML = reports.map(function (r) {
+            var draft = r.is_published ? '' : ' <span class="text-warning small">(draft)</span>';
+            var view = r.view_url
+                ? ' · <a href="' + r.view_url + '" target="_blank" rel="noopener noreferrer">View</a>'
+                : '';
+            return '<li class="d-flex flex-wrap justify-content-between align-items-center border rounded px-3 py-2 mb-2">' +
+                '<span>' + r.title + ' <span class="text-muted">(' + r.year + ')</span>' + draft + '</span>' +
+                '<span class="small">' +
+                '<button type="button" class="btn btn-link btn-sm p-0 annual-report-edit" data-id="' + r.id + '" data-year="' + r.year + '" data-title="' + (r.title || '').replace(/"/g, '&quot;') + '" data-url="' + (r.external_url || '').replace(/"/g, '&quot;') + '" data-published="' + (r.is_published ? '1' : '0') + '">Edit</button>' +
+                view +
+                ' · <button type="button" class="btn btn-link btn-sm p-0 text-danger annual-report-delete" data-id="' + r.id + '" data-title="' + (r.title || '').replace(/"/g, '&quot;') + '">Delete</button>' +
+                '</span></li>';
+        }).join('');
+    }
+
+    function loadReports() {
+        listLoading.classList.remove('d-none');
+        listEl.classList.add('d-none');
+        listEmpty.classList.add('d-none');
+        fetch(uploadUrl + '?format=json', {
+            headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' },
+            credentials: 'same-origin'
+        })
+            .then(function (res) { return res.json(); })
+            .then(function (data) { renderReports(data.reports || []); })
+            .catch(function () {
+                listLoading.classList.add('d-none');
+                showAlert('danger', 'Could not load reports.');
+            });
+    }
+
+    if (window.jQuery) {
+        jQuery(modal).on('show.bs.modal', function () {
+            resetForm();
+            loadReports();
+        });
+    }
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        hideAlert();
+        clearFieldErrors();
+        submitBtn.disabled = true;
+        var body = new FormData(form);
+        if (!document.getElementById('annual-report-published-dj').checked) {
+            body.delete('is_published');
+        }
+        fetch(uploadUrl, {
+            method: 'POST',
+            body: body,
+            credentials: 'same-origin',
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+            .then(function (res) { return res.json().then(function (data) { return { res: res, data: data }; }); })
+            .then(function (_ref) {
+                var res = _ref.res;
+                var data = _ref.data;
+                if (!res.ok || !data.ok) {
+                    showFieldErrors(data.errors || {});
+                    showAlert('danger', 'Please fix the errors below.');
+                    return;
+                }
+                showAlert('success', data.message || 'Saved.');
+                renderReports(data.reports || []);
+                resetForm();
+                window.setTimeout(function () { window.location.reload(); }, 600);
+            })
+            .catch(function () { showAlert('danger', 'Upload failed. Please try again.'); })
+            .finally(function () { submitBtn.disabled = false; });
+    });
+
+    cancelEditBtn.addEventListener('click', resetForm);
+
+    listEl.addEventListener('click', function (e) {
+        var editBtn = e.target.closest('.annual-report-edit');
+        if (editBtn) {
+            reportIdInput.value = editBtn.getAttribute('data-id');
+            document.getElementById('annual-report-year-dj').value = editBtn.getAttribute('data-year');
+            document.getElementById('annual-report-title-dj').value = editBtn.getAttribute('data-title') || '';
+            document.getElementById('annual-report-url-dj').value = editBtn.getAttribute('data-url') || '';
+            document.getElementById('annual-report-published-dj').checked = editBtn.getAttribute('data-published') === '1';
+            document.getElementById('annual-report-pdf-dj').value = '';
+            submitBtn.textContent = 'Save changes';
+            cancelEditBtn.classList.remove('d-none');
+            hideAlert();
+            return;
+        }
+        var delBtn = e.target.closest('.annual-report-delete');
+        if (!delBtn) return;
+        var title = delBtn.getAttribute('data-title');
+        if (!window.confirm('Delete ' + title + '?')) return;
+        var body = new FormData();
+        body.append('csrfmiddlewaretoken', getCsrf());
+        body.append('action', 'delete');
+        body.append('report_id', delBtn.getAttribute('data-id'));
+        fetch(uploadUrl, {
+            method: 'POST',
+            body: body,
+            credentials: 'same-origin',
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+                if (!data.ok) throw new Error();
+                showAlert('success', data.message || 'Deleted.');
+                renderReports(data.reports || []);
+                resetForm();
+            })
+            .catch(function () { showAlert('danger', 'Could not delete.'); });
+    });
+})();
+</script>
