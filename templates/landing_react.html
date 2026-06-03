@@ -12,8 +12,9 @@
     <link rel="shortcut icon" href="{% static 'img/bandhulogo.gif' %}">
     {% if not user.is_authenticated %}
     <link rel="stylesheet" href="{% static 'vendor/css/bootstrap.min.css' %}?v=255">
+    <link rel="stylesheet" href="{% static 'css/accounts-auth-landing.css' %}?v=287">
     {% endif %}
-    <link rel="stylesheet" href="{% static 'frontend/assets/index.css' %}?v=299">
+    <link rel="stylesheet" href="{% static 'frontend/assets/index.css' %}?v=300">
     <link rel="stylesheet" href="{% static 'vendor/css/fontawesome-all.min.css' %}?v=255">
     <style>
       /* Our Visitors profile popup: wide like reference (teal left, details right) */
@@ -100,6 +101,22 @@
       body.landing .signup-modal-root .modal-dialog {
         z-index: 1060;
       }
+      /* If index.css fails on prod, hero logo must not blow up to full PNG size */
+      body.landing #root img[alt="Bandhu logo"] {
+        width: 7rem;
+        height: 7rem;
+        max-width: 7rem;
+        max-height: 7rem;
+        object-fit: contain;
+      }
+      @media (min-width: 640px) {
+        body.landing #root img[alt="Bandhu logo"] {
+          width: 7.5rem;
+          height: 7.5rem;
+          max-width: 7.5rem;
+          max-height: 7.5rem;
+        }
+      }
     </style>
 </head>
 <body class="landing">
@@ -114,15 +131,25 @@
     <script src="{% static 'vendor/js/popper.min.js' %}"></script>
     <script src="{% static 'vendor/js/bootstrap.min.js' %}"></script>
     <script>
-    $(function () {
-      $(document).on('click', '.auth-open-signup-modal', function (e) {
+    (function () {
+      var signupUrl = '{% url "signup" %}';
+      document.addEventListener('click', function (e) {
+        var trigger = e.target && e.target.closest && e.target.closest('.auth-open-signup-modal');
+        if (!trigger) return;
         e.preventDefault();
-        $('#loginModal').modal('hide');
-        setTimeout(function () {
-          if ($('#signupModal').length) { $('#signupModal').modal('show'); }
-          else { window.location.href = '{% url "signup" %}'; }
-        }, 350);
-      });
+        e.stopPropagation();
+        var modalEl = document.getElementById('signupModal');
+        if (!modalEl) {
+          window.location.href = signupUrl;
+          return;
+        }
+        if (window.jQuery && jQuery.fn.modal) {
+          jQuery('#loginModal').modal('hide');
+          setTimeout(function () { jQuery('#signupModal').modal('show'); }, 350);
+        }
+      }, true);
+    })();
+    $(function () {
       $(document).on('click', '.auth-open-login-modal', function (e) {
         e.preventDefault();
         $('#signupModal').modal('hide');
@@ -145,7 +172,7 @@
     });
     </script>
     {% endif %}
-    <script type="module" src="{% static 'frontend/assets/index.js' %}?v=299"></script>
+    <script type="module" src="{% static 'frontend/assets/index.js' %}?v=300"></script>
     <!-- Gallery auto-scroll: runs after React mounts, no dependency on bundle -->
     <script>
 (function() {
