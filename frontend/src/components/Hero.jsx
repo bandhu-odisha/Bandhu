@@ -134,6 +134,7 @@ export default function Hero({ data }) {
                     className="h-24 w-24 shrink-0 object-contain sm:h-28 sm:w-28"
                     width={112}
                     height={112}
+                    style={{ maxWidth: 112, maxHeight: 112 }}
                   />
                 ) : (
                   <div

@@ -14,9 +14,9 @@ export default function Volunteer({ data }) {
         <p className="font-body text-lg sm:text-xl text-slate-600 leading-relaxed mb-10">
           {volunteer.tagline}
         </p>
-        <a href="#" role="button" className={`auth-open-signup-modal ${CTA_PILL_CLASS}`}>
+        <button type="button" className={`auth-open-signup-modal ${CTA_PILL_CLASS}`}>
           Be a Bandhu
-        </a>
+        </button>
       </div>
     </section>
   )

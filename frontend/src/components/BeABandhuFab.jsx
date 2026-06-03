@@ -10,14 +10,13 @@ export default function BeABandhuFab({ className = '' }) {
       className="fixed z-[185] bottom-0 left-0 right-0 flex justify-center px-4 pb-4 pointer-events-none sm:left-auto sm:right-7 sm:bottom-7 sm:block sm:px-0 sm:pb-0"
       style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom, 0px))' }}
     >
-      <a
-        href="#"
-        role="button"
+      <button
+        type="button"
         className={`auth-open-signup-modal pointer-events-auto touch-manipulation max-sm:w-full max-sm:max-w-sm max-sm:justify-center ${ctaPillClass(onDarkSurface)} ${className}`.trim()}
         aria-label="Be a Bandhu — sign up"
       >
         Be a Bandhu
-      </a>
+      </button>
     </div>
   )
 

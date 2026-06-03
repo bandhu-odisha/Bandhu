@@ -349,33 +349,16 @@ section#anandakendras.page-section {
     box-shadow: 0 16px 40px rgba(61, 92, 96, 0.2) !important;
     border-color: rgba(128, 179, 186, 0.5) !important;
 }
-.anandakendra-detail #activities .activity-card-media {
-    flex: 0 0 260px;
-    width: 100%;
-    height: 260px;
-    min-height: 260px;
-    max-height: 260px;
-    background: #f1f5f9;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-.anandakendra-detail #activities .glide .card img.activity-card-img,
 .anandakendra-detail #activities .activity-card-img {
-    display: block;
-    width: 100% !important;
-    height: 100% !important;
-    min-height: 0 !important;
-    max-height: 100% !important;
-    max-width: 100% !important;
+    height: 240px !important;
+    min-height: 240px !important;
+    max-height: 240px !important;
+    width: 100%;
     object-fit: contain;
-    object-position: center center;
+    object-position: top center;
     background: #f1f5f9;
     flex-shrink: 0;
     border-radius: 0;
-    padding: 0.5rem;
-    box-sizing: border-box;
 }
 .anandakendra-detail #activities .activity-card .card-body {
     flex: 1;

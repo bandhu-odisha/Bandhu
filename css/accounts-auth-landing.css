@@ -138,6 +138,15 @@ body.auth-page #scroll-to-top {
   color: #3d5c60;
 }
 
+.login-page .btn-google img,
+.signup-page .btn-google img {
+  width: 28px;
+  height: auto;
+  max-width: 28px;
+  margin-right: 10px;
+  object-fit: contain;
+}
+
 .login-page .w-full.text-center p,
 .signup-page .w-full.text-center p {
   color: #64748b;

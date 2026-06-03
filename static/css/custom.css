@@ -786,6 +786,16 @@ body.pillar-inner-page #top-section .parallax-overlay::after {
 .contact-footer-list a:hover {
     color: #2dd4bf;
 }
+.contact-footer-upload-btn {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+.contact-footer-upload-btn:hover {
+    color: #2dd4bf;
+    text-decoration: underline;
+}
 .contact-footer-org-name {
     font-weight: 700;
     color: #fff;
