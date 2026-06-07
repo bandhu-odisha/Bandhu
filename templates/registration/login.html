@@ -21,7 +21,7 @@
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100 p-l-50 p-r-50 p-t-32 p-b-23">
-				<form class="login100-form validate-form flex-sb flex-w" method="POST">
+                <form class="login100-form validate-form flex-sb flex-w" method="POST" action="{% url 'login' %}">
 					{% csrf_token %}
 					<span class="login100-form-title p-b-33">
 						<h1 class="font-weight-bolder">Sign In</h1>

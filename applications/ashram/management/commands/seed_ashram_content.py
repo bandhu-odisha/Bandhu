@@ -6,8 +6,7 @@ import urllib.request
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
-from applications.ashram.models import Ashram, HomePage
-
+from applications.ashram.models import Activity, ActivityCategory, Ashram, HomePage, Photo
 
 BANDHUGHAR_INTRO = 'Come, See, Feel and Enjoy the Goodness.....'
 
@@ -15,20 +14,34 @@ RUNNING_BANDHUGHARS = [
     {
         'name': 'Amrut Mahotsav celebration',
         'locality': 'Lankapara',
-        'description': 'Amrut Mahotsav celebration at Bandhughar, Lankapara.',
-        'address': 'Bandhughar, Lankapara, Odisha',
+        'description': 'Activities at Bandhu Ashram',
+        'address': 'Lankapara, Odisha',
         'image': 'ashram/thumbnails/22.jpg',
-        'slug': 'amrut-mahotsav-celebration-lankapara',
+        'slug': 'Activities_Bandhu_Ashram',
     },
     {
         'name': 'Visit by school kids',
         'locality': 'Lankapara',
-        'description': 'Visit by school kids to Bandhughar, Lankapara.',
-        'address': 'Bandhughar, Lankapara, Odisha',
+        'description': 'Visit by school kids',
+        'address': 'Lankapara, Odisha',
         'image': 'ashram/thumbnails/collage.jpg',
-        'slug': 'visit-by-school-kids-lankapara',
+        'slug': 'bandhu-ghar-celebration-lankapara',
     },
 ]
+
+BANDHUGHAR_GALLERY_IMAGES = {
+    'Activities_Bandhu_Ashram': ['ashram/2.jpg'],
+}
+
+BANDHUGHAR_ACTIVITIES = {
+    'Activities_Bandhu_Ashram': [
+        {
+            'category': 'Amrut Mahotsav celebration',
+            'name': 'Amrut Mahotsav celebration',
+            'description': 'amrut mahotsav celebration',
+        },
+    ],
+}
 
 
 class Command(BaseCommand):
@@ -62,36 +75,108 @@ class Command(BaseCommand):
         except (urllib.error.URLError, OSError):
             return False
 
+    def _sync_activities(self, ashram, activity_rows):
+        keep_activity_ids = []
+        keep_category_ids = []
+
+        for row in activity_rows:
+            category, _created = ActivityCategory.objects.get_or_create(
+                ashram=ashram,
+                name=row['category'],
+            )
+            keep_category_ids.append(category.id)
+
+            activity = Activity.objects.filter(
+                category=category,
+                name=row['name'],
+            ).first()
+            if not activity:
+                activity = Activity(category=category)
+            activity.name = row['name']
+            activity.description = row['description']
+            activity.save()
+            keep_activity_ids.append(activity.id)
+
+        Activity.objects.filter(category__ashram=ashram).exclude(
+            id__in=keep_activity_ids,
+        ).delete()
+        ActivityCategory.objects.filter(ashram=ashram).exclude(
+            id__in=keep_category_ids,
+        ).delete()
+        return len(keep_activity_ids)
+
     def handle(self, *args, **options):
-        homepage = HomePage.objects.first()
-        if homepage:
-            banner_image = 'ashram/index/21.jpg'
-            self._ensure_media_image(banner_image)
-            homepage.tagline = 'An Abode for Goodness'
-            homepage.description = BANDHUGHAR_INTRO
-            homepage.picture = banner_image
-            homepage.save(update_fields=['tagline', 'description', 'picture'])
+        picture_path = 'ashram/index/21.jpg'
+        banner_path = 'ashram/banner/our_mission.jpg'
+        for relative_path in (picture_path, banner_path):
+            self._ensure_media_image(relative_path)
+
+        homepage, _created = HomePage.objects.get_or_create(
+            pk=1,
+            defaults={
+                'tagline': 'An Abode for Goodness',
+                'description': BANDHUGHAR_INTRO,
+                'picture': picture_path,
+                'banner_image': banner_path,
+            },
+        )
+        homepage.tagline = 'An Abode for Goodness'
+        homepage.description = BANDHUGHAR_INTRO
+        homepage.picture = picture_path
+        if not homepage.banner_image:
+            homepage.banner_image = banner_path
+        homepage.save()
 
         keep_ids = []
         for row in RUNNING_BANDHUGHARS:
             self._ensure_media_image(row['image'])
-            bandhughar, _created = Ashram.objects.get_or_create(
-                slug=row['slug'],
-                defaults={
-                    'name': row['name'],
-                    'locality': row['locality'],
-                    'description': row['description'],
-                    'address': row['address'],
-                    'image': row['image'],
-                },
-            )
+            bandhughar = Ashram.objects.filter(
+                name=row['name'],
+                locality=row['locality'],
+            ).first()
+            if not bandhughar:
+                bandhughar = Ashram.objects.filter(slug=row['slug']).first()
+            if not bandhughar:
+                bandhughar = Ashram()
             bandhughar.name = row['name']
             bandhughar.locality = row['locality']
             bandhughar.description = row['description']
             bandhughar.address = row['address']
             bandhughar.image = row['image']
+            bandhughar.slug = row['slug']
             bandhughar.save()
             keep_ids.append(bandhughar.id)
 
         Ashram.objects.exclude(id__in=keep_ids).delete()
-        self.stdout.write(self.style.SUCCESS(f'Seeded Bandhughar home content and {len(keep_ids)} Bandhughars.'))
+
+        gallery_total = 0
+        for ashram in Ashram.objects.filter(slug__in=BANDHUGHAR_GALLERY_IMAGES):
+            keep_photo_ids = []
+            for relative_path in BANDHUGHAR_GALLERY_IMAGES[ashram.slug]:
+                if not self._ensure_media_image(relative_path):
+                    self.stdout.write(self.style.WARNING(f'Missing gallery file: {relative_path}'))
+                    continue
+                photo = Photo.objects.filter(ashram=ashram, picture=relative_path).first()
+                if not photo:
+                    photo = Photo(ashram=ashram)
+                photo.picture.name = relative_path
+                photo.approved = True
+                photo.save()
+                keep_photo_ids.append(photo.id)
+            Photo.objects.filter(ashram=ashram).exclude(id__in=keep_photo_ids).delete()
+            gallery_total += len(keep_photo_ids)
+
+        activity_total = 0
+        for ashram in Ashram.objects.filter(slug__in=BANDHUGHAR_ACTIVITIES):
+            activity_total += self._sync_activities(
+                ashram,
+                BANDHUGHAR_ACTIVITIES[ashram.slug],
+            )
+        for ashram in Ashram.objects.exclude(slug__in=BANDHUGHAR_ACTIVITIES):
+            Activity.objects.filter(category__ashram=ashram).delete()
+            ActivityCategory.objects.filter(ashram=ashram).delete()
+
+        self.stdout.write(self.style.SUCCESS(
+            f'Seeded Bandhughar home content, {len(keep_ids)} Bandhughars, '
+            f'{gallery_total} gallery photo(s), and {activity_total} activit(ies).'
+        ))
