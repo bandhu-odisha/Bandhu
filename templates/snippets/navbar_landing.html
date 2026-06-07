@@ -47,6 +47,54 @@
                             <a class="nav-button btn" href="#" data-toggle="modal" data-target="#loginModal" role="button">Login</a>
                         </li>
                     {% endif %}
+                {% elif ns == 'prasantaraktadan' %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                    <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'prasantaraktadan:prasantaraktadan' %}">Prasanta Raktadan Shibir</a></li>
+                    <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
+                        <li class="nav-item align-self-center mt-2 mt-lg-0 ml-2 ml-lg-3">
+                            <a class="nav-button btn" href="{% url 'logout' %}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item align-self-center mt-2 mt-lg-0 ml-2 ml-lg-3">
+                            <a class="nav-button btn" href="#" data-toggle="modal" data-target="#loginModal" role="button">Login</a>
+                        </li>
+                    {% endif %}
+                {% elif ns == 'patriotism' %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                    <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'patriotism:patriotism' %}">Patriotism in Action</a></li>
+                    <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
+                        <li class="nav-item align-self-center mt-2 mt-lg-0 ml-2 ml-lg-3">
+                            <a class="nav-button btn" href="{% url 'logout' %}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item align-self-center mt-2 mt-lg-0 ml-2 ml-lg-3">
+                            <a class="nav-button btn" href="#" data-toggle="modal" data-target="#loginModal" role="button">Login</a>
+                        </li>
+                    {% endif %}
+                {% elif ns == 'sevavrata' %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                    <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'sevavrata:sevavrata' %}">Odisha Satabdi Sevavrata</a></li>
+                    <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
+                        <li class="nav-item align-self-center mt-2 mt-lg-0 ml-2 ml-lg-3">
+                            <a class="nav-button btn" href="{% url 'logout' %}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item align-self-center mt-2 mt-lg-0 ml-2 ml-lg-3">
+                            <a class="nav-button btn" href="#" data-toggle="modal" data-target="#loginModal" role="button">Login</a>
+                        </li>
+                    {% endif %}
                 {% elif ns == 'publications' %}
                     <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
                     <li class="nav-item nav-sep" aria-hidden="true"><span class="nav-sep-char">|</span></li>
@@ -194,6 +242,15 @@
                         <div class="dropdown-menu dropdown-menu-landing" aria-labelledby="navInitiativesDropdown">
                             <a class="dropdown-item" href="/bandhughar/">Bandhughar</a>
                             <a class="dropdown-item" href="/other_activities/">Other Activities</a>
+                            {% if show_initiative_raktadan %}
+                            <a class="dropdown-item" href="{% url 'prasantaraktadan:prasantaraktadan' %}">Prasanta Raktadan Shibir</a>
+                            {% endif %}
+                            {% if show_initiative_patriotism %}
+                            <a class="dropdown-item" href="{% url 'patriotism:patriotism' %}">Patriotism in Action</a>
+                            {% endif %}
+                            {% if show_initiative_sevavrata %}
+                            <a class="dropdown-item" href="{% url 'sevavrata:sevavrata' %}">Odisha Satabdi Sevavrata</a>
+                            {% endif %}
                             <a class="dropdown-item" href="/publications/">Our Publications</a>
                         </div>
                     </li>

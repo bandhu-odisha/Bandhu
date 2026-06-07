@@ -38,6 +38,18 @@ body:has(.ashram-list-page) .page-angular + .ashram-list-page,
     margin-top: -280px !important;
 }
 
+/* Initiative program list pages: spacing between centered banner title and overlay cards */
+body.initiative-program-page.pillar-inner-page .angular-ashram + .pillar-overlay-cards {
+    margin-top: -185px !important;
+    padding-top: 3.5rem !important;
+}
+@media (max-width: 767px) {
+    body.initiative-program-page.pillar-inner-page .angular-ashram + .pillar-overlay-cards {
+        margin-top: -70px !important;
+        padding-top: 2.25rem !important;
+    }
+}
+
 /* Overlay cards (same layout as Sanskar/Swabalamban/Other Activities) */
 .pillar-overlay-cards {
     margin-top: -280px;
@@ -274,6 +286,31 @@ body:has(.ashram-list-page) .page-angular + .ashram-list-page,
     line-height: 1.35;
     margin: 0;
     text-shadow: none !important;
+}
+
+/* Initiative program list pages: centred card captions, white section (uses #ashrams id) */
+body.initiative-program-page #ashrams.page-section {
+    background: #ffffff !important;
+    border-top: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+}
+body.initiative-program-page #ashrams .bandhughar-card-body {
+    text-align: center !important;
+}
+body.initiative-program-page #ashrams .bandhughar-card-title,
+body.initiative-program-page #ashrams .bandhughar-card-locality {
+    text-align: center !important;
+    width: 100%;
+}
+body.initiative-program-page .ashram-list-page .section-title {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+body.initiative-program-page .ashram-list-page .section-accent {
+    margin-left: auto !important;
+    margin-right: auto !important;
 }
 
 /* Bandhughar detail page: remove grey from carousels and cards, remove lines */

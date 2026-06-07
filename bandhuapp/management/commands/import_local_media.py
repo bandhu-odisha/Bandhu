@@ -6,6 +6,9 @@ import hashlib
 import os
 import re
 import shutil
+import urllib.error
+import urllib.request
+import zipfile
 
 from django.apps import apps
 from django.conf import settings
@@ -125,9 +128,88 @@ class Command(BaseCommand):
             synced += 1
         return synced
 
+    def _media_zip_path(self):
+        return os.path.join(settings.BASE_DIR, 'media.zip')
+
+    def _media_zip_entry(self, relative_path):
+        zip_path = self._media_zip_path()
+        if not os.path.isfile(zip_path):
+            return None, None
+
+        rel = relative_path.replace('\\', '/').lstrip('/')
+        candidates = {f'media/{rel}', rel, f'./media/{rel}'}
+        with zipfile.ZipFile(zip_path) as archive:
+            index = {name.replace('\\', '/'): name for name in archive.namelist()}
+            for candidate in candidates:
+                if candidate in index:
+                    return archive, index[candidate]
+                lowered = candidate.lower()
+                for name, original in index.items():
+                    if name.lower() == lowered:
+                        return archive, original
+        return None, None
+
+    def _copy_from_media_zip(self, relative_path, dest):
+        archive, entry = self._media_zip_entry(relative_path)
+        if not entry:
+            return False
+        zip_path = self._media_zip_path()
+        os.makedirs(os.path.dirname(dest), exist_ok=True)
+        with zipfile.ZipFile(zip_path) as archive:
+            with archive.open(entry) as src, open(dest, 'wb') as out:
+                shutil.copyfileobj(src, out)
+        return True
+
+    def _download_production_media(self, relative_path):
+        rel = relative_path.replace('\\', '/').lstrip('/')
+        request = urllib.request.Request(
+            f'https://bandhuodisha.in/media/{rel}',
+            headers={'User-Agent': 'Mozilla/5.0', 'Referer': 'https://bandhuodisha.in/'},
+        )
+        try:
+            with urllib.request.urlopen(request, timeout=30) as response:
+                if response.status != 200:
+                    return False
+                os.makedirs(os.path.dirname(os.path.join(settings.MEDIA_ROOT, rel)), exist_ok=True)
+                dest = os.path.join(settings.MEDIA_ROOT, rel)
+                with open(dest, 'wb') as out:
+                    out.write(response.read())
+                return True
+        except (urllib.error.URLError, OSError):
+            return False
+
+    def _resolve_missing_media(self, relative_path, img_index, explicit_sources, aliases, media_root):
+        dest = os.path.join(media_root, relative_path)
+        if os.path.isfile(dest):
+            return 'exists', None
+
+        if self._copy_from_media_zip(relative_path, dest):
+            return 'zip', os.path.basename(relative_path)
+
+        basename = os.path.basename(relative_path)
+        source_name = explicit_sources.get(relative_path)
+        src = img_index.get(source_name.lower()) if source_name else None
+        if not src:
+            src = img_index.get(basename.lower())
+        if not src:
+            alias = aliases.get(basename.lower())
+            if alias:
+                src = img_index.get(alias.lower())
+        if src:
+            os.makedirs(os.path.dirname(dest), exist_ok=True)
+            shutil.copy2(src, dest)
+            return 'img', os.path.basename(src)
+
+        if self._download_production_media(relative_path):
+            return 'web', os.path.basename(relative_path)
+
+        return 'missing', relative_path
+
     def handle(self, *args, **options):
         img_root = os.path.join(settings.BASE_DIR, 'img')
         media_root = settings.MEDIA_ROOT
+        if not os.path.isabs(media_root):
+            media_root = os.path.join(settings.BASE_DIR, media_root)
         if not os.path.isdir(img_root):
             self.stderr.write(self.style.ERROR(f'Missing img directory: {img_root}'))
             return
@@ -154,6 +236,8 @@ class Command(BaseCommand):
             'bandhuapp/sanskar/our_mission.jpg': 'our_mission.jpg',
             'bandhuapp/swaraj/our_mission1.jpg': 'our_mission1.jpg',
             'bandhuapp/swabalamban/pimg2.jpg': 'pimg2.jpg',
+            'bandhuapp/swabalamban/swamblamban_1.png': 'swamblamban_1.png',
+            'charity_work/index/Bandhu_Logo.jpeg': 'Bandhu_Logo.jpeg',
             'bandhuapp/gallery/about-slide-1-gardenia.png': 'about-slide-1-gardenia.png',
             'bandhuapp/gallery/about-slide-2-hibiscus.png': 'about-slide-2-hibiscus.png',
             'bandhuapp/gallery/about-slide-3-campus.png': 'about-slide-3-campus.png',
@@ -182,40 +266,47 @@ class Command(BaseCommand):
 
         copied = 0
         missing = 0
+        zip_copied = 0
+        web_copied = 0
         for relative_path in sorted(needed):
-            dest = os.path.join(media_root, relative_path)
-            if os.path.isfile(dest):
+            source_kind, detail = self._resolve_missing_media(
+                relative_path,
+                img_index,
+                explicit_sources,
+                aliases,
+                media_root,
+            )
+            if source_kind == 'exists':
                 continue
-
-            basename = os.path.basename(relative_path)
-            source_name = explicit_sources.get(relative_path)
-            src = img_index.get(source_name.lower()) if source_name else None
-            if not src:
-                src = img_index.get(basename.lower())
-            if not src:
-                alias = aliases.get(basename.lower())
-                if alias:
-                    src = img_index.get(alias.lower())
-            if not src:
-                missing += 1
-                self.stdout.write(self.style.WARNING(f'No local source for {relative_path}'))
+            if source_kind == 'zip':
+                zip_copied += 1
+                copied += 1
+                self.stdout.write(f'Extracted {detail} from media.zip -> {relative_path}')
                 continue
-
-            os.makedirs(os.path.dirname(dest), exist_ok=True)
-            shutil.copy2(src, dest)
-            copied += 1
-            self.stdout.write(f'Copied {os.path.basename(src)} -> {relative_path}')
+            if source_kind == 'img':
+                copied += 1
+                self.stdout.write(f'Copied {detail} -> {relative_path}')
+                continue
+            if source_kind == 'web':
+                web_copied += 1
+                copied += 1
+                self.stdout.write(f'Downloaded {detail} -> {relative_path}')
+                continue
+            missing += 1
+            self.stdout.write(self.style.WARNING(f'No local source for {relative_path}'))
 
         synced = self._sync_gallery_photos(media_root)
         self._import_site_content()
         from django.core.management import call_command
+        call_command('seed_landing_content')
         call_command('seed_landing_notices')
-        call_command('seed_people')
         call_command('seed_ashram_content')
         call_command('seed_charitywork_content')
         call_command('seed_publications_content')
         call_command('seed_ankurayan_content')
         call_command('seed_anandakendra_content')
+        call_command('seed_swabalamban_content')
         self.stdout.write(self.style.SUCCESS(
-            f'Copied {copied} file(s); {missing} unresolved path(s); synced {synced} gallery photo(s).'
+            f'Copied {copied} file(s) ({zip_copied} from media.zip, {web_copied} from production); '
+            f'{missing} unresolved path(s); synced {synced} gallery photo(s).'
         ))

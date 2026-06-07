@@ -1,0 +1,107 @@
+{% load static %}
+{% if show_gallery %}
+<section id="{% if gallery_section_id %}{{ gallery_section_id }}{% else %}gallery{% endif %}" class="initiative-gallery-section page-section">
+    <div class="initiative-gallery-wrap">
+        <div class="container">
+            <div class="section-head gallery-section-head">
+                <h2 class="section-title text-center">Gallery</h2>
+                <div class="initiative-section-head-accent" aria-hidden="true"></div>
+                <p class="section-description gallery-section-description gallery-tagline-single-line text-center">
+                    <span class="gallery-tagline-text">Take a look at our gallery to get a glimpse of what we do and what it feels like working for a&nbsp;social cause.</span>
+                </p>
+            </div>
+
+            {% if photos.count %}
+            <div id="gallery-container" class="gallery-container">
+                {% if photos.count < 5 %}
+                <div class="initiative-gallery-static mt-4">
+                    <div class="initiative-gallery-static-grid">
+                        {% for photo in photos %}
+                        <div class="initiative-gallery-static-item">
+                            <div class="gallery-slide-card position-relative rounded overflow-hidden">
+                                <img src="{{ photo.picture.url }}" alt="Gallery" class="gallery-slide-img" loading="lazy">
+                                <a href="javascript:pswpInit({{ forloop.counter0 }})" class="stretched-link gallery-slide-link" aria-label="Open gallery image {{ forloop.counter }}">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% else %}
+                <div class="glide-carousel-custom initiative-gallery-carousel mt-4">
+                    <div class="glide initiative_gallery_glide">
+                        <div class="glide__track" data-glide-el="track">
+                            <ul class="glide__slides">
+                                {% for photo in photos %}
+                                <li class="glide__slide">
+                                    <div class="gallery-slide-card position-relative rounded overflow-hidden">
+                                        <img src="{{ photo.picture.url }}" alt="Gallery" class="gallery-slide-img" loading="lazy">
+                                        <a href="javascript:pswpInit({{ forloop.counter0 }})" class="stretched-link gallery-slide-link" aria-label="Open gallery image {{ forloop.counter }}">
+                                            <i class="fab fa-instagram"></i>
+                                        </a>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="glide__arrows gallery-glide-arrows" data-glide-el="controls">
+                            <button class="slider_arrow slider_arrow--prev glide__arrow glide__arrow--left" data-glide-dir="<">
+                                <i class="fas fa-arrow-circle-left"></i>
+                            </button>
+                            <button class="slider_arrow slider_arrow--next glide__arrow glide__arrow--right" data-glide-dir=">">
+                                <i class="fas fa-arrow-circle-right"></i>
+                            </button>
+                        </div>
+                        <div class="glide__bullets" data-glide-el="controls[nav]">
+                            {% for photo in photos %}
+                            <button class="glide__bullet" data-glide-dir="={{ forloop.counter0 }}"></button>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            {% else %}
+            <p class="text-center text-muted mt-4 mb-0">No gallery photos yet.</p>
+            {% endif %}
+
+            {% if check_admin and user.is_authenticated and not gallery_is_home and not hide_gallery_upload_button %}
+            <div class="gallery-actions mt-4 text-center">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addToGallery">Upload Images</button>
+            </div>
+            {% endif %}
+
+            {% if not gallery_is_home and check_admin and unapproved_photos.count %}
+            <div class="initiative-unapproved-photos mt-4">
+                <p class="small font-weight-bold mb-2">Pending approval</p>
+                <div class="row">
+                    {% for photo in unapproved_photos %}
+                    <div class="col-6 col-md-3 mb-3">
+                        <img src="{{ photo.picture.url }}" alt="" class="img-fluid rounded">
+                        <form method="post" action="{% url program_approval_url %}" class="mt-2">
+                            {% csrf_token %}
+                            <input type="hidden" name="{{ program_approval_field }}" value="{{ ashram.slug }}">
+                            <input type="hidden" name="image" value="{{ photo.id }}">
+                            <input type="hidden" name="status" value="approve">
+                            <button type="submit" class="btn btn-sm btn-success">Approve</button>
+                        </form>
+                        <form method="post" action="{% url program_approval_url %}" class="mt-1">
+                            {% csrf_token %}
+                            <input type="hidden" name="{{ program_approval_field }}" value="{{ ashram.slug }}">
+                            <input type="hidden" name="image" value="{{ photo.id }}">
+                            <input type="hidden" name="status" value="discard">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Reject</button>
+                        </form>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% if photos.count %}
+{% include 'snippets/init_pswp.html' %}
+{% endif %}
+{% endif %}
