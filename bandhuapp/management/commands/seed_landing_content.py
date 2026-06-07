@@ -73,7 +73,7 @@ CONTACT_DETAILS = {
 PILLAR_IMAGES = {
   'sanskar': ('bandhuapp/sanskar/collage_1_HlxwGsj.jpg', 'collage_1_HlxwGsj.jpg'),
   'swaraj': ('bandhuapp/swaraj/our_mission1.jpg', 'our_mission1.jpg'),
-  'swabalamban': ('bandhuapp/swabalamban/swamblamban_1.png', 'swamblamban_1.png'),
+  'swabalamban': ('bandhuapp/swabalamban/swamblamban_1.jpg', 'swamblamban_1.jpg'),
 }
 
 

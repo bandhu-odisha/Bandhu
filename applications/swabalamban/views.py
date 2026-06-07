@@ -10,7 +10,7 @@ from bandhuapp.templatetags.permissions import is_admin
 from .image_utils import image_field_url, static_image_url
 from .models import CarouselImage, HomePage, Product
 
-SWABALAMBAN_HERO_STATIC = 'img/swamblamban_1.png'
+SWABALAMBAN_HERO_STATIC = 'img/swamblamban_1.jpg'
 
 
 def _resolve_swabalamban_hero(page, carousel, mission):

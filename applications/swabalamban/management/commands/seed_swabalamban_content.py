@@ -78,11 +78,12 @@ class Command(BaseCommand):
         shutil.copy2(media_file, static_dest)
 
     def handle(self, *args, **options):
-        hero_path = 'bandhuapp/swabalamban/swamblamban_1.png'
+        hero_path = 'bandhuapp/swabalamban/swamblamban_1.jpg'
         self._ensure_image(
             hero_path,
-            'swamblamban_1.png',
+            'swamblamban_1.jpg',
             remote_media_paths=(
+                'bandhuapp/swabalamban/swamblamban_1.jpg',
                 'bandhuapp/swabalamban/swamblamban_1.png',
             ),
         )
@@ -108,8 +109,9 @@ class Command(BaseCommand):
         homepage.products_heading = 'Quality produce from our Swabalamban initiative.'
         if self._ensure_image(
             hero_path,
-            'swamblamban_1.png',
+            'swamblamban_1.jpg',
             remote_media_paths=(
+                'bandhuapp/swabalamban/swamblamban_1.jpg',
                 'bandhuapp/swabalamban/swamblamban_1.png',
             ),
         ):

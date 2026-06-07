@@ -1,3 +1,4 @@
+# Bandhughar-clone naming: model_name remains `ashram`; adds draft/publish visibility.
 from django.db import migrations, models
 
 

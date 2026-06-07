@@ -75,7 +75,6 @@ def add_attendee(request):
         schedule = request.POST.get('schedule')
         topic = request.POST.get('topic')
         slug = request.POST.get('slug')
-        print(slug)
 
         name = request.POST.get('name')
         email = request.POST.get('email')
@@ -83,7 +82,6 @@ def add_attendee(request):
 
         attende = request.POST.get('attendes')
         attendes = attende.split(",")
-        print(attendes)
         meeting = Meeting.objects.filter(schedule=schedule).filter(topic=topic).first()
 
         if name:
@@ -92,7 +90,6 @@ def add_attendee(request):
         else:
             for i in attendes:
                 profile = Profile.objects.filter(user__email=i).first()
-                print(i,profile)
                 Attendee.objects.create(meeting=meeting,profile=profile)
         
         url = '/odisha-satabdi-sevavrata/detail/' + slug +'/'
@@ -132,7 +129,6 @@ def admin_approval(request):
 
         ashram = get_object_or_404(Ashram,slug=slug)
         photo = get_object_or_404(Photo,pk=int(image_pk))
-        print(photo)
         if status == "approve":
             photo.approved = True
             photo.save()

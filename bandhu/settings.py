@@ -200,12 +200,12 @@ SENDGRID_API_KEY = config("SENDGRID_API_KEY")
 
 
 # STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
-STATIC_ROOT = config("STATIC_ROOT")
-STATIC_URL = config("STATIC_URL")
+STATIC_ROOT = config("STATIC_ROOT").strip()
+STATIC_URL = config("STATIC_URL").strip()
 
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_ROOT = config("MEDIA_ROOT")
-MEDIA_URL = config("MEDIA_URL")
+MEDIA_ROOT = config("MEDIA_ROOT").strip()
+MEDIA_URL = config("MEDIA_URL").strip()
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
