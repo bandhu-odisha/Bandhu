@@ -17,7 +17,7 @@ from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.templatetags.static import static
 from django.urls import reverse
-from django.utils.encoding import force_bytes, force_text
+from django.utils.encoding import force_bytes, force_str as force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from social_django.models import UserSocialAuth

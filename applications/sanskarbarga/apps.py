@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class SanskarbargaConfig(AppConfig):
-    name = 'sanskarbarga'
+    name = 'applications.sanskarbarga'
