@@ -64,7 +64,25 @@ MEDIA_URL=/media/
 
 Setting `DB_ENGINE=sqlite` uses SQLite so you don't need MySQL installed locally.
 
-### 5. Run migrations
+### 5a. Seed the DB (Needed for the first time)
+find the seed files using: find . -iname "*seed*" -path "*commands*"
+```bash
+python manage.py seed_landing_content
+python manage.py seed_landing_notices
+python manage.py seed_landing_videos
+python manage.py seed_ankurayan_content
+python manage.py seed_dummy_guests
+python manage.py seed_ashram_content
+python manage.py seed_publications_content
+python manage.py seed_anandakendra_content
+python manage.py seed_swabalamban_content
+python manage.py seed_charitywork_content
+python manage.py seed_home_visitors
+python manage.py seed_people
+python manage.py seed_dummy_people
+```
+
+### 5b. Run migrations
 
 ```bash
 python manage.py migrate
@@ -102,7 +120,7 @@ This runs a Vite dev server that hot-reloads frontend components.
 
 ### `ModuleNotFoundError: No module named 'sendgrid'` (or similar)
 
-You likely ran `pip install -r requirements.txt` which installs outdated packages. Use the command in Step 3 instead.
+Run `pip install -r requirements.txt` to ensure all dependencies are installed.
 
 ### `ImportError: cannot import name 'force_text'`
 
