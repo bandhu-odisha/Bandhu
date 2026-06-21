@@ -13,6 +13,9 @@ from bandhuapp.templatetags.permissions import is_admin
 PROGRAMS = {
     'prasantaraktadan': {
         'name': 'Prasanta Raktadan Shibir',
+        'default_desc': 'Voluntary blood donation camps across Odisha.',
+        'quote_en': '"Every drop donated is a gift of life."',
+        'quote_or': '"ପ୍ରତ୍ୟେକ ରକ୍ତଦାନ ଜୀବନର ଉପହାର।"',
         'list_url': 'prasantaraktadan:prasantaraktadan',
         'detail_url': 'prasantaraktadan:AshramDetail',
         'approval_url': 'prasantaraktadan:ImageAdminApprovalPrasantaraktadan',
@@ -26,6 +29,9 @@ PROGRAMS = {
     },
     'patriotism': {
         'name': 'Patriotism in Action',
+        'default_desc': 'Quizzes, camps, and programs that nurture love for the nation.',
+        'quote_en': '"Patriotism grows through action and learning."',
+        'quote_or': '"କାର୍ଯ୍ୟ ଓ ଶିକ୍ଷା ମାଧ୍ୟମରେ ଦେଶପ୍ରେମ ବୃଦ୍ଧି ପାଏ।"',
         'list_url': 'patriotism:patriotism',
         'detail_url': 'patriotism:AshramDetail',
         'approval_url': 'patriotism:ImageAdminApprovalPatriotism',
@@ -39,6 +45,9 @@ PROGRAMS = {
     },
     'sevavrata': {
         'name': 'Odisha Satabdi Sevavrata',
+        'default_desc': 'A service pledge for Odisha\'s centenary.',
+        'quote_en': '"Service is the finest tribute to our land."',
+        'quote_or': '"ସେବା ହିଁ ଆମ ମାଟିକୁ ଶ୍ରେଷ୍ଠ ଶ୍ରଦ୍ଧାଞ୍ଜଳି।"',
         'list_url': 'sevavrata:sevavrata',
         'detail_url': 'sevavrata:AshramDetail',
         'approval_url': 'sevavrata:ImageAdminApprovalSevavrata',
@@ -116,15 +125,29 @@ def get_visible_entries(request, models):
     return qs
 
 
-def build_index_context(request, program_key, models):
-    reconcile_publish_states(models)
+def _program_presentation_context(program_key):
     meta = PROGRAMS[program_key]
     return {
+        'program_key': program_key,
+        'program_name': meta['name'],
+        'program_list_url': meta['list_url'],
+        'program_detail_url': meta['detail_url'],
+        'program_create_entry_url': meta['create_ashram_url'],
+        'program_default_desc': meta.get('default_desc', ''),
+        'program_quote_en': meta.get('quote_en', ''),
+        'program_quote_or': meta.get('quote_or', ''),
+        'hero_title': meta['name'],
+        'carousel_glide_class': f'{program_key}_programs',
+    }
+
+
+def build_index_context(request, program_key, models):
+    reconcile_publish_states(models)
+    return {
+        **_program_presentation_context(program_key),
         'ashrams': get_visible_entries(request, models),
         'content': models.HomePage.objects.all().first(),
         'check_admin': is_admin(request.user),
-        'program_name': meta['name'],
-        'program_create_entry_url': meta['create_ashram_url'],
     }
 
 
@@ -166,10 +189,8 @@ def build_year_detail_context(request, slug, program_key, models):
     invitation_letter = InvitationLetter.objects.filter(ashram=ashram).first()
 
     return {
-        'program_key': program_key,
-        'program_name': meta['name'],
-        'program_list_url': meta['list_url'],
-        'program_detail_url': meta['detail_url'],
+        **_program_presentation_context(program_key),
+        'hero_title': f'{ashram.name} - {ashram.locality}',
         'program_gallery_url': meta['gallery_url'],
         'program_create_activity_url': meta['create_activity_url'],
         'program_add_activity_category_url': meta['add_activity_category_url'],

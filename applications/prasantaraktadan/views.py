@@ -21,7 +21,7 @@ from .models import (
 def index(request):
     context = ipy.build_index_context(request, 'prasantaraktadan', initiative_models)
     context.update(ipy.build_index_gallery_context(request, 'prasantaraktadan', initiative_models))
-    return render(request, 'prasantaraktadan/prasantaraktadan.html', context)
+    return render(request, 'initiative_program/list_page.html', context)
 
 @login_required
 def create_ashram(request):
