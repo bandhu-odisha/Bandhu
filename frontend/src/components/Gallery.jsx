@@ -1,8 +1,6 @@
 import { useState, useRef, useCallback, useEffect, useMemo } from 'react'
 import { createPortal } from 'react-dom'
 
-const GAP_PX = 32
-
 export default function Gallery({ data }) {
   const photos = useMemo(() => {
     const seen = new Set()
@@ -93,6 +91,11 @@ export default function Gallery({ data }) {
     }
   }, [lightboxIndex, filtered.length, closeLightbox])
 
+  useEffect(() => {
+    const el = scrollRef.current
+    if (el) el.scrollLeft = 0
+  }, [filter])
+
   const current = lightboxIndex != null ? filtered[lightboxIndex] : null
 
   return (
@@ -133,16 +136,16 @@ export default function Gallery({ data }) {
         <div
           ref={scrollRef}
           data-gallery-scroll
-          className="overflow-x-auto overflow-y-hidden scrollbar-hide scroll-smooth snap-x snap-mandatory mx-auto w-[1040px] sm:w-[1180px] max-w-full rounded-2xl py-2"
+          className="gallery-scroll-track overflow-x-auto overflow-y-hidden scrollbar-hide scroll-smooth snap-x snap-mandatory mx-auto w-full max-w-full rounded-2xl py-2 sm:w-[1180px]"
         >
-          <div className="flex w-max min-w-full box-border" style={{ gap: GAP_PX, paddingLeft: 16, paddingRight: 16 }}>
+          <div className="flex w-full sm:w-max min-w-full box-border gap-0 sm:gap-8 px-0 sm:px-4">
             {filtered.map((photo, i) => (
               <button
                 key={photo.picture || String(i)}
                 type="button"
                 data-gallery-card
                 onClick={() => openLightbox(i)}
-                className="flex-shrink-0 w-[320px] sm:w-[380px] aspect-square rounded-2xl overflow-hidden bg-white group snap-start shadow-[var(--card-shadow)] border border-teal/20 hover:shadow-[var(--card-shadow-hover)] transition-shadow duration-300 p-0 text-left cursor-pointer block"
+                className="gallery-card-shell flex-shrink-0 w-full min-w-full snap-center sm:min-w-0 sm:w-[380px] sm:snap-start aspect-square rounded-2xl overflow-hidden bg-white group shadow-[var(--card-shadow)] border border-teal/20 hover:shadow-[var(--card-shadow-hover)] transition-shadow duration-300 p-0 text-left cursor-pointer block"
               >
                 <img
                   src={photo.picture}

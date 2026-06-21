@@ -5,10 +5,12 @@
 
 {% block title %} Ashram {% endblock %}
 
+{% block body_class %}ashram-list-page{% endblock %}
+
 {% block style %}
 <!-- Custom CSS -->
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
-<link rel="stylesheet" href="{% static 'css/ashram.css' %}?v=2">
+<link rel="stylesheet" href="{% static 'css/ashram.css' %}?v=8">
 <!-- Custom Style -->
 <style>
     #top-section {
@@ -125,51 +127,46 @@
         <h2 class="section-title text-center">Bandhughar</h2>
         <div class="section-accent"></div>
         {% if ashrams.count %}
+        {% if ashrams.count <= 3 %}
+        <ul class="mission-list-cards-row">
+            {% for ashram in ashrams %}
+            <li class="mission-list-cards-row__item">
+                {% url 'ashram:AshramDetail' slug=ashram.slug as ashram_detail_url %}
+                {% include 'includes/mission_list_card.html' with card_image_url=ashram.image.url card_title=ashram.name card_subtitle=ashram.locality card_detail_url=ashram_detail_url %}
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
         <div class="row">
             <div class="glide ashrams">
                 <div class="glide__track" data-glide-el="track">
                     <ul class="glide__slides">
                         {% for ashram in ashrams %}
                         <li class="glide__slide">
-                            <div class="card w-100 page-card bandhughar-list-card mx-auto my-2 border-0 overflow-hidden position-relative">
-                                <div class="bandhughar-card-media">
-                                    <img
-                                        src="{{ ashram.image.url }}"
-                                        class="bandhughar-card-img"
-                                        alt="{{ ashram.name }}"
-                                        loading="eager"
-                                        onerror="this.onerror=null;this.src='{% static 'img/pimg3.jpg' %}';"
-                                    >
-                                </div>
-                                <div class="card-body bandhughar-card-body">
-                                    <h5 class="bandhughar-card-title mb-1">{{ ashram.name }}</h5>
-                                    <p class="bandhughar-card-locality mb-0">{{ ashram.locality }}</p>
-                                </div>
-                                <a href="{% url 'ashram:AshramDetail' slug=ashram.slug %}"
-                                    class="stretched-link"
-                                    aria-label="{{ ashram.name }}, {{ ashram.locality }}"></a>
-                            </div>
+                            {% url 'ashram:AshramDetail' slug=ashram.slug as ashram_detail_url %}
+                            {% include 'includes/mission_list_card.html' with card_image_url=ashram.image.url card_title=ashram.name card_subtitle=ashram.locality card_detail_url=ashram_detail_url %}
                         </li>
                         {% endfor %}
                     </ul>
                 </div>
-                    <div class="glide__arrows disable_arrows d-none d-md-block" data-glide-el="controls">
-                        <button class="slider_arrow slider_arrow--prev glide__arrow glide__arrow--left"
-                            data-glide-dir="<">
-                            <i class="fas fa-arrow-circle-left"></i>
-                        </button>
-                        <button class="slider_arrow slider_arrow--next glide__arrow glide__arrow--right"
-                            data-glide-dir=">">
-                            <i class="fas fa-arrow-circle-right"></i>
-                        </button>
-                    </div>
-                    <div class="glide__bullets" data-glide-el="controls[nav]">
-                        {% for ashram in ashrams %}
-                        <button class="glide__bullet" data-glide-dir="={{forloop.counter}}"></button>
-                        {% endfor %}
-                    </div>
+                <div class="glide__arrows disable_arrows d-none d-md-block" data-glide-el="controls">
+                    <button class="slider_arrow slider_arrow--prev glide__arrow glide__arrow--left" data-glide-dir="<">
+                        <i class="fas fa-arrow-circle-left"></i>
+                    </button>
+                    <button class="slider_arrow slider_arrow--next glide__arrow glide__arrow--right" data-glide-dir=">">
+                        <i class="fas fa-arrow-circle-right"></i>
+                    </button>
+                </div>
+                <div class="glide__bullets" data-glide-el="controls[nav]">
+                    {% for ashram in ashrams %}
+                    <button class="glide__bullet" data-glide-dir="={{forloop.counter}}"></button>
+                    {% endfor %}
                 </div>
             </div>
+        </div>
+        {% endif %}
+        {% else %}
+        <p class="text-center text-muted mb-0">No entries yet.{% if user|is_admin %} Use the button below to add one.{% endif %}</p>
         {% endif %}
         <div class="row justify-content-center mt-4">
             <div class="add-bandhughar">
@@ -277,23 +274,16 @@
         var slideCount = ashramRoot.querySelectorAll('.glide__slide').length;
         if (!slideCount) return;
 
-        var desktopPerView = Math.min(3, slideCount);
-        var tabletPerView = Math.min(2, slideCount);
-        var mobilePerView = 1;
-
-        var hasFewSlides = slideCount <= 2;
         var ashramGlide = new Glide('.ashrams', {
-            // Keep small datasets static and fully visible.
-            type: hasFewSlides ? 'slider' : 'carousel',
-            focusAt: hasFewSlides ? 0 : 'center',
-            perView: desktopPerView,
-            autoplay: hasFewSlides ? false : 2000,
+            type: 'carousel',
+            focusAt: 'center',
+            perView: 3,
+            autoplay: 2000,
             gap: 30,
-            bound: hasFewSlides || slideCount <= 3,
-            rewind: !hasFewSlides,
+            bound: true,
             breakpoints: {
-                991: { perView: tabletPerView },
-                767: { perView: mobilePerView },
+                991: { perView: 2 },
+                767: { perView: 1 },
             },
         });
         ashramGlide.mount();

@@ -452,6 +452,8 @@ def _build_landing_data(request):
             'start_date': a.start_date.isoformat() if a.start_date else None,
             'end_date': a.end_date.isoformat() if a.end_date else None,
         })
+    from .webteam import webteam_landing_payload
+    data['webteam'] = webteam_landing_payload()
     return data
 
 
