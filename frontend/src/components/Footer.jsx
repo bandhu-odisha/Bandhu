@@ -1,5 +1,19 @@
 import { useState } from 'react'
 import AnnualReportUploadModal from './AnnualReportUploadModal'
+import { WEBTEAM_CONTRIBUTORS, WEBTEAM_PAGE_URL } from '../webteamContributors'
+
+function ContributorLink({ name, url }) {
+  const external = url.startsWith('http')
+  return (
+    <a
+      href={url}
+      className="font-semibold text-white underline-offset-2 hover:text-teal-200 hover:underline"
+      {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+    >
+      {name}
+    </a>
+  )
+}
 
 export default function Footer({ data }) {
   const urls = data?.urls || {}
@@ -10,6 +24,11 @@ export default function Footer({ data }) {
     data?.urls?.annual_reports_upload || '/annual-reports/upload/'
   const showAnnualSection = isAdmin || annualReports.length > 0
   const [uploadModalOpen, setUploadModalOpen] = useState(false)
+  const webteam = data?.webteam || {}
+  const webteamPageUrl = webteam.page_url || WEBTEAM_PAGE_URL
+  const webteamContributors =
+    webteam.contributors?.length ? webteam.contributors : WEBTEAM_CONTRIBUTORS
+  const currentYear = new Date().getFullYear()
 
   const initiatives = [
     { label: 'Ankurayan', href: urls.ankurayan || '#' },
@@ -168,6 +187,32 @@ export default function Footer({ data }) {
             )}
           </div>
         </div>
+      </div>
+
+      <div className="relative z-10 mx-auto mt-12 max-w-5xl border-t border-white/20 pt-6 text-center font-body text-sm text-white/90">
+        <p className="mb-2">
+          &copy;{' '}
+          <a href={urls.home || '/'} className="font-semibold text-white hover:text-teal-200">
+            Bandhu
+          </a>{' '}
+          {currentYear}, All Rights Reserved.
+        </p>
+        <p>
+          Designed and Developed by the{' '}
+          <a
+            href={webteamPageUrl}
+            className="font-semibold text-white underline-offset-2 hover:text-teal-200 hover:underline"
+          >
+            Webteam
+          </a>
+          :{' '}
+          {webteamContributors.map((contributor, index) => (
+            <span key={contributor.name}>
+              {index > 0 ? ', ' : null}
+              <ContributorLink name={contributor.name} url={contributor.url} />
+            </span>
+          ))}
+        </p>
       </div>
 
       {isAdmin && (
