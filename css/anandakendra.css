@@ -312,6 +312,45 @@ section#anandakendras.page-section {
 .anandakendra-detail #activities.anandakendra-activities-section .container {
     padding-bottom: 0.5rem !important;
 }
+.anandakendra-detail #activities h3.title {
+    text-align: center !important;
+    color: #005E66 !important;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 1.125rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.08em;
+    line-height: 1.35;
+    margin-top: 2.5rem !important;
+    margin-bottom: 1rem !important;
+}
+.anandakendra-detail #activities .activity-cards-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    gap: 30px;
+    padding: 0;
+    margin: 0 auto 1rem;
+    width: 100%;
+}
+.anandakendra-detail #activities .activity-cards-row__item {
+    flex: 0 1 20rem;
+    width: 100%;
+    max-width: 20rem;
+}
+.anandakendra-detail #activities .activity-cards-row .activity-card {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+}
+.anandakendra-detail #activities .activity-card .card-body {
+    text-align: center;
+    justify-content: center;
+}
+.anandakendra-detail #activities .activity-card .card-title {
+    text-align: center !important;
+    width: 100%;
+}
 .anandakendra-detail #events.page-section.anandakendra-events-section {
     margin-top: 0 !important;
     padding-top: 0.75rem !important;
@@ -354,9 +393,9 @@ section#anandakendras.page-section {
     min-height: 240px !important;
     max-height: 240px !important;
     width: 100%;
-    object-fit: contain;
-    object-position: top center;
-    background: #f1f5f9;
+    object-fit: cover;
+    object-position: center center;
+    background: #ffffff;
     flex-shrink: 0;
     border-radius: 0;
 }
@@ -1506,6 +1545,7 @@ body.anandakendra-detail-page #gallery .gallery-scroll-row--single {
     right: 0.5rem;
 }
 body.anandakendra-detail-page.modal-open .anandakendra-gallery-lightbox.modal.show,
+body.bandhughar-detail-page.modal-open .anandakendra-gallery-lightbox.modal.show,
 body.pillar-inner-page.modal-open .anandakendra-gallery-lightbox.modal.show {
     z-index: 1060 !important;
 }

@@ -240,10 +240,10 @@
     <h3 class="section-title mt-5 pt-3">About Us</h3>
     <div class="container">
         <div class="content-box mt-4 text-center">
-            <p style="font-size: 20px;">
-                <strong>{{ about.tagline|safe }}</strong>
+            <p class="about-us-unified" style="font-size: 1.0625rem; line-height: 1.85; font-weight: 400;">
+                {{ about.tagline|striptags|safe }}
             </p>
-            <p style="font-size: 18px;">
+            <p class="about-us-unified mb-0" style="font-size: 1.0625rem; line-height: 1.85; font-weight: 400;">
                 {{ about.desc|avoid_orphan_sincerity|safe }}
             </p>
         </div>
