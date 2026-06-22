@@ -1,0 +1,11 @@
+<script>
+    window.djangoAlbumImages = [
+        {% for photo in photos %}
+        {
+            src: '{{ photo.picture.url }}',
+            w: {% if photo.picture.width %}{{ photo.picture.width }}{% else %}1200{% endif %},
+            h: {% if photo.picture.height %}{{ photo.picture.height }}{% else %}800{% endif %},
+        },
+        {% endfor %}
+    ];
+</script>

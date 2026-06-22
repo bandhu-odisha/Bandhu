@@ -51,6 +51,9 @@ INSTALLED_APPS = [
     'applications.madhmukti',
     'applications.publications',
     'applications.swabalamban',
+    'applications.prasantaraktadan',
+    'applications.patriotism',
+    'applications.sevavrata',
 ]
 
 MIDDLEWARE = [
@@ -75,6 +78,7 @@ TEMPLATES = [
             'context_processors': [
                 'bandhuapp.processors.recent_activities',
                 'bandhuapp.processors.userList',
+                'bandhuapp.processors.initiative_nav_visibility',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -160,6 +164,13 @@ USE_L10N = True
 
 USE_TZ = True
 
+if DEBUG:
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+    # Avoid CSRF failures when switching between localhost and 127.0.0.1 during dev.
+    CSRF_COOKIE_DOMAIN = None
+    SESSION_COOKIE_DOMAIN = None
+
 AUTH_USER_MODEL = 'accounts.User'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
@@ -196,12 +207,12 @@ SENDGRID_API_KEY = config("SENDGRID_API_KEY")
 
 
 # STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
-STATIC_ROOT = config("STATIC_ROOT")
-STATIC_URL = config("STATIC_URL")
+STATIC_ROOT = config("STATIC_ROOT").strip()
+STATIC_URL = config("STATIC_URL").strip()
 
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_ROOT = config("MEDIA_ROOT")
-MEDIA_URL = config("MEDIA_URL")
+MEDIA_ROOT = config("MEDIA_ROOT").strip()
+MEDIA_URL = config("MEDIA_URL").strip()
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),

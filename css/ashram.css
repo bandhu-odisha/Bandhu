@@ -38,6 +38,18 @@ body:has(.ashram-list-page) .page-angular + .ashram-list-page,
     margin-top: -280px !important;
 }
 
+/* Initiative program list pages: spacing between centered banner title and overlay cards */
+body.initiative-program-page.pillar-inner-page .angular-ashram + .pillar-overlay-cards {
+    margin-top: -185px !important;
+    padding-top: 3.5rem !important;
+}
+@media (max-width: 767px) {
+    body.initiative-program-page.pillar-inner-page .angular-ashram + .pillar-overlay-cards {
+        margin-top: -70px !important;
+        padding-top: 2.25rem !important;
+    }
+}
+
 /* Overlay cards (same layout as Sanskar/Swabalamban/Other Activities) */
 .pillar-overlay-cards {
     margin-top: -280px;
@@ -232,7 +244,145 @@ body:has(.ashram-list-page) .page-angular + .ashram-list-page,
     font-weight: 700;
 }
 
-/* Bandhughar list: standard card layout (image top, text below) */
+/* List carousel cards — match Running Anandakendras (#anandakendras) */
+.ashram-list-page #ashrams.glide-carousel-custom .glide__slides,
+body.initiative-program-page #ashrams.glide-carousel-custom .glide__slides {
+    background-color: #ffffff !important;
+}
+
+.ashram-list-page #ashrams .card.page-card,
+.ashram-list-page #ashrams .glide__slide .card.page-card,
+body.initiative-program-page #ashrams .card.page-card,
+body.initiative-program-page #ashrams .glide__slide .card.page-card {
+    background: #ffffff !important;
+    box-shadow: none !important;
+    border: 1px solid rgba(0, 94, 102, 0.28) !important;
+    border-radius: 16px !important;
+    overflow: hidden;
+    transition: border-color 0.2s ease !important;
+}
+
+.ashram-list-page #ashrams .card.page-card:hover,
+.ashram-list-page #ashrams .glide__slide .card.page-card:hover,
+body.initiative-program-page #ashrams .card.page-card:hover,
+body.initiative-program-page #ashrams .glide__slide .card.page-card:hover {
+    box-shadow: none !important;
+    transform: none !important;
+    border-color: rgba(0, 94, 102, 0.45) !important;
+}
+
+.ashram-list-page #ashrams .card.page-card .card-body,
+body.initiative-program-page #ashrams .card.page-card .card-body {
+    background: #ffffff !important;
+    padding: 1rem 1rem 0.95rem;
+}
+
+.ashram-list-page #ashrams .card-title,
+body.initiative-program-page #ashrams .card-title {
+    color: #005E66 !important;
+    font-weight: 700 !important;
+    font-size: 1.08rem;
+    line-height: 1.3;
+    margin-bottom: 0.2rem;
+}
+
+.ashram-list-page #ashrams .card-body p,
+body.initiative-program-page #ashrams .card-body p {
+    color: #475569 !important;
+    font-size: 0.9rem;
+    font-weight: 500;
+    line-height: 1.35;
+}
+
+.ashram-list-page #ashrams .home-card-img,
+body.initiative-program-page #ashrams .home-card-img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    display: block;
+}
+
+.ashram-list-page #ashrams .section-title,
+body.initiative-program-page #ashrams .section-title {
+    font-size: 2.12rem;
+    color: #005E66 !important;
+}
+
+.ashram-list-page #ashrams .section-title:after,
+.ashram-list-page #ashrams .section-title::after,
+.ashram-list-page #ashrams .section-accent,
+body.initiative-program-page #ashrams .section-title:after,
+body.initiative-program-page #ashrams .section-title::after,
+body.initiative-program-page #ashrams .section-accent {
+    display: none !important;
+    content: none !important;
+}
+
+.ashram-list-page #ashrams .glide,
+body.initiative-program-page #ashrams .glide {
+    margin-top: 2.2rem;
+}
+
+/* Few cards: centered row, 30px gap, no Glide clones */
+.mission-list-cards-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    gap: 30px;
+    list-style: none;
+    padding: 0;
+    margin: 2.2rem auto 0;
+    width: 100%;
+}
+
+.mission-list-cards-row__item {
+    flex: 0 1 24rem;
+    width: 100%;
+    max-width: 24rem;
+}
+
+.ashram-list-page .mission-list-cards-row .card.page-card,
+body.initiative-program-page .mission-list-cards-row .card.page-card,
+.anandakendra-list-page .mission-list-cards-row .card.page-card {
+    background: #ffffff !important;
+    box-shadow: none !important;
+    border: 1px solid rgba(0, 94, 102, 0.28) !important;
+    border-radius: 16px !important;
+    overflow: hidden;
+    transition: border-color 0.2s ease !important;
+    width: 100%;
+    max-width: 24rem;
+}
+
+.ashram-list-page .mission-list-cards-row .card.page-card:hover,
+body.initiative-program-page .mission-list-cards-row .card.page-card:hover {
+    border-color: rgba(0, 94, 102, 0.45) !important;
+}
+
+.ashram-list-page .mission-list-cards-row .home-card-img,
+body.initiative-program-page .mission-list-cards-row .home-card-img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    display: block;
+}
+
+.ashram-list-page #ashrams .glide__slide,
+body.initiative-program-page #ashrams .glide__slide,
+.anandakendra-list-page #anandakendras .glide__slide {
+    display: flex;
+    justify-content: center;
+}
+
+.ashram-list-page #ashrams .glide__slide .card.page-card,
+body.initiative-program-page #ashrams .glide__slide .card.page-card,
+.anandakendra-list-page #anandakendras .glide__slide .card.page-card {
+    width: 100%;
+    max-width: 24rem;
+}
+
+/* Legacy Bandhughar card classes (detail/other pages) */
 #ashrams .bandhughar-list-card .bandhughar-card-media {
     overflow: hidden;
     border-radius: 14px 14px 0 0;
@@ -274,6 +424,31 @@ body:has(.ashram-list-page) .page-angular + .ashram-list-page,
     line-height: 1.35;
     margin: 0;
     text-shadow: none !important;
+}
+
+/* Initiative program list pages: centred card captions, white section (uses #ashrams id) */
+body.initiative-program-page #ashrams.page-section {
+    background: #ffffff !important;
+    border-top: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+}
+body.initiative-program-page #ashrams .bandhughar-card-body {
+    text-align: center !important;
+}
+body.initiative-program-page #ashrams .bandhughar-card-title,
+body.initiative-program-page #ashrams .bandhughar-card-locality {
+    text-align: center !important;
+    width: 100%;
+}
+body.initiative-program-page .ashram-list-page .section-title {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+body.initiative-program-page .ashram-list-page .section-accent {
+    margin-left: auto !important;
+    margin-right: auto !important;
 }
 
 /* Bandhughar detail page: remove grey from carousels and cards, remove lines */

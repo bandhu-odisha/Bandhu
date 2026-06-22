@@ -1,0 +1,47 @@
+<script>
+    function mountInitiativeGalleryGlide(selector) {
+        var root = document.querySelector(selector);
+        if (!root || typeof Glide === 'undefined') return null;
+        var slideCount = root.querySelectorAll('.glide__slide').length;
+        if (slideCount < 5) return null;
+        var glide = new Glide(selector, {
+            type: 'carousel',
+            perView: 4,
+            gap: 20,
+            autoplay: 4000,
+            hoverpause: true,
+            animationDuration: 700,
+            breakpoints: {
+                1200: { perView: 3 },
+                768: { perView: 2 },
+                480: { perView: 1 },
+            },
+        });
+        glide.mount();
+        return glide;
+    }
+
+    function mountInitiativeCarousel(selector, perView) {
+        var root = document.querySelector(selector);
+        if (!root || typeof Glide === 'undefined') return null;
+        var slideCount = root.querySelectorAll('.glide__slide').length;
+        if (!slideCount) return null;
+        var hasFewSlides = slideCount <= 3;
+        var desktopPerView = Math.min(perView || 3, slideCount);
+        var glide = new Glide(selector, {
+            type: hasFewSlides ? 'slider' : 'carousel',
+            perView: desktopPerView,
+            gap: 20,
+            bound: hasFewSlides,
+            rewind: !hasFewSlides,
+            autoplay: hasFewSlides ? false : 4000,
+            hoverpause: true,
+            breakpoints: {
+                992: { perView: Math.min(2, slideCount) },
+                576: { perView: 1 },
+            },
+        });
+        glide.mount();
+        return glide;
+    }
+</script>
