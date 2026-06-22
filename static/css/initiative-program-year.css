@@ -1,0 +1,959 @@
+/* Initiative program year/detail pages — keep in sync with static/css/initiative-program-year.css */
+
+body.initiative-program-page,
+body.initiative-year-page {
+    background: #ffffff;
+}
+
+body.initiative-program-page .angular-anandakendra .top-angle:before,
+body.initiative-year-page .angular-anandakendra .top-angle:before {
+    background: #ffffff !important;
+}
+
+/* Overlay cards — match Anandakendra detail (-280px pull, 30/70 split) */
+body.initiative-program-page .angular-anandakendra + .pillar-overlay-cards,
+body.initiative-year-page .angular-anandakendra + .initiative-year-detail #about.pillar-overlay-cards,
+body.initiative-year-page .initiative-year-detail #about.pillar-overlay-cards {
+    margin-top: -280px !important;
+    padding-top: 0 !important;
+}
+
+body.initiative-program-page .pillar-overlay-cards,
+body.initiative-year-page .pillar-overlay-cards {
+    position: relative;
+    z-index: 3;
+    padding-bottom: 4rem;
+    background: linear-gradient(180deg, transparent 0, transparent 420px, #ffffff 420px);
+}
+
+body.initiative-program-page .pillar-overlay-cards .row,
+body.initiative-year-page .pillar-overlay-cards .row {
+    align-items: flex-start !important;
+}
+
+@media (min-width: 992px) {
+    body.initiative-program-page .pillar-overlay-cards .row > .col-lg-4,
+    body.initiative-year-page .pillar-overlay-cards .row > .col-lg-4 {
+        flex: 0 0 30% !important;
+        max-width: 30% !important;
+    }
+    body.initiative-program-page .pillar-overlay-cards .row > .col-lg-8,
+    body.initiative-year-page .pillar-overlay-cards .row > .col-lg-8 {
+        flex: 0 0 70% !important;
+        max-width: 70% !important;
+    }
+}
+
+body.initiative-program-page .pillar-overlay-cards .container,
+body.initiative-year-page .pillar-overlay-cards .container {
+    max-width: 1400px !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+    box-sizing: border-box !important;
+}
+
+@media (min-width: 576px) {
+    body.initiative-program-page .pillar-overlay-cards .container,
+    body.initiative-year-page .pillar-overlay-cards .container {
+        padding-left: 2rem !important;
+        padding-right: 2rem !important;
+    }
+}
+
+@media (min-width: 992px) {
+    body.initiative-program-page .pillar-overlay-cards .container,
+    body.initiative-year-page .pillar-overlay-cards .container {
+        padding-left: 2.5rem !important;
+        padding-right: 2.5rem !important;
+    }
+}
+
+body.initiative-program-page .pillar-overlay-cards .pillar-overlay-card--image,
+body.initiative-year-page .pillar-overlay-cards .pillar-overlay-card--image {
+    width: 92% !important;
+    max-width: 92% !important;
+    aspect-ratio: 1 / 1 !important;
+    min-height: 0 !important;
+    margin-left: 0 !important;
+    margin-right: auto !important;
+    padding: 0 !important;
+}
+
+body.initiative-program-page .pillar-overlay-cards .pillar-overlay-card--image img,
+body.initiative-year-page .pillar-overlay-cards .pillar-overlay-card--image img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block !important;
+}
+
+body.initiative-program-page .pillar-overlay-cards .pillar-overlay-card--text,
+body.initiative-year-page .pillar-overlay-cards .pillar-overlay-card--text {
+    min-height: 280px !important;
+    height: 100% !important;
+    padding: 1.5rem 1.75rem !important;
+    border: none !important;
+    box-shadow: 0 16px 26px -10px rgba(61, 92, 96, 0.36), 10px 4px 18px -10px rgba(61, 92, 96, 0.28), -10px 4px 18px -10px rgba(61, 92, 96, 0.24), 0 5px 12px -8px rgba(61, 92, 96, 0.22) !important;
+}
+
+body.initiative-program-page .initiative-about-footer-spacer {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+body.initiative-program-page #about .anandakendra-card-actions,
+body.initiative-year-page #about .anandakendra-card-actions {
+    margin-top: auto !important;
+    display: flex !important;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    width: 100%;
+}
+
+/* Only fix caption timing — do not re-declare .caption-line animation (drops Odia delay). */
+body.initiative-program-page #about .anandakendra-card-footer .anandakendra-text-caption .caption-or,
+body.initiative-year-page #about .anandakendra-card-footer .anandakendra-text-caption .caption-or {
+    animation-delay: 4s !important;
+}
+
+body.initiative-program-page #about .anandakendra-back-link,
+body.initiative-year-page #about .anandakendra-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: #3d5c60;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+body.initiative-year-page #about .pillar-overlay-card--text.anandakendra-sync-text.has-admin-actions {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+@media (max-width: 767px) {
+    body.initiative-program-page .angular-anandakendra + .pillar-overlay-cards,
+    body.initiative-year-page .angular-anandakendra + .initiative-year-detail #about.pillar-overlay-cards,
+    body.initiative-year-page .pillar-overlay-cards {
+        margin-top: -100px !important;
+    }
+}
+
+/* Sidebar gallery under photo (Ankurayan detail pattern) */
+.initiative-year-detail .ankurayan-sidebar-gallery {
+    background: #f8fafc !important;
+    border-radius: 12px !important;
+    overflow: hidden;
+    padding: 0.75rem 0.65rem 0.85rem;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+.initiative-year-detail .ankurayan-sidebar-gallery .carousel-inner {
+    border-radius: 8px;
+    min-height: 5rem;
+}
+
+.initiative-year-detail .ankurayan-sidebar-gallery__link {
+    display: block;
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: #e2e8f0;
+    border-radius: 8px;
+}
+
+.initiative-year-detail .ankurayan-sidebar-gallery__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.initiative-year-detail .ankurayan-sidebar-gallery__link:hover .ankurayan-sidebar-gallery__img {
+    transform: scale(1.02);
+}
+
+.initiative-year-detail .ankurayan-sidebar-gallery .carousel-indicators {
+    margin-bottom: 0.25rem;
+    position: relative;
+    bottom: auto;
+    margin-top: 0.35rem;
+}
+
+.initiative-year-detail .ankurayan-sidebar-gallery .carousel-indicators li {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: rgba(0, 94, 102, 0.35);
+}
+
+.initiative-year-detail .ankurayan-sidebar-gallery .carousel-indicators .active {
+    background-color: #005E66;
+}
+
+.initiative-year-detail .gallery-delete-form {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    z-index: 5;
+    margin: 0;
+}
+
+.initiative-year-detail .gallery-delete-btn {
+    padding: 0.25rem 0.4rem;
+    font-size: 0.75rem;
+    border-radius: 6px;
+    opacity: 0.9;
+}
+
+/* Marquee */
+.initiative-year-marquee {
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(128, 179, 186, 0.35);
+}
+
+.initiative-year-link {
+    color: #005E66;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.initiative-year-link:hover {
+    color: #006A73;
+    text-decoration: underline;
+}
+
+.initiative-year-sep {
+    color: rgba(61, 92, 96, 0.45);
+    margin: 0 0.35rem;
+}
+
+/* Ankurayan-style section cards inside about */
+.initiative-year-detail .initiative-section-card {
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 12px !important;
+    background: #f8fafc !important;
+    margin-bottom: 1rem;
+}
+
+.initiative-year-detail .initiative-section-card-body {
+    padding: 1rem 1.15rem !important;
+}
+
+.initiative-year-detail .initiative-section-card--description .initiative-section-card-body {
+    padding: 0.95rem 1.1rem 1rem !important;
+}
+
+.initiative-year-detail .initiative-file-card-title {
+    color: #005E66 !important;
+    font-weight: 700 !important;
+    font-size: 0.8125rem !important;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin: 0 0 0.85rem !important;
+    padding-bottom: 0.65rem;
+    border-bottom: 1px solid #e2e8f0;
+    line-height: 1.3;
+    width: 100%;
+}
+
+.initiative-year-detail .initiative-file-card-title--with-actions {
+    margin-bottom: 0.65rem !important;
+    padding-bottom: 0.55rem;
+}
+
+.initiative-year-detail .initiative-description-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-top: 0.85rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.initiative-year-detail .initiative-desc-action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    padding: 0.5rem 1rem !important;
+    font-size: 0.75rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.06em;
+    line-height: 1.25 !important;
+    border-radius: 9999px !important;
+    border: none !important;
+    color: #fff !important;
+    background-color: #3d5c60 !important;
+    white-space: nowrap;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(61, 92, 96, 0.28) !important;
+}
+
+.initiative-year-detail .initiative-desc-action-btn:hover,
+.initiative-year-detail .initiative-desc-action-btn:focus,
+.initiative-year-detail .initiative-desc-action-btn:active {
+    color: #fff !important;
+    background-color: #80b3ba !important;
+    border-color: transparent !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.08) !important;
+    outline: none !important;
+}
+
+@media (max-width: 575px) {
+    .initiative-year-detail .initiative-desc-action-btn {
+        flex: 1 1 calc(50% - 0.25rem);
+        white-space: normal;
+        text-align: center;
+        min-height: 2.1rem;
+    }
+}
+
+.initiative-year-detail .initiative-file-card-header {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+    margin-bottom: 0.85rem;
+    flex-shrink: 0;
+}
+
+.initiative-year-detail .initiative-file-card-header .initiative-file-card-title {
+    margin: 0 !important;
+}
+
+.initiative-year-detail .initiative-file-section-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 10.5rem;
+    transition: background-color 0.2s ease;
+}
+
+.initiative-year-detail .initiative-file-section-card:hover {
+    background: #f1f5f9 !important;
+}
+
+.initiative-year-detail .initiative-file-section-card .initiative-section-card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1.15rem 1.25rem !important;
+    min-height: 0;
+}
+
+.initiative-year-detail .initiative-file-card-content {
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+.initiative-year-detail .initiative-file-card-content .text-muted {
+    font-size: 0.875rem !important;
+    line-height: 1.55 !important;
+    color: #475569 !important;
+    margin-bottom: 0 !important;
+}
+
+.initiative-year-detail .initiative-file-card-action {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 100% !important;
+    min-height: 2.125rem;
+    padding: 0.4rem 0.65rem !important;
+    font-size: 0.8125rem !important;
+    font-weight: 600 !important;
+    line-height: 1.25 !important;
+    white-space: nowrap;
+    border: 1px solid #94a3b8 !important;
+    border-radius: 8px !important;
+    color: #334155 !important;
+    background: #fff !important;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.initiative-year-detail .initiative-file-card-action:hover,
+.initiative-year-detail .initiative-file-card-action:focus {
+    color: #005E66 !important;
+    border-color: #005E66 !important;
+    background: #f0fdfa !important;
+    outline: none !important;
+}
+
+.initiative-year-detail .initiative-files-cards-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    width: 100%;
+    margin-top: 0.5rem;
+    align-items: stretch;
+}
+
+@media (min-width: 768px) {
+    .initiative-year-detail .initiative-files-cards-row {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+.initiative-year-detail .initiative-file-link--pending {
+    background: rgba(245, 158, 11, 0.08) !important;
+    border-color: rgba(245, 158, 11, 0.35) !important;
+    color: #92400e !important;
+}
+
+.initiative-year-detail .initiative-file-link--pending:hover,
+.initiative-year-detail .initiative-file-link--pending:focus {
+    background: rgba(245, 158, 11, 0.14) !important;
+    border-color: rgba(245, 158, 11, 0.5) !important;
+    color: #78350f !important;
+}
+
+.initiative-year-detail .initiative-file-card-action--muted {
+    font-size: 0.75rem !important;
+    color: #92400e !important;
+    border-color: rgba(245, 158, 11, 0.45) !important;
+    background: rgba(245, 158, 11, 0.08) !important;
+}
+
+.initiative-year-detail .initiative-file-card-action--muted:hover,
+.initiative-year-detail .initiative-file-card-action--muted:focus {
+    color: #78350f !important;
+    border-color: rgba(245, 158, 11, 0.55) !important;
+    background: rgba(245, 158, 11, 0.14) !important;
+}
+
+.initiative-gallery-manage-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.initiative-gallery-manage-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.65rem 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    background: #fff;
+}
+
+.initiative-gallery-manage-item--pending {
+    border-color: rgba(245, 158, 11, 0.35);
+    background: rgba(245, 158, 11, 0.06);
+}
+
+.initiative-gallery-manage-item-main {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    min-width: 0;
+}
+
+.initiative-gallery-manage-thumb {
+    width: 3rem;
+    height: 3rem;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+    background: #f1f5f9;
+}
+
+.initiative-gallery-manage-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #334155;
+}
+
+.initiative-gallery-manage-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+.initiative-year-detail .initiative-files-card-col {
+    min-width: 0;
+    display: flex;
+    padding: 0;
+}
+
+.initiative-year-detail .initiative-files-card-col > .initiative-section-card {
+    width: 100%;
+}
+
+.initiative-year-detail .pillar-desc,
+.initiative-year-detail .pillar-desc p {
+    color: #334155 !important;
+    line-height: 1.65 !important;
+    font-weight: 500 !important;
+    font-size: 0.9375rem !important;
+    margin-bottom: 0;
+}
+
+/* Full-width sections below about */
+.initiative-detail-section {
+    padding: 3rem 0 4rem;
+    background: #ffffff;
+}
+
+.initiative-detail-section.bg-light {
+    background: #f4f8f9 !important;
+}
+
+.initiative-detail-section .section-title {
+    color: #005E66 !important;
+    text-align: center !important;
+}
+
+body.initiative-year-page #activities.bandhughar-activities-section .section-title,
+body.initiative-year-page .initiative-gallery-section .section-title {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-size: clamp(1.85rem, 4vw, 2.35rem) !important;
+    font-weight: 700 !important;
+    color: #005E66 !important;
+    text-align: center !important;
+    text-transform: none !important;
+    letter-spacing: -0.02em;
+    line-height: 1.2 !important;
+    margin-bottom: 0.75rem !important;
+    -webkit-text-stroke: 0 !important;
+}
+
+body.initiative-year-page #activities.bandhughar-activities-section .initiative-section-head-accent,
+body.initiative-year-page .initiative-gallery-section .initiative-section-head-accent {
+    width: 3.25rem;
+    height: 4px;
+    margin: 0 auto 1.5rem;
+    border-radius: 9999px;
+    background: #005E66;
+}
+
+body.initiative-year-page #activities.bandhughar-activities-section .initiative-category-title {
+    text-align: center !important;
+    color: #005E66 !important;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 1.125rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1.35;
+    margin-top: 2.5rem !important;
+    margin-bottom: 1rem !important;
+    -webkit-text-stroke: 0 !important;
+}
+
+body.initiative-year-page .initiative-gallery-section .gallery-section-head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+body.initiative-year-page .initiative-gallery-section .gallery-section-description,
+body.initiative-year-page .initiative-gallery-section .gallery-tagline-single-line,
+body.initiative-year-page .initiative-gallery-section .gallery-tagline-text {
+    display: block;
+    width: 100%;
+    max-width: 42rem;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center !important;
+    text-transform: none !important;
+    font-size: 1.05rem !important;
+    font-weight: 500 !important;
+    color: #3d5c60 !important;
+    line-height: 1.65 !important;
+    -webkit-text-stroke: 0 !important;
+}
+
+.initiative-detail-section .section-title::after,
+.initiative-gallery-section .section-title::after,
+.initiative-gallery-section .gallery-section-head .section-title::after {
+    display: none !important;
+    content: none !important;
+}
+
+.initiative-detail-section .section-accent,
+.initiative-gallery-section .section-accent,
+.initiative-gallery-section .gallery-section-accent {
+    display: none !important;
+}
+
+body.initiative-year-page #activities.bandhughar-activities-section,
+body.initiative-year-page #events.initiative-detail-section,
+body.initiative-year-page .initiative-gallery-section,
+body.initiative-program-page .initiative-gallery-section {
+    border-top: none !important;
+}
+
+/* Initiative program home: list cards — teal border, no shadow */
+body.initiative-program-page #ashrams .bandhughar-list-card.page-card,
+body.initiative-program-page #ashrams .card.page-card.bandhughar-list-card {
+    box-shadow: none !important;
+    border: 1px solid rgba(0, 94, 102, 0.28) !important;
+    transition: border-color 0.2s ease !important;
+}
+
+body.initiative-program-page #ashrams .bandhughar-list-card.page-card:hover,
+body.initiative-program-page #ashrams .card.page-card.bandhughar-list-card:hover {
+    box-shadow: none !important;
+    transform: none !important;
+    border-color: rgba(0, 94, 102, 0.45) !important;
+}
+
+.initiative-year-detail .initiative-file-list {
+    list-style: none;
+    padding: 0;
+    margin: 0.25rem 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.initiative-year-detail .initiative-file-list li {
+    margin: 0;
+    width: 100%;
+}
+
+.initiative-year-detail .initiative-file-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 0.6rem 0.85rem;
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.35;
+    color: #005E66 !important;
+    font-weight: 600;
+    text-decoration: none !important;
+    background: rgba(0, 94, 102, 0.06);
+    border: 1px solid rgba(0, 94, 102, 0.2);
+    border-radius: 8px;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.initiative-year-detail .initiative-file-link:hover,
+.initiative-year-detail .initiative-file-link:focus {
+    background: rgba(0, 94, 102, 0.1) !important;
+    border-color: rgba(0, 94, 102, 0.38) !important;
+    color: #005E66 !important;
+    text-decoration: none !important;
+    box-shadow: 0 2px 8px rgba(0, 94, 102, 0.08);
+    outline: none !important;
+}
+
+.initiative-year-detail .initiative-file-link-name {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.initiative-year-detail .initiative-file-link-icon {
+    flex: 0 0 auto;
+    font-size: 0.875rem;
+    opacity: 0.85;
+}
+
+.initiative-reports-rich {
+    color: #3d5c60;
+    line-height: 1.75;
+}
+
+.initiative-admin-actions .btn + .btn,
+.initiative-admin-actions form {
+    margin-left: 0.35rem;
+}
+
+/* Gallery */
+.initiative-gallery-section {
+    background: #ffffff;
+}
+
+.initiative-gallery-section .section-title {
+    color: #005E66 !important;
+    text-align: center !important;
+}
+
+.initiative-gallery-wrap {
+    padding: 3rem 0 4rem;
+    background: #ffffff;
+}
+
+.initiative-gallery-section .glide-carousel-custom .glide__slides,
+.initiative-gallery-section .initiative_gallery_glide .glide__slides {
+    background-color: transparent !important;
+}
+
+.initiative-gallery-static-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    gap: 1.5rem;
+}
+
+.initiative-gallery-static-item {
+    flex: 0 1 280px;
+    width: 100%;
+    max-width: 320px;
+}
+
+.initiative-gallery-carousel {
+    max-width: 1180px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.initiative-gallery-section .gallery-slide-img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+}
+
+.initiative-gallery-static .gallery-slide-img {
+    height: 260px;
+}
+
+.initiative-gallery-section .gallery-slide-card {
+    background: #ffffff;
+    box-shadow: 0 4px 16px rgba(61, 92, 96, 0.12);
+}
+
+.initiative-gallery-section .gallery-glide-arrows {
+    margin-top: 1rem;
+}
+
+body.initiative-year-page .ashram-detail #activities.bandhughar-activities-section {
+    background: #ffffff;
+}
+
+/* Activity cards — teal border, no shadow (match Anandakendra list cards) */
+body.initiative-year-page #activities.bandhughar-activities-section .activity-card {
+    box-shadow: none !important;
+    border: 1px solid rgba(0, 94, 102, 0.28) !important;
+    border-radius: 16px;
+    transition: border-color 0.2s ease !important;
+}
+
+body.initiative-year-page #activities.bandhughar-activities-section .activity-card:hover {
+    box-shadow: none !important;
+    transform: none !important;
+    border-color: rgba(0, 94, 102, 0.45) !important;
+}
+
+body.initiative-year-page #activities .card-title,
+body.initiative-year-page .ashram-detail #activities .card-title,
+#events .card-title {
+    color: #005E66 !important;
+}
+
+#events .event-card-img {
+    height: 200px;
+    object-fit: cover;
+}
+
+/* Admin modals — flat brand teal (override global gradient headers) */
+body.initiative-year-page .initiative-year-modal .modal-content,
+body.initiative-program-page .initiative-year-modal .modal-content {
+    border: none;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 20px 48px rgba(15, 23, 42, 0.18);
+}
+
+body.initiative-year-page .initiative-year-modal .modal-header,
+body.initiative-program-page .initiative-year-modal .modal-header {
+    background: #005E66 !important;
+    background-image: none !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+    padding: 1rem 1.25rem;
+}
+
+body.initiative-year-page .initiative-year-modal .modal-header .modal-title,
+body.initiative-program-page .initiative-year-modal .modal-header .modal-title {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: #ffffff !important;
+}
+
+body.initiative-year-page .initiative-year-modal .modal-header .close,
+body.initiative-program-page .initiative-year-modal .modal-header .close {
+    color: #ffffff !important;
+    opacity: 0.9;
+    text-shadow: none;
+}
+
+body.initiative-year-page .initiative-year-modal .modal-body,
+body.initiative-program-page .initiative-year-modal .modal-body {
+    background: #ffffff;
+    padding: 1.35rem 1.25rem 1.5rem;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+body.initiative-year-page .initiative-year-modal .initiative-modal-section {
+    padding: 1rem 0;
+}
+
+body.initiative-year-page .initiative-year-modal .initiative-modal-section + .initiative-modal-section {
+    border-top: 1px solid #e2e8f0;
+    margin-top: 0.25rem;
+}
+
+body.initiative-year-page .initiative-year-modal .initiative-modal-section-title {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #005E66;
+    margin-bottom: 0.85rem;
+}
+
+body.initiative-year-page .initiative-year-modal .initiative-form-label,
+body.initiative-program-page .initiative-year-modal .initiative-form-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 0.35rem;
+}
+
+body.initiative-year-page .initiative-year-modal .initiative-modal-file-group {
+    margin-bottom: 0.25rem;
+}
+
+body.initiative-year-page .initiative-year-modal .initiative-modal-file-input,
+body.initiative-year-page .initiative-year-modal .form-control-file,
+body.initiative-program-page .initiative-year-modal .form-control-file {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin-top: 0.35rem;
+    margin-bottom: 0.75rem;
+    padding: 0.25rem 0;
+    line-height: 1.5;
+}
+
+body.initiative-year-page .initiative-year-modal .initiative-category-add-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 0.75rem;
+}
+
+body.initiative-year-page .initiative-year-modal .initiative-category-add-field {
+    flex: 1 1 12rem;
+    min-width: 0;
+}
+
+body.initiative-year-page .initiative-year-modal .initiative-category-add-btn {
+    flex: 0 0 auto;
+    border-radius: 8px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+body.initiative-year-page .initiative-year-modal .initiative-modal-form-actions {
+    margin-top: 0.5rem;
+    padding-top: 0.25rem;
+}
+
+body.initiative-year-page .initiative-year-modal .initiative-modal-form-actions .btn {
+    margin-top: 0;
+}
+
+body.initiative-year-page .initiative-year-modal .form-control,
+body.initiative-year-page .initiative-year-modal .custom-file-label,
+body.initiative-program-page .initiative-year-modal .form-control,
+body.initiative-program-page .initiative-year-modal .custom-file-label {
+    border-radius: 8px;
+    border-color: #cbd5e1;
+    font-size: 0.9375rem;
+}
+
+body.initiative-year-page .initiative-year-modal .form-control:focus,
+body.initiative-program-page .initiative-year-modal .form-control:focus {
+    border-color: #005E66;
+    box-shadow: 0 0 0 0.2rem rgba(0, 94, 102, 0.15);
+}
+
+body.initiative-year-page .initiative-year-modal .btn-primary,
+body.initiative-program-page .initiative-year-modal .btn-primary {
+    background-color: #005E66 !important;
+    border-color: #005E66 !important;
+    color: #ffffff !important;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 0.5rem 1.25rem;
+}
+
+body.initiative-year-page .initiative-year-modal .btn-primary:hover,
+body.initiative-year-page .initiative-year-modal .btn-primary:focus,
+body.initiative-program-page .initiative-year-modal .btn-primary:hover,
+body.initiative-program-page .initiative-year-modal .btn-primary:focus {
+    background-color: #006A73 !important;
+    border-color: #006A73 !important;
+}
+
+body.initiative-year-page .initiative-year-modal .btn-outline-danger {
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+body.initiative-year-page .initiative-year-modal .initiative-modal-hint,
+body.initiative-program-page .initiative-year-modal .initiative-modal-hint {
+    font-size: 0.8125rem;
+    color: #64748b;
+    margin-bottom: 0.85rem;
+}
+
+body.initiative-program-page .initiative-entry-draft-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+    background: rgba(61, 92, 96, 0.92);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+}
+
+body.initiative-year-page .initiative-draft-banner {
+    background: #f8fafb;
+    border: 1px solid #d7e2e4;
+    border-radius: 10px;
+    color: #475569;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    padding: 0.75rem 1rem;
+}

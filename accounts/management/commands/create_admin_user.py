@@ -1,6 +1,7 @@
 """
 Create a dummy admin user for login.
 Run: python manage.py create_admin_user
+     python manage.py create_admin_user --reset-password
 """
 from datetime import date
 
@@ -12,6 +13,13 @@ from bandhuapp.models import Profile, Staff
 
 class Command(BaseCommand):
     help = 'Creates a dummy admin user (admin@bandhu.demo / admin123) if not present.'
+
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--reset-password',
+            action='store_true',
+            help='Reset password to admin123 even if the user already exists.',
+        )
 
     def handle(self, *args, **options):
         email = 'admin@bandhu.demo'
@@ -26,34 +34,22 @@ class Command(BaseCommand):
                 'auth': True,
             },
         )
-        if created:
+        if created or options['reset_password']:
             user.set_password(password)
-            user.is_admin = True
-            user.is_staff = True
-            user.is_active = True
-            user.auth = True
-            user.save()
-            self.stdout.write(self.style.SUCCESS(f'Admin user created: {email} / {password}'))
-        else:
+            if created:
+                self.stdout.write(self.style.SUCCESS(f'Admin user created: {email} / {password}'))
+            else:
+                self.stdout.write(self.style.SUCCESS(f'Password reset for {email}'))
+        elif not created:
             self.stdout.write(self.style.WARNING(f'User {email} already exists. Password unchanged.'))
-            # Ensure permission flags (idempotent)
-            dirty = False
-            if not user.is_admin:
-                user.is_admin = True
-                dirty = True
-            if not user.is_staff:
-                user.is_staff = True
-                dirty = True
-            if not user.is_active:
-                user.is_active = True
-                dirty = True
-            if not user.auth:
-                user.auth = True
-                dirty = True
-            if dirty:
-                user.save()
 
-        # Home / landing require a Profile for regular members; create a minimal one for admin.
+        user.is_admin = True
+        user.is_staff = True
+        user.is_active = True
+        user.auth = True
+        user.is_superuser = True
+        user.save()
+
         profile, p_created = Profile.objects.get_or_create(
             user=user,
             defaults={
@@ -88,4 +84,4 @@ class Command(BaseCommand):
         else:
             self.stdout.write('Staff record already present for admin user.')
 
-        self.stdout.write('Login at: /accounts/login/')
+        self.stdout.write('Login at: /accounts/login/ (use the same host as the site, e.g. http://127.0.0.1:8000/)')

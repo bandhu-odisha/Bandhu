@@ -1,0 +1,40 @@
+{% load static %}
+<section id="about" class="pillar-overlay-cards">
+    <div class="container">
+        <div class="row align-items-start g-4">
+            <div class="col-lg-4 col-md-5">
+                <div class="pillar-overlay-card pillar-overlay-card--image">
+                    {% if content and content.picture %}
+                    <img
+                        src="{{ content.picture.url }}"
+                        alt="{{ program_name }}"
+                        loading="eager"
+                        class="pillar-overlay-single-image"
+                        onerror="this.onerror=null;this.src='{% static 'img/our_mission1.jpg' %}';"
+                    >
+                    {% else %}
+                    <img src="{% static 'img/our_mission1.jpg' %}" alt="{{ program_name }}" loading="eager" class="pillar-overlay-single-image">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-7">
+                <div class="pillar-overlay-card pillar-overlay-card--text anandakendra-sync-text">
+                    <div class="pillar-desc">
+                        {% if content and content.description %}
+                        {{ content.description|safe }}
+                        {% else %}
+                        {{ program_default_desc }}
+                        {% endif %}
+                    </div>
+                    <div class="anandakendra-card-actions anandakendra-card-footer">
+                        <span class="initiative-about-footer-spacer" aria-hidden="true"></span>
+                        <div class="anandakendra-text-caption" aria-label="{{ program_name }} caption">
+                            <p class="caption-line caption-en">{{ program_quote_en }}</p>
+                            <p class="caption-line caption-or">{{ program_quote_or }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
