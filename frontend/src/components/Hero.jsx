@@ -1,66 +1,16 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect } from 'react'
 
 const HERO_SLIDE_MS = 6000
 
-const HERO_FALLBACK_IMAGES = [
-  '/static/img/our_mission.jpg',
-  '/static/img/our_mission1.jpg',
-  '/static/img/about-slide-3-campus.png',
-  '/static/img/about-slide-2-hibiscus.png',
+/** Single-slide safety net — rendered only if the DB has no active hero slides. */
+const HERO_FALLBACK_SLIDES = [
+  { image: '/static/img/our_mission.jpg', title: 'Bandhu', subtitle: '' },
 ]
-
-const HERO_SLIDES = [
-  {
-    title: 'The Friend of the Last Man',
-    subtitle:
-      'Bandhu is an idea that celebrates goodness — in you, me, and all others. Friendship, sincerity, and small acts that matter.',
-  },
-  {
-    title: 'Goodness in Every Direction',
-    subtitle:
-      'We are people who care about what is inconsistent within and without — and who choose to do small things with the highest sincerity.',
-  },
-  {
-    title: 'Bandhu at twilight',
-    subtitle:
-      'The campus quiets into evening — lights in the windows, trees and lawn in the half-light, and the place we share still welcoming under the open sky.',
-  },
-  {
-    title: 'Life in Bloom',
-    subtitle:
-      'Like the gardens we tend, our work grows with patience, colour, and hope — together in Odisha and beyond.',
-  },
-]
-
-function collectHeroImages(data) {
-  const images = []
-  const seen = new Set()
-  const add = (url) => {
-    if (!url || seen.has(url)) return
-    seen.add(url)
-    images.push(url)
-  }
-
-  add(data?.banner_image)
-  for (const photo of data?.hero_photos || []) add(photo?.picture)
-  return images
-}
 
 export default function Hero({ data }) {
   const [index, setIndex] = useState(0)
   const logoUrl = data?.logo_url || null
-  const importedImages = useMemo(() => collectHeroImages(data), [data])
-  const slides = useMemo(
-    () =>
-      HERO_SLIDES.map((slide, slideIndex) => ({
-        ...slide,
-        image:
-          importedImages[slideIndex] ||
-          HERO_FALLBACK_IMAGES[slideIndex] ||
-          null,
-      })),
-    [importedImages]
-  )
+  const slides = data?.hero_slides?.length ? data.hero_slides : HERO_FALLBACK_SLIDES
 
   useEffect(() => {
     if (slides.length <= 1) return undefined

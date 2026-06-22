@@ -33,7 +33,7 @@ from .models import (
     Designation, PeoplesDesignation, Profile, Photo, Initiatives, AboutUs,
     Mission, Staff, StaffExperience, StaffExperiencePhoto, Video, Volunteer,
     Gallery, Contact, HomePage, HomeVisitor, UrlData, CurrentUpdates, RecentActivity,
-    AnnualReport,
+    AnnualReport, HeroSlide,
 )
 from .templatetags import permissions as temp_perms  # Template permissions
 from .helpers import (
@@ -336,26 +336,17 @@ def _build_landing_data(request):
         if slide_url:
             data['about_slides'].append({'src': slide_url, 'caption': caption})
 
-    hero_extra_specs = (
-        ('bandhuapp/swaraj/our_mission1.jpg', 'our_mission1.jpg'),
-        ('bandhuapp/gallery/about-slide-3-campus.png', 'about-slide-3-campus.png'),
-        ('bandhuapp/gallery/about-slide-blossoms.png', 'about-slide-blossoms.png'),
-    )
     reserved_gallery_names = {
         os.path.basename(relative_path).lower()
         for relative_path, _static_name, _caption in about_slide_specs
     }
-    reserved_gallery_names.update(
-        os.path.basename(static_name).lower()
-        for _relative_path, static_name in hero_extra_specs
-    )
-    reserved_gallery_names.add('our_mission.jpg')
+    # Keep former hero images out of the gallery grid even after migration to DB-driven slides.
+    reserved_gallery_names.update({'our_mission.jpg', 'our_mission1.jpg'})
 
-    data['hero_photos'] = []
-    for relative_path, static_name in hero_extra_specs:
-        hero_url = resolve_media_or_static(relative_path, static_name)
-        if hero_url:
-            data['hero_photos'].append({'picture': hero_url})
+    data['hero_slides'] = [
+        {'image': file_url(s.image), 'title': s.title, 'subtitle': s.subtitle}
+        for s in HeroSlide.objects.filter(is_active=True)
+    ]
 
     seen_gallery_urls = set()
     seen_gallery_stems = set()

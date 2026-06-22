@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { CTA_PILL_CLASS } from '../cta'
 import { useMediaQuery } from '../useMediaQuery'
 
@@ -57,20 +57,59 @@ function truncateAfterSuccessfully(text) {
   return match ? match[1].trim() : text
 }
 
+const PILLAR_SLIDE_MS = 6000
+
+function PillarCarousel({ images, alt }) {
+  const [idx, setIdx] = useState(0)
+
+  useEffect(() => {
+    if (images.length <= 1) return undefined
+    const id = window.setInterval(() => {
+      setIdx((i) => (i + 1) % images.length)
+    }, PILLAR_SLIDE_MS)
+    return () => window.clearInterval(id)
+  }, [images])
+
+  if (!images.length) return null
+
+  return images.length === 1 ? (
+    <img
+      src={images[0]}
+      alt={alt}
+      className="w-full h-full object-cover transition-transform duration-300"
+    />
+  ) : (
+    <>
+      {images.map((src, i) => (
+        <img
+          key={src}
+          src={src}
+          alt={i === idx ? alt : ''}
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-out ${
+            i === idx ? 'opacity-100 z-[1]' : 'opacity-0 z-0'
+          }`}
+          loading={i === 0 ? 'eager' : 'lazy'}
+          decoding="async"
+        />
+      ))}
+    </>
+  )
+}
+
 export default function Mission({ data }) {
   const isMobile = useMediaQuery('(max-width: 767px)')
   const mission = data?.mission
   const urls = data?.urls || {}
 
   const pillars = useMemo(() => {
-    const getImage = (imgs) => (imgs?.length ? imgs[0].picture : null)
+    const getImages = (imgs) => (imgs || []).map((i) => i.picture).filter(Boolean)
     return [
       {
         id: 'sanskar',
         title: 'Sanskar',
         tagline: mission?.sanskar_tagline,
         desc: mission?.sanskar_desc,
-        image: getImage(mission?.sanskar_images),
+        images: getImages(mission?.sanskar_images),
         href: urls.sanskar || '#',
       },
       {
@@ -78,7 +117,7 @@ export default function Mission({ data }) {
         title: 'Swaraj',
         tagline: mission?.swaraj_tagline,
         desc: mission?.swaraj_desc,
-        image: getImage(mission?.swaraj_images),
+        images: getImages(mission?.swaraj_images),
         href: urls.swaraj || '#',
       },
       {
@@ -86,7 +125,7 @@ export default function Mission({ data }) {
         title: 'Swabalamban',
         tagline: mission?.swabalamban_tagline,
         desc: mission?.swabalamban_desc,
-        image: getImage(mission?.swabalamban_images),
+        images: getImages(mission?.swabalamban_images),
         href: urls.swabalamban || '#',
       },
     ]
@@ -133,12 +172,14 @@ export default function Mission({ data }) {
               const summaryLine = taglineText || cleanedCardText
               const detailsLine =
                 cleanedCardText && cleanedCardText !== summaryLine ? cleanedCardText : ''
-              const fallbackImages = {
+              const PILLAR_FALLBACK = {
                 sanskar: '/static/img/our_mission.jpg',
                 swaraj: '/static/img/our_mission1.jpg',
                 swabalamban: '/static/img/pimg2.jpg',
               }
-              const imageSrc = pillar.image || fallbackImages[pillar.id] || null
+              const images = pillar.images.length
+                ? pillar.images
+                : [PILLAR_FALLBACK[pillar.id]].filter(Boolean)
               const sanskarFullText = isSanskar
                 ? [summaryLine, detailsLine].filter(Boolean).join(' ').trim()
                 : ''
@@ -187,14 +228,8 @@ export default function Mission({ data }) {
                   </div>
 
                   <div className={isSwaraj ? 'order-1 md:order-1' : 'order-1 md:order-2'}>
-                    <div className="aspect-[16/9] overflow-hidden rounded-2xl bg-white/80">
-                      {imageSrc ? (
-                        <img
-                          src={imageSrc}
-                          alt={pillar.title}
-                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-                        />
-                      ) : null}
+                    <div className="relative aspect-[16/9] overflow-hidden rounded-2xl bg-white/80 transition-transform duration-300 group-hover:scale-[1.02]">
+                      <PillarCarousel images={images} alt={pillar.title} />
                     </div>
                   </div>
                 </a>
