@@ -44,6 +44,7 @@ from .helpers import (
 )
 from .notice_links import resolve_notice_url
 from .annual_reports import annual_reports_upload_url
+from bandhuapp.initiative_program_year import build_initiative_nav_visibility
 
 from openpyxl import Workbook
 from openpyxl.styles import Font
@@ -259,6 +260,9 @@ def _build_landing_data(request):
             'anandakendra': reverse('anandakendra:anandakendra'),
             'ashram': reverse('ashram:ashram'),
             'charity_work': reverse('charitywork:charity_work'),
+            'initiative_patriotism': reverse('patriotism:patriotism'),
+            'initiative_raktadan': reverse('prasantaraktadan:prasantaraktadan'),
+            'initiative_sevavrata': reverse('sevavrata:sevavrata'),
             'publications': reverse('publications:index'),
             'people': reverse('people_page'),
             'home': reverse('home'),
@@ -275,6 +279,7 @@ def _build_landing_data(request):
         'about_slides': [],
         'profile_photos': [],
         'visitors': [],
+        'initiative_nav': build_initiative_nav_visibility(request),
     }
 
     for visitor in HomeVisitor.objects.filter(is_published=True):
@@ -364,7 +369,11 @@ def _build_landing_data(request):
         pic_data = {
             'picture': file_url(p.picture),
             'caption': p.caption or '',
-            'tags': (p.tags or '').strip().split(),
+            'tags': [
+                tag.strip()
+                for tag in (p.tags or '').replace(',', ' ').split()
+                if tag.strip()
+            ],
         }
         if not pic_data['picture']:
             continue

@@ -1,0 +1,71 @@
+<style>
+    body.initiative-program-page #top-section,
+    body.initiative-year-page #top-section {
+        background:
+            radial-gradient(circle at 14% 22%, rgba(0, 94, 102, 0.06) 0 2px, transparent 3px),
+            radial-gradient(circle at 30% 70%, rgba(0, 94, 102, 0.04) 0 1.5px, transparent 2.5px),
+            radial-gradient(circle at 58% 28%, rgba(0, 94, 102, 0.05) 0 1.8px, transparent 2.8px),
+            radial-gradient(circle at 74% 62%, rgba(0, 94, 102, 0.04) 0 1.5px, transparent 2.6px),
+            radial-gradient(circle at 88% 24%, rgba(0, 94, 102, 0.045) 0 1.6px, transparent 2.8px),
+            linear-gradient(135deg, #e8f5f6 0%, #d6ecee 45%, #c5e4e8 100%) !important;
+        background-attachment: fixed !important;
+        background-size: cover !important;
+    }
+    body.initiative-program-page #top-section .parallax-overlay,
+    body.initiative-year-page #top-section .parallax-overlay {
+        position: relative !important;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(214, 236, 238, 0.28) 100%) !important;
+        background-color: transparent !important;
+    }
+    body.initiative-program-page #top-section .parallax-overlay::before,
+    body.initiative-year-page #top-section .parallax-overlay::before {
+        content: "{{ hero_title|escapejs }}";
+        position: absolute;
+        top: 40%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #005E66;
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-weight: 800;
+        font-size: clamp(1.35rem, 3.2vw, 2.15rem);
+        letter-spacing: 0.02em;
+        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.95), 0 2px 22px rgba(0, 94, 102, 0.14);
+        z-index: 5;
+        pointer-events: none;
+        max-width: min(92vw, 48rem);
+        text-align: center;
+        line-height: 1.2;
+    }
+    body.initiative-program-page #top-section .parallax-overlay::after,
+    body.initiative-year-page #top-section .parallax-overlay::after {
+        content: none !important;
+        display: none !important;
+    }
+    body.initiative-program-page #top-section .slider-txt-container.page-showcase > *,
+    body.initiative-year-page #top-section .slider-txt-container.page-showcase > * {
+        opacity: 0 !important;
+    }
+    body.initiative-program-page #about.pillar-overlay-cards .pillar-overlay-card--text,
+    body.initiative-year-page #about.pillar-overlay-cards .pillar-overlay-card--text {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        background: linear-gradient(180deg, #fffdf8 0%, #ffffff 58%, #fbfaf7 100%) !important;
+    }
+    body.initiative-program-page #about.pillar-overlay-cards .pillar-overlay-card--text .pillar-desc,
+    body.initiative-year-page #about.pillar-overlay-cards .pillar-overlay-card--text .pillar-desc {
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        color: #005E66 !important;
+        letter-spacing: 0.012em;
+        line-height: 1.85 !important;
+        font-weight: 600 !important;
+    }
+    body.initiative-program-page #about .pillar-overlay-card--text.anandakendra-sync-text,
+    body.initiative-year-page #about .pillar-overlay-card--text.anandakendra-sync-text {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    body.initiative-program-page #about .anandakendra-card-actions,
+    body.initiative-year-page #about .anandakendra-card-actions {
+        margin-top: auto !important;
+        width: 100%;
+    }
+</style>

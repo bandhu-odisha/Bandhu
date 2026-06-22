@@ -1,0 +1,12 @@
+{% load static %}
+{% include 'initiative_program/gallery_section.html' %}
+
+{% include 'initiative_program/gallery_glide_script.html' %}
+{% if photos.count %}
+{% include 'initiative_program/gallery_lightbox_script.html' %}
+{% endif %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        mountInitiativeGalleryGlide('.initiative_gallery_glide');
+    });
+</script>

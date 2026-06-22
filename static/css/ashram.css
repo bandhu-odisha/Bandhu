@@ -433,6 +433,14 @@ body.initiative-program-page #ashrams.page-section {
     border-bottom: none !important;
     box-shadow: none !important;
 }
+body.initiative-program-page #ashrams .bandhughar-card-body {
+    text-align: center !important;
+}
+body.initiative-program-page #ashrams .bandhughar-card-title,
+body.initiative-program-page #ashrams .bandhughar-card-locality {
+    text-align: center !important;
+    width: 100%;
+}
 body.initiative-program-page .ashram-list-page .section-title {
     text-align: center !important;
     margin-left: auto !important;

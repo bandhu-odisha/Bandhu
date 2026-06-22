@@ -1,5 +1,6 @@
-﻿{% extends 'base.html' %}
+{% extends 'base.html' %}
 {% load static %}
+{% load permissions %}
 
 {% block title %}Bandhu | {{ page_title }}{% endblock %}
 
@@ -811,7 +812,13 @@
       </div>
     </div>
     {% else %}
-    <p class="text-center text-muted py-4 mb-0">Products will appear here once added in the admin.</p>
+    <p class="text-center text-muted py-4 mb-0">Products will appear here once added.</p>
+    {% endif %}
+
+    {% if check_admin %}
+    <div class="text-center mt-3">
+      <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addSwabalambanProduct">Add Product</button>
+    </div>
     {% endif %}
 
     {% for product in products %}
@@ -842,6 +849,53 @@
       </div>
     </div>
     {% endfor %}
+
+    {% if check_admin %}
+    <div class="modal fade product-modal" id="addSwabalambanProduct" tabindex="-1" role="dialog" aria-labelledby="addSwabalambanProductTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addSwabalambanProductTitle">Add product</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body">
+            <form method="post" enctype="multipart/form-data" action="{% url 'CreateProduct' %}" id="swabalambanProductForm">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="productNameInput">Product name</label>
+                <input type="text" class="form-control" name="name" id="productNameInput" required maxlength="120">
+              </div>
+              <div class="form-group">
+                <label for="productLabelInput">Card label</label>
+                <input type="text" class="form-control" name="label" id="productLabelInput" required maxlength="120" placeholder="Short label on the product card">
+              </div>
+              <div class="form-group">
+                <label for="productImageInput">Product image</label>
+                <input type="file" class="form-control-file" name="image" id="productImageInput" accept="image/*" required>
+              </div>
+              <div class="form-group">
+                <label for="productIntroLeadInput">Opening phrase <span class="text-muted">(optional)</span></label>
+                <input type="text" class="form-control" name="intro_lead" id="productIntroLeadInput" maxlength="200">
+              </div>
+              <div class="form-group">
+                <label for="productIntroTextInput">Description</label>
+                <textarea class="form-control" name="intro_text" id="productIntroTextInput" rows="4" required maxlength="2000"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="productHighlightsInput">Nutritional highlights <span class="text-muted">(one per line)</span></label>
+                <textarea class="form-control" name="nutritional_highlights" id="productHighlightsInput" rows="4" maxlength="2000"></textarea>
+              </div>
+              <div class="form-group mb-0">
+                <label for="productQualityInput">Quality promise <span class="text-muted">(one per line)</span></label>
+                <textarea class="form-control" name="quality_promise" id="productQualityInput" rows="3" maxlength="1000"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary mt-3" id="swabalambanProductSubmit">Add product</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
   </div>
 </section>
 {% endif %}
@@ -976,6 +1030,17 @@ $(function () {
       $(target).modal('show');
     }
   });
+
+  var productForm = document.getElementById('swabalambanProductForm');
+  if (productForm) {
+    productForm.addEventListener('submit', function () {
+      var btn = document.getElementById('swabalambanProductSubmit');
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = 'Adding…';
+      }
+    });
+  }
 });
 </script>
 {% endif %}

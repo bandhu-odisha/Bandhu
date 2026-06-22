@@ -185,9 +185,21 @@ export default function Navbar({ data }) {
     { label: 'Swabalamban', href: urls.swabalamban || '/swabalamban/' },
   ]
 
+  const initiativeNav = data?.initiative_nav || {}
+  const showInitiativeLink = (key) => Boolean(user?.is_admin || initiativeNav[key])
+
   const initiativesLinks = [
     { label: 'Bandhughar', href: urls.ashram || '/bandhughar/' },
     { label: 'Other Activities', href: urls.charity_work || '/other_activities/' },
+    ...(showInitiativeLink('show_initiative_raktadan')
+      ? [{ label: 'Prasanta Raktadan Shibir', href: urls.initiative_raktadan || '/prasanta-raktadan-shibir/' }]
+      : []),
+    ...(showInitiativeLink('show_initiative_patriotism')
+      ? [{ label: 'Patriotism in Action', href: urls.initiative_patriotism || '/patriotism-in-action/' }]
+      : []),
+    ...(showInitiativeLink('show_initiative_sevavrata')
+      ? [{ label: 'Odisha Satabdi Sevavrata', href: urls.initiative_sevavrata || '/odisha-satabdi-sevavrata/' }]
+      : []),
     { label: 'Our Publications', href: urls.publications || '/publications/' },
   ]
 
@@ -282,7 +294,7 @@ export default function Navbar({ data }) {
                 top: supportDropdownRect.top,
                 left: supportDropdownRect.left,
                 width: supportDropdownRect.width,
-                minWidth: '14rem',
+                minWidth: '18rem',
               }}
             >
               <ul>
