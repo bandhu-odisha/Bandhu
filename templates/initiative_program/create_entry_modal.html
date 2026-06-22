@@ -1,0 +1,52 @@
+<div class="modal fade initiative-year-modal" tabindex="-1" id="add_bandhughar" role="dialog"
+    aria-labelledby="initiativeCreateEntryTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="initiativeCreateEntryTitle">Create {{ program_name }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="initiative-modal-hint mb-0">
+                    New entries are visible to admins only until you add reports, invitation, activities, events, or gallery content.
+                </p>
+                <form method="post" enctype="multipart/form-data" action="{% url program_create_entry_url %}" class="mt-3">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="initiative-form-label" for="initiativeEntryName">{{ program_name }} name</label>
+                                <input type="text" class="form-control" id="initiativeEntryName" name="name"
+                                    placeholder="{{ program_name }} name" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="initiative-form-label" for="initiativeEntryLocality">Locality</label>
+                                <input type="text" class="form-control" id="initiativeEntryLocality" name="locality"
+                                    placeholder="Locality" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="initiative-form-label" for="initiativeEntryAddress">Address</label>
+                        <input type="text" class="form-control" id="initiativeEntryAddress" name="address"
+                            placeholder="Address" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="initiative-form-label" for="initiativeEntryDescription">Description</label>
+                        <textarea name="description" id="initiativeEntryDescription" placeholder="Description"
+                            class="form-control" rows="6" required></textarea>
+                    </div>
+                    <div class="form-group mb-0">
+                        <label class="initiative-form-label" for="initiativeEntryImage">Thumbnail</label>
+                        <input type="file" class="form-control-file" id="initiativeEntryImage" name="image" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Create {{ program_name }}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

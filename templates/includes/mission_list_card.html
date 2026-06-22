@@ -1,0 +1,18 @@
+{% load static %}
+<div class="card w-100 page-card mx-auto my-2{% if draft_badge or show_draft_check and check_admin and not is_published %} position-relative{% endif %}">
+    {% if draft_badge or show_draft_check and check_admin and not is_published %}
+    <span class="initiative-entry-draft-badge">Draft</span>
+    {% endif %}
+    <img
+        src="{{ card_image_url }}"
+        class="card-img-top home-card-img"
+        alt="{{ card_title }}"
+        loading="eager"
+        onerror="this.onerror=null;this.src='{% static 'img/pimg3.jpg' %}';"
+    >
+    <div class="card-body pb-0">
+        <h5 class="card-title font-weight-bold">{{ card_title }}</h5>
+        <p class="mb-3">{{ card_subtitle }}<br></p>
+        <a href="{{ card_detail_url }}" class="stretched-link" aria-label="{{ card_title }}, {{ card_subtitle }}"></a>
+    </div>
+</div>

@@ -14,29 +14,31 @@ from bandhuapp.models import (
     SanskarCarousel,
     SwarajCarousel,
     SwabalambanCarousel,
+    Contact,
 )
 
 IMG_ROOT = os.path.join(settings.BASE_DIR, 'img')
 MEDIA_ROOT = settings.MEDIA_ROOT
 
 SANSKAR_DESC = (
-    '<p><strong>Anandakendra:</strong> Anandakendra is conceived to support the children in '
+    '<b>Anandakendra: </b>Anandakendra is conceived to support the children in '
     'villages for completing their school education successfully. Successfully, not only in '
     'terms of good marks in the examinations but also in terms of a sound understanding of '
     'fundamentals. More importantly, this initiative aims to ensure a supportive environment '
     'for an overall (personal-social-spiritual) development at a tender stage of life. We hope '
     'them to develop in themselves a keen fellow-feeling, a broader, deeper, and more practical '
-    'outlook towards life, and a sincere urge to serve. Anandakendra is not meant to be the '
-    'replacement of a school but to take care of the children beyond the school hours.</p>'
-    '<p><strong>Ankurayan:</strong> Conceived as an annual festival of light and delight, it has '
+    'outlook towards life, and a sincere urge to serve.  Anandakendra is not meant to be the '
+    'replacement of a school but to take care of the children beyond the school hours.  '
+    '<br>\n'
+    '<b>Ankurayan: </b>Conceived as an annual festival of light and delight, it has '
     'been organised since 2006 and has now become a household name in some parts of coastal '
     'Odisha. This witnesses a gathering of more than 2000 students each year in mid-December at '
-    'the bank of Paika, a distributary of Mahanadi separating the two districts- Kendrapara '
-    'and Jagatsinghpur.</p>'
+    'the bank of Paika, a distributary of Mahanadi separating the two districts-  Kendrapara and  '
+    'Jagatsinghpur.'
 )
 
 MISSION_COPY = {
-    'sanskar_tagline': '',
+    'sanskar_tagline': 'Anandakendra and Ankurayan',
     'sanskar_desc': SANSKAR_DESC,
     'swaraj_tagline': 'For the common man...',
     'swaraj_desc': (
@@ -46,9 +48,9 @@ MISSION_COPY = {
     'swabalamban_tagline': 'In the village and by the villagers...',
     'swabalamban_desc': (
         'Swabalamban strives to revive the spirit of our villages and check, rather reverse, '
-        'the mindless migration to cities. Processing units for farm products are set up in '
-        'rural areas to ensure the financial stability of farmers, and youth are assisted to '
-        'become self-sustainable financially.'
+        'the mindless migration to cities. Processing units for farm products like paddy, '
+        'cereals, oilseeds are set up in rural areas to ensure the financial stability of '
+        'farmers. Youth are assisted to become self-sustainable financially.'
     ),
 }
 
@@ -60,10 +62,18 @@ INITIATIVES_COPY = {
     'publications_desc': 'An outline of changing time... ଆମ ସମୟର ସାମାନ୍ୟ କଥନ.....',
 }
 
+CONTACT_DETAILS = {
+    'address': 'Village-Lankapara, Po-Lankapara, Jagatsinghapur, Odisha, India, 754134',
+    'contact_no': '+91 94374 39371',
+    'email': 'bandhuodisha@gmail.com',
+    'facebook_link': 'https://www.facebook.com/npobandhu/',
+    'twitter_link': '#',
+}
+
 PILLAR_IMAGES = {
-  'sanskar': ('bandhuapp/sanskar/collage.jpg', 'collage.jpg'),
+  'sanskar': ('bandhuapp/sanskar/collage_1_HlxwGsj.jpg', 'collage_1_HlxwGsj.jpg'),
   'swaraj': ('bandhuapp/swaraj/our_mission1.jpg', 'our_mission1.jpg'),
-  'swabalamban': ('bandhuapp/swabalamban/pimg2.jpg', 'pimg2.jpg'),
+  'swabalamban': ('bandhuapp/swabalamban/swamblamban_1.jpg', 'swamblamban_1.jpg'),
 }
 
 
@@ -71,15 +81,18 @@ class Command(BaseCommand):
     help = 'Seeds mission copy and pillar image paths for the landing page.'
 
     def _copy_image(self, relative_path, source_name):
-        src = os.path.join(IMG_ROOT, source_name)
-        if not os.path.isfile(src):
-            src = os.path.join(settings.BASE_DIR, 'static', 'img', source_name)
-        if not os.path.isfile(src):
-            existing = os.path.join(MEDIA_ROOT, relative_path)
-            if os.path.isfile(existing):
-                return True
         dest = os.path.join(MEDIA_ROOT, relative_path)
-        if not os.path.isfile(src):
+        if os.path.isfile(dest):
+            return True
+
+        search_roots = (
+            os.path.join(IMG_ROOT, source_name),
+            os.path.join(settings.BASE_DIR, 'static', 'img', source_name),
+            os.path.join(MEDIA_ROOT, relative_path),
+            os.path.join(MEDIA_ROOT, os.path.dirname(relative_path), source_name),
+        )
+        src = next((path for path in search_roots if os.path.isfile(path)), None)
+        if not src:
             self.stdout.write(self.style.WARNING(f'Missing source image: {source_name}'))
             return False
         os.makedirs(os.path.dirname(dest), exist_ok=True)
@@ -114,5 +127,13 @@ class Command(BaseCommand):
             for field, value in INITIATIVES_COPY.items():
                 setattr(initiatives, field, value)
             initiatives.save()
+
+        contact, _created = Contact.objects.get_or_create(
+            pk=1,
+            defaults=CONTACT_DETAILS,
+        )
+        for field, value in CONTACT_DETAILS.items():
+            setattr(contact, field, value)
+        contact.save()
 
         self.stdout.write(self.style.SUCCESS('Landing mission and initiatives content updated.'))

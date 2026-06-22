@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load permissions %}
+
+{% block title %} Bandhu | {{ program_name }} {% endblock %}
+
+{% block body_class %}initiative-program-page{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
+<link rel="stylesheet" href="{% static 'css/anandakendra.css' %}?v=22">
+<link rel="stylesheet" href="{% static 'css/ashram.css' %}?v=8">
+<link rel="stylesheet" href="{% static 'css/initiative-program-year.css' %}?v=26">
+{% include 'initiative_program/hero_detail_styles.html' %}
+{% endblock %}
+
+{% block navbar-links %}
+<li class="nav-item">
+    <a class="nav-link px-3 px-lg-2" href="{% url 'home' %}">Home</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link px-3 px-lg-2" href="#about">About</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link px-3 px-lg-2" href="#ashrams">{{ program_name }}</a>
+</li>
+{% if show_gallery %}
+<li class="nav-item">
+    <a class="nav-link px-3 px-lg-2" href="#gallery">Gallery</a>
+</li>
+{% endif %}
+<li class="nav-item">
+    <a class="nav-link px-3 px-lg-2" href="#contact">Contact</a>
+</li>
+{% endblock %}
+
+{% block showcase-title-container %}
+<div class="slider-txt-container page-showcase page-showcase-tall">
+    <h2 class="bold-txt page-showcase-title">{{ program_name }}</h2>
+    <div class="page-showcase-accent"></div>
+</div>
+{% endblock %}
+
+{% block angular %}
+<div class="angular page-angular angular-anandakendra">
+    <div class="top-angle"></div>
+</div>
+{% endblock %}
+
+{% block content %}
+{% include 'initiative_program/list_about_section.html' %}
+
+<div class="ashram-list-page">
+{% if ashrams.count or check_admin %}
+<section id="ashrams" class="glide-carousel-custom page-section">
+    <div class="container" style="padding: 3rem 0 4rem;">
+        <h2 class="section-title text-center">{{ program_name }}</h2>
+        <div class="section-accent"></div>
+        {% if ashrams.count %}
+        {% if ashrams.count <= 3 %}
+        <ul class="mission-list-cards-row">
+            {% for ashram in ashrams %}
+            <li class="mission-list-cards-row__item">
+                {% url program_detail_url slug=ashram.slug as entry_detail_url %}
+                {% include 'includes/mission_list_card.html' with card_image_url=ashram.image.url card_title=ashram.name card_subtitle=ashram.locality card_detail_url=entry_detail_url show_draft_check=True check_admin=check_admin is_published=ashram.is_published %}
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <div class="row">
+            <div class="glide {{ carousel_glide_class }}">
+                <div class="glide__track" data-glide-el="track">
+                    <ul class="glide__slides">
+                        {% for ashram in ashrams %}
+                        <li class="glide__slide">
+                            {% url program_detail_url slug=ashram.slug as entry_detail_url %}
+                            {% include 'includes/mission_list_card.html' with card_image_url=ashram.image.url card_title=ashram.name card_subtitle=ashram.locality card_detail_url=entry_detail_url show_draft_check=True check_admin=check_admin is_published=ashram.is_published %}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="glide__arrows disable_arrows d-none d-md-block" data-glide-el="controls">
+                    <button class="slider_arrow slider_arrow--prev glide__arrow glide__arrow--left" data-glide-dir="<">
+                        <i class="fas fa-arrow-circle-left"></i>
+                    </button>
+                    <button class="slider_arrow slider_arrow--next glide__arrow glide__arrow--right" data-glide-dir=">">
+                        <i class="fas fa-arrow-circle-right"></i>
+                    </button>
+                </div>
+                <div class="glide__bullets" data-glide-el="controls[nav]">
+                    {% for ashram in ashrams %}
+                    <button class="glide__bullet" data-glide-dir="={{forloop.counter}}"></button>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% else %}
+        <p class="text-center text-muted mb-0">No entries yet.{% if check_admin %} Use the button below to add one.{% endif %}</p>
+        {% endif %}
+        <div class="row justify-content-center mt-4">
+            <div class="add-bandhughar">
+                {% if check_admin %}
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_bandhughar">Create {{ program_name }}</button>
+                {% include 'initiative_program/create_entry_modal.html' %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+</div>
+
+{% include 'initiative_program/home_gallery_block.html' %}
+
+<div id="scroll-to-top">
+    <div class="hex scroll-top">
+        <span><i class="fa fa-arrow-up"></i></span>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/bandhu.js' %}"></script>
+<script>contact_scrollspy()</script>
+<script type="text/javascript">
+    $('.custom-file input').change(function (e) {
+        $(this).next('.custom-file-label').html($(this)[0].files[0].name);
+    });
+</script>
+<script>
+    (function () {
+        var ashramRoot = document.querySelector('.{{ carousel_glide_class }}');
+        if (!ashramRoot || typeof Glide === 'undefined') return;
+
+        var slideCount = ashramRoot.querySelectorAll('.glide__slide').length;
+        if (!slideCount) return;
+
+        var ashramGlide = new Glide('.{{ carousel_glide_class }}', {
+            type: 'carousel',
+            focusAt: 'center',
+            perView: 3,
+            autoplay: 2000,
+            gap: 30,
+            bound: true,
+            breakpoints: {
+                991: { perView: 2 },
+                767: { perView: 1 },
+            },
+        });
+        ashramGlide.mount();
+    })();
+</script>
+{% endblock %}
