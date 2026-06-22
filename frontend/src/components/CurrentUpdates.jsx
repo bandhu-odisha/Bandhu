@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { createPortal } from 'react-dom'
 import { LANDING_NAVBAR_AUTH_BUTTON_CLASS } from '../cta'
 
@@ -60,11 +60,13 @@ export default function CurrentUpdates({ data, inline = false }) {
     setLandingData(data)
   }, [data])
 
+  const fetchedRef = useRef(false)
   useEffect(() => {
     const hasUpdates = (landingData?.current_updates || []).length > 0
     const hasActivities = (landingData?.recent_activities || []).length > 0
-    if (hasUpdates || hasActivities) return undefined
+    if (hasUpdates || hasActivities || fetchedRef.current) return undefined
 
+    fetchedRef.current = true
     let cancelled = false
     fetch('/api/landing/')
       .then((res) => (res.ok ? res.json() : null))
@@ -75,7 +77,7 @@ export default function CurrentUpdates({ data, inline = false }) {
     return () => {
       cancelled = true
     }
-  }, [landingData?.current_updates, landingData?.recent_activities])
+  }, [landingData?.current_updates?.length, landingData?.recent_activities?.length])
 
   useEffect(() => {
     if (!open) return undefined

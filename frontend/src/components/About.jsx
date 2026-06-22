@@ -6,32 +6,9 @@ const SLIDE_MS = 5000
 const ABOUT_COPY_CLASS =
   'about-us-line w-full font-body font-normal text-[#3d5c66] text-[1.0625rem] sm:text-[1.125rem] leading-[1.85] max-lg:mx-auto max-lg:max-w-[36rem] max-lg:text-center lg:text-left [&_a]:text-[#005E66] [&_a]:underline [&_strong]:font-normal'
 
-const DEFAULT_ABOUT_SLIDES = [
-  {
-    src: '/static/img/about-slide-1-gardenia.png',
-    caption:
-      'A gardenia in full bloom—quiet growth, care for the soil, and our bond with the living world.',
-  },
-  {
-    src: '/static/img/about-slide-2-hibiscus.png',
-    caption:
-      'Double hibiscus in our garden: vivid colour, steady hands, and the joy we find in nurturing life.',
-  },
-  {
-    src: '/static/img/about-slide-3-campus.png',
-    caption:
-      'Bandhu at twilight—where day’s work meets rest, and our community gathers under an open sky.',
-  },
-  {
-    src: '/static/img/about-slide-4-ixora.png',
-    caption:
-      'Ixora in bloom: many small flowers, one shared canopy—strength in togetherness.',
-  },
-  {
-    src: '/static/img/about-slide-blossoms.png',
-    caption:
-      'A full set of blossoms in the green — yellow bells among the vines and leaves, bright in the thicket.',
-  },
+/** Single-slide safety net when data.about_slides is empty. */
+const ABOUT_FALLBACK_SLIDES = [
+  { src: '/static/img/about-slide-1-gardenia.png', caption: '' },
 ]
 
 export default function About({ data }) {
@@ -39,7 +16,7 @@ export default function About({ data }) {
   const slides = useMemo(() => {
     const imported = (data?.about_slides || []).filter((slide) => slide?.src)
     if (imported.length) return imported
-    return DEFAULT_ABOUT_SLIDES
+    return ABOUT_FALLBACK_SLIDES
   }, [data])
   const [slideIndex, setSlideIndex] = useState(0)
   const [lightboxOpen, setLightboxOpen] = useState(false)

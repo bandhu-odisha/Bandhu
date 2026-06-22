@@ -177,6 +177,22 @@ class SwabalambanCarousel(models.Model):
     def __str__(self):
         return f'Photo{self.id}'
 
+class HeroSlide(models.Model):
+    image    = models.ImageField(upload_to='bandhuapp/hero')
+    title    = models.CharField(max_length=120)
+    subtitle = models.TextField(max_length=400, blank=True)
+    order    = models.PositiveSmallIntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = 'Hero Slide'
+        verbose_name_plural = 'Hero Slides'
+
+    def __str__(self):
+        return f'{self.order}: {self.title}'
+
+
 class Volunteer(models.Model):
     title = models.CharField(max_length=50)
     tagline = models.TextField(max_length=1500)

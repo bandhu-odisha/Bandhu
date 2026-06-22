@@ -1,5 +1,6 @@
-import os
 import ast
+import os
+
 from decouple import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -17,6 +18,12 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = (config("DEBUG") == 'True')
 # TEMPLATE_DEBUG = True
 # DEBUG_PROPAGATE_EXCEPTIONS = True
+
+# System check identified 61 warnings -(models.W042)- Auto-created primary key used when not defining across all models during `python manage.py seed_...` commands .
+# Auto-created primary key used when not defining a primary key type, by default 'django.db.models.AutoField'.
+# These warnings are harmless and do not affect functionality. They suggest explicit configuration for future Django versions.
+# These are suppressed. Tested with `python manage.py seed_dummy_people`
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 ALLOWED_HOSTS = ast.literal_eval(config("ALLOWED_HOSTS"))
 

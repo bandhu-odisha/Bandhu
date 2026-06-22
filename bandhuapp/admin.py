@@ -16,7 +16,7 @@ from .models import (
     Initiatives, AboutUs, Mission, SanskarCarousel, Staff, StaffExperience,
     StaffExperiencePhoto, SwarajCarousel, SwabalambanCarousel,
     UrlData, Video, Volunteer, Gallery, Contact, HomePage, HomeVisitor, CurrentUpdates,
-    AnnualReport,
+    AnnualReport, HeroSlide,
 )
 
 # Register your models here.
@@ -160,6 +160,14 @@ class HomeVisitorAdmin(admin.ModelAdmin):
             'classes': ('collapse',),
         }),
     )
+
+
+@admin.register(HeroSlide)
+class HeroSlideAdmin(admin.ModelAdmin):
+    list_display       = ('order', 'title', 'is_active', 'image')
+    list_display_links = ('title',)
+    list_editable      = ('order', 'is_active')
+    ordering           = ('order',)
 
 
 @admin.register(UrlData)
