@@ -40,11 +40,11 @@ ANANDAKENDRA_INTRO = (
 
 RUNNING_KENDRAS = [
     {
-        'name': 'Anandakenra',
+        'name': 'Anandakendra',
         'locality': 'Bandhu Ashram, Odisha',
         'description': 'Bandhu Ashram, Odisha',
         'image': 'anandkendra/kendras/pimg3.jpg',
-        'slug': 'anandakenra-1-jabalpur',
+        'slug': 'anandakendra-1-jabalpur',
     },
     {
         'name': 'AnandaKendra 2',
@@ -54,17 +54,17 @@ RUNNING_KENDRAS = [
         'slug': 'anandakendra-2-odisha',
     },
     {
-        'name': 'Anandakenra',
+        'name': 'Anandakendra',
         'locality': 'Odisha',
         'description': 'Odisha',
         'image': 'anandkendra/kendras/photo.jpg',
-        'slug': 'slug',
+        'slug': 'anandakendra-odisha',
     },
 ]
 
 # Per-kendra gallery images on production (stored under anandkendra/activities/).
 KENDRA_GALLERY_IMAGES = {
-    'anandakenra-1-jabalpur': [
+    'anandakendra-1-jabalpur': [
         'anandkendra/activities/pimg9.jpg',
         'anandkendra/activities/pimg8.jpg',
         'anandkendra/activities/pimg7.jpg',
