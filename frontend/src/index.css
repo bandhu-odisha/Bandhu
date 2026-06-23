@@ -273,28 +273,49 @@ body.landing a[class]:focus {
     width: 100%;
   }
 
-  #about .about-us-desc,
-  #about .about-desc-closing {
+  #about .about-us-line {
+    font-size: 1.0625rem !important;
+    line-height: 1.85 !important;
+    font-weight: 400 !important;
     text-align: center !important;
     text-wrap: pretty;
   }
 
-  /* Line 5: one centered line — scale type so it fits without hanging left */
-  #about .about-desc-closing {
-    white-space: nowrap;
-    width: fit-content;
-    max-width: calc(100vw - 2.5rem);
-    margin-left: auto !important;
-    margin-right: auto !important;
-    font-size: clamp(0.8125rem, 3.15vw, 1.05rem);
-    line-height: 1.45;
-    letter-spacing: -0.01em;
+  @media (min-width: 640px) {
+    #about .about-us-line {
+      font-size: 1.125rem !important;
+    }
   }
-}
 
-@media (max-width: 1023px) {
-  #about .about-desc-closing {
-    display: block;
-    margin-top: 0;
+  #youtube .video-scroll-track {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+  }
+
+  #youtube .video-card-shell {
+    flex: 0 0 100%;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    box-sizing: border-box;
+  }
+
+  #gallery .gallery-scroll-track {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+  }
+
+  #gallery .gallery-card-shell {
+    flex: 0 0 100%;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    box-sizing: border-box;
   }
 }

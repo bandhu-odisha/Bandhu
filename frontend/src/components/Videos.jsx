@@ -42,7 +42,10 @@ function VideoCard({ video, onClick }) {
       : ''
 
   return (
-    <div className="flex-shrink-0 w-[320px] sm:w-[380px] group snap-start" data-video-card>
+    <div
+      className="video-card-shell flex-shrink-0 w-full min-w-full snap-center sm:min-w-0 sm:w-[380px] sm:snap-start group"
+      data-video-card
+    >
       <button
         type="button"
         onClick={onClick}
@@ -120,8 +123,10 @@ export default function Videos({ data }) {
     if (!el) return undefined
     const id = setInterval(() => {
       const firstCard = el.querySelector('[data-video-card]')
+      const isMobile = window.innerWidth < 640
+      const gap = isMobile ? 0 : GAP_PX
       const cardWidth = firstCard ? firstCard.offsetWidth : CARD_WIDTH_FALLBACK
-      const step = cardWidth + GAP_PX
+      const step = isMobile ? el.clientWidth : cardWidth + gap
       const maxScroll = el.scrollWidth - el.clientWidth
       if (maxScroll <= 0) return
       const current = el.scrollLeft
@@ -183,9 +188,9 @@ export default function Videos({ data }) {
         <h2 className="section-title text-center mb-8">Stories in Motion</h2>
         <div
           ref={scrollRef}
-          className="mx-auto w-[1040px] max-w-full overflow-x-auto overflow-y-hidden scrollbar-hide scroll-smooth snap-x snap-mandatory sm:w-[1180px]"
+          className="video-scroll-track mx-auto w-full max-w-full overflow-x-auto overflow-y-hidden scrollbar-hide scroll-smooth snap-x snap-mandatory sm:w-[1180px]"
         >
-          <div className="flex w-max gap-4">
+          <div className="flex w-full sm:w-max gap-0 sm:gap-10">
             {withIds.map((video, i) => (
               <VideoCard
                 key={video.videoId || video.title || String(i)}
