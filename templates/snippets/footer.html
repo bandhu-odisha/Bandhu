@@ -1,4 +1,5 @@
 {% load permissions %}
+{% load webteam_tags %}
 <section id="contact" class="contact-footer-section" data-cta-surface="dark">
     <div class="container">
         <div class="row">
@@ -84,12 +85,7 @@
             <div class="contact-footer-copy">
                 &copy; <a href="{% url 'home' %}">Bandhu</a> {{ current_year }}, All Rights Reserved.
             </div>
-            <div class="contact-footer-credits">
-                Designed and Developed by
-                <a href="https://www.linkedin.com/in/priyansh3133/">Priyansh</a>,
-                <a href="https://www.linkedin.com/in/heet-gupta-07366b177/">Heet</a> and
-                <a href="https://www.linkedin.com/in/aman-chande-544666170/">Aman</a>.
-            </div>
+            {% webteam_credits %}
         </div>
     </div>
 </section>

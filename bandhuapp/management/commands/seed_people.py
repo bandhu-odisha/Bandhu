@@ -14,12 +14,14 @@ from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 
 from bandhuapp.models import Designation, DesignationRole, PeoplesDesignation, Profile, Staff
+from bandhuapp.webteam import WEBTEAM_MEMBERS
 
 User = get_user_model()
 
 DEFAULT_DESIGNATIONS = [
     {'title': 'Core Team', 'rank': 1},
     {'title': 'Office Bearers', 'rank': 2},
+    {'title': 'Web Team', 'rank': 3},
 ]
 
 DEFAULT_CORE_TEAM = [
@@ -154,6 +156,20 @@ DEFAULT_OFFICE_BEARERS = [
 ]
 
 DEFAULT_PEOPLE = DEFAULT_CORE_TEAM + DEFAULT_OFFICE_BEARERS
+
+DEFAULT_WEB_TEAM = [
+    {
+        'first_name': member['first_name'],
+        'last_name': member['last_name'],
+        'profession': member['profession'],
+        'designation': 'Web Team',
+        'rank': member['rank'],
+        'gender': 'F' if member['first_name'] in ('Richa', 'Aparna') else 'M',
+    }
+    for member in WEBTEAM_MEMBERS
+]
+
+DEFAULT_PEOPLE_WITH_WEBTEAM = DEFAULT_PEOPLE + DEFAULT_WEB_TEAM
 
 LIVE_PROFILE_PHOTOS = {
     'sanjeeb mohapatra': 'IMG_20230703_211022_Xf7RxXY.jpg',
@@ -373,7 +389,7 @@ class Command(BaseCommand):
                 role_by_title[role_title] = role
 
         kept_staff_ids = []
-        for person in DEFAULT_PEOPLE:
+        for person in DEFAULT_PEOPLE_WITH_WEBTEAM:
             email = _email_for_person(person['first_name'], person['last_name'])
             user, created = User.objects.get_or_create(email=email)
             if created:
@@ -430,7 +446,7 @@ class Command(BaseCommand):
 
         demo_emails = {
             _email_for_person(person['first_name'], person['last_name'])
-            for person in DEFAULT_PEOPLE
+            for person in DEFAULT_PEOPLE_WITH_WEBTEAM
         }
         PeoplesDesignation.objects.filter(
             staff__profile__user__email__in=demo_emails,

@@ -1,0 +1,7 @@
+<div class="contact-footer-credits">
+    Designed and Developed by the
+    <a href="{{ webteam_page_url }}">Webteam</a>:
+    {% for contributor in webteam_contributors %}
+    <a href="{{ contributor.url }}"{% if 'http' in contributor.url %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ contributor.name }}</a>{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+</div>
