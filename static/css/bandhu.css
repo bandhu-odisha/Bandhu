@@ -97,6 +97,7 @@ html, body { font-size: 18px; }
 }
 #initiatives .content-description{
     display:none;
+    line-height: 1.2;
 }
 #initiatives .card:hover h5 {
     margin-top: -120px;
