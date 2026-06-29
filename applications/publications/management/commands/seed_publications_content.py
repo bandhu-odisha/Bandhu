@@ -10,7 +10,7 @@ from django.utils import timezone
 
 from applications.publications.models import HomePage, Publication
 
-BANNER_IMAGE = 'publications/banner/our_mission.jpg'
+CARD_PICTURE = 'publications/index/our_mission.jpg'
 
 # Aligned with https://bandhuodisha.in/publications/ (titles, slugs, media paths, dates).
 PUBLICATIONS = [
@@ -132,16 +132,16 @@ class Command(BaseCommand):
             return False
 
     def handle(self, *args, **options):
-        self._ensure_file(BANNER_IMAGE)
+        self._ensure_file(CARD_PICTURE)
 
         homepage = HomePage.objects.first()
         if not homepage:
-            homepage = HomePage(banner_image=BANNER_IMAGE)
+            homepage = HomePage(picture=CARD_PICTURE)
             homepage.save()
         else:
-            if self._ensure_file(BANNER_IMAGE):
-                homepage.banner_image = BANNER_IMAGE
-                homepage.save(update_fields=['banner_image'])
+            if self._ensure_file(CARD_PICTURE) and not homepage.picture:
+                homepage.picture = CARD_PICTURE
+                homepage.save(update_fields=['picture'])
 
         keep_slugs = {row['slug'] for row in PUBLICATIONS}
         Publication.objects.exclude(slug__in=keep_slugs).delete()

@@ -102,80 +102,189 @@ class Photo(models.Model):
     def __str__(self):
         return f'Photo{self.id}'
 
-class Initiatives(models.Model):
-    ankurayan_desc = models.TextField(max_length=500, verbose_name='Anurayan Tagline')
-    ankurayan_thumb = models.ImageField(upload_to='main_page/initiatives', verbose_name='Ankurayan Thumbnail')
-    kendra_desc = models.TextField(max_length=500, verbose_name='Anandakendra Tagline')
-    kendra_thumb = models.ImageField(upload_to='main_page/initiatives', verbose_name='Anandakendra Thumbnail')
-    bandhughar_desc = models.TextField(max_length=500, verbose_name='Bandhughar Tagline')
-    bandhughar_thumb = models.ImageField(upload_to='main_page/initiatives', verbose_name='Bandhughar Thumbnail')
-    otheract_desc = models.TextField(max_length=500, verbose_name='Other Activities Tagline')
-    otheract_thumb = models.ImageField(upload_to='main_page/initiatives', verbose_name='Other Activities Thumbnail')
-    publications_desc = models.TextField(max_length=500, verbose_name='Our Publications Tagline')
-    publications_thumb = models.ImageField(upload_to='main_page/initiatives', verbose_name='Our Publications Thumbnail')
-
-    class Meta:
-        verbose_name_plural = 'Initiatives Section'
-
-    def __str__(self):
-        return 'Initiative Section Details'
-
 class AboutUs(models.Model):
     tagline = models.TextField(max_length=1000, verbose_name='About Us Tagline (Bold)')
     desc = models.TextField(max_length=3000, verbose_name='About Us Description')
 
     class Meta:
-        verbose_name_plural = 'About Us Section'
+        verbose_name = 'About Us section (text)'
+        verbose_name_plural = 'About Us section (text)'
 
     def __str__(self):
-        return 'About Us Section Details'
+        return 'About Us section text'
 
-class Mission(models.Model):
-    sanskar_tagline = models.TextField(max_length=500, verbose_name='Sanskar Tagline (Bold)')
-    sanskar_desc = models.TextField(max_length=3000, verbose_name='Sanskar Description')
-    swaraj_tagline = models.TextField(max_length=500, verbose_name='Swaraj Tagline (Bold)')
-    swaraj_desc = models.TextField(max_length=3000, verbose_name='Swaraj Description')
-    swabalamban_tagline = models.TextField(max_length=500, verbose_name='Swabalamban Tagline (Bold)')
-    swabalamban_desc = models.TextField(max_length=3000, verbose_name='Swabalamban Description')
+
+class AboutSlide(models.Model):
+    """Rotating photo + caption in the About Us section on the landing page."""
+
+    sort_order = models.PositiveSmallIntegerField(
+        default=0,
+        db_index=True,
+        help_text='Lower numbers appear first (0 = first slide).',
+    )
+    image = models.ImageField(
+        upload_to='bandhuapp/about',
+        blank=True,
+        help_text='Photo shown in the About Us carousel.',
+    )
+    caption = models.TextField(
+        max_length=500,
+        blank=True,
+        help_text='Short caption below the photo.',
+    )
 
     class Meta:
-        verbose_name_plural = 'Our Mission Section'
+        ordering = ['sort_order', 'id']
+        verbose_name = 'About Us slide'
+        verbose_name_plural = 'About Us slides'
 
     def __str__(self):
-        return 'Our Mission Section Details'
+        return self.caption[:60] if self.caption else f'About slide {self.pk}'
 
-class SanskarCarousel(models.Model):
-    mission = models.ForeignKey(Mission, on_delete=models.CASCADE)
+
+
+class PillarHomePageBase(models.Model):
+    """Shared fields for Sanskar / Swaraj / Swabalamban pillar home pages."""
+
+    tagline = models.TextField(
+        max_length=500,
+        blank=True,
+        default='',
+        verbose_name='Tagline (bold)',
+        help_text='Shown on the pillar page and on the homepage mission card.',
+    )
+    description = models.TextField(
+        max_length=8000,
+        blank=True,
+        default='',
+        verbose_name='Main content',
+        help_text='Body text for the pillar page. HTML is allowed.',
+    )
+    hero_image = models.ImageField(
+        upload_to='bandhuapp/pillar_heroes',
+        blank=True,
+        help_text=(
+            'Hero image beside the quote on this pillar page and on the homepage mission card. '
+            'This is separate from gallery photos — deleting gallery items does not remove this image.'
+        ),
+    )
+    image_caption_en = models.CharField(
+        max_length=500,
+        blank=True,
+        default='',
+        verbose_name='Image caption (English)',
+        help_text='Short quote below the hero image.',
+    )
+    image_caption_or = models.CharField(
+        max_length=500,
+        blank=True,
+        default='',
+        verbose_name='Image caption (Odia)',
+    )
+    text_caption_en = models.CharField(
+        max_length=500,
+        blank=True,
+        default='',
+        verbose_name='Text card caption (English)',
+        help_text='Optional footer caption inside the text card (used on Swaraj).',
+    )
+    text_caption_or = models.CharField(
+        max_length=500,
+        blank=True,
+        default='',
+        verbose_name='Text card caption (Odia)',
+    )
+
+    class Meta:
+        abstract = True
+
+
+class SanskarHomePage(PillarHomePageBase):
+    class Meta:
+        verbose_name = 'Sanskar home page'
+        verbose_name_plural = 'Sanskar home page'
+
+    def __str__(self):
+        return 'Sanskar home page'
+
+
+class SanskarHomePhoto(models.Model):
+    page = models.ForeignKey(SanskarHomePage, on_delete=models.CASCADE, related_name='photos')
     picture = models.ImageField(upload_to='bandhuapp/sanskar')
+    sort_order = models.PositiveSmallIntegerField(default=0, db_index=True)
 
     class Meta:
-        verbose_name = 'Sanskar Photo'
-        verbose_name_plural = 'Sanskar Photos'
+        ordering = ['sort_order', 'id']
+        verbose_name = 'Gallery photo'
+        verbose_name_plural = 'Gallery photos'
 
     def __str__(self):
-        return f'Photo{self.id}'
+        return f'Sanskar photo {self.pk}'
 
-class SwarajCarousel(models.Model):
-    mission = models.ForeignKey(Mission, on_delete=models.CASCADE)
+
+class SwarajHomePage(PillarHomePageBase):
+    class Meta:
+        verbose_name = 'Swaraj home page'
+        verbose_name_plural = 'Swaraj home page'
+
+    def __str__(self):
+        return 'Swaraj home page'
+
+
+class SwarajHomePhoto(models.Model):
+    page = models.ForeignKey(SwarajHomePage, on_delete=models.CASCADE, related_name='photos')
     picture = models.ImageField(upload_to='bandhuapp/swaraj')
+    sort_order = models.PositiveSmallIntegerField(default=0, db_index=True)
 
     class Meta:
-        verbose_name = 'Swaraj Photo'
-        verbose_name_plural = 'Swaraj Photos'
+        ordering = ['sort_order', 'id']
+        verbose_name = 'Gallery photo'
+        verbose_name_plural = 'Gallery photos'
 
     def __str__(self):
-        return f'Photo{self.id}'
+        return f'Swaraj photo {self.pk}'
 
-class SwabalambanCarousel(models.Model):
-    mission = models.ForeignKey(Mission, on_delete=models.CASCADE)
+
+class SwabalambanHomePage(PillarHomePageBase):
+    order_note = models.TextField(
+        max_length=1000,
+        blank=True,
+        default='',
+        help_text='Ordering note shown above the products section.',
+    )
+    whatsapp_number = models.CharField(
+        max_length=30,
+        blank=True,
+        default='',
+        help_text='Shown in the order note if order note is empty.',
+    )
+    products_heading = models.CharField(
+        max_length=300,
+        blank=True,
+        default='Quality produce from our Swabalamban initiative.',
+    )
+
+    class Meta:
+        verbose_name = 'Swabalamban home page'
+        verbose_name_plural = 'Swabalamban home page'
+
+    def __str__(self):
+        return 'Swabalamban home page'
+
+
+class SwabalambanHomePhoto(models.Model):
+    page = models.ForeignKey(SwabalambanHomePage, on_delete=models.CASCADE, related_name='photos')
     picture = models.ImageField(upload_to='bandhuapp/swabalamban')
+    sort_order = models.PositiveSmallIntegerField(default=0, db_index=True)
 
     class Meta:
-        verbose_name = 'Swabalamban Photo'
-        verbose_name_plural = 'Swabalamban Photos'
+        ordering = ['sort_order', 'id']
+        verbose_name = 'Gallery photo'
+        verbose_name_plural = 'Gallery photos'
 
     def __str__(self):
-        return f'Photo{self.id}'
+        return f'Swabalamban photo {self.pk}'
+
 
 class Volunteer(models.Model):
     title = models.CharField(max_length=50)
@@ -274,6 +383,31 @@ class AnnualReport(models.Model):
                 return url
         external = (self.external_url or '').strip()
         return external or None
+
+
+class HeroSlide(models.Model):
+    """Rotating hero slide on the main landing page (image + title + subtitle)."""
+
+    sort_order = models.PositiveSmallIntegerField(
+        default=0,
+        db_index=True,
+        help_text='Lower numbers appear first (0 = first slide).',
+    )
+    title = models.CharField(max_length=200)
+    subtitle = models.TextField(max_length=600)
+    image = models.ImageField(
+        upload_to='bandhuapp/hero',
+        blank=True,
+        help_text='Optional. Recommended size: wide landscape (4:3).',
+    )
+
+    class Meta:
+        ordering = ['sort_order', 'id']
+        verbose_name = 'Homepage hero slide'
+        verbose_name_plural = 'Homepage hero slides'
+
+    def __str__(self):
+        return self.title or f'Hero slide {self.pk}'
 
 
 class HomePage(models.Model):

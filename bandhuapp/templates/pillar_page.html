@@ -7,7 +7,7 @@
 {% block body_class %}pillar-inner-page{% endblock %}
 
 {% block style %}
-<link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
+<link rel="stylesheet" href="{% static 'css/bandhu.css' %}?v=27">
 <link rel="stylesheet" href="{% static 'css/pillar-inner-banner.css' %}?v=3">
 {% if page_title == 'Sanskar' or page_title == 'Swaraj' or page_title == 'Swabalamban' %}
 <link rel="stylesheet" href="{% static 'css/anandakendra.css' %}?v=22">
@@ -21,15 +21,10 @@
   .pillar-hero .pillar-hero-accent { width: 4rem; height: 5px; background: linear-gradient(90deg, #80b3ba 0%, #5f8d93 100%); border-radius: 3px; margin-bottom: 1.25rem; box-shadow: 0 2px 8px rgba(61, 92, 96, 0.35); }
   .pillar-tagline { font-size: 1.2rem; font-weight: 600; color: #1e3a38; margin-bottom: 1rem; line-height: 1.5; }
   .pillar-desc { font-size: 1.05rem; color: #234340; line-height: 1.75; font-weight: 450; max-width: none; width: 100%; }
-  .pillar-back { display: inline-flex; align-items: center; gap: 0.5rem; color: #3d5c60; font-weight: 600; text-decoration: none; margin-bottom: 1.5rem; transition: color 0.2s; }
-  .pillar-back:hover { color: #3d5c60; text-decoration: underline; }
-  .pillar-related { margin-bottom: 1.5rem; padding: 0.75rem 0; border-bottom: 1px solid rgba(128, 179, 186, 0.2); }
-  .pillar-related-label { font-size: 0.9rem; color: #475569; margin-right: 0.75rem; font-weight: 500; }
-  .pillar-related a { color: #3d5c60; font-weight: 600; text-decoration: none; margin-right: 1rem; }
-  .pillar-related a:hover { color: #3d5c60; text-decoration: underline; }
   /* Gallery section – white like landing */
   .pillar-gallery { padding: 3rem 0 4rem; background: #ffffff; border-top: none; }
-  .pillar-gallery h2 { font-size: clamp(2.25rem, 4.8vw, 3.2rem); font-weight: 800; color: #3d5c60; margin-bottom: 0.5rem; text-align: center; letter-spacing: -0.02em; line-height: 1.15; }
+  .pillar-gallery h2,
+  .pillar-gallery .section-title { font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 700; color: #3d5c60; margin-bottom: 0.5rem; text-align: center; letter-spacing: -0.02em; line-height: 1.15; }
   .pillar-gallery .gallery-accent { width: 5.5rem; height: 6px; background: linear-gradient(90deg, #80b3ba 0%, #5f8d93 100%); border-radius: 4px; margin: 0 auto 2rem; box-shadow: 0 2px 8px rgba(61, 92, 96, 0.35); }
   .pillar-img-card { border-radius: 16px; overflow: hidden; box-shadow: 0 8px 24px rgba(61, 92, 96, 0.12); background: #fff; border: 2px solid rgba(128, 179, 186, 0.2); transition: transform 0.3s ease, box-shadow 0.3s ease; }
   .pillar-img-card:hover { transform: translateY(-4px); box-shadow: 0 14px 36px rgba(61, 92, 96, 0.18); border-color: rgba(128, 179, 186, 0.35); }
@@ -114,7 +109,7 @@
   .pillar-overlay-cards .pillar-overlay-card--text .pillar-tagline,
   .pillar-overlay-cards .pillar-overlay-card--text .pillar-desc,
   .pillar-overlay-cards .pillar-overlay-card--text .pillar-related,
-  .pillar-overlay-cards .pillar-overlay-card--text .pillar-back {
+  .pillar-overlay-cards .pillar-overlay-card--text .pillar-nav-back {
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
   .pillar-overlay-cards .pillar-overlay-card--text .pillar-desc {
@@ -189,59 +184,47 @@
     0%, 44% { opacity: 1; transform: translateY(0); }
     49%, 100% { opacity: 0; transform: translateY(6px); }
   }
-  /* Swaraj: rotating caption in bottom-right of text card */
-  .pillar-overlay-card--text.swaraj-text-card {
-    display: flex;
-    flex-direction: column;
-  }
-  .pillar-overlay-card--text.swaraj-text-card .swaraj-card-footer {
-    margin-top: auto;
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    padding-top: 1rem;
-  }
-  .pillar-text-caption.swaraj-text-caption {
-    display: inline-grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
-    justify-items: end;
-    align-items: center;
-    text-align: right;
-    max-width: 100%;
-    min-height: 3.5rem;
-  }
-  .pillar-text-caption.swaraj-text-caption .caption-line {
-    grid-area: 1 / 1;
+  /* Swaraj: rotating EN/Odia quote below hero image (same animation as Sanskar) */
+  .pillar-image-caption.swaraj-image-caption {
+    margin-top: 1rem;
+    width: 92%;
+    max-width: 92%;
+    min-height: 4.25rem;
     position: relative;
+    text-align: center;
+  }
+  .pillar-image-caption.swaraj-image-caption .caption-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
     margin: 0;
-    width: max-content;
-    max-width: 100%;
-    text-align: right;
     line-height: 1.45;
     opacity: 0;
     transform: translateY(6px);
-    animation: swarajCaptionSwap 8s ease-in-out infinite;
+    animation: sanskarCaptionSwap 8s ease-in-out infinite;
   }
-  .pillar-text-caption.swaraj-text-caption .caption-en {
+  .pillar-image-caption.swaraj-image-caption .caption-en {
     color: #2f6f75;
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 1.05rem;
     font-weight: 600;
     font-style: italic;
     letter-spacing: 0.01em;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.22);
   }
-  .pillar-text-caption.swaraj-text-caption .caption-or {
+  .pillar-image-caption.swaraj-image-caption .caption-or {
     color: #2f6f75;
     font-family: 'Noto Sans Oriya', 'Noto Sans Odia', 'Kohinoor Odia', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 1.05rem;
     font-weight: 600;
     font-style: italic;
     animation-delay: 4s;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
   }
-  @keyframes swarajCaptionSwap {
-    0%, 44% { opacity: 1; transform: translateY(0); }
-    49%, 100% { opacity: 0; transform: translateY(6px); }
+  .pillar-overlay-card--text.swaraj-text-card {
+    display: flex;
+    flex-direction: column;
   }
   /* Swabalamban: shorter rotating quote under photo (overrides default caption animation) */
   .pillar-image-caption.swabalamban-image-caption {
@@ -317,33 +300,14 @@
     color: #3d5c60;
     font-weight: 700;
   }
-  .pillar-overlay-cards .pillar-back {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: #3d5c60;
-    font-weight: 600;
-    text-decoration: none;
+  .pillar-overlay-cards .pillar-nav-back {
     margin-bottom: 1rem;
-    font-size: 0.95rem;
   }
-  .pillar-overlay-cards .pillar-back:hover { color: #3d5c60; text-decoration: underline; }
-  .pillar-overlay-cards .pillar-related { margin-bottom: 1rem; padding: 0.5rem 0; border-bottom: 1px solid rgba(128, 179, 186, 0.2); font-size: 0.9rem; }
-  .pillar-overlay-cards .pillar-related-label { color: #475569; margin-right: 0.5rem; }
-  .pillar-overlay-cards .pillar-related a { color: #3d5c60; font-weight: 600; text-decoration: none; margin-right: 0.75rem; }
-  .pillar-overlay-cards .pillar-related a:hover { color: #3d5c60; text-decoration: underline; }
   @media (max-width: 768px) {
     .angular.pillar-angular + #about.pillar-overlay-cards,
     #about.pillar-overlay-cards { margin-top: -100px !important; }
     #about.pillar-overlay-cards .pillar-overlay-card--image { aspect-ratio: 1 / 1; }
   }
-  .pillar-hero .pillar-back {
-    padding: 0.6rem 1rem;
-    border-radius: 9999px;
-    background: rgba(61, 92, 96, 0.08);
-    border: 1px solid rgba(61, 92, 96, 0.25);
-  }
-  .pillar-hero .pillar-back:hover { background: rgba(61, 92, 96, 0.14); text-decoration: none; border-color: rgba(61, 92, 96, 0.4); }
   .pillar-products .text-muted { color: #475569 !important; font-weight: 500; }
   .pillar-products .pillar-order-contact { font-size: 1rem; color: #334155; font-weight: 500; }
   .pillar-products .pillar-order-contact strong { color: #3d5c60; font-weight: 600; }
@@ -377,7 +341,7 @@
     left: 0;
     z-index: 1;
   }
-  /* Swabalamban products — static grid (no carousel dots / scroll) */
+  /* Swabalamban products — horizontal auto-scroll track */
   .pillar-products .swabalamban-products-wrap {
     margin-top: 1.25rem;
     max-width: 1140px;
@@ -385,10 +349,32 @@
     margin-right: auto;
     background: #ffffff;
   }
-  .pillar-products .swabalamban-products-grid {
+  .pillar-products .swabalamban-products-track {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding: 0.25rem 0.5rem 1rem;
+  }
+  .pillar-products .swabalamban-products-track::-webkit-scrollbar {
+    display: none;
+  }
+  .pillar-products .swabalamban-products-row {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1.25rem;
+    width: max-content;
+    margin: 0;
     background: #ffffff;
   }
-  .pillar-products .swabalamban-products-grid .product-card {
+  .pillar-products .swabalamban-product-item {
+    flex: 0 0 auto;
+    width: min(280px, calc(50vw - 2rem));
+    scroll-snap-align: start;
+  }
+  .pillar-products .swabalamban-product-item .product-card {
     display: flex;
     flex-direction: column;
     max-width: 280px;
@@ -532,29 +518,17 @@
   .product-modal .modal-body .quality-promise-content {
     margin: 1rem 0 0;
     padding: 1rem 1.15rem;
-    font-size: 1rem;
-    color: #1e3a38;
-    font-weight: 650;
-    line-height: 1.65;
     background: linear-gradient(135deg, rgba(128, 179, 186, 0.12) 0%, rgba(128, 179, 186, 0.12) 100%);
     border-left: 4px solid #80b3ba;
     border-radius: 0 12px 12px 0;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.25rem 0.15rem;
   }
-  .product-modal .modal-body .quality-promise-content .qp-item {
-    display: inline;
+  .product-modal .modal-body .quality-promise-content ul {
+    margin: 0;
   }
-  .product-modal .modal-body .quality-promise-content .qp-sep {
-    color: #005E66;
-    font-weight: 800;
-    padding: 0 0.2rem;
-    user-select: none;
+  .product-modal .modal-body .quality-promise-content li {
+    font-weight: 650;
   }
   /* Brand alignment for Sanskar / Swaraj / Swabalamban */
-  .pillar-overlay-cards .pillar-back,
   .pillar-overlay-cards .pillar-overlay-card--text h1,
   .pillar-products h2,
   .pillar-products .pillar-products-tagline,
@@ -689,17 +663,30 @@
       <div class="col-lg-4 col-md-5">
         <div class="pillar-overlay-card pillar-overlay-card--image">
           {% if pillar_hero_url %}
-          <img src="{{ pillar_hero_url }}" alt="{{ page_title }}" loading="eager" class="pillar-overlay-single-image">
-          {% elif pillar_hero_image %}
-          <img src="{{ pillar_hero_image.url }}" alt="{{ page_title }}" loading="eager" class="pillar-overlay-single-image">
+          <img src="{{ pillar_hero_url }}" alt="{{ page_title }}" loading="eager" class="pillar-overlay-single-image" onerror="this.onerror=null;this.src='{% static 'img/our_mission1.jpg' %}';">
+          {% elif pillar_hero_image and pillar_hero_image.url %}
+          <img src="{{ pillar_hero_image.url }}" alt="{{ page_title }}" loading="eager" class="pillar-overlay-single-image" onerror="this.onerror=null;this.src='{% static 'img/our_mission1.jpg' %}';">
           {% else %}
           <img src="{% static 'img/our_mission1.jpg' %}" alt="{{ page_title }}" loading="eager" class="pillar-overlay-single-image">
           {% endif %}
         </div>
         {% if page_title == 'Sanskar' %}
         <div class="pillar-image-caption sanskar-image-caption" aria-label="Sanskar caption">
-          <p class="caption-line caption-en">"Learning with values lights every life and builds a brighter tomorrow."</p>
-          <p class="caption-line caption-or">"ମୂଲ୍ୟ ସହିତ ଶିକ୍ଷା ପ୍ରତ୍ୟେକ ଜୀବନକୁ ଆଲୋକିତ କରେ ଏବଂ ଏକ ଉଜ୍ଜ୍ୱଳ ଭବିଷ୍ୟତ ଗଢେ।"</p>
+          {% if image_caption_en %}
+          <p class="caption-line caption-en">{{ image_caption_en|safe }}</p>
+          {% endif %}
+          {% if image_caption_or %}
+          <p class="caption-line caption-or">{{ image_caption_or|safe }}</p>
+          {% endif %}
+        </div>
+        {% elif page_title == 'Swaraj' %}
+        <div class="pillar-image-caption swaraj-image-caption" aria-label="Swaraj caption">
+          {% if image_caption_en %}
+          <p class="caption-line caption-en">{{ image_caption_en|safe }}</p>
+          {% endif %}
+          {% if image_caption_or %}
+          <p class="caption-line caption-or">{{ image_caption_or|safe }}</p>
+          {% endif %}
         </div>
         {% elif page_title == 'Swabalamban' %}
         <div class="pillar-image-caption swabalamban-image-caption" aria-label="Swabalamban caption">
@@ -711,22 +698,22 @@
       <div class="col-lg-8 col-md-7">
         <div class="pillar-overlay-card pillar-overlay-card--text{% if page_title == 'Swabalamban' %} swabalamban-text-card{% elif page_title == 'Swaraj' %} swaraj-text-card{% endif %}">
           {% if page_title != 'Sanskar' and page_title != 'Swaraj' and page_title != 'Swabalamban' %}
-          <a href="{% url 'home' %}#mission" class="pillar-back">
-            <i class="fas fa-arrow-left"></i> Back to Our Mission
+          <a href="{% url 'home' %}#mission" class="pillar-nav-back">
+            <i class="fas fa-arrow-left" aria-hidden="true"></i> Back to Our Mission
           </a>
           {% endif %}
           {% if related_links %}
           <div class="pillar-related">
             <span class="pillar-related-label">Explore:</span>
             {% for link in related_links %}
-            <a href="{{ link.url }}">{{ link.name }}</a>
+            <a href="{{ link.url }}" class="pillar-nav-pill">{{ link.name }}</a>
             {% endfor %}
           </div>
           {% elif page_title == 'Swabalamban' %}
           <div class="pillar-related">
             <span class="pillar-related-label">Explore:</span>
-            <a href="/sanskar/">Sanskar</a>
-            <a href="/swaraj/">Swaraj</a>
+            <a href="/sanskar/" class="pillar-nav-pill">Sanskar</a>
+            <a href="/swaraj/" class="pillar-nav-pill">Swaraj</a>
           </div>
           {% endif %}
           {% if page_title != 'Sanskar' and page_title != 'Swaraj' and page_title != 'Swabalamban' %}
@@ -743,14 +730,6 @@
           {% if desc %}
           <div class="pillar-desc">{{ desc|safe }}</div>
           {% endif %}
-          {% endif %}
-          {% if page_title == 'Swaraj' %}
-          <div class="swaraj-card-footer">
-            <div class="pillar-text-caption swaraj-text-caption" aria-label="Swaraj caption">
-              <p class="caption-line caption-en">"Empowered communities shape their own future with dignity and voice."</p>
-              <p class="caption-line caption-or">"ସଶକ୍ତ ସମୁଦାୟ ଗରିମା ଏବଂ ନିଜ ଅଧିକାର ସହ ନିଜ ଭବିଷ୍ୟତ ଗଢେ।"</p>
-            </div>
-          </div>
           {% endif %}
           {% if page_title == 'Swabalamban' %}
           {% if order_note %}
@@ -769,14 +748,14 @@
 {% else %}
 <section class="pillar-hero">
   <div class="container">
-    <a href="{% url 'home' %}#mission" class="pillar-back">
-      <i class="fas fa-arrow-left"></i> Back to Our Mission
+    <a href="{% url 'home' %}#mission" class="pillar-nav-back">
+      <i class="fas fa-arrow-left" aria-hidden="true"></i> Back to Our Mission
     </a>
     {% if related_links %}
     <div class="pillar-related">
       <span class="pillar-related-label">Explore:</span>
       {% for link in related_links %}
-      <a href="{{ link.url }}">{{ link.name }}</a>
+      <a href="{{ link.url }}" class="pillar-nav-pill">{{ link.name }}</a>
       {% endfor %}
     </div>
     {% endif %}
@@ -799,16 +778,18 @@
     <div class="products-accent"></div>
     {% if products %}
     <div class="swabalamban-products-wrap">
-      <div class="swabalamban-products-grid row justify-content-center">
+      <div class="swabalamban-products-track" id="swabalambanProductsTrack" role="region" aria-label="Swabalamban products" aria-roledescription="carousel">
+        <div class="swabalamban-products-row">
         {% for product in products %}
-        <div class="col-6 col-lg-3 col-md-6 mb-4 d-flex">
-          <div class="product-card w-100">
-            <img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy">
-            <div class="product-label">{{ product.label }}</div>
-            <div class="product-toggle-wrap"><a href="#" class="product-toggle stretched-link" data-toggle="modal" data-target="#{{ product.modal_id }}" aria-label="View {{ product.name }} details"></a></div>
+          <div class="swabalamban-product-item">
+            <div class="product-card w-100">
+              <img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy">
+              <div class="product-label">{{ product.label }}</div>
+              <div class="product-toggle-wrap"><a href="#" class="product-toggle stretched-link" data-toggle="modal" data-target="#{{ product.modal_id }}" aria-label="View {{ product.name }} details"></a></div>
+            </div>
           </div>
-        </div>
         {% endfor %}
+        </div>
       </div>
     </div>
     {% else %}
@@ -838,12 +819,13 @@
               {% endfor %}
             </ul>
             <h4>Quality promise</h4>
-            <p class="quality-promise-content">
-              {% for item in product.quality_promise_list %}
-              {% if not forloop.first %}<span class="qp-sep" aria-hidden="true">·</span>{% endif %}
-              <span class="qp-item">{{ item }}</span>
-              {% endfor %}
-            </p>
+            <div class="quality-promise-content">
+              <ul>
+                {% for item in product.quality_promise_list %}
+                <li>{{ item }}</li>
+                {% endfor %}
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -900,7 +882,7 @@
 </section>
 {% endif %}
 
-{% if images and page_title != 'Sanskar' and page_title != 'Swabalamban' %}
+{% if images %}
 <section id="gallery" class="pillar-gallery pillar-gallery-strip">
   <div class="container">
     <div class="section-head gallery-section-head text-center">
@@ -955,7 +937,7 @@
 {% endblock %}
 
 {% block scripts %}
-{% if images and page_title != 'Sanskar' and page_title != 'Swabalamban' %}
+{% if images %}
 <script>
 (function () {
     var photos = [
@@ -1030,6 +1012,62 @@ $(function () {
       $(target).modal('show');
     }
   });
+
+  (function initSwabalambanProductsScroll() {
+    var track = document.getElementById('swabalambanProductsTrack');
+    if (!track) return;
+
+    var row = track.querySelector('.swabalamban-products-row');
+    var items = track.querySelectorAll('.swabalamban-product-item');
+    if (!row || items.length <= 1) return;
+
+    var paused = false;
+    var timer = null;
+    var intervalMs = 5000;
+
+    function stepWidth() {
+      var first = items[0];
+      if (!first) return 0;
+      var style = window.getComputedStyle(row);
+      var gap = parseFloat(style.columnGap || style.gap || '0') || 20;
+      return first.offsetWidth + gap;
+    }
+
+    function canScroll() {
+      return track.scrollWidth - track.clientWidth > 4;
+    }
+
+    function scrollNext() {
+      if (paused || !canScroll()) return;
+      var step = stepWidth();
+      var maxScroll = track.scrollWidth - track.clientWidth;
+      var next = track.scrollLeft + step;
+      if (next >= maxScroll - 2) {
+        track.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        track.scrollTo({ left: next, behavior: 'smooth' });
+      }
+    }
+
+    function start() {
+      stop();
+      if (!canScroll()) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      timer = window.setInterval(scrollNext, intervalMs);
+    }
+
+    function stop() {
+      if (timer) window.clearInterval(timer);
+      timer = null;
+    }
+
+    track.addEventListener('mouseenter', function () { paused = true; });
+    track.addEventListener('mouseleave', function () { paused = false; });
+    track.addEventListener('focusin', function () { paused = true; });
+    track.addEventListener('focusout', function () { paused = false; });
+    window.addEventListener('resize', start);
+    start();
+  })();
 
   var productForm = document.getElementById('swabalambanProductForm');
   if (productForm) {

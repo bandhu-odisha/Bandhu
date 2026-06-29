@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.http import HttpResponseRedirect
 from django.shortcuts import reverse
 
+from bandhuapp.initiative_home_admin import InitiativeHomePageAdmin
+from bandhuapp.initiative_entry_admin import entry_hero_fieldset
 from .models import (
     Ankurayan, Participant, Guest, GuestNote,
     ActivityCategory, Activity, Photo,
@@ -16,7 +18,8 @@ class AnkurayanAdmin(admin.ModelAdmin):
     ordering = ('year',)
     search_fields = ('year', 'theme', 'locality')
     fieldsets = (
-        (None, {'fields': ('year', 'title', 'theme', 'slug', 'logo', 'start_date', 'end_date')}),
+        (None, {'fields': ('year', 'title', 'theme', 'slug', 'start_date', 'end_date')}),
+        entry_hero_fieldset('logo'),
         ('Content', {'fields': ('description', 'reports', 'publications', 'visitors')}),
     )
 
@@ -128,4 +131,4 @@ class AnkurayanInvitationLetterAdmin(admin.ModelAdmin):
     autocomplete_fields = ('ankurayan',)
 
 
-admin.site.register(HomePage)
+admin.site.register(HomePage, InitiativeHomePageAdmin)

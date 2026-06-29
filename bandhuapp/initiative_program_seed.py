@@ -125,10 +125,8 @@ def seed_initiative_homepage(
             stdout.write(f"Cleared imported content for {copy['program_label']}.")
 
     picture_path = f'{media_prefix}/index/home.jpg'
-    banner_path = f'{media_prefix}/banner/home.jpg'
-    for relative_path in (picture_path, banner_path):
-        if not _copy_fallback_image(relative_path) and stdout:
-            stdout.write(f'Warning: no fallback image for {relative_path}')
+    if not _copy_fallback_image(picture_path) and stdout:
+        stdout.write(f'Warning: no fallback image for {picture_path}')
 
     homepage, _created = homepage_model.objects.get_or_create(
         pk=1,
@@ -136,15 +134,14 @@ def seed_initiative_homepage(
             'tagline': copy['tagline'],
             'description': copy['description'],
             'picture': picture_path,
-            'banner_image': banner_path,
         },
     )
     homepage.tagline = copy['tagline']
     homepage.description = copy['description']
     if os.path.isfile(_media_path(picture_path)):
         homepage.picture = picture_path
-    if os.path.isfile(_media_path(banner_path)):
-        homepage.banner_image = banner_path
+    from bandhuapp.initiative_home_captions import apply_initiative_captions
+    apply_initiative_captions(homepage, program_key)
     homepage.save()
 
     return {

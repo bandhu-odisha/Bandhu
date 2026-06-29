@@ -1015,26 +1015,7 @@ body.pillar-inner-page #top-section .parallax-overlay::after {
 /* SCROLL TO TOP */
 
 #scroll-to-top {
-    position: fixed;
-    right: 30px;
-    bottom: 40px;
-    cursor: pointer;
-    display: none;
-    opacity: 1;
-    z-index: 99;
-    -webkit-transition: all .25s ease;
-    -moz-transition: all .25s ease;
-    -ms-transition: all .25s ease;
-    -o-transition: all .25s ease;
-    transition: all .25s ease;
-}
-
-#scroll-to-top:hover {
-    opacity: 1;
-}
-
-#scroll-to-top span {
-    font-size: 20px;
+    display: none !important;
 }
 
 #scroll-to-top span {

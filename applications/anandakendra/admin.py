@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.http import HttpResponseRedirect
 from django.shortcuts import reverse
 
+from bandhuapp.initiative_home_admin import InitiativeHomePageAdmin
+from bandhuapp.initiative_entry_admin import entry_hero_fieldset
 from .models import (
     AnandaKendra, ActivityCategory, Activity,
     Event, Student, Acharya, Photo, HomePage,
@@ -13,6 +15,12 @@ class AnandaKendraAdmin(admin.ModelAdmin):
     list_display = ('name', 'locality')
     ordering = ('name',)
     search_fields = ('name', 'locality')
+    fieldsets = (
+        (None, {
+            'fields': ('name', 'locality', 'slug', 'address', 'description'),
+        }),
+        entry_hero_fieldset('image'),
+    )
 
     def response_add(self, request, obj, post_url_continue=None):
         next_site = request.GET.get('next')
@@ -75,4 +83,4 @@ class PhotoAdmin(admin.ModelAdmin):
     list_filter = ('approved',)
     search_fields = ('activity', 'kendra__name',)
 
-admin.site.register(HomePage)
+admin.site.register(HomePage, InitiativeHomePageAdmin)

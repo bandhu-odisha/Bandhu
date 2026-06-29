@@ -1,11 +1,13 @@
 from django.db import models
 from django.template.defaultfilters import slugify
 
+from bandhuapp.initiative_home_models import InitiativeHomePageMixin, HERO_IMAGE_HELP
+
 from bandhuapp.models import Profile
 
 # Create your models here.
 
-class Ankurayan(models.Model):
+class Ankurayan(InitiativeHomePageMixin, models.Model):
     year = models.IntegerField(unique=True)
     title = models.CharField(max_length=100)
     theme = models.TextField(max_length=250)
@@ -15,7 +17,11 @@ class Ankurayan(models.Model):
     visitors = models.TextField(max_length=5000, blank=True, null=True, verbose_name='Our Guests')
     start_date = models.DateField()
     end_date = models.DateField()
-    logo = models.ImageField(upload_to='ankurayan/logo')
+    logo = models.ImageField(
+        upload_to='ankurayan/logo',
+        verbose_name='Hero image',
+        help_text=HERO_IMAGE_HELP,
+    )
     slug = models.SlugField()
     # admin = models.ForeignKey(Profile, on_delete=models.SET_NULL, blank=True, null=True)
 
@@ -188,11 +194,15 @@ class Photo(models.Model):
     def __str__(self):
         return f'{self.ankurayan.year}'
 
-class HomePage(models.Model):
+class HomePage(InitiativeHomePageMixin, models.Model):
     tagline = models.TextField(max_length=1000, verbose_name="Tagline (Bold)")
     description = models.TextField(max_length=3000)
-    picture = models.ImageField(upload_to='ankurayan/index')
-    banner_image = models.ImageField(upload_to='ankurayan/banner')
+    picture = models.ImageField(
+        upload_to='ankurayan/index',
+        blank=True,
+        verbose_name='Hero image',
+        help_text=HERO_IMAGE_HELP,
+    )
 
     class Meta:
         verbose_name = 'Ankurayan Home Page'

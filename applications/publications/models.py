@@ -1,5 +1,7 @@
 from django.db import models
 
+from bandhuapp.initiative_home_models import InitiativeHomePageMixin, HERO_IMAGE_HELP
+
 from bandhuapp.models import Profile
 
 class Publication(models.Model):
@@ -21,8 +23,21 @@ class Publication(models.Model):
        from django.utils.html import strip_tags
        return strip_tags(self.title)
 
-class HomePage(models.Model):
-    banner_image = models.ImageField(upload_to='publications/banner')
+class HomePage(InitiativeHomePageMixin, models.Model):
+    tagline = models.TextField(
+        max_length=500,
+        blank=True,
+        default='',
+        verbose_name='Tagline (bold)',
+        help_text='Shown on the homepage initiative card and this page.',
+    )
+    description = models.TextField(max_length=3000, blank=True, default='')
+    picture = models.ImageField(
+        upload_to='publications/index',
+        blank=True,
+        verbose_name='Hero image',
+        help_text=HERO_IMAGE_HELP,
+    )
 
     class Meta:
         verbose_name = 'Publications Home Page'

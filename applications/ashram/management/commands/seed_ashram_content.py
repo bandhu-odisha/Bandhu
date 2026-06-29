@@ -107,9 +107,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         picture_path = 'ashram/index/21.jpg'
-        banner_path = 'ashram/banner/our_mission.jpg'
-        for relative_path in (picture_path, banner_path):
-            self._ensure_media_image(relative_path)
+        self._ensure_media_image(picture_path)
 
         homepage, _created = HomePage.objects.get_or_create(
             pk=1,
@@ -117,14 +115,13 @@ class Command(BaseCommand):
                 'tagline': 'An Abode for Goodness',
                 'description': BANDHUGHAR_INTRO,
                 'picture': picture_path,
-                'banner_image': banner_path,
             },
         )
         homepage.tagline = 'An Abode for Goodness'
         homepage.description = BANDHUGHAR_INTRO
         homepage.picture = picture_path
-        if not homepage.banner_image:
-            homepage.banner_image = banner_path
+        from bandhuapp.initiative_home_captions import apply_initiative_captions
+        apply_initiative_captions(homepage, 'ashram')
         homepage.save()
 
         keep_ids = []
