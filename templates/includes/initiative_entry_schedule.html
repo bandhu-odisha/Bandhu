@@ -1,0 +1,15 @@
+{% if start_date or end_date %}
+<div class="initiative-entry-schedule">
+    <div class="initiative-entry-schedule-title">
+        <i class="fas fa-clock pr-2" aria-hidden="true"></i>Schedule
+    </div>
+    <p class="initiative-entry-schedule-dates mb-0">
+        {% if start_date %}
+        <span>Starts on <strong>{{ start_date|date:"d M, o" }}</strong></span>{% if end_date %}<br>{% endif %}
+        {% endif %}
+        {% if end_date %}
+        <span>Ends on <strong>{{ end_date|date:"d M, o" }}</strong></span>
+        {% endif %}
+    </p>
+</div>
+{% endif %}

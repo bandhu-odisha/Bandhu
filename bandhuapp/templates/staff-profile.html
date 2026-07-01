@@ -6,7 +6,7 @@
 {% block body_class %}staff-profile-page-site{% endblock %}
 
 {% block style %}
-<link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
+<link rel="stylesheet" href="{% static 'css/bandhu.css' %}?v=27">
 <link rel="stylesheet" href="{% static 'css/staff-profile.css' %}?v=7"/>
 {% endblock %}
 
@@ -15,7 +15,7 @@
 {% block content %}
 <section class="staff-profile-page-section page-section">
 <div class="staff-profile-page">
-	<a href="{{ people_back_url }}" class="staff-profile-back pillar-back" aria-label="Back to People">
+	<a href="{{ people_back_url }}" class="pillar-nav-back staff-profile-back" aria-label="Back to People">
 		<i class="fas fa-arrow-left" aria-hidden="true"></i> Back
 	</a>
 	<div class="staff-profile-layout">

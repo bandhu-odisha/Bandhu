@@ -9,7 +9,7 @@ const HERO_FALLBACK_IMAGES = [
   '/static/img/about-slide-2-hibiscus.png',
 ]
 
-const HERO_SLIDES = [
+const DEFAULT_HERO_SLIDES = [
   {
     title: 'The Friend of the Last Man',
     subtitle:
@@ -32,7 +32,7 @@ const HERO_SLIDES = [
   },
 ]
 
-function collectHeroImages(data) {
+function collectLegacyHeroImages(data) {
   const images = []
   const seen = new Set()
   const add = (url) => {
@@ -46,21 +46,35 @@ function collectHeroImages(data) {
   return images
 }
 
+function buildHeroSlides(data) {
+  const legacyImages = collectLegacyHeroImages(data)
+  const fromApi = data?.hero_slides
+
+  if (fromApi?.length) {
+    return fromApi.map((slide, slideIndex) => ({
+      title: slide.title || DEFAULT_HERO_SLIDES[slideIndex]?.title || '',
+      subtitle: slide.subtitle || DEFAULT_HERO_SLIDES[slideIndex]?.subtitle || '',
+      image:
+        slide.image ||
+        legacyImages[slideIndex] ||
+        HERO_FALLBACK_IMAGES[slideIndex] ||
+        null,
+    }))
+  }
+
+  return DEFAULT_HERO_SLIDES.map((slide, slideIndex) => ({
+    ...slide,
+    image:
+      legacyImages[slideIndex] ||
+      HERO_FALLBACK_IMAGES[slideIndex] ||
+      null,
+  }))
+}
+
 export default function Hero({ data }) {
   const [index, setIndex] = useState(0)
   const logoUrl = data?.logo_url || null
-  const importedImages = useMemo(() => collectHeroImages(data), [data])
-  const slides = useMemo(
-    () =>
-      HERO_SLIDES.map((slide, slideIndex) => ({
-        ...slide,
-        image:
-          importedImages[slideIndex] ||
-          HERO_FALLBACK_IMAGES[slideIndex] ||
-          null,
-      })),
-    [importedImages]
-  )
+  const slides = useMemo(() => buildHeroSlides(data), [data])
 
   useEffect(() => {
     if (slides.length <= 1) return undefined

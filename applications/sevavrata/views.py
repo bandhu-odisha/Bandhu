@@ -31,6 +31,8 @@ def create_ashram(request):
         description = request.POST.get('description')
         address = request.POST.get('address')
         image = request.FILES.get('image')
+        start_date = request.POST.get('start_date') or None
+        end_date = request.POST.get('end_date') or None
 
         # admin = request.POST.get('admin')
         # admin_profile = get_object_or_404(Profile,pk=int(admin))
@@ -47,6 +49,8 @@ def create_ashram(request):
             description=description,
             address=address,
             image=image,
+            start_date=start_date,
+            end_date=end_date,
             is_published=False,
         )
         messages.info(

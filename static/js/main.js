@@ -1,16 +1,113 @@
+// Auto-hide landing navbar on scroll (matches React home page — App.jsx)
+(function initBandhuNavAutohide() {
+    var header = document.getElementById('bandhu-nav-header');
+    var peekStrip = document.getElementById('bandhu-nav-peek-strip');
+    var shell = document.getElementById('bandhu-nav-shell');
+    if (!header || !shell) return;
+
+    var SCROLL_THRESHOLD = 10;
+    var SCROLL_DIR_THRESHOLD = 6;
+    var peekNav = false;
+    var scrollingUp = true;
+    var lastScrollY = 0;
+    var menuToggler = document.querySelector('#main-menu .navbar-toggler');
+
+    function scrollY() {
+        return window.scrollY || document.documentElement.scrollTop;
+    }
+
+    function mobileMenuOpen() {
+        return menuToggler && menuToggler.getAttribute('aria-expanded') === 'true';
+    }
+
+    function isInsideOpenDropdown(node) {
+        if (!node || !(node instanceof Element)) return false;
+        return Boolean(node.closest('#main-menu .dropdown-menu.show'));
+    }
+
+    function updateNavState() {
+        var y = scrollY();
+        var atTop = y <= SCROLL_THRESHOLD;
+        var hiddenByScroll = !atTop && !scrollingUp;
+        var showNav = atTop || scrollingUp || peekNav || mobileMenuOpen();
+
+        header.classList.toggle('bandhu-nav--hidden', hiddenByScroll);
+        header.classList.toggle('bandhu-nav--peek', hiddenByScroll && showNav);
+    }
+
+    function onScroll() {
+        var y = scrollY();
+        var diff = y - lastScrollY;
+
+        if (y <= SCROLL_THRESHOLD) {
+            scrollingUp = true;
+        } else if (Math.abs(diff) >= SCROLL_DIR_THRESHOLD) {
+            scrollingUp = diff < 0;
+            if (diff > 0) peekNav = false;
+        }
+
+        lastScrollY = y;
+        updateNavState();
+    }
+
+    lastScrollY = scrollY();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    if (peekStrip) {
+        peekStrip.addEventListener('mouseenter', function () {
+            if (scrollY() > SCROLL_THRESHOLD) {
+                peekNav = true;
+                updateNavState();
+            }
+        });
+        peekStrip.addEventListener('focus', function () {
+            if (scrollY() > SCROLL_THRESHOLD) {
+                peekNav = true;
+                updateNavState();
+            }
+        });
+    }
+
+    shell.addEventListener('mouseenter', function () {
+        if (scrollY() > SCROLL_THRESHOLD) {
+            peekNav = true;
+            updateNavState();
+        }
+    });
+
+    shell.addEventListener('mouseleave', function (e) {
+        if (scrollY() <= SCROLL_THRESHOLD || mobileMenuOpen()) return;
+        var next = e.relatedTarget;
+        if (isInsideOpenDropdown(next)) return;
+        if (next && shell.contains(next)) return;
+        peekNav = false;
+        updateNavState();
+    });
+
+    if (menuToggler) {
+        menuToggler.addEventListener('click', function () {
+            window.setTimeout(updateNavState, 0);
+        });
+    }
+
+    $(document).on('show.bs.dropdown hide.bs.dropdown', '#main-menu .dropdown', function () {
+        if (scrollY() > SCROLL_THRESHOLD && $(this).find('.dropdown-menu').hasClass('show')) {
+            peekNav = true;
+        }
+        updateNavState();
+    });
+
+    updateNavState();
+})();
+
 // Collapse Navbar
 // Add styling fallback for when a transparent background .navbar is scrolled
 var navbarCollapse = function() {
-    // if($(".navbar.bg-transparent.fixed-top").length === 0) {
-    //     return;
-    // }
-    // if ($(".navbar.bg-transparent.fixed-top").offset().top > 50) {
-    //     $(".navbar").addClass("navbar-scrolled");
-    // }
-    // else {
-    //     $(".navbar").removeClass("navbar-scrolled");
-    // }
-    if ($(".navbar.bg-transparent.fixed-top").offset().top > 300) {
+    var $legacyNav = $(".navbar.bg-transparent.fixed-top");
+    if ($legacyNav.length === 0) {
+        return;
+    }
+    if ($legacyNav.offset().top > 300) {
         $(".navbar").addClass("navbar-scrolled-again");
     }
     else {
@@ -76,20 +173,6 @@ $(document).ready(function(){
                 });
             }
         }
-    });
-
-    // SCROLL TO TOP BUTTON
-    $(window).scroll(function() {
-        if ($(this).scrollTop() > 200) {
-            $('#scroll-to-top').fadeIn('slow');
-        } 
-        else {
-            $('#scroll-to-top').fadeOut('slow');
-        }
-    }); 
-    $('#scroll-to-top').click(function(){
-        $("html,body").animate({ scrollTop: 0 }, 1000);
-        return false;
     });
 
 });
