@@ -1,0 +1,46 @@
+<style>
+    /* Large hero title in the banner band (matches Ankurayan year detail pages) */
+    body.initiative-year-page #top-section .parallax-overlay {
+        overflow: hidden !important;
+    }
+    body.initiative-year-page #top-section .parallax-overlay::before {
+        content: "{{ hero_title|escape }}";
+        position: absolute;
+        top: 42%;
+        left: 50%;
+        transform: translate(-50%, -58%);
+        color: #005E66;
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-weight: 800;
+        font-size: clamp(1.45rem, 3.6vw, 2.2rem);
+        letter-spacing: 0.02em;
+        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.95), 0 2px 22px rgba(0, 94, 102, 0.14);
+        z-index: 2;
+        pointer-events: none;
+        max-width: min(92vw, 48rem);
+        text-align: center;
+        line-height: 1.2;
+        padding: 0 0.75rem;
+        box-sizing: border-box;
+    }
+    body.initiative-year-page #top-section .parallax-overlay::after {
+        content: none !important;
+        display: none !important;
+    }
+    /* Fully hide duplicate showcase title (ashram.css page-showcase-tall unhide must not leak text) */
+    body.initiative-year-page #top-section .slider-txt-container.page-showcase > * {
+        position: absolute !important;
+        width: 1px !important;
+        height: 1px !important;
+        padding: 0 !important;
+        margin: -1px !important;
+        overflow: hidden !important;
+        clip: rect(0, 0, 0, 0) !important;
+        clip-path: inset(50%) !important;
+        white-space: nowrap !important;
+        border: 0 !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+    }
+</style>

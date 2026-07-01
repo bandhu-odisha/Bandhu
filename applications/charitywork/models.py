@@ -2,18 +2,24 @@ from django.db import models
 from django.utils import timezone
 from django.template.defaultfilters import slugify
 
+from bandhuapp.initiative_home_models import InitiativeHomePageMixin, HERO_IMAGE_HELP
+
 from bandhuapp.models import Profile
 
 # Create your models here.
 
-class Charity(models.Model):
+class Charity(InitiativeHomePageMixin, models.Model):
     title = models.CharField(max_length=60)
     purpose = models.CharField(max_length=60)   # Cyclone/Earthquake
     description = models.TextField()
     location = models.CharField(max_length=60)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
-    image = models.ImageField(upload_to='charity_work/charities/')
+    image = models.ImageField(
+        upload_to='charity_work/charities/',
+        verbose_name='Hero image',
+        help_text=HERO_IMAGE_HELP,
+    )
     slug = models.SlugField()
     # admin = models.ForeignKey(Profile,on_delete=models.SET_NULL,null=True,blank=True)
 
@@ -70,11 +76,15 @@ class Photo(models.Model):
         return f'{self.charity.title}'
 
 
-class HomePage(models.Model):
+class HomePage(InitiativeHomePageMixin, models.Model):
     tagline = models.TextField(max_length=1000, verbose_name="Tagline (Bold)")
     description = models.TextField(max_length=3000)
-    picture = models.ImageField(upload_to='charity_work/index')
-    banner_image = models.ImageField(upload_to='charity_work/banner')
+    picture = models.ImageField(
+        upload_to='charity_work/index',
+        blank=True,
+        verbose_name='Hero image',
+        help_text=HERO_IMAGE_HELP,
+    )
 
     class Meta:
         verbose_name = 'Other Activities Home Page'

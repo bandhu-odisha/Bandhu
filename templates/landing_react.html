@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="{% static 'vendor/css/bootstrap.min.css' %}?v=255">
     <link rel="stylesheet" href="{% static 'css/accounts-auth-landing.css' %}?v=287">
     {% endif %}
-    <link rel="stylesheet" href="{% static 'frontend/assets/index.css' %}?v=301">
+    <link rel="stylesheet" href="{% static 'frontend/assets/index.css' %}?v=304">
     <link rel="stylesheet" href="{% static 'vendor/css/fontawesome-all.min.css' %}?v=255">
     <style>
       /* Our Visitors profile popup: wide like reference (teal left, details right) */
@@ -78,6 +78,11 @@
         border-radius: 0 !important;
         box-shadow: none !important;
         outline: none !important;
+        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
       }
       #gallery [role='tablist'] [role='tab']:focus,
       #gallery [role='tablist'] [role='tab']:focus-visible {
@@ -172,39 +177,6 @@
     });
     </script>
     {% endif %}
-    <script type="module" src="{% static 'frontend/assets/index.js' %}?v=301"></script>
-    <!-- Gallery auto-scroll: runs after React mounts, no dependency on bundle -->
-    <script>
-(function() {
-  var INTERVAL_MS = 3000;
-  var GAP_PX = 32;
-  function run() {
-    var el = document.querySelector('#gallery [data-gallery-scroll]');
-    if (!el) return;
-    var max = el.scrollWidth - el.clientWidth;
-    if (max <= 0) return;
-    var card = el.querySelector('[data-gallery-card]');
-    var step = card ? card.offsetWidth + GAP_PX : 412;
-    el.scrollLeft += step;
-    if (el.scrollLeft >= max) el.scrollLeft = 0;
-  }
-  function start() {
-    var el = document.querySelector('#gallery [data-gallery-scroll]');
-    if (!el || (el.scrollWidth - el.clientWidth) <= 0) return false;
-    setInterval(run, INTERVAL_MS);
-    return true;
-  }
-  function poll(attempt) {
-    if (attempt > 40) return;
-    if (start()) return;
-    setTimeout(function() { poll(attempt + 1); }, 400);
-  }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function() { setTimeout(function() { poll(0); }, 800); });
-  } else {
-    setTimeout(function() { poll(0); }, 800);
-  }
-})();
-    </script>
+    <script type="module" src="{% static 'frontend/assets/index.js' %}?v=304"></script>
 </body>
 </html>

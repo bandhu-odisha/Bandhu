@@ -26,7 +26,6 @@ DESCRIPTION = (
 )
 
 HOMEPAGE_PICTURE = 'charity_work/index/Bandhu_Logo.jpeg'
-HOMEPAGE_BANNER = 'charity_work/banner/our_mission.jpg'
 
 CHARITIES = [
     {
@@ -86,7 +85,7 @@ class Command(BaseCommand):
             return False
 
     def handle(self, *args, **options):
-        for relative_path in {HOMEPAGE_PICTURE, HOMEPAGE_BANNER, *(row['image'] for row in CHARITIES)}:
+        for relative_path in {HOMEPAGE_PICTURE, *(row['image'] for row in CHARITIES)}:
             self._ensure_media_file(relative_path)
 
         homepage, _created = HomePage.objects.get_or_create(
@@ -95,14 +94,13 @@ class Command(BaseCommand):
                 'tagline': TAGLINE,
                 'description': DESCRIPTION,
                 'picture': HOMEPAGE_PICTURE,
-                'banner_image': HOMEPAGE_BANNER,
             },
         )
         homepage.tagline = TAGLINE
         homepage.description = DESCRIPTION
         homepage.picture = HOMEPAGE_PICTURE
-        if not homepage.banner_image:
-            homepage.banner_image = HOMEPAGE_BANNER
+        from bandhuapp.initiative_home_captions import apply_initiative_captions
+        apply_initiative_captions(homepage, 'charitywork')
         homepage.save()
 
         keep_ids = []

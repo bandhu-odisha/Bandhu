@@ -3,8 +3,10 @@ import { createPortal } from 'react-dom'
 
 const SLIDE_MS = 5000
 
-const ABOUT_COPY_CLASS =
-  'about-us-line w-full font-body font-normal text-[#3d5c66] text-[1.0625rem] sm:text-[1.125rem] leading-[1.85] max-lg:mx-auto max-lg:max-w-[36rem] max-lg:text-center lg:text-left [&_a]:text-[#005E66] [&_a]:underline [&_strong]:font-normal'
+const ABOUT_BODY_CLASS =
+  'about-us-line w-full font-body font-normal text-[#3d5c66] text-[1.0625rem] sm:text-[1.125rem] leading-[1.85] max-lg:mx-auto max-lg:max-w-[36rem] max-lg:text-center lg:text-left [&_a]:text-[#005E66] [&_a]:underline [&_strong]:font-semibold'
+
+const SECTION_SUBTITLE_CLASS = 'landing-section-subtitle'
 
 const DEFAULT_ABOUT_SLIDES = [
   {
@@ -34,8 +36,15 @@ const DEFAULT_ABOUT_SLIDES = [
   },
 ]
 
+const DEFAULT_ABOUT = {
+  tagline:
+    'Bandhu is an idea that celebrates goodness, that is in you, me and all others.',
+  desc:
+    'We are a group of people, good but not necessarily great, with a spontaneous flow of boundless friendship. The concern is about the inconsistencies within and without. Bandhu does small things with the highest possible sincerity.',
+}
+
 export default function About({ data }) {
-  const about = data?.about
+  const aboutContent = data?.about || DEFAULT_ABOUT
   const slides = useMemo(() => {
     const imported = (data?.about_slides || []).filter((slide) => slide?.src)
     if (imported.length) return imported
@@ -74,26 +83,28 @@ export default function About({ data }) {
     }
   }, [lightboxOpen, slides.length, closeLightbox])
 
-  if (!about || !slides.length) return null
+  if (!slides.length) return null
 
   const current = slides[slideIndex]
 
   return (
     <section id="about" className="landing-section bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <h2 className="section-title text-center mb-8 sm:mb-10">About Us</h2>
+        <div className="text-center">
+          <h2 className="section-title text-center mb-4">About Us</h2>
+          <div
+            className={SECTION_SUBTITLE_CLASS}
+            dangerouslySetInnerHTML={{ __html: aboutContent.tagline }}
+          />
+        </div>
 
         <div className="grid grid-cols-1 justify-items-center gap-6 lg:grid-cols-2 lg:justify-items-stretch lg:gap-8 xl:gap-10 items-stretch">
           <div className="order-2 flex w-full flex-col items-center lg:order-1 lg:items-start lg:-ml-2 xl:-ml-4 2xl:-ml-5">
             <div className="rounded-2xl bg-white w-full py-8 sm:py-12 px-4 sm:px-5 lg:h-full lg:flex lg:flex-col lg:justify-center lg:px-0 lg:pl-0 lg:pr-8 lg:text-left lg:items-start">
-              <div className="about-us-copy w-full max-lg:flex max-lg:flex-col max-lg:items-center space-y-0">
+              <div className="about-us-copy w-full max-lg:flex max-lg:flex-col max-lg:items-center">
                 <p
-                  className={ABOUT_COPY_CLASS}
-                  dangerouslySetInnerHTML={{ __html: about.tagline }}
-                />
-                <p
-                  className={`${ABOUT_COPY_CLASS} mt-0`}
-                  dangerouslySetInnerHTML={{ __html: about.desc }}
+                  className={ABOUT_BODY_CLASS}
+                  dangerouslySetInnerHTML={{ __html: aboutContent.desc }}
                 />
               </div>
             </div>

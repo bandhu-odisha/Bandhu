@@ -58,6 +58,7 @@ PROGRAMS = {
         'create_event_url': 'sevavrata:CreateEventSevavrata',
         'create_ashram_url': 'sevavrata:CreateAshram',
         'home_gallery_url': 'sevavrata:AddHomeGallery',
+        'has_entry_schedule': True,
     },
 }
 
@@ -125,6 +126,14 @@ def get_visible_entries(request, models):
     return qs
 
 
+def _year_hero_title(ashram):
+    name = (ashram.name or '').strip()
+    locality = (ashram.locality or '').strip()
+    if name and locality:
+        return f'{name} - {locality}'
+    return name or locality
+
+
 def _program_presentation_context(program_key):
     meta = PROGRAMS[program_key]
     return {
@@ -136,6 +145,7 @@ def _program_presentation_context(program_key):
         'program_default_desc': meta.get('default_desc', ''),
         'program_quote_en': meta.get('quote_en', ''),
         'program_quote_or': meta.get('quote_or', ''),
+        'program_has_entry_schedule': meta.get('has_entry_schedule', False),
         'hero_title': meta['name'],
         'carousel_glide_class': f'{program_key}_programs',
     }
@@ -190,7 +200,7 @@ def build_year_detail_context(request, slug, program_key, models):
 
     return {
         **_program_presentation_context(program_key),
-        'hero_title': f'{ashram.name} - {ashram.locality}',
+        'hero_title': _year_hero_title(ashram),
         'program_gallery_url': meta['gallery_url'],
         'program_create_activity_url': meta['create_activity_url'],
         'program_add_activity_category_url': meta['add_activity_category_url'],

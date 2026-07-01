@@ -1,0 +1,8 @@
+{% if content %}
+{% if content.image_caption_en %}
+<p class="{{ line_class|default:'caption-line' }} caption-en">{{ content.image_caption_en|safe }}</p>
+{% endif %}
+{% if content.image_caption_or %}
+<p class="{{ line_class|default:'caption-line' }} caption-or">{{ content.image_caption_or|safe }}</p>
+{% endif %}
+{% endif %}
