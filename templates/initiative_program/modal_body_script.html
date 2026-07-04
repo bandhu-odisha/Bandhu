@@ -1,0 +1,19 @@
+<script>
+/* Keep initiative modals at body level so backdrop covers the full page (incl. footer). */
+$(function () {
+    $(document).on('show.bs.modal', '.initiative-year-modal', function () {
+        if (this.parentNode !== document.body) {
+            document.body.appendChild(this);
+        }
+    });
+    $(document).on('shown.bs.modal', '.initiative-year-modal', function () {
+        $(this).css('z-index', 1060);
+        $('.modal-backdrop').last().css('z-index', 1055);
+    });
+    $(document).on('hidden.bs.modal', '.initiative-year-modal', function () {
+        if (document.activeElement && document.activeElement.blur) {
+            document.activeElement.blur();
+        }
+    });
+});
+</script>

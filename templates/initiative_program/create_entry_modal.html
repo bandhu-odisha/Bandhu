@@ -40,6 +40,22 @@
                         <textarea name="description" id="initiativeEntryDescription" placeholder="Description"
                             class="form-control" rows="6" required></textarea>
                     </div>
+                    {% if program_has_entry_schedule %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="initiative-form-label" for="initiativeEntryStartDate">Start date</label>
+                                <input type="date" class="form-control" id="initiativeEntryStartDate" name="start_date">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="initiative-form-label" for="initiativeEntryEndDate">End date</label>
+                                <input type="date" class="form-control" id="initiativeEntryEndDate" name="end_date">
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
                     <div class="form-group mb-0">
                         <label class="initiative-form-label" for="initiativeEntryImage">Thumbnail</label>
                         <input type="file" class="form-control-file" id="initiativeEntryImage" name="image" required>

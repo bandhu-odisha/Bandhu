@@ -13,22 +13,97 @@ from .admin_forms import (
 )
 from .models import (
     Designation, DesignationRole, PeoplesDesignation, Profile, RecentActivity, Photo,
-    Initiatives, AboutUs, Mission, SanskarCarousel, Staff, StaffExperience,
-    StaffExperiencePhoto, SwarajCarousel, SwabalambanCarousel,
+    AboutUs, Staff, StaffExperience,
+    StaffExperiencePhoto,
+    SanskarHomePage, SanskarHomePhoto,
+    SwarajHomePage, SwarajHomePhoto,
+    SwabalambanHomePage, SwabalambanHomePhoto,
     UrlData, Video, Volunteer, Gallery, Contact, HomePage, HomeVisitor, CurrentUpdates,
-    AnnualReport,
+    AnnualReport, HeroSlide, AboutSlide,
 )
 
 # Register your models here.
 
-class SanskarCarouselInline(admin.StackedInline):
-    model = SanskarCarousel
+class SanskarHomePhotoInline(admin.TabularInline):
+    model = SanskarHomePhoto
+    extra = 1
+    fields = ('picture', 'sort_order')
+    ordering = ('sort_order', 'id')
 
-class SwarajCarouselInline(admin.StackedInline):
-    model = SwarajCarousel
 
-class SwabalambanCarouselInline(admin.StackedInline):
-    model = SwabalambanCarousel
+class SwarajHomePhotoInline(admin.TabularInline):
+    model = SwarajHomePhoto
+    extra = 1
+    fields = ('picture', 'sort_order')
+    ordering = ('sort_order', 'id')
+
+
+class SwabalambanHomePhotoInline(admin.TabularInline):
+    model = SwabalambanHomePhoto
+    extra = 1
+    fields = ('picture', 'sort_order')
+    ordering = ('sort_order', 'id')
+
+
+class SingletonPillarAdmin(admin.ModelAdmin):
+    """Only one home-page row per pillar."""
+
+    def has_add_permission(self, request):
+        return not self.model.objects.exists()
+
+
+@admin.register(SanskarHomePage)
+class SanskarHomePageAdmin(SingletonPillarAdmin):
+    inlines = [SanskarHomePhotoInline]
+    fieldsets = (
+        ('Text', {
+            'fields': ('tagline', 'description'),
+            'description': 'Content shown on the <a href="/sanskar/">Sanskar page</a> and homepage mission card.',
+        }),
+        ('Hero image & caption', {
+            'fields': ('hero_image', 'image_caption_en', 'image_caption_or'),
+            'description': (
+                'Hero image is independent of gallery photos below. '
+                'If the file is missing on disk, the site shows a default image until you re-upload here.'
+            ),
+        }),
+    )
+
+
+@admin.register(SwarajHomePage)
+class SwarajHomePageAdmin(SingletonPillarAdmin):
+    inlines = [SwarajHomePhotoInline]
+    fieldsets = (
+        ('Text', {
+            'fields': ('tagline', 'description'),
+            'description': 'Content shown on the <a href="/swaraj/">Swaraj page</a> and homepage mission card.',
+        }),
+        ('Hero image & caption', {
+            'fields': ('hero_image', 'image_caption_en', 'image_caption_or'),
+            'description': (
+                'Quote appears <strong>below the hero image</strong> on the Swaraj page '
+                '(English above Odia), same layout as Sanskar.'
+            ),
+        }),
+    )
+
+
+@admin.register(SwabalambanHomePage)
+class SwabalambanHomePageAdmin(SingletonPillarAdmin):
+    inlines = [SwabalambanHomePhotoInline]
+    fieldsets = (
+        ('Text', {
+            'fields': ('tagline', 'description'),
+            'description': 'Content shown on the <a href="/swabalamban/">Swabalamban page</a> and homepage mission card.',
+        }),
+        ('Hero image & caption', {
+            'fields': ('hero_image', 'image_caption_en', 'image_caption_or'),
+        }),
+        ('Products section', {
+            'fields': ('products_heading', 'order_note', 'whatsapp_number'),
+            'description': 'Products themselves are managed under Swabalamban → Products.',
+        }),
+    )
 
 
 @admin.register(Profile)
@@ -75,12 +150,55 @@ class ProfileAdmin(admin.ModelAdmin):
             }),
         )
 
-admin.site.register(Initiatives)
-admin.site.register(AboutUs)
+@admin.register(AboutUs)
+class AboutUsAdmin(admin.ModelAdmin):
+    fieldsets = (
+        (
+            'About Us text (left side of section)',
+            {
+                'fields': ('tagline', 'desc'),
+                'description': (
+                    'Shown on the main home page About Us section. '
+                    'Tagline = first paragraph (bold). Description = second paragraph. HTML is allowed.'
+                ),
+            },
+        ),
+    )
 
-@admin.register(Mission)
-class MissionAdmin(admin.ModelAdmin):
-    inlines = [SanskarCarouselInline, SwarajCarouselInline, SwabalambanCarouselInline]
+
+@admin.register(AboutSlide)
+class AboutSlideAdmin(admin.ModelAdmin):
+    list_display = ('sort_order', 'caption_preview', 'has_image')
+    list_display_links = ('caption_preview',)
+    list_editable = ('sort_order',)
+    ordering = ('sort_order', 'id')
+    search_fields = ('caption',)
+    fieldsets = (
+        (
+            None,
+            {
+                'fields': ('sort_order', 'image', 'caption'),
+                'description': (
+                    'Photos rotate in the About Us section (right side). '
+                    'Use sort order 0, 1, 2… — typically five slides.'
+                ),
+            },
+        ),
+    )
+
+    def caption_preview(self, obj):
+        if obj.caption:
+            return obj.caption[:60] + ('…' if len(obj.caption) > 60 else '')
+        return f'Slide {obj.pk}'
+
+    caption_preview.short_description = 'Caption'
+
+    def has_image(self, obj):
+        return bool(obj.image)
+
+    has_image.boolean = True
+    has_image.short_description = 'Image'
+
 
 admin.site.register(Volunteer)
 admin.site.register(Gallery)
@@ -104,19 +222,48 @@ class RecentActivityAdmin(admin.ModelAdmin):
 class PhotoAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'picture', 'approved')
 
-# @admin.register(SanskarCarousel)
-# class SanskarCarouselAdmin(admin.ModelAdmin):
-#     list_display = ('__str__', 'picture')
+@admin.register(HeroSlide)
+class HeroSlideAdmin(admin.ModelAdmin):
+    list_display = ('sort_order', 'title', 'has_image')
+    list_display_links = ('title',)
+    list_editable = ('sort_order',)
+    ordering = ('sort_order', 'id')
+    search_fields = ('title', 'subtitle')
+    fieldsets = (
+        (
+            None,
+            {
+                'fields': ('sort_order', 'title', 'subtitle', 'image'),
+                'description': (
+                    'Slides rotate on the main home page hero (left text, right image). '
+                    'Use sort order 0, 1, 2… — typically four slides. '
+                    'Leave image empty to use the site default for that position.'
+                ),
+            },
+        ),
+    )
 
-# @admin.register(SwarajCarousel)
-# class SwarajCarouselAdmin(admin.ModelAdmin):
-#     list_display = ('__str__', 'picture')
+    def has_image(self, obj):
+        return bool(obj.image)
 
-# @admin.register(SwabalambanCarousel)
-# class SwabalambanCarouselAdmin(admin.ModelAdmin):
-#     list_display = ('__str__', 'picture')
+    has_image.boolean = True
+    has_image.short_description = 'Image'
 
-admin.site.register(HomePage)
+
+@admin.register(HomePage)
+class HomePageAdmin(admin.ModelAdmin):
+    fieldsets = (
+        (
+            'Home page',
+            {
+                'fields': ('banner_image', 'visitors_count'),
+                'description': (
+                    'Banner image is a legacy fallback for hero slide 1 when that slide has no image. '
+                    'Prefer editing Homepage hero slides for hero text and photos.'
+                ),
+            },
+        ),
+    )
 
 
 @admin.register(HomeVisitor)

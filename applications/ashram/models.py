@@ -1,15 +1,21 @@
 from django.db import models
 
+from bandhuapp.initiative_home_models import InitiativeHomePageMixin, HERO_IMAGE_HELP
+
 from bandhuapp.models import Profile
 
 # Create your models here.
 
-class Ashram(models.Model):
+class Ashram(InitiativeHomePageMixin, models.Model):
     name = models.CharField(max_length=50)
     locality = models.CharField(max_length=100)
     description = models.TextField(max_length=1000)
     address = models.CharField(max_length=250)
-    image = models.ImageField(upload_to='ashram/thumbnails/')
+    image = models.ImageField(
+        upload_to='ashram/thumbnails/',
+        verbose_name='Hero image',
+        help_text=HERO_IMAGE_HELP,
+    )
     slug = models.SlugField()
     # admin = models.ForeignKey(Profile,blank=True,null=True,on_delete=models.SET_NULL)
 
@@ -90,11 +96,15 @@ class Photo(models.Model):
     approved = models.BooleanField(default=False)
     activity = models.ForeignKey(Activity, on_delete=models.SET_NULL, null=True, blank=True)
 
-class HomePage(models.Model):
+class HomePage(InitiativeHomePageMixin, models.Model):
     tagline = models.TextField(max_length=1000, verbose_name="Tagline (Bold)")
     description = models.TextField(max_length=3000)
-    picture = models.ImageField(upload_to='ashram/index')
-    banner_image = models.ImageField(upload_to='ashram/banner')
+    picture = models.ImageField(
+        upload_to='ashram/index',
+        blank=True,
+        verbose_name='Hero image',
+        help_text=HERO_IMAGE_HELP,
+    )
 
     class Meta:
         verbose_name = 'Bandhughar Home Page'

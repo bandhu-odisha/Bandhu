@@ -173,19 +173,9 @@ body.initiative-program-page.pillar-inner-page .angular-ashram + .pillar-overlay
     color: #3d5c60 !important;
     font-weight: 700 !important;
 }
+.pillar-overlay-cards .pillar-nav-back,
 .pillar-overlay-cards .pillar-back {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: #005E66;
-    font-weight: 600;
-    text-decoration: none;
     margin-bottom: 1rem;
-    font-size: 0.95rem;
-}
-.pillar-overlay-cards .pillar-back:hover {
-    color: #005E66;
-    text-decoration: underline;
 }
 @media (max-width: 768px) {
     .pillar-overlay-cards { margin-top: -100px !important; }
@@ -694,12 +684,15 @@ body.bandhughar-detail-page .navbar .navbar-nav a.nav-button.btn:active {
     border-top: none;
     border-bottom: none;
 }
-.pillar-gallery.ashram-gallery h2 {
-    font-size: 1.75rem;
+.pillar-gallery.ashram-gallery h2,
+.pillar-gallery.ashram-gallery .section-title {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
     font-weight: 700;
     color: #3d5c60;
     margin-bottom: 0.5rem;
     text-align: center;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
 }
 .pillar-gallery.ashram-gallery .gallery-accent {
     width: 4rem;
@@ -762,9 +755,9 @@ body.bandhughar-detail-page .navbar .navbar-nav a.nav-button.btn:active {
     letter-spacing: 0.02em;
     text-shadow: 0 8px 24px rgba(0, 0, 0, 0.35), 0 2px 8px rgba(0, 94, 102, 0.35);
 }
-/* Undo global "hide inner-page banner text" for Bandhughar */
-.slider-txt-container.page-showcase.page-showcase-tall .page-showcase-title,
-.slider-txt-container.page-showcase.page-showcase-tall .page-showcase-accent {
+/* Undo global "hide inner-page banner text" for Bandhughar (not pillar-inner showcase pages) */
+body:not(.pillar-inner-page) .slider-txt-container.page-showcase.page-showcase-tall .page-showcase-title,
+body:not(.pillar-inner-page) .slider-txt-container.page-showcase.page-showcase-tall .page-showcase-accent {
     position: static !important;
     width: auto !important;
     height: auto !important;
@@ -784,7 +777,6 @@ body.bandhughar-detail-page .navbar .navbar-nav a.nav-button.btn:active {
 
 /* Brand alignment to Sanskar/Swabalamban */
 .pillar-overlay-cards .pillar-overlay-card--text h1,
-.pillar-overlay-cards .pillar-back,
 #ashrams .card-title,
 .pillar-gallery.ashram-gallery h2,
 .ashram-list-page .section-title {
@@ -812,14 +804,16 @@ body.bandhughar-detail-page .navbar .navbar-nav a.nav-button.btn:active {
     transform: translateY(4px);
     animation: bandhugharQuoteSwap 10s ease-in-out infinite;
 }
-.pillar-overlay-cards .pillar-text-quote .quote-en {
+.pillar-overlay-cards .pillar-text-quote .quote-en,
+.pillar-overlay-cards .pillar-text-quote .caption-en {
     color: #2f4d52;
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 0.98rem;
     font-style: italic;
     font-weight: 600;
 }
-.pillar-overlay-cards .pillar-text-quote .quote-or {
+.pillar-overlay-cards .pillar-text-quote .quote-or,
+.pillar-overlay-cards .pillar-text-quote .caption-or {
     color: #2f4d52;
     font-family: 'Noto Sans Oriya', 'Noto Sans Odia', 'Kohinoor Odia', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 1.02rem;

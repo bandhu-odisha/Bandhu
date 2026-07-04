@@ -11,8 +11,9 @@
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
 <link rel="stylesheet" href="{% static 'css/anandakendra.css' %}?v=22">
 <link rel="stylesheet" href="{% static 'css/ashram.css' %}?v=8">
-<link rel="stylesheet" href="{% static 'css/initiative-program-year.css' %}?v=26">
+<link rel="stylesheet" href="{% static 'css/initiative-program-year.css' %}?v=30">
 {% include 'initiative_program/hero_detail_styles.html' %}
+{% include 'initiative_program/hero_detail_heading.html' %}
 {% endblock %}
 
 {% block navbar-links %}
@@ -49,9 +50,17 @@
     <div class="container">
         <div class="row align-items-start g-4">
             <div class="col-lg-4 col-md-5">
-                <div class="pillar-overlay-card pillar-overlay-card--image">
+                <div class="pillar-overlay-card pillar-overlay-card--image{% if program_has_entry_schedule %} initiative-entry-photo-card{% endif %}">
+                    {% if program_has_entry_schedule %}
+                    <div class="initiative-entry-photo-wrap">
+                        <img src="{{ ashram.image.url }}" alt="{{ ashram.name }}" loading="eager" class="initiative-entry-hero-img"
+                            onerror="this.onerror=null;this.src='{% static 'img/pimg3.jpg' %}';">
+                    </div>
+                    {% include 'includes/initiative_entry_schedule.html' with start_date=ashram.start_date end_date=ashram.end_date %}
+                    {% else %}
                     <img src="{{ ashram.image.url }}" alt="{{ ashram.name }}" loading="eager" class="pillar-overlay-single-image"
                         onerror="this.onerror=null;this.src='{% static 'img/pimg3.jpg' %}';">
+                    {% endif %}
                 </div>
             </div>
             <div class="col-lg-8 col-md-7">

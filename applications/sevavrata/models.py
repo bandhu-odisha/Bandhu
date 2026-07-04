@@ -1,10 +1,11 @@
 from django.db import models
 
+from bandhuapp.initiative_home_models import InitiativeHomePageMixin, HERO_IMAGE_HELP
 from bandhuapp.models import Profile
 
 # Create your models here.
 
-class Ashram(models.Model):
+class Ashram(InitiativeHomePageMixin, models.Model):
     name = models.CharField(max_length=50)
     locality = models.CharField(max_length=100)
     description = models.TextField(max_length=1000)
@@ -14,8 +15,24 @@ class Ashram(models.Model):
         help_text='Optional rich text for reports (links, notes).',
     )
     address = models.CharField(max_length=250)
-    image = models.ImageField(upload_to='sevavrata/thumbnails/')
+    image = models.ImageField(
+        upload_to='sevavrata/thumbnails/',
+        verbose_name='Hero image',
+        help_text=HERO_IMAGE_HELP,
+    )
     slug = models.SlugField()
+    start_date = models.DateField(
+        null=True,
+        blank=True,
+        verbose_name='Start date',
+        help_text='When this Sevavrata activity begins (shown in the schedule box on the detail page).',
+    )
+    end_date = models.DateField(
+        null=True,
+        blank=True,
+        verbose_name='End date',
+        help_text='When this Sevavrata activity ends.',
+    )
     is_published = models.BooleanField(
         default=False,
         help_text='When enabled, this entry is visible to all visitors on the program page.',
@@ -173,11 +190,15 @@ class HomeGalleryPhoto(models.Model):
         return 'Odisha Satabdi Sevavrata home gallery photo'
 
 
-class HomePage(models.Model):
+class HomePage(InitiativeHomePageMixin, models.Model):
     tagline = models.TextField(max_length=1000, verbose_name="Tagline (Bold)")
     description = models.TextField(max_length=3000)
-    picture = models.ImageField(upload_to='sevavrata/index')
-    banner_image = models.ImageField(upload_to='sevavrata/banner')
+    picture = models.ImageField(
+        upload_to='sevavrata/index',
+        blank=True,
+        verbose_name='Hero image',
+        help_text=HERO_IMAGE_HELP,
+    )
 
     class Meta:
         verbose_name = 'Odisha Satabdi Sevavrata Home Page'

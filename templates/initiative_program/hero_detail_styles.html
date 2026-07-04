@@ -1,5 +1,5 @@
 <style>
-    body.initiative-program-page #top-section,
+    /* Year entry pages: soft teal hero (list pages use pillar-inner-banner.css) */
     body.initiative-year-page #top-section {
         background:
             radial-gradient(circle at 14% 22%, rgba(0, 94, 102, 0.06) 0 2px, transparent 3px),
@@ -11,40 +11,13 @@
         background-attachment: fixed !important;
         background-size: cover !important;
     }
-    body.initiative-program-page #top-section .parallax-overlay,
     body.initiative-year-page #top-section .parallax-overlay {
         position: relative !important;
         background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(214, 236, 238, 0.28) 100%) !important;
         background-color: transparent !important;
     }
-    body.initiative-program-page #top-section .parallax-overlay::before,
-    body.initiative-year-page #top-section .parallax-overlay::before {
-        content: "{{ hero_title|escapejs }}";
-        position: absolute;
-        top: 40%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: #005E66;
-        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        font-weight: 800;
-        font-size: clamp(1.35rem, 3.2vw, 2.15rem);
-        letter-spacing: 0.02em;
-        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.95), 0 2px 22px rgba(0, 94, 102, 0.14);
-        z-index: 5;
-        pointer-events: none;
-        max-width: min(92vw, 48rem);
-        text-align: center;
-        line-height: 1.2;
-    }
-    body.initiative-program-page #top-section .parallax-overlay::after,
-    body.initiative-year-page #top-section .parallax-overlay::after {
-        content: none !important;
-        display: none !important;
-    }
-    body.initiative-program-page #top-section .slider-txt-container.page-showcase > *,
-    body.initiative-year-page #top-section .slider-txt-container.page-showcase > * {
-        opacity: 0 !important;
-    }
+
+    /* About-section card typography */
     body.initiative-program-page #about.pillar-overlay-cards .pillar-overlay-card--text,
     body.initiative-year-page #about.pillar-overlay-cards .pillar-overlay-card--text {
         font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;

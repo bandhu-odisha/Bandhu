@@ -126,14 +126,12 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         picture_path = 'anandakendra/index/clients-bg1.jpg'
-        banner_path = 'anandakendra/banner/our_mission.jpg'
-        for relative_path in (picture_path, banner_path):
-            picture_abs = os.path.join(settings.MEDIA_ROOT, relative_path)
-            if not os.path.isfile(picture_abs):
-                source_abs = os.path.join(settings.BASE_DIR, 'img', os.path.basename(relative_path))
-                if os.path.isfile(source_abs):
-                    os.makedirs(os.path.dirname(picture_abs), exist_ok=True)
-                    shutil.copy2(source_abs, picture_abs)
+        picture_abs = os.path.join(settings.MEDIA_ROOT, picture_path)
+        if not os.path.isfile(picture_abs):
+            source_abs = os.path.join(settings.BASE_DIR, 'img', os.path.basename(picture_path))
+            if os.path.isfile(source_abs):
+                os.makedirs(os.path.dirname(picture_abs), exist_ok=True)
+                shutil.copy2(source_abs, picture_abs)
 
         homepage, _created = HomePage.objects.get_or_create(
             pk=1,
@@ -141,14 +139,13 @@ class Command(BaseCommand):
                 'tagline': '',
                 'description': ANANDAKENDRA_INTRO,
                 'picture': picture_path,
-                'banner_image': banner_path,
             },
         )
         homepage.tagline = ''
         homepage.description = ANANDAKENDRA_INTRO
         homepage.picture = picture_path
-        if not homepage.banner_image:
-            homepage.banner_image = banner_path
+        from bandhuapp.initiative_home_captions import apply_initiative_captions
+        apply_initiative_captions(homepage, 'anandakendra')
         homepage.save()
 
         keep_ids = []

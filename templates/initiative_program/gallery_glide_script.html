@@ -3,17 +3,18 @@
         var root = document.querySelector(selector);
         if (!root || typeof Glide === 'undefined') return null;
         var slideCount = root.querySelectorAll('.glide__slide').length;
-        if (slideCount < 5) return null;
+        if (slideCount < 2) return null;
+        var perView = Math.min(4, slideCount);
         var glide = new Glide(selector, {
             type: 'carousel',
-            perView: 4,
+            perView: perView,
             gap: 20,
             autoplay: 4000,
             hoverpause: true,
             animationDuration: 700,
             breakpoints: {
-                1200: { perView: 3 },
-                768: { perView: 2 },
+                1200: { perView: Math.min(3, slideCount) },
+                768: { perView: Math.min(2, slideCount) },
                 480: { perView: 1 },
             },
         });

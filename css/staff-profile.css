@@ -1,4 +1,4 @@
-﻿/* Page shell only — profile card / experiences / modals unchanged below */
+/* Page shell only — profile card / experiences / modals unchanged below */
 
 body.staff-profile-page-site {
     background: #ffffff;
@@ -101,27 +101,10 @@ body.staff-profile-page-site .angular.page-angular {
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
-/* Back link — pillar style (card layout unchanged) */
-.staff-profile-page-site .staff-profile-back.pillar-back,
-.staff-profile-back.pillar-back {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
+/* Back link spacing on profile page */
+.staff-profile-page-site .staff-profile-back.pillar-nav-back,
+.staff-profile-back.pillar-nav-back {
     margin-bottom: 1.25rem;
-    color: #005E66;
-    text-decoration: none;
-    font-size: 1rem;
-    font-weight: 600;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    transition: color 0.2s ease;
-}
-.staff-profile-page-site .staff-profile-back.pillar-back:hover,
-.staff-profile-back.pillar-back:hover {
-    color: #3d5c60;
-    text-decoration: underline;
-}
-.staff-profile-back i {
-    font-size: 1rem;
 }
 
 /* Profile card – mint left / white right (reference layout) */

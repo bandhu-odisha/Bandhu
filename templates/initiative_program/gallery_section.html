@@ -13,22 +13,7 @@
 
             {% if photos.count %}
             <div id="gallery-container" class="gallery-container">
-                {% if photos.count < 5 %}
-                <div class="initiative-gallery-static mt-4">
-                    <div class="initiative-gallery-static-grid">
-                        {% for photo in photos %}
-                        <div class="initiative-gallery-static-item">
-                            <div class="gallery-slide-card position-relative rounded overflow-hidden">
-                                <img src="{{ photo.picture.url }}" alt="Gallery" class="gallery-slide-img" loading="lazy">
-                                <a href="javascript:pswpInit({{ forloop.counter0 }})" class="stretched-link gallery-slide-link" aria-label="Open gallery image {{ forloop.counter }}">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-                {% else %}
+                {% if photos.count > 1 %}
                 <div class="glide-carousel-custom initiative-gallery-carousel mt-4">
                     <div class="glide initiative_gallery_glide">
                         <div class="glide__track" data-glide-el="track">
@@ -60,10 +45,32 @@
                         </div>
                     </div>
                 </div>
+                {% else %}
+                <div class="initiative-gallery-static mt-4">
+                    <div class="initiative-gallery-static-grid initiative-gallery-static-grid--single">
+                        {% for photo in photos %}
+                        <div class="initiative-gallery-static-item">
+                            <div class="gallery-slide-card position-relative rounded overflow-hidden">
+                                <img src="{{ photo.picture.url }}" alt="Gallery" class="gallery-slide-img" loading="lazy">
+                                <a href="javascript:pswpInit({{ forloop.counter0 }})" class="stretched-link gallery-slide-link" aria-label="Open gallery image {{ forloop.counter }}">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
                 {% endif %}
             </div>
             {% else %}
             <p class="text-center text-muted mt-4 mb-0">No gallery photos yet.</p>
+            {% endif %}
+
+            {% if gallery_is_home and check_admin %}
+            <p class="text-center text-muted small mt-3 mb-0">
+                To add photos here, open a year entry and use <strong>Gallery → Upload / Manage</strong>.
+                Photos appear on this page after they are approved.
+            </p>
             {% endif %}
 
             {% if check_admin and user.is_authenticated and not gallery_is_home and not hide_gallery_upload_button %}

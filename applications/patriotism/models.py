@@ -1,10 +1,11 @@
 from django.db import models
 
+from bandhuapp.initiative_home_models import InitiativeHomePageMixin, HERO_IMAGE_HELP
 from bandhuapp.models import Profile
 
 # Create your models here.
 
-class Ashram(models.Model):
+class Ashram(InitiativeHomePageMixin, models.Model):
     name = models.CharField(max_length=50)
     locality = models.CharField(max_length=100)
     description = models.TextField(max_length=1000)
@@ -14,7 +15,11 @@ class Ashram(models.Model):
         help_text='Optional rich text for reports (links, notes).',
     )
     address = models.CharField(max_length=250)
-    image = models.ImageField(upload_to='patriotism/thumbnails/')
+    image = models.ImageField(
+        upload_to='patriotism/thumbnails/',
+        verbose_name='Hero image',
+        help_text=HERO_IMAGE_HELP,
+    )
     slug = models.SlugField()
     is_published = models.BooleanField(
         default=False,
@@ -173,11 +178,15 @@ class HomeGalleryPhoto(models.Model):
         return 'Patriotism in Action home gallery photo'
 
 
-class HomePage(models.Model):
+class HomePage(InitiativeHomePageMixin, models.Model):
     tagline = models.TextField(max_length=1000, verbose_name="Tagline (Bold)")
     description = models.TextField(max_length=3000)
-    picture = models.ImageField(upload_to='patriotism/index')
-    banner_image = models.ImageField(upload_to='patriotism/banner')
+    picture = models.ImageField(
+        upload_to='patriotism/index',
+        blank=True,
+        verbose_name='Hero image',
+        help_text=HERO_IMAGE_HELP,
+    )
 
     class Meta:
         verbose_name = 'Patriotism in Action Home Page'

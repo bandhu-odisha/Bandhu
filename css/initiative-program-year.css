@@ -5,17 +5,143 @@ body.initiative-year-page {
     background: #ffffff;
 }
 
+/* Year detail banner: keep showcase markup for accessibility but fully hidden
+   (beats ashram.css page-showcase-tall unhide that leaks title fragments to top-left) */
+body.initiative-year-page #top-section .slider-txt-container.page-showcase.page-showcase-tall > *,
+body.initiative-year-page #top-section .slider-txt-container.page-showcase > * {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+/* Year detail footer captions: keep EN/Odia swap contained in the card footer */
+body.initiative-year-page #about .anandakendra-card-footer .anandakendra-text-caption {
+    display: inline-grid !important;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    position: relative !important;
+    overflow: hidden !important;
+    isolation: isolate;
+    justify-items: end;
+    align-items: center;
+    margin-left: auto;
+    flex: 0 0 auto;
+    max-width: min(100%, 22rem);
+    text-align: right;
+}
+
+body.initiative-year-page #about .anandakendra-card-footer .anandakendra-text-caption .caption-line {
+    grid-area: 1 / 1;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    margin: 0;
+    width: max-content;
+    max-width: 100%;
+    text-align: right;
+    white-space: normal;
+    overflow: hidden;
+    opacity: 0;
+    animation: anandakendraCaptionSwap 8s ease-in-out infinite;
+}
+
+body.initiative-year-page #about .anandakendra-card-footer .anandakendra-text-caption .caption-or {
+    animation-delay: 4s !important;
+}
+
+/* Year entry banner: one visible title (no ::before duplicate), styled like list pages */
+body.initiative-year-page.pillar-inner-page #top-section .parallax-overlay::before,
+body.initiative-year-page.pillar-inner-page #top-section .parallax-overlay::after {
+    content: none !important;
+    display: none !important;
+}
+
+body.initiative-year-page.pillar-inner-page #top-section .slider-txt-container.pillar-showcase,
+body.initiative-year-page.pillar-inner-page #top-section .slider-txt-container.page-showcase.pillar-showcase {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding-top: 5.25rem !important;
+    padding-bottom: 2rem !important;
+    box-sizing: border-box !important;
+    text-transform: none !important;
+}
+
+body.initiative-year-page.pillar-inner-page #top-section .slider-txt-container.pillar-showcase > *,
+body.initiative-year-page.pillar-inner-page #top-section .slider-txt-container.page-showcase.pillar-showcase > * {
+    position: static !important;
+    width: auto !important;
+    max-width: min(92vw, 48rem) !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin: 0 auto !important;
+    overflow: visible !important;
+    clip: auto !important;
+    clip-path: none !important;
+    white-space: normal !important;
+    border: 0 !important;
+    opacity: 1 !important;
+    pointer-events: none !important;
+}
+
+body.initiative-year-page.pillar-inner-page .pillar-showcase .pillar-showcase-title,
+body.initiative-year-page.pillar-inner-page .pillar-showcase .page-showcase-title {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-weight: 800 !important;
+    font-size: clamp(2.2rem, 6vw, 4rem) !important;
+    letter-spacing: 0.02em !important;
+    color: #005E66 !important;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.95), 0 2px 22px rgba(0, 94, 102, 0.14) !important;
+    line-height: 1.15 !important;
+    text-align: center !important;
+    text-transform: none !important;
+}
+
+body.initiative-year-page.pillar-inner-page .pillar-showcase .pillar-showcase-accent,
+body.initiative-year-page.pillar-inner-page .pillar-showcase .page-showcase-accent {
+    margin: 1rem auto 0 !important;
+    width: 4.5rem !important;
+    height: 4px !important;
+    border-radius: 999px !important;
+    background: linear-gradient(90deg, #005E66 0%, #006A73 100%) !important;
+}
+
 body.initiative-program-page .angular-anandakendra .top-angle:before,
+body.initiative-program-page .angular-ashram .top-angle:before,
 body.initiative-year-page .angular-anandakendra .top-angle:before {
     background: #ffffff !important;
 }
 
-/* Overlay cards — match Anandakendra detail (-280px pull, 30/70 split) */
+/* Program list pages: overlap cards on banner bottom */
 body.initiative-program-page .angular-anandakendra + .pillar-overlay-cards,
-body.initiative-year-page .angular-anandakendra + .initiative-year-detail #about.pillar-overlay-cards,
-body.initiative-year-page .initiative-year-detail #about.pillar-overlay-cards {
+body.initiative-program-page .angular-ashram + .pillar-overlay-cards {
     margin-top: -280px !important;
     padding-top: 0 !important;
+}
+
+/* Year detail: overlap cards on banner bottom — balanced gap (beats anandakendra.css -280px) */
+body.initiative-year-page .angular-anandakendra + .initiative-year-detail.anandakendra-detail #about.pillar-overlay-cards,
+body.initiative-year-page .initiative-year-detail.anandakendra-detail #about.pillar-overlay-cards {
+    margin-top: -178px !important;
+    padding-top: 2.25rem !important;
+}
+
+/* Program list: same overlap as Other Activities */
+body.initiative-program-page.pillar-inner-page .angular-ashram + .pillar-overlay-cards {
+    margin-top: -185px !important;
+    padding-top: 3.5rem !important;
 }
 
 body.initiative-program-page .pillar-overlay-cards,
@@ -121,18 +247,6 @@ body.initiative-year-page #about .anandakendra-card-footer .anandakendra-text-ca
     animation-delay: 4s !important;
 }
 
-body.initiative-program-page #about .anandakendra-back-link,
-body.initiative-year-page #about .anandakendra-back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    color: #3d5c60;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    font-size: 0.92rem;
-    font-weight: 600;
-    text-decoration: none;
-}
-
 body.initiative-year-page #about .pillar-overlay-card--text.anandakendra-sync-text.has-admin-actions {
     overflow-y: auto;
     overflow-x: hidden;
@@ -140,9 +254,12 @@ body.initiative-year-page #about .pillar-overlay-card--text.anandakendra-sync-te
 
 @media (max-width: 767px) {
     body.initiative-program-page .angular-anandakendra + .pillar-overlay-cards,
-    body.initiative-year-page .angular-anandakendra + .initiative-year-detail #about.pillar-overlay-cards,
     body.initiative-year-page .pillar-overlay-cards {
         margin-top: -100px !important;
+    }
+    body.initiative-year-page .initiative-year-detail.anandakendra-detail #about.pillar-overlay-cards {
+        margin-top: -68px !important;
+        padding-top: 1.5rem !important;
     }
 }
 
@@ -216,9 +333,24 @@ body.initiative-year-page #about .pillar-overlay-card--text.anandakendra-sync-te
 
 /* Marquee */
 .initiative-year-marquee {
-    margin-bottom: 1rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid rgba(128, 179, 186, 0.35);
+    margin-top: 1.5rem;
+    margin-bottom: 1.75rem;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.initiative-year-marquee-label {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #475569;
+    margin: 0 0 0.75rem;
+}
+
+.initiative-year-marquee-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem 0.5rem;
 }
 
 .initiative-year-link {
@@ -682,6 +814,10 @@ body.initiative-program-page .initiative-gallery-section {
 .initiative-gallery-section .section-title {
     color: #005E66 !important;
     text-align: center !important;
+    font-size: clamp(2.5rem, 5vw, 3.5rem) !important;
+    font-weight: 700 !important;
+    line-height: 1.15 !important;
+    letter-spacing: -0.02em !important;
 }
 
 .initiative-gallery-wrap {
@@ -941,4 +1077,110 @@ body.initiative-year-page .initiative-draft-banner {
     font-size: 0.9rem;
     margin-bottom: 1rem;
     padding: 0.75rem 1rem;
+}
+
+body.initiative-program-page.modal-open .initiative-year-modal.modal.show,
+body.initiative-year-page.modal-open .initiative-year-modal.modal.show {
+    z-index: 1060 !important;
+}
+
+body.initiative-program-page.modal-open .modal-backdrop.show,
+body.initiative-year-page.modal-open .modal-backdrop.show {
+    z-index: 1055 !important;
+}
+
+/* Sevavrata (and similar): Ankurayan-style photo card + schedule on detail pages */
+body.initiative-year-page .pillar-overlay-card--image.initiative-entry-photo-card {
+    aspect-ratio: unset;
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    overflow: hidden;
+}
+body.initiative-year-page .initiative-entry-photo-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: #f1f5f9;
+}
+body.initiative-year-page .initiative-entry-hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+body.initiative-year-page .initiative-entry-schedule {
+    padding: 1.25rem 1.5rem;
+    background: #fff;
+    border-top: 1px solid rgba(128, 179, 186, 0.28);
+}
+body.initiative-year-page .initiative-entry-schedule-title {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #3d5c60;
+    margin-bottom: 0.65rem;
+}
+body.initiative-year-page .initiative-entry-schedule-dates {
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: #475569;
+}
+
+/* Year detail about card — room between description, footer, explore, and file sections */
+body.initiative-year-page .initiative-year-detail #about .pillar-overlay-card--text {
+    min-height: 0 !important;
+    height: auto !important;
+    padding: 2rem 2rem 2.25rem !important;
+}
+
+body.initiative-year-page .initiative-year-detail #about .pillar-desc {
+    margin-bottom: 0 !important;
+}
+
+body.initiative-year-page .initiative-year-detail #about .pillar-desc p {
+    margin-bottom: 0.85rem !important;
+}
+
+body.initiative-year-page .initiative-year-detail #about .pillar-desc p:last-child {
+    margin-bottom: 0 !important;
+}
+
+body.initiative-year-page .initiative-year-detail #about .anandakendra-card-actions {
+    margin-top: 0 !important;
+}
+
+body.initiative-year-page .initiative-year-detail #about .anandakendra-card-footer {
+    margin-top: 1.5rem !important;
+    padding-top: 0;
+    border-top: none !important;
+}
+
+body.initiative-year-page .initiative-year-detail .initiative-draft-banner {
+    margin-top: 1.25rem !important;
+    margin-bottom: 0.25rem;
+}
+
+body.initiative-year-page .initiative-year-detail .initiative-year-detail-sections {
+    margin-top: 0.25rem;
+    padding-top: 0.5rem;
+    border-top: none !important;
+}
+
+body.initiative-year-page .initiative-year-detail .initiative-description-actions {
+    margin-top: 0.25rem;
+    margin-bottom: 1.35rem !important;
+}
+
+body.initiative-year-page .initiative-year-detail .initiative-files-cards-row {
+    gap: 1.15rem;
+}
+
+body.initiative-year-page .initiative-year-detail #about.pillar-overlay-cards > .container > .row {
+    row-gap: 1.75rem;
 }

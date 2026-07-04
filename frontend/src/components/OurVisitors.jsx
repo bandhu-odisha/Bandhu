@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useCallback } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { useMediaQuery } from '../useMediaQuery'
 
@@ -57,19 +57,14 @@ export default function OurVisitors({ data }) {
   const [selected, setSelected] = useState(null)
   const [page, setPage] = useState(0)
   const [paused, setPaused] = useState(false)
-  const isWide = useMediaQuery('(min-width: 640px)')
-  const cardsPerView = isWide ? 2 : 1
+  const isWide = useMediaQuery('(min-width: 640px)', true)
+  const cardsPerView = isWide ? (visitors.length === 2 ? 1 : 2) : 1
 
   const pages = useMemo(
     () => chunkVisitors(visitors, cardsPerView),
     [visitors, cardsPerView]
   )
   const pageCount = pages.length
-  const slidePercent = pageCount > 0 ? 100 / pageCount : 100
-
-  const goNext = useCallback(() => {
-    setPage((p) => (p + 1) % pageCount)
-  }, [pageCount])
 
   useEffect(() => {
     setPage(0)
@@ -77,9 +72,11 @@ export default function OurVisitors({ data }) {
 
   useEffect(() => {
     if (pageCount <= 1 || paused) return undefined
-    const id = window.setInterval(goNext, AUTO_INTERVAL_MS)
+    const id = window.setInterval(() => {
+      setPage((p) => (p + 1) % pageCount)
+    }, AUTO_INTERVAL_MS)
     return () => window.clearInterval(id)
-  }, [pageCount, paused, goNext])
+  }, [pageCount, paused])
 
   if (!visitors.length) {
     return null
@@ -93,7 +90,7 @@ export default function OurVisitors({ data }) {
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6" style={{ backgroundColor: '#ffffff' }}>
         <h2 className="section-title text-center mb-4">Our Visitors</h2>
-        <p className="font-body text-slate-600 text-center max-w-2xl mx-auto mb-8 sm:mb-10 text-base sm:text-lg font-medium px-1">
+        <p className="landing-section-subtitle">
           People who visited Bandhu share their experience.
         </p>
 
@@ -105,35 +102,25 @@ export default function OurVisitors({ data }) {
           aria-roledescription="carousel"
           aria-label="Visitor testimonials"
         >
-          <div
-            className="flex flex-nowrap motion-reduce:transition-none bg-white"
-            style={{
-              width: `${pageCount * 100}%`,
-              transform: `translate3d(-${page * slidePercent}%, 0, 0)`,
-              transition: 'transform 500ms ease-in-out',
-            }}
-          >
-            {pages.map((pair, pageIndex) => (
-              <div
-                key={pageIndex}
-                className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 box-border bg-white"
-                style={{
-                  flex: `0 0 ${slidePercent}%`,
-                  width: `${slidePercent}%`,
-                  minWidth: `${slidePercent}%`,
-                  maxWidth: `${slidePercent}%`,
-                }}
-              >
-                {pair.map((visitor, visitorIndex) => (
-                  <VisitorCard
-                    key={visitor.id}
-                    visitor={visitor}
-                    onOpen={setSelected}
-                  />
-                ))}
-              </div>
-            ))}
-          </div>
+          {pages.map((pair, pageIndex) => (
+            <div
+              key={pageIndex}
+              className={`grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 motion-reduce:transition-none transition-opacity duration-500 ease-in-out ${
+                pageIndex === page
+                  ? 'relative z-[1] opacity-100'
+                  : 'pointer-events-none absolute inset-x-0 top-0 z-0 opacity-0'
+              }`}
+              aria-hidden={pageIndex !== page}
+            >
+              {pair.map((visitor) => (
+                <VisitorCard
+                  key={visitor.id}
+                  visitor={visitor}
+                  onOpen={setSelected}
+                />
+              ))}
+            </div>
+          ))}
         </div>
 
         {pageCount > 1 && (

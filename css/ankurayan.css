@@ -177,19 +177,9 @@ body.ankurayan-detail .modal *:not(svg):not(path):not(.fa):not(.fas):not(.far):n
     font-size: 1rem;
     line-height: 1.65;
 }
+.pillar-overlay-cards .pillar-nav-back,
 .pillar-overlay-cards .pillar-back {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: #3d5c60;
-    font-weight: 600;
-    text-decoration: none;
     margin-bottom: 1rem;
-    font-size: 0.95rem;
-}
-.pillar-overlay-cards .pillar-back:hover {
-    color: #3d5c60;
-    text-decoration: underline;
 }
 @media (max-width: 768px) {
     .pillar-overlay-cards {
@@ -383,9 +373,11 @@ body.ankurayan-detail .modal *:not(svg):not(path):not(.fa):not(.fas):not(.far):n
 }
 
 /* Ankurayans section: heading and accent line */
+.ankurayan-list-page #ankurayans .section-title,
 #ankurayans .section-title {
-    font-size: 1.75rem;
-    font-weight: 700;
+    font-size: 2.75rem !important;
+    font-weight: 800 !important;
+    line-height: 1.15 !important;
     color: #3d5c60;
     margin-bottom: 0;
     text-transform: none;
@@ -873,8 +865,10 @@ body.ankurayan-detail .modal *:not(svg):not(path):not(.fa):not(.fas):not(.far):n
 #about.pillar-overlay-cards .ankurayan-year-link {
     color: #2f4d52;
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    font-size: 0.92rem;
-    font-weight: 600;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     text-decoration: none;
 }
 #about.pillar-overlay-cards .ankurayan-year-link:hover {
@@ -889,21 +883,9 @@ body.ankurayan-detail .modal *:not(svg):not(path):not(.fa):not(.fas):not(.far):n
     0% { transform: translateX(0); }
     100% { transform: translateX(calc(-100% - 2rem)); }
 }
-#about.pillar-overlay-cards .ankurayan-back-link {
+#about.pillar-overlay-cards .ankurayan-caption-row .pillar-nav-back {
     margin-top: 0.3rem;
     align-self: flex-start;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    color: #3d5c60;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    font-size: 0.92rem;
-    font-weight: 600;
-    text-decoration: none;
-}
-#about.pillar-overlay-cards .ankurayan-back-link:hover {
-    color: #1f3f45;
-    text-decoration: underline;
 }
 
 /* Caption below Ankurayan photo card (alternating) */

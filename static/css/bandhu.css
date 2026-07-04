@@ -312,7 +312,7 @@ html, body { font-size: 18px; }
 /* GALLERY START */
 
 #gallery .section-title {
-    font-size: 2.4375em;
+    font-size: 2.75em;
 }
 
 #gallery .section-description {
@@ -326,17 +326,18 @@ html, body { font-size: 18px; }
 
 /* Landing + detail masthead: sentence case (not global gallery uppercase) */
 #gallery .gallery-section-head .section-description,
-#gallery .section-description.gallery-section-description {
+#gallery .section-description.gallery-section-description,
+#gallery p.gallery-section-description {
     text-transform: none !important;
     font-weight: 400 !important;
-    font-size: 1.05rem;
     color: #2c3e50;
-    line-height: 1.65 !important;
-    max-width: 40rem;
-    margin-left: auto;
-    margin-right: auto;
     -webkit-text-stroke: 0 !important;
     font-variant: normal !important;
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
 }
 
 /* Legacy split layout: only when not using landing-style .gallery-section-head */
@@ -468,8 +469,10 @@ html, body { font-size: 18px; }
     border-bottom: 2px solid transparent;
     color: #0d0d0d;
     display: inline-block;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 700;
-    font-size: 0.875em;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     margin: 0 5px;
     padding: 10px 12px 8px;
@@ -661,7 +664,7 @@ html, body { font-size: 18px; }
     text-align: center !important;
     position: relative;
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
     font-weight: 700;
     color: #3d5c60;
     text-transform: none;
@@ -684,6 +687,38 @@ html, body { font-size: 18px; }
     margin-top: 0;
     margin-left: auto;
     margin-right: auto;
+}
+
+/* Wider gallery masthead so the default tagline fits on one line */
+#gallery > .bg-grey > .container,
+#gallery .container {
+    max-width: min(100%, 1320px);
+}
+
+#gallery p.gallery-section-description.gallery-tagline-single-line {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+#gallery .gallery-tagline-text {
+    white-space: nowrap !important;
+    display: inline-block !important;
+    max-width: none !important;
+    font-size: clamp(0.95rem, 1.1vw, 1.2rem) !important;
+    letter-spacing: -0.01em;
+    line-height: 1.5 !important;
+    text-align: center !important;
+}
+
+@media screen and (max-width: 575.98px) {
+    #gallery .gallery-tagline-text {
+        white-space: normal !important;
+        display: inline !important;
+        font-size: 0.9rem !important;
+    }
 }
 
 @media screen and (min-width: 992px) {
@@ -709,10 +744,10 @@ html, body { font-size: 18px; }
 }
 .ankurayan-detail #gallery .galleryFilter a,
 .ashram-detail #gallery .galleryFilter a {
-    text-transform: none !important;
-    font-weight: 600 !important;
-    font-size: 0.9rem !important;
-    letter-spacing: 0.02em;
+    text-transform: uppercase !important;
+    font-weight: 700 !important;
+    font-size: 0.72rem !important;
+    letter-spacing: 0.1em !important;
     border-radius: 9999px !important;
     padding: 0.5rem 1.25rem !important;
     margin: 0.35rem !important;
@@ -1437,6 +1472,114 @@ html, body { font-size: 18px; }
     background-color: #80b3ba;
     border-color: #80b3ba;
     color: #fff;
+}
+
+/* ===== Shared pill navigation (Bandhu teal palette) ===== */
+a.pillar-nav-back,
+a.pillar-nav-pill,
+a.anandakendra-back-link,
+a.ankurayan-back-link,
+a.pillar-back,
+#about a.pillar-nav-back,
+#about a.pillar-nav-pill,
+.pillar-overlay-cards a.pillar-nav-back,
+.pillar-overlay-cards a.pillar-nav-pill,
+.pillar-hero a.pillar-nav-back,
+.pillar-hero a.pillar-nav-pill,
+.pillar-related a.pillar-nav-pill {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1.15rem !important;
+    margin: 0;
+    border: 1px solid #80b3ba !important;
+    border-radius: 9999px !important;
+    background: linear-gradient(180deg, #eef8f9 0%, #d6ecee 52%, #c5e4e8 100%) !important;
+    color: #0b3540 !important;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-size: 0.92rem !important;
+    font-weight: 600 !important;
+    line-height: 1.35;
+    text-decoration: none !important;
+    box-shadow:
+        0 1px 3px rgba(0, 94, 102, 0.14),
+        inset 0 1px 0 rgba(255, 255, 255, 0.65) !important;
+    outline: none !important;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+a.pillar-nav-back:hover,
+a.pillar-nav-back:focus-visible,
+a.pillar-nav-pill:hover,
+a.pillar-nav-pill:focus-visible,
+a.anandakendra-back-link:hover,
+a.anandakendra-back-link:focus-visible,
+a.ankurayan-back-link:hover,
+a.ankurayan-back-link:focus-visible,
+a.pillar-back:hover,
+a.pillar-back:focus-visible,
+#about a.pillar-nav-back:hover,
+#about a.pillar-nav-back:focus-visible,
+#about a.pillar-nav-pill:hover,
+#about a.pillar-nav-pill:focus-visible,
+.pillar-overlay-cards a.pillar-nav-back:hover,
+.pillar-overlay-cards a.pillar-nav-back:focus-visible,
+.pillar-overlay-cards a.pillar-nav-pill:hover,
+.pillar-overlay-cards a.pillar-nav-pill:focus-visible,
+.pillar-hero a.pillar-nav-back:hover,
+.pillar-hero a.pillar-nav-back:focus-visible,
+.pillar-hero a.pillar-nav-pill:hover,
+.pillar-hero a.pillar-nav-pill:focus-visible,
+.pillar-related a.pillar-nav-pill:hover,
+.pillar-related a.pillar-nav-pill:focus-visible {
+    color: #005E66 !important;
+    border-color: #005E66 !important;
+    background: linear-gradient(180deg, #f4fbfc 0%, #dceef0 52%, #b8dde2 100%) !important;
+    text-decoration: none !important;
+    outline: none !important;
+    box-shadow:
+        0 2px 8px rgba(0, 94, 102, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7) !important;
+}
+a.pillar-nav-back i,
+a.anandakendra-back-link i,
+a.ankurayan-back-link i,
+a.pillar-back i {
+    font-size: 0.88em;
+    line-height: 1;
+    color: inherit !important;
+}
+
+.pillar-related {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.65rem;
+    margin-bottom: 1.25rem;
+    padding: 0.5rem 0 0.85rem;
+    border-bottom: 1px solid rgba(128, 179, 186, 0.22);
+}
+.pillar-related-label {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.9rem;
+    color: #475569;
+    font-weight: 500;
+    margin-right: 0.15rem;
+}
+
+/* Tab / filter pill labels — UI control type, distinct from body copy */
+a.pillar-nav-pill,
+#about a.pillar-nav-pill,
+.pillar-overlay-cards a.pillar-nav-pill,
+.pillar-hero a.pillar-nav-pill,
+.pillar-related a.pillar-nav-pill,
+#gallery [role='tablist'] [role='tab'] {
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.1em !important;
+    text-transform: uppercase !important;
+    font-style: normal !important;
 }
 
 /* ===== Scrollbar – hidden on viewport to remove vertical line on right ===== */

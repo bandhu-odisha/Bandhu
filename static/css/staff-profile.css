@@ -106,23 +106,9 @@ body.staff-profile-page-site .angular.page-angular {
     font-family:  sans-serif;
 }
 
-/* Back link with icon – above the profile card */
-.staff-profile-back {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.85rem;
-    color: #333;
-    text-decoration: none;
-    font-size: 0.95rem;
-    font-weight: 500;
-    transition: color 0.2s ease;
-}
-.staff-profile-back:hover {
-    color: #008080;
-}
-.staff-profile-back i {
-    font-size: 1rem;
+/* Back link spacing on profile page */
+.staff-profile-back.pillar-nav-back {
+    margin-bottom: 1.25rem;
 }
 
 /* Profile card – mint left / white right (reference layout) */

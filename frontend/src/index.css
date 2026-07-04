@@ -146,6 +146,14 @@ body.landing a[class]:focus {
   letter-spacing: -0.025em;
   color: var(--color-teal-deep);
 }
+
+#gallery .section-title {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: #3d5c60;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
 @media (min-width: 640px) {
   .section-title {
     font-size: clamp(3.1rem, 4.4vw, 4.35rem);
@@ -162,6 +170,39 @@ body.landing a[class]:focus {
   margin-top: 0.75rem;
   margin-bottom: 1rem;
   box-shadow: 0 2px 8px rgba(61, 92, 96, 0.35);
+}
+
+/* Subtitle under section titles (Our Visitors, About Us, etc.) */
+.landing-section-subtitle {
+  font-family: var(--font-sans);
+  color: #475569;
+  text-align: center;
+  max-width: 42rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 2rem;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.625;
+}
+
+@media (min-width: 640px) {
+  .landing-section-subtitle {
+    margin-bottom: 2.5rem;
+    font-size: 1.125rem;
+  }
+}
+
+.landing-section-subtitle strong,
+.landing-section-subtitle b,
+.landing-section-subtitle p {
+  font-weight: 500;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  margin: 0;
 }
 
 .section-title-underlined {
@@ -219,6 +260,11 @@ body.landing a[class]:focus {
   border-radius: 0 !important;
   box-shadow: none !important;
   outline: none !important;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 #gallery [role='tablist'] [role='tab']:focus,
 #gallery [role='tablist'] [role='tab']:focus-visible {
@@ -242,6 +288,11 @@ body.landing a[class]:focus {
   .section-title {
     font-size: clamp(1.85rem, 7.5vw, 2.35rem);
     line-height: 1.12;
+  }
+
+  #gallery .section-title {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    line-height: 1.15;
   }
 
   body.landing .signup-modal-root .modal-dialog.signup-modal-dialog {

@@ -1,15 +1,6 @@
 from django.contrib import admin
 
-from .models import CarouselImage, HomePage, Product
-
-
-@admin.register(HomePage)
-class HomePageAdmin(admin.ModelAdmin):
-    fieldsets = (
-        (None, {'fields': ('tagline', 'description', 'picture', 'banner_image')}),
-        ('Captions & ordering', {'fields': ('caption_en', 'caption_or', 'order_note', 'whatsapp_number')}),
-        ('Products section', {'fields': ('products_heading',)}),
-    )
+from .models import Product
 
 
 @admin.register(Product)
@@ -28,14 +19,7 @@ class ProductAdmin(admin.ModelAdmin):
             'fields': ('intro_lead', 'intro_text', 'nutritional_highlights', 'quality_promise'),
             'description': (
                 'Opening phrase is shown in bold automatically (plain text, no HTML). '
-                'Quality promise: one item per line — the site inserts · between items on the product modal.'
+                'Quality promise: one item per line — each line appears as its own row on the product modal.'
             ),
         }),
     )
-
-
-@admin.register(CarouselImage)
-class CarouselImageAdmin(admin.ModelAdmin):
-    list_display = ('id', 'sort_order')
-    list_editable = ('sort_order',)
-    ordering = ('sort_order', 'id')

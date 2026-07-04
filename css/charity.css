@@ -176,19 +176,9 @@ body.charity-detail-page .charity-detail-hero-subtitle {
     font-size: 1rem;
     line-height: 1.65;
 }
+.pillar-overlay-cards .pillar-nav-back,
 .pillar-overlay-cards .pillar-back {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: #3d5c60;
-    font-weight: 600;
-    text-decoration: none;
     margin-bottom: 1rem;
-    font-size: 0.95rem;
-}
-.pillar-overlay-cards .pillar-back:hover {
-    color: #3d5c60;
-    text-decoration: underline;
 }
 
 /* Match Sanskar/Swaraj/Swabalamban text card typography exactly */
@@ -219,13 +209,6 @@ body.charity-detail-page .charity-detail-hero-subtitle {
     color: #3d5c60 !important;
     font-weight: 700 !important;
 }
-.pillar-overlay-cards .pillar-back {
-    color: #3d5c60 !important;
-}
-.pillar-overlay-cards .pillar-back:hover {
-    color: #3d5c60 !important;
-}
-
 /* Alternating bilingual quote inside text card */
 .pillar-overlay-cards .pillar-text-quote {
     margin-top: 0.75rem;
@@ -242,14 +225,16 @@ body.charity-detail-page .charity-detail-hero-subtitle {
     transform: translateY(4px);
     animation: charityQuoteSwap 10s ease-in-out infinite;
 }
-.pillar-overlay-cards .pillar-text-quote .quote-en {
+.pillar-overlay-cards .pillar-text-quote .quote-en,
+.pillar-overlay-cards .pillar-text-quote .caption-en {
     color: #2f4d52;
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 0.98rem;
     font-style: italic;
     font-weight: 600;
 }
-.pillar-overlay-cards .pillar-text-quote .quote-or {
+.pillar-overlay-cards .pillar-text-quote .quote-or,
+.pillar-overlay-cards .pillar-text-quote .caption-or {
     color: #2f4d52;
     font-family: 'Noto Sans Oriya', 'Noto Sans Odia', 'Kohinoor Odia', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 1.02rem;
@@ -480,7 +465,6 @@ body.other-activities-page .angular-charity + .pillar-overlay-cards {
 
 /* Brand alignment to Sanskar/Swabalamban */
 .pillar-overlay-cards .pillar-overlay-card--text h1,
-.pillar-overlay-cards .pillar-back,
 #about .title,
 #about .content-title,
 #activities .activity-card .card-title,
@@ -724,6 +708,10 @@ body.charity-detail-page .charity-detail-gallery .gallery-accent {
 .charity-detail-gallery .section-title {
     color: #005E66;
     margin-bottom: 1rem !important;
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
 }
 .charity-detail-gallery .charity-gallery-intro {
     color: #475569;

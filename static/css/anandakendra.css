@@ -130,19 +130,9 @@ body.anandakendra-detail-page #about.pillar-overlay-cards {
     font-size: 1rem;
     line-height: 1.65;
 }
+.pillar-overlay-cards .pillar-nav-back,
 .pillar-overlay-cards .pillar-back {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: #3d5c60;
-    font-weight: 600;
-    text-decoration: none;
     margin-bottom: 1rem;
-    font-size: 0.95rem;
-}
-.pillar-overlay-cards .pillar-back:hover {
-    color: #3d5c60;
-    text-decoration: underline;
 }
 @media (max-width: 768px) {
     .pillar-overlay-cards {
@@ -225,7 +215,23 @@ section#about.page-hero.page-hero-with-angular {
 section#about.page-hero.page-hero-with-angular .container {
     padding-top: 0 !important;
 }
-/* Gallery: gradient ends with #d7e9f2 so it blends into Running Anandakendras (no line) */
+/* Anandakendras list: heading */
+.anandakendra-list-page #anandakendras .section-title,
+#anandakendras .section-title {
+    font-size: 2.75rem !important;
+    font-weight: 800 !important;
+    line-height: 1.15 !important;
+    color: #3d5c60;
+    margin-bottom: 0;
+    text-transform: none;
+    letter-spacing: -0.02em;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+#anandakendras .section-title:after {
+    display: none;
+}
+
+/* Gallery: gradient ends with #d7e9f2 so it blends into Our Anandakendras (no line) */
 section.pillar-gallery.anandakendra-gallery {
     border-top: none !important;
     border-bottom: none !important;
@@ -572,12 +578,15 @@ body.anandakendra-detail-page .navbar .navbar-nav a.nav-button.btn:active {
     background: linear-gradient(180deg, #d7e9f2 0%, #d7e9f2 50%, #b8dce5 100%);
     border-top: 1px solid rgba(128, 179, 186, 0.15);
 }
-.pillar-gallery h2 {
-    font-size: 1.75rem;
+.pillar-gallery h2,
+.pillar-gallery .section-title {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
     font-weight: 700;
     color: #3d5c60;
     margin-bottom: 0.5rem;
     text-align: center;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
 }
 .pillar-gallery .gallery-accent {
     width: 4rem;
@@ -620,7 +629,7 @@ body.anandakendra-detail-page .navbar .navbar-nav a.nav-button.btn:active {
     height: 0;
 }
 body.anandakendra-detail-page #gallery .gallery-section-head .section-title {
-    font-size: clamp(2rem, 4.5vw, 2.75rem);
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
 }
 body.anandakendra-detail-page #gallery .gallery-tagline-text {
     font-size: clamp(1.1rem, 1.35vw, 1.45rem);
@@ -912,20 +921,6 @@ body.anandakendra-list-page #about.pillar-overlay-cards .anandakendra-image-capt
     margin-top: 0;
     align-self: flex-end;
     flex-shrink: 0;
-}
-#about.pillar-overlay-cards .anandakendra-back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    color: #3d5c60;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    font-size: 0.92rem;
-    font-weight: 600;
-    text-decoration: none;
-}
-#about.pillar-overlay-cards .anandakendra-back-link:hover {
-    color: #1f3f45;
-    text-decoration: underline;
 }
 
 @keyframes anandakendraCaptionSwap {

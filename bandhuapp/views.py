@@ -30,10 +30,17 @@ from applications.ankurayan.models import Activity as AnkurayanActivity
 from applications.ashram.models import Event as AshramEvent
 from applications.charitywork.models import Activity as CharityActivity
 from .models import (
-    Designation, PeoplesDesignation, Profile, Photo, Initiatives, AboutUs,
-    Mission, Staff, StaffExperience, StaffExperiencePhoto, Video, Volunteer,
+    Designation, PeoplesDesignation, Profile, Photo, AboutUs,
+    Staff, StaffExperience, StaffExperiencePhoto, Video, Volunteer,
     Gallery, Contact, HomePage, HomeVisitor, UrlData, CurrentUpdates, RecentActivity,
-    AnnualReport,
+    AnnualReport, HeroSlide, AboutSlide,
+    SanskarHomePage, SwarajHomePage, SwabalambanHomePage,
+)
+from bandhuapp.initiatives_section import build_initiatives_payload
+from bandhuapp.pillar_pages import (
+    build_sanskar_context,
+    build_swaraj_context,
+    mission_card_payload,
 )
 from .templatetags import permissions as temp_perms  # Template permissions
 from .helpers import (
@@ -92,6 +99,19 @@ def _can_manage_staff_experiences(user, staff=None):
 
 _PEOPLE_TAB_SLUGS = frozenset({'all', 'core-team', 'office-bearers'})
 
+_DEFAULT_ABOUT_SLIDE_SPECS = (
+    ('bandhuapp/gallery/about-slide-1-gardenia.png', 'about-slide-1-gardenia.png',
+     'A gardenia in full bloom—quiet growth, care for the soil, and our bond with the living world.'),
+    ('bandhuapp/gallery/about-slide-2-hibiscus.png', 'about-slide-2-hibiscus.png',
+     'Double hibiscus in our garden: vivid colour, steady hands, and the joy we find in nurturing life.'),
+    ('bandhuapp/gallery/about-slide-3-campus.png', 'about-slide-3-campus.png',
+     'Bandhu at twilight—where day’s work meets rest, and our community gathers under an open sky.'),
+    ('bandhuapp/gallery/about-slide-4-ixora.png', 'about-slide-4-ixora.png',
+     'Ixora in bloom: many small flowers, one shared canopy—strength in togetherness.'),
+    ('bandhuapp/gallery/about-slide-blossoms.png', 'about-slide-blossoms.png',
+     'A full set of blossoms in the green — yellow bells among the vines and leaves, bright in the thicket.'),
+)
+
 
 def _designation_to_people_tab_slug(title):
     return (title or '').strip().lower().replace(' ', '-')
@@ -113,6 +133,17 @@ def _people_back_url(request, staff_designations=None):
 
 # Create your views here.
 
+def _classic_file_url(field):
+    if not field:
+        return None
+    if not getattr(field, 'name', None):
+        return None
+    try:
+        return field.url
+    except (ValueError, AttributeError):
+        return None
+
+
 def index(request):
     if _must_complete_member_profile(request.user):
         messages.error(request, "Complete your Profile first.")
@@ -133,9 +164,11 @@ def index(request):
     recent_events = recent_events[:10]
 
     context = {
-        'initiatives': Initiatives.objects.all().first(),
+        'initiatives': build_initiatives_payload(_classic_file_url),
         'about': AboutUs.objects.all().first(),
-        'mission': Mission.objects.all().first(),
+        'sanskar_page': SanskarHomePage.objects.first(),
+        'swaraj_page': SwarajHomePage.objects.first(),
+        'swabalamban_page': SwabalambanHomePage.objects.first(),
         'recent_events': recent_events,
         'volunteer': Volunteer.objects.all().first(),
         'photos': Photo.objects.filter(approved=True).order_by('-created'),
@@ -227,16 +260,11 @@ def _build_landing_data(request):
     recent_events.sort(key=lambda x: x['date'], reverse=True)
     recent_events = recent_events[:10]
 
-    initiatives = Initiatives.objects.all().first()
     about = AboutUs.objects.all().first()
-    mission = Mission.objects.all().first()
     content = HomePage.objects.all().first()
     volunteer = Volunteer.objects.all().first()
     gallery = Gallery.objects.all().first()
     contact = Contact.objects.all().first()
-
-    def mission_carousel(qs):
-        return [{'picture': file_url(p.picture)} for p in (qs or []) if file_url(p.picture)]
 
     data = {
         'initiatives': None,
@@ -279,6 +307,7 @@ def _build_landing_data(request):
         'about_slides': [],
         'profile_photos': [],
         'visitors': [],
+        'hero_slides': [],
         'initiative_nav': build_initiative_nav_visibility(request),
     }
 
@@ -296,60 +325,55 @@ def _build_landing_data(request):
             'photoUrl': file_url(visitor.photo),
         })
 
-    if initiatives:
-        data['initiatives'] = {
-            'ankurayan_thumb': file_url(initiatives.ankurayan_thumb),
-            'ankurayan_desc': initiatives.ankurayan_desc,
-            'kendra_thumb': file_url(initiatives.kendra_thumb),
-            'kendra_desc': initiatives.kendra_desc,
-            'bandhughar_thumb': file_url(initiatives.bandhughar_thumb),
-            'bandhughar_desc': initiatives.bandhughar_desc,
-            'otheract_thumb': file_url(initiatives.otheract_thumb),
-            'otheract_desc': initiatives.otheract_desc,
-            'publications_thumb': file_url(initiatives.publications_thumb),
-            'publications_desc': initiatives.publications_desc,
-        }
+    data['initiatives'] = build_initiatives_payload(file_url)
     if about:
         data['about'] = {'tagline': about.tagline, 'desc': about.desc}
-    if mission:
-        data['mission'] = {
-            'sanskar_tagline': mission.sanskar_tagline, 'sanskar_desc': mission.sanskar_desc,
-            'sanskar_images': mission_carousel(mission.sanskarcarousel_set.all()),
-            'swaraj_tagline': mission.swaraj_tagline, 'swaraj_desc': mission.swaraj_desc,
-            'swaraj_images': mission_carousel(mission.swarajcarousel_set.all()),
-            'swabalamban_tagline': mission.swabalamban_tagline, 'swabalamban_desc': mission.swabalamban_desc,
-            'swabalamban_images': mission_carousel(mission.swabalambancarousel_set.all()),
-        }
+    data['mission'] = mission_card_payload(file_url)
     if volunteer:
         data['volunteer'] = {'title': volunteer.title, 'tagline': volunteer.tagline}
     if content:
         banner_url = file_url(content.banner_image)
         data['content'] = {'banner_image': banner_url}
         data['banner_image'] = banner_url  # Hero uses this as first image on home
+
+    for slide in HeroSlide.objects.all():
+        data['hero_slides'].append({
+            'title': slide.title,
+            'subtitle': slide.subtitle,
+            'image': file_url(slide.image),
+        })
+
     if gallery:
         data['gallery_tagline'] = gallery.tagline
 
-    about_slide_specs = (
-        ('bandhuapp/gallery/about-slide-1-gardenia.png', 'about-slide-1-gardenia.png', 'Gardenia blossoms on campus.'),
-        ('bandhuapp/gallery/about-slide-2-hibiscus.png', 'about-slide-2-hibiscus.png', 'Hibiscus in the campus gardens.'),
-        ('bandhuapp/gallery/about-slide-3-campus.png', 'about-slide-3-campus.png', 'The Bandhu campus at dusk.'),
-        ('bandhuapp/gallery/about-slide-blossoms.png', 'about-slide-blossoms.png', 'Ixora blooms along the walkways.'),
-        ('bandhuapp/gallery/about-slide-4-ixora.png', 'about-slide-4-ixora.png', 'Seasonal blossoms across the grounds.'),
-    )
-    for relative_path, static_name, caption in about_slide_specs:
-        slide_url = resolve_media_or_static(relative_path, static_name)
-        if slide_url:
-            data['about_slides'].append({'src': slide_url, 'caption': caption})
+    about_slides_qs = AboutSlide.objects.all()
+    if about_slides_qs.exists():
+        for slide in about_slides_qs:
+            slide_url = file_url(slide.image)
+            if slide_url:
+                data['about_slides'].append({'src': slide_url, 'caption': slide.caption or ''})
+    else:
+        for relative_path, static_name, caption in _DEFAULT_ABOUT_SLIDE_SPECS:
+            slide_url = resolve_media_or_static(relative_path, static_name)
+            if slide_url:
+                data['about_slides'].append({'src': slide_url, 'caption': caption})
+
+    reserved_gallery_names = {
+        os.path.basename(slide.image.name).lower()
+        for slide in about_slides_qs
+        if slide.image
+    }
+    if not reserved_gallery_names:
+        reserved_gallery_names = {
+            os.path.basename(relative_path).lower()
+            for relative_path, _static_name, _caption in _DEFAULT_ABOUT_SLIDE_SPECS
+        }
 
     hero_extra_specs = (
         ('bandhuapp/swaraj/our_mission1.jpg', 'our_mission1.jpg'),
         ('bandhuapp/gallery/about-slide-3-campus.png', 'about-slide-3-campus.png'),
         ('bandhuapp/gallery/about-slide-blossoms.png', 'about-slide-blossoms.png'),
     )
-    reserved_gallery_names = {
-        os.path.basename(relative_path).lower()
-        for relative_path, _static_name, _caption in about_slide_specs
-    }
     reserved_gallery_names.update(
         os.path.basename(static_name).lower()
         for _relative_path, static_name in hero_extra_specs
@@ -500,55 +524,16 @@ def index_react(request):
     )
 
 
-def _pillar_context(mission, tagline_attr, desc_attr, images_queryset):
-    """Build context for a pillar page (Sanskar, Swaraj, Swabalamban)."""
-    content = HomePage.objects.all().first()
-    if not mission:
-        return {'title': '', 'tagline': '', 'desc': '', 'images': [], 'content': content}
-    images = [p.picture for p in (images_queryset or [])]
-    return {
-        'title': getattr(mission, tagline_attr, '') or '',
-        'tagline': getattr(mission, tagline_attr, '') or '',
-        'desc': getattr(mission, desc_attr, '') or '',
-        'images': images,
-        'content': HomePage.objects.all().first(),
-    }
-
-
-def _sanskar_hero_picture(carousel_qs):
-    """Prefer the Sanskar collage hero; fall back to the first carousel image."""
-    for item in carousel_qs:
-        name = (getattr(item.picture, 'name', None) or '').lower()
-        if 'collage' in name:
-            return item.picture
-    return carousel_qs[0].picture if carousel_qs else None
-
-
 def pillar_sanskar(request):
-    mission = Mission.objects.all().first()
-    carousel = list(mission.sanskarcarousel_set.all()) if mission else []
-    ctx = _pillar_context(
-        mission, 'sanskar_tagline', 'sanskar_desc',
-        carousel)
-    ctx['page_title'] = 'Sanskar'
-    ctx['related_links'] = [
+    ctx = build_sanskar_context(related_links=[
         {'name': 'Anandakendra', 'url': reverse('anandakendra:anandakendra')},
         {'name': 'Ankurayan', 'url': reverse('ankurayan:ankurayan')},
-    ]
-    ctx['sanskar_hero_image'] = _sanskar_hero_picture(carousel)
-    ctx['pillar_hero_image'] = ctx['sanskar_hero_image']
+    ])
     return render(request, 'pillar_page.html', ctx)
 
 
 def pillar_swaraj(request):
-    mission = Mission.objects.all().first()
-    carousel = list(mission.swarajcarousel_set.all()) if mission else []
-    ctx = _pillar_context(
-        mission, 'swaraj_tagline', 'swaraj_desc',
-        carousel)
-    ctx['page_title'] = 'Swaraj'
-    if carousel:
-        ctx['pillar_hero_image'] = carousel[0].picture
+    ctx = build_swaraj_context()
     return render(request, 'pillar_page.html', ctx)
 
 

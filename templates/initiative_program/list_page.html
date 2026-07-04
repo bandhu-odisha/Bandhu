@@ -5,13 +5,14 @@
 
 {% block title %} Bandhu | {{ program_name }} {% endblock %}
 
-{% block body_class %}initiative-program-page{% endblock %}
+{% block body_class %}initiative-program-page pillar-inner-page{% endblock %}
 
 {% block style %}
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
+<link rel="stylesheet" href="{% static 'css/pillar-inner-banner.css' %}?v=2">
 <link rel="stylesheet" href="{% static 'css/anandakendra.css' %}?v=22">
 <link rel="stylesheet" href="{% static 'css/ashram.css' %}?v=8">
-<link rel="stylesheet" href="{% static 'css/initiative-program-year.css' %}?v=26">
+<link rel="stylesheet" href="{% static 'css/initiative-program-year.css' %}?v=27">
 {% include 'initiative_program/hero_detail_styles.html' %}
 {% endblock %}
 
@@ -36,14 +37,14 @@
 {% endblock %}
 
 {% block showcase-title-container %}
-<div class="slider-txt-container page-showcase page-showcase-tall">
-    <h2 class="bold-txt page-showcase-title">{{ program_name }}</h2>
-    <div class="page-showcase-accent"></div>
+<div class="slider-txt-container pillar-showcase page-showcase page-showcase-tall">
+    <h2 class="bold-txt pillar-showcase-title page-showcase-title">{{ program_name }}</h2>
+    <div class="pillar-showcase-accent page-showcase-accent"></div>
 </div>
 {% endblock %}
 
 {% block angular %}
-<div class="angular page-angular angular-anandakendra">
+<div class="angular page-angular angular-ashram">
     <div class="top-angle"></div>
 </div>
 {% endblock %}
@@ -102,8 +103,7 @@
         <div class="row justify-content-center mt-4">
             <div class="add-bandhughar">
                 {% if check_admin %}
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_bandhughar">Create {{ program_name }}</button>
-                {% include 'initiative_program/create_entry_modal.html' %}
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_bandhughar">Add new year entry</button>
                 {% endif %}
             </div>
         </div>
@@ -119,9 +119,14 @@
         <span><i class="fa fa-arrow-up"></i></span>
     </div>
 </div>
+
+{% if check_admin %}
+{% include 'initiative_program/create_entry_modal.html' %}
+{% endif %}
 {% endblock %}
 
 {% block scripts %}
+{% include 'initiative_program/modal_body_script.html' %}
 <script src="{% static 'js/bandhu.js' %}"></script>
 <script>contact_scrollspy()</script>
 <script type="text/javascript">

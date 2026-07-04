@@ -1,0 +1,8 @@
+{% if primary.image_caption_en or primary.image_caption_or %}
+{% include 'includes/initiative_hero_caption.html' with content=primary line_class=line_class %}
+{% elif fallback.image_caption_en or fallback.image_caption_or %}
+{% include 'includes/initiative_hero_caption.html' with content=fallback line_class=line_class %}
+{% elif fallback_en or fallback_or %}
+{% if fallback_en %}<p class="{{ line_class|default:'caption-line' }} caption-en">{{ fallback_en|safe }}</p>{% endif %}
+{% if fallback_or %}<p class="{{ line_class|default:'caption-line' }} caption-or">{{ fallback_or|safe }}</p>{% endif %}
+{% endif %}

@@ -6,6 +6,67 @@ import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 
+def image_field_available(image_field):
+    """True when an ImageField points at a file that exists in storage."""
+    if not image_field or not getattr(image_field, 'name', None):
+        return False
+    try:
+        return image_field.storage.exists(image_field.name)
+    except Exception:
+        return False
+
+
+def image_field_url(image_field):
+    """Return the media URL only when the underlying file exists."""
+    if not image_field_available(image_field):
+        return None
+    try:
+        return image_field.url
+    except Exception:
+        return None
+
+
+def clear_stale_image_field(instance, field_name):
+    """Remove DB path when the media file was deleted from disk."""
+    field = getattr(instance, field_name, None)
+    if not field or not getattr(field, 'name', None):
+        return False
+    if image_field_available(field):
+        return False
+    setattr(instance, field_name, '')
+    instance.save(update_fields=[field_name])
+    return True
+
+
+def prune_stale_pillar_photos(photo_queryset):
+    """Delete gallery rows whose image files no longer exist."""
+    removed = 0
+    for row in photo_queryset:
+        pic = getattr(row, 'picture', None)
+        if pic and getattr(pic, 'name', None) and not image_field_available(pic):
+            row.delete()
+            removed += 1
+    return removed
+
+
+def pillar_gallery_images(rows, exclude_picture=None):
+    """Image fields for pillar page galleries (skips empty/missing files and optional hero duplicate)."""
+    images = []
+    seen = set()
+    for item in rows or []:
+        pic = item.picture if hasattr(item, 'picture') else item
+        name = getattr(pic, 'name', None) or ''
+        if not name or not image_field_available(pic):
+            continue
+        if exclude_picture is not None and pic == exclude_picture:
+            continue
+        if name in seen:
+            continue
+        seen.add(name)
+        images.append(pic)
+    return images
+
+
 def proper_case(value):
     """Capitalise the first letter of each word; lowercase the rest."""
     if value is None:

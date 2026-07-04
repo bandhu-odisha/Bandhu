@@ -332,14 +332,12 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         offline = options['offline']
         picture_path = 'ankurayan/index/Ankurayan_2025_Logo.png'
-        banner_path = 'ankurayan/banner/our_mission.jpg'
-        for relative_path in (picture_path, banner_path):
-            abs_path = Path(settings.MEDIA_ROOT) / relative_path
-            if not abs_path.is_file():
-                fallback = Path(settings.BASE_DIR) / 'img' / abs_path.name
-                if fallback.is_file():
-                    abs_path.parent.mkdir(parents=True, exist_ok=True)
-                    abs_path.write_bytes(fallback.read_bytes())
+        abs_path = Path(settings.MEDIA_ROOT) / picture_path
+        if not abs_path.is_file():
+            fallback = Path(settings.BASE_DIR) / 'img' / abs_path.name
+            if fallback.is_file():
+                abs_path.parent.mkdir(parents=True, exist_ok=True)
+                abs_path.write_bytes(fallback.read_bytes())
 
         homepage, _created = HomePage.objects.get_or_create(
             pk=1,
@@ -347,14 +345,13 @@ class Command(BaseCommand):
                 'tagline': 'Ankurayan',
                 'description': ANKURAYAN_INTRO,
                 'picture': picture_path,
-                'banner_image': banner_path,
             },
         )
         homepage.tagline = 'Ankurayan'
         homepage.description = ANKURAYAN_INTRO
         homepage.picture = picture_path
-        if not homepage.banner_image:
-            homepage.banner_image = banner_path
+        from bandhuapp.initiative_home_captions import apply_initiative_captions
+        apply_initiative_captions(homepage, 'ankurayan')
         homepage.save()
 
         default_logo = 'ankurayan/logo/Logo.jpg'

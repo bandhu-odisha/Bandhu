@@ -96,6 +96,45 @@ export default function Gallery({ data }) {
     if (el) el.scrollLeft = 0
   }, [filter])
 
+  useEffect(() => {
+    const el = scrollRef.current
+    if (!el) return undefined
+
+    const cards = el.querySelectorAll('[data-gallery-card]')
+    if (cards.length <= 1) return undefined
+
+    let paused = false
+    const pause = () => { paused = true }
+    const resume = () => { paused = false }
+
+    el.addEventListener('mouseenter', pause)
+    el.addEventListener('mouseleave', resume)
+    el.addEventListener('focusin', pause)
+    el.addEventListener('focusout', resume)
+
+    const intervalId = window.setInterval(() => {
+      if (paused) return
+      const maxScroll = el.scrollWidth - el.clientWidth
+      if (maxScroll <= 0) return
+      const card = el.querySelector('[data-gallery-card]')
+      const row = el.firstElementChild
+      const gap = row
+        ? parseFloat(window.getComputedStyle(row).columnGap || window.getComputedStyle(row).gap || '32')
+        : 32
+      const step = card ? card.offsetWidth + (Number.isFinite(gap) ? gap : 32) : 412
+      el.scrollLeft += step
+      if (el.scrollLeft >= maxScroll - 2) el.scrollLeft = 0
+    }, 3000)
+
+    return () => {
+      window.clearInterval(intervalId)
+      el.removeEventListener('mouseenter', pause)
+      el.removeEventListener('mouseleave', resume)
+      el.removeEventListener('focusin', pause)
+      el.removeEventListener('focusout', resume)
+    }
+  }, [filtered])
+
   const current = lightboxIndex != null ? filtered[lightboxIndex] : null
 
   return (
@@ -120,9 +159,9 @@ export default function Gallery({ data }) {
                     role="tab"
                     aria-selected={filter === tag}
                     onClick={() => setFilter(tag)}
-                    className={`shrink-0 font-body text-sm sm:text-base px-3 sm:px-4 py-2.5 transition-colors duration-200 bg-transparent rounded-none outline-none shadow-none border-0 border-b-2 whitespace-nowrap touch-manipulation ${
+                    className={`shrink-0 px-3 sm:px-4 py-2.5 transition-colors duration-200 bg-transparent rounded-none outline-none shadow-none border-0 border-b-2 whitespace-nowrap touch-manipulation text-[0.72rem] font-bold tracking-[0.1em] uppercase ${
                       filter === tag
-                        ? 'border-b-[#005E66] font-semibold text-[#0b3540]'
+                        ? 'border-b-[#005E66] text-[#0b3540]'
                         : 'border-b-transparent text-slate-700 hover:text-slate-900'
                     }`}
                   >
