@@ -13,3 +13,4 @@ media/
 *.log
 .idea/
 .vscode/
+.claude/.cozempic*
