@@ -207,6 +207,13 @@ STATIC_URL = config("STATIC_URL").strip()
 MEDIA_ROOT = config("MEDIA_ROOT").strip()
 MEDIA_URL = config("MEDIA_URL").strip()
 
+# Octal literals, not env-driven: these are filesystem modes required by the
+# cPanel/Passenger deploy, identical in every environment. Django 2.2 defaults
+# both to None, which leaves uploaded files at whatever mode the upload path
+# produced (0600 for temp-file uploads) -- unreadable by the web server user.
+FILE_UPLOAD_PERMISSIONS = 0o644
+FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o755
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
     ('img', os.path.join(BASE_DIR, 'img')),
