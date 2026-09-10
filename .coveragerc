@@ -1,0 +1,18 @@
+[run]
+source =
+    bandhu
+    accounts
+    bandhuapp
+    applications
+omit =
+    */migrations/*
+    */tests/*
+    */tests.py
+    manage.py
+    bandhu/wsgi.py
+    passenger_wsgi.py
+
+[report]
+show_missing = True
+skip_covered = False
+precision = 1

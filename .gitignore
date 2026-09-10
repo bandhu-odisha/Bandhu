@@ -14,3 +14,9 @@ media/
 .idea/
 .vscode/
 .claude/.cozempic*
+
+# Coverage
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml

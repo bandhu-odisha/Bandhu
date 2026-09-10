@@ -87,7 +87,6 @@ def add_attendee(request):
         schedule = request.POST.get('schedule')
         topic = request.POST.get('topic')
         slug = request.POST.get('slug')
-        print(slug)
 
         name = request.POST.get('name')
         email = request.POST.get('email')
@@ -95,7 +94,6 @@ def add_attendee(request):
 
         attende = request.POST.get('attendes')
         attendes = attende.split(",")
-        print(attendes)
         meeting = Meeting.objects.filter(schedule=schedule).filter(topic=topic).first()
 
         if name:
@@ -104,7 +102,6 @@ def add_attendee(request):
         else:
             for i in attendes:
                 profile = Profile.objects.filter(user__email=i).first()
-                print(i,profile)
                 Attendee.objects.create(meeting=meeting,profile=profile)
         
         url = '/bandhughar/detail/' + slug +'/'
@@ -157,7 +154,6 @@ def create_activity(request):
         ashram = get_object_or_404(Ashram, slug=slug)
         activity_category = get_object_or_404(ActivityCategory, pk=int(category))
 
-        print(ashram,activity_category,category)
         activity = Activity.objects.create(category=activity_category,
                                 name=name,description=description)
 
@@ -175,7 +171,6 @@ def add_to_gallery(request):
         slug = request.POST.get('slug')
         activity_images = request.FILES.getlist('gallery_images')
         ashram = get_object_or_404(Ashram,slug=slug)
-        print("image =",activity_images)
 
         for i in activity_images:
             if ashram.admin is not None and ashram.admin.user == request.user:
@@ -196,14 +191,12 @@ def admin_approval(request):
 
         ashram = get_object_or_404(Ashram,slug=slug)
         photo = get_object_or_404(Photo,pk=int(image_pk))
-        print(photo)
         if status == "approve":
             photo.approved = True
             photo.save()
         else:
             photo.delete()
         
-        print(photo.approved)
         photos = Photo.objects.filter(ashram=ashram)
 
         data = serializers.serialize('json', photos)

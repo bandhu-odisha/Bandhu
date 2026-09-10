@@ -418,7 +418,6 @@ def create_activity(request):
         ankurayan = get_object_or_404(Ankurayan,slug=slug)
         activity_category = get_object_or_404(ActivityCategory,pk=int(category))
 
-        print(ankurayan,activity_category,category)
         activity = Activity.objects.create(category=activity_category,
                                 name=name,description=description,date=date)
 
@@ -442,12 +441,8 @@ def add_winners(request):
         activity_images = request.FILES.getlist('activity_images')
 
         winner_profile = get_object_or_404(Participant,pk=int(winner))
-        print(1, winner_profile)
         runner_up1_profile = get_object_or_404(Participant,pk=int(runner_up1))
-        print(2, runner_up1_profile)
         runner_up2_profile = get_object_or_404(Participant,pk=int(runner_up2))
-        print(3, runner_up2_profile)
-        print(activity_pk)
         ankurayan = get_object_or_404(Ankurayan,slug=slug)
         # category = get_object_or_404(ActivityCategory, ankurayan=ankurayan)  # Modify this
         activity = get_object_or_404(Activity, pk=int(activity_pk))
@@ -470,7 +465,6 @@ def add_to_gallery(request):
         slug = request.POST.get('slug')
         activity_images = request.FILES.getlist('gallery_images')
         ankurayan = get_object_or_404(Ankurayan,slug=slug)
-        print("image =",activity_images)
 
         for i in activity_images:
             Photo.objects.create(
@@ -493,7 +487,6 @@ def admin_approval(request):
 
         ankurayan = get_object_or_404(Ankurayan,slug=slug)
         photo = get_object_or_404(Photo,pk=int(image_pk))
-        print(photo)
         if status == "approve":
             photo.approved = True
             photo.save()

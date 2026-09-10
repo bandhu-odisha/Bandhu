@@ -13,6 +13,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 
+from bandhuapp.helpers import proper_case
 from bandhuapp.models import Designation, DesignationRole, PeoplesDesignation, Profile, Staff
 from bandhuapp.webteam import WEBTEAM_MEMBERS
 
@@ -379,9 +380,13 @@ class Command(BaseCommand):
         office_bearers = designation_by_title.get('Office Bearers')
         if office_bearers:
             for role_title, rank in DEFAULT_OFFICE_BEARER_ROLES:
+                # DesignationRole.save() proper-cases the title, so a mixed-case literal
+                # here would never match the stored row on a second run: get_or_create
+                # would miss, insert, and trip the (designation, title) unique constraint.
+                # Look it up in the same form the model will store it in.
                 role, _created = DesignationRole.objects.get_or_create(
                     designation=office_bearers,
-                    title=role_title,
+                    title=proper_case(role_title),
                     defaults={'rank': rank},
                 )
                 role.rank = rank

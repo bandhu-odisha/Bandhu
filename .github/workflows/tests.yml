@@ -1,0 +1,73 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  django-tests:
+    # Django 2.2.13 (pinned in requirements.txt) supports Python 3.5-3.8.
+    runs-on: ubuntu-22.04
+    env:
+      SECRET_KEY: ci-only-secret-key
+      DEBUG: "False"
+      ALLOWED_HOSTS: "['localhost','127.0.0.1']"
+      DB_ENGINE: sqlite
+      EMAIL_USE_SSL: "False"
+      EMAIL_HOST: localhost
+      EMAIL_HOST_USER: noreply@example.com
+      EMAIL_HOST_PASSWORD: unused
+      EMAIL_PORT: "25"
+      SENDER_EMAIL: noreply@example.com
+      ADMINS_EMAIL: "['admin@example.com']"
+      SOCIAL_AUTH_FACEBOOK_KEY: unused
+      SOCIAL_AUTH_FACEBOOK_SECRET: unused
+      SOCIAL_AUTH_GOOGLE_OAUTH2_KEY: unused
+      SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET: unused
+      SENDGRID_API_KEY: SG.unused
+      STATIC_ROOT: ${{ github.workspace }}/.ci-static
+      STATIC_URL: /static/
+      MEDIA_ROOT: ${{ github.workspace }}/.ci-media
+      MEDIA_URL: /media/
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.8"
+          cache: pip
+
+      - name: Install MySQL client headers (mysqlclient is pinned in requirements.txt)
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends default-libmysqlclient-dev pkg-config build-essential
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade "pip<24.1" wheel
+          pip install -r requirements.txt
+          # Test-only tool; deliberately NOT in requirements.txt (never deployed).
+          pip install coverage
+
+      - name: Django system checks
+        run: python manage.py check
+
+      - name: Run test suite with coverage
+        # pipefail is required: without it `tee` masks a failing test run.
+        run: |
+          set -o pipefail
+          coverage run manage.py test --noinput -v 2 2>&1 | tee test-output.txt
+
+      - name: Assert the whole suite was discovered
+        # Deleting applications/__init__.py makes `applications` a namespace package;
+        # discovery then silently skips every applications/* test and still reports OK.
+        run: |
+          ran=$(grep -oE '^Ran [0-9]+ tests' test-output.txt | grep -oE '[0-9]+')
+          echo "discovered $ran tests"
+          if [ -z "$ran" ] || [ "$ran" -lt 550 ]; then
+            echo "::error::Only $ran tests were discovered; expected at least 550. Check that applications/__init__.py still exists."
+            exit 1
+          fi
+
+      - name: Coverage report (fails under 90%)
+        run: |
+          coverage report -m
+          coverage report --fail-under=90

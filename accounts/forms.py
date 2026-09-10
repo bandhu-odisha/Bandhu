@@ -1,3 +1,5 @@
+import logging
+
 from django import forms
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
@@ -11,6 +13,8 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
 from .models import User
+
+logger = logging.getLogger(__name__)
 
 
 class RegisterForm(forms.ModelForm):
@@ -182,9 +186,6 @@ class CustomPasswordResetForm(PasswordResetForm):
         )
         try:
             sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
-            response = sg.send(email)
-            print(response.status_code)
-            print(response.body)
-            print(response.headers)
-        except Exception as e:
-            print(e)
+            sg.send(email)
+        except Exception:
+            logger.exception("SendGrid send failed")

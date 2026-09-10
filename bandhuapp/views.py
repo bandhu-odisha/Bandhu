@@ -1,3 +1,4 @@
+import logging
 import os
 import re
 from datetime import datetime, timedelta
@@ -57,6 +58,8 @@ from openpyxl import Workbook
 from openpyxl.styles import Font
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
+
+logger = logging.getLogger(__name__)
 
 
 def _safe_login_next(next_value):
@@ -419,7 +422,10 @@ def _build_landing_data(request):
         if basename in reserved_gallery_names:
             continue
 
-        stem = re.sub(r'_[a-z0-9]{6,7}(?=\.)', '', os.path.splitext(basename)[0])
+        # splitext() has already removed the extension, so the random upload suffix is
+        # now at the end of the string. Anchor on $, not on a lookahead for a literal
+        # dot that can no longer be there, or the substitution never matches.
+        stem = re.sub(r'_[a-z0-9]{6,7}$', '', os.path.splitext(basename)[0])
         if pic_data['picture'] in seen_gallery_urls or stem in seen_gallery_stems:
             continue
         seen_gallery_urls.add(pic_data['picture'])
@@ -642,12 +648,9 @@ def profile_page(request):
             )
             try:
                 sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
-                response = sg.send(email)
-                print(response.status_code)
-                print(response.body)
-                print(response.headers)
-            except Exception as e:
-                print(e)
+                sg.send(email)
+            except Exception:
+                logger.exception("SendGrid send failed")
 
             logout(request)
             return redirect('account_activated')
@@ -752,7 +755,7 @@ def external_link(request,hash):
             url_data.times_followed += 1
             url_data.save()
             return HttpResponseRedirect(url_data.url)
-        except Exception as e:
+        except Exception:
             return HttpResponseRedirect('/')
 
     return HttpResponseRedirect('/')
@@ -786,9 +789,11 @@ def people(request):
             merged = []
             seen_all = set()
             for card in dict["Office Bearers"] + dict.pop("Other"):
-                if card.staff_id in seen_all:
+                # Cards are SimpleNamespace objects from people_card_from_assignments();
+                # they carry the Staff instance as .staff, never a .staff_id attribute.
+                if card.staff.id in seen_all:
                     continue
-                seen_all.add(card.staff_id)
+                seen_all.add(card.staff.id)
                 merged.append(card)
             dict["Office Bearers"] = merged
         elif "Office Bearers" not in dict and "Other" in dict:
