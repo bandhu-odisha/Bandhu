@@ -81,7 +81,6 @@ def add_volunteers(request):
         date = request.POST.get('date')
         name = request.POST.get('name')
         slug = request.POST.get('slug')
-        print(slug)
 
         name = request.POST.get('name')
         email = request.POST.get('email')
@@ -89,7 +88,6 @@ def add_volunteers(request):
 
         volunteer = request.POST.get('volunteers')
         volunteers = volunteer.split(",")
-        print(volunteers)
 
         charity = get_object_or_404(Charity,slug=slug)
 
@@ -150,14 +148,12 @@ def admin_approval(request):
 
         charity = get_object_or_404(Charity,slug=slug)
         photo = get_object_or_404(Photo,pk=int(image_pk))
-        print(photo)
         if status == "approve":
             photo.approved = True
             photo.save()
         else:
             photo.delete()
         
-        print(photo.approved)
         photos = Photo.objects.filter(charity=charity)
 
         data = serializers.serialize('json', photos)

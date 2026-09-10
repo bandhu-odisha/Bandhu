@@ -21,7 +21,20 @@ python manage.py makemigrations && python manage.py migrate
 # Landing page (React) changed — build output is COMMITTED, rebuild and commit it
 cd frontend && npm install && npm run build   # writes ../static/frontend/assets/index.{js,css}
 ```
-No tests exist (all `tests.py` are Django stubs); `python manage.py test` runs 0 tests. No linter config. Deploy = `git pull`, `pip install`, `migrate`, `collectstatic --noinput`, restart (see README §3).
+```bash
+python manage.py test                          # regression suite (sqlite in-memory, no network); CI runs it via .github/workflows/tests.yml
+python manage.py test applications.sevavrata   # one app; tests live in <app>/tests/ packages
+coverage run manage.py test && coverage report # optional; `pip install coverage` locally only, omit rules in .coveragerc
+```
+Test helpers: `bandhuapp/tests/support.py` (users, profiles, uploads, `TempMediaMixin`); `bandhuapp/tests/initiative_program_support.py` is the shared contract every initiative-program clone app runs. `@unittest.expectedFailure` tests document known bugs — read the docstring before "fixing" the test. **Never delete `applications/__init__.py`** — without it `applications/` is a namespace package, the runner silently discovers only the `accounts`/`bandhuapp` tests (285 instead of 725) and still reports success, and `manage.py test applications.<app>` dies with a `TypeError`. No linter config. Deploy = `git pull`, `pip install`, `migrate`, `collectstatic --noinput`, restart (see README §3).
+
+**Check the test count, not just the pass.** A full run is `Ran 725 tests ... OK (expected failures=10)`. The runner reports on the tests it *discovered*, so a lower number is a discovery failure that still prints `OK` — treat any count other than 725 as a broken build until explained (a deliberate add/remove is the only valid explanation; bump the number here when that happens). Cross-check against `grep -rh "def test_" --include="*.py" accounts bandhuapp applications | wc -l` (647 methods on disk; runtime is higher because the clone apps each re-run the shared initiative contract).
+
+**If output ever buries the summary**, split the streams — the progress dots and the `Ran N tests` line go to stderr, so anything an app writes to stdout drowns it in `tail`:
+```bash
+python manage.py test 2>err.log >/dev/null; tail -20 err.log
+```
+This is diagnostic only, not standing procedure: app code must not write to stdout. Request-path failures use `logger.exception(...)` on a module logger (`accounts/forms.py`, `accounts/views.py`, `bandhuapp/views.py`) — never `print()`. Tests that deliberately trigger those handlers wrap the call in `with self.assertLogs('<module>', level='ERROR')`, which both asserts the failure is logged and keeps the traceback out of the run output; without it the record propagates to Python's last-resort handler and clutters stderr.
 
 ## Gotchas
 - `.gitignore` ignores `*.html`. Existing templates are tracked; a **new** template needs `git add -f`.

@@ -190,7 +190,6 @@ def create_activity(request):
         kendra = get_object_or_404(AnandaKendra, slug=slug)
         activity_category = get_object_or_404(ActivityCategory, pk=int(category))
 
-        print(kendra,activity_category,category)
         activity = Activity.objects.create(category=activity_category,
                                 name=name,description=description,activity_time=activity_time)
 

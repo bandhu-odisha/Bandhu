@@ -1,3 +1,5 @@
+import logging
+
 from django.urls import reverse
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.contrib.auth import get_user_model
@@ -94,6 +96,8 @@ from sendgrid.helpers.mail import Mail
 
 import random
 
+logger = logging.getLogger(__name__)
+
 
 class CustomPasswordResetView(PasswordResetView):
     from_email = settings.SENDER_EMAIL
@@ -176,7 +180,6 @@ def signup_view(request):
             user.save()
             user.refresh_from_db()
             current_site = get_current_site(request)
-            print("123")
             from_email = settings.SENDER_EMAIL
             mail_subject = '[noreply] Activate your Account'
             msg = 'Thanks for signing up, welcome to bandhu. You have been successfully registered.'
@@ -202,12 +205,9 @@ def signup_view(request):
             )
             try:
                 sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
-                response = sg.send(email)
-                print(response.status_code)
-                print(response.body)
-                print(response.headers)
-            except Exception as e:
-                print(e)
+                sg.send(email)
+            except Exception:
+                logger.exception("SendGrid send failed")
 
             return redirect('signup_success_page')
         else:
@@ -242,7 +242,6 @@ def account_authentication(request, uidb64, token):
     try:
         uid = force_text(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
-        print(uid)
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
     if user is not None and account_activation_token.check_token(user, token):
@@ -272,12 +271,9 @@ def account_authentication(request, uidb64, token):
         )
         try:
             sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
-            response = sg.send(email)
-            print(response.status_code)
-            print(response.body)
-            print(response.headers)
-        except Exception as e:
-            print(e)
+            sg.send(email)
+        except Exception:
+            logger.exception("SendGrid send failed")
 
         return redirect('account_authenticated')
     else:
@@ -332,12 +328,9 @@ def account_deletion_confirmed(request, uidb64):
         )
         try:
             sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
-            response = sg.send(email)
-            print(response.status_code)
-            print(response.body)
-            print(response.headers)
-        except Exception as e:
-            print(e)
+            sg.send(email)
+        except Exception:
+            logger.exception("SendGrid send failed")
 
         return redirect('account_deleted')
     else:

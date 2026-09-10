@@ -456,11 +456,13 @@ def make_create_activity(program_key, models):
 
         if not slug or not name:
             messages.error(request, 'Activity name is required.')
-            return HttpResponseRedirect(_detail_url(program_key, slug, '#activities') if slug else PROGRAMS[program_key]['list_url'])
+            if not slug:
+                return redirect(PROGRAMS[program_key]['list_url'])
+            return HttpResponseRedirect(_detail_url(program_key, slug, '#activities'))
 
         if not activity_images:
             messages.error(request, 'An activity image is required.')
-            return HttpResponseRedirect(_detail_url(program_key, slug, '#description') if slug else PROGRAMS[program_key]['list_url'])
+            return HttpResponseRedirect(_detail_url(program_key, slug, '#description'))
 
         ashram = get_object_or_404(models.Ashram, slug=slug)
         if category_id:
@@ -500,7 +502,9 @@ def make_create_event(program_key, models):
 
         if not slug or not name or not date or not thumb:
             messages.error(request, 'Event name, date, and thumbnail are required.')
-            return HttpResponseRedirect(_detail_url(program_key, slug, '#activities') if slug else PROGRAMS[program_key]['list_url'])
+            if not slug:
+                return redirect(PROGRAMS[program_key]['list_url'])
+            return HttpResponseRedirect(_detail_url(program_key, slug, '#activities'))
 
         ashram = get_object_or_404(models.Ashram, slug=slug)
         models.Event.objects.create(
