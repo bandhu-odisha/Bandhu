@@ -28,7 +28,7 @@ No tests exist (all `tests.py` are Django stubs); `python manage.py test` runs 0
 - `db.sqlite3`, `media/`, `.env` are ignored. `DB_ENGINE` defaults to `mysql` in `bandhu/settings.py`; set `sqlite` locally.
 - Static assets are referenced with manual cache-busting `?v=NNN` in templates (e.g. `templates/landing_react.html`); bump the number when the file changes.
 - Root `css/`, `css1/`, `js/`, `img/` are live static dirs (mapped with prefixes in `STATICFILES_DIRS`), not legacy.
-- Django serves static/media itself in both DEBUG and non-DEBUG (`bandhu/urls.py`).
+- **Django serves static/media only when `DEBUG=True`.** The `else:` branch in `bandhu/urls.py` is commented as serving them with `DEBUG=False`, but it is dead code — `django.conf.urls.static.static()` returns `[]` whenever `DEBUG` is false. In production the web server (Apache/LiteSpeed on cPanel) serves `/media/` and `/static/` off disk as a *different* OS user than the Passenger app, so app-written files without world-read permission 403. Hence `FILE_UPLOAD_PERMISSIONS = 0o644` / `FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o755` in `bandhu/settings.py`; see `DONE/planning/2026-09-10-media-upload-permissions/spec.md`.
 - Pinned old deps (Django 2.2, Pillow 6, mysqlclient 2.0) — don't upgrade casually.
 - `scripts/` = one-off migration repair scripts, not tooling.
 
