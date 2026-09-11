@@ -169,10 +169,12 @@ On the cPanel:
   # If some packages were added, removed or modified
   # pip install -r requirements.txt
 
-  # Run migrations (make sure the makemigrations command was run locally and migrations were pushed)
+  # Run migrations (make sure the `python manage.py makemigrations`
+  # command was run locally, and migration files were pushed)
   python manage.py migrate
 
   # Copy any new static files to the public_html/static folder
+  # (only needs to be done if there are any frontend changes)
   python manage.py collectstatic --noinput
   ```
 * Lastly, go back to the "Setup Python App" and restart the application. 
