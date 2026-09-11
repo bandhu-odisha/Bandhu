@@ -164,7 +164,7 @@ On the cPanel:
 * Now, follow the steps below:
   ```bash
   # Pull the latest changes
-  git pull upstream master
+  git pull origin master
 
   # If some packages were added, removed or modified
   # pip install -r requirements.txt
