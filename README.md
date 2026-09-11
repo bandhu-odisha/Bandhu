@@ -130,17 +130,27 @@ Production: **https://www.bandhuodisha.in/**
 
 Before deploy: test locally, commit any new migrations, run `npm run build` if the landing page changed. Never commit `.env`.
 
-On the server:
+On the cPanel:
+* Go to "Setup Python App" under the Software category.
+* Click on the edit (pencil) icon.
+* Copy the command to enter the virtual environment.
+* Go back to the cPanel main page and open "Terminal" under the Advanced category at the bottom.
+* Paste and run the virtual environment command copied earlier.
+* Now, follow the steps below:
+  ```bash
+  # Pull the latest changes
+  git pull upstream master
 
-```bash
-cd /path/to/Bandhu
-git pull origin master
-source venv/bin/activate
-pip install -r requirements.txt
-python manage.py migrate
-python manage.py collectstatic --noinput
-# restart the app server (command depends on hosting)
-```
+  # If some packages were added, removed or modified
+  # pip install -r requirements.txt
+
+  # Run migrations (make sure the makemigrations command was run locally and migrations were pushed)
+  python manage.py migrate
+
+  # Copy any new static files to the public_html/static folder
+  python manage.py collectstatic --noinput
+  ```
+* Lastly, go back to the "Setup Python App" and restart the application. 
 
 Verify the live site and `/admin/` after deploy. Production uses MySQL and `DEBUG=False`; env vars live on the server only.
 
