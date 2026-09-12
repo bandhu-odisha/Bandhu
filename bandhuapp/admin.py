@@ -237,7 +237,10 @@ class HeroSlideAdmin(admin.ModelAdmin):
                 'description': (
                     'Slides rotate on the main home page hero (left text, right image). '
                     'Use sort order 0, 1, 2… — typically four slides. '
-                    'Leave image empty to use the site default for that position.'
+                    'Leave image empty to use the site default for that position. '
+                    'Title and subtitle accept HTML. Title: inline tags only '
+                    '(&lt;strong&gt;, &lt;em&gt;, &lt;span&gt;, &lt;br&gt;, &lt;a&gt;). '
+                    'Subtitle also accepts &lt;p&gt;, &lt;ul&gt; and &lt;ol&gt;.'
                 ),
             },
         ),

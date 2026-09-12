@@ -6,7 +6,7 @@ from unittest import mock
 from django.test import TestCase
 
 from applications.patriotism import models as patriotism_models
-from bandhuapp.models import HomePage
+from bandhuapp.models import HeroSlide, HomePage
 from bandhuapp.tests.support import TempMediaMixin, make_admin, make_profile, make_user
 
 # Keys `frontend/src/App.jsx` reads from the injected JSON. Removing one breaks the landing page.
@@ -88,6 +88,17 @@ class LandingApiTests(TempMediaMixin, TestCase):
 
     def test_only_get_is_allowed(self):
         self.assertEqual(self.client.post('/api/landing/').status_code, 405)
+
+    def test_hero_slide_html_is_not_escaped(self):
+        # Hero.jsx renders these via dangerouslySetInnerHTML; the payload must carry
+        # the admin's raw markup, not an HTML-escaped copy, or the tags show up as text.
+        HeroSlide.objects.create(
+            title='<span class="text-[#004f57]">ବନ୍ଧୁଘର</span>',
+            subtitle='<p>one</p><p><strong>two</strong></p>',
+        )
+        data = self.get_payload()
+        self.assertEqual(data['hero_slides'][0]['title'], '<span class="text-[#004f57]">ବନ୍ଧୁଘର</span>')
+        self.assertEqual(data['hero_slides'][0]['subtitle'], '<p>one</p><p><strong>two</strong></p>')
 
 
 class LandingPageTests(TempMediaMixin, TestCase):
