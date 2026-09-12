@@ -264,6 +264,27 @@ body.initiative-year-page #about .pillar-overlay-card--text.anandakendra-sync-te
         margin-top: -68px !important;
         padding-top: 1.5rem !important;
     }
+
+    /* "Back to {program}" pill: bandhu.css's shared pill rule
+       (a.anandakendra-back-link) hardcodes white-space: nowrap, so a longer
+       program name (e.g. "Odisha Satabdi Sevavrata") measures wider than the
+       card's available width on mobile and the pill rendered past its own
+       rounded box and off the edge of the screen instead of shrinking or
+       wrapping. Let the row stack and let the pill wrap its own text within
+       the card (same family as the caption-clipping fix in fba3b06). */
+    body.initiative-program-page #about .anandakendra-card-actions,
+    body.initiative-year-page #about .anandakendra-card-actions {
+        flex-wrap: wrap;
+    }
+
+    /* Only year_detail.html (body.initiative-year-page) renders this pill —
+       the list page's card actions never include it. */
+    body.initiative-year-page #about a.anandakendra-back-link {
+        white-space: normal !important;
+        max-width: 100%;
+        text-align: center;
+        justify-content: center;
+    }
 }
 
 /* Sidebar gallery under photo (Ankurayan detail pattern) */
