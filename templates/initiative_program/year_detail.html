@@ -80,8 +80,7 @@
                             Back to {{ program_name }}
                         </a>
                         <div class="anandakendra-text-caption" aria-label="{{ program_name }} caption">
-                            <p class="caption-line caption-en">{{ program_quote_en }}</p>
-                            <p class="caption-line caption-or">{{ program_quote_or }}</p>
+                            {% include 'includes/initiative_hero_caption_resolved.html' with primary=ashram fallback=content fallback_en=program_quote_en fallback_or=program_quote_or only %}
                         </div>
                     </div>
                     {% if check_admin and entry_is_draft %}

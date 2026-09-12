@@ -528,6 +528,48 @@ class InitiativeProgramTestsMixin(TempMediaMixin):
         self.assertEqual(response.status_code, 302)
         self.assertTrue(response['Location'].startswith(LOGIN_URL))
 
+    # ----- hero caption precedence (HomePage / entry / registry fallback) ---
+
+    def test_index_page_shows_homepage_caption_not_registry_quote(self):
+        homepage = self.models.HomePage.objects.get_or_create(pk=1)[0]
+        homepage.image_caption_en = 'Typed English caption'
+        homepage.image_caption_or = 'Typed Odia caption'
+        homepage.save()
+
+        response = self.client.get(reverse(self.meta['list_url']))
+        html = response.content.decode('utf-8')
+        self.assertIn('Typed English caption', html)
+        self.assertIn('Typed Odia caption', html)
+        self.assertNotIn(self.meta.get('quote_en', ''), html)
+
+    def test_detail_caption_precedence_entry_then_homepage_then_registry(self):
+        homepage = self.models.HomePage.objects.get_or_create(pk=1)[0]
+        homepage.image_caption_en = 'HomePage caption'
+        homepage.image_caption_or = ''
+        homepage.save()
+
+        entry = self.make_entry(reports='Report text')
+
+        # Both blank on the entry -> falls back to HomePage caption.
+        response = self.client.get(self.detail_url(entry))
+        html = response.content.decode('utf-8')
+        self.assertIn('HomePage caption', html)
+
+        # Entry has its own caption -> entry wins over HomePage.
+        self.models.Ashram.objects.filter(pk=entry.pk).update(image_caption_en='Entry caption')
+        response = self.client.get(self.detail_url(entry))
+        html = response.content.decode('utf-8')
+        self.assertIn('Entry caption', html)
+        self.assertNotIn('HomePage caption', html)
+
+        # Both entry and HomePage blank -> falls back to the registry quote.
+        self.models.Ashram.objects.filter(pk=entry.pk).update(image_caption_en='', image_caption_or='')
+        homepage.image_caption_en = ''
+        homepage.save()
+        response = self.client.get(self.detail_url(entry))
+        html = response.content.decode('utf-8')
+        self.assertIn(self.meta.get('quote_en', ''), html)
+
     # ----- meetings / attendees (legacy views kept per app) -----------------
 
     def test_add_meeting_and_attendees(self):

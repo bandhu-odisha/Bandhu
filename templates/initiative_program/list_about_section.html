@@ -29,8 +29,7 @@
                     <div class="anandakendra-card-actions anandakendra-card-footer">
                         <span class="initiative-about-footer-spacer" aria-hidden="true"></span>
                         <div class="anandakendra-text-caption" aria-label="{{ program_name }} caption">
-                            <p class="caption-line caption-en">{{ program_quote_en }}</p>
-                            <p class="caption-line caption-or">{{ program_quote_or }}</p>
+                            {% include 'includes/initiative_hero_caption_resolved.html' with primary=content fallback_en=program_quote_en fallback_or=program_quote_or only %}
                         </div>
                     </div>
                 </div>
