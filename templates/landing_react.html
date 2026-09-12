@@ -4,17 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Bandhu</title>
+    <title>Bandhu Odisha — Sanskar, Swaraj, Swabalamban</title>
+    {% load static %}
+    <meta name="description" content="Bandhu Odisha is a non-profit organization based in Odisha, working for the upliftment of society across Sanskar, Swaraj and Swabalamban pillars.">
+    <meta property="og:title" content="Bandhu Odisha — Sanskar, Swaraj, Swabalamban">
+    <meta property="og:description" content="Bandhu Odisha is a non-profit organization based in Odisha, working for the upliftment of society across Sanskar, Swaraj and Swabalamban pillars.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'img/bandhulogo_new.png' %}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Bandhu Odisha — Sanskar, Swaraj, Swabalamban">
+    <meta name="twitter:description" content="Bandhu Odisha is a non-profit organization based in Odisha, working for the upliftment of society across Sanskar, Swaraj and Swabalamban pillars.">
+    <meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'img/bandhulogo_new.png' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
-    {% load static %}
     <link rel="shortcut icon" href="{% static 'img/bandhulogo.gif' %}">
     {% if not user.is_authenticated %}
     <link rel="stylesheet" href="{% static 'vendor/css/bootstrap.min.css' %}?v=255">
-    <link rel="stylesheet" href="{% static 'css/accounts-auth-landing.css' %}?v=287">
+    <link rel="stylesheet" href="{% static 'css/accounts-auth-landing.css' %}?v=288">
     {% endif %}
-    <link rel="stylesheet" href="{% static 'frontend/assets/index.css' %}?v=304">
+    <link rel="stylesheet" href="{% static 'frontend/assets/index.css' %}?v=305">
     <link rel="stylesheet" href="{% static 'vendor/css/fontawesome-all.min.css' %}?v=255">
     <style>
       /* Our Visitors profile popup: wide like reference (teal left, details right) */
@@ -177,6 +187,6 @@
     });
     </script>
     {% endif %}
-    <script type="module" src="{% static 'frontend/assets/index.js' %}?v=304"></script>
+    <script type="module" src="{% static 'frontend/assets/index.js' %}?v=305"></script>
 </body>
 </html>

@@ -876,6 +876,40 @@ body.anandakendra-detail-page #about.pillar-overlay-cards .anandakendra-card-foo
     animation-delay: 4s;
 }
 
+/* Detail pages that never load initiative-program-year.css (Bandhughar's own
+   ashram_detail.html, and Anandakendra's anandkendra_detail.html) still use the
+   rules above (834-847) unmodified, so the caption box keeps width: max-content /
+   max-width: none and overflows off-screen on mobile — the fix that
+   initiative-program-year.css applies for body.initiative-program-page /
+   body.initiative-year-page (see that file) never reaches these two templates.
+   Reproduce the same containment here, scoped to body.anandakendra-detail-page,
+   so it doesn't affect year_detail.html-based pages. */
+body.anandakendra-detail-page #about.pillar-overlay-cards .anandakendra-card-footer .anandakendra-text-caption {
+    grid-template-columns: minmax(0, 1fr);
+    overflow: hidden;
+    max-width: min(100%, 22rem);
+}
+
+body.anandakendra-detail-page #about.pillar-overlay-cards .anandakendra-card-footer .anandakendra-text-caption .caption-line {
+    width: 100%;
+    max-width: 100%;
+    text-align: right;
+    white-space: normal;
+}
+
+@media (max-width: 767px) {
+    /* .anandakendra-card-actions is a nowrap flex row (back-link pill + caption).
+       max-width on the caption alone isn't enough here: it's a flex-shrink:0 item,
+       and percentage max-width resolves against the row's full width, not the
+       space left after the pill, so the two still fight for the same row and
+       overflow. Let the caption drop to its own line instead (same fix family as
+       the "Back to {program}" pill wrap in initiative-program-year.css, which
+       this template never loads). */
+    body.anandakendra-detail-page #about .anandakendra-card-actions {
+        flex-wrap: wrap;
+    }
+}
+
 /* List page only: rotating caption under image card */
 body.anandakendra-list-page #about.pillar-overlay-cards .anandakendra-image-caption {
     display: inline-grid;

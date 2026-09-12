@@ -139,7 +139,7 @@ export default function About({ data }) {
                   {slides[slideIndex].caption}
                 </p>
                 <div
-                  className="flex justify-center gap-1.5 mt-3 lg:justify-start"
+                  className="flex justify-center gap-5 mt-3 lg:justify-start"
                   role="tablist"
                   aria-label="Photo carousel position"
                 >
@@ -150,13 +150,17 @@ export default function About({ data }) {
                       role="tab"
                       aria-selected={i === slideIndex}
                       aria-label={`Show photo ${i + 1}`}
-                      className={`h-1.5 rounded-full transition-all duration-300 ${
-                        i === slideIndex
-                          ? 'w-6 bg-[var(--color-teal)]'
-                          : 'w-1.5 bg-slate-300 hover:bg-slate-400'
-                      }`}
+                      className="relative flex items-center justify-center py-[19px] px-[2px] -my-[19px] -mx-[2px]"
                       onClick={() => setSlideIndex(i)}
-                    />
+                    >
+                      <span
+                        className={`h-1.5 rounded-full transition-all duration-300 ${
+                          i === slideIndex
+                            ? 'w-6 bg-[var(--color-teal)]'
+                            : 'w-1.5 bg-slate-300 hover:bg-slate-400'
+                        }`}
+                      />
+                    </button>
                   ))}
                 </div>
               </figcaption>

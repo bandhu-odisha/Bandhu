@@ -39,10 +39,12 @@
                                         </div>
                                     </div>
                                     <div class="wrap-input100 validate-input mb-3">
-                                        <input class="input100" type="email" name="email" placeholder="Email" required autocomplete="username" value="{{ login_modal_prefill_email }}">
+                                        <label for="loginModalEmail" class="sr-only">Email</label>
+                                        <input class="input100" type="email" id="loginModalEmail" name="email" placeholder="Email" required autocomplete="username" value="{{ login_modal_prefill_email }}">
                                     </div>
                                     <div class="wrap-input100 validate-input mb-2">
-                                        <input class="input100" type="password" name="password" placeholder="Password" required autocomplete="current-password">
+                                        <label for="loginModalPassword" class="sr-only">Password</label>
+                                        <input class="input100" type="password" id="loginModalPassword" name="password" placeholder="Password" required autocomplete="current-password">
                                     </div>
                                     <div class="pt-1 pb-2">
                                         <a href="/accounts/password_reset/" class="signup-modal-forgot">Forgot password?</a>

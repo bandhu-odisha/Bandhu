@@ -5,12 +5,45 @@
 
 {% block title %} Bandhu | {{ program_name }} {% endblock %}
 
+{% block meta %}
+{% if content and content.description %}
+<meta name="description" content="{{ content.description|truncatechars:160 }}">
+{% else %}
+<meta name="description" content="Explore {{ program_name }} on Bandhu Odisha, a non-profit working to build a more caring, self-reliant Odisha.">
+{% endif %}
+<meta property="og:title" content="Bandhu | {{ program_name }}">
+{% if content and content.description %}
+<meta property="og:description" content="{{ content.description|truncatechars:160 }}">
+{% else %}
+<meta property="og:description" content="Explore {{ program_name }} on Bandhu Odisha, a non-profit working to build a more caring, self-reliant Odisha.">
+{% endif %}
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ request.build_absolute_uri }}">
+{% if content and content.picture %}
+<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ content.picture.url }}">
+{% else %}
+<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'img/bandhulogo_new.png' %}">
+{% endif %}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Bandhu | {{ program_name }}">
+{% if content and content.description %}
+<meta name="twitter:description" content="{{ content.description|truncatechars:160 }}">
+{% else %}
+<meta name="twitter:description" content="Explore {{ program_name }} on Bandhu Odisha, a non-profit working to build a more caring, self-reliant Odisha.">
+{% endif %}
+{% if content and content.picture %}
+<meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{{ content.picture.url }}">
+{% else %}
+<meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'img/bandhulogo_new.png' %}">
+{% endif %}
+{% endblock %}
+
 {% block body_class %}initiative-program-page pillar-inner-page{% endblock %}
 
 {% block style %}
-<link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
+<link rel="stylesheet" href="{% static 'css/bandhu.css' %}?v=28">
 <link rel="stylesheet" href="{% static 'css/pillar-inner-banner.css' %}?v=4">
-<link rel="stylesheet" href="{% static 'css/anandakendra.css' %}?v=22">
+<link rel="stylesheet" href="{% static 'css/anandakendra.css' %}?v=25">
 <link rel="stylesheet" href="{% static 'css/ashram.css' %}?v=8">
 <link rel="stylesheet" href="{% static 'css/initiative-program-year.css' %}?v=32">
 {% include 'initiative_program/hero_detail_styles.html' %}

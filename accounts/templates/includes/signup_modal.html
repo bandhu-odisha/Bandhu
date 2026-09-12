@@ -38,13 +38,16 @@
                                     </div>
                                     <div class="signup-modal-email-fields">
                                         <div class="wrap-input100 validate-input mb-2">
-                                            <input class="input100" type="email" name="email" placeholder="Email" required autocomplete="email" value="{{ signup_form.email.value|default_if_none:'' }}">
+                                            <label for="signupModalEmail" class="sr-only">Email</label>
+                                            <input class="input100" type="email" id="signupModalEmail" name="email" placeholder="Email" required autocomplete="email" value="{{ signup_form.email.value|default_if_none:'' }}">
                                         </div>
                                         <div class="wrap-input100 validate-input mb-2">
-                                            <input class="input100" type="password" name="password" placeholder="Password" required autocomplete="new-password">
+                                            <label for="signupModalPassword" class="sr-only">Password</label>
+                                            <input class="input100" type="password" id="signupModalPassword" name="password" placeholder="Password" required autocomplete="new-password">
                                         </div>
                                         <div class="wrap-input100 validate-input mb-2">
-                                            <input class="input100" type="password" name="password2" placeholder="Confirm Password" required autocomplete="new-password">
+                                            <label for="signupModalPassword2" class="sr-only">Confirm Password</label>
+                                            <input class="input100" type="password" id="signupModalPassword2" name="password2" placeholder="Confirm Password" required autocomplete="new-password">
                                         </div>
                                     </div>
                                     <div class="signup-modal-submit-wrap signup-modal-submit-wrap--signup">

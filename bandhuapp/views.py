@@ -217,7 +217,7 @@ def _build_landing_data(request):
         return None
 
     def landing_logo_url():
-        return url(static('img/bandhu-logo-navbar.png'))
+        return url(static('img/bandhu-logo-navbar.webp'))
 
     def resolve_media_or_static(relative_path, static_name=None):
         static_name = static_name or os.path.basename(relative_path)

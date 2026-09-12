@@ -157,9 +157,23 @@ USE_L10N = True
 
 USE_TZ = True
 
+# Cookies must be Secure in production (DEBUG=False) so the session/CSRF
+# cookies are never sent over plain http; relaxed under DEBUG so local
+# `runserver` over http still works.
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+
+# HSTS: only sent in production, since the site is https-only there (via
+# Cloudflare). Left off under DEBUG so it never affects local http.
+SECURE_HSTS_SECONDS = 0 if DEBUG else 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
+
+# Behind Cloudflare/Apache-Passenger, TLS is terminated upstream and the
+# original scheme is forwarded via this header; without it request.is_secure()
+# can't tell the original request was https.
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 if DEBUG:
-    SESSION_COOKIE_SECURE = False
-    CSRF_COOKIE_SECURE = False
     # Avoid CSRF failures when switching between localhost and 127.0.0.1 during dev.
     CSRF_COOKIE_DOMAIN = None
     SESSION_COOKIE_DOMAIN = None

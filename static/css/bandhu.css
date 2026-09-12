@@ -1029,6 +1029,10 @@ html, body { font-size: 18px; }
 .current-updates-marquee a * {
   color: #ffffff !important;
 }
+.current-updates-marquee a {
+  display: inline-block;
+  padding: 6px 0;
+}
 .current-updates-marquee a:hover,
 .current-updates-marquee a:hover * {
   color: #d7e9f2 !important;

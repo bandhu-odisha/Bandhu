@@ -3,13 +3,13 @@
 {% load static %}
 {% load permissions %}
 
-{% block title %} Ashram {% endblock %}
+{% block title %} Bandhu | Bandhughar {% endblock %}
 
 {% block body_class %}ashram-list-page{% endblock %}
 
 {% block style %}
 <!-- Custom CSS -->
-<link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
+<link rel="stylesheet" href="{% static 'css/bandhu.css' %}?v=28">
 <link rel="stylesheet" href="{% static 'css/ashram.css' %}?v=8">
 <!-- Custom Style -->
 <style>
@@ -189,8 +189,8 @@
                                         {% csrf_token %}
                                         <div class="row">
                                             <div class="col">
-                                                <label class="left-label bld" for="">Bandhughar Name</label>
-                                                <input type="text" class="form-control" name="name"
+                                                <label class="left-label bld" for="ashramCreateName">Bandhughar Name</label>
+                                                <input type="text" class="form-control" id="ashramCreateName" name="name"
                                                     placeholder="Bandhughar name" required><br>
                                             </div>
                                             <!-- <div class="col">
@@ -203,28 +203,28 @@
                                                 </select>
                                             </div> -->
                                             <div class="col">
-                                                <label class="left-label bld" for="">Locality</label>
-                                                <input type="text" class="form-control" name="locality"
+                                                <label class="left-label bld" for="ashramCreateLocality">Locality</label>
+                                                <input type="text" class="form-control" id="ashramCreateLocality" name="locality"
                                                     placeholder="Locality" required><br>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col">
-                                                <label class="left-label bld" for="">Address</label>
-                                                <input type="text" class="form-control" name="address"
+                                                <label class="left-label bld" for="ashramCreateAddress">Address</label>
+                                                <input type="text" class="form-control" id="ashramCreateAddress" name="address"
                                                     placeholder="Address" required><br>
                                             </div>
                                         </div>
 
-                                        <label class="left-label bld" for="">Description</label>
-                                        <textarea name="description" placeholder="Description" class="form-control" id="" cols="80" rows="8" required></textarea><br>
+                                        <label class="left-label bld" for="ashramCreateDescription">Description</label>
+                                        <textarea name="description" placeholder="Description" class="form-control" id="ashramCreateDescription" cols="80" rows="8" required></textarea><br>
 
-                                        <label class="left-label bld" for="">Thumbnail</label>
+                                        <label class="left-label bld" for="inputGroupFile04">Thumbnail</label>
                                         <div class="input-group">
                                             <div class="custom-file">
-                                                <input type="file" class="custom-file-input" name="image" id="inputGroupFile04" 
+                                                <input type="file" class="custom-file-input" name="image" id="inputGroupFile04"
                                                     aria-describedby="inputGroupFileAddon04" required>
-                                                <label class="custom-file-label" for="logo">Add Thumbnail</label>
+                                                <label class="custom-file-label" for="inputGroupFile04">Add Thumbnail</label>
                                             </div>
                                         </div><br>
 

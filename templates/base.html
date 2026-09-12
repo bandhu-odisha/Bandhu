@@ -9,6 +9,18 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<link rel="shortcut icon" href='{% static "img/bandhulogo.gif" %}'>
 	<title>{% block title %} Bandhu {% endblock %} </title>
+	{% block meta %}
+	<meta name="description" content="Bandhu Odisha is a non-profit working across Sanskar, Swaraj and Swabalamban pillars to build a more caring, self-reliant Odisha.">
+	<meta property="og:title" content="Bandhu Odisha">
+	<meta property="og:description" content="Bandhu Odisha is a non-profit working across Sanskar, Swaraj and Swabalamban pillars to build a more caring, self-reliant Odisha.">
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="{{ request.build_absolute_uri }}">
+	<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'img/bandhulogo_new.png' %}">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="Bandhu Odisha">
+	<meta name="twitter:description" content="Bandhu Odisha is a non-profit working across Sanskar, Swaraj and Swabalamban pillars to build a more caring, self-reliant Odisha.">
+	<meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'img/bandhulogo_new.png' %}">
+	{% endblock %}
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
@@ -40,8 +52,8 @@
 	<link rel="stylesheet" href="{% static 'vendor/photoswipe/photoswipe.css' %}">
 	<link rel="stylesheet" href="{% static 'vendor/photoswipe/default-skin/default-skin.css' %}">
 	<!-- Custom CSS -->
-	<link rel="stylesheet" href="{% static 'css/custom.css' %}?v=299">
-	<link rel="stylesheet" href="{% static 'css/accounts-auth-landing.css' %}?v=287">
+	<link rel="stylesheet" href="{% static 'css/custom.css' %}?v=300">
+	<link rel="stylesheet" href="{% static 'css/accounts-auth-landing.css' %}?v=288">
 
 	{% block style %}
 	{% endblock %}

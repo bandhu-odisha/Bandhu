@@ -340,7 +340,7 @@ section p {
     font-size: 0.75rem;
     font-weight: 700;
     line-height: 1.25;
-    padding: 0.5rem 0.5rem;
+    padding: 0.75rem 0.5rem;
     color: #3d5c60 !important;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -361,7 +361,7 @@ section p {
     user-select: none;
 }
 @media (min-width: 992px) {
-    .navbar .navbar-nav .nav-link { padding: 0.5rem 0.75rem; font-size: 0.8rem; }
+    .navbar .navbar-nav .nav-link { padding: 0.75rem 0.75rem; font-size: 0.8rem; }
 }
 .navbar .navbar-nav>.active>a,
 .navbar .navbar-nav>.active>a:hover,
@@ -779,6 +779,8 @@ body.pillar-inner-page #top-section .parallax-overlay::after {
     padding-bottom: 0.5rem;
 }
 .contact-footer-list a {
+    display: inline-block;
+    padding: 4px 0;
     color: rgba(255, 255, 255, 0.9);
     text-decoration: none;
     transition: color 0.2s;
@@ -871,6 +873,8 @@ body.pillar-inner-page #top-section .parallax-overlay::after {
     color: rgba(255, 255, 255, 0.9);
 }
 .contact-footer-bottom a {
+    display: inline-block;
+    padding: 4px 0;
     color: #fff;
     font-weight: 600;
     text-decoration: none;

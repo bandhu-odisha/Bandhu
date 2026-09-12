@@ -124,7 +124,7 @@ export default function OurVisitors({ data }) {
         </div>
 
         {pageCount > 1 && (
-          <div className="flex justify-center gap-2 mt-6" role="tablist" aria-label="Testimonial pages">
+          <div className="flex justify-center gap-4 mt-6" role="tablist" aria-label="Testimonial pages">
             {pages.map((_, i) => (
               <button
                 key={i}
@@ -132,11 +132,15 @@ export default function OurVisitors({ data }) {
                 role="tab"
                 aria-selected={i === page}
                 aria-label={`Show testimonials ${i + 1} of ${pageCount}`}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  i === page ? 'w-8 bg-slate-500' : 'w-2 bg-slate-300 hover:bg-slate-400'
-                }`}
+                className="relative flex items-center justify-center py-[18px] px-[3px] -my-[18px] -mx-[3px]"
                 onClick={() => setPage(i)}
-              />
+              >
+                <span
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    i === page ? 'w-8 bg-slate-500' : 'w-2 bg-slate-300 hover:bg-slate-400'
+                  }`}
+                />
+              </button>
             ))}
           </div>
         )}

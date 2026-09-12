@@ -603,6 +603,8 @@ body.auth-page #scroll-to-top {
 }
 
 .signup-modal-form a.signup-modal-forgot {
+  display: inline-block;
+  padding: 5px 0;
   color: #005e66 !important;
   font-weight: 600;
   font-size: 0.875rem;
@@ -616,6 +618,8 @@ body.auth-page #scroll-to-top {
 
 .signup-modal-form .signup-modal-footer a[href="/accounts/login/"],
 .signup-modal-form .signup-modal-footer a.auth-open-login-modal {
+  display: inline-block;
+  padding: 4px 0;
   color: #005e66 !important;
   font-weight: 600;
 }
@@ -626,6 +630,8 @@ body.auth-page #scroll-to-top {
 }
 
 .signup-modal-form .signup-modal-footer a.auth-open-signup-modal {
+  display: inline-block;
+  padding: 4px 0;
   color: #005e66 !important;
   font-weight: 600;
 }

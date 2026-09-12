@@ -118,7 +118,7 @@ export default function Hero({ data }) {
               role="tablist"
               aria-label="Hero slides"
             >
-              <div className="flex items-center justify-center gap-2">
+              <div className="flex items-center justify-center gap-3.5">
                 {slides.map((_, i) => (
                   <button
                     key={`mobile-dot-${String(i)}`}
@@ -126,13 +126,17 @@ export default function Hero({ data }) {
                     role="tab"
                     aria-selected={i === index}
                     aria-label={`Slide ${i + 1}`}
-                    className={`h-2.5 rounded-full transition-all duration-300 ${
-                      i === index
-                        ? 'w-8 bg-[#005E66] shadow-sm'
-                        : 'w-2.5 bg-slate-300 hover:bg-slate-400'
-                    }`}
+                    className="relative flex items-center justify-center py-[17px] px-[3px] -my-[17px] -mx-[3px]"
                     onClick={() => setIndex(i)}
-                  />
+                  >
+                    <span
+                      className={`h-2.5 rounded-full transition-all duration-300 ${
+                        i === index
+                          ? 'w-8 bg-[#005E66] shadow-sm'
+                          : 'w-2.5 bg-slate-300 hover:bg-slate-400'
+                      }`}
+                    />
+                  </button>
                 ))}
               </div>
             </div>
@@ -169,7 +173,7 @@ export default function Hero({ data }) {
             </div>
             <div className="mt-10 hidden w-full justify-start lg:flex lg:mt-0 lg:pt-4">
               <div
-                className="flex items-center justify-center gap-2"
+                className="flex items-center justify-center gap-3.5"
                 role="tablist"
                 aria-label="Hero slides"
               >
@@ -180,13 +184,17 @@ export default function Hero({ data }) {
                     role="tab"
                     aria-selected={i === index}
                     aria-label={`Slide ${i + 1}`}
-                    className={`h-2.5 rounded-full transition-all duration-300 ${
-                      i === index
-                        ? 'w-8 bg-[#005E66] shadow-sm'
-                        : 'w-2.5 bg-slate-300 hover:bg-slate-400'
-                    }`}
+                    className="relative flex items-center justify-center py-[17px] px-[3px] -my-[17px] -mx-[3px]"
                     onClick={() => setIndex(i)}
-                  />
+                  >
+                    <span
+                      className={`h-2.5 rounded-full transition-all duration-300 ${
+                        i === index
+                          ? 'w-8 bg-[#005E66] shadow-sm'
+                          : 'w-2.5 bg-slate-300 hover:bg-slate-400'
+                      }`}
+                    />
+                  </button>
                 ))}
               </div>
             </div>
