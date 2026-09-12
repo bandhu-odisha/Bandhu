@@ -75,6 +75,19 @@ body.pillar-inner-page .pillar-showcase .page-showcase-title {
     text-transform: none !important;
 }
 
+/* The shared ".slider-txt-container > *" rule above caps every child (title,
+   accent bar, paragraph) at max-width: min(92vw, 48rem). The title's font-size
+   keeps growing with viewport up to 4rem, so past ~1067px it no longer fits in
+   that 768px box and wraps to two lines. Give the title its own wider cap
+   (higher specificity via #top-section) so it clears the max font size;
+   leave the accent/paragraph cap alone. Matched per-class (not chained) because
+   some pages (bandhuapp/templates/pillar_page.html) render the title with only
+   one of pillar-showcase-title / page-showcase-title, not both. */
+body.pillar-inner-page #top-section .pillar-showcase h2.bold-txt.pillar-showcase-title,
+body.pillar-inner-page #top-section .pillar-showcase h2.bold-txt.page-showcase-title {
+    max-width: min(94vw, 72rem) !important;
+}
+
 body.pillar-inner-page .pillar-showcase .pillar-showcase-accent,
 body.pillar-inner-page .pillar-showcase .page-showcase-accent {
     margin: 1rem auto 0 !important;
