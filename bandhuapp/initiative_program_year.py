@@ -113,7 +113,6 @@ def build_initiative_nav_visibility(request):
     )
     ctx = {}
     for key, models in programs:
-        reconcile_publish_states(models)
         has_public = models.Ashram.objects.filter(is_published=True).exists()
         ctx[key] = has_public or admin
     return ctx
@@ -152,7 +151,6 @@ def _program_presentation_context(program_key):
 
 
 def build_index_context(request, program_key, models):
-    reconcile_publish_states(models)
     return {
         **_program_presentation_context(program_key),
         'ashrams': get_visible_entries(request, models),
@@ -229,7 +227,6 @@ def build_year_detail_context(request, slug, program_key, models):
 
 
 def render_year_detail(request, slug, program_key, models):
-    reconcile_publish_states(models)
     ashram = get_object_or_404(models.Ashram, slug=slug)
     if not ashram.is_published and not is_admin(request.user):
         raise Http404()
@@ -293,6 +290,7 @@ def make_delete_report_file(program_key, models):
             report_file.file.delete(save=False)
             report_file.delete()
             messages.success(request, 'Report file removed.')
+            reconcile_publish_states(models)
         return HttpResponseRedirect(_detail_url(program_key, slug, '#reports'))
 
     return delete_report_file
@@ -306,6 +304,7 @@ def make_delete_report_link(program_key, models):
         if request.method == 'POST':
             report_link.delete()
             messages.success(request, 'Report link removed.')
+            reconcile_publish_states(models)
         return HttpResponseRedirect(_detail_url(program_key, slug, '#reports'))
 
     return delete_report_link
@@ -343,6 +342,7 @@ def make_delete_invitation(program_key, models):
                 letter.file.delete(save=False)
                 letter.delete()
                 messages.success(request, 'Invitation letter removed.')
+                reconcile_publish_states(models)
         return HttpResponseRedirect(_detail_url(program_key, slug, '#invitation'))
 
     return delete_invitation

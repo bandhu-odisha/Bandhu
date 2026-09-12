@@ -176,6 +176,18 @@ On the cPanel:
   # Copy any new static files to the public_html/static folder
   # (only needs to be done if there are any frontend changes)
   python manage.py collectstatic --noinput
+
+  # Fill in any blank Video.duration values (YouTube fetch no longer runs
+  # on the request path — see DONE/planning/2026-09-12-home-load-time-improvement/spec.md).
+  # Saving a Video in /admin/ now fetches its duration automatically, so this
+  # is a one-time backfill for videos added before that hook existed. Run it
+  # once after this deploy; no cron needed afterward.
+  python manage.py backfill_video_durations
+
+  # Pre-generate the WebP thumbnails the home page serves, so the first real
+  # visitor doesn't pay generation cost. Run once after this deploy, and again
+  # after a bulk media import.
+  python manage.py warm_landing_thumbnails
   ```
 * Lastly, go back to the "Setup Python App" and restart the application. 
 

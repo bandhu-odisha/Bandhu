@@ -35,14 +35,14 @@ const DEFAULT_HERO_SLIDES = [
 function collectLegacyHeroImages(data) {
   const images = []
   const seen = new Set()
-  const add = (url) => {
+  const add = (url, responsive) => {
     if (!url || seen.has(url)) return
     seen.add(url)
-    images.push(url)
+    images.push({ image: url, responsive: responsive || null })
   }
 
-  add(data?.banner_image)
-  for (const photo of data?.hero_photos || []) add(photo?.picture)
+  add(data?.banner_image, data?.banner_image_responsive)
+  for (const photo of data?.hero_photos || []) add(photo?.picture, photo?.picture_responsive)
   return images
 }
 
@@ -51,24 +51,28 @@ function buildHeroSlides(data) {
   const fromApi = data?.hero_slides
 
   if (fromApi?.length) {
-    return fromApi.map((slide, slideIndex) => ({
-      title: slide.title || DEFAULT_HERO_SLIDES[slideIndex]?.title || '',
-      subtitle: slide.subtitle || DEFAULT_HERO_SLIDES[slideIndex]?.subtitle || '',
-      image:
-        slide.image ||
-        legacyImages[slideIndex] ||
-        HERO_FALLBACK_IMAGES[slideIndex] ||
-        null,
-    }))
+    return fromApi.map((slide, slideIndex) => {
+      const legacy = legacyImages[slideIndex]
+      const image = slide.image || legacy?.image || HERO_FALLBACK_IMAGES[slideIndex] || null
+      const responsive = slide.image ? slide.image_responsive : legacy?.responsive
+      return {
+        title: slide.title || DEFAULT_HERO_SLIDES[slideIndex]?.title || '',
+        subtitle: slide.subtitle || DEFAULT_HERO_SLIDES[slideIndex]?.subtitle || '',
+        image,
+        responsive: image === HERO_FALLBACK_IMAGES[slideIndex] ? null : responsive || null,
+      }
+    })
   }
 
-  return DEFAULT_HERO_SLIDES.map((slide, slideIndex) => ({
-    ...slide,
-    image:
-      legacyImages[slideIndex] ||
-      HERO_FALLBACK_IMAGES[slideIndex] ||
-      null,
-  }))
+  return DEFAULT_HERO_SLIDES.map((slide, slideIndex) => {
+    const legacy = legacyImages[slideIndex]
+    const image = legacy?.image || HERO_FALLBACK_IMAGES[slideIndex] || null
+    return {
+      ...slide,
+      image,
+      responsive: image === HERO_FALLBACK_IMAGES[slideIndex] ? null : legacy?.responsive || null,
+    }
+  })
 }
 
 export default function Hero({ data }) {
@@ -103,6 +107,10 @@ export default function Hero({ data }) {
                   <img
                     key={`${s.image}-${String(i)}`}
                     src={s.image}
+                    srcSet={s.responsive?.srcset || undefined}
+                    sizes={s.responsive ? '(min-width: 1024px) 50vw, 100vw' : undefined}
+                    width={s.responsive?.width || undefined}
+                    height={s.responsive?.height || undefined}
                     alt=""
                     className={`absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-700 ease-out ${
                       i === index ? 'opacity-100 z-[1]' : 'opacity-0 z-0'

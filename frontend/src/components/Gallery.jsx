@@ -188,7 +188,13 @@ export default function Gallery({ data }) {
               >
                 <img
                   src={photo.picture}
+                  srcSet={photo.picture_responsive?.srcset || undefined}
+                  sizes={photo.picture_responsive ? '(min-width: 640px) 380px, 100vw' : undefined}
+                  width={photo.picture_responsive?.width || undefined}
+                  height={photo.picture_responsive?.height || undefined}
                   alt={photo.caption || 'Gallery'}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                 />
               </button>

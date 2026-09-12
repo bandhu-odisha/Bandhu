@@ -4,10 +4,11 @@ import io
 from types import SimpleNamespace
 from unittest import mock
 
+from django.contrib import admin
 from django.test import TestCase
 
 from bandhuapp import helpers
-from bandhuapp.models import Designation, DesignationRole, PeoplesDesignation, Photo, Staff
+from bandhuapp.models import Designation, DesignationRole, PeoplesDesignation, Photo, Staff, Video
 from bandhuapp.tests.support import TempMediaMixin, image_upload, make_profile, make_user
 
 
@@ -199,6 +200,55 @@ class EnrichVideoDurationsTests(TestCase):
         self.assertEqual(items[1]['duration'], '')
         self.assertNotIn('duration', items[2])
         self.assertEqual(items[3]['duration'], '9:99')
+
+
+class VideoAdminSaveModelTests(TestCase):
+    """Saving a Video in /admin/ fetches its duration; nothing else does."""
+
+    def _save(self, video, fetch_return='5:42'):
+        from bandhuapp.admin import VideoAdmin
+
+        admin_instance = VideoAdmin(Video, admin.site)
+        with mock.patch(
+            'bandhuapp.admin.fetch_youtube_duration_formatted', return_value=fetch_return
+        ) as fetch:
+            admin_instance.save_model(request=None, obj=video, form=None, change=False)
+        return fetch
+
+    def test_fetches_duration_when_blank(self):
+        video = Video.objects.create(title='T', script='https://youtu.be/abcdefghijk')
+        fetch = self._save(video)
+        fetch.assert_called_once_with('abcdefghijk')
+        video.refresh_from_db()
+        self.assertEqual(video.duration, '5:42')
+
+    def test_does_not_overwrite_an_existing_duration(self):
+        video = Video.objects.create(
+            title='T', script='https://youtu.be/abcdefghijk', duration='9:99'
+        )
+        fetch = self._save(video)
+        fetch.assert_not_called()
+        video.refresh_from_db()
+        self.assertEqual(video.duration, '9:99')
+
+    def test_tolerates_no_video_id(self):
+        video = Video.objects.create(title='T', script='not a youtube link')
+        fetch = self._save(video)
+        fetch.assert_not_called()
+        video.refresh_from_db()
+        self.assertEqual(video.duration, '')
+
+    def test_tolerates_fetch_failure(self):
+        video = Video.objects.create(title='T', script='https://youtu.be/abcdefghijk')
+        from bandhuapp.admin import VideoAdmin
+
+        admin_instance = VideoAdmin(Video, admin.site)
+        with mock.patch(
+            'bandhuapp.admin.fetch_youtube_duration_formatted', side_effect=RuntimeError('boom')
+        ):
+            admin_instance.save_model(request=None, obj=video, form=None, change=False)
+        video.refresh_from_db()
+        self.assertEqual(video.duration, '')
 
 
 # --------------------------------------------------------------------------- core team text

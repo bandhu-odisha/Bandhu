@@ -156,7 +156,7 @@ class InitiativeProgramTestsMixin(TempMediaMixin):
     # ----- list + detail pages -------------------------------------------
 
     def test_list_page_shows_only_published_entries_to_public(self):
-        published = self.make_entry(name='Published', slug='published', reports='r')
+        published = self.make_entry(name='Published', slug='published', reports='r', is_published=True)
         draft = self.make_entry(name='Draft', slug='draft')
 
         response = self.client.get(reverse(self.meta['list_url']))
@@ -184,8 +184,8 @@ class InitiativeProgramTestsMixin(TempMediaMixin):
         self.assertEqual(response.context['program_key'], self.program_key)
 
     def test_detail_of_published_entry_renders_for_public(self):
-        entry = self.make_entry(reports='Report text')
-        other = self.make_entry(name='Other', slug='other', reports='r')
+        entry = self.make_entry(reports='Report text', is_published=True)
+        other = self.make_entry(name='Other', slug='other', reports='r', is_published=True)
         self.make_entry(name='Hidden draft', slug='hidden-draft')
         category = self.make_category('Camps')
         activity = self.models.Activity.objects.create(ashram=entry, category=category, name='Drive', description='d')
@@ -207,7 +207,7 @@ class InitiativeProgramTestsMixin(TempMediaMixin):
         self.assertEqual(len(activity_row.photo_set.all()), 1)
 
     def test_hero_title_omits_missing_locality(self):
-        entry = self.make_entry(reports='r')
+        entry = self.make_entry(reports='r', is_published=True)
         self.models.Ashram.objects.filter(pk=entry.pk).update(locality='  ')
         response = self.client.get(self.detail_url(entry))
         self.assertEqual(response.context['hero_title'], entry.name)
@@ -548,7 +548,7 @@ class InitiativeProgramTestsMixin(TempMediaMixin):
         homepage.image_caption_or = ''
         homepage.save()
 
-        entry = self.make_entry(reports='Report text')
+        entry = self.make_entry(reports='Report text', is_published=True)
 
         # Both blank on the entry -> falls back to HomePage caption.
         response = self.client.get(self.detail_url(entry))

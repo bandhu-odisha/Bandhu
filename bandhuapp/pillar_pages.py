@@ -8,6 +8,7 @@ from bandhuapp.helpers import (
     image_field_url,
     pillar_gallery_images,
     prune_stale_pillar_photos,
+    responsive_image,
 )
 from bandhuapp.models import (
     HomePage,
@@ -172,16 +173,27 @@ def build_swabalamban_context(*, check_admin=False):
 def mission_card_payload(file_url):
     """Homepage mission cards: tagline, description snippet, and first image per pillar."""
 
+    def image_entry(field):
+        url = file_url(field)
+        if not url:
+            return None
+        entry = {'picture': url}
+        responsive = responsive_image(field)
+        if responsive:
+            entry['picture_responsive'] = responsive
+        return entry
+
     def card(page_model, *, prefer_collage=False):
         page = page_model.objects.first()
         rows = _prepare_pillar_page(page)
         hero = _resolve_hero(page, rows, prefer_collage=prefer_collage)
-        images = [{'picture': file_url(hero)}] if hero and file_url(hero) else []
+        entry = image_entry(hero) if hero else None
+        images = [entry] if entry else []
         if not images:
             for row in rows:
-                url = file_url(getattr(row, 'picture', None))
-                if url:
-                    images.append({'picture': url})
+                entry = image_entry(getattr(row, 'picture', None))
+                if entry:
+                    images.append(entry)
                     break
         return {
             'tagline': page.tagline if page else '',

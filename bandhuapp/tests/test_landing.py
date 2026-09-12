@@ -3,7 +3,7 @@
 import json
 from unittest import mock
 
-from django.test import TestCase
+from django.test import RequestFactory, TestCase
 
 from applications.patriotism import models as patriotism_models
 from bandhuapp.models import HeroSlide, HomePage
@@ -30,12 +30,6 @@ MISSION_KEYS = {
 
 
 class LandingApiTests(TempMediaMixin, TestCase):
-    def setUp(self):
-        # Video durations are scraped from YouTube; never touch the network in tests.
-        patcher = mock.patch('bandhuapp.views.enrich_video_durations')
-        patcher.start()
-        self.addCleanup(patcher.stop)
-
     def get_payload(self):
         response = self.client.get('/api/landing/')
         self.assertEqual(response.status_code, 200)
@@ -68,6 +62,7 @@ class LandingApiTests(TempMediaMixin, TestCase):
         patriotism_models.Ashram.objects.create(
             name='Quiz 2024', locality='Cuttack', description='d', address='a',
             image='tests/hero.gif', slug='quiz-2024', reports='Report',
+            is_published=True,
         )
         data = self.get_payload()
         self.assertTrue(data['initiative_nav']['show_initiative_patriotism'])
@@ -102,11 +97,6 @@ class LandingApiTests(TempMediaMixin, TestCase):
 
 
 class LandingPageTests(TempMediaMixin, TestCase):
-    def setUp(self):
-        patcher = mock.patch('bandhuapp.views.enrich_video_durations')
-        patcher.start()
-        self.addCleanup(patcher.stop)
-
     def test_react_shell_embeds_landing_data(self):
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
@@ -135,3 +125,23 @@ class LandingPageTests(TempMediaMixin, TestCase):
     def test_unsafe_next_falls_back_to_home(self):
         response = self.client.get('/?login_modal=1&next=https://evil.example')
         self.assertEqual(response.context['landing_data']['auth_modal']['next'], '/')
+
+
+class LandingDataNoNetworkTests(TempMediaMixin, TestCase):
+    """Regression for the removed per-request YouTube fetch (home load time spec, Step 1).
+
+    `enrich_video_durations` swallows exceptions, so merely asserting the view survives
+    would pass vacuously even if it still tried to hit the network. Patch the actual
+    network primitive and assert it is never called.
+    """
+
+    def test_build_landing_data_makes_no_network_call(self):
+        from django.contrib.auth.models import AnonymousUser
+
+        from bandhuapp.views import _build_landing_data
+
+        request = RequestFactory().get('/')
+        request.user = AnonymousUser()
+        with mock.patch('urllib.request.urlopen') as urlopen:
+            _build_landing_data(request)
+        urlopen.assert_not_called()

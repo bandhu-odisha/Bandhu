@@ -2,6 +2,19 @@ import os
 import ast
 from decouple import config
 
+# easy-thumbnails==2.6 still calls the removed `PIL.Image.ANTIALIAS` constant
+# (deprecated in Pillow 9.1, removed in Pillow 10). requirements.txt pins
+# Pillow==6.2.1 for production, where ANTIALIAS still exists, but local
+# virtualenvs have drifted to a newer Pillow (see README's venv discrepancy
+# note). Shim so thumbnail generation works under either version without
+# touching the pinned production dependency.
+try:
+    from PIL import Image as _PILImage
+    if not hasattr(_PILImage, 'ANTIALIAS'):
+        _PILImage.ANTIALIAS = _PILImage.LANCZOS
+except ImportError:
+    pass
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
@@ -34,6 +47,7 @@ INSTALLED_APPS = [
     'accounts',
     'social_django',
     'django_cleanup.apps.CleanupConfig',
+    'easy_thumbnails',
 
     # sections
     'applications.anandakendra',
@@ -220,6 +234,27 @@ STATIC_URL = config("STATIC_URL").strip()
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_ROOT = config("MEDIA_ROOT").strip()
 MEDIA_URL = config("MEDIA_URL").strip()
+
+# easy-thumbnails: home page images (hero, gallery, pillar, visitor) are served
+# at these widths as WebP instead of the original upload (see
+# DONE/planning/2026-09-12-home-load-time-improvement/spec.md, Step 2).
+# upscale=False so a source image smaller than the alias width is left as-is.
+THUMBNAIL_ALIASES = {
+    '': {
+        'landing_480': {'size': (480, 0), 'crop': False, 'upscale': False},
+        'landing_960': {'size': (960, 0), 'crop': False, 'upscale': False},
+        'landing_1600': {'size': (1600, 0), 'crop': False, 'upscale': False},
+    },
+}
+# Both source-format-preserving knobs point at webp too, so a transparent PNG
+# source (WebP supports alpha) still comes out WebP instead of falling back to png.
+THUMBNAIL_EXTENSION = 'webp'
+THUMBNAIL_TRANSPARENCY_EXTENSION = 'webp'
+# Without this, easy_thumbnails re-derives a thumbnail's width/height by opening
+# the file from storage on every `.width`/`.height` access instead of reading
+# the cached row (see `_thumb_dimensions` in bandhuapp/helpers.py, which adds a
+# process-level cache on top of this for the DB query too).
+THUMBNAIL_CACHE_DIMENSIONS = True
 
 # Octal literals, not env-driven: these are filesystem modes required by the
 # cPanel/Passenger deploy, identical in every environment. Django 2.2 defaults

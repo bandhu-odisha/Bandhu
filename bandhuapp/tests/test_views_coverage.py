@@ -389,11 +389,6 @@ class AnnualReportsUploadTests(TempMediaMixin, TestCase):
 class BuildLandingDataBranchTests(TempMediaMixin, TestCase):
     """Exercise branches inside _build_landing_data not covered by test_landing.py."""
 
-    def setUp(self):
-        patcher = mock.patch('bandhuapp.views.enrich_video_durations')
-        patcher.start()
-        self.addCleanup(patcher.stop)
-
     def get_data(self):
         response = self.client.get('/api/landing/')
         self.assertEqual(response.status_code, 200)
@@ -460,6 +455,44 @@ class BuildLandingDataBranchTests(TempMediaMixin, TestCase):
         data = self.get_data()
         captions = {p['caption'] for p in data['photos']}
         self.assertNotIn('ghost', captions)
+
+    def test_gallery_photo_gets_a_real_webp_thumbnail(self):
+        # Home page load-time spec, Step 2: easy_thumbnails must actually generate
+        # a WebP thumbnail for a real image file, not just wire up config that
+        # silently no-ops. Regression for the easy-thumbnails 2.6 / Pillow 10
+        # `Image.ANTIALIAS` incompatibility (bandhu/settings.py has the shim).
+        self._photo_with_file('bandhuapp/gallery/responsive_test.gif', caption='responsive')
+        data = self.get_data()
+        photo = next(p for p in data['photos'] if p['caption'] == 'responsive')
+        responsive = photo['picture_responsive']
+        self.assertTrue(responsive['src'].endswith('.webp'))
+        self.assertIn('480w', responsive['srcset'])
+        self.assertIn('960w', responsive['srcset'])
+        self.assertIn('1600w', responsive['srcset'])
+        self.assertGreater(responsive['width'], 0)
+        self.assertGreater(responsive['height'], 0)
+
+    def test_thumbnail_dimensions_are_process_cached(self):
+        # Regression: `ThumbnailFile.width`/`.height` (easy_thumbnails) query the
+        # DB and, absent THUMBNAIL_CACHE_DIMENSIONS, open the thumbnail file from
+        # storage on *every* access. `responsive_image` (bandhuapp/helpers.py)
+        # wraps that in a process cache so a repeat request for the same image
+        # costs neither a query nor a file read. Without the cache, this would
+        # scale per-photo per-request -- exactly the class of cost Steps 1 and 3
+        # of the home-page load-time spec removed.
+        from django.db import connection
+        from django.test.utils import CaptureQueriesContext
+
+        from bandhuapp.helpers import responsive_image
+
+        photo = self._photo_with_file('bandhuapp/gallery/dims_cache_test.gif', caption='dims')
+        first = responsive_image(photo.picture)
+        self.assertIsNotNone(first)
+        with CaptureQueriesContext(connection) as ctx:
+            second = responsive_image(photo.picture)
+        self.assertEqual(second, first)
+        thumbnail_queries = [q for q in ctx.captured_queries if 'thumbnail' in q['sql'].lower()]
+        self.assertEqual(thumbnail_queries, [])
 
     def test_about_slides_custom_overrides_defaults(self):
         AboutSlide.objects.create(image=image_upload('custom-slide.gif'), caption='Custom caption', sort_order=1)

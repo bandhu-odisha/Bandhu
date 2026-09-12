@@ -57,7 +57,11 @@ class PillarMediaTests(TempMediaMixin, TestCase):
         photo = SanskarHomePhoto.objects.create(page=page, picture=image_upload('gallery.gif'))
 
         with_urls = pillar_pages.mission_card_payload(lambda field: field.url if field else None)
-        self.assertEqual(with_urls['sanskar_images'], [{'picture': photo.picture.url}])
+        # Home page load-time spec, Step 2: a real on-disk image also carries a
+        # generated `picture_responsive` srcset alongside the bare URL.
+        self.assertEqual(len(with_urls['sanskar_images']), 1)
+        self.assertEqual(with_urls['sanskar_images'][0]['picture'], photo.picture.url)
+        self.assertIn('picture_responsive', with_urls['sanskar_images'][0])
 
         # file_url may refuse the hero (e.g. missing on disk) but accept a gallery row.
         def only_gallery(field):
@@ -65,7 +69,8 @@ class PillarMediaTests(TempMediaMixin, TestCase):
         page.hero_image = image_upload('hero.gif')
         page.save()
         payload = pillar_pages.mission_card_payload(only_gallery)
-        self.assertEqual(payload['sanskar_images'], [{'picture': 'x'}])
+        self.assertEqual(len(payload['sanskar_images']), 1)
+        self.assertEqual(payload['sanskar_images'][0]['picture'], 'x')
 
         def nothing(field):
             return None

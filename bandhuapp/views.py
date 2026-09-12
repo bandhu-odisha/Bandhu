@@ -46,9 +46,10 @@ from bandhuapp.pillar_pages import (
 from .templatetags import permissions as temp_perms  # Template permissions
 from .helpers import (
     dedupe_peoples_designations,
-    enrich_video_durations,
     people_card_from_assignments,
     proper_case,
+    responsive_image,
+    youtube_video_id,
 )
 from .notice_links import resolve_notice_url
 from .annual_reports import annual_reports_upload_url
@@ -326,6 +327,7 @@ def _build_landing_data(request):
             'facebookUrl': visitor.facebook_url or '',
             'linkedinUrl': visitor.linkedin_url or '',
             'photoUrl': file_url(visitor.photo),
+            'photo_responsive': responsive_image(visitor.photo),
         })
 
     data['initiatives'] = build_initiatives_payload(file_url)
@@ -336,14 +338,20 @@ def _build_landing_data(request):
         data['volunteer'] = {'title': volunteer.title, 'tagline': volunteer.tagline}
     if content:
         banner_url = file_url(content.banner_image)
-        data['content'] = {'banner_image': banner_url}
+        banner_responsive = responsive_image(content.banner_image)
+        data['content'] = {
+            'banner_image': banner_url,
+            'banner_image_responsive': banner_responsive,
+        }
         data['banner_image'] = banner_url  # Hero uses this as first image on home
+        data['banner_image_responsive'] = banner_responsive
 
     for slide in HeroSlide.objects.all():
         data['hero_slides'].append({
             'title': slide.title,
             'subtitle': slide.subtitle,
             'image': file_url(slide.image),
+            'image_responsive': responsive_image(slide.image),
         })
 
     if gallery:
@@ -389,10 +397,7 @@ def _build_landing_data(request):
         if hero_url:
             data['hero_photos'].append({'picture': hero_url})
 
-    seen_gallery_urls = set()
-    seen_gallery_stems = set()
-    for p in Photo.objects.filter(approved=True).order_by('-created'):
-        picture_name = p.picture.name.replace('\\', '/')
+    def _photo_pic_data(p):
         pic_data = {
             'picture': file_url(p.picture),
             'caption': p.caption or '',
@@ -402,20 +407,40 @@ def _build_landing_data(request):
                 if tag.strip()
             ],
         }
+        responsive = responsive_image(p.picture)
+        if responsive:
+            pic_data['picture_responsive'] = responsive
+        return pic_data
+
+    # `Photo.picture` defaults to `bandhuapp/gallery/`, but seed/import scripts have
+    # also pointed rows at `profile_photos/` (shown elsewhere) or reused static paths
+    # like `main_page/initiatives/` (not shown here at all). Filtering by prefix in SQL,
+    # rather than scanning every approved row and discarding most after a filesystem
+    # stat, keeps both the query and the page's image payload bounded as admins upload.
+    # The limits are generous headroom over today's counts; dedup below can still
+    # shrink the final list further.
+    GALLERY_SCAN_LIMIT = 200
+    PROFILE_PHOTOS_LIMIT = 100
+
+    for p in Photo.objects.filter(
+        approved=True, picture__startswith='profile_photos/',
+    ).order_by('-created')[:PROFILE_PHOTOS_LIMIT]:
+        pic_data = _photo_pic_data(p)
+        if not pic_data['picture']:
+            continue
+        data['profile_photos'].append(pic_data)
+
+    seen_gallery_urls = set()
+    seen_gallery_stems = set()
+    for p in Photo.objects.filter(
+        approved=True, picture__startswith='bandhuapp/gallery/',
+    ).order_by('-created')[:GALLERY_SCAN_LIMIT]:
+        picture_name = p.picture.name.replace('\\', '/')
+        pic_data = _photo_pic_data(p)
         if not pic_data['picture']:
             continue
 
-        if picture_name.startswith('main_page/initiatives/'):
-            continue
-
-        if picture_name.startswith('profile_photos/'):
-            data['profile_photos'].append(pic_data)
-            continue
-
         if 'about-slide' in picture_name.lower():
-            continue
-
-        if not picture_name.startswith('bandhuapp/gallery/'):
             continue
 
         basename = os.path.basename(picture_name).lower()
@@ -436,23 +461,6 @@ def _build_landing_data(request):
             'desc': u.desc,
             'url': resolve_notice_url(u.desc, u.url) or None,
         })
-    def youtube_video_id(script):
-        if not script or not isinstance(script, str):
-            return None
-        m = re.search(r'(?:youtube\.com/embed/|youtube\.com/v/)([a-zA-Z0-9_-]{11})', script)
-        if m:
-            return m.group(1)
-        m = re.search(r'youtube\.com/watch\?.*v=([a-zA-Z0-9_-]{11})', script)
-        if m:
-            return m.group(1)
-        m = re.search(r'youtu\.be/([a-zA-Z0-9_-]{11})', script)
-        if m:
-            return m.group(1)
-        m = re.search(r'[\?&]v=([a-zA-Z0-9_-]{11})', script)
-        if m:
-            return m.group(1)
-        return None
-
     for v in Video.objects.all().order_by('-created_at')[:10]:
         vid = youtube_video_id(v.script)
         vd = getattr(v, 'duration', None)
@@ -465,7 +473,6 @@ def _build_landing_data(request):
             'video_id': vid,
             'duration': vd,
         })
-    enrich_video_durations(data['videos'])
     if contact:
         data['contact'] = {
             'address': contact.address, 'contact_no': contact.contact_no, 'email': contact.email,

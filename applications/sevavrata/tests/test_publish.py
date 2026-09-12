@@ -26,6 +26,6 @@ class SevavrataProgramTests(InitiativeProgramTestsMixin, TestCase):
         self.assertEqual(str(entry.end_date), '2025-01-31')
 
     def test_program_declares_entry_schedule(self):
-        entry = self.make_entry(reports='r')
+        entry = self.make_entry(reports='r', is_published=True)
         response = self.client.get(self.detail_url(entry))
         self.assertTrue(response.context['program_has_entry_schedule'])

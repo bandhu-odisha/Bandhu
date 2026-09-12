@@ -5,6 +5,88 @@ import urllib.parse
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
+from django.conf import settings
+from django.core.cache import cache
+
+RESPONSIVE_IMAGE_WIDTHS = (480, 960, 1600)
+
+
+def _thumb_dimensions(thumb):
+    """(width, height) for an easy_thumbnails ThumbnailFile, process-cached.
+
+    `ThumbnailFile.width`/`.height` (easy_thumbnails/files.py) look up
+    dimensions with `models.Thumbnail.objects.select_related('dimensions').get(...)`
+    -- one DB query on every access. `THUMBNAIL_CACHE_DIMENSIONS = True`
+    (bandhu/settings.py) makes that query actually find a cached row instead
+    of falling through to opening the thumbnail file from storage and reading
+    it -- but it is still one DB query per image per access. Since a
+    landing-page request touches every gallery/profile/hero/pillar image, that
+    would still be a query per image per request -- reintroducing a smaller
+    version of the per-request, count-scaling cost Steps 1 and 3 removed.
+    Caching here removes even that query after the first access in a worker.
+    Caveat: if a source image were overwritten in place at the same storage
+    path (not how Django's normal upload flow works -- it always gives a new
+    name), easy_thumbnails would detect the staleness and regenerate under
+    the same thumbnail name, but this cache has no invalidation hook for that
+    and would keep serving the old dimensions until the entry is evicted or
+    the worker restarts. Low-severity (wrong width/height, not breakage) and
+    self-heals on deploy since there's no persistent CACHES backend configured.
+    """
+    cache_key = f'responsive_image_dims:{thumb.name}'
+    dims = cache.get(cache_key)
+    if dims is None:
+        dims = (thumb.width, thumb.height)
+        cache.set(cache_key, dims, None)
+    return dims
+
+
+def responsive_image(field):
+    """Build `{src, srcset, width, height}` for a Django ImageField file, or
+    ``None`` when it can't be done -- callers keep using the plain URL then.
+
+    Uses the `easy_thumbnails` aliases registered in `THUMBNAIL_ALIASES`
+    (bandhu/settings.py) to serve WebP at three widths instead of the
+    original upload (home page load-time spec, Step 2). Thumbnail generation
+    is the expensive part; `warm_landing_thumbnails` pre-generates it after
+    deploy so a live request only needs the already-generated file (see
+    `_thumb_dimensions` for the dimension-lookup cost that would otherwise
+    still be paid on every request). Never raises: a missing file, a
+    non-image upload, or any thumbnail engine failure just means no
+    responsive data for that image.
+    """
+    if not field or not getattr(field, 'name', None):
+        return None
+    try:
+        if not field.storage.exists(field.name):
+            return None
+    except Exception:
+        return None
+    try:
+        from easy_thumbnails.files import get_thumbnailer
+
+        thumbnailer = get_thumbnailer(field)
+        aliases = settings.THUMBNAIL_ALIASES['']
+        thumbs = {
+            width: thumbnailer.get_thumbnail(aliases[f'landing_{width}'])
+            for width in RESPONSIVE_IMAGE_WIDTHS
+        }
+        mid = thumbs[RESPONSIVE_IMAGE_WIDTHS[1]]
+        if not mid:
+            return None
+        width, height = _thumb_dimensions(mid)
+        return {
+            'src': mid.url,
+            'srcset': ', '.join(
+                f'{thumbs[w].url} {w}w'
+                for w in RESPONSIVE_IMAGE_WIDTHS
+                if thumbs[w]
+            ),
+            'width': width,
+            'height': height,
+        }
+    except Exception:
+        return None
+
 
 def image_field_available(image_field):
     """True when an ImageField points at a file that exists in storage."""
@@ -106,6 +188,25 @@ def _format_duration_hms(seconds):
     if h:
         return f'{h}:{mm:02d}:{sec:02d}'
     return f'{mm}:{sec:02d}'
+
+
+def youtube_video_id(script):
+    """Pull the 11-char YouTube video id out of an embed/watch/short URL."""
+    if not script or not isinstance(script, str):
+        return None
+    m = re.search(r'(?:youtube\.com/embed/|youtube\.com/v/)([a-zA-Z0-9_-]{11})', script)
+    if m:
+        return m.group(1)
+    m = re.search(r'youtube\.com/watch\?.*v=([a-zA-Z0-9_-]{11})', script)
+    if m:
+        return m.group(1)
+    m = re.search(r'youtu\.be/([a-zA-Z0-9_-]{11})', script)
+    if m:
+        return m.group(1)
+    m = re.search(r'[\?&]v=([a-zA-Z0-9_-]{11})', script)
+    if m:
+        return m.group(1)
+    return None
 
 
 def fetch_youtube_duration_formatted(video_id):

@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html, urlencode
 
 from accounts.admin_form_utils import admin_form_with_user
+from .helpers import fetch_youtube_duration_formatted, youtube_video_id
 from .admin_forms import (
     AdminAddProfileForm,
     DesignationAdminForm,
@@ -557,3 +558,18 @@ class StaffExperiencePhotoAdmin(admin.ModelAdmin):
 class VideoAdmin(admin.ModelAdmin):
     list_display = ('title', 'duration', 'created_at')
     fields = ('title', 'duration', 'script')
+
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+        if obj.duration:
+            return
+        video_id = youtube_video_id(obj.script)
+        if not video_id:
+            return
+        try:
+            duration = fetch_youtube_duration_formatted(video_id)
+        except Exception:
+            duration = None
+        if duration:
+            obj.duration = duration
+            obj.save(update_fields=['duration'])
