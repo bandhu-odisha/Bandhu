@@ -116,14 +116,13 @@ export default function Gallery({ data }) {
       if (paused) return
       const maxScroll = el.scrollWidth - el.clientWidth
       if (maxScroll <= 0) return
-      const card = el.querySelector('[data-gallery-card]')
       const row = el.firstElementChild
-      const gap = row
-        ? parseFloat(window.getComputedStyle(row).columnGap || window.getComputedStyle(row).gap || '32')
-        : 32
-      const step = card ? card.offsetWidth + (Number.isFinite(gap) ? gap : 32) : 412
-      el.scrollLeft += step
-      if (el.scrollLeft >= maxScroll - 2) el.scrollLeft = 0
+      if (!row) return
+      const items = [...el.querySelectorAll('[data-gallery-card]')]
+      const pos = (c) => c.offsetLeft - row.offsetLeft
+      const next = items.find((c) => pos(c) > el.scrollLeft + 1)
+      const target = next ? Math.min(pos(next), maxScroll) : 0
+      el.scrollLeft = target > el.scrollLeft + 1 ? target : 0
     }, 3000)
 
     return () => {
@@ -178,27 +177,33 @@ export default function Gallery({ data }) {
           className="gallery-scroll-track overflow-x-auto overflow-y-hidden scrollbar-hide scroll-smooth snap-x snap-mandatory mx-auto w-full max-w-full rounded-2xl py-2 sm:w-[1180px]"
         >
           <div className="flex w-full sm:w-max min-w-full box-border gap-0 sm:gap-8 px-0 sm:px-4">
-            {filtered.map((photo, i) => (
-              <button
-                key={photo.picture || String(i)}
-                type="button"
-                data-gallery-card
-                onClick={() => openLightbox(i)}
-                className="gallery-card-shell flex-shrink-0 w-full min-w-full snap-center sm:min-w-0 sm:w-[380px] sm:snap-start aspect-square rounded-2xl overflow-hidden bg-white group shadow-[var(--card-shadow)] border border-teal/20 hover:shadow-[var(--card-shadow-hover)] transition-shadow duration-300 p-0 text-left cursor-pointer block"
-              >
-                <img
-                  src={photo.picture}
-                  srcSet={photo.picture_responsive?.srcset || undefined}
-                  sizes={photo.picture_responsive ? '(min-width: 640px) 380px, 100vw' : undefined}
-                  width={photo.picture_responsive?.width || undefined}
-                  height={photo.picture_responsive?.height || undefined}
-                  alt={photo.caption || 'Gallery'}
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
-                />
-              </button>
-            ))}
+            {filtered.map((photo, i) => {
+              const r = photo.picture_responsive
+              const ratio = r?.width && r?.height ? r.width / r.height : 1
+              const tileWidth = Math.round(Math.min(720, Math.max(200, 380 * ratio)))
+              return (
+                <button
+                  key={photo.picture || String(i)}
+                  type="button"
+                  data-gallery-card
+                  onClick={() => openLightbox(i)}
+                  style={{ '--tile-ratio': ratio }}
+                  className="gallery-card-shell flex-shrink-0 w-full min-w-full snap-center sm:min-w-0 sm:snap-start aspect-square rounded-2xl overflow-hidden bg-slate-50 group shadow-[var(--card-shadow)] border border-teal/20 hover:shadow-[var(--card-shadow-hover)] transition-shadow duration-300 p-0 text-left cursor-pointer block"
+                >
+                  <img
+                    src={photo.picture}
+                    srcSet={photo.picture_responsive?.srcset || undefined}
+                    sizes={photo.picture_responsive ? `(min-width: 640px) ${tileWidth}px, 100vw` : undefined}
+                    width={photo.picture_responsive?.width || undefined}
+                    height={photo.picture_responsive?.height || undefined}
+                    alt={photo.caption || 'Gallery'}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-full object-contain transition duration-500"
+                  />
+                </button>
+              )
+            })}
           </div>
         </div>
       </div>

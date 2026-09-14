@@ -370,3 +370,13 @@ body.landing a[class]:focus {
     box-sizing: border-box;
   }
 }
+
+@media (min-width: 640px) {
+  #gallery .gallery-card-shell {
+    height: 380px;
+    width: auto;
+    aspect-ratio: var(--tile-ratio, 1);
+    max-width: 720px;
+    min-width: 200px;
+  }
+}
