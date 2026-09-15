@@ -1,5 +1,6 @@
 {% load permissions %}
 {% load webteam_tags %}
+{% load humanize %}
 <section id="contact" class="contact-footer-section" data-cta-surface="dark">
     <div class="container">
         <div class="row">
@@ -38,8 +39,8 @@
                 </div>
                 {% endif %}
 
-                {% if content and content.visitors_count and user.is_admin %}
-                <p class="contact-footer-visitors mt-3 mb-0">Visitors Count: {{ content.visitors_count }}</p>
+                {% if content and content.visitors_count %}
+                <p class="contact-footer-visitors mt-3 mb-0">{{ content.visitors_count|intcomma }} visits</p>
                 {% endif %}
             </div>
 

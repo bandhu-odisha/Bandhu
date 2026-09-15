@@ -54,10 +54,17 @@ class ClassicIndexViewTests(TempMediaMixin, TestCase):
         self.assertRedirects(response, '/profile/', fetch_redirect_response=False)
         self.assertIn('Complete your Profile first.', get_messages(response))
 
-    def test_visitor_count_increments_once_per_session(self):
+    def test_get_does_not_increment_visitor_count(self):
         home = HomePage.objects.create(banner_image='tests/banner.gif', visitors_count=0)
         self.client.get('/classic/')
         self.client.get('/classic/')
+        home.refresh_from_db()
+        self.assertEqual(home.visitors_count, 0)
+
+    def test_visit_beacon_increments_by_one(self):
+        home = HomePage.objects.create(banner_image='tests/banner.gif', visitors_count=0)
+        response = self.client.post('/api/visit/')
+        self.assertEqual(response.status_code, 200)
         home.refresh_from_db()
         self.assertEqual(home.visitors_count, 1)
 
@@ -521,6 +528,7 @@ class BuildLandingDataBranchTests(TempMediaMixin, TestCase):
         self.assertEqual(data['about'], {'tagline': 'Tag', 'desc': 'Desc'})
         self.assertEqual(data['volunteer'], {'title': 'Vol', 'tagline': 'Join us'})
         self.assertIsNotNone(data['content'])
+        self.assertEqual(data['content']['visitors_count'], 0)
 
     def test_contact_present(self):
         Contact.objects.create(

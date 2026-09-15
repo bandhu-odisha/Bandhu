@@ -190,6 +190,11 @@ export default function Footer({ data }) {
       </div>
 
       <div className="relative z-10 mx-auto mt-12 max-w-5xl border-t border-white/20 pt-6 text-center font-body text-sm text-white/90">
+        {data?.content?.visitors_count > 0 && (
+          <p className="mb-2 text-white/70">
+            {data.content.visitors_count.toLocaleString('en-IN')} visits
+          </p>
+        )}
         <p className="mb-2">
           &copy;{' '}
           <a href={urls.home || '/'} className="font-semibold text-white hover:text-teal-200">

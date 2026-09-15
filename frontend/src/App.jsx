@@ -98,6 +98,21 @@ export default function App() {
     return () => cancelAnimationFrame(t)
   }, [data])
 
+  // Beacon one real-browser visit per device, deduped via localStorage
+  useEffect(() => {
+    if (!data) return
+    try {
+      if (localStorage.getItem('bandhu_visited')) return
+      localStorage.setItem('bandhu_visited', '1')
+    } catch {
+      return
+    }
+    fetch('/api/visit/', {
+      method: 'POST',
+      headers: { 'X-CSRFToken': data.csrf_token || '' },
+    }).catch(() => {})
+  }, [data])
+
   if (!data) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">

@@ -109,10 +109,17 @@ class LandingPageTests(TempMediaMixin, TestCase):
         self.client.force_login(make_user())
         self.assertRedirects(self.client.get('/'), '/profile/', fetch_redirect_response=False)
 
-    def test_visitor_count_increments_once_per_session(self):
+    def test_get_does_not_increment_visitor_count(self):
         home = HomePage.objects.create(banner_image='tests/banner.gif', visitors_count=0)
         self.client.get('/')
         self.client.get('/')
+        home.refresh_from_db()
+        self.assertEqual(home.visitors_count, 0)
+
+    def test_visit_beacon_increments_by_one(self):
+        home = HomePage.objects.create(banner_image='tests/banner.gif', visitors_count=0)
+        response = self.client.post('/api/visit/')
+        self.assertEqual(response.status_code, 200)
         home.refresh_from_db()
         self.assertEqual(home.visitors_count, 1)
 

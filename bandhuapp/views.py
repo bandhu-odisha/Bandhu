@@ -13,7 +13,7 @@ from django.db.models import F
 from django.http import HttpResponseRedirect, Http404, JsonResponse
 from django.middleware.csrf import get_token
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.decorators.http import require_GET
+from django.views.decorators.http import require_GET, require_POST
 from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.templatetags.static import static
@@ -152,11 +152,6 @@ def index(request):
     if _must_complete_member_profile(request.user):
         messages.error(request, "Complete your Profile first.")
         return redirect('profile_page')
-
-    # Visitor's Count
-    if not request.session.get('home_page_visited', False):
-        request.session['home_page_visited'] = True
-        HomePage.objects.all().update(visitors_count=F('visitors_count') + 1)
 
     recent_events = []
     recent_events.extend(KendraEvent.objects.order_by('-date')[:10])
@@ -342,6 +337,7 @@ def _build_landing_data(request):
         data['content'] = {
             'banner_image': banner_url,
             'banner_image_responsive': banner_responsive,
+            'visitors_count': content.visitors_count,
         }
         data['banner_image'] = banner_url  # Hero uses this as first image on home
         data['banner_image_responsive'] = banner_responsive
@@ -503,14 +499,18 @@ def landing_api(request):
     return JsonResponse(data)
 
 
+@require_POST
+def visit_beacon(request):
+    """Count one real-browser visit to the home page."""
+    HomePage.objects.all().update(visitors_count=F('visitors_count') + 1)
+    return JsonResponse({'ok': True})
+
+
 def index_react(request):
     """Serve the modern React landing page (same context as index, data passed as JSON)."""
     if _must_complete_member_profile(request.user):
         messages.error(request, "Complete your Profile first.")
         return redirect('profile_page')
-    if not request.session.get('home_page_visited', False):
-        request.session['home_page_visited'] = True
-        HomePage.objects.all().update(visitors_count=F('visitors_count') + 1)
     flash = pop_login_modal_flash(request)
     request._login_modal_flash_consumed = True
     data = _build_landing_data(request)

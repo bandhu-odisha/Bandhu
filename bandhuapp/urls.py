@@ -6,6 +6,7 @@ urlpatterns = [
     path('', views.index_react, name="home"),  # Modern React landing
     path('classic/', views.index, name="home_classic"),
     path('api/landing/', views.landing_api, name="landing_api"),
+    path('api/visit/', views.visit_beacon, name="visit_beacon"),
     # path('complete_profile/', views.complete_profile, name="complete_profile"),
     path('profile/', views.profile_page, name="profile_page"),
     # path('edit_profile/', views.edit_profile, name="edit_profile"),
