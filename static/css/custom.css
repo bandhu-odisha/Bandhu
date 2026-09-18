@@ -792,19 +792,6 @@ body.pillar-inner-page #top-section .parallax-overlay::after {
     display: none !important;
 }
 
-/* Small phones: the real h1 above is vertically centered (justify-content:center) in the banner
-   with desktop-sized padding (5rem/6rem, see .slider-txt-container's 575px rule) that alone
-   exceeds the 150px mobile banner height, pushing the title up under the fixed header. Anchor it
-   to the bottom instead, same as the pseudo-title fix above, and drop the oversized padding. */
-@media (max-width: 600px) {
-    body.pillar-inner-page #top-section .slider-txt-container.pillar-showcase,
-    body.pillar-inner-page #top-section .slider-txt-container.page-showcase.pillar-showcase {
-        justify-content: flex-end !important;
-        padding: 0 0 8px 0 !important;
-    }
-}
-
-
 /* FOOTER / CONTACT SECTION - Dark style to match landing (Our Initiatives + Contact Us) */
 
 .contact-footer-section {
@@ -1021,22 +1008,26 @@ body.pillar-inner-page #top-section .parallax-overlay::after {
 }
 
 
-/* Floating Be a Bandhu CTA — dark on light pages, inverts over dark footer */
+/* Floating "Be a ବନ୍ଧୁ" CTA — small corner pill (icon + label, row) at all
+   widths above 600px, dark on light pages, inverts over dark footer */
 .bandhu-fab-cta {
     position: fixed;
-    right: 1.25rem;
-    bottom: 5.5rem;
+    right: 1rem;
+    bottom: 1rem;
+    bottom: max(1rem, env(safe-area-inset-bottom));
     z-index: 160;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.625rem 1.75rem;
+    gap: 0.4rem;
+    min-height: 44px;
+    padding: 0.5rem 1.25rem;
     border-radius: 9999px;
     border: 1px solid rgba(0, 74, 82, 0.2);
     background: #0b3540;
     color: #fff !important;
     font-family: var(--font-sans);
-    font-size: 1rem;
+    font-size: 0.875rem;
     font-weight: 700;
     line-height: 1.25;
     text-decoration: none !important;
@@ -1065,34 +1056,34 @@ body.pillar-inner-page #top-section .parallax-overlay::after {
     color: #004a52 !important;
     box-shadow: 0 10px 28px rgba(0, 0, 0, 0.3);
 }
-@media (min-width: 640px) {
-    .bandhu-fab-cta {
-        right: 1.75rem;
-        bottom: 6rem;
-        padding: 0.625rem 2.25rem;
-    }
+.bandhu-fab-cta__icon {
+    font-size: 0.95em;
+    line-height: 1;
+    color: inherit;
+}
+.bandhu-fab-cta__label strong {
+    font-family: oriya, var(--font-sans);
+    font-weight: 700;
 }
 
-/* Small phones: slim full-width bottom bar instead of a floating pill,
-   so it never sits over content — body gets matching padding-bottom. */
+/* Phones: round floating button — icon above the "Be a ବନ୍ଧୁ" label */
 @media (max-width: 600px) {
-    body.has-fab-cta {
-        padding-bottom: 48px;
-    }
     .bandhu-fab-cta {
-        left: 0;
-        right: 0;
-        bottom: 0;
-        width: 100%;
-        min-height: 48px;
-        padding: 0.5rem 1rem;
-        border-radius: 0;
-        border-width: 1px 0 0;
-        box-shadow: 0 -2px 10px rgba(11, 53, 64, 0.18);
+        width: 68px;
+        height: 68px;
+        min-height: 0;
+        padding: 0;
+        border-radius: 50%;
+        flex-direction: column;
+        gap: 2px;
     }
-    .bandhu-fab-cta:hover,
-    .bandhu-fab-cta:focus {
-        transform: none;
+    .bandhu-fab-cta__icon {
+        font-size: 1.25rem;
+    }
+    .bandhu-fab-cta__label {
+        font-size: 0.6875rem;
+        line-height: 1.1;
+        white-space: nowrap;
     }
 }
 

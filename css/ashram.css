@@ -56,12 +56,6 @@ body.initiative-program-page.pillar-inner-page .angular-ashram + .pillar-overlay
         padding-top: 2.25rem !important;
     }
 }
-@media (max-width: 600px) {
-    body.initiative-program-page.pillar-inner-page .angular-ashram + .pillar-overlay-cards {
-        margin-top: 0 !important;
-        padding-top: 1.25rem !important;
-    }
-}
 
 /* Overlay cards (same layout as Sanskar/Swabalamban/Other Activities) */
 .pillar-overlay-cards {

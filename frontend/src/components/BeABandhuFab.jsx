@@ -1,21 +1,24 @@
 import { createPortal } from 'react-dom'
 import { useCtaSurfaceContrast } from '../useCtaSurfaceContrast'
-import { ctaPillClass } from '../cta'
+import { ctaFabPillClass } from '../cta'
 
 export default function BeABandhuFab({ className = '' }) {
   const onDarkSurface = useCtaSurfaceContrast()
 
   const fab = (
     <div
-      className="fixed z-[185] bottom-0 left-0 right-0 flex justify-center px-4 pb-4 pointer-events-none sm:left-auto sm:right-7 sm:bottom-7 sm:block sm:px-0 sm:pb-0"
-      style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom, 0px))' }}
+      className="fixed z-[185] pointer-events-none"
+      style={{ right: '16px', bottom: 'max(16px, env(safe-area-inset-bottom, 0px))' }}
     >
       <button
         type="button"
-        className={`auth-open-signup-modal pointer-events-auto touch-manipulation max-sm:w-full max-sm:max-w-sm max-sm:justify-center ${ctaPillClass(onDarkSurface)} ${className}`.trim()}
+        className={`auth-open-signup-modal pointer-events-auto touch-manipulation ${ctaFabPillClass(onDarkSurface)} ${className}`.trim()}
         aria-label="Be a Bandhu — sign up"
       >
-        Be a Bandhu
+        <i className="fas fa-handshake text-[0.95em] max-sm:text-xl leading-none" aria-hidden="true" />
+        <span className="max-sm:text-[11px] max-sm:leading-tight max-sm:whitespace-nowrap" aria-hidden="true">
+          Be a <strong lang="or" className="font-bold">ବନ୍ଧୁ</strong>
+        </span>
       </button>
     </div>
   )

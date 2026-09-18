@@ -34,6 +34,34 @@ export function ctaPillClass(onDarkSurface = false) {
   return onDarkSurface ? CTA_PILL_ON_DARK_CLASS : CTA_PILL_CLASS
 }
 
+/**
+ * Floating "Be a ବନ୍ଧୁ" corner button only — icon + label, a 68px circle
+ * (icon on top) on phones, the small corner pill (icon left of the label) at
+ * `sm:` and up. Not used by CTA_PILL_CLASS / CTA_PILL_ON_DARK_CLASS, so the
+ * Volunteer button and other CTA_PILL_CLASS callers keep their existing size.
+ */
+const CTA_PILL_FAB_SHAPE =
+  'inline-flex items-center justify-center gap-[0.4rem] rounded-full font-heading font-bold leading-tight no-underline whitespace-nowrap ' +
+  'transition-[background-color,color,box-shadow,transform,border-color] duration-300 ease-out ' +
+  'hover:no-underline focus:no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ' +
+  'hover:-translate-y-0.5 active:translate-y-0 motion-reduce:hover:translate-y-0 ' +
+  'max-sm:flex-col max-sm:gap-0.5 max-sm:w-[68px] max-sm:h-[68px] max-sm:p-0 ' +
+  'sm:w-auto sm:h-auto sm:min-h-[44px] sm:px-5 sm:py-2 sm:text-sm sm:leading-tight'
+
+export const CTA_PILL_FAB_CLASS =
+  `${CTA_PILL_FAB_SHAPE} border border-[#004a52]/20 bg-[#0b3540] text-white ` +
+  'shadow-[0_6px_20px_rgba(11,53,64,0.28)] hover:bg-[#005E66] hover:text-white ' +
+  'hover:shadow-[0_10px_28px_rgba(11,53,64,0.36)] focus-visible:ring-[#005E66]/40'
+
+export const CTA_PILL_FAB_ON_DARK_CLASS =
+  `${CTA_PILL_FAB_SHAPE} border border-white/40 bg-white text-[#005E66] ` +
+  'shadow-[0_6px_22px_rgba(0,0,0,0.22)] hover:bg-slate-50 hover:text-[#004a52] ' +
+  'hover:shadow-[0_10px_28px_rgba(0,0,0,0.3)] focus-visible:ring-white/55'
+
+export function ctaFabPillClass(onDarkSurface = false) {
+  return onDarkSurface ? CTA_PILL_FAB_ON_DARK_CLASS : CTA_PILL_FAB_CLASS
+}
+
 /** Outlined pill for secondary toggles (e.g. gallery filters when inactive). */
 export const CTA_PILL_OUTLINE_CLASS =
   'inline-flex items-center justify-center rounded-full border-2 border-[#005E66] bg-transparent px-8 py-2.5 text-base font-heading font-bold leading-tight text-[#005E66] transition-colors duration-200 hover:bg-[#005E66]/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#005E66]/35 focus-visible:ring-offset-2 whitespace-nowrap sm:px-10'
