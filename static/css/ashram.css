@@ -288,7 +288,8 @@ body.initiative-program-page #ashrams .card-body p {
 body.initiative-program-page #ashrams .home-card-img {
     width: 100%;
     height: 260px;
-    object-fit: cover;
+    object-fit: contain;
+    background: #f1f5f9;
     display: block;
 }
 
@@ -354,7 +355,8 @@ body.initiative-program-page .mission-list-cards-row .card.page-card:hover {
 body.initiative-program-page .mission-list-cards-row .home-card-img {
     width: 100%;
     height: 260px;
-    object-fit: cover;
+    object-fit: contain;
+    background: #f1f5f9;
     display: block;
 }
 
