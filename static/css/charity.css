@@ -753,3 +753,17 @@ body.charity-detail-page .charity-detail-gallery .gallery-accent {
         padding-top: 2.25rem !important;
     }
 }
+@media (max-width: 600px) {
+    /* Small phones: 150px banner has no room for a pull-up without covering the
+       bottom-anchored title (see custom.css) or sliding the hero photo under the header. */
+    body.charity-detail-page .charity-detail .pillar-overlay-cards {
+        margin-top: 0 !important;
+    }
+    .angular-charity + .pillar-overlay-cards {
+        margin-top: 0 !important;
+    }
+    body.other-activities-page .angular-charity + .pillar-overlay-cards {
+        margin-top: 0 !important;
+        padding-top: 1.25rem !important;
+    }
+}

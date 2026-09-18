@@ -1,12 +1,13 @@
 ﻿{% extends 'base.html' %}
 
 {% load static %}
+{% load responsive_images %}
 
 {% block title %} Bandhu | Publications {% endblock %}
 
 {% block style %}
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
-<link rel="stylesheet" href="{% static 'css/publications.css' %}">
+<link rel="stylesheet" href="{% static 'css/publications.css' %}?v=4">
 <!-- Custom Style -->
 <style>
     #top-section {
@@ -56,7 +57,7 @@
 
 {% block showcase-title-container %}
 <div class="slider-txt-container page-showcase page-showcase-tall">
-    <h2 class="bold-txt page-showcase-title">Publications</h2>
+    <h1 class="bold-txt page-showcase-title">Publications</h1>
     <div class="page-showcase-accent"></div>
 </div>
 {% endblock %}
@@ -74,7 +75,12 @@
             {% if item.is_visible %}
             <div class="col-sm-6 col-lg-4 col-xl-3 publication-card-col d-flex justify-content-center mb-5 px-sm-2 px-md-4 px-lg-3 px-xl-2">
                 <div class="card page-card dpg-album-card w-100">
-                    <img src="{{ item.thumb.url }}" alt="{{ item.title }}" class="card-image-top w-100" style="height: 225px;" />
+                    {% responsive_img item.thumb as publication_thumb_img %}
+                    {% if publication_thumb_img %}
+                    <img src="{{ publication_thumb_img.src }}" srcset="{{ publication_thumb_img.srcset }}" sizes="(max-width: 600px) 92vw, 300px" width="{{ publication_thumb_img.width }}" height="{{ publication_thumb_img.height }}" alt="{{ item.title }}" class="card-image-top w-100" style="height: 225px; object-fit: contain;" {% if forloop.first %}loading="eager"{% else %}loading="lazy"{% endif %} />
+                    {% else %}
+                    <img src="{{ item.thumb.url }}" alt="{{ item.title }}" class="card-image-top w-100" style="height: 225px; object-fit: contain;" {% if forloop.first %}loading="eager"{% else %}loading="lazy"{% endif %} />
+                    {% endif %}
                     <div class="card-body">
                         {% if forloop.first %}
                         <h5 class="card-title font-weight-bolder">Annual Report<br>24-25</h5>

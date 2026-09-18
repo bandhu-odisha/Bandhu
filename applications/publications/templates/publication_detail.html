@@ -6,7 +6,7 @@
 
 {% block style %}
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
-<link rel="stylesheet" href="{% static 'css/publications.css' %}?v=2">
+<link rel="stylesheet" href="{% static 'css/publications.css' %}?v=4">
 <!-- Custom Style -->
 <style>
     #top-section {
@@ -84,7 +84,7 @@
 
 {% block showcase-title-container %}
 <div class="slider-txt-container publication-detail-showcase">
-    <h2 class="publication-detail-title">{{ publication.title_stripped|upper }}</h2>
+    <h1 class="publication-detail-title">{{ publication.title_stripped|upper }}</h1>
     <div class="publication-detail-meta">
         <span><i class="far fa-calendar-check"></i>
             <time datetime="{{ publication.created|date:'Y-m-d' }}">{{ publication.created|date:"d M, Y" }}</time>

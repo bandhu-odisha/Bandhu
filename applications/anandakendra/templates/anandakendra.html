@@ -3,6 +3,7 @@
 
 {% load static %}
 {% load permissions %}
+{% load responsive_images %}
 
 {% block title %} Anandakendra {% endblock %}
 
@@ -11,7 +12,7 @@
 {% block style %}
 <!-- Custom CSS -->
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
-<link rel="stylesheet" href="{% static 'css/anandakendra.css' %}?v=20">
+<link rel="stylesheet" href="{% static 'css/anandakendra.css' %}?v=28">
 <!-- Custom Style -->
 <style>
     /* Force pillar-style gradient banner on Anandakendra list page */
@@ -99,7 +100,7 @@
 
 {% block showcase-title-container %}
 <div class="slider-txt-container page-showcase page-showcase-tall">
-    <h2 class="bold-txt page-showcase-title">Anandakendra</h2>
+    <h1 class="bold-txt page-showcase-title">Anandakendra</h1>
     <div class="page-showcase-accent"></div>
 </div>
 {% endblock %}
@@ -117,7 +118,12 @@
             <div class="col-lg-4 col-md-5 anandakendra-about-image-col">
                 <div class="pillar-overlay-card pillar-overlay-card--image">
                     {% if content and content.picture %}
+                    {% responsive_img content.picture as anandakendra_hero_img %}
+                    {% if anandakendra_hero_img %}
+                    <img src="{{ anandakendra_hero_img.src }}" srcset="{{ anandakendra_hero_img.srcset }}" sizes="(max-width: 600px) 92vw, 600px" width="{{ anandakendra_hero_img.width }}" height="{{ anandakendra_hero_img.height }}" alt="Anandakendra" loading="eager" class="pillar-overlay-single-image">
+                    {% else %}
                     <img src="{{ content.picture.url }}" alt="Anandakendra" loading="eager" class="pillar-overlay-single-image">
+                    {% endif %}
                     {% else %}
                     <img src="{% static 'img/our_mission1.jpg' %}" alt="Anandakendra" loading="eager" class="pillar-overlay-single-image">
                     {% endif %}
@@ -192,8 +198,14 @@
                             {% for kendra in kendras %}
                             <li class="glide__slide">
                                 <div class="card w-100 page-card mx-auto my-2">
+                                    {% responsive_img kendra.image as kendra_card_img %}
+                                    {% if kendra_card_img %}
+                                    <img src="{{ kendra_card_img.src }}" srcset="{{ kendra_card_img.srcset }}" sizes="(max-width: 600px) 92vw, 300px" class="card-img-top home-card-img" alt=""
+                                        width="{{ kendra_card_img.width }}" height="{{ kendra_card_img.height }}" loading="lazy">
+                                    {% else %}
                                     <img src="{{ kendra.image.url }}" class="card-img-top home-card-img" alt=""
-                                        width="300px">
+                                        loading="lazy">
+                                    {% endif %}
                                     <div class="card-body pb-0">
                                         <h5 class="card-title font-weight-bold">{{kendra.name}}</h5>
                                         <p class="mb-3">
@@ -249,20 +261,20 @@
                                         {% csrf_token %}
                                         <div class="row">
                                             <div class="col">
-                                                <label class="left-label bld" for="name">Name</label>
-                                                <input type="text" class="form-control" name="name"
+                                                <label class="left-label bld" for="anandakendraCreateName">Name</label>
+                                                <input type="text" class="form-control" name="name" id="anandakendraCreateName"
                                                     placeholder="Name" required><br>
                                             </div>
                                             <div class="col">
-                                                <label class="left-label bld" for="locality">Locality</label>
-                                                <input type="text" class="form-control" name="locality"
+                                                <label class="left-label bld" for="anandakendraCreateLocality">Locality</label>
+                                                <input type="text" class="form-control" name="locality" id="anandakendraCreateLocality"
                                                     placeholder="Locality" required><br>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col">
-                                                <label class="left-label bld" for="address">Address</label>
-                                                <input type="text" class="form-control" name="address"
+                                                <label class="left-label bld" for="anandakendraCreateAddress">Address</label>
+                                                <input type="text" class="form-control" name="address" id="anandakendraCreateAddress"
                                                     placeholder="Address" required><br>
                                             </div>
                                             <!-- <div class="col">
@@ -276,16 +288,16 @@
                                             </div> -->
                                         </div>
 
-                                        <label class="left-label bld" for="description">Description</label>
-                                        <textarea name="description" class="form-control" id="" cols="80" rows="4"
+                                        <label class="left-label bld" for="anandakendraCreateDescription">Description</label>
+                                        <textarea name="description" class="form-control" id="anandakendraCreateDescription" cols="80" rows="4"
                                             placeholder="Description" required></textarea><br>
 
-                                        <label class="left-label bld" for="image">Thumbnail</label>
+                                        <label class="left-label bld" for="anandakendraThumbnailInput">Thumbnail</label>
                                         <div class="input-group">
                                             <div class="custom-file">
-                                                <input type="file" class="custom-file-input" name="image" id="inputGroupFile04" 
+                                                <input type="file" class="custom-file-input" name="image" id="anandakendraThumbnailInput"
                                                     aria-describedby="inputGroupFileAddon04" required>
-                                                <label class="custom-file-label" for="logo">Add Thumbnail</label>
+                                                <label class="custom-file-label" for="anandakendraThumbnailInput">Add Thumbnail</label>
                                             </div>
                                         </div><br>
 

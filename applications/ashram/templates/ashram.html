@@ -2,6 +2,7 @@
 
 {% load static %}
 {% load permissions %}
+{% load responsive_images %}
 
 {% block title %} Bandhu | Bandhughar {% endblock %}
 
@@ -10,7 +11,7 @@
 {% block style %}
 <!-- Custom CSS -->
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}?v=28">
-<link rel="stylesheet" href="{% static 'css/ashram.css' %}?v=8">
+<link rel="stylesheet" href="{% static 'css/ashram.css' %}?v=11">
 <!-- Custom Style -->
 <style>
     #top-section {
@@ -70,7 +71,7 @@
 
 {% block showcase-title-container %}
 <div class="slider-txt-container page-showcase page-showcase-tall">
-    <h2 class="bold-txt page-showcase-title">Bandhughar</h2>
+    <h1 class="bold-txt page-showcase-title">Bandhughar</h1>
     <div class="page-showcase-accent"></div>
 </div>
 {% endblock %}
@@ -88,6 +89,19 @@
             <div class="col-lg-4 col-md-5">
                 <div class="pillar-overlay-card pillar-overlay-card--image">
                     {% if content and content.picture %}
+                    {% responsive_img content.picture as ashram_hero_img %}
+                    {% if ashram_hero_img %}
+                    <img
+                        src="{{ ashram_hero_img.src }}"
+                        srcset="{{ ashram_hero_img.srcset }}"
+                        sizes="(max-width: 600px) 92vw, 600px"
+                        width="{{ ashram_hero_img.width }}"
+                        height="{{ ashram_hero_img.height }}"
+                        alt="Bandhughar"
+                        loading="eager"
+                        class="pillar-overlay-single-image"
+                    >
+                    {% else %}
                     <img
                         src="{{ content.picture.url }}"
                         alt="Bandhughar"
@@ -95,6 +109,7 @@
                         class="pillar-overlay-single-image"
                         onerror="this.onerror=null;this.src='{% static 'img/our_mission1.jpg' %}';"
                     >
+                    {% endif %}
                     {% else %}
                     <img src="{% static 'img/our_mission1.jpg' %}" alt="Bandhughar" loading="eager" class="pillar-overlay-single-image">
                     {% endif %}
@@ -132,7 +147,7 @@
             {% for ashram in ashrams %}
             <li class="mission-list-cards-row__item">
                 {% url 'ashram:AshramDetail' slug=ashram.slug as ashram_detail_url %}
-                {% include 'includes/mission_list_card.html' with card_image_url=ashram.image.url card_title=ashram.name card_subtitle=ashram.locality card_detail_url=ashram_detail_url %}
+                {% include 'includes/mission_list_card.html' with card_image_url=ashram.image.url card_image_field=ashram.image card_title=ashram.name card_subtitle=ashram.locality card_detail_url=ashram_detail_url %}
             </li>
             {% endfor %}
         </ul>
@@ -144,7 +159,7 @@
                         {% for ashram in ashrams %}
                         <li class="glide__slide">
                             {% url 'ashram:AshramDetail' slug=ashram.slug as ashram_detail_url %}
-                            {% include 'includes/mission_list_card.html' with card_image_url=ashram.image.url card_title=ashram.name card_subtitle=ashram.locality card_detail_url=ashram_detail_url %}
+                            {% include 'includes/mission_list_card.html' with card_image_url=ashram.image.url card_image_field=ashram.image card_title=ashram.name card_subtitle=ashram.locality card_detail_url=ashram_detail_url %}
                         </li>
                         {% endfor %}
                     </ul>
@@ -219,12 +234,12 @@
                                         <label class="left-label bld" for="ashramCreateDescription">Description</label>
                                         <textarea name="description" placeholder="Description" class="form-control" id="ashramCreateDescription" cols="80" rows="8" required></textarea><br>
 
-                                        <label class="left-label bld" for="inputGroupFile04">Thumbnail</label>
+                                        <label class="left-label bld" for="ashramThumbnailInput">Thumbnail</label>
                                         <div class="input-group">
                                             <div class="custom-file">
-                                                <input type="file" class="custom-file-input" name="image" id="inputGroupFile04"
+                                                <input type="file" class="custom-file-input" name="image" id="ashramThumbnailInput"
                                                     aria-describedby="inputGroupFileAddon04" required>
-                                                <label class="custom-file-label" for="inputGroupFile04">Add Thumbnail</label>
+                                                <label class="custom-file-label" for="ashramThumbnailInput">Add Thumbnail</label>
                                             </div>
                                         </div><br>
 

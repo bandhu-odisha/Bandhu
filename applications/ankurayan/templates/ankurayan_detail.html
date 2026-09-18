@@ -3,6 +3,7 @@
 
 {% load static %}
 {% load permissions %}
+{% load responsive_images %}
 
 {% block title %} Ankurayan {{ ankurayan.year }} {% endblock %}
 
@@ -11,7 +12,7 @@
 {% block style %}
 <!-- Custom CSS -->
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
-<link rel="stylesheet" href="{% static 'css/ankurayan.css' %}?v=10">
+<link rel="stylesheet" href="{% static 'css/ankurayan.css' %}?v=13">
 <!-- Custom Style -->
 <style>
     body #top-section {
@@ -1401,7 +1402,7 @@
 
 {% block showcase-title-container %}
 <div class="slider-txt-container page-showcase page-showcase-tall">
-    <h2 class="bold-txt page-showcase-title">Ankurayan {{ ankurayan.year }}</h2>
+    <h1 class="bold-txt page-showcase-title">Ankurayan {{ ankurayan.year }}</h1>
     <div class="page-showcase-accent"></div>
 </div>
 {% endblock %}
@@ -1420,7 +1421,12 @@
             <div class="col-lg-4 col-md-5">
                 <div class="pillar-overlay-card pillar-overlay-card--image ankurayan-detail-photo-card">
                     <div class="ankurayan-detail-photo-wrap">
+                        {% responsive_img ankurayan.logo as ankurayan_logo_img %}
+                        {% if ankurayan_logo_img %}
+                        <img src="{{ ankurayan_logo_img.src }}" srcset="{{ ankurayan_logo_img.srcset }}" sizes="(max-width: 600px) 92vw, 600px" width="{{ ankurayan_logo_img.width }}" height="{{ ankurayan_logo_img.height }}" alt="{{ ankurayan.title|striptags }}" loading="eager" class="ankurayan-detail-logo-img">
+                        {% else %}
                         <img src="{{ ankurayan.logo.url }}" alt="{{ ankurayan.title|striptags }}" loading="eager" class="ankurayan-detail-logo-img">
+                        {% endif %}
                     </div>
                     <div class="ankurayan-detail-schedule">
                         <div class="ankurayan-detail-schedule-title">
@@ -1447,7 +1453,12 @@
                                 <div class="carousel-item {% if forloop.first %}active{% endif %}">
                                     <div class="position-relative">
                                         <a href="javascript:pswpInit({{ forloop.counter0 }})" class="ankurayan-sidebar-gallery__link" aria-label="Open photo {{ forloop.counter }} in lightbox">
-                                            <img src="{{ photo.picture.url }}" alt="" class="ankurayan-sidebar-gallery__img" width="{{ photo.picture.width }}" height="{{ photo.picture.height }}">
+                                            {% responsive_img photo.picture as sidebar_gallery_img %}
+                                        {% if sidebar_gallery_img %}
+                                        <img src="{{ sidebar_gallery_img.src }}" srcset="{{ sidebar_gallery_img.srcset }}" sizes="(max-width: 600px) 92vw, 400px" alt="" class="ankurayan-sidebar-gallery__img" width="{{ sidebar_gallery_img.width }}" height="{{ sidebar_gallery_img.height }}" loading="lazy">
+                                        {% else %}
+                                        <img src="{{ photo.picture.url }}" alt="" class="ankurayan-sidebar-gallery__img" width="{{ photo.picture.width }}" height="{{ photo.picture.height }}" loading="lazy">
+                                        {% endif %}
                                         </a>
                                         {% if check_admin %}
                                         <form method="post" action="{% url 'ankurayan:ImageAdminApproval' %}" class="gallery-delete-form" onsubmit="return confirm('Remove this image from the gallery?');">
@@ -1467,7 +1478,12 @@
                         {% for photo in photos %}
                         <div class="position-relative">
                             <a href="javascript:pswpInit(0)" class="ankurayan-sidebar-gallery__link" aria-label="Open photo in lightbox">
-                                <img src="{{ photo.picture.url }}" alt="" class="ankurayan-sidebar-gallery__img" width="{{ photo.picture.width }}" height="{{ photo.picture.height }}">
+                                {% responsive_img photo.picture as sidebar_gallery_img %}
+                                        {% if sidebar_gallery_img %}
+                                        <img src="{{ sidebar_gallery_img.src }}" srcset="{{ sidebar_gallery_img.srcset }}" sizes="(max-width: 600px) 92vw, 400px" alt="" class="ankurayan-sidebar-gallery__img" width="{{ sidebar_gallery_img.width }}" height="{{ sidebar_gallery_img.height }}" loading="lazy">
+                                        {% else %}
+                                        <img src="{{ photo.picture.url }}" alt="" class="ankurayan-sidebar-gallery__img" width="{{ photo.picture.width }}" height="{{ photo.picture.height }}" loading="lazy">
+                                        {% endif %}
                             </a>
                             {% if check_admin %}
                             <form method="post" action="{% url 'ankurayan:ImageAdminApproval' %}" class="gallery-delete-form" onsubmit="return confirm('Remove this image from the gallery?');">
@@ -1655,7 +1671,7 @@
                         {% for activity in category.activities.all %}
                         <li class="glide__slide">
                             <div class="card w-100 page-card mx-auto my-2">
-                                <a class="" href="#" data-toggle="modal" data-target="#activity_modal{{ activity.id }}">
+                                <a class="" href="#" data-toggle="modal" data-target="#activity_modal{{ activity.id }}" aria-label="{{ activity.name }}">
                                     <img src="{% static 'img/pimg6.jpg' %}" class="card-img-top home-card-img" alt=""
                                         width="300px">
                                 </a>
@@ -1670,7 +1686,7 @@
                                         {% if activity.winner %}
                                         {% else %}
                                         <button type="button" class="btn btn-primary" data-toggle="modal"
-                                            data-target="#selectWinners{{forloop.counter}}">Add Winners</button>
+                                            data-target="#selectWinners{{forloop.parentloop.counter}}_{{forloop.counter}}">Add Winners</button>
                                         {% endif %}
                                         {% endif %}
                                         <br>
@@ -1756,7 +1772,7 @@
     </div>
 </div>
 {% if check_admin and user.is_authenticated %}
-<div class="modal fade ankurayan-modal" tabindex="-1" id="selectWinners{{forloop.counter}}" role="dialog"
+<div class="modal fade ankurayan-modal" tabindex="-1" id="selectWinners{{forloop.parentloop.counter}}_{{forloop.counter}}" role="dialog"
     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content shadow">
@@ -1771,48 +1787,48 @@
                 <p style="color:red;display:none;" class="errorMessageWinners">A student cannot come at two positions.
                 </p>
                 <form method="POST" enctype="multipart/form-data" action="{% url 'ankurayan:AddWinners' %}"
-                    id="chooseWinnersForm{{forloop.counter}}">{% csrf_token %}
+                    id="chooseWinnersForm{{forloop.parentloop.counter}}_{{forloop.counter}}">{% csrf_token %}
                     <input type="text" hidden name="pk" value="{{activity.pk}}">
                     <input type="text" hidden name="slug" value="{{ankurayan.slug}}">
                     <!-- <input type="text" hidden name="activity_name"
                             value={{activity.activity_name}}>
                         <input type="text" hidden name="date"
                             value={{activ}}> -->
-                    <label class="label-left bld" for="">Winner</label>
-                    <select required class="form-control" id="winner{{forloop.counter}}" name="pk_winner">
+                    <label class="label-left bld" for="winner{{forloop.parentloop.counter}}_{{forloop.counter}}">Winner</label>
+                    <select required class="form-control" id="winner{{forloop.parentloop.counter}}_{{forloop.counter}}" name="pk_winner">
                         <option value="">Select Winner</option>
                         {% for participant in participants %}
                         <option value="{{participant.pk}}">{{participant.name}} -
                             {{participant.school_class}}</option>
                         {% endfor %}
                     </select><br>
-                    <label class="label-left bld" for="">RunnerUp 1</label>
-                    <select required class="form-control" id="runnerUp1{{forloop.counter}}" name="pk_runner_up1">
+                    <label class="label-left bld" for="runnerUp1{{forloop.parentloop.counter}}_{{forloop.counter}}">RunnerUp 1</label>
+                    <select required class="form-control" id="runnerUp1{{forloop.parentloop.counter}}_{{forloop.counter}}" name="pk_runner_up1">
                         <option value="">Select first runner up</option>
                         {% for participant in participants %}
                         <option value="{{participant.pk}}">{{participant.name}} -
                             {{participant.school_class}}</option>
                         {% endfor %}
                     </select><br>
-                    <label class="label-left bld" for="">RunnerUp 2</label>
-                    <select required class="form-control" id="runnerUp2{{forloop.counter}}" name="pk_runner_up2">
+                    <label class="label-left bld" for="runnerUp2{{forloop.parentloop.counter}}_{{forloop.counter}}">RunnerUp 2</label>
+                    <select required class="form-control" id="runnerUp2{{forloop.parentloop.counter}}_{{forloop.counter}}" name="pk_runner_up2">
                         <option value="">Select second runner up</option>
                         {% for participant in participants %}
                         <option value="{{participant.pk}}">{{participant.name}} -
                             {{participant.school_class}}</option>
                         {% endfor %}
                     </select><br>
-                    <label class="label-left bld" for="activity_images" style="text-align: left; float: left; padding-left: 5px;">Activity
+                    <label class="label-left bld" for="activityWinnersImages{{forloop.parentloop.counter}}_{{forloop.counter}}" style="text-align: left; float: left; padding-left: 5px;">Activity
                         Images</label>
                     <div class="input-group">
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" multiple name="activity_images" id="inputGroupFile04" 
+                            <input type="file" class="custom-file-input" multiple name="activity_images" id="activityWinnersImages{{forloop.parentloop.counter}}_{{forloop.counter}}"
                                 aria-describedby="inputGroupFileAddon04">
-                            <label class="custom-file-label" for="inputGroupFile04">Add Images</label>
+                            <label class="custom-file-label" for="activityWinnersImages{{forloop.parentloop.counter}}_{{forloop.counter}}">Add Images</label>
                         </div>
                     </div><br>
                     <button type="button" class="btn btn-primary"
-                        onclick="validateWinners(`{{forloop.counter}}`);">Submit</button>
+                        onclick="validateWinners(`{{forloop.parentloop.counter}}_{{forloop.counter}}`);">Submit</button>
                 </form>
             </div>
         </div>
@@ -1825,117 +1841,9 @@
 <!-- ANKURAYANS SECTION REMOVED for /ankurayan/detail/<year>/ pages -->
 
 
-<!-- Activities Section -->
-<!-- <section id="ankurayans">
-    <div class="bg-grey" style="padding: 50px 0;">
-        <div class="container">
-            <div class="row">
-                <div class="section-content w-100">
-                    <div class="content-box from-bottom delay-200">
-                        <h3 class="section-title">Ankurayans</h3>
-                        <div class="glide">
-                            <div class="glide__track" data-glide-el="track">
-                                <ul class="glide__slides">
-                                    {% for ankur in ankurayans %}
-                                    <li class="glide__slide">
-                                        <div
-                                            class="card w-100 shadow-sm border border-primary border-rounded mx-auto my-2">
-                                            <img src="{{ ankur.logo.url }}" class="card-img-top home-card-img"
-                                                alt="" width="300px">
-                                            <div class="card-body pb-0">
-                                                <h5 class="card-title font-weight-bold">{{ankur.title}}</h5>
-                                                <p class="m-2 font-italic  font-open-sans mb-3">
-                                                    {{ankur.theme}}
-                                                    <br>
-                                                </p>
-                                                <a href="{% url 'ankurayan:AnkurayanDetail' ankur.slug %}" class="stretched-link"></a>
-                                            </div>
-                                        </div>
-                                        {% if check_admin and user.is_authenticated %}
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#selectWinners{{forloop.counter}}">Add Winners</button>
-                                        {% endif %}
-                                    </li>
-                                    {% if check_admin and user.is_authenticated %}
-                                    <div class="modal fade bd-example-modal-lg" tabindex="-1"
-                                        id="selectWinners{{forloop.counter}}" role="dialog"
-                                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title bld" id="exampleModalLongTitle">Select Winners
-                                                    </h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p style="color:red;display:none;" class="errorMessageWinners" >A student cannot come at two positions.</p>
-                                                    <form method="POST" enctype="multipart/form-data" action="{% url 'ankurayan:AddWinners' %}"
-                                                        id="chooseWinnersForm{{forloop.counter}}">{% csrf_token %}
-                                                        <input type="text" hidden name="slug" value={{kendra.slug}}>
-                                                        <input type="text" hidden name="activity_name"
-                                                            value={{activity.activity_name}}>
-                                                        <input type="text" hidden name="date"
-                                                            value={{activity.date}}>
-                                                        <select required class="form-control" id="winner{{forloop.counter}}"
-                                                            name="pk_winner">
-                                                            <option value="">Select Winner</option>
-                                                            {% for participant in participants %}
-                                                            <option value="{{participant.pk}}">{{participant.name}} -
-                                                                {{participant.school_class}}</option>
-                                                            {% endfor %}
-                                                        </select><br>
-                                                        <select required class="form-control" id="runnerUp1{{forloop.counter}}"
-                                                            name="pk_runner_up1">
-                                                            <option value="">Select first runner up</option>
-                                                            {% for participant in participants %}
-                                                            <option value="{{participant.pk}}">{{participant.name}} -
-                                                                {{participant.school_class}}</option>
-                                                            {% endfor %}
-                                                        </select><br>
-                                                        <select required class="form-control" id="runnerUp2{{forloop.counter}}"
-                                                            name="pk_runner_up2">
-                                                            <option value="">Select second runner up</option>
-                                                            {% for participant in participants %}
-                                                            <option value="{{participant.pk}}">{{participant.name}} -
-                                                                {{participant.school_class}}</option>
-                                                            {% endfor %}
-                                                        </select><br>
-                                                        <input type="file" class="form-control" multiple name="activity_images">
-                                                        <button type="button" class="btn btn-primary"
-                                                            onclick="validateWinners(`{{forloop.counter}}`);">Submit</button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {% endif %}
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                            <div class="glide__arrows disable_arrows d-none d-md-block" data-glide-el="controls">
-                                <button class="slider_arrow slider_arrow--prev glide__arrow glide__arrow--left"
-                                    data-glide-dir="<">
-                                    <i class="fas fa-arrow-circle-left"></i>
-                                </button>
-                                <button class="slider_arrow slider_arrow--next glide__arrow glide__arrow--right"
-                                    data-glide-dir=">">
-                                    <i class="fas fa-arrow-circle-right"></i>
-                                </button>
-                            </div>
-                            <div class="glide__bullets" data-glide-el="controls[nav]">
-                                {% for activity in activities %}
-                                <button class="glide__bullet" data-glide-dir="={{forloop.counter}}"></button>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section> -->
+<!-- Activities Section: dead "Ankurayans" carousel removed. It was already HTML-commented out
+     (never reachable in the live DOM) and referenced undefined context vars (kendra, activity,
+     activities) that ankurayan_detail's view never supplies. See G2 in the review notes. -->
 <!-- Recent Activities Section Ends -->
 {% if photos|length %}
 <!-- Gallery upload / approve modals (carousel lives in #about, left column under schedule) -->
@@ -1953,8 +1861,8 @@
                     <input type="text" hidden name="slug" value="{{ ankurayan.slug }}">
                     <div class="input-group">
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" multiple name="gallery_images" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
-                            <label class="custom-file-label" for="inputGroupFile04">Add Images</label>
+                            <input type="file" class="custom-file-input" multiple name="gallery_images" id="ankurayanGalleryImagesInput" aria-describedby="inputGroupFileAddon04">
+                            <label class="custom-file-label" for="ankurayanGalleryImagesInput">Add Images</label>
                         </div>
                     </div><br>
                     <button type="submit" class="btn btn-primary">Submit</button>
@@ -2709,28 +2617,28 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <input type="text" hidden name="slug" value={{ankurayan.slug}}>
                 <div class="row">
                     <div class="col">
-                        <label class="left-label bld" for="">Name</label>
-                        <input type="text" class="form-control" name="name" placeholder="Student name"
+                        <label class="left-label bld" for="ankurayanParticipantName">Name</label>
+                        <input type="text" class="form-control" name="name" id="ankurayanParticipantName" placeholder="Student name"
                     required="required"><br>
                     </div>
                     <div class="col">
-                        <label class="left-label bld" for="">Contact Number</label>
-                        <input type="text" class="form-control" name="contact_no"
+                        <label class="left-label bld" for="ankurayanParticipantContact">Contact Number</label>
+                        <input type="text" class="form-control" name="contact_no" id="ankurayanParticipantContact"
                     placeholder="Guardian Contact number" required="required"><br>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <label class="left-label bld" for="">Gender</label>
-                        <select class="form-control" name="gender">
+                        <label class="left-label bld" for="ankurayanParticipantGender">Gender</label>
+                        <select class="form-control" name="gender" id="ankurayanParticipantGender">
                             <option value="M">Male</option>
                             <option value="F">Female</option>
                             <option value="O">Other</option>
                         </select><br>
                     </div>
                     <div class="col">
-                        <label class="left-label bld" for="">School Class</label>
-                        <select class="form-control" name="school_class">
+                        <label class="left-label bld" for="ankurayanParticipantSchoolClass">School Class</label>
+                        <select class="form-control" name="school_class" id="ankurayanParticipantSchoolClass">
                             <option value="I">Class I</option>
                             <option value="II">Class II</option>
                             <option value="III">Class III</option>
@@ -2746,8 +2654,8 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                         </select><br>
                     </div>
                 </div>
-                <label class="left-label bld" for="">Address</label>
-                <input type="text" class="form-control" name="address"
+                <label class="left-label bld" for="ankurayanParticipantAddress">Address</label>
+                <input type="text" class="form-control" name="address" id="ankurayanParticipantAddress"
                     placeholder="Student Address" required="required"><br>
                 
                 <button class="btn btn-primary">Submit</button>
@@ -2794,33 +2702,33 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <input type="text" hidden name="slug" value={{ankurayan.slug}}>
                 <div class="row">
                     <div class="col">
-                        <label class="left-label bld" for="">Activity Name</label>
-                        <input type="text" class="form-control" name="activity_name"
+                        <label class="left-label bld" for="ankurayanCreateActivityName">Activity Name</label>
+                        <input type="text" class="form-control" name="activity_name" id="ankurayanCreateActivityName"
                     placeholder="Activity name" required="required"><br>
                     </div>
                     <div class="col">
-                        <label class="left-label bld" for="category">Category</label>
-                <select class="form-control" name="category">
+                        <label class="left-label bld" for="ankurayanCreateActivityCategory">Category</label>
+                <select class="form-control" name="category" id="ankurayanCreateActivityCategory">
                     {% for category in categories %}
                     <option value="{{category.pk}}">{{category.name}}</option>
                     {% endfor %}
                 </select><br>
                     </div>
                 </div>
-                <label class="left-label bld" for="date">Activity
+                <label class="left-label bld" for="ankurayanCreateActivityDate">Activity
                     Date</label>
-                <input type="date" name="date" class="form-control"
+                <input type="date" name="date" id="ankurayanCreateActivityDate" class="form-control"
                     required="required"><br>
-                <label class="left-label bld" for="activity_images">Images</label>
+                <label class="left-label bld" for="ankurayanCreateActivityImagesInput">Images</label>
                 <div class="input-group">
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" multiple name="activity_images" id="inputGroupFile04" 
+                        <input type="file" class="custom-file-input" multiple name="activity_images" id="ankurayanCreateActivityImagesInput"
                             aria-describedby="inputGroupFileAddon04">
-                        <label class="custom-file-label" for="inputGroupFile04">Add Images</label>
+                        <label class="custom-file-label" for="ankurayanCreateActivityImagesInput">Add Images</label>
                     </div>
                 </div><br>
-                <label class="left-label bld" for="">Description</label>
-                <textarea name="description" cols="80" class="form-control"
+                <label class="left-label bld" for="ankurayanCreateActivityDescription">Description</label>
+                <textarea name="description" cols="80" class="form-control" id="ankurayanCreateActivityDescription"
                     placeholder="Description" rows="4"></textarea><br>
                 <button class="btn btn-primary">Add Activity</button>
             </form>

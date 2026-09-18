@@ -2,6 +2,7 @@
 
 {% load static %}
 {% load custom_filters %}
+{% load responsive_images %}
 
 {% block title %} Bandhughar - {{ ashram.locality }} {% endblock %}
 
@@ -9,8 +10,8 @@
 
 {% block style %}
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}?v=5">
-<link rel="stylesheet" href="{% static 'css/anandakendra.css' %}?v=24">
-<link rel="stylesheet" href="{% static 'css/ashram.css' %}?v=9">
+<link rel="stylesheet" href="{% static 'css/anandakendra.css' %}?v=28">
+<link rel="stylesheet" href="{% static 'css/ashram.css' %}?v=11">
 <style>
     body.bandhughar-detail-page #top-section {
         background:
@@ -182,7 +183,7 @@
 
 {% block showcase-title-container %}
 <div class="slider-txt-container page-showcase page-showcase-tall">
-    <h2 class="bold-txt page-showcase-title">Bandhughar</h2>
+    <h1 class="bold-txt page-showcase-title">Bandhughar</h1>
     <div class="page-showcase-accent"></div>
     <p class="showcase-description mb-0 mt-2 text-white">{{ ashram.locality }}</p>
 </div>
@@ -200,7 +201,12 @@
         <div class="row align-items-start g-4">
             <div class="col-lg-4 col-md-5">
                 <div class="pillar-overlay-card pillar-overlay-card--image">
+                    {% responsive_img ashram.image as ashram_detail_hero_img %}
+                    {% if ashram_detail_hero_img %}
+                    <img src="{{ ashram_detail_hero_img.src }}" srcset="{{ ashram_detail_hero_img.srcset }}" sizes="(max-width: 600px) 92vw, 600px" width="{{ ashram_detail_hero_img.width }}" height="{{ ashram_detail_hero_img.height }}" alt="{{ ashram.name|default:'Bandhughar' }}" loading="eager" class="pillar-overlay-single-image">
+                    {% else %}
                     <img src="{{ ashram.image.url }}" alt="{{ ashram.name|default:'Bandhughar' }}" loading="eager" class="pillar-overlay-single-image">
+                    {% endif %}
                 </div>
             </div>
             <div class="col-lg-8 col-md-7">
@@ -371,8 +377,14 @@
                         {% for event in events %}
                         <li class="glide__slide">
                             <div class="card w-100 page-card mx-auto my-2">
+                                {% responsive_img event.thumb as ashram_event_thumb_img %}
+                                {% if ashram_event_thumb_img %}
+                                <img src="{{ ashram_event_thumb_img.src }}" srcset="{{ ashram_event_thumb_img.srcset }}" sizes="(max-width: 600px) 92vw, 300px" class="card-img-top home-card-img" alt=""
+                                    width="{{ ashram_event_thumb_img.width }}" height="{{ ashram_event_thumb_img.height }}" loading="lazy">
+                                {% else %}
                                 <img src="{{ event.thumb.url }}" class="card-img-top home-card-img" alt=""
-                                    width="300px">
+                                    loading="lazy">
+                                {% endif %}
                                 <div class="card-body pb-0">
                                     <h5 class="card-title font-weight-bold">{{ event.name }}</h5>
                                     <p class="mb-3">
@@ -612,7 +624,7 @@
                                                             value={{activity.activity_name}}>
                                                         <input type="text" hidden name="date"
                                                             value={{activity.date}}>
-                                                        <label class="label-left bld" for="">Winner</label>
+                                                        <label class="label-left bld" for="winner{{forloop.counter}}">Winner</label>
                                                         <select required class="form-control"
                                                             id="winner{{forloop.counter}}" name="pk_winner">
                                                             <option value="">Select Winner</option>
@@ -621,7 +633,7 @@
                                                                 {{participant.school_class}}</option>
                                                             {% endfor %}
                                                         </select><br>
-                                                        <label class="label-left bld" for="">RunnerUp 1</label>
+                                                        <label class="label-left bld" for="runnerUp1{{forloop.counter}}">RunnerUp 1</label>
                                                         <select required class="form-control"
                                                             id="runnerUp1{{forloop.counter}}" name="pk_runner_up1">
                                                             <option value="">Select first runner up</option>
@@ -630,7 +642,7 @@
                                                                 {{participant.school_class}}</option>
                                                             {% endfor %}
                                                         </select><br>
-                                                        <label class="label-left bld" for="">RunnerUp 2</label>
+                                                        <label class="label-left bld" for="runnerUp2{{forloop.counter}}">RunnerUp 2</label>
                                                         <select required class="form-control"
                                                             id="runnerUp2{{forloop.counter}}" name="pk_runner_up2">
                                                             <option value="">Select second runner up</option>
@@ -639,16 +651,16 @@
                                                                 {{participant.school_class}}</option>
                                                             {% endfor %}
                                                         </select><br>
-                                                        <label class="label-left bld" for="activity_images"
+                                                        <label class="label-left bld" for="activityWinnersImages{{forloop.counter}}"
                                                             style="text-align: left; float: left; padding-left: 5px;">Activity
                                                             Images</label>
                                                         <div class="input-group">
                                                             <div class="custom-file">
                                                                 <input type="file" class="custom-file-input" multiple
-                                                                    name="activity_images" id="inputGroupFile04"
+                                                                    name="activity_images" id="activityWinnersImages{{forloop.counter}}"
                                                                     aria-describedby="inputGroupFileAddon04">
                                                                 <label class="custom-file-label"
-                                                                    for="inputGroupFile04">Add Images</label>
+                                                                    for="activityWinnersImages{{forloop.counter}}">Add Images</label>
                                                             </div>
                                                         </div><br>
                                                         <button type="button" class="btn btn-primary"
@@ -707,7 +719,12 @@
                         {% for photo in photos %}
                         <div class="gallery-scroll-card" data-gallery-card>
                             <a href="#" class="gallery-scroll-card-link" data-gallery-lightbox data-gallery-index="{{ forloop.counter0 }}" role="button" aria-label="View gallery image {{ forloop.counter }}">
+                                {% responsive_img photo.picture as ashram_gallery_img %}
+                                {% if ashram_gallery_img %}
+                                <img src="{{ ashram_gallery_img.src }}" srcset="{{ ashram_gallery_img.srcset }}" sizes="(max-width: 600px) 92vw, 400px" width="{{ ashram_gallery_img.width }}" height="{{ ashram_gallery_img.height }}" alt="Gallery" class="gallery-scroll-img" loading="lazy">
+                                {% else %}
                                 <img src="{{ photo.picture.url }}" alt="Gallery" class="gallery-scroll-img" loading="lazy">
+                                {% endif %}
                                 <span class="gallery-scroll-overlay" aria-hidden="true"><i class="fab fa-instagram"></i></span>
                             </a>
                         </div>
@@ -772,7 +789,7 @@
                     <button type="button" class="anandakendra-gallery-lightbox-nav anandakendra-gallery-lightbox-prev" id="anandakendraGalleryPrev" aria-label="Previous photo">
                         <i class="fas fa-chevron-left" aria-hidden="true"></i>
                     </button>
-                    <img src="" alt="Gallery photo" class="anandakendra-gallery-lightbox-img" id="anandakendraGalleryImage">
+                    <img alt="Gallery photo" class="anandakendra-gallery-lightbox-img" id="anandakendraGalleryImage">
                     <button type="button" class="anandakendra-gallery-lightbox-nav anandakendra-gallery-lightbox-next" id="anandakendraGalleryNext" aria-label="Next photo">
                         <i class="fas fa-chevron-right" aria-hidden="true"></i>
                     </button>
@@ -799,36 +816,36 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <input type="text" hidden name="slug" value={{ashram.slug}}>
                 <div class="row">
                     <div class="col">
-                        <label class="left-label bld" for="">Topic</label>
-                        <input type="text" class="form-control" name="topic"
+                        <label class="left-label bld" for="ashramMeetingTopic">Topic</label>
+                        <input type="text" class="form-control" name="topic" id="ashramMeetingTopic"
                             placeholder="Meeting topic" required="required"><br></div>
                     <div class="col">
-                        <label class="left-label bld" for="">Date</label>
-                        <input type="date" class="form-control" name="schedule"
+                        <label class="left-label bld" for="ashramMeetingDate">Date</label>
+                        <input type="date" class="form-control" name="schedule" id="ashramMeetingDate"
                             required="required"><br></div>
                 </div>
 
                 <div class="row">
                     <div class="col">
-                        <label class="left-label bld" for="">Location</label>
-                        <input type="text" class="form-control" name="location"
+                        <label class="left-label bld" for="ashramMeetingLocation">Location</label>
+                        <input type="text" class="form-control" name="location" id="ashramMeetingLocation"
                             placeholder="Location" required="required"><br>
                     </div>
                     <div class="col">
-                        <label class="left-label bld" for="">Minutes</label>
+                        <label class="left-label bld" for="ashramMeetingMinutesInput">Minutes</label>
                         <div class="input-group">
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input" name="minutes"
-                                    id="inputGroupFile04"
+                                    id="ashramMeetingMinutesInput"
                                     aria-describedby="inputGroupFileAddon04">
-                                <label class="custom-file-label" for="logo">Add
+                                <label class="custom-file-label" for="ashramMeetingMinutesInput">Add
                                     Minutes</label><br>
                             </div>
                         </div>
                     </div>
                 </div>
-                <label class="left-label bld" for="">Agenda</label>
-                <textarea name="agenda" cols="80" rows="4" placeholder="Agenda"
+                <label class="left-label bld" for="ashramMeetingAgenda">Agenda</label>
+                <textarea name="agenda" id="ashramMeetingAgenda" cols="80" rows="4" placeholder="Agenda"
                     class="form-control" required="required"></textarea><br>
                 <button class="btn btn-primary">Create Meeting</button>
             </form>
@@ -871,26 +888,26 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <form method="POST" enctype="multipart/form-data"
                 action="{% url 'ashram:CreateActivity' %}">{% csrf_token %}
                 <input type="text" hidden name="slug" value={{ashram.slug}}>
-                <label class="left-label bld" for="">Activity Name</label>
-                <input type="text" class="form-control" name="activity_name"
+                <label class="left-label bld" for="ashramActivityName">Activity Name</label>
+                <input type="text" class="form-control" name="activity_name" id="ashramActivityName"
                     placeholder="Activity name" required="required"><br>
-                <label class="left-label bld" for="">Category</label>
-                <select class="form-control" required="required" name="category">
+                <label class="left-label bld" for="ashramActivityCategory">Category</label>
+                <select class="form-control" required="required" name="category" id="ashramActivityCategory">
                     {% for category in categories %}
                     <option value="{{category.pk}}">{{category.name}}</option>
                     {% endfor %}
                 </select><br>
                 <!-- <input type="date" name="date" class="form-control"><br> -->
-                <label class="left-label bld" for="">Description</label>
-                <textarea name="description" cols="80" class="form-control" rows="4"
+                <label class="left-label bld" for="ashramActivityDescription">Description</label>
+                <textarea name="description" id="ashramActivityDescription" cols="80" class="form-control" rows="4"
                     placeholder="Description"></textarea><br>
-                <label class="left-label bld" for="">Activity Images</label>
+                <label class="left-label bld" for="ashramActivityImagesInput">Activity Images</label>
                 <div class="input-group">
                     <div class="custom-file">
                         <input type="file" class="custom-file-input" multiple
-                            name="activity_images" id="inputGroupFile04"
+                            name="activity_images" id="ashramActivityImagesInput"
                             aria-describedby="inputGroupFileAddon04">
-                        <label class="custom-file-label" for="inputGroupFile04">Add
+                        <label class="custom-file-label" for="ashramActivityImagesInput">Add
                             Images</label>
                     </div>
                 </div><br>
@@ -914,21 +931,21 @@ aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <form method="POST" enctype="multipart/form-data"
                 action="{% url 'ashram:CreateEventAshram' %}">{% csrf_token %}
                 <input type="text" hidden name="slug" value={{ashram.slug}}>
-                <label class="left-label bld" for="">Event Name</label>
-                <input type="text" class="form-control" name="event_name"
+                <label class="left-label bld" for="ashramEventName">Event Name</label>
+                <input type="text" class="form-control" name="event_name" id="ashramEventName"
                     placeholder="Event name" required="required"><br>
-                <label class="left-label bld" for="">Event Date</label>
-                <input type="date" name="event_date" required="required"
+                <label class="left-label bld" for="ashramEventDate">Event Date</label>
+                <input type="date" name="event_date" id="ashramEventDate" required="required"
                     class="form-control"><br>
-                <label class="left-label bld" for="">Description</label>
-                <textarea name="description" cols="80" class="form-control" rows="4"
+                <label class="left-label bld" for="ashramEventDescription">Description</label>
+                <textarea name="description" id="ashramEventDescription" cols="80" class="form-control" rows="4"
                     placeholder="Description"></textarea><br>
-                <label class="left-label bld" for="">Event Thumbnail</label>
+                <label class="left-label bld" for="ashramEventThumbInput">Event Thumbnail</label>
                 <div class="input-group">
                     <div class="custom-file">
                         <input type="file" class="custom-file-input" multiple name="event_thumb"
-                            id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
-                        <label class="custom-file-label" for="inputGroupFile04">Add
+                            id="ashramEventThumbInput" aria-describedby="inputGroupFileAddon04">
+                        <label class="custom-file-label" for="ashramEventThumbInput">Add
                             Thumbnail</label>
                     </div>
                 </div><br>

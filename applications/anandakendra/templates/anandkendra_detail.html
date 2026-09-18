@@ -2,6 +2,7 @@
 
 {% load static %}
 {% load custom_filters %}
+{% load responsive_images %}
 
 {% block title %} Anandakendra - {{ kendra.locality }} {% endblock %}
 
@@ -10,7 +11,7 @@
 {% block style %}
 <!-- Custom CSS -->
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}?v=5">
-<link rel="stylesheet" href="{% static 'css/anandakendra.css' %}?v=23">
+<link rel="stylesheet" href="{% static 'css/anandakendra.css' %}?v=28">
 <!-- Custom Style (after anandakendra.css — must win over !important rules in that file) -->
 <style>
     /* Pillar-style banner: override custom.css #top-section photo + match Sanskar gradient */
@@ -151,7 +152,7 @@
 
 {% block showcase-title-container %}
 <div class="slider-txt-container page-showcase page-showcase-tall">
-    <h2 class="bold-txt page-showcase-title">Anandakendra</h2>
+    <h1 class="bold-txt page-showcase-title">Anandakendra</h1>
     <div class="page-showcase-accent"></div>
     <p class="showcase-description mb-0 mt-2 text-white">{{ kendra.locality }}</p>
 </div>
@@ -170,7 +171,12 @@
         <div class="row align-items-start g-4">
             <div class="col-lg-4 col-md-5">
                 <div class="pillar-overlay-card pillar-overlay-card--image">
+                    {% responsive_img kendra.image as kendra_hero_img %}
+                    {% if kendra_hero_img %}
+                    <img src="{{ kendra_hero_img.src }}" srcset="{{ kendra_hero_img.srcset }}" sizes="(max-width: 600px) 92vw, 600px" width="{{ kendra_hero_img.width }}" height="{{ kendra_hero_img.height }}" alt="{{ kendra.name }}" loading="eager" class="pillar-overlay-single-image">
+                    {% else %}
                     <img src="{{ kendra.image.url }}" alt="{{ kendra.name }}" loading="eager" class="pillar-overlay-single-image">
+                    {% endif %}
                 </div>
             </div>
             <div class="col-lg-8 col-md-7">
@@ -323,8 +329,12 @@
                             {% for event in events %}
                             <li class="glide__slide">
                                 <div class="card w-100 page-card mx-auto my-2">
-                                    <img src="{{ event.thumb.url }}" class="card-img-top home-card-img" alt=""
-                                        width="300px">
+                                    {% responsive_img event.thumb as kendra_event_thumb_img %}
+                                    {% if kendra_event_thumb_img %}
+                                    <img src="{{ kendra_event_thumb_img.src }}" srcset="{{ kendra_event_thumb_img.srcset }}" sizes="(max-width: 600px) 92vw, 300px" width="{{ kendra_event_thumb_img.width }}" height="{{ kendra_event_thumb_img.height }}" class="card-img-top home-card-img" alt="" loading="lazy">
+                                    {% else %}
+                                    <img src="{{ event.thumb.url }}" class="card-img-top home-card-img" alt="" loading="lazy">
+                                    {% endif %}
                                     <div class="card-body pb-0">
                                         <h5 class="card-title font-weight-bold">{{ event.name }}</h5>
                                         <p class="mb-3">
@@ -470,7 +480,12 @@
                         {% for photo in photos %}
                         <div class="gallery-scroll-card" data-gallery-card>
                             <a href="#" class="gallery-scroll-card-link" data-gallery-lightbox data-gallery-index="{{ forloop.counter0 }}" role="button" aria-label="View gallery image {{ forloop.counter }}">
+                                {% responsive_img photo.picture as kendra_gallery_img %}
+                                {% if kendra_gallery_img %}
+                                <img src="{{ kendra_gallery_img.src }}" srcset="{{ kendra_gallery_img.srcset }}" sizes="(max-width: 600px) 92vw, 400px" width="{{ kendra_gallery_img.width }}" height="{{ kendra_gallery_img.height }}" alt="Gallery" class="gallery-scroll-img" loading="lazy">
+                                {% else %}
                                 <img src="{{ photo.picture.url }}" alt="Gallery" class="gallery-scroll-img" loading="lazy">
+                                {% endif %}
                                 <span class="gallery-scroll-overlay" aria-hidden="true"><i class="fab fa-instagram"></i></span>
                             </a>
                         </div>
@@ -550,7 +565,7 @@
                     <button type="button" class="anandakendra-gallery-lightbox-nav anandakendra-gallery-lightbox-prev" id="anandakendraGalleryPrev" aria-label="Previous photo">
                         <i class="fas fa-chevron-left" aria-hidden="true"></i>
                     </button>
-                    <img src="" alt="Gallery photo" class="anandakendra-gallery-lightbox-img" id="anandakendraGalleryImage">
+                    <img alt="Gallery photo" class="anandakendra-gallery-lightbox-img" id="anandakendraGalleryImage">
                     <button type="button" class="anandakendra-gallery-lightbox-nav anandakendra-gallery-lightbox-next" id="anandakendraGalleryNext" aria-label="Next photo">
                         <i class="fas fa-chevron-right" aria-hidden="true"></i>
                     </button>
@@ -612,28 +627,28 @@
                     <input type="hidden" name="slug" value="{{ kendra.slug }}">
                     <div class="row justify-content">
                         <div class="col col-md-6">
-                            <label class="left-label bld" for="name">Name</label>
-                            <input type="text" class="form-control" name="name" placeholder="Student name"
+                            <label class="left-label bld" for="anandakendraStudentName">Name</label>
+                            <input type="text" class="form-control" name="name" id="anandakendraStudentName" placeholder="Student name"
                                 required="required"><br>
                         </div>
                         <div class="col col-md-6">
-                            <label class="left-label bld" for="guardian_name">Guardian Name</label>
-                            <input type="text" class="form-control" name="guardian_name" placeholder="Guardian name"
+                            <label class="left-label bld" for="anandakendraStudentGuardianName">Guardian Name</label>
+                            <input type="text" class="form-control" name="guardian_name" id="anandakendraStudentGuardianName" placeholder="Guardian name"
                                 required="required"><br>
                         </div>
                     </div>
                     <div class="row justify-content-center">
                         <div class="col col-md-6">
-                            <label class="left-label bld" for="gender">Gender</label>
-                            <select class="form-control" name="gender">
+                            <label class="left-label bld" for="anandakendraStudentGender">Gender</label>
+                            <select class="form-control" name="gender" id="anandakendraStudentGender">
                                 <option value="M">Male</option>
                                 <option value="F">Female</option>
                                 <option value="O">Other</option>
                             </select><br>
                         </div>
                         <div class="col col-md-6">
-                            <label class="left-label bld" for="school_class">School Class</label>
-                            <select class="form-control" name="school_class">
+                            <label class="left-label bld" for="anandakendraStudentSchoolClass">School Class</label>
+                            <select class="form-control" name="school_class" id="anandakendraStudentSchoolClass">
                                 <option value="I">Class I</option>
                                 <option value="II">Class II</option>
                                 <option value="III">Class III</option>
@@ -651,13 +666,13 @@
                     </div>
                     <div class="row justify-content-center">
                         <div class="col col-md-6">
-                            <label class="left-label bld" for="address">Address</label>
-                            <input type="text" class="form-control" name="address" placeholder="Student Address"
+                            <label class="left-label bld" for="anandakendraStudentAddress">Address</label>
+                            <input type="text" class="form-control" name="address" id="anandakendraStudentAddress" placeholder="Student Address"
                                 required="required"><br>
                         </div>
                         <div class="col col-md-6">
-                            <label class="left-label bld" for="contact_no">Contact Number</label>
-                            <input type="text" class="form-control" name="contact_no"
+                            <label class="left-label bld" for="anandakendraStudentContactNo">Contact Number</label>
+                            <input type="text" class="form-control" name="contact_no" id="anandakendraStudentContactNo"
                                 placeholder="Guardian Contact number" required="required"><br>
                         </div>
                     </div>
@@ -706,13 +721,13 @@
                     <input type="hidden" name="slug" value="{{ kendra.slug }}">
                     <div class="row">
                         <div class="col">
-                            <label class="left-label bld" for="activity_name">Activity Name</label>
-                            <input type="text" class="form-control" name="activity_name" placeholder="Activity name"
+                            <label class="left-label bld" for="anandakendraActivityName">Activity Name</label>
+                            <input type="text" class="form-control" name="activity_name" id="anandakendraActivityName" placeholder="Activity name"
                                 required="required"><br>
                         </div>
                         <div class="col">
-                            <label class="left-label bld" for="category">Category</label>
-                            <select class="form-control" name="category">
+                            <label class="left-label bld" for="anandakendraActivityCategory">Category</label>
+                            <select class="form-control" name="category" id="anandakendraActivityCategory">
                                 {% for category in categories %}
                                 <option value="{{category.pk}}">{{category.name}}</option>
                                 {% endfor %}
@@ -721,26 +736,26 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <label class="left-label bld" for="activity_time">Activity Time</label>
-                            <input type="text" name="activity_time" class="form-control" placeholder="Time of Activity"
+                            <label class="left-label bld" for="anandakendraActivityTime">Activity Time</label>
+                            <input type="text" name="activity_time" id="anandakendraActivityTime" class="form-control" placeholder="Time of Activity"
                                 required="required"><br>
                         </div>
                         <div class="col">
-                            <label class="left-label bld" for="activity_images">Activity Photos</label>
+                            <label class="left-label bld" for="anandakendraActivityImagesInput">Activity Photos</label>
                             <!-- <input type="file" class="form-control" multiple name="activity_images"> -->
                             <div class="input-group">
                                 <div class="custom-file">
                                     <input type="file" multiple class="custom-file-input" name="activity_images"
-                                        id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
-                                    <label class="left-label custom-file-label" for="inputGroupFile04">Add
+                                        id="anandakendraActivityImagesInput" aria-describedby="inputGroupFileAddon04">
+                                    <label class="left-label custom-file-label" for="anandakendraActivityImagesInput">Add
                                         Photos</label>
                                 </div>
                             </div>
 
                         </div>
                     </div>
-                    <label class="left-label bld" for="description">Description</label>
-                    <textarea name="description" cols="80" class="form-control" rows="4"></textarea><br>
+                    <label class="left-label bld" for="anandakendraActivityDescription">Description</label>
+                    <textarea name="description" id="anandakendraActivityDescription" cols="80" class="form-control" rows="4"></textarea><br>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
@@ -771,8 +786,8 @@
                             <div class="input-group">
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" name="event_thumb"
-                                        id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
-                                    <label class="custom-file-label" for="inputGroupFile04">Add Thumbnail</label>
+                                        id="anandakendraEventThumbInput" aria-describedby="inputGroupFileAddon04">
+                                    <label class="custom-file-label" for="anandakendraEventThumbInput">Add Thumbnail</label>
                                 </div>
                             </div><br>
                         </div>

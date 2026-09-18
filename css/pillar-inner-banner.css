@@ -43,6 +43,21 @@ body.pillar-inner-page #top-section .slider-txt-container.page-showcase.pillar-s
     width: 100% !important;
     color: inherit !important;
 }
+/* Small phones: the title is vertically centered in the banner, but this container's own
+   padding (.slider-txt-container's 575px rule: 5rem top + 6rem bottom = 176px) alone exceeds
+   the 150px mobile banner height, which pushes the centered content up under the fixed header.
+   Reserve exactly the fixed header's height (82px, see .bandhu-nav-header in custom.css) as
+   top padding instead of centering, so the title always starts below the header no matter how
+   many lines it wraps to — the banner (custom.css, height:auto for pillar-inner-page on mobile)
+   then grows to fit. This file loads after custom.css, so the override belongs here to actually
+   win the (identical-specificity, both !important) selector above. */
+@media (max-width: 600px) {
+    body.pillar-inner-page #top-section .slider-txt-container.pillar-showcase,
+    body.pillar-inner-page #top-section .slider-txt-container.page-showcase.pillar-showcase {
+        justify-content: flex-start !important;
+        padding: 88px 0 14px 0 !important;
+    }
+}
 
 body.pillar-inner-page #top-section .slider-txt-container.pillar-showcase > *,
 body.pillar-inner-page #top-section .slider-txt-container.page-showcase.pillar-showcase > * {
@@ -83,7 +98,9 @@ body.pillar-inner-page .pillar-showcase .page-showcase-title {
    leave the accent/paragraph cap alone. Matched per-class (not chained) because
    some pages (bandhuapp/templates/pillar_page.html) render the title with only
    one of pillar-showcase-title / page-showcase-title, not both. */
+body.pillar-inner-page #top-section .pillar-showcase h1.bold-txt.pillar-showcase-title,
 body.pillar-inner-page #top-section .pillar-showcase h2.bold-txt.pillar-showcase-title,
+body.pillar-inner-page #top-section .pillar-showcase h1.bold-txt.page-showcase-title,
 body.pillar-inner-page #top-section .pillar-showcase h2.bold-txt.page-showcase-title {
     max-width: min(94vw, 72rem) !important;
 }

@@ -42,10 +42,10 @@
 
 {% block style %}
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}?v=28">
-<link rel="stylesheet" href="{% static 'css/pillar-inner-banner.css' %}?v=4">
-<link rel="stylesheet" href="{% static 'css/anandakendra.css' %}?v=25">
-<link rel="stylesheet" href="{% static 'css/ashram.css' %}?v=9">
-<link rel="stylesheet" href="{% static 'css/initiative-program-year.css' %}?v=34">
+<link rel="stylesheet" href="{% static 'css/pillar-inner-banner.css' %}?v=9">
+<link rel="stylesheet" href="{% static 'css/anandakendra.css' %}?v=28">
+<link rel="stylesheet" href="{% static 'css/ashram.css' %}?v=11">
+<link rel="stylesheet" href="{% static 'css/initiative-program-year.css' %}?v=36">
 {% include 'initiative_program/hero_detail_styles.html' %}
 {% endblock %}
 
@@ -71,7 +71,7 @@
 
 {% block showcase-title-container %}
 <div class="slider-txt-container pillar-showcase page-showcase page-showcase-tall">
-    <h2 class="bold-txt pillar-showcase-title page-showcase-title">{{ program_name }}</h2>
+    <h1 class="bold-txt pillar-showcase-title page-showcase-title">{{ program_name }}</h1>
     <div class="pillar-showcase-accent page-showcase-accent"></div>
 </div>
 {% endblock %}
@@ -97,7 +97,7 @@
             {% for ashram in ashrams %}
             <li class="mission-list-cards-row__item">
                 {% url program_detail_url slug=ashram.slug as entry_detail_url %}
-                {% include 'includes/mission_list_card.html' with card_image_url=ashram.image.url card_title=ashram.name card_subtitle=ashram.locality card_detail_url=entry_detail_url show_draft_check=True check_admin=check_admin is_published=ashram.is_published %}
+                {% include 'includes/mission_list_card.html' with card_image_url=ashram.image.url card_image_field=ashram.image card_title=ashram.name card_subtitle=ashram.locality card_detail_url=entry_detail_url show_draft_check=True check_admin=check_admin is_published=ashram.is_published %}
             </li>
             {% endfor %}
         </ul>
@@ -109,7 +109,7 @@
                         {% for ashram in ashrams %}
                         <li class="glide__slide">
                             {% url program_detail_url slug=ashram.slug as entry_detail_url %}
-                            {% include 'includes/mission_list_card.html' with card_image_url=ashram.image.url card_title=ashram.name card_subtitle=ashram.locality card_detail_url=entry_detail_url show_draft_check=True check_admin=check_admin is_published=ashram.is_published %}
+                            {% include 'includes/mission_list_card.html' with card_image_url=ashram.image.url card_image_field=ashram.image card_title=ashram.name card_subtitle=ashram.locality card_detail_url=entry_detail_url show_draft_check=True check_admin=check_admin is_published=ashram.is_published %}
                         </li>
                         {% endfor %}
                     </ul>

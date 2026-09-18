@@ -134,7 +134,7 @@ export default function Hero({ data }) {
                     role="tab"
                     aria-selected={i === index}
                     aria-label={`Slide ${i + 1}`}
-                    className="relative flex items-center justify-center py-[17px] px-[3px] -my-[17px] -mx-[3px]"
+                    className="relative flex items-center justify-center py-[17px] px-[17px] -my-[17px] -mx-[17px]"
                     onClick={() => setIndex(i)}
                   >
                     <span
@@ -194,7 +194,7 @@ export default function Hero({ data }) {
                     role="tab"
                     aria-selected={i === index}
                     aria-label={`Slide ${i + 1}`}
-                    className="relative flex items-center justify-center py-[17px] px-[3px] -my-[17px] -mx-[3px]"
+                    className="relative flex items-center justify-center py-[17px] px-[17px] -my-[17px] -mx-[17px]"
                     onClick={() => setIndex(i)}
                   >
                     <span

@@ -90,6 +90,13 @@ body.ankurayan-detail .modal *:not(svg):not(path):not(.fa):not(.fas):not(.far):n
 .angular-ankurayan + .pillar-overlay-cards {
     margin-top: -280px !important;
 }
+@media (max-width: 600px) {
+    /* Small phones: 150px banner has no room for a pull-up without covering the
+       bottom-anchored title (see custom.css) or sliding the hero photo under the header. */
+    .angular-ankurayan + .pillar-overlay-cards {
+        margin-top: 0 !important;
+    }
+}
 .pillar-overlay-cards {
     margin-top: -280px;
     position: relative;
@@ -845,24 +852,20 @@ body.ankurayan-detail .modal *:not(svg):not(path):not(.fa):not(.fas):not(.far):n
 }
 #about.pillar-overlay-cards .ankurayan-years-marquee {
     width: 100%;
-    overflow: hidden;
-    display: flex;
-    gap: 2rem;
-    white-space: nowrap;
     padding-left: 0.35rem;
 }
 #about.pillar-overlay-cards .ankurayan-years-track {
-    display: inline-flex;
+    display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 0.5rem;
-    min-width: max-content;
-    animation: ankurayanYearsScroll 34s linear infinite;
-}
-#about.pillar-overlay-cards .ankurayan-years-marquee:hover .ankurayan-years-track,
-#about.pillar-overlay-cards .ankurayan-years-marquee:focus-within .ankurayan-years-track {
-    animation-play-state: paused;
+    animation: none;
 }
 #about.pillar-overlay-cards .ankurayan-year-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0.4rem 0.65rem;
     color: #2f4d52;
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 0.72rem;
@@ -870,18 +873,12 @@ body.ankurayan-detail .modal *:not(svg):not(path):not(.fa):not(.fas):not(.far):n
     letter-spacing: 0.1em;
     text-transform: uppercase;
     text-decoration: none;
+    border: 1px solid rgba(47, 77, 82, 0.25);
+    border-radius: 999px;
 }
 #about.pillar-overlay-cards .ankurayan-year-link:hover {
     color: #1f3f45;
     text-decoration: underline;
-}
-#about.pillar-overlay-cards .ankurayan-year-sep {
-    color: rgba(71, 85, 105, 0.65);
-    font-size: 0.9rem;
-}
-@keyframes ankurayanYearsScroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(calc(-100% - 2rem)); }
 }
 #about.pillar-overlay-cards .ankurayan-caption-row .pillar-nav-back {
     margin-top: 0.3rem;

@@ -1,15 +1,30 @@
 {% load static %}
+{% load responsive_images %}
 <div class="card w-100 page-card mx-auto my-2{% if draft_badge or show_draft_check and check_admin and not is_published %} position-relative{% endif %}">
     {% if draft_badge or show_draft_check and check_admin and not is_published %}
     <span class="initiative-entry-draft-badge">Draft</span>
     {% endif %}
+    {% responsive_img card_image_field as mission_card_img %}
+    {% if mission_card_img %}
+    <img
+        src="{{ mission_card_img.src }}"
+        srcset="{{ mission_card_img.srcset }}"
+        sizes="(max-width: 600px) 92vw, 400px"
+        width="{{ mission_card_img.width }}"
+        height="{{ mission_card_img.height }}"
+        class="card-img-top home-card-img"
+        alt="{{ card_title }}"
+        loading="lazy"
+    >
+    {% else %}
     <img
         src="{{ card_image_url }}"
         class="card-img-top home-card-img"
         alt="{{ card_title }}"
-        loading="eager"
+        loading="lazy"
         onerror="this.onerror=null;this.src='{% static 'img/pimg3.jpg' %}';"
     >
+    {% endif %}
     <div class="card-body pb-0">
         <h5 class="card-title font-weight-bold">{{ card_title }}</h5>
         <p class="mb-3">{{ card_subtitle }}<br></p>

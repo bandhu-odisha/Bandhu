@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load custom_filters %}
 {% load static %}
+{% load responsive_images %}
 
 {% block title %} Bandhu | People {% endblock %}
 
@@ -8,8 +9,8 @@
 
 {% block style %}
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
-<link rel="stylesheet" href="{% static 'css/pillar-inner-banner.css' %}?v=4">
-<link rel="stylesheet" href="{% static 'css/people.css' %}?v=12">
+<link rel="stylesheet" href="{% static 'css/pillar-inner-banner.css' %}?v=9">
+<link rel="stylesheet" href="{% static 'css/people.css' %}?v=14">
 <style>
   /* Profession line — must stay visible (not hidden by global card styles) */
   .people-page .people-card .people-card-job {
@@ -68,7 +69,7 @@
 
 {% block showcase-title-container %}
 <div class="slider-txt-container pillar-showcase page-showcase-tall">
-    <h2 class="bold-txt pillar-showcase-title page-showcase-title">People</h2>
+    <h1 class="bold-txt pillar-showcase-title page-showcase-title">People</h1>
     <div class="pillar-showcase-accent page-showcase-accent"></div>
 </div>
 {% endblock %}
@@ -100,14 +101,20 @@
                                 <div class="people-card-layout">
                                     <div class="profile-photo-wrap">
                                         {% if assignment.staff.profile.profile_pic %}
+                                        {% responsive_img assignment.staff.profile.profile_pic as people_card_img %}
+                                        {% if people_card_img %}
+                                        <img src="{{ people_card_img.src }}" srcset="{{ people_card_img.srcset }}" sizes="(max-width: 600px) 46vw, 300px" width="{{ people_card_img.width }}" height="{{ people_card_img.height }}" alt=""
+                                            class="img-fluid" loading="lazy"/>
+                                        {% else %}
                                         <img src="{{ assignment.staff.profile.profile_pic.url }}" alt=""
                                             data-fallback="{% if assignment.staff.profile.gender == 'F' %}{% static 'img/woman.png' %}{% else %}{% static 'img/man.png' %}{% endif %}"
                                             onerror="this.onerror=null; this.src=this.dataset.fallback;"
-                                            class="img-fluid"/>
+                                            class="img-fluid" loading="lazy"/>
+                                        {% endif %}
                                         {% elif assignment.staff.profile.gender == 'F' %}
-                                        <img src="{% static 'img/woman.png' %}" alt="" class="img-fluid"/>
+                                        <img src="{% static 'img/woman.png' %}" alt="" class="img-fluid" loading="lazy"/>
                                         {% else %}
-                                        <img src="{% static 'img/man.png' %}" alt="" class="img-fluid"/>
+                                        <img src="{% static 'img/man.png' %}" alt="" class="img-fluid" loading="lazy"/>
                                         {% endif %}
                                     </div>
                                     <div class="people-card-main">

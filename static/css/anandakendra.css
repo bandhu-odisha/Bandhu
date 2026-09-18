@@ -66,6 +66,15 @@
 body.anandakendra-detail-page #about.pillar-overlay-cards {
     margin-top: -280px !important;
 }
+@media (max-width: 600px) {
+    /* Small phones: 150px banner has no room for a pull-up without covering the
+       bottom-anchored title (see custom.css) or sliding the hero photo under the header. */
+    .angular-anandakendra + .pillar-overlay-cards,
+    .angular-anandakendra + .anandakendra-detail #about.pillar-overlay-cards,
+    body.anandakendra-detail-page #about.pillar-overlay-cards {
+        margin-top: 0 !important;
+    }
+}
 .pillar-overlay-cards {
     margin-top: -280px;
     position: relative;
@@ -399,9 +408,9 @@ section#anandakendras.page-section {
     min-height: 240px !important;
     max-height: 240px !important;
     width: 100%;
-    object-fit: contain;
-    object-position: top center;
-    background: #f1f5f9;
+    object-fit: cover;
+    object-position: center center;
+    background: #ffffff;
     flex-shrink: 0;
     border-radius: 0;
 }

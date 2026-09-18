@@ -60,8 +60,9 @@ body.initiative-year-page #about .anandakendra-card-footer .anandakendra-text-ca
     animation: anandakendraCaptionSwap 8s ease-in-out infinite;
 }
 
-/* .caption-or animation-delay for both body classes is declared once, further below
-   (see "Only fix caption timing" comment), to avoid re-declaring it here. */
+body.initiative-year-page #about .anandakendra-card-footer .anandakendra-text-caption .caption-or {
+    animation-delay: 4s !important;
+}
 
 /* Year entry banner: one visible title (no ::before duplicate), styled like list pages */
 body.initiative-year-page.pillar-inner-page #top-section .parallax-overlay::before,
@@ -145,6 +146,28 @@ body.initiative-year-page .initiative-year-detail.anandakendra-detail #about.pil
 body.initiative-program-page.pillar-inner-page .angular-ashram + .pillar-overlay-cards {
     margin-top: -185px !important;
     padding-top: 3.5rem !important;
+}
+@media (max-width: 600px) {
+    /* Small phones: 150px banner has no room for a pull-up without covering the
+       bottom-anchored title (see custom.css) or sliding the hero photo under the header.
+       These selectors are the ones that actually win the cascade (this file loads last
+       among the banner CSS, so its non-media rules already beat the other files' @media
+       767 overrides at equal specificity) — the overrides belong here, not in ashram.css
+       or anandakendra.css. */
+    body.initiative-program-page .angular-anandakendra + .pillar-overlay-cards,
+    body.initiative-program-page .angular-ashram + .pillar-overlay-cards {
+        margin-top: 0 !important;
+        padding-top: 1.25rem !important;
+    }
+    body.initiative-year-page .angular-anandakendra + .initiative-year-detail.anandakendra-detail #about.pillar-overlay-cards,
+    body.initiative-year-page .initiative-year-detail.anandakendra-detail #about.pillar-overlay-cards {
+        margin-top: 0 !important;
+        padding-top: 1.25rem !important;
+    }
+    body.initiative-program-page.pillar-inner-page .angular-ashram + .pillar-overlay-cards {
+        margin-top: 0 !important;
+        padding-top: 1.25rem !important;
+    }
 }
 
 body.initiative-program-page .pillar-overlay-cards,
@@ -759,21 +782,6 @@ body.initiative-program-page .initiative-gallery-section {
     border-top: none !important;
 }
 
-/* Initiative program home: list cards — teal border, no shadow */
-body.initiative-program-page #ashrams .bandhughar-list-card.page-card,
-body.initiative-program-page #ashrams .card.page-card.bandhughar-list-card {
-    box-shadow: none !important;
-    border: 1px solid rgba(0, 94, 102, 0.28) !important;
-    transition: border-color 0.2s ease !important;
-}
-
-body.initiative-program-page #ashrams .bandhughar-list-card.page-card:hover,
-body.initiative-program-page #ashrams .card.page-card.bandhughar-list-card:hover {
-    box-shadow: none !important;
-    transform: none !important;
-    border-color: rgba(0, 94, 102, 0.45) !important;
-}
-
 .initiative-year-detail .initiative-file-list {
     list-style: none;
     padding: 0;
@@ -1118,7 +1126,6 @@ body.initiative-year-page .initiative-draft-banner {
     padding: 0.75rem 1rem;
 }
 
-/* Modals above footer and navbar when open */
 body.initiative-program-page.modal-open .initiative-year-modal.modal.show,
 body.initiative-year-page.modal-open .initiative-year-modal.modal.show {
     z-index: 1060 !important;

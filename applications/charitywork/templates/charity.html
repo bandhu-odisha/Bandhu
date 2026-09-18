@@ -2,6 +2,7 @@
 
 {% load static %}
 {% load permissions %}
+{% load responsive_images %}
 
 {% block title %} Bandhu | Other Activities {% endblock %}
 
@@ -9,8 +10,8 @@
 
 {% block style %}
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
-<link rel="stylesheet" href="{% static 'css/pillar-inner-banner.css' %}?v=4">
-<link rel="stylesheet" href="{% static 'css/charity.css' %}?v=10">
+<link rel="stylesheet" href="{% static 'css/pillar-inner-banner.css' %}?v=9">
+<link rel="stylesheet" href="{% static 'css/charity.css' %}?v=12">
 {% endblock %}
 
 {% block navbar-links %}
@@ -30,7 +31,7 @@
 
 {% block showcase-title-container %}
 <div class="slider-txt-container pillar-showcase page-showcase page-showcase-tall">
-    <h2 class="bold-txt pillar-showcase-title page-showcase-title">Other Activities</h2>
+    <h1 class="bold-txt pillar-showcase-title page-showcase-title">Other Activities</h1>
     <div class="pillar-showcase-accent page-showcase-accent"></div>
 </div>
 {% endblock %}
@@ -48,8 +49,13 @@
             <div class="col-lg-4 col-md-5">
                 <div class="pillar-overlay-card pillar-overlay-card--image">
                     {% if content and content.picture %}
+                    {% responsive_img content.picture as charity_hero_img %}
+                    {% if charity_hero_img %}
+                    <img src="{{ charity_hero_img.src }}" srcset="{{ charity_hero_img.srcset }}" sizes="(max-width: 600px) 92vw, 600px" width="{{ charity_hero_img.width }}" height="{{ charity_hero_img.height }}" alt="Other Activities" loading="eager" class="pillar-overlay-single-image">
+                    {% else %}
                     <img src="{{ content.picture.url }}" alt="Other Activities" loading="eager" class="pillar-overlay-single-image"
                         onerror="this.onerror=null;this.src='{% static 'img/our_mission1.jpg' %}';">
+                    {% endif %}
                     {% else %}
                     <img src="{% static 'img/our_mission1.jpg' %}" alt="Other Activities" loading="eager" class="pillar-overlay-single-image">
                     {% endif %}
@@ -89,7 +95,12 @@
                         <li class="glide__slide">
                             <div class="card w-100 page-card activity-card mx-auto my-2 h-100 position-relative">
                                     <div class="activity-card-media">
+                                        {% responsive_img charity.image as charity_card_img %}
+                                        {% if charity_card_img %}
+                                        <img src="{{ charity_card_img.src }}" srcset="{{ charity_card_img.srcset }}" sizes="(max-width: 600px) 92vw, 400px" width="{{ charity_card_img.width }}" height="{{ charity_card_img.height }}" class="activity-card-img" alt="{{ charity.title }}" loading="lazy">
+                                        {% else %}
                                         <img src="{{ charity.image.url }}" class="activity-card-img" alt="{{ charity.title }}" loading="lazy">
+                                        {% endif %}
                                     </div>
                                     <div class="card-body d-flex flex-column pb-3">
                                         <h5 class="card-title font-weight-bold">{{ charity.title }}</h5>
@@ -142,8 +153,8 @@
                                         {% csrf_token %}
                                         <div class="row">
                                             <div class="col">
-                                                <label class="left-label bld" for="">Title</label>
-                                                <input type="text" class="form-control" name="title"
+                                                <label class="left-label bld" for="charityCreateTitle">Title</label>
+                                                <input type="text" class="form-control" name="title" id="charityCreateTitle"
                                                     placeholder="Activity Title" required><br>
                                             </div>
                                             <!-- <div class="col">
@@ -158,39 +169,39 @@
                                         </div>
                                         <div class="row">
                                             <div class="col">
-                                                <label class="left-label bld" for="">Purpose</label>
-                                                <input type="text" class="form-control"
+                                                <label class="left-label bld" for="charityCreatePurpose">Purpose</label>
+                                                <input type="text" class="form-control" id="charityCreatePurpose"
                                                     placeholder="Cyclone 2020" name="purpose" required><br>
                                             </div>
                                             <div class="col">
-                                                <label class="left-label bld" for="">Location</label>
-                                                <input type="text" placeholder="Location"
+                                                <label class="left-label bld" for="charityCreateLocation">Location</label>
+                                                <input type="text" placeholder="Location" id="charityCreateLocation"
                                                     class="form-control" name="location" required><br>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col">
-                                                <label class="left-label bld" for="">Start Date</label>
-                                                <input type="date" class="form-control"
+                                                <label class="left-label bld" for="charityCreateStartDate">Start Date</label>
+                                                <input type="date" class="form-control" id="charityCreateStartDate"
                                                     name="start_date" required><br>
                                             </div>
                                             <div class="col">
-                                                <label class="left-label bld" for="">End Date</label>
-                                                <input type="date" class="form-control"
+                                                <label class="left-label bld" for="charityCreateEndDate">End Date</label>
+                                                <input type="date" class="form-control" id="charityCreateEndDate"
                                                     name="end_date" required><br>
                                             </div>
                                         </div>
 
-                                        <label class="left-label bld" for="">Description</label>
+                                        <label class="left-label bld" for="charityCreateDescription">Description</label>
                                         <textarea name="description" class="form-control"
-                                            placeholder="Description" id="" cols="80" rows="4"required></textarea><br>
+                                            placeholder="Description" id="charityCreateDescription" cols="80" rows="4" required></textarea><br>
 
-                                        <label class="left-label bld" for="">Thumbnail</label>
+                                        <label class="left-label bld" for="charityThumbnailInput">Thumbnail</label>
                                         <div class="input-group">
                                             <div class="custom-file">
-                                                <input type="file" class="custom-file-input" name="image" id="inputGroupFile04" 
+                                                <input type="file" class="custom-file-input" name="image" id="charityThumbnailInput"
                                                     aria-describedby="inputGroupFileAddon04" required>
-                                                <label class="custom-file-label" for="inputGroupFile04">Add Thumbnail</label>
+                                                <label class="custom-file-label" for="charityThumbnailInput">Add Thumbnail</label>
                                             </div>
                                         </div><br>
 

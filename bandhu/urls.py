@@ -1,13 +1,17 @@
 import os
 
 from django.contrib import admin
+from django.contrib.sitemaps.views import sitemap
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.static import serve
 
+from bandhuapp.sitemaps import get_sitemaps
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('sitemap.xml', sitemap, {'sitemaps': get_sitemaps()}, name='django.contrib.sitemaps.views.sitemap'),
     # Authentication
     path('accounts/', include('accounts.urls')),
     path('oauth/', include('social_django.urls', namespace='social')),

@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load permissions %}
+{% load responsive_images %}
 
 {% block title %}Bandhu | {{ page_title }}{% endblock %}
 
@@ -8,9 +9,9 @@
 
 {% block style %}
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}?v=28">
-<link rel="stylesheet" href="{% static 'css/pillar-inner-banner.css' %}?v=4">
+<link rel="stylesheet" href="{% static 'css/pillar-inner-banner.css' %}?v=9">
 {% if page_title == 'Sanskar' or page_title == 'Swaraj' or page_title == 'Swabalamban' %}
-<link rel="stylesheet" href="{% static 'css/anandakendra.css' %}?v=25">
+<link rel="stylesheet" href="{% static 'css/anandakendra.css' %}?v=28">
 {% endif %}
 <style>
   /* Page-wide typography */
@@ -307,6 +308,12 @@
     .angular.pillar-angular + #about.pillar-overlay-cards,
     #about.pillar-overlay-cards { margin-top: -100px !important; }
     #about.pillar-overlay-cards .pillar-overlay-card--image { aspect-ratio: 1 / 1; }
+  }
+  @media (max-width: 600px) {
+    /* Small phones: 150px banner has no room for a pull-up without covering the
+       bottom-anchored title (see custom.css) or sliding the hero photo under the header. */
+    .angular.pillar-angular + #about.pillar-overlay-cards,
+    #about.pillar-overlay-cards { margin-top: 0 !important; }
   }
   .pillar-products .text-muted { color: #475569 !important; font-weight: 500; }
   .pillar-products .pillar-order-contact { font-size: 1rem; color: #334155; font-weight: 500; }
@@ -645,7 +652,7 @@
 
 {% block showcase-title-container %}
 <div class="slider-txt-container pillar-showcase page-showcase page-showcase-tall">
-  <h2 class="bold-txt pillar-showcase-title">{{ page_title }}</h2>
+  <h1 class="bold-txt pillar-showcase-title">{{ page_title }}</h1>
   <div class="pillar-showcase-accent"></div>
 </div>
 {% endblock %}
@@ -662,7 +669,10 @@
     <div class="row align-items-start g-4">
       <div class="col-lg-4 col-md-5">
         <div class="pillar-overlay-card pillar-overlay-card--image">
-          {% if pillar_hero_url %}
+          {% responsive_img pillar_hero_image as pillar_hero_responsive %}
+          {% if pillar_hero_responsive %}
+          <img src="{{ pillar_hero_responsive.src }}" srcset="{{ pillar_hero_responsive.srcset }}" sizes="(max-width: 600px) 92vw, 600px" width="{{ pillar_hero_responsive.width }}" height="{{ pillar_hero_responsive.height }}" alt="{{ page_title }}" loading="eager" class="pillar-overlay-single-image">
+          {% elif pillar_hero_url %}
           <img src="{{ pillar_hero_url }}" alt="{{ page_title }}" loading="eager" class="pillar-overlay-single-image" onerror="this.onerror=null;this.src='{% static 'img/our_mission1.jpg' %}';">
           {% elif pillar_hero_image and pillar_hero_image.url %}
           <img src="{{ pillar_hero_image.url }}" alt="{{ page_title }}" loading="eager" class="pillar-overlay-single-image" onerror="this.onerror=null;this.src='{% static 'img/our_mission1.jpg' %}';">
@@ -783,9 +793,14 @@
         {% for product in products %}
           <div class="swabalamban-product-item">
             <div class="product-card w-100">
+              {% responsive_img product.image as product_img %}
+              {% if product_img %}
+              <img src="{{ product_img.src }}" srcset="{{ product_img.srcset }}" sizes="(max-width: 600px) 46vw, 300px" width="{{ product_img.width }}" height="{{ product_img.height }}" alt="{{ product.name }}" loading="lazy">
+              {% else %}
               <img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy">
+              {% endif %}
               <div class="product-label">{{ product.label }}</div>
-              <div class="product-toggle-wrap"><a href="#" class="product-toggle stretched-link" data-toggle="modal" data-target="#{{ product.modal_id }}" aria-label="View {{ product.name }} details"></a></div>
+              <div class="product-toggle-wrap"><button type="button" class="product-toggle stretched-link" data-toggle="modal" data-target="#{{ product.modal_id }}" aria-label="View {{ product.name }} details"></button></div>
             </div>
           </div>
         {% endfor %}
@@ -898,10 +913,10 @@
         <div class="gallery-scroll-row{% if images|length == 1 %} gallery-scroll-row--single{% endif %}">
           {% for img in images %}
           <div class="gallery-scroll-card" data-gallery-card>
-            <a href="#" class="gallery-scroll-card-link" data-pillar-gallery-lightbox data-gallery-index="{{ forloop.counter0 }}" role="button" aria-label="View gallery image {{ forloop.counter }}">
+            <button type="button" class="gallery-scroll-card-link" data-pillar-gallery-lightbox data-gallery-index="{{ forloop.counter0 }}" aria-label="View gallery image {{ forloop.counter }}">
               <img src="{{ img.url }}" alt="{{ page_title }} gallery" class="gallery-scroll-img" loading="lazy">
               <span class="gallery-scroll-overlay" aria-hidden="true"><i class="fab fa-instagram"></i></span>
-            </a>
+            </button>
           </div>
           {% endfor %}
         </div>
@@ -924,7 +939,7 @@
           <button type="button" class="anandakendra-gallery-lightbox-nav anandakendra-gallery-lightbox-prev" id="pillarGalleryPrev" aria-label="Previous photo">
             <i class="fas fa-chevron-left" aria-hidden="true"></i>
           </button>
-          <img src="" alt="Gallery photo" class="anandakendra-gallery-lightbox-img" id="pillarGalleryImage">
+          <img alt="Gallery photo" class="anandakendra-gallery-lightbox-img" id="pillarGalleryImage">
           <button type="button" class="anandakendra-gallery-lightbox-nav anandakendra-gallery-lightbox-next" id="pillarGalleryNext" aria-label="Next photo">
             <i class="fas fa-chevron-right" aria-hidden="true"></i>
           </button>

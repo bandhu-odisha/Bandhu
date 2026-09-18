@@ -2,6 +2,7 @@
 
 {% load static %}
 {% load permissions %}
+{% load responsive_images %}
 
 {% block title %} Ankurayan {% endblock %}
 
@@ -10,7 +11,7 @@
 {% block style %}
 <!-- Custom CSS -->
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
-<link rel="stylesheet" href="{% static 'css/ankurayan.css' %}?v=9">
+<link rel="stylesheet" href="{% static 'css/ankurayan.css' %}?v=13">
 <!-- Custom Style -->
 <style>
     body #top-section {
@@ -107,7 +108,7 @@
 
 {% block showcase-title-container %}
 <div class="slider-txt-container page-showcase page-showcase-tall">
-    <h2 class="bold-txt page-showcase-title">Ankurayan</h2>
+    <h1 class="bold-txt page-showcase-title">Ankurayan</h1>
     <div class="page-showcase-accent"></div>
 </div>
 {% endblock %}
@@ -125,7 +126,12 @@
             <div class="col-lg-4 col-md-5">
                 <div class="pillar-overlay-card pillar-overlay-card--image">
                     {% if content and content.picture %}
+                    {% responsive_img content.picture as ankurayan_hero_img %}
+                    {% if ankurayan_hero_img %}
+                    <img src="{{ ankurayan_hero_img.src }}" srcset="{{ ankurayan_hero_img.srcset }}" sizes="(max-width: 600px) 92vw, 600px" width="{{ ankurayan_hero_img.width }}" height="{{ ankurayan_hero_img.height }}" alt="Ankurayan" loading="eager" class="pillar-overlay-single-image">
+                    {% else %}
                     <img src="{{ content.picture.url }}" alt="Ankurayan" loading="eager" class="pillar-overlay-single-image">
+                    {% endif %}
                     {% else %}
                     <img src="{% static 'img/our_mission1.jpg' %}" alt="Ankurayan" loading="eager" class="pillar-overlay-single-image">
                     {% endif %}
@@ -140,14 +146,7 @@
                         <div class="ankurayan-years-marquee" aria-label="Explore different Ankurayan years">
                             <div class="ankurayan-years-track">
                                 {% for ankur in ankurayans %}
-                                <a href="{% url 'ankurayan:AnkurayanDetail' ankur.slug %}" class="ankurayan-year-link">Ankurayan {{ ankur.year }}</a>
-                                {% if not forloop.last %}<span class="ankurayan-year-sep">|</span>{% endif %}
-                                {% endfor %}
-                            </div>
-                            <div class="ankurayan-years-track" aria-hidden="true">
-                                {% for ankur in ankurayans %}
-                                <a href="{% url 'ankurayan:AnkurayanDetail' ankur.slug %}" class="ankurayan-year-link">Ankurayan {{ ankur.year }}</a>
-                                {% if not forloop.last %}<span class="ankurayan-year-sep">|</span>{% endif %}
+                                <a href="{% url 'ankurayan:AnkurayanDetail' ankur.slug %}" class="ankurayan-year-link" aria-label="Ankurayan {{ ankur.year }}">{{ ankur.year }}</a>
                                 {% endfor %}
                             </div>
                         </div>
@@ -193,8 +192,12 @@
                             {% for ankur in ankurayans %}
                             <li class="glide__slide d-flex">
                                 <div class="card w-100 page-card mx-auto my-2 ankurayan-year-card">
-                                    <img src="{{ ankur.logo.url }}" class="card-img-top home-card-img" alt=""
-                                        width="300px">
+                                    {% responsive_img ankur.logo as ankur_logo_img %}
+                                    {% if ankur_logo_img %}
+                                    <img src="{{ ankur_logo_img.src }}" srcset="{{ ankur_logo_img.srcset }}" sizes="(max-width: 600px) 92vw, 300px" width="{{ ankur_logo_img.width }}" height="{{ ankur_logo_img.height }}" class="card-img-top home-card-img" alt="" loading="lazy">
+                                    {% else %}
+                                    <img src="{{ ankur.logo.url }}" class="card-img-top home-card-img" alt="" loading="lazy">
+                                    {% endif %}
                                     <div class="card-body pb-0 d-flex flex-column">
                                         <h5 class="card-title font-weight-bold">{{ankur.title}}</h5>
                                         <p class="ankurayan-year-theme mb-3">
@@ -220,7 +223,7 @@
                     </div>
                     <div class="glide__bullets" data-glide-el="controls[nav]">
                         {% for ankur in ankurayans %}
-                        <button class="glide__bullet" data-glide-dir="={{ forloop.counter0 }}"></button>
+                        <button class="glide__bullet" data-glide-dir="={{ forloop.counter0 }}" aria-label="Show Ankurayan {{ ankur.year }}"></button>
                         {% endfor %}
                     </div>
                 </div>
@@ -251,12 +254,12 @@
                                         {% csrf_token %}
                                         <div class="row">
                                             <div class="col-12 col-sm-6">
-                                                <label class="left-label bld" for="year">Year</label>
-                                                <input type="text" class="form-control" name="year" placeholder="Ankurayan Year" required><br>
+                                                <label class="left-label bld" for="ankurayanCreateYear">Year</label>
+                                                <input type="text" class="form-control" id="ankurayanCreateYear" name="year" placeholder="Ankurayan Year" required><br>
                                             </div>
                                             <div class="col-12 col-sm-6">
-                                                <label class="left-label bld" for="title">Title</label>
-                                                <input type="text" class="form-control" name="title" placeholder="Ankurayan Title" required><br>
+                                                <label class="left-label bld" for="ankurayanCreateTitle">Title</label>
+                                                <input type="text" class="form-control" id="ankurayanCreateTitle" name="title" placeholder="Ankurayan Title" required><br>
                                             </div>
                                             <!-- <div class="col">
                                                 <label class="left-label bld" for="admin">Admin</label>
@@ -269,34 +272,34 @@
                                             </div> -->
                                         </div>
 
-                                        <label class="left-label bld" for="theme">Theme</label>
-                                        <input type="text" class="form-control" name="theme" placeholder="Ankurayan Theme" required><br>
+                                        <label class="left-label bld" for="ankurayanCreateTheme">Theme</label>
+                                        <input type="text" class="form-control" id="ankurayanCreateTheme" name="theme" placeholder="Ankurayan Theme" required><br>
 
                                         <div class="row">
                                             <div class="col">
-                                                <label class="left-label bld" for="start_date">Start Date</label>
-                                                <input type="date" class="form-control" name="start_date"
+                                                <label class="left-label bld" for="ankurayanCreateStartDate">Start Date</label>
+                                                <input type="date" class="form-control" id="ankurayanCreateStartDate" name="start_date"
                                                     required><br>
                                             </div>
                                             <div class="col">
-                                                <label class="left-label bld" for="end_date">End Date</label>
-                                                <input type="date" class="form-control" name="end_date"
+                                                <label class="left-label bld" for="ankurayanCreateEndDate">End Date</label>
+                                                <input type="date" class="form-control" id="ankurayanCreateEndDate" name="end_date"
                                                     required><br>
                                             </div>
                                         </div>
 
-                                        <label class="left-label bld" for="description">Description</label>
-                                        <textarea name="description" id="" cols="80" rows="4"
+                                        <label class="left-label bld" for="ankurayanCreateDescription">Description</label>
+                                        <textarea name="description" id="ankurayanCreateDescription" cols="80" rows="4"
                                             placeholder="Description" class="form-control" required></textarea><br>
 
-                                        <label class="left-label bld" for="logo">Logo</label>
+                                        <label class="left-label bld" for="ankurayanLogoInput">Logo</label>
                                         <!-- <input type="file" class="form-control" name="logo"
                                             required><br> -->
                                         <div class="input-group">
                                             <div class="custom-file">
-                                                <input type="file" class="custom-file-input" name="logo" id="inputGroupFile04" 
+                                                <input type="file" class="custom-file-input" name="logo" id="ankurayanLogoInput"
                                                     aria-describedby="inputGroupFileAddon04" required>
-                                                <label class="custom-file-label" for="logo">Add Logo</label>
+                                                <label class="custom-file-label" for="ankurayanLogoInput">Add Logo</label>
                                             </div>
                                         </div><br>
 

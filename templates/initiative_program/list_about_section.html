@@ -1,10 +1,24 @@
 {% load static %}
+{% load responsive_images %}
 <section id="about" class="pillar-overlay-cards">
     <div class="container">
         <div class="row align-items-start g-4">
             <div class="col-lg-4 col-md-5">
                 <div class="pillar-overlay-card pillar-overlay-card--image">
                     {% if content and content.picture %}
+                    {% responsive_img content.picture as list_about_hero_img %}
+                    {% if list_about_hero_img %}
+                    <img
+                        src="{{ list_about_hero_img.src }}"
+                        srcset="{{ list_about_hero_img.srcset }}"
+                        sizes="(max-width: 600px) 92vw, 600px"
+                        width="{{ list_about_hero_img.width }}"
+                        height="{{ list_about_hero_img.height }}"
+                        alt="{{ program_name }}"
+                        loading="eager"
+                        class="pillar-overlay-single-image"
+                    >
+                    {% else %}
                     <img
                         src="{{ content.picture.url }}"
                         alt="{{ program_name }}"
@@ -12,6 +26,7 @@
                         class="pillar-overlay-single-image"
                         onerror="this.onerror=null;this.src='{% static 'img/our_mission1.jpg' %}';"
                     >
+                    {% endif %}
                     {% else %}
                     <img src="{% static 'img/our_mission1.jpg' %}" alt="{{ program_name }}" loading="eager" class="pillar-overlay-single-image">
                     {% endif %}

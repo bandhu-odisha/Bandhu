@@ -2,6 +2,7 @@
 
 {% load static %}
 {% load permissions %}
+{% load responsive_images %}
 
 {% block title %} Bandhu | {{ program_name }} — {{ ashram.name }} {% endblock %}
 
@@ -9,9 +10,9 @@
 
 {% block style %}
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}?v=28">
-<link rel="stylesheet" href="{% static 'css/anandakendra.css' %}?v=25">
-<link rel="stylesheet" href="{% static 'css/ashram.css' %}?v=9">
-<link rel="stylesheet" href="{% static 'css/initiative-program-year.css' %}?v=34">
+<link rel="stylesheet" href="{% static 'css/anandakendra.css' %}?v=28">
+<link rel="stylesheet" href="{% static 'css/ashram.css' %}?v=11">
+<link rel="stylesheet" href="{% static 'css/initiative-program-year.css' %}?v=36">
 {% include 'initiative_program/hero_detail_styles.html' %}
 {% include 'initiative_program/hero_detail_heading.html' %}
 {% endblock %}
@@ -33,7 +34,7 @@
 
 {% block showcase-title-container %}
 <div class="slider-txt-container page-showcase page-showcase-tall">
-    <h2 class="bold-txt page-showcase-title">{{ ashram.name }}</h2>
+    <h1 class="bold-txt page-showcase-title">{{ ashram.name }}</h1>
     <div class="page-showcase-accent"></div>
 </div>
 {% endblock %}
@@ -51,17 +52,28 @@
         <div class="row align-items-start g-4">
             <div class="col-lg-4 col-md-5">
                 <div class="pillar-overlay-card pillar-overlay-card--image{% if program_has_entry_schedule %} initiative-entry-photo-card{% endif %}">
+                    {% responsive_img ashram.image as year_detail_hero_img %}
                     {% if program_has_entry_schedule %}
                     <div class="initiative-entry-photo-wrap">
+                        {% if year_detail_hero_img %}
+                        <img src="{{ year_detail_hero_img.src }}" srcset="{{ year_detail_hero_img.srcset }}" sizes="(max-width: 600px) 92vw, 600px" width="{{ year_detail_hero_img.width }}" height="{{ year_detail_hero_img.height }}" alt="{{ ashram.name }}" loading="eager" class="initiative-entry-hero-img"
+                            data-hero-zoom data-zoom-src="{{ ashram.image.url }}" role="button" tabindex="0" aria-label="View larger image: {{ ashram.name }}">
+                        {% else %}
                         <img src="{{ ashram.image.url }}" alt="{{ ashram.name }}" loading="eager" class="initiative-entry-hero-img"
                             data-hero-zoom role="button" tabindex="0" aria-label="View larger image: {{ ashram.name }}"
                             onerror="this.onerror=null;this.src='{% static 'img/pimg3.jpg' %}';">
+                        {% endif %}
                     </div>
                     {% include 'includes/initiative_entry_schedule.html' with start_date=ashram.start_date end_date=ashram.end_date %}
+                    {% else %}
+                    {% if year_detail_hero_img %}
+                    <img src="{{ year_detail_hero_img.src }}" srcset="{{ year_detail_hero_img.srcset }}" sizes="(max-width: 600px) 92vw, 600px" width="{{ year_detail_hero_img.width }}" height="{{ year_detail_hero_img.height }}" alt="{{ ashram.name }}" loading="eager" class="pillar-overlay-single-image"
+                        data-hero-zoom data-zoom-src="{{ ashram.image.url }}" role="button" tabindex="0" aria-label="View larger image: {{ ashram.name }}">
                     {% else %}
                     <img src="{{ ashram.image.url }}" alt="{{ ashram.name }}" loading="eager" class="pillar-overlay-single-image"
                         data-hero-zoom role="button" tabindex="0" aria-label="View larger image: {{ ashram.name }}"
                         onerror="this.onerror=null;this.src='{% static 'img/pimg3.jpg' %}';">
+                    {% endif %}
                     {% endif %}
                 </div>
             </div>
@@ -242,8 +254,13 @@
                         {% with activity_photo=activity.photo_set.first %}
                         <li class="glide__slide">
                             <div class="card w-100 page-card activity-card mx-auto my-2 h-100 position-relative">
+                                {% if activity_photo %}{% responsive_img activity_photo.picture as activity_card_img %}{% endif %}
+                                {% if activity_card_img %}
+                                <img src="{{ activity_card_img.src }}" srcset="{{ activity_card_img.srcset }}" sizes="(max-width: 600px) 92vw, 300px" width="{{ activity_card_img.width }}" height="{{ activity_card_img.height }}" class="card-img-top activity-card-img" alt="{{ activity.name }}" loading="lazy">
+                                {% else %}
                                 <img src="{% if activity_photo %}{{ activity_photo.picture.url }}{% else %}{% static 'img/pimg6.jpg' %}{% endif %}" class="card-img-top activity-card-img" alt="{{ activity.name }}" loading="lazy"
                                     onerror="this.onerror=null;this.src='{% static 'img/pimg6.jpg' %}';">
+                                {% endif %}
                                 <div class="card-body d-flex flex-column pb-3">
                                     <h5 class="card-title font-weight-bold">{{ activity.name }}</h5>
                                     <p class="mb-0 mt-auto activity-card-subtitle">{{ activity.description|striptags|truncatewords:18 }}</p>
@@ -312,8 +329,13 @@
                         {% for event in events %}
                         <li class="glide__slide">
                             <div class="card w-100 page-card activity-card mx-auto my-2 h-100">
-                                <img src="{{ event.thumb.url }}" class="card-img-top event-card-img" alt="{{ event.name }}"
+                                {% responsive_img event.thumb as event_card_img %}
+                                {% if event_card_img %}
+                                <img src="{{ event_card_img.src }}" srcset="{{ event_card_img.srcset }}" sizes="(max-width: 600px) 92vw, 300px" width="{{ event_card_img.width }}" height="{{ event_card_img.height }}" class="card-img-top event-card-img" alt="{{ event.name }}" loading="lazy">
+                                {% else %}
+                                <img src="{{ event.thumb.url }}" class="card-img-top event-card-img" alt="{{ event.name }}" loading="lazy"
                                     onerror="this.onerror=null;this.src='{% static 'img/pimg6.jpg' %}';">
+                                {% endif %}
                                 <div class="card-body pb-0">
                                     <h5 class="card-title font-weight-bold">{{ event.name }}</h5>
                                     <p class="small text-muted mb-2">{{ event.date }}</p>
@@ -635,7 +657,7 @@
                 if (img.naturalWidth && img.naturalHeight) {
                     big.style.setProperty('--r', img.naturalWidth / img.naturalHeight);
                 }
-                big.src = img.currentSrc || img.src;
+                big.src = img.dataset.zoomSrc || img.currentSrc || img.src;
                 zoom.showModal();
             }
             img.addEventListener('click', open);

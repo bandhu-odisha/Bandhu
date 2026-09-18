@@ -300,3 +300,50 @@ body.people-page-site {
         height: 88px;
     }
 }
+
+/* Two cards per row on small phones (360px audit target) — denser list */
+@media (max-width: 600px) {
+    .people-page .people-profile-row {
+        margin-left: -0.4rem;
+        margin-right: -0.4rem;
+    }
+
+    .people-page .people-profile-row > [class*="col-"] {
+        flex: 0 0 50%;
+        max-width: 50%;
+        padding-left: 0.4rem;
+        padding-right: 0.4rem;
+    }
+
+    .people-card-layout {
+        min-height: 0;
+    }
+
+    .people-card .card-body {
+        padding: 1rem 0.75rem 0.9rem;
+    }
+
+    .people-card .profile-photo-wrap img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .people-card .people-name,
+    .people-card .card-title.people-name {
+        font-size: 0.95rem;
+    }
+
+    .people-card .people-profession,
+    .people-card .people-profession--occupation,
+    .people-card .people-card-job {
+        font-size: 0.8rem;
+    }
+
+    .people-card .people-view-profile-btn.btn-primary {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+}

@@ -37,6 +37,13 @@ body:has(.ashram-list-page) .page-angular + .ashram-list-page,
 .angular-ashram + .pillar-overlay-cards {
     margin-top: -280px !important;
 }
+@media (max-width: 600px) {
+    /* Small phones: 150px banner has no room for a pull-up without covering the
+       bottom-anchored title (see custom.css) or sliding the hero photo under the header. */
+    .angular-ashram + .pillar-overlay-cards {
+        margin-top: 0 !important;
+    }
+}
 
 /* Initiative program list pages: spacing between centered banner title and overlay cards */
 body.initiative-program-page.pillar-inner-page .angular-ashram + .pillar-overlay-cards {
@@ -47,6 +54,12 @@ body.initiative-program-page.pillar-inner-page .angular-ashram + .pillar-overlay
     body.initiative-program-page.pillar-inner-page .angular-ashram + .pillar-overlay-cards {
         margin-top: -70px !important;
         padding-top: 2.25rem !important;
+    }
+}
+@media (max-width: 600px) {
+    body.initiative-program-page.pillar-inner-page .angular-ashram + .pillar-overlay-cards {
+        margin-top: 0 !important;
+        padding-top: 1.25rem !important;
     }
 }
 
@@ -180,6 +193,11 @@ body.initiative-program-page.pillar-inner-page .angular-ashram + .pillar-overlay
 @media (max-width: 768px) {
     .pillar-overlay-cards { margin-top: -100px !important; }
     .pillar-overlay-cards .pillar-overlay-card--image { aspect-ratio: 1 / 1; }
+}
+/* Small phones: 150px banner has no room for a pull-up without covering the bottom-anchored
+   title (see custom.css) or sliding the hero photo under the fixed header. */
+@media (max-width: 600px) {
+    .pillar-overlay-cards { margin-top: 0 !important; }
 }
 .pillar-overlay-cards + .ashram-list-page {
     margin-top: 0;

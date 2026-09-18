@@ -147,6 +147,28 @@ body.initiative-program-page.pillar-inner-page .angular-ashram + .pillar-overlay
     margin-top: -185px !important;
     padding-top: 3.5rem !important;
 }
+@media (max-width: 600px) {
+    /* Small phones: 150px banner has no room for a pull-up without covering the
+       bottom-anchored title (see custom.css) or sliding the hero photo under the header.
+       These selectors are the ones that actually win the cascade (this file loads last
+       among the banner CSS, so its non-media rules already beat the other files' @media
+       767 overrides at equal specificity) — the overrides belong here, not in ashram.css
+       or anandakendra.css. */
+    body.initiative-program-page .angular-anandakendra + .pillar-overlay-cards,
+    body.initiative-program-page .angular-ashram + .pillar-overlay-cards {
+        margin-top: 0 !important;
+        padding-top: 1.25rem !important;
+    }
+    body.initiative-year-page .angular-anandakendra + .initiative-year-detail.anandakendra-detail #about.pillar-overlay-cards,
+    body.initiative-year-page .initiative-year-detail.anandakendra-detail #about.pillar-overlay-cards {
+        margin-top: 0 !important;
+        padding-top: 1.25rem !important;
+    }
+    body.initiative-program-page.pillar-inner-page .angular-ashram + .pillar-overlay-cards {
+        margin-top: 0 !important;
+        padding-top: 1.25rem !important;
+    }
+}
 
 body.initiative-program-page .pillar-overlay-cards,
 body.initiative-year-page .pillar-overlay-cards {

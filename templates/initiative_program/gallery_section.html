@@ -1,4 +1,5 @@
 {% load static %}
+{% load responsive_images %}
 {% if show_gallery %}
 <section id="{% if gallery_section_id %}{{ gallery_section_id }}{% else %}gallery{% endif %}" class="initiative-gallery-section page-section">
     <div class="initiative-gallery-wrap">
@@ -21,7 +22,12 @@
                                 {% for photo in photos %}
                                 <li class="glide__slide">
                                     <div class="gallery-slide-card position-relative rounded overflow-hidden">
+                                        {% responsive_img photo.picture as gallery_slide_img %}
+                                        {% if gallery_slide_img %}
+                                        <img src="{{ gallery_slide_img.src }}" srcset="{{ gallery_slide_img.srcset }}" sizes="(max-width: 600px) 92vw, 400px" width="{{ gallery_slide_img.width }}" height="{{ gallery_slide_img.height }}" alt="Gallery" class="gallery-slide-img" loading="lazy">
+                                        {% else %}
                                         <img src="{{ photo.picture.url }}" alt="Gallery" class="gallery-slide-img" loading="lazy">
+                                        {% endif %}
                                         <a href="javascript:pswpInit({{ forloop.counter0 }})" class="stretched-link gallery-slide-link" aria-label="Open gallery image {{ forloop.counter }}">
                                             <i class="fab fa-instagram"></i>
                                         </a>
@@ -51,7 +57,12 @@
                         {% for photo in photos %}
                         <div class="initiative-gallery-static-item">
                             <div class="gallery-slide-card position-relative rounded overflow-hidden">
+                                {% responsive_img photo.picture as gallery_static_img %}
+                                {% if gallery_static_img %}
+                                <img src="{{ gallery_static_img.src }}" srcset="{{ gallery_static_img.srcset }}" sizes="(max-width: 600px) 92vw, 400px" width="{{ gallery_static_img.width }}" height="{{ gallery_static_img.height }}" alt="Gallery" class="gallery-slide-img" loading="lazy">
+                                {% else %}
                                 <img src="{{ photo.picture.url }}" alt="Gallery" class="gallery-slide-img" loading="lazy">
+                                {% endif %}
                                 <a href="javascript:pswpInit({{ forloop.counter0 }})" class="stretched-link gallery-slide-link" aria-label="Open gallery image {{ forloop.counter }}">
                                     <i class="fab fa-instagram"></i>
                                 </a>

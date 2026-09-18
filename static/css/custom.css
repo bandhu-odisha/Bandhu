@@ -589,6 +589,50 @@ a.nav-button.btn:active,
 :root {
     --inner-banner-height: 460px;
 }
+/* Small phones: banner eats too much of the viewport before any content shows — cut to roughly a third */
+@media (max-width: 600px) {
+    :root {
+        --inner-banner-height: 150px;
+    }
+}
+/* Small phones: each inner page draws its visible title as a ::before on .parallax-overlay
+   (real <h1> is intentionally hidden/sr-only). Those pseudo-titles are positioned (top:120px,
+   top:40-50%, etc.) for the tall 460px desktop banner; in the short 150px mobile banner they end
+   up either clipped by #top-section's overflow:hidden or hidden under the ~82px fixed header.
+   Anchor to the banner's bottom edge instead so the title sits in the sliver of banner that is
+   always below the header and always inside the overflow-hidden box, whatever its original
+   top/transform. !important is required to beat the per-page inline <style> blocks that set
+   top/transform (none of which use !important themselves) regardless of load order. */
+@media (max-width: 600px) {
+    #top-section:has(.slider-txt-container.page-showcase) .parallax-overlay::before,
+    #top-section:has(.slider-txt-container.pillar-showcase) .parallax-overlay::before {
+        top: auto !important;
+        bottom: 8px !important;
+        transform: translateX(-50%) !important;
+    }
+}
+/* Small phones: pillar-inner-page titles use the real (visible) h1, not a ::before pseudo, and
+   some program names ("Odisha Satabdi Sevavrata") wrap to two lines at this width and clamp
+   font-size. A hard-capped 150px banner with overflow:hidden then clips the first line under the
+   fixed header — bottom-anchoring alone (see pillar-inner-banner.css) isn't enough once the
+   title's own height exceeds the ~68px gap between the 82px header and the 150px banner bottom.
+   Let the banner grow to fit its title instead — explicitly allowed by the design ("a little
+   taller is fine if a page needs it") — rather than shrinking text per-page. */
+@media (max-width: 600px) {
+    body.pillar-inner-page #top-section:has(.slider-txt-container.pillar-showcase) {
+        height: auto !important;
+        max-height: none !important;
+        min-height: var(--inner-banner-height) !important;
+        overflow: visible !important;
+    }
+    body.pillar-inner-page #top-section:has(.slider-txt-container.pillar-showcase) .top-section,
+    body.pillar-inner-page #top-section:has(.slider-txt-container.pillar-showcase) .parallax-overlay,
+    body.pillar-inner-page #top-section:has(.slider-txt-container.pillar-showcase) .slider-txt-container {
+        height: auto !important;
+        min-height: var(--inner-banner-height) !important;
+        max-height: none !important;
+    }
+}
 #top-section:has(.slider-txt-container.page-showcase),
 #top-section:has(.slider-txt-container.pillar-showcase) {
     height: var(--inner-banner-height) !important;
@@ -748,6 +792,18 @@ body.pillar-inner-page #top-section .parallax-overlay::after {
     display: none !important;
 }
 
+/* Small phones: the real h1 above is vertically centered (justify-content:center) in the banner
+   with desktop-sized padding (5rem/6rem, see .slider-txt-container's 575px rule) that alone
+   exceeds the 150px mobile banner height, pushing the title up under the fixed header. Anchor it
+   to the bottom instead, same as the pseudo-title fix above, and drop the oversized padding. */
+@media (max-width: 600px) {
+    body.pillar-inner-page #top-section .slider-txt-container.pillar-showcase,
+    body.pillar-inner-page #top-section .slider-txt-container.page-showcase.pillar-showcase {
+        justify-content: flex-end !important;
+        padding: 0 0 8px 0 !important;
+    }
+}
+
 
 /* FOOTER / CONTACT SECTION - Dark style to match landing (Our Initiatives + Contact Us) */
 
@@ -818,6 +874,7 @@ body.pillar-inner-page #top-section .parallax-overlay::after {
     display: inline-flex;
     align-items: center;
     gap: 0.75rem;
+    min-height: 44px;
     color: rgba(255, 255, 255, 0.9);
     text-decoration: none;
     font-size: 0.95rem;
@@ -1013,6 +1070,29 @@ body.pillar-inner-page #top-section .parallax-overlay::after {
         right: 1.75rem;
         bottom: 6rem;
         padding: 0.625rem 2.25rem;
+    }
+}
+
+/* Small phones: slim full-width bottom bar instead of a floating pill,
+   so it never sits over content — body gets matching padding-bottom. */
+@media (max-width: 600px) {
+    body.has-fab-cta {
+        padding-bottom: 48px;
+    }
+    .bandhu-fab-cta {
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        min-height: 48px;
+        padding: 0.5rem 1rem;
+        border-radius: 0;
+        border-width: 1px 0 0;
+        box-shadow: 0 -2px 10px rgba(11, 53, 64, 0.18);
+    }
+    .bandhu-fab-cta:hover,
+    .bandhu-fab-cta:focus {
+        transform: none;
     }
 }
 

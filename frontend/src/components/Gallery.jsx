@@ -10,6 +10,32 @@ export default function Gallery({ data }) {
       return true
     })
   }, [data?.photos])
+  // Accessible names: tiles sharing a title get ", photo N of M" appended so each button has a unique name.
+  const galleryTileNames = useMemo(() => {
+    const totals = new Map()
+    photos.forEach((p) => {
+      const t = p.caption || 'Gallery'
+      totals.set(t, (totals.get(t) || 0) + 1)
+    })
+    const seen = new Map()
+    // Keyed by the photo object itself (stable reference from `photos`), not
+    // `p.picture` — two photos with the same or missing `picture` would
+    // otherwise overwrite each other's entry and share one "photo N of M" label.
+    const names = new Map()
+    photos.forEach((p) => {
+      const t = p.caption || 'Gallery'
+      const total = totals.get(t)
+      if (total > 1) {
+        const n = (seen.get(t) || 0) + 1
+        seen.set(t, n)
+        names.set(p, `${t}, photo ${n} of ${total}`)
+      } else {
+        names.set(p, t)
+      }
+    })
+    return names
+  }, [photos])
+
   const tagline = data?.gallery_tagline || 'Moments from our journey.'
   const [filter, setFilter] = useState('all')
   const [lightboxIndex, setLightboxIndex] = useState(null)
@@ -187,6 +213,7 @@ export default function Gallery({ data }) {
                   type="button"
                   data-gallery-card
                   onClick={() => openLightbox(i)}
+                  aria-label={galleryTileNames.get(photo) || photo.caption || 'Gallery'}
                   style={{ '--tile-ratio': ratio }}
                   className="gallery-card-shell flex-shrink-0 w-full min-w-full snap-center sm:min-w-0 sm:snap-start aspect-square rounded-2xl overflow-hidden bg-slate-50 group shadow-[var(--card-shadow)] border border-teal/20 hover:shadow-[var(--card-shadow-hover)] transition-shadow duration-300 p-0 text-left cursor-pointer block"
                 >
