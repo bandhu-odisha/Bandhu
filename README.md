@@ -83,6 +83,17 @@ Regression tests live in a `tests/` package inside every app (`accounts/tests/`,
 
 > **Your virtualenv must hold the pinned versions.** Django 2.2 requires Python 3.5–3.8. On a newer Python, `pip install -r requirements.txt` silently resolves to a much newer Django, and this project does not run there at all — it uses `force_text`, which Django 4.0 removed. If `python -c "import django; print(django.get_version())"` does not print `2.2.13`, rebuild the venv on Python 3.8 before running the suite.
 
+> **Apple Silicon Macs (M1 and later):** `pip install -r requirements.txt` fails there. Five pins are older than arm64 macOS and have no wheel for it, so pip tries to compile them and the build breaks: `numpy==1.17.4`, `cffi==1.14.0`, `cryptography==2.9.2`, `Pillow==6.2.1`, `mysqlclient==2.0.1`. Don't edit `requirements.txt` (CI and production are Linux, where the pins install fine). Install everything else pinned, then leave out or upgrade those five:
+> - `numpy` — nothing in the code imports it; skip it.
+> - `mysqlclient` — not needed locally with `DB_ENGINE=sqlite`; skip it.
+> - `cffi`, `cryptography`, `Pillow` — install newer versions. A working local venv has `cffi 1.17.1`, `cryptography 47.0.0`, `Pillow 9.5.0`.
+>
+> ```bash
+> grep -viE '^(numpy|mysqlclient|cffi|cryptography|Pillow)==' requirements.txt > /tmp/req-local.txt
+> pip install -r /tmp/req-local.txt cffi cryptography "Pillow<10"
+> ```
+> Afterwards run `python manage.py check` and the test suite. An install that finishes cleanly can still break at import time.
+
 ```bash
 python manage.py test                       # whole suite
 python manage.py test accounts              # one app
