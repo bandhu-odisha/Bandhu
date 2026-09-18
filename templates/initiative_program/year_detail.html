@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}?v=28">
 <link rel="stylesheet" href="{% static 'css/anandakendra.css' %}?v=25">
 <link rel="stylesheet" href="{% static 'css/ashram.css' %}?v=9">
-<link rel="stylesheet" href="{% static 'css/initiative-program-year.css' %}?v=32">
+<link rel="stylesheet" href="{% static 'css/initiative-program-year.css' %}?v=34">
 {% include 'initiative_program/hero_detail_styles.html' %}
 {% include 'initiative_program/hero_detail_heading.html' %}
 {% endblock %}
@@ -54,11 +54,13 @@
                     {% if program_has_entry_schedule %}
                     <div class="initiative-entry-photo-wrap">
                         <img src="{{ ashram.image.url }}" alt="{{ ashram.name }}" loading="eager" class="initiative-entry-hero-img"
+                            data-hero-zoom role="button" tabindex="0" aria-label="View larger image: {{ ashram.name }}"
                             onerror="this.onerror=null;this.src='{% static 'img/pimg3.jpg' %}';">
                     </div>
                     {% include 'includes/initiative_entry_schedule.html' with start_date=ashram.start_date end_date=ashram.end_date %}
                     {% else %}
                     <img src="{{ ashram.image.url }}" alt="{{ ashram.name }}" loading="eager" class="pillar-overlay-single-image"
+                        data-hero-zoom role="button" tabindex="0" aria-label="View larger image: {{ ashram.name }}"
                         onerror="this.onerror=null;this.src='{% static 'img/pimg3.jpg' %}';">
                     {% endif %}
                 </div>
@@ -215,6 +217,13 @@
         </div>
     </div>
 </section>
+<dialog id="heroZoom" class="hero-zoom-dialog" aria-label="{{ ashram.name }}">
+    <button type="button" class="hero-zoom-close" aria-label="Close">&times;</button>
+    <figure class="hero-zoom-figure">
+        <img alt="{{ ashram.name }}">
+        <figcaption>{{ ashram.name }}</figcaption>
+    </figure>
+</dialog>
 </div>
 
 {% if has_activities %}
@@ -618,6 +627,23 @@
         {% endfor %}
         mountInitiativeGalleryGlide('#gallery-photos .initiative_gallery_glide');
         mountInitiativeCarousel('.initiative_events', 3);
+
+        var zoom = document.getElementById('heroZoom');
+        document.querySelectorAll('[data-hero-zoom]').forEach(function (img) {
+            function open() {
+                var big = zoom.querySelector('img');
+                if (img.naturalWidth && img.naturalHeight) {
+                    big.style.setProperty('--r', img.naturalWidth / img.naturalHeight);
+                }
+                big.src = img.currentSrc || img.src;
+                zoom.showModal();
+            }
+            img.addEventListener('click', open);
+            img.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+            });
+        });
+        zoom.addEventListener('click', function () { zoom.close(); });
     });
 </script>
 {% endblock %}
