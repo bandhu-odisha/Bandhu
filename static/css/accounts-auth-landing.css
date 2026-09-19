@@ -13,28 +13,55 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
+/* Bar padding is fixed px (not rem) so the brand lockup lands at the same
+   left/top (36px, 9px) as the inner-page and home navbars at every width. */
 .auth-nav-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  max-width: 80rem;
-  margin: 0 auto;
-  padding: 0.65rem 1rem;
+  padding: 9px 36px;
 }
 
 .auth-nav-brand {
   display: inline-flex;
+  align-items: center;
+  gap: 8px;
   flex-shrink: 0;
-  line-height: 0;
+  text-decoration: none;
+}
+
+.auth-nav-brand:hover,
+.auth-nav-brand:focus {
+  text-decoration: none;
 }
 
 .auth-nav-brand img {
   display: block;
   height: auto;
-  max-height: 3.25rem;
-  max-width: min(5rem, 28vw);
+  max-height: 63px;
+  max-width: min(95px, 28vw);
   object-fit: contain;
+}
+
+@media (min-width: 640px) {
+  .auth-nav-brand img {
+    max-height: 86px;
+  }
+}
+
+.auth-nav-title {
+  font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1;
+  color: #005e66;
+}
+
+@media (min-width: 640px) {
+  .auth-nav-title {
+    font-size: 24px;
+  }
 }
 
 .auth-nav-home {
@@ -695,14 +722,6 @@ body.auth-page #scroll-to-top {
    Phones (iOS / Android): modals + auth pages scale with viewport
    ----------------------------------------------------------------- */
 @media (max-width: 639px) {
-  .auth-nav-bar {
-    padding: 0.5rem 0.75rem;
-  }
-
-  .auth-nav-brand img {
-    max-height: 2.75rem;
-  }
-
   .auth-nav-home {
     font-size: 0.8125rem;
     padding: 0.4rem 0.7rem;

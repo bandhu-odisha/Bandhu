@@ -294,20 +294,24 @@ section p {
     border-radius: 0 !important;
 }
 
-/* Emblem home link: zero “container” — link hugs logo only */
+/* Emblem home link: zero “container” — link hugs logo + wordmark.
+   Sizes are fixed px (not rem) so the lockup matches the home (React) and
+   auth navbars exactly, regardless of any page's root font-size. One
+   breakpoint (640px = Tailwind `sm`) for both the logo and the wordmark. */
 .navbar .navbar-brand.navbar-brand-emblem {
     padding: 0 !important;
     margin: 0 !important;
     margin-right: 0 !important;
-    display: inline-block !important;
-    line-height: 0 !important;
+    display: inline-flex !important;
+    align-items: center;
+    gap: 8px;
     vertical-align: middle;
 }
 .navbar .navbar-brand.navbar-brand-emblem .navbar-logo {
     height: auto !important;
     width: auto !important;
-    max-height: 3.5rem !important;
-    max-width: min(5.25rem, 28vw) !important;
+    max-height: 63px !important;
+    max-width: min(95px, 28vw) !important;
     object-fit: contain;
     display: block;
     margin: 0 !important;
@@ -316,22 +320,24 @@ section p {
 }
 @media (min-width: 640px) {
     .navbar .navbar-brand.navbar-brand-emblem .navbar-logo {
-        max-height: 4.5rem !important;
-    }
-}
-@media (min-width: 768px) {
-    .navbar .navbar-brand.navbar-brand-emblem .navbar-logo {
-        max-height: 4.75rem !important;
+        max-height: 86px !important;
     }
 }
 
 .navbar .navbar-brand .navbar-title {
     font-family: var(--font-sans);
-    font-weight: 600;
+    font-size: 18px;
+    font-weight: 900;
+    line-height: 1;
     display: inline-block;
     margin: 0;
     vertical-align: middle;
-    color: #fff;
+    color: var(--brand-primary);
+}
+@media (min-width: 640px) {
+    .navbar .navbar-brand .navbar-title {
+        font-size: 24px;
+    }
 }
 
 /* Navbar Links - teal palette, same as homepage */

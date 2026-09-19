@@ -22,9 +22,9 @@
     <link rel="shortcut icon" href="{% static 'img/bandhulogo.gif' %}">
     {% if not user.is_authenticated %}
     <link rel="stylesheet" href="{% static 'vendor/css/bootstrap.min.css' %}?v=255">
-    <link rel="stylesheet" href="{% static 'css/accounts-auth-landing.css' %}?v=289">
+    <link rel="stylesheet" href="{% static 'css/accounts-auth-landing.css' %}?v=291">
     {% endif %}
-    <link rel="stylesheet" href="{% static 'frontend/assets/index.css' %}?v=312">
+    <link rel="stylesheet" href="{% static 'frontend/assets/index.css' %}?v=313">
     <link rel="stylesheet" href="{% static 'vendor/css/fontawesome-all.min.css' %}?v=255">
     <style>
       /* Our Visitors profile popup: wide like reference (teal left, details right) */
@@ -116,22 +116,6 @@
       body.landing .signup-modal-root .modal-dialog {
         z-index: 1060;
       }
-      /* If index.css fails on prod, hero logo must not blow up to full PNG size */
-      body.landing #root img[alt="Bandhu logo"] {
-        width: 7rem;
-        height: 7rem;
-        max-width: 7rem;
-        max-height: 7rem;
-        object-fit: contain;
-      }
-      @media (min-width: 640px) {
-        body.landing #root img[alt="Bandhu logo"] {
-          width: 7.5rem;
-          height: 7.5rem;
-          max-width: 7.5rem;
-          max-height: 7.5rem;
-        }
-      }
     </style>
 </head>
 <body class="landing">
@@ -187,6 +171,6 @@
     });
     </script>
     {% endif %}
-    <script type="module" src="{% static 'frontend/assets/index.js' %}?v=312"></script>
+    <script type="module" src="{% static 'frontend/assets/index.js' %}?v=313"></script>
 </body>
 </html>

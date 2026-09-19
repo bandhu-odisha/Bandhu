@@ -163,6 +163,7 @@ export default function CurrentUpdates({ data, inline = false }) {
         onClick={() => setOpen(true)}
         aria-expanded={open}
         aria-haspopup="dialog"
+        aria-label="Updates"
         className={
           inline
             ? `${LANDING_NAVBAR_AUTH_BUTTON_CLASS} normal-case tracking-normal gap-2`
@@ -190,7 +191,7 @@ export default function CurrentUpdates({ data, inline = false }) {
             />
           </svg>
         </span>
-        <span>Updates</span>
+        <span className={inline ? 'hidden sm:inline' : undefined}>Updates</span>
       </button>
       {panel}
     </>

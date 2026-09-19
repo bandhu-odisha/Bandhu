@@ -77,7 +77,6 @@ function buildHeroSlides(data) {
 
 export default function Hero({ data }) {
   const [index, setIndex] = useState(0)
-  const logoUrl = data?.logo_url || null
   const slides = useMemo(() => buildHeroSlides(data), [data])
 
   useEffect(() => {
@@ -152,26 +151,6 @@ export default function Hero({ data }) {
 
           <div className="order-2 flex min-h-0 w-full max-w-lg flex-col max-lg:items-center max-lg:text-center lg:order-1 lg:max-w-none lg:items-start lg:text-left lg:h-full">
             <div className="flex min-h-0 w-full flex-1 flex-col max-lg:items-center lg:items-start lg:justify-center lg:py-2">
-              <div className="mb-7 flex w-full items-center gap-4 max-lg:justify-center sm:mb-8 sm:gap-6 lg:justify-start">
-                {logoUrl ? (
-                  <img
-                    src={logoUrl}
-                    alt="Bandhu logo"
-                    className="h-24 w-24 shrink-0 object-contain sm:h-28 sm:w-28"
-                    width={112}
-                    height={112}
-                    style={{ maxWidth: 112, maxHeight: 112 }}
-                  />
-                ) : (
-                  <div
-                    className="h-24 w-24 shrink-0 rounded-full bg-slate-100 sm:h-28 sm:w-28"
-                    aria-hidden
-                  />
-                )}
-                <h2 className="font-sans text-4xl font-black leading-[0.92] tracking-[-0.03em] text-[#004f57] sm:text-5xl md:text-6xl lg:text-[4.35rem] xl:text-[4.85rem]">
-                  Bandhu
-                </h2>
-              </div>
               <h1
                 className="mb-4 w-full font-sans text-xl font-bold leading-tight tracking-tight text-slate-900 max-lg:text-center sm:mb-5 sm:text-2xl md:text-3xl lg:text-left lg:text-[clamp(1.625rem,0.35rem+2.35vw,2.125rem)] xl:text-[clamp(1.75rem,0.5rem+2.1vw,2.35rem)]"
                 dangerouslySetInnerHTML={{ __html: slide.title }}

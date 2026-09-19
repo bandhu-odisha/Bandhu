@@ -544,8 +544,23 @@ export default function Navbar({ data }) {
 
   return (
     <nav className="w-full bg-white">
-      <div className="max-w-7xl mx-auto w-full px-3 sm:px-5 lg:px-8 py-2.5 sm:py-3">
-        <div className="flex items-center gap-2 sm:gap-3 xl:gap-6">
+      <div className="w-full px-[36px] py-[9px]">
+        <div className="flex items-center gap-[4px] sm:gap-3 xl:gap-6">
+          <a
+            href="/"
+            className="inline-flex shrink-0 items-center gap-[8px] no-underline hover:no-underline focus:no-underline"
+            aria-label="Bandhu Home"
+          >
+            <img
+              src={data?.logo_url || '/static/img/bandhu-logo-navbar.webp'}
+              alt=""
+              className="h-[63px] w-auto object-contain sm:h-[86px]"
+            />
+            <span className="font-sans text-[18px] sm:text-[24px] font-black leading-none text-[#005E66]">
+              Bandhu
+            </span>
+          </a>
+
           <CurrentUpdates data={data} inline />
 
           <div className="hidden xl:flex flex-1 min-w-0 justify-center">
@@ -556,7 +571,7 @@ export default function Navbar({ data }) {
             </div>
           </div>
 
-          <div className="ml-auto flex shrink-0 items-center gap-2">
+          <div className="ml-auto flex shrink-0 items-center gap-[4px] sm:gap-2">
             <button
               type="button"
               className="xl:hidden flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#005E66]/30"
