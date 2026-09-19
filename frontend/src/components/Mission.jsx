@@ -1,5 +1,4 @@
 import { useMemo } from 'react'
-import { CTA_PILL_CLASS } from '../cta'
 import { useMediaQuery } from '../useMediaQuery'
 
 const MISSION_STATEMENT = 'We work to strengthen the self-worth and dignity of people across villages and cities in India, and to support them as equal partners, so they can draw on their own strengths and potential to meet the challenges they face.'
@@ -104,11 +103,6 @@ export default function Mission({ data }) {
           <p className="font-body text-[#3d5c66] text-base sm:text-lg md:text-xl leading-relaxed max-w-3xl mx-auto mb-8 sm:mb-10 px-1">
             {MISSION_STATEMENT}
           </p>
-          <div className="flex justify-center">
-            <a href="#pillars" className={CTA_PILL_CLASS}>
-              Learn More
-            </a>
-          </div>
         </div>
       </div>
 
@@ -118,18 +112,23 @@ export default function Mission({ data }) {
         className="mt-2 sm:mt-4 w-full scroll-mt-[5.25rem] bg-slate-100/95"
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
-          <h3 className="section-title text-left mb-10 sm:mb-12">
-            Our pillars of change
+          <h3 className="section-title text-left mb-3 sm:mb-4">
+            ତ୍ରିସୂତ୍ରୀ କାର୍ଯ୍ୟକ୍ରମ - Three threads of action
           </h3>
+          <h4 className="font-body text-[#3d5c66] text-base sm:text-lg md:text-xl leading-relaxed max-w-3xl mb-10 sm:mb-12">
+            <p>ବଦଳୁଥିବା ସମୟର ଆବଶ୍ୟକତା ଆଧାରରେ</p>
+            <p>To deal with the emerging needs of the time</p>
+          </h4>
           <div>
             {pillars.map((pillar, idx) => {
               const isSanskar = pillar.id === 'sanskar'
               const isSwaraj = pillar.id === 'swaraj'
-              const cardText = concisePillarText(pillar.tagline, pillar.desc)
+              const taglineText = stripHtml(pillar.tagline || '')
+              // Tagline already renders as summaryLine; feeding it into the excerpt again duplicated it.
+              const cardText = concisePillarText(null, pillar.desc)
               const cleanedCardText = isSanskar
                 ? cardText.replace(/^Anandakendra and Ankurayan\s*/i, '').trim()
                 : cardText
-              const taglineText = stripHtml(pillar.tagline || '')
               const summaryLine = taglineText || cleanedCardText
               const detailsLine =
                 cleanedCardText && cleanedCardText !== summaryLine ? cleanedCardText : ''
