@@ -8,14 +8,14 @@
 {% block body_class %}pillar-inner-page{% endblock %}
 
 {% block style %}
-<link rel="stylesheet" href="{% static 'css/bandhu.css' %}?v=28">
-<link rel="stylesheet" href="{% static 'css/pillar-inner-banner.css' %}?v=9">
+<link rel="stylesheet" href="{% static 'css/bandhu.css' %}?v=29">
+<link rel="stylesheet" href="{% static 'css/pillar-inner-banner.css' %}?v=10">
 {% if page_title == 'Sanskar' or page_title == 'Swaraj' or page_title == 'Swabalamban' %}
-<link rel="stylesheet" href="{% static 'css/anandakendra.css' %}?v=28">
+<link rel="stylesheet" href="{% static 'css/anandakendra.css' %}?v=29">
 {% endif %}
 <style>
   /* Page-wide typography */
-  .pillar-hero, .pillar-products, .pillar-gallery { font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+  .pillar-hero, .pillar-products, .pillar-gallery { font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
   /* Hero section – no border so description and gallery blend */
   .pillar-hero { padding: 4rem 0 3rem; background: #ffffff; border-bottom: none; }
   .pillar-hero h1 { font-size: 2.35rem; font-weight: 700; color: #3d5c60; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
@@ -36,7 +36,7 @@
   }
   .pillar-showcase { position: relative; }
   .pillar-showcase .pillar-showcase-title {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 800;
     font-size: clamp(2.25rem, 6vw, 4rem);
     letter-spacing: 0.02em;
@@ -101,7 +101,7 @@
   .pillar-overlay-cards .pillar-overlay-card--text {
     min-height: 280px;
     height: 100%;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     background: linear-gradient(180deg, #fffdf8 0%, #ffffff 58%, #fbfaf7 100%);
     border: none;
     box-shadow: 0 16px 26px -10px rgba(61, 92, 96, 0.36), 10px 4px 18px -10px rgba(61, 92, 96, 0.28), -10px 4px 18px -10px rgba(61, 92, 96, 0.24), 0 5px 12px -8px rgba(61, 92, 96, 0.22);
@@ -111,10 +111,10 @@
   .pillar-overlay-cards .pillar-overlay-card--text .pillar-desc,
   .pillar-overlay-cards .pillar-overlay-card--text .pillar-related,
   .pillar-overlay-cards .pillar-overlay-card--text .pillar-nav-back {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
   .pillar-overlay-cards .pillar-overlay-card--text .pillar-desc {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 600;
     letter-spacing: 0.012em;
     line-height: 1.9;
@@ -164,7 +164,7 @@
   .pillar-image-caption .caption-en,
   .sanskar-image-caption .caption-en {
     color: #2f6f75;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 1.18rem;
     font-weight: 700;
     font-style: italic;
@@ -207,7 +207,7 @@
   }
   .pillar-image-caption.swaraj-image-caption .caption-en {
     color: #2f6f75;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 1.05rem;
     font-weight: 600;
     font-style: italic;
@@ -258,7 +258,7 @@
   .swabalamban-order-note {
     margin-top: 0.45rem;
     margin-bottom: 0.35rem;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 0.98rem;
     line-height: 1.65;
     color: #2f6f75;
@@ -403,7 +403,7 @@
   .pillar-products .product-card .product-label {
     padding: 1rem 1.25rem;
     color: #3d5c60;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 700;
     font-size: 1.14rem;
     letter-spacing: 0.01em;
@@ -450,7 +450,7 @@
     border-radius: 20px;
     border: none;
     box-shadow: 0 34px 90px rgba(18, 42, 46, 0.45), 0 14px 34px rgba(61, 92, 96, 0.3);
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     overflow: hidden;
   }
   /* Same solid brand teal as Anandakendra read-more modal header (#005E66) */
@@ -606,7 +606,7 @@
     left: 50%;
     transform: translateX(-50%);
     color: #005E66;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 800;
     font-size: clamp(2.2rem, 6vw, 4rem);
     letter-spacing: 0.02em;

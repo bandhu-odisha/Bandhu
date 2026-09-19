@@ -171,7 +171,7 @@ body.anandakendra-detail-page #about.pillar-overlay-cards {
     color: #1e3a38;
     margin-bottom: 1rem;
     line-height: 1.5;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 #about .page-desc-horizontal {
     font-size: 1.05rem;
@@ -180,7 +180,7 @@ body.anandakendra-detail-page #about.pillar-overlay-cards {
     font-weight: 450;
     max-width: none;
     width: 100%;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 #about .page-desc-horizontal p {
     margin-bottom: 1rem;
@@ -234,7 +234,7 @@ section#about.page-hero.page-hero-with-angular .container {
     margin-bottom: 0;
     text-transform: none;
     letter-spacing: -0.02em;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 #anandakendras .section-title:after {
     display: none;
@@ -330,7 +330,7 @@ section#anandakendras.page-section {
 .anandakendra-detail #activities h3.title {
     text-align: center !important;
     color: #005E66 !important;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 1.125rem !important;
     font-weight: 700 !important;
     letter-spacing: 0.08em;
@@ -395,7 +395,7 @@ section#anandakendras.page-section {
     border-radius: 16px !important;
     overflow: hidden;
     box-shadow: 0 8px 24px rgba(61, 92, 96, 0.12) !important;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 .anandakendra-detail #activities .activity-card:hover {
@@ -555,7 +555,7 @@ body.anandakendra-detail-page .navbar .navbar-nav a.nav-button.btn:active {
     font-weight: 700;
     line-height: 1.3;
     margin-bottom: 0.5rem;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 .anandakendra-detail #about .page-content-card .title + p,
 .anandakendra-detail #about .page-content-card .card-body > p {
@@ -564,7 +564,7 @@ body.anandakendra-detail-page .navbar .navbar-nav a.nav-button.btn:active {
     line-height: 1.55;
     font-weight: 450;
     margin-bottom: 0;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 .anandakendra-detail #about .page-content-card .content-title {
     color: #3d5c60 !important;
@@ -572,7 +572,7 @@ body.anandakendra-detail-page .navbar .navbar-nav a.nav-button.btn:active {
     font-weight: 700;
     letter-spacing: 0.02em;
     margin-bottom: 0.5rem;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 .anandakendra-detail #about .page-content-card .content-title + p {
     color: #475569;
@@ -807,7 +807,7 @@ body.anandakendra-detail-page #gallery .gallery-tagline-text {
     border: none;
     padding: 0;
     color: #2f4d52;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 0.96rem;
     font-style: italic;
     font-weight: 700;
@@ -868,7 +868,7 @@ body.anandakendra-detail-page #about.pillar-overlay-cards .anandakendra-card-foo
 #about.pillar-overlay-cards .anandakendra-card-footer .anandakendra-text-caption .caption-en,
 body.anandakendra-detail-page #about.pillar-overlay-cards .anandakendra-card-footer .anandakendra-text-caption .caption-en {
     color: #2f6f75;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 0.92rem;
     font-weight: 600;
     font-style: italic;
@@ -945,7 +945,7 @@ body.anandakendra-list-page #about.pillar-overlay-cards .anandakendra-image-capt
 }
 body.anandakendra-list-page #about.pillar-overlay-cards .anandakendra-image-caption .caption-en {
     color: #2f6f75;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 0.92rem;
     font-weight: 600;
     font-style: italic;
@@ -990,7 +990,7 @@ body.anandakendra-list-page #about.pillar-overlay-cards .anandakendra-image-capt
 }
 .anandakendra-readmore-modal .modal-title {
     color: #ffffff;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 1.3rem;
     font-weight: 700;
     letter-spacing: 0.01em;
@@ -1005,7 +1005,7 @@ body.anandakendra-list-page #about.pillar-overlay-cards .anandakendra-image-capt
     background: linear-gradient(180deg, #f7fbfc 0%, #ffffff 22%, #fcfdfd 100%);
 }
 .anandakendra-readmore-modal .readmore-content {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 1.01rem;
     line-height: 1.82;
     letter-spacing: 0.01em;
@@ -1028,7 +1028,7 @@ body.anandakendra-detail-page .anandakendra-modal .modal-header {
     padding: 1rem 1.25rem;
 }
 body.anandakendra-detail-page .anandakendra-modal .modal-header .modal-title {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 700;
     font-size: 1.1rem;
     color: #fff !important;
@@ -1054,7 +1054,7 @@ body.anandakendra-detail-page .anandakendra-modal .custom-file-label::after {
     background-color: #0b3540 !important;
     border-color: #0b3540 !important;
     color: #fff !important;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 700;
     border-radius: 0 9999px 9999px 0 !important;
 }
@@ -1064,7 +1064,7 @@ body.anandakendra-detail-page .anandakendra-modal .custom-file-label::after:hove
 }
 body.anandakendra-detail-page .anandakendra-modal .custom-file-label,
 body.anandakendra-detail-page .anandakendra-modal .custom-file-input {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 body.anandakendra-detail-page .anandakendra-modal .anandakendra-custom-file .custom-file-label {
     border-radius: 9999px;
@@ -1076,7 +1076,7 @@ body.anandakendra-detail-page .anandakendra-modal .anandakendra-custom-file .cus
 body.anandakendra-detail-page .anandakendra-upload-modal .anandakendra-upload-label {
     display: block;
     margin-bottom: 0.5rem;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 0.875rem;
     font-weight: 600;
     color: #0b3540;
@@ -1089,7 +1089,7 @@ body.anandakendra-detail-page .anandakendra-modal .custom-file-input:focus ~ .cu
 
 /* Shared admin pill — about card, gallery upload, modal actions */
 body.anandakendra-detail-page .anandakendra-admin-pill.btn.btn-primary {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.04em;
@@ -1129,7 +1129,7 @@ body.bandhughar-detail-page .anandakendra-modal .modal-header .modal-title,
 body.bandhughar-detail-page .anandakendra-readmore-modal .modal-header .modal-title,
 body.bandhughar-detail-page .ashram-modal .modal-header .modal-title {
     color: #fff !important;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 700;
 }
 body.bandhughar-detail-page .anandakendra-modal .modal-body,
@@ -1142,7 +1142,7 @@ body.bandhughar-detail-page .ashram-modal .btn-primary {
     border-color: #005E66 !important;
     color: #fff !important;
     border-radius: 10px !important;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 600 !important;
     opacity: 1 !important;
     cursor: pointer !important;
@@ -1174,7 +1174,7 @@ body.bandhughar-detail-page .ashram-modal .form-control:focus {
 }
 /* Admin trigger pills on about card — match Anandakendra detail */
 body.bandhughar-detail-page .bandhughar-detail-admin-actions .btn.btn-primary {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.06em;
@@ -1204,7 +1204,7 @@ body.bandhughar-detail-page .ashram-detail .btn.btn-primary {
     border-color: #005E66 !important;
     color: #fff !important;
     border-radius: 10px !important;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 600 !important;
     box-shadow: none !important;
     opacity: 1 !important;
@@ -1279,7 +1279,7 @@ body.anandakendra-detail-page .anandakendra-detail-admin-actions .anandakendra-a
 body.anandakendra-detail-page .gallery-actions .anandakendra-admin-buttons .btn.btn-primary {
     position: relative;
     margin: 0 !important;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.04em;
@@ -1329,7 +1329,7 @@ body.anandakendra-detail-page #addToGallery .modal-header {
     color: #fff !important;
 }
 body.anandakendra-detail-page #addToGallery .modal-title {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 700 !important;
     font-size: 1.1rem !important;
     color: #fff !important;
@@ -1340,7 +1340,7 @@ body.anandakendra-detail-page #addToGallery .modal-body {
 }
 body.anandakendra-detail-page #addToGallery .modal-body .btn.btn-primary,
 body.anandakendra-detail-page #addToGallery .anandakendra-file-picker-browse.btn.btn-primary {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.04em;
@@ -1392,7 +1392,7 @@ body.anandakendra-detail-page #addToGallery .anandakendra-file-picker-text {
     border-radius: 0.5rem;
     background: #fff;
     color: #64748b;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 0.875rem;
     line-height: 1.4;
     overflow: hidden;

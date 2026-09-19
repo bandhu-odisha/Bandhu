@@ -18,13 +18,13 @@
     <meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'img/bandhulogo_new.png' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Sans+Oriya:wght@100..900&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="{% static 'img/bandhulogo.gif' %}">
     {% if not user.is_authenticated %}
     <link rel="stylesheet" href="{% static 'vendor/css/bootstrap.min.css' %}?v=255">
-    <link rel="stylesheet" href="{% static 'css/accounts-auth-landing.css' %}?v=288">
+    <link rel="stylesheet" href="{% static 'css/accounts-auth-landing.css' %}?v=289">
     {% endif %}
-    <link rel="stylesheet" href="{% static 'frontend/assets/index.css' %}?v=311">
+    <link rel="stylesheet" href="{% static 'frontend/assets/index.css' %}?v=312">
     <link rel="stylesheet" href="{% static 'vendor/css/fontawesome-all.min.css' %}?v=255">
     <style>
       /* Our Visitors profile popup: wide like reference (teal left, details right) */
@@ -88,7 +88,7 @@
         border-radius: 0 !important;
         box-shadow: none !important;
         outline: none !important;
-        font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         font-size: 0.72rem;
         font-weight: 700;
         letter-spacing: 0.1em;
@@ -187,6 +187,6 @@
     });
     </script>
     {% endif %}
-    <script type="module" src="{% static 'frontend/assets/index.js' %}?v=311"></script>
+    <script type="module" src="{% static 'frontend/assets/index.js' %}?v=312"></script>
 </body>
 </html>

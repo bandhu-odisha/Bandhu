@@ -7,7 +7,7 @@ body.people-page-site {
 .people-page-section {
     background: #ffffff;
     padding: 2.5rem 0 4rem;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 .people-page-section .container.people-page {
@@ -47,7 +47,7 @@ body.people-page-site {
 
 .people-page #peopleTabs.people-tabs .nav-link,
 .people-page .people-tabs .nav-link {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     color: #334155;
     font-weight: 700;
     font-size: 0.72rem;
@@ -168,7 +168,7 @@ body.people-page-site {
 
 .people-card .people-name,
 .people-card .card-title.people-name {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 700;
     font-size: 1.35rem;
     line-height: 1.3;
@@ -179,7 +179,7 @@ body.people-page-site {
 
 .people-card .people-profession {
     margin: 0;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 1rem;
     line-height: 1.45;
     color: #3d5c60;
@@ -247,7 +247,7 @@ body.people-page-site {
 
 /* View Profile — same pill as navbar Login */
 .people-card .people-view-profile-btn.btn-primary {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.04em;

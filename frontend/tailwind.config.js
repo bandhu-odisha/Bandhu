@@ -21,10 +21,10 @@ export default {
         sage: '#334155',
       },
       fontFamily: {
-        heading: ['Inter', 'system-ui', 'sans-serif'],
-        body: ['Inter', 'system-ui', 'sans-serif'],
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        serif: ['Inter', 'system-ui', 'sans-serif'],
+        heading: ['Inter', 'Noto Sans Oriya', 'system-ui', 'sans-serif'],
+        body: ['Inter', 'Noto Sans Oriya', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'Noto Sans Oriya', 'system-ui', 'sans-serif'],
+        serif: ['Inter', 'Noto Sans Oriya', 'system-ui', 'sans-serif'],
       },
       letterSpacing: {
         sentence: '0.015em',

@@ -21,7 +21,7 @@ body.charity-detail-page #top-section .parallax-overlay {
 
 body.other-activities-page,
 body.charity-detail-page {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 /* Detail banner: real title + subtitle (wraps; no overlapping ::before/::after) */
@@ -60,7 +60,7 @@ body.charity-detail-page #top-section .slider-txt-container.charity-detail-hero 
 }
 
 body.charity-detail-page .charity-detail-hero-title {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 800;
     font-size: clamp(1.5rem, 4.5vw, 2.75rem);
     letter-spacing: 0.02em;
@@ -71,7 +71,7 @@ body.charity-detail-page .charity-detail-hero-title {
 }
 
 body.charity-detail-page .charity-detail-hero-subtitle {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 700;
     font-size: clamp(1.2rem, 3.25vw, 1.85rem);
     line-height: 1.4;
@@ -183,7 +183,7 @@ body.charity-detail-page .charity-detail-hero-subtitle {
 
 /* Match Sanskar/Swaraj/Swabalamban text card typography exactly */
 .pillar-overlay-cards .pillar-overlay-card--text {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
     background: linear-gradient(180deg, #fffdf8 0%, #ffffff 58%, #fbfaf7 100%) !important;
     border: none !important;
     box-shadow: 0 16px 26px -10px rgba(61, 92, 96, 0.36), 10px 4px 18px -10px rgba(61, 92, 96, 0.28), -10px 4px 18px -10px rgba(61, 92, 96, 0.24), 0 5px 12px -8px rgba(61, 92, 96, 0.22) !important;
@@ -194,7 +194,7 @@ body.charity-detail-page .charity-detail-hero-subtitle {
     font-weight: 600 !important;
     color: #1e3a38 !important;
     line-height: 1.5 !important;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
 }
 .pillar-overlay-cards .pillar-overlay-card--text .pillar-desc {
     font-size: 1rem !important;
@@ -202,7 +202,7 @@ body.charity-detail-page .charity-detail-hero-subtitle {
     font-weight: 600 !important;
     letter-spacing: 0.012em !important;
     color: #3d5c60 !important;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
 }
 .pillar-overlay-cards .pillar-overlay-card--text .pillar-desc strong,
 .pillar-overlay-cards .pillar-overlay-card--text .pillar-desc b {
@@ -228,7 +228,7 @@ body.charity-detail-page .charity-detail-hero-subtitle {
 .pillar-overlay-cards .pillar-text-quote .quote-en,
 .pillar-overlay-cards .pillar-text-quote .caption-en {
     color: #2f4d52;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 0.98rem;
     font-style: italic;
     font-weight: 600;
@@ -338,7 +338,7 @@ body.other-activities-page .angular-charity + .pillar-overlay-cards {
     font-weight: 500;
     line-height: 1.4;
     margin: 0 auto 0.5rem;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 #about::before {
@@ -354,7 +354,7 @@ body.other-activities-page .angular-charity + .pillar-overlay-cards {
     font-weight: 700;
     line-height: 1.2;
     margin-top: 0;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 #about .content-title {
     color: #3d5c60;
@@ -362,7 +362,7 @@ body.other-activities-page .angular-charity + .pillar-overlay-cards {
     font-weight: 700;
     line-height: 1.3;
     margin-top: 0;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 /* Activities section: no grey – carousel track transparent, cards white with teal styling */
@@ -388,7 +388,7 @@ body.other-activities-page .angular-charity + .pillar-overlay-cards {
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 8px 24px rgba(61, 92, 96, 0.12);
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 #activities .activity-card .card-body {
@@ -487,7 +487,7 @@ body.other-activities-page .charity-modal .modal-header {
 body.charity-detail-page .charity-modal .modal-header .modal-title,
 body.other-activities-page .charity-modal .modal-header .modal-title {
     color: #fff !important;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 700;
 }
 body.charity-detail-page .charity-modal .modal-header .close,
@@ -506,7 +506,7 @@ body.other-activities-page .charity-modal .btn-primary {
     border-color: #005E66 !important;
     color: #fff !important;
     border-radius: 10px !important;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 600 !important;
     box-shadow: none !important;
 }
@@ -539,7 +539,7 @@ body.charity-detail-page .charity-detail .btn.btn-primary {
     border-color: #005E66 !important;
     color: #fff !important;
     border-radius: 10px !important;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 600 !important;
     box-shadow: none !important;
     opacity: 1 !important;
@@ -558,7 +558,7 @@ body.charity-detail-page .charity-detail .btn.btn-primary:active {
 /* Sidebar triggers on activity detail (Add Activity / Add Volunteers) */
 body.charity-detail-page .add-activity .btn.btn-primary,
 body.charity-detail-page .add-volunteers .btn.btn-primary {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 700;
     border: none !important;
     border-radius: 9999px !important;
@@ -577,7 +577,7 @@ body.charity-detail-page .add-volunteers .btn.btn-primary:focus {
 }
 body.other-activities-page .add-activity > .btn.btn-primary,
 body.other-activities-page #activities .btn.btn-primary {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 700;
     border: none !important;
     border-radius: 9999px !important;

@@ -78,7 +78,7 @@ body.pillar-inner-page #top-section .slider-txt-container.page-showcase.pillar-s
 
 body.pillar-inner-page .pillar-showcase .pillar-showcase-title,
 body.pillar-inner-page .pillar-showcase .page-showcase-title {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
     font-weight: 800 !important;
     font-size: clamp(2.2rem, 6vw, 4rem) !important;
     letter-spacing: 0.02em !important;

@@ -73,7 +73,7 @@ body.staff-profile-page-site .angular.page-angular {
     padding: 1.35rem 1.15rem 2rem;
     max-width: 1280px;
     margin: 0 auto;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 /* Site typography uses sans-serif (see site-typography.css). */

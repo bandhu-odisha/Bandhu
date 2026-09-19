@@ -102,7 +102,7 @@ body.initiative-year-page.pillar-inner-page #top-section .slider-txt-container.p
 
 body.initiative-year-page.pillar-inner-page .pillar-showcase .pillar-showcase-title,
 body.initiative-year-page.pillar-inner-page .pillar-showcase .page-showcase-title {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
     font-weight: 800 !important;
     font-size: clamp(2.2rem, 6vw, 4rem) !important;
     letter-spacing: 0.02em !important;
@@ -464,7 +464,7 @@ body.initiative-year-page #about .pillar-overlay-card--text.anandakendra-sync-te
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     padding: 0.5rem 1rem !important;
     font-size: 0.75rem !important;
     font-weight: 700 !important;
@@ -702,7 +702,7 @@ body.initiative-year-page #about .pillar-overlay-card--text.anandakendra-sync-te
 
 body.initiative-year-page #activities.bandhughar-activities-section .section-title,
 body.initiative-year-page .initiative-gallery-section .section-title {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
     font-size: clamp(1.85rem, 4vw, 2.35rem) !important;
     font-weight: 700 !important;
     color: #005E66 !important;
@@ -726,7 +726,7 @@ body.initiative-year-page .initiative-gallery-section .initiative-section-head-a
 body.initiative-year-page #activities.bandhughar-activities-section .initiative-category-title {
     text-align: center !important;
     color: #005E66 !important;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 1.125rem !important;
     font-weight: 700 !important;
     letter-spacing: 0.08em;
@@ -816,7 +816,7 @@ body.initiative-program-page .initiative-gallery-section {
     border: 1px solid rgba(0, 94, 102, 0.2);
     border-radius: 8px;
     transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 .initiative-year-detail .initiative-file-link:hover,
@@ -965,7 +965,7 @@ body.initiative-program-page .initiative-year-modal .modal-header {
 
 body.initiative-year-page .initiative-year-modal .modal-header .modal-title,
 body.initiative-program-page .initiative-year-modal .modal-header .modal-title {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 700;
     font-size: 1.05rem;
     color: #ffffff !important;
@@ -982,7 +982,7 @@ body.initiative-year-page .initiative-year-modal .modal-body,
 body.initiative-program-page .initiative-year-modal .modal-body {
     background: #ffffff;
     padding: 1.35rem 1.25rem 1.5rem;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 body.initiative-year-page .initiative-year-modal .initiative-modal-section {
@@ -1167,7 +1167,7 @@ body.initiative-year-page .initiative-entry-schedule {
     border-top: 1px solid rgba(128, 179, 186, 0.28);
 }
 body.initiative-year-page .initiative-entry-schedule-title {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 1rem;
     font-weight: 700;
     color: #3d5c60;
@@ -1282,7 +1282,7 @@ body.initiative-year-page [data-hero-zoom]:focus-visible {
 }
 .hero-zoom-figure figcaption {
     color: rgba(255, 255, 255, 0.92);
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', 'Noto Sans Oriya', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 0.95rem;
     font-weight: 600;
     letter-spacing: 0.01em;
