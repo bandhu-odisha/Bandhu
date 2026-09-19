@@ -128,10 +128,9 @@
                     <img src="{% static 'img/our_mission1.jpg' %}" alt="Anandakendra" loading="eager" class="pillar-overlay-single-image">
                     {% endif %}
                 </div>
-                {% if content %}
+                {% if content.image_caption_en or content.image_caption_or %}
                 <div class="anandakendra-image-caption anandakendra-text-caption" aria-label="Anandakendra caption">
-                    <p class="caption-line caption-en">"Man making initiative of Bandhu"</p>
-                    <p class="caption-line caption-or">"ଏକ ପ୍ରେରେଣାଶୀଳ ନୂଆପିଢୀର ନିର୍ମାଣେ"</p>
+                    {% include 'includes/initiative_hero_caption.html' with content=content %}
                 </div>
                 {% endif %}
             </div>

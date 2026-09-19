@@ -195,10 +195,11 @@
                             <i class="fas fa-arrow-left" aria-hidden="true"></i>
                             Back to Anandakendras
                         </a>
+                        {% if content.image_caption_en or content.image_caption_or %}
                         <div class="anandakendra-text-caption" aria-label="Anandakendra caption">
-                            <p class="caption-line caption-en">"Man making initiative of Bandhu"</p>
-                            <p class="caption-line caption-or">"ଏକ ପ୍ରେରେଣାଶୀଳ ନୂଆପିଢୀର ନିର୍ମାଣେ"</p>
+                            {% include 'includes/initiative_hero_caption.html' with content=content %}
                         </div>
+                        {% endif %}
                     </div>
                     {% if check_admin and user.is_authenticated %}
                     <div class="anandakendra-detail-admin-actions mt-4 pt-3 border-top border-secondary">
