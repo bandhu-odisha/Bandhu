@@ -115,10 +115,10 @@ export default function Mission({ data }) {
           <h3 className="section-title text-left mb-3 sm:mb-4">
             ତ୍ରିସୂତ୍ରୀ କାର୍ଯ୍ୟକ୍ରମ - Three threads of action
           </h3>
-          <h4 className="font-body text-[#3d5c66] text-base sm:text-lg md:text-xl leading-relaxed max-w-3xl mb-10 sm:mb-12">
+          <div className="font-body text-[#3d5c66] text-base sm:text-lg md:text-xl leading-relaxed max-w-3xl mb-10 sm:mb-12">
             <p>ବଦଳୁଥିବା ସମୟର ଆବଶ୍ୟକତା ଆଧାରରେ</p>
             <p>To deal with the emerging needs of the time</p>
-          </h4>
+          </div>
           <div>
             {pillars.map((pillar, idx) => {
               const isSanskar = pillar.id === 'sanskar'
