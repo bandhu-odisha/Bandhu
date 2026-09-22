@@ -148,13 +148,11 @@
     min-height: 4.25rem;
     position: relative;
     text-align: center;
+    display: grid;
   }
   .pillar-image-caption .caption-line,
   .sanskar-image-caption .caption-line {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+    grid-area: 1 / 1;
     margin: 0;
     line-height: 1.45;
     opacity: 0;
@@ -193,12 +191,10 @@
     min-height: 4.25rem;
     position: relative;
     text-align: center;
+    display: grid;
   }
   .pillar-image-caption.swaraj-image-caption .caption-line {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+    grid-area: 1 / 1;
     margin: 0;
     line-height: 1.45;
     opacity: 0;
@@ -314,6 +310,16 @@
        bottom-anchored title (see custom.css) or sliding the hero photo under the header. */
     .angular.pillar-angular + #about.pillar-overlay-cards,
     #about.pillar-overlay-cards { margin-top: 0 !important; }
+    /* Full-bleed cards: no side gutter, square corners, no shadow. */
+    #about.pillar-overlay-cards .container { padding-left: 0 !important; padding-right: 0 !important; }
+    .pillar-overlay-cards .pillar-overlay-card { padding: 1.5rem 1rem; border-radius: 0; }
+    /* css/anandakendra.css:767-786 re-declares these two exact selectors with an
+       #about ID prefix AND !important (a second, undocumented specificity trap
+       beyond the container rule above) — match both to win the cascade. */
+    #about.pillar-overlay-cards .pillar-overlay-card--text { padding: 1.5rem 1rem !important; box-shadow: none !important; }
+    #about.pillar-overlay-cards .pillar-overlay-card--image { width: 100% !important; max-width: 100% !important; border-radius: 0; padding: 0; box-shadow: none; }
+    .pillar-overlay-cards .pillar-image-caption { padding-left: 1rem; padding-right: 1rem; }
+    .pillar-image-caption.swaraj-image-caption { width: 100%; max-width: 100%; }
   }
   .pillar-products .text-muted { color: #475569 !important; font-weight: 500; }
   .pillar-products .pillar-order-contact { font-size: 1rem; color: #334155; font-weight: 500; }
@@ -671,7 +677,7 @@
         <div class="pillar-overlay-card pillar-overlay-card--image">
           {% responsive_img pillar_hero_image as pillar_hero_responsive %}
           {% if pillar_hero_responsive %}
-          <img src="{{ pillar_hero_responsive.src }}" srcset="{{ pillar_hero_responsive.srcset }}" sizes="(max-width: 600px) 92vw, 600px" width="{{ pillar_hero_responsive.width }}" height="{{ pillar_hero_responsive.height }}" alt="{{ page_title }}" loading="eager" class="pillar-overlay-single-image">
+          <img src="{{ pillar_hero_responsive.src }}" srcset="{{ pillar_hero_responsive.srcset }}" sizes="(max-width: 600px) 100vw, 600px" width="{{ pillar_hero_responsive.width }}" height="{{ pillar_hero_responsive.height }}" alt="{{ page_title }}" loading="eager" class="pillar-overlay-single-image">
           {% elif pillar_hero_url %}
           <img src="{{ pillar_hero_url }}" alt="{{ page_title }}" loading="eager" class="pillar-overlay-single-image" onerror="this.onerror=null;this.src='{% static 'img/our_mission1.jpg' %}';">
           {% elif pillar_hero_image and pillar_hero_image.url %}
