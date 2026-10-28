@@ -100,6 +100,8 @@ python manage.py test accounts              # one app
 python manage.py test bandhuapp.tests.test_landing   # one module
 ```
 
+The landing page (React) has its own tests: `cd frontend && npm install && npm test` (Vitest + jsdom; runs in CI as the `frontend-tests` job).
+
 The suite never touches the network: SendGrid, YouTube and the production media host are mocked. Uploads go to a temporary `MEDIA_ROOT`. Tests that document a known bug are marked `@unittest.expectedFailure` with the reason in their docstring; flip them to normal tests when the bug is fixed.
 
 Shared fixtures (`make_user`, `make_admin`, `make_profile`, `image_upload`, `TempMediaMixin`) live in `bandhuapp/tests/support.py`; the initiative-program contract tests shared by Prasanta Raktadan Shibir, Patriotism in Action and Odisha Satabdi Sevavrata live in `bandhuapp/tests/initiative_program_support.py`.

@@ -10,6 +10,9 @@ export default defineConfig({
       allow: [path.resolve(__dirname, '..')],
     },
   },
+  test: {
+    environment: 'jsdom',
+  },
   build: {
     outDir: path.resolve(__dirname, '../static/frontend'),
     emptyOutDir: true,

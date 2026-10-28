@@ -24,6 +24,7 @@ cd frontend && npm install && npm run build   # writes ../static/frontend/assets
 ```bash
 python manage.py test                          # regression suite (sqlite in-memory, no network); CI runs it via .github/workflows/tests.yml
 python manage.py test applications.sevavrata   # one app; tests live in <app>/tests/ packages
+cd frontend && npm test                        # Vitest + jsdom (landing React); CI job `frontend-tests`. `*.test.*` files are excluded from Tailwind scanning
 coverage run manage.py test && coverage report # optional; `pip install coverage` locally only, omit rules in .coveragerc
 ```
 Test helpers: `bandhuapp/tests/support.py` (users, profiles, uploads, `TempMediaMixin`); `bandhuapp/tests/initiative_program_support.py` is the shared contract every initiative-program clone app runs. `@unittest.expectedFailure` tests document known bugs — read the docstring before "fixing" the test. **Never delete `applications/__init__.py`** — without it `applications/` is a namespace package, the runner silently discovers only the `accounts`/`bandhuapp` tests (285 instead of 732) and still reports success, and `manage.py test applications.<app>` dies with a `TypeError`. No linter config. Deploy = `git pull`, `pip install`, `migrate`, `collectstatic --noinput`, restart (see README §3).
