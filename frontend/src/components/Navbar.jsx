@@ -189,6 +189,9 @@ export default function Navbar({ data }) {
   const showInitiativeLink = (key) => Boolean(user?.is_admin || initiativeNav[key])
 
   const initiativesLinks = [
+    ...(showInitiativeLink('show_initiative_sevavrata')
+      ? [{ label: 'Odisha Satabdi', href: urls.initiative_sevavrata || '/odisha-satabdi-sevavrata/' }]
+      : []),
     { label: 'Bandhughar', href: urls.ashram || '/bandhughar/' },
     { label: 'Other Activities', href: urls.charity_work || '/other_activities/' },
     ...(showInitiativeLink('show_initiative_raktadan')
@@ -196,9 +199,6 @@ export default function Navbar({ data }) {
       : []),
     ...(showInitiativeLink('show_initiative_patriotism')
       ? [{ label: 'Patriotism in Action', href: urls.initiative_patriotism || '/patriotism-in-action/' }]
-      : []),
-    ...(showInitiativeLink('show_initiative_sevavrata')
-      ? [{ label: 'Odisha Satabdi Sevavrata', href: urls.initiative_sevavrata || '/odisha-satabdi-sevavrata/' }]
       : []),
     { label: 'Our Publications', href: urls.publications || '/publications/' },
   ]
@@ -223,8 +223,8 @@ export default function Navbar({ data }) {
 
   const NavLinks = () => (
     <>
-      <a href={urls.home || '#top'} className={NAV_LINK}>
-        Home
+      <a href={urls.ankurayan || '/ankurayan/'} className={NAV_LINK}>
+        Ankurayan
       </a>
 
       <a href={urls.people || '/people/'} className={NAV_LINK}>
@@ -315,9 +315,6 @@ export default function Navbar({ data }) {
           )}
       </span>
 
-      <a href="#contact" className={NAV_LINK}>
-        Contact
-      </a>
 
       <span className="relative inline-flex" ref={noticeRef}>
         <button
@@ -437,8 +434,8 @@ export default function Navbar({ data }) {
             </button>
           </div>
           <nav className="min-h-0 flex-1 overflow-y-auto overscroll-contain py-2">
-            <a href={urls.home || '#top'} className={MOBILE_DRAWER_LINK} onClick={closeMobileMenu}>
-              Home
+            <a href={urls.ankurayan || '/ankurayan/'} className={MOBILE_DRAWER_LINK} onClick={closeMobileMenu}>
+              Ankurayan
             </a>
             <a href={urls.people || '/people/'} className={MOBILE_DRAWER_LINK} onClick={closeMobileMenu}>
               People
@@ -483,9 +480,6 @@ export default function Navbar({ data }) {
                 ))}
               </ul>
             )}
-            <a href="#contact" className={MOBILE_DRAWER_LINK} onClick={closeMobileMenu}>
-              Contact
-            </a>
             <button
               type="button"
               className={`${MOBILE_DRAWER_LINK} flex items-center justify-between border-0 bg-transparent cursor-pointer`}
