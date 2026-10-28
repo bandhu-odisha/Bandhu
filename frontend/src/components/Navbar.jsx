@@ -192,7 +192,6 @@ export default function Navbar({ data }) {
     ...(showInitiativeLink('show_initiative_sevavrata')
       ? [{ label: 'Odisha Satabdi', href: urls.initiative_sevavrata || '/odisha-satabdi-sevavrata/' }]
       : []),
-    { label: 'Bandhughar', href: urls.ashram || '/bandhughar/' },
     { label: 'Other Activities', href: urls.charity_work || '/other_activities/' },
     ...(showInitiativeLink('show_initiative_raktadan')
       ? [{ label: 'Prasanta Raktadan Shibir', href: urls.initiative_raktadan || '/prasanta-raktadan-shibir/' }]

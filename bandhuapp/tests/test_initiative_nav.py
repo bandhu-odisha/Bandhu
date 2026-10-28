@@ -82,3 +82,12 @@ class InitiativeNavVisibilityTests(TestCase):
         response = self.client.get('/people/')
         self.assertTrue(response.context['show_initiative_raktadan'])
         self.assertFalse(response.context['show_initiative_patriotism'])
+
+
+class InitiativesDropdownMarkupTests(TestCase):
+    def test_server_rendered_initiatives_dropdown_has_no_bandhughar_link(self):
+        html = self.client.get('/classic/').content.decode()
+        start = html.index('navInitiativesDropdown')
+        menu = html[start:html.index('</div>', start)]
+        self.assertNotIn('Bandhughar', menu)
+        self.assertIn('Other Activities', menu)

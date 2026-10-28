@@ -57,8 +57,8 @@ describe('Navbar desktop menu', () => {
     const items = dropdownItems(dd)
     expect(items[0]).toBe('Odisha Satabdi')
     expect(within(dd).getByRole('link', { name: 'Odisha Satabdi' }).getAttribute('href')).toBe(URLS.initiative_sevavrata)
-    expect(items[1]).toBe('Bandhughar')
-    expect(items[2]).toBe('Other Activities')
+    expect(items[1]).toBe('Other Activities')
+    expect(items).not.toContain('Bandhughar')
     expect(items[items.length - 1]).toBe('Our Publications')
   })
 
@@ -67,7 +67,8 @@ describe('Navbar desktop menu', () => {
     await userEvent.click(screen.getByRole('button', { name: /Initiatives/ }))
     const items = dropdownItems(document.body.querySelector('[data-support-dropdown]'))
     expect(items).not.toContain('Odisha Satabdi')
-    expect(items[0]).toBe('Bandhughar')
+    expect(items[0]).toBe('Other Activities')
+    expect(items).not.toContain('Bandhughar')
   })
 
   it('shows Odisha Satabdi first for admins even when flag off', async () => {
@@ -103,16 +104,18 @@ describe('Navbar mobile drawer', () => {
     const items = dropdownItems(list)
     expect(items[0]).toBe('Odisha Satabdi')
     expect(within(drawer).getByRole('link', { name: 'Odisha Satabdi' }).getAttribute('href')).toBe(URLS.initiative_sevavrata)
-    expect(items[1]).toBe('Bandhughar')
+    expect(items[1]).toBe('Other Activities')
+    expect(items).not.toContain('Bandhughar')
     expect(items[items.length - 1]).toBe('Our Publications')
   })
 
   it('omits Odisha Satabdi when flag off and not admin', async () => {
     const drawer = await openDrawer(makeData({ sevavrata: false }))
     await userEvent.click(within(drawer).getByRole('button', { name: /Initiatives/ }))
-    const list = within(drawer).getByRole('link', { name: 'Bandhughar' }).closest('ul')
+    const list = within(drawer).getByRole('link', { name: 'Other Activities' }).closest('ul')
     const items = dropdownItems(list)
     expect(items).not.toContain('Odisha Satabdi')
-    expect(items[0]).toBe('Bandhughar')
+    expect(items[0]).toBe('Other Activities')
+    expect(items).not.toContain('Bandhughar')
   })
 })
