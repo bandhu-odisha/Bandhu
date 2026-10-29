@@ -12,7 +12,7 @@
 {% block style %}
 <!-- Custom CSS -->
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
-<link rel="stylesheet" href="{% static 'css/ankurayan.css' %}?v=15">
+<link rel="stylesheet" href="{% static 'css/ankurayan.css' %}?v=16">
 <!-- Custom Style -->
 <style>
     body #top-section {
@@ -1054,7 +1054,8 @@
     .ankurayan-sidebar-gallery__img {
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: contain;
+        background: #e6f0f1;
         transition: transform 0.3s ease;
     }
     .ankurayan-sidebar-gallery__link:hover .ankurayan-sidebar-gallery__img { transform: scale(1.02); }
