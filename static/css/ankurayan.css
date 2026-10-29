@@ -280,29 +280,29 @@ body.ankurayan-detail .modal *:not(svg):not(path):not(.fa):not(.fas):not(.far):n
 .ankurayan-list-page section#ankurayans .container {
     background: #ffffff !important;
 }
-.ankurayan-list-page section#ankurayans .glide,
-.ankurayan-list-page section#ankurayans .glide__track,
-.ankurayan-list-page section#ankurayans .glide__slides {
+.ankurayan-list-page section#ankurayans .ankurayan-strip-wrap,
+.ankurayan-list-page section#ankurayans .ankurayan-strip,
+.ankurayan-list-page section#ankurayans .ankurayan-strip-row {
     background: #ffffff !important;
     background-color: #ffffff !important;
 }
-.ankurayan-list-page section#ankurayans .glide__slide {
+.ankurayan-list-page section#ankurayans .ankurayan-strip-item {
     background: #ffffff !important;
 }
 .ankurayan-list-page section#ankurayans .row {
     background: #ffffff !important;
 }
-.ankurayan-list-page #ankurayans.glide-carousel-custom .glide__slides {
+.ankurayan-list-page #ankurayans.glide-carousel-custom .ankurayan-strip-row {
     background-color: #ffffff !important;
 }
 .ankurayan-list-page #ankurayans .page-card.ankurayan-year-card,
-.ankurayan-list-page #ankurayans .glide__slide .page-card.ankurayan-year-card {
+.ankurayan-list-page #ankurayans .ankurayan-strip-item .page-card.ankurayan-year-card {
     box-shadow: none !important;
     border: 1px solid rgba(0, 94, 102, 0.28) !important;
     transition: border-color 0.2s ease !important;
 }
 .ankurayan-list-page #ankurayans .page-card.ankurayan-year-card:hover,
-.ankurayan-list-page #ankurayans .glide__slide .page-card.ankurayan-year-card:hover {
+.ankurayan-list-page #ankurayans .ankurayan-strip-item .page-card.ankurayan-year-card:hover {
     box-shadow: none !important;
     transform: none !important;
     border-color: rgba(0, 94, 102, 0.45) !important;
@@ -1012,4 +1012,73 @@ body.ankurayan-detail .modal *:not(svg):not(path):not(.fa):not(.fas):not(.far):n
 .ankurayan-detail #volunteer .custom-btn:after {
     background-color: #005E66 !important;
     border-radius: 9999px !important;
+}
+
+/* Ankurayan home (body.ankurayan-page only; the detail page keeps Glide): every tile keeps its
+   photo's natural shape instead of a forced square crop. Same recipe as the landing Gallery
+   (a0472897): fixed height, width follows the photo clamped to 200-720px, object-fit: contain. */
+body.ankurayan-page .pillar-overlay-cards .pillar-overlay-card--image {
+    aspect-ratio: auto;
+}
+body.ankurayan-page .pillar-overlay-cards .pillar-overlay-card--image img {
+    height: auto;
+}
+
+body.ankurayan-page .ankurayan-strip-wrap {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+}
+body.ankurayan-page .ankurayan-strip {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+}
+body.ankurayan-page .ankurayan-strip::-webkit-scrollbar {
+    display: none;
+}
+body.ankurayan-page .ankurayan-strip-row {
+    display: flex;
+    gap: 30px;
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem 0;
+}
+body.ankurayan-page .ankurayan-strip-item {
+    display: flex;
+    scroll-snap-align: start;
+}
+body.ankurayan-page .ankurayan-strip-item .card.ankurayan-year-card {
+    min-width: 0;
+    width: 100%;
+}
+body.ankurayan-page .ankurayan-strip-item .card-img-top {
+    width: 100%;
+    object-fit: contain;
+    background: #e6f0f1;
+}
+@media (min-width: 768px) {
+    body.ankurayan-page .ankurayan-strip-item {
+        flex: 0 0 auto;
+        width: clamp(200px, var(--tile-w, 360px), 720px);
+    }
+    body.ankurayan-page .ankurayan-strip-item .card-img-top {
+        height: 270px;
+    }
+}
+@media (max-width: 767.98px) {
+    body.ankurayan-page .ankurayan-strip-item {
+        flex: 0 0 100%;
+        min-width: 100%;
+        padding: 0 15px;
+    }
+    body.ankurayan-page .ankurayan-strip-item .card-img-top {
+        height: 225px;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    body.ankurayan-page .ankurayan-strip {
+        scroll-behavior: auto;
+    }
 }

@@ -11,7 +11,7 @@
 {% block style %}
 <!-- Custom CSS -->
 <link rel="stylesheet" href="{% static 'css/bandhu.css' %}">
-<link rel="stylesheet" href="{% static 'css/ankurayan.css' %}?v=14">
+<link rel="stylesheet" href="{% static 'css/ankurayan.css' %}?v=15">
 <!-- Custom Style -->
 <style>
     body #top-section {
@@ -49,27 +49,22 @@
     }
     #about .page-card { border: 2px solid rgba(13, 148, 136, 0.3); box-shadow: 0 12px 32px rgba(15, 118, 110, 0.2), 0 4px 12px rgba(0,0,0,0.08); border-radius: 16px; overflow: hidden; transition: box-shadow 0.3s ease, border-color 0.3s ease; }
     #about .page-card:hover { box-shadow: 0 20px 48px rgba(15, 118, 110, 0.28), 0 8px 20px rgba(0,0,0,0.1); border-color: rgba(13, 148, 136, 0.5); }
-    /* Equal height for Ankurayan year cards in carousel */
-    #ankurayans .glide__slide {
-        align-items: stretch;
-    }
-    #ankurayans .glide__slide .card.ankurayan-year-card {
+    /* Equal-height strip cards; 2-line theme clamp */
+    .ankurayan-strip-item .card.ankurayan-year-card {
         display: flex;
         flex-direction: column;
         height: 100%;
-        min-height: 380px;
     }
-    #ankurayans .glide__slide .card.ankurayan-year-card .card-img-top {
+    .ankurayan-strip-item .card.ankurayan-year-card .card-img-top {
         flex-shrink: 0;
-        object-fit: cover;
     }
-    #ankurayans .glide__slide .card.ankurayan-year-card .card-body {
+    .ankurayan-strip-item .card.ankurayan-year-card .card-body {
         flex: 1;
         display: flex;
         flex-direction: column;
         min-height: 0;
     }
-    #ankurayans .glide__slide .card.ankurayan-year-card .ankurayan-year-theme {
+    .ankurayan-strip-item .card.ankurayan-year-card .ankurayan-year-theme {
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
@@ -85,7 +80,7 @@
         display: none !important;
         content: none !important;
     }
-    #ankurayans .glide.ankurayans {
+    #ankurayans .ankurayan-strip-wrap {
         margin-top: 2.2rem;
     }
 </style>
@@ -185,47 +180,31 @@
         <h2 class="section-title text-center">Running Ankurayans</h2>
         <div>
             {% if ankurayans.count %}
-            <div class="row">
-                <div class="glide ankurayans">
-                    <div class="glide__track" data-glide-el="track">
-                        <ul class="glide__slides">
-                            {% for ankur in ankurayans %}
-                            <li class="glide__slide d-flex">
-                                <div class="card w-100 page-card mx-auto my-2 ankurayan-year-card">
-                                    {% responsive_img ankur.logo as ankur_logo_img %}
-                                    {% if ankur_logo_img %}
-                                    <img src="{{ ankur_logo_img.src }}" srcset="{{ ankur_logo_img.srcset }}" sizes="(max-width: 600px) 92vw, 300px" width="{{ ankur_logo_img.width }}" height="{{ ankur_logo_img.height }}" class="card-img-top home-card-img" alt="" loading="lazy">
-                                    {% else %}
-                                    <img src="{{ ankur.logo.url }}" class="card-img-top home-card-img" alt="" loading="lazy">
-                                    {% endif %}
-                                    <div class="card-body pb-0 d-flex flex-column">
-                                        <h5 class="card-title font-weight-bold">{{ankur.title}}</h5>
-                                        <p class="ankurayan-year-theme mb-3">
-                                            {{ankur.theme}}<br>
-                                        </p>
-                                        <a href="{% url 'ankurayan:AnkurayanDetail' ankur.slug %}"
-                                            class="stretched-link mt-auto"></a>
-                                    </div>
-                                </div>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    <div class="glide__arrows disable_arrows d-none d-md-block" data-glide-el="controls">
-                        <button class="slider_arrow slider_arrow--prev glide__arrow glide__arrow--left"
-                            data-glide-dir="<">
-                            <i class="fas fa-arrow-circle-left"></i>
-                        </button>
-                        <button class="slider_arrow slider_arrow--next glide__arrow glide__arrow--right"
-                            data-glide-dir=">">
-                            <i class="fas fa-arrow-circle-right"></i>
-                        </button>
-                    </div>
-                    <div class="glide__bullets" data-glide-el="controls[nav]">
+            <div class="ankurayan-strip-wrap">
+                <div class="ankurayan-strip" role="region" tabindex="0" aria-label="Running Ankurayans, scrolling list">
+                    <ul class="ankurayan-strip-row">
                         {% for ankur in ankurayans %}
-                        <button class="glide__bullet" data-glide-dir="={{ forloop.counter0 }}" aria-label="Show Ankurayan {{ ankur.year }}"></button>
+                        {% responsive_img ankur.logo as ankur_logo_img %}
+                        {% if ankur_logo_img %}{% widthratio ankur_logo_img.width ankur_logo_img.height 270 as tile_w %}{% endif %}
+                        <li class="ankurayan-strip-item"{% if ankur_logo_img %} style="--tile-w: {{ tile_w }}px"{% endif %}>
+                            <div class="card w-100 page-card mx-auto my-2 ankurayan-year-card">
+                                {% if ankur_logo_img %}
+                                <img src="{{ ankur_logo_img.src }}" srcset="{{ ankur_logo_img.srcset }}" sizes="(max-width: 767px) 92vw, {{ tile_w }}px" width="{{ ankur_logo_img.width }}" height="{{ ankur_logo_img.height }}" class="card-img-top home-card-img" alt="" loading="lazy">
+                                {% else %}
+                                <img src="{{ ankur.logo.url }}" class="card-img-top home-card-img" alt="" loading="lazy">
+                                {% endif %}
+                                <div class="card-body pb-0 d-flex flex-column">
+                                    <h5 class="card-title font-weight-bold">{{ankur.title}}</h5>
+                                    <p class="ankurayan-year-theme mb-3">
+                                        {{ankur.theme}}<br>
+                                    </p>
+                                    <a href="{% url 'ankurayan:AnkurayanDetail' ankur.slug %}"
+                                        class="stretched-link mt-auto"></a>
+                                </div>
+                            </div>
+                        </li>
                         {% endfor %}
-                    </div>
+                    </ul>
                 </div>
             </div>
             {% endif %}
@@ -341,23 +320,29 @@
 </script>
 
 <script>
-    // ANKURAYANS CAROUSEL
-    var ankur_glide = new Glide('.ankurayans', {
-        type: 'carousel',
-        focusAt: 'center',
-        perView: 3,
-        autoplay: 2000,
-        gap: 30,
-        breakpoints: {
-            991: {
-                perView: 2,
-            },
-            767: {
-                perView: 1,
-            }
+    // ANKURAYANS STRIP: auto-scroll by real item offsets (same algorithm as the landing Gallery)
+    (function () {
+        var strip = document.querySelector('.ankurayan-strip');
+        if (!strip) return;
+        var row = strip.querySelector('.ankurayan-strip-row');
+        var items = Array.prototype.slice.call(strip.querySelectorAll('.ankurayan-strip-item'));
+        if (!row || !items.length) return;
+        function pos(item) { return item.offsetLeft - row.offsetLeft; }
+        function maxScroll() { return strip.scrollWidth - strip.clientWidth; }
+        function step() {
+            if (maxScroll() <= 0) return;
+            var cur = strip.scrollLeft;
+            var next = items.find(function (item) { return pos(item) > cur + 1; });
+            var target = next ? Math.min(pos(next), maxScroll()) : 0;
+            strip.scrollLeft = target > cur + 1 ? target : 0;
         }
-    })
-    ankur_glide.mount()
-
+        var hovered = false, focused = false;
+        var wrap = strip.parentElement;
+        setInterval(function () { if (!hovered && !focused) step(); }, 2000);
+        wrap.addEventListener('mouseenter', function () { hovered = true; });
+        wrap.addEventListener('mouseleave', function () { hovered = false; });
+        strip.addEventListener('focusin', function () { focused = true; });
+        strip.addEventListener('focusout', function (e) { if (!strip.contains(e.relatedTarget)) focused = false; });
+    })();
 </script>
 {% endblock %}

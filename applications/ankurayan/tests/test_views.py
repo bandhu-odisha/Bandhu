@@ -1,8 +1,10 @@
 """Regression tests for applications.ankurayan.views."""
 
+import io
 import json
 from datetime import date
 
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from django.urls import reverse
 
@@ -47,6 +49,21 @@ class IndexAndDetailTests(AnkurayanViewTestBase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual([a.year for a in response.context['ankurayans']], [2024, 2020])
         self.assertEqual(response.context['content'].tagline, 'Tag')
+
+    def test_index_strip_tiles_follow_photo_ratio(self):
+        from PIL import Image
+        buf = io.BytesIO()
+        Image.new('RGB', (600, 300), 'white').save(buf, 'PNG')
+        wide = SimpleUploadedFile('natural_tile_logo.png', buf.getvalue(), content_type='image/png')
+        make_ankurayan(2021, logo=wide)
+        html = self.client.get('/ankurayan/').content.decode()
+        # 600x300 -> ratio 2 -> 270 * 2 = 540px wide tile
+        self.assertIn('class="ankurayan-strip-item" style="--tile-w: 540px"', html)
+        self.assertIn('sizes="(max-width: 767px) 92vw, 540px"', html)
+        self.assertNotIn('glide__slide', html)
+        self.assertNotIn('new Glide(', html)
+        self.assertNotIn('data-strip-dir', html)
+        self.assertNotIn('glide__arrow', html)
 
     def test_detail_unknown_slug_404(self):
         self.assertEqual(self.client.get('/ankurayan/detail/nope/').status_code, 404)
