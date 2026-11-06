@@ -112,8 +112,11 @@ export default function Mission({ data }) {
         className="mt-2 sm:mt-4 w-full scroll-mt-[5.25rem] bg-slate-100/95"
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
-          <h3 className="section-title text-left mb-3 sm:mb-4">
-            ତ୍ରିସୂତ୍ରୀ କାର୍ଯ୍ୟକ୍ରମ - Three threads of action
+          <h3 className="section-title text-center mb-3 sm:mb-4">
+            ତ୍ରିସୂତ୍ରୀ କାର୍ଯ୍ୟକ୍ରମ
+          </h3>
+          <h3 className="section-title text-center mb-3 sm:mb-4">
+            Three threads of action
           </h3>
           <div className="font-body text-[#3d5c66] text-base sm:text-lg md:text-xl leading-relaxed max-w-3xl mb-10 sm:mb-12">
             <p>ବଦଳୁଥିବା ସମୟର ଆବଶ୍ୟକତା ଆଧାରରେ</p>
