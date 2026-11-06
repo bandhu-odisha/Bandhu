@@ -5,7 +5,7 @@
 {% load permissions %}
 {% load responsive_images %}
 
-{% block title %} Ankurayan {{ ankurayan.year }} {% endblock %}
+{% block title %} Ankurayan {{ ankurayan.display_label }} {% endblock %}
 
 {% block body_class %}ankurayan-detail{% endblock %}
 
@@ -31,7 +31,7 @@
         background-color: transparent !important;
     }
     body #top-section .parallax-overlay::before {
-        content: "Ankurayan {{ ankurayan.year }}";
+        content: "Ankurayan {{ ankurayan.display_label }}";
         position: absolute;
         top: 120px;
         left: 50%;
@@ -1403,7 +1403,7 @@
 
 {% block showcase-title-container %}
 <div class="slider-txt-container page-showcase page-showcase-tall">
-    <h1 class="bold-txt page-showcase-title">Ankurayan {{ ankurayan.year }}</h1>
+    <h1 class="bold-txt page-showcase-title">Ankurayan {{ ankurayan.display_label }}</h1>
     <div class="page-showcase-accent"></div>
 </div>
 {% endblock %}
@@ -1602,7 +1602,7 @@
                                         <ul class="ankurayan-file-list mb-0">
                                             <li>
                                                 <a href="{{ invitation_letter.file.url }}" target="_blank" rel="noopener noreferrer" class="ankurayan-file-link" title="View invitation letter">
-                                                    <span class="ankurayan-file-link-name">Invitation letter ({{ ankurayan.year }})</span>
+                                                    <span class="ankurayan-file-link-name">Invitation letter ({{ ankurayan.display_label }})</span>
                                                     <i class="fas fa-external-link-alt ankurayan-file-link-icon" aria-hidden="true"></i>
                                                 </a>
                                             </li>
@@ -2052,7 +2052,7 @@
                     <ul class="ankurayan-file-list mb-0">
                         <li>
                             <a href="{{ invitation_letter.file.url }}" target="_blank" rel="noopener noreferrer" class="ankurayan-file-link" title="View">
-                                <span class="ankurayan-file-link-name">Invitation letter — Ankurayan {{ ankurayan.year }}</span>
+                                <span class="ankurayan-file-link-name">Invitation letter — Ankurayan {{ ankurayan.display_label }}</span>
                                 <i class="fas fa-external-link-alt ankurayan-file-link-icon" aria-hidden="true"></i>
                             </a>
                         </li>

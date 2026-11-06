@@ -141,7 +141,7 @@
                         <div class="ankurayan-years-marquee" aria-label="Explore different Ankurayan years">
                             <div class="ankurayan-years-track">
                                 {% for ankur in ankurayans %}
-                                <a href="{% url 'ankurayan:AnkurayanDetail' ankur.slug %}" class="ankurayan-year-link" aria-label="Ankurayan {{ ankur.year }}">{{ ankur.year }}</a>
+                                <a href="{% url 'ankurayan:AnkurayanDetail' ankur.slug %}" class="ankurayan-year-link" aria-label="Ankurayan {{ ankur.display_label }}">{{ ankur.display_label }}</a>
                                 {% endfor %}
                             </div>
                         </div>

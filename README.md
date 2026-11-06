@@ -147,6 +147,22 @@ After logging in at `/accounts/login/`, section pages show extra controls for ad
 
 Example pages: `/anandakendra/`, `/bandhughar/`, `/prasanta-raktadan-shibir/`
 
+### Add more than one Ankurayan in the same year
+
+Example: Ankurayan 2015 already exists (Dec 2015) and a special Jan 2015 Ankurayan must also show. Each entry gets its own page, its own chip in the year strip on `/ankurayan/`, and its own card.
+
+1. Go to `/admin/` → **Ankurayan**.
+2. Open the existing entry for that year (e.g. 2015). Set **Label** to `Dec 2015`. Save. Its web address does not change (`/ankurayan/detail/2015/`).
+3. Click **Add Ankurayan** and fill in:
+   - **Year:** `2015` (the same year)
+   - **Label:** `Jan 2015`. This text replaces the year in the year chip, page heading, browser tab and invitation letter. Leave it blank on a normal entry and the year shows instead.
+   - **Slug:** the page's web address. It pre-fills as `2015-jan-2015`. Shorten it to `2015-jan` if you like. It must differ from every other entry's slug; a duplicate is refused with an error.
+   - **Title, theme, description, start date, end date** and a **hero image** (required; saving fails without one).
+4. Save, then open `/ankurayan/`. Both chips show. Entries in the same year are listed by start date, latest first (Dec 2015 before Jan 2015).
+5. Add photos, activities and guests from the new entry's own page (`/ankurayan/detail/2015-jan/`) as usual.
+
+The **New Ankurayan** button on the public page allows one entry per year only. Use `/admin/` for a second entry in a year.
+
 ### Admin dev loop
 
 ```

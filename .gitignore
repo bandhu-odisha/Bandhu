@@ -21,3 +21,7 @@ staticfiles/
 .coverage.*
 htmlcov/
 coverage.xml
+
+# Build working files (briefs, reviews, logs, screenshots) inside plan folders
+planning/*/scratch/
+DONE/planning/*/scratch/

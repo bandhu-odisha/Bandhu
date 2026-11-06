@@ -13,12 +13,12 @@ from .models import (
 
 @admin.register(Ankurayan)
 class AnkurayanAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug': ('year',)}
-    list_display = ('theme', 'year', 'start_date', 'end_date')
-    ordering = ('year',)
+    prepopulated_fields = {'slug': ('year', 'label')}
+    list_display = ('theme', 'year', 'label', 'start_date', 'end_date')
+    ordering = ('year', 'start_date')
     search_fields = ('year', 'theme', 'locality')
     fieldsets = (
-        (None, {'fields': ('year', 'title', 'theme', 'slug', 'start_date', 'end_date')}),
+        (None, {'fields': ('year', 'label', 'title', 'theme', 'slug', 'start_date', 'end_date')}),
         entry_hero_fieldset('logo'),
         ('Content', {'fields': ('description', 'reports', 'publications', 'visitors')}),
     )

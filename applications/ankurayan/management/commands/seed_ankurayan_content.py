@@ -254,6 +254,23 @@ def _extract_production_fields(html, year):
 YEAR_THEMES_DICT = dict(YEAR_THEMES)
 
 
+def find_or_create_ankurayan(year, defaults):
+    """Row for ``year``: the one slugged ``str(year)``, else the year's only unlabelled row, else a new one."""
+    rows = Ankurayan.objects.filter(year=year)
+    row = rows.filter(slug=str(year)).first()
+    unlabelled = rows.filter(label='')
+    if row is None and unlabelled.count() == 1:
+        row = unlabelled.get()
+    if row is None:
+        row = Ankurayan.objects.create(year=year, **defaults)
+    return row
+
+
+def delete_unsynced_unlabelled(kept_ids):
+    """Drop rows the seed did not sync, except labelled specials (e.g. a hand-added Jan 2015)."""
+    Ankurayan.objects.exclude(id__in=kept_ids).filter(label='').delete()
+
+
 class Command(BaseCommand):
     help = 'Seed Ankurayan homepage, year pages, and guest content from live site.'
 
@@ -419,7 +436,7 @@ class Command(BaseCommand):
                 'logo': logo_field,
                 'slug': str(year),
             }
-            ankurayan, _created = Ankurayan.objects.get_or_create(year=year, defaults=defaults)
+            ankurayan = find_or_create_ankurayan(year, defaults)
             ankurayan.title = f'Ankurayan {year}'
             ankurayan.theme = theme
             ankurayan.description = production_fields['description']
@@ -458,7 +475,7 @@ class Command(BaseCommand):
                 gallery_paths = self._local_year_gallery_paths(year)
             photos_synced += self._sync_year_gallery(ankurayan, gallery_paths)
 
-        Ankurayan.objects.exclude(id__in=kept_ids).delete()
+        delete_unsynced_unlabelled(kept_ids)
 
         self.stdout.write(
             self.style.SUCCESS(

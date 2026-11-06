@@ -20,7 +20,7 @@ from .models import (
 
 def index(request):
     context = {
-        'ankurayans': Ankurayan.objects.all().order_by('-year'),
+        'ankurayans': Ankurayan.objects.all().order_by('-year', '-start_date'),
         'content': HomePage.objects.all().first(),
     }
     return render(request, 'ankurayan.html', context)
@@ -70,7 +70,7 @@ def ankurayan_detail(request, slug):
     unapproved_photos = photos.filter(approved=False)
     photos = photos.filter(approved=True)
 
-    ankurayans = Ankurayan.objects.all().exclude(slug=slug).order_by('-year')
+    ankurayans = Ankurayan.objects.all().exclude(slug=slug).order_by('-year', '-start_date')
     activity_img = []
     for i in categories:
         for j in i.activities.all():

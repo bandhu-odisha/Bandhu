@@ -8,7 +8,11 @@ from bandhuapp.models import Profile
 # Create your models here.
 
 class Ankurayan(InitiativeHomePageMixin, models.Model):
-    year = models.IntegerField(unique=True)
+    year = models.IntegerField()
+    label = models.CharField(
+        max_length=40, blank=True, default='',
+        help_text='Shown instead of the year, e.g. "Jan 2015". Leave blank to show the year.',
+    )
     title = models.CharField(max_length=100)
     theme = models.TextField(max_length=250)
     description = models.TextField(max_length=3000)
@@ -22,14 +26,18 @@ class Ankurayan(InitiativeHomePageMixin, models.Model):
         verbose_name='Hero image',
         help_text=HERO_IMAGE_HELP,
     )
-    slug = models.SlugField()
+    slug = models.SlugField(unique=True)
     # admin = models.ForeignKey(Profile, on_delete=models.SET_NULL, blank=True, null=True)
 
     class Meta:
         verbose_name_plural = 'Ankurayan'
 
+    @property
+    def display_label(self):
+        return self.label or str(self.year)
+
     def __str__(self):
-        return f'Ankurayan {self.year}'
+        return f'Ankurayan {self.display_label}'
 
 class Participant(models.Model):
     GENDER = (
@@ -164,7 +172,7 @@ class AnkurayanInvitationLetter(models.Model):
         verbose_name_plural = 'Invitation letters'
 
     def __str__(self):
-        return f'Invitation letter — Ankurayan {self.ankurayan.year}'
+        return f'Invitation letter — Ankurayan {self.ankurayan.display_label}'
 
 
 class AnkurayanPublicationFile(models.Model):
